@@ -1,4 +1,4 @@
-package com.inno.coffee.data
+package com.inno.coffee.utils
 
 import android.content.Context
 import android.content.SharedPreferences
