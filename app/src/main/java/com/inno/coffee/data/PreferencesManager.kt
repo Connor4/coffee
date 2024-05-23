@@ -33,7 +33,7 @@ class PreferencesManager private constructor(context: Context) {
     }
 
     var isFirstLaunch: Boolean
-        get() = mSharedPreferences.getBoolean(KEY_FIRST_LAUNCH, false)
+        get() = mSharedPreferences.getBoolean(KEY_FIRST_LAUNCH, true)
         set(value) = mSharedPreferences.edit().putBoolean(KEY_FIRST_LAUNCH, value).apply()
 
 
