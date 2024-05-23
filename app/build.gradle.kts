@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.inno.coffee"
-        minSdk = 23
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
