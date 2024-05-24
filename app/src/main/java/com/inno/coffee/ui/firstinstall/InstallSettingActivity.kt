@@ -16,12 +16,13 @@ class InstallSettingActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val preferencesManager = PreferencesManager.getInstance(this@InstallSettingActivity)
         val firstInstall = preferencesManager.isFirstInstall
-        if (firstInstall) {
+        if (true) {
             setContent {
                 CoffeeTheme {
                     InstallSetting {
                         preferencesManager.isFirstInstall = false
                         launchMakeCoffeeActivity(this)
+                        finish()
                     }
                 }
             }

@@ -52,7 +52,7 @@ fun DrinkList(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.fillMaxSize()
     ) {
-        items(drinksData) { drink ->
+        items(drinksData, key = { drink -> drink.hashCode() }) { drink ->
             val index = drinksData.indexOf(drink)
             val column = index % 4
             AnimatedDrinkItem(model = drink, columnIndex = column, modifier = modifier)

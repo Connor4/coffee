@@ -1,11 +1,7 @@
 package com.inno.coffee.ui.home
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.ui.theme.CoffeeTheme
 
 //const val INSTALL_SETTING = "install_setting"
@@ -54,14 +50,14 @@ import com.inno.coffee.ui.theme.CoffeeTheme
 //    }
 //}
 
-@Composable
-fun DrinkPage(
-    modifier: Modifier = Modifier,
-    viewModel: DrinksViewModel = hiltViewModel()
-) {
-    val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
-    DrinkList(modifier = modifier, drinksData = drinksData)
-}
+//@Composable
+//fun DrinkPage(
+//    modifier: Modifier = Modifier,
+//    viewModel: DrinksViewModel = hiltViewModel()
+//) {
+//    val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
+//    DrinkList(modifier = modifier, drinksData = drinksData)
+//}
 
 @Preview
 @Composable

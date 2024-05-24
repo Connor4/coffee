@@ -38,6 +38,40 @@ class DrinksLocalDataSource @Inject constructor() {
             name = "咖啡6",
             imageRes = R.drawable.coffee6
         ),
-
+        DrinksModel(
+            price = 10,
+            name = "咖啡7",
+            imageRes = R.drawable.coffee6
+        ),
+        DrinksModel(
+            price = 10,
+            name = "咖啡8",
+            imageRes = R.drawable.coffee6
+        ),
+        DrinksModel(
+            price = 10,
+            name = "咖啡9",
+            imageRes = R.drawable.coffee6
+        ),
+        DrinksModel(
+            price = 10,
+            name = "咖啡10",
+            imageRes = R.drawable.coffee6
+        ),
+        DrinksModel(
+            price = 10,
+            name = "咖啡11",
+            imageRes = R.drawable.coffee6
+        ),
+        DrinksModel(
+            price = 10,
+            name = "咖啡12",
+            imageRes = R.drawable.coffee6
+        ),
+        DrinksModel(
+            price = 10,
+            name = "咖啡13",
+            imageRes = R.drawable.coffee6
+        ),
         )
 }
