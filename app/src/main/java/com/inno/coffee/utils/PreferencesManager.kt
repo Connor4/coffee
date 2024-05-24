@@ -10,7 +10,7 @@ class PreferencesManager private constructor(context: Context) {
 
     companion object {
         private const val PREFS_NAME = "coffee_prefs"
-        private const val KEY_FIRST_LAUNCH = "first_launch"
+        private const val KEY_FIRST_INSTALL = "first_install"
 
         @Volatile
         private var instance: PreferencesManager? = null
@@ -32,9 +32,9 @@ class PreferencesManager private constructor(context: Context) {
         mSharedPreferences.edit().clear().apply()
     }
 
-    var isFirstLaunch: Boolean
-        get() = mSharedPreferences.getBoolean(KEY_FIRST_LAUNCH, true)
-        set(value) = mSharedPreferences.edit().putBoolean(KEY_FIRST_LAUNCH, value).apply()
+    var isFirstInstall: Boolean
+        get() = mSharedPreferences.getBoolean(KEY_FIRST_INSTALL, true)
+        set(value) = mSharedPreferences.edit().putBoolean(KEY_FIRST_INSTALL, value).apply()
 
 
 }
