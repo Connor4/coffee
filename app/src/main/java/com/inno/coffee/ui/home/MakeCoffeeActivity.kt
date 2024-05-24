@@ -26,7 +26,7 @@ class MakeCoffeeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                DrinkPage()
+                MakeCoffeeContent()
             }
         }
     }

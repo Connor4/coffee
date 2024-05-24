@@ -3,7 +3,6 @@ package com.inno.coffee.ui.firstinstall
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.inno.coffee.ui.home.InstallSetting
 import com.inno.coffee.ui.home.launchMakeCoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
 import com.inno.coffee.utils.PreferencesManager
@@ -21,8 +20,8 @@ class InstallSettingActivity : ComponentActivity() {
             setContent {
                 CoffeeTheme {
                     InstallSetting {
-                        launchMakeCoffeeActivity(this)
                         preferencesManager.isFirstInstall = false
+                        launchMakeCoffeeActivity(this)
                     }
                 }
             }
