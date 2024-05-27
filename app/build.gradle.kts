@@ -24,6 +24,7 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField("boolean", "DEBUG", "true")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -31,6 +32,7 @@ android {
             )
         }
         release {
+            buildConfigField("boolean", "DEBUG", "false")
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -47,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
