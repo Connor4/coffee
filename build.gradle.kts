@@ -6,3 +6,11 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.android.library) apply false
 }
+
+extra.apply {
+    set("compileSdkVersion", 34)
+    set("minSdkVersion", 28)
+    set("targetSdkVersion", 34)
+    set("versionCode", 1)
+    set("versionName", "1.0")
+}
