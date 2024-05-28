@@ -64,7 +64,9 @@ class SerialPort @Throws(SecurityException::class, IOException::class) private c
 
     private external fun close()
 
-    class Builder() {
+    private external fun test(): Int
+
+    class Builder {
         private var portName: String = "defaultPort"
         private var device: File = File(portName)
         private var baudRate: Int = 9600
@@ -102,8 +104,8 @@ class SerialPort @Throws(SecurityException::class, IOException::class) private c
             this.flag = flag
         }
 
-        fun build() = apply {
-            SerialPort(device, baudRate, dataBits, stopBits, parity, flag)
+        fun build(): SerialPort {
+            return SerialPort(device, baudRate, dataBits, stopBits, parity, flag)
         }
 
     }
