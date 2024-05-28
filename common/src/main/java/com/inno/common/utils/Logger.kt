@@ -1,13 +1,13 @@
-package com.inno.coffee.utils
+package com.inno.common.utils
 
 import android.util.Log
-import com.inno.coffee.BuildConfig
+import com.inno.common.BuildConfig
 
 object Logger {
     private var debuggable = BuildConfig.DEBUG
 
     fun isDebuggable(debuggable: Boolean) {
-        this.debuggable = debuggable
+        Logger.debuggable = debuggable
     }
 
     fun d(tag: String, msg: String) {

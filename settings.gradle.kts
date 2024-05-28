@@ -28,3 +28,4 @@ dependencyResolutionManagement {
 rootProject.name = "coffee"
 include(":app")
 include(":serialport")
+include(":common")

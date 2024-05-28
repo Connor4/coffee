@@ -24,7 +24,6 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("boolean", "DEBUG", "true")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -32,7 +31,6 @@ android {
             )
         }
         release {
-            buildConfigField("boolean", "DEBUG", "false")
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -79,6 +77,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(project(":common"))
+    implementation(project(":serialport"))
     // room
     implementation(libs.room.ktx)
     kapt(libs.room.compiler)

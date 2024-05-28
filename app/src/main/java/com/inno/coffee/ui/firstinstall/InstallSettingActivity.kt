@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.inno.coffee.ui.home.launchMakeCoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
-import com.inno.coffee.utils.PreferencesManager
 
 /**
  * 首次安装页面
@@ -14,7 +13,8 @@ class InstallSettingActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val preferencesManager = PreferencesManager.getInstance(this@InstallSettingActivity)
+        val preferencesManager =
+            com.inno.common.utils.PreferencesManager.getInstance(this@InstallSettingActivity)
         val firstInstall = preferencesManager.isFirstInstall
         if (true) {
             setContent {
