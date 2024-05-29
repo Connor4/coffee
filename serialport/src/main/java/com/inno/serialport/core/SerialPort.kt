@@ -1,4 +1,4 @@
-package com.inno.serialport
+package com.inno.serialport.core
 
 import com.inno.common.utils.Logger
 import java.io.File
@@ -57,14 +57,14 @@ class SerialPort @Throws(SecurityException::class, IOException::class) private c
                 " stopBits=$stopBits, parity=$parity, flag=$flag)"
     }
 
-    private external fun open(
+    external fun open(
         path: String, baudRate: Int, dataBits: Int, parity: Int,
         stopBits: Int, flag: Int
     ): FileDescriptor?
 
-    private external fun close()
+    external fun close()
 
-    private external fun test(): Int
+    external fun test(): Int
 
     class Builder {
         private var portName: String = "defaultPort"

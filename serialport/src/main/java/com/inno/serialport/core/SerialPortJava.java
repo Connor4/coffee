@@ -1,4 +1,4 @@
-package com.inno.serialport;
+package com.inno.serialport.core;
 
 import java.io.FileDescriptor;
 

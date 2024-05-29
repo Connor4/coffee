@@ -1,4 +1,4 @@
-package com.inno.serialport
+package com.inno.serialport.core
 
 import com.inno.common.utils.Logger
 import java.io.File
@@ -7,6 +7,9 @@ import java.io.IOException
 import java.io.LineNumberReader
 import java.util.Vector
 
+/**
+ * TODO 可以整理getAll方法为同一个方法，返回一个pair数据
+ */
 class SerialPortFinder {
     companion object {
         private const val TAG = "SerialPortFinder"
@@ -29,7 +32,7 @@ class SerialPortFinder {
                 }
             }
         } catch (e: IOException) {
-            Logger.d(TAG, "getAllDevicesPath() IOException: [$e]")
+            Logger.e(TAG, "getAllDevicesPath() IOException: [$e]")
         }
         return devicesPath.toTypedArray()
     }
@@ -44,11 +47,19 @@ class SerialPortFinder {
                 }
             }
         } catch (e: IOException) {
-            Logger.d(TAG, "getAllDevices() IOException: [$e]")
+            Logger.e(TAG, "getAllDevices() IOException: [$e]")
         }
         return devices.toTypedArray()
     }
 
+    /**
+     * 获取内容示例：
+     * serial              /dev/ttyS  4 64-67 serial
+     * pty_slave           /dev/pts  136 0-255 pty:slave
+     * pty_master          /dev/ptm  128 0-255 pty:master
+     * unknown             /dev/tty   4 1-63 console
+     *
+     */
     private fun getDrivers(): Vector<Driver> {
         Logger.d(TAG, "getDrivers() called ${mDrivers?.size}")
         if (mDrivers == null) {
@@ -66,17 +77,27 @@ class SerialPortFinder {
         return mDrivers!!
     }
 
+    /**
+     * line内容:
+     * serial              /dev/ttyS  4 64-67 serial
+     *
+     * split:
+     *["serial", "/dev/ttyS", "4", "64-67", "serial"]
+     *
+     *w[w.length - 4] 对应于数组中的第二个元素 /dev/ttyS，表示设备路径。
+     */
     private fun processLine(line: String) {
         val driverName = line.substring(0, DRIVER_NAME_LENGTH).trim()
         val words = line.split(Regex("\\s+"))
         if (words.size >= MIN_WORDS_COUNT && words[words.size - DRIVER_NAME_INDEX] == TARGET_DRIVER_TYPE) {
-            val device = words[words.size - DRIVER_TYPE_INDEX]
-            mDrivers!!.add(Driver(driverName, device))
+            val driverRootPath = words[words.size - DRIVER_TYPE_INDEX]
+            Logger.d(TAG, "deviceName: $driverName deviceRootPath: $driverRootPath")
+            mDrivers!!.add(Driver(driverName, driverRootPath))
         }
     }
 
 
-    open class Driver(val driverName: String, private val root: String) {
+    open class Driver(val driverName: String, private val driverRootPath: String) {
         companion object {
             private const val TAG = "Driver"
             private const val ROOT_PATH = "/dev"
@@ -91,7 +112,7 @@ class SerialPortFinder {
                 val dev = File(ROOT_PATH)
                 dev.listFiles()?.let {
                     for (file in it) {
-                        if (file.absolutePath.startsWith(root)) {
+                        if (file.absolutePath.startsWith(driverRootPath)) {
                             Logger.d(TAG, "addDevice path:[${file.absolutePath}]")
                             mDevices!!.add(file)
                         }
