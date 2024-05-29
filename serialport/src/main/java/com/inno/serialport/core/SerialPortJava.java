@@ -14,5 +14,6 @@ public class SerialPortJava {
 
     public native void close();
 
-    public native int test();
+    public native void setRTS(boolean state);
+
 }

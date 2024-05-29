@@ -85,11 +85,11 @@ static speed_t getBaudrate(jint baudrate) {
 }
 
 /*
- * Class:     android_serialport_SerialPort
+ * Class:     com_inno_serialport_core_SerialPort
  * Method:    open
  * Signature: (Ljava/lang/String;II)Ljava/io/FileDescriptor;
  */
-JNIEXPORT jobject JNICALL Java_com_inno_serialport_SerialPort_open
+JNIEXPORT jobject JNICALL Java_com_inno_serialport_core_SerialPort_open
         (JNIEnv *env, jobject thiz, jstring path, jint baudrate, jint dataBits, jint parity,
          jint stopBits, jint flags) {
     int fd;
@@ -211,11 +211,11 @@ JNIEXPORT jobject JNICALL Java_com_inno_serialport_SerialPort_open
 }
 
 /*
- * Class:     cedric_serial_SerialPort
+ * Class:     com_inno_serialport_core_SerialPort
  * Method:    close
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_android_serialport_SerialPort_close
+JNIEXPORT void JNICALL Java_com_inno_serialport_core_SerialPort_close
         (JNIEnv *env, jobject thiz) {
     jclass SerialPortClass = (*env)->GetObjectClass(env, thiz);
     jclass FileDescriptorClass = (*env)->FindClass(env, "java/io/FileDescriptor");
@@ -231,11 +231,20 @@ JNIEXPORT void JNICALL Java_android_serialport_SerialPort_close
 }
 
 /*
- * Class:     com_inno_serialport_SerialPortJava
- * Method:    test
- * Signature: ()I
+ * Class:     com_inno_serialport_core_SerialPort
+ * Method:    setRTS
+ * Signature: (Z)V
  */
-JNIEXPORT jint JNICALL Java_com_inno_serialport_SerialPort_test
-        (JNIEnv *env, jobject thiz) {
-    return 100;
+JNIEXPORT void JNICALL Java_com_inno_serialport_core_SerialPort_setRTS
+        (JNIEnv *env, jobject thiz, jboolean state) {
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+    jfieldID descriptorID = (*env)->GetFieldID(env, clazz, "mFd", "Ljava/io/FileDescriptor;");
+    jobject mFd = (*env)->GetObjectField(env, thiz, descriptorID);
+
+    clazz = (*env)->FindClass(env, "java/io/FileDescriptor");
+    descriptorID = (*env)->GetFieldID(env, clazz, "descriptor", "I");
+    jint fd = (*env)->GetIntField(env, mFd, descriptorID);
+
+    int level = (state == JNI_TRUE) ? TIOCM_RTS : 0;
+    ioctl(fd, TIOCMBIS, &level);
 }

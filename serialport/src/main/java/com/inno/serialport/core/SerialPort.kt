@@ -64,7 +64,7 @@ class SerialPort @Throws(SecurityException::class, IOException::class) private c
 
     external fun close()
 
-    external fun test(): Int
+    external fun setRTS(state: Boolean)
 
     class Builder {
         private var portName: String = "defaultPort"
