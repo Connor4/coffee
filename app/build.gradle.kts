@@ -79,9 +79,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(project(":common"))
     implementation(project(":serialport"))
-    // room
-    implementation(libs.room.ktx)
-    kapt(libs.room.compiler)
     // dagger
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

@@ -7,8 +7,9 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 
-class SerialPort @Throws(SecurityException::class, IOException::class) private constructor(
+class SerialPort private constructor(
     val device: File,
+    val portName: String,
     val baudRate: Int,
     val dataBits: Int,
     val stopBits: Int,
@@ -25,31 +26,53 @@ class SerialPort @Throws(SecurityException::class, IOException::class) private c
     }
 
     private var mFd: FileDescriptor? = null
-    private var mFileInputStream: FileInputStream? = null
-    private var mFileOutputStream: FileOutputStream? = null
+    var mFileInputStream: FileInputStream? = null
+    var mFileOutputStream: FileOutputStream? = null
 
-    init {
+    fun openSerialPort(): Boolean {
         if (!device.canRead() || !device.canWrite()) {
             try {
                 val su = Runtime.getRuntime().exec(SU_PATH)
                 val cmd = "chmod 666 ${device.absolutePath}\nexit\n"
                 su.outputStream.write(cmd.toByteArray())
                 if (su.waitFor() != 0 || !device.canRead() || !device.canWrite()) {
-                    throw SecurityException()
+                    Logger.e(TAG, "openSerialPort failed, lack of permission")
+                    return false
                 }
             } catch (e: Exception) {
-                Logger.d(TAG, "serialport init exception:[$e]")
-                throw SecurityException()
+                Logger.e(TAG, "chmod exception:[$e]")
+                return false
             }
         }
 
         mFd = open(device.absolutePath, baudRate, dataBits, parity, stopBits, flag)
         if (mFd == null) {
-            Logger.d(TAG, "null() called")
-            throw IOException()
+            Logger.e(TAG, "mFd is null")
+        } else {
+            mFileInputStream = FileInputStream(mFd)
+            mFileOutputStream = FileOutputStream(mFd)
         }
-        mFileInputStream = FileInputStream(mFd)
-        mFileOutputStream = FileOutputStream(mFd)
+        return mFd != null
+    }
+
+    fun closeSerialPort() {
+        try {
+            mFileInputStream?.close()
+            mFileOutputStream?.close()
+        } catch (e: IOException) {
+            Logger.e(TAG, "closeSerialPort IOException $e")
+        } finally {
+            mFileInputStream = null
+            mFileOutputStream = null
+        }
+        mFd?.let {
+            close()
+        }
+        mFd = null
+    }
+
+    fun setSerialRTS(state: Boolean) {
+        setRTS(state)
     }
 
     override fun toString(): String {
@@ -75,7 +98,7 @@ class SerialPort @Throws(SecurityException::class, IOException::class) private c
         private var parity: Int = 0
         private var flag: Int = -1
 
-        fun setPortName(portName: String) = apply {
+        fun portName(portName: String) = apply {
             this.portName = portName
             this.device = File(portName)
         }
@@ -105,7 +128,7 @@ class SerialPort @Throws(SecurityException::class, IOException::class) private c
         }
 
         fun build(): SerialPort {
-            return SerialPort(device, baudRate, dataBits, stopBits, parity, flag)
+            return SerialPort(device, portName, baudRate, dataBits, stopBits, parity, flag)
         }
 
     }
