@@ -1,4 +1,4 @@
-package com.inno.serialport.function
+package com.inno.serialport.driver
 
 import com.inno.serialport.core.SerialPort
 import com.inno.serialport.core.SerialPortManager
