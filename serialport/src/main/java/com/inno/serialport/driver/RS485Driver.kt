@@ -2,6 +2,7 @@ package com.inno.serialport.driver
 
 import com.inno.common.utils.Logger
 import com.inno.serialport.bean.ParityType
+import com.inno.serialport.bean.SerialErrorType
 import com.inno.serialport.bean.StopBits
 import com.inno.serialport.core.SerialPort
 import com.inno.serialport.core.SerialPortManager
@@ -16,7 +17,7 @@ class RS485Driver : IDriver {
         private const val DATA_BITES = 8
         private val STOP_BITS = StopBits.SINGLE.value
         private val PARITY = ParityType.NONE_PARITY.value
-        private const val FLAGS = 0x0002 or 0x0100 or 0x0800
+        private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
     }
 
@@ -46,7 +47,7 @@ class RS485Driver : IDriver {
             // already checked bytesRead
             receivedData = parseFrame(buffer)
         }, onFailure = {
-            Logger.e(TAG, "receive failed")
+            receivedData = it.errorMsg
         })
         return receivedData
     }
@@ -54,8 +55,7 @@ class RS485Driver : IDriver {
     override fun parseFrame(frame: ByteArray): String {
         if (frame[0] != 0x7E.toByte() || frame[frame.size - 1] != 0x7E.toByte()) {
             Logger.e(TAG, "Invalid frame format")
-            // TODO 处理异常逻辑
-            throw IllegalArgumentException("Invalid frame format")
+            return SerialErrorType.FRAME_FLAG_ILLEGAL.errorMsg
         }
         val address = frame[1].toInt() and 0xFF
         val control = frame[2].toInt() and 0xFF
@@ -70,8 +70,7 @@ class RS485Driver : IDriver {
         val calculatedCRC = calculateCRC(dataToCheckCRC)
         if (receivedCRC != calculatedCRC) {
             Logger.e(TAG, "CRC check failed")
-            // TODO 处理异常逻辑
-            throw IllegalArgumentException("CRC check failed.")
+            return SerialErrorType.CRC_CHECK_FAILED.errorMsg
         }
 
         Logger.d(

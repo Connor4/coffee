@@ -1,6 +1,7 @@
 package com.inno.serialport.core
 
 import com.inno.common.utils.Logger
+import com.inno.serialport.bean.SerialErrorType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -33,7 +34,7 @@ object SerialPortManager : CoroutineScope {
     fun readData(
         port: SerialPort,
         onSuccess: (buffer: ByteArray, size: Int) -> Unit,
-        onFailure: () -> Unit
+        onFailure: (type: SerialErrorType) -> Unit
     ) {
         launch {
             readFromSerialPort(port, onSuccess, onFailure)
@@ -48,7 +49,7 @@ object SerialPortManager : CoroutineScope {
 
     private suspend fun readFromSerialPort(
         port: SerialPort, onSuccess: (buffer: ByteArray, size: Int) -> Unit,
-        onFailure: () -> Unit
+        onFailure: (type: SerialErrorType) -> Unit
     ) {
         withContext(Dispatchers.IO) {
             val buffer = ByteArray(port.portFrameSize)
@@ -65,8 +66,8 @@ object SerialPortManager : CoroutineScope {
                         bytesRead == -1 -> {
                             if (++dataRetryCount == READ_RETRY_COUNT) {
                                 Logger.e(TAG, "Max data retry count reached")
-                                onFailure()
                                 close(port)
+                                onFailure(SerialErrorType.MAX_READ_TRY)
                                 delay(1000)
                                 if (++openRetryCount < OPEN_RETRY_COUNT) {
                                     Logger.e(
@@ -76,6 +77,7 @@ object SerialPortManager : CoroutineScope {
                                     open(port)
                                 } else {
                                     Logger.e(TAG, "Max open retry count reached")
+                                    onFailure(SerialErrorType.MAX_OPEN_TRY)
                                     break
                                 }
                             }
@@ -84,8 +86,8 @@ object SerialPortManager : CoroutineScope {
                 }
             } catch (e: IOException) {
                 Logger.e(TAG, "readFromSerialPort Exception $e")
-                onFailure()
                 close(port)
+                onFailure(SerialErrorType.IO_EXCEPTION)
             }
         }
     }
