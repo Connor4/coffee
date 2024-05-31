@@ -45,7 +45,7 @@ object SerialPortManager : CoroutineScope {
         onFailure: () -> Unit
     ) {
         withContext(Dispatchers.IO) {
-            val buffer = ByteArray(1024)
+            val buffer = ByteArray(port.portFrameSize)
             try {
                 while (isActive) {
                     val bytesRead = port.mFileInputStream?.read(buffer)

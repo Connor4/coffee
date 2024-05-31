@@ -14,7 +14,8 @@ class SerialPort private constructor(
     val dataBits: Int,
     val stopBits: Int,
     val parity: Int,
-    val flag: Int
+    val flag: Int,
+    val portFrameSize: Int
 ) {
     companion object {
         init {
@@ -97,6 +98,7 @@ class SerialPort private constructor(
         private var stopBits: Int = 1
         private var parity: Int = 0
         private var flag: Int = -1
+        private var portFrameSize: Int = 256
 
         fun portName(portName: String) = apply {
             this.portName = portName
@@ -127,8 +129,21 @@ class SerialPort private constructor(
             this.flag = flag
         }
 
+        fun portFrameSize(size: Int) = apply {
+            this.portFrameSize = size
+        }
+
         fun build(): SerialPort {
-            return SerialPort(device, portName, baudRate, dataBits, stopBits, parity, flag)
+            return SerialPort(
+                device,
+                portName,
+                baudRate,
+                dataBits,
+                stopBits,
+                parity,
+                flag,
+                portFrameSize
+            )
         }
 
     }

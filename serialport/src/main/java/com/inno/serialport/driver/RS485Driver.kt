@@ -16,6 +16,7 @@ class RS485Driver(
 
     companion object {
         private const val TAG = "RS485Driver"
+        private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
     }
 
     private val mSerialPort: SerialPort = SerialPort.Builder()
@@ -25,9 +26,11 @@ class RS485Driver(
         .stopBits(stopBits)
         .parity(parity)
         .flag(flag)
+        .portFrameSize(MAX_BYTEARRAY_SIZE)
         .build()
 
     init {
+        mSerialPort
         SerialPortManager.open(mSerialPort)
     }
 
@@ -37,20 +40,19 @@ class RS485Driver(
 //        serialPort?.setRTS(false)
     }
 
-    override fun receive(): ByteArray? {
-        var receivedData: ByteArray? = null
+    override fun receive(): String? {
+        var receivedData: String? = null
         SerialPortManager.readData(mSerialPort, onSuccess = { buffer, size ->
             if (size > 0) {
-                receivedData = buffer.copyOf(size)
+                receivedData = parseFrame(buffer)
             }
         }, onFailure = {
             Logger.e(TAG, "receive failed")
         })
-//        parseFrame(receivedData)
         return receivedData
     }
 
-    override fun parseFrame(frame: ByteArray) {
+    override fun parseFrame(frame: ByteArray): String {
         if (frame[0] != 0x7E.toByte() || frame[frame.size - 1] != 0x7E.toByte()) {
             Logger.e(TAG, "Invalid frame format")
             // TODO 处理异常逻辑
@@ -80,7 +82,7 @@ class RS485Driver(
         // 示例帧 (需要替换为实际读取的帧)
 //        val frame = byteArrayOf(0x7E, 0x01, 0x01, 0x00, 0x03, 0x01, 0x02, 0x03, 0x00, 0x00, 0x7E)
 //        parseFrame(frame)
-
+        return payload.contentToString()
     }
 
     override fun close() {
