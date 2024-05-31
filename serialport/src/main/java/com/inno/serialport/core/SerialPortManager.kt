@@ -15,8 +15,10 @@ object SerialPortManager : CoroutineScope {
 
     private val job = Job()
     override val coroutineContext = Dispatchers.IO + job
-    private const val RETRY_COUNT = 10
-    private var retryCount = 0
+    private const val READ_RETRY_COUNT = 10
+    private const val OPEN_RETRY_COUNT = 3
+    private var dataRetryCount = 0
+    private var openRetryCount = 0
 
     fun open(port: SerialPort) {
         port.openSerialPort()
@@ -24,7 +26,7 @@ object SerialPortManager : CoroutineScope {
 
     fun close(port: SerialPort) {
         job.cancel()
-        retryCount = 0
+        dataRetryCount = 0
         port.closeSerialPort()
     }
 
@@ -54,15 +56,29 @@ object SerialPortManager : CoroutineScope {
                 while (isActive) {
                     delay(500)
                     val bytesRead = port.mFileInputStream?.read(buffer)
-                    if (bytesRead != null && bytesRead > 0) {
-                        onSuccess(buffer, bytesRead)
-                    } else if (bytesRead == -1) {
-                        if (retryCount++ == RETRY_COUNT) {
-                            Logger.e(TAG, "readFromSerialPort: reach max retry count")
-                            onFailure()
-                            close(port)
-                            delay(1000)
-                            open(port)
+
+                    when {
+                        bytesRead != null && bytesRead > 0 -> {
+                            onSuccess(buffer, bytesRead)
+                        }
+
+                        bytesRead == -1 -> {
+                            if (++dataRetryCount == READ_RETRY_COUNT) {
+                                Logger.e(TAG, "Max data retry count reached")
+                                onFailure()
+                                close(port)
+                                delay(1000)
+                                if (++openRetryCount < OPEN_RETRY_COUNT) {
+                                    Logger.e(
+                                        TAG,
+                                        "Attempting to reopen port, attempt $openRetryCount"
+                                    )
+                                    open(port)
+                                } else {
+                                    Logger.e(TAG, "Max open retry count reached")
+                                    break
+                                }
+                            }
                         }
                     }
                 }
