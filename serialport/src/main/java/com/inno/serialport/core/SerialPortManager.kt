@@ -4,6 +4,7 @@ import com.inno.common.utils.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -14,6 +15,8 @@ object SerialPortManager : CoroutineScope {
 
     private val job = Job()
     override val coroutineContext = Dispatchers.IO + job
+    private const val RETRY_COUNT = 10
+    private var retryCount = 0
 
     fun open(port: SerialPort) {
         port.openSerialPort()
@@ -21,6 +24,7 @@ object SerialPortManager : CoroutineScope {
 
     fun close(port: SerialPort) {
         job.cancel()
+        retryCount = 0
         port.closeSerialPort()
     }
 
@@ -48,14 +52,24 @@ object SerialPortManager : CoroutineScope {
             val buffer = ByteArray(port.portFrameSize)
             try {
                 while (isActive) {
+                    delay(500)
                     val bytesRead = port.mFileInputStream?.read(buffer)
                     if (bytesRead != null && bytesRead > 0) {
                         onSuccess(buffer, bytesRead)
+                    } else if (bytesRead == -1) {
+                        if (retryCount++ == RETRY_COUNT) {
+                            Logger.e(TAG, "readFromSerialPort: reach max retry count")
+                            onFailure()
+                            close(port)
+                            delay(1000)
+                            open(port)
+                        }
                     }
                 }
             } catch (e: IOException) {
                 Logger.e(TAG, "readFromSerialPort Exception $e")
                 onFailure()
+                close(port)
             }
         }
     }
@@ -69,6 +83,12 @@ object SerialPortManager : CoroutineScope {
             } catch (e: IOException) {
                 Logger.e(TAG, "writeToSerialPort Exception $e")
             }
+        }
+    }
+
+    private suspend fun reopen() {
+        withContext(Dispatchers.Main) {
+
         }
     }
 

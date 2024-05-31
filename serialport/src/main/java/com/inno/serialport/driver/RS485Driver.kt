@@ -43,9 +43,8 @@ class RS485Driver : IDriver {
     override fun receive(): String? {
         var receivedData: String? = null
         SerialPortManager.readData(mSerialPort, onSuccess = { buffer, bytesRead ->
-            if (bytesRead > 0) {
-                receivedData = parseFrame(buffer)
-            }
+            // already checked bytesRead
+            receivedData = parseFrame(buffer)
         }, onFailure = {
             Logger.e(TAG, "receive failed")
         })
