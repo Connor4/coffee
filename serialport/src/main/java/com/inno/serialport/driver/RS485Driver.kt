@@ -2,6 +2,7 @@ package com.inno.serialport.driver
 
 import com.inno.common.utils.Logger
 import com.inno.serialport.bean.ParityType
+import com.inno.serialport.bean.StopBits
 import com.inno.serialport.core.SerialPort
 import com.inno.serialport.core.SerialPortManager
 import java.nio.ByteBuffer
@@ -13,7 +14,7 @@ class RS485Driver : IDriver {
         private const val DEVICE_PATH = ""
         private const val BAUD_RATE = 115200
         private const val DATA_BITES = 8
-        private const val STOP_BITS = 1
+        private val STOP_BITS = StopBits.SINGLE.value
         private val PARITY = ParityType.NONE_PARITY.value
         private const val FLAG = 1
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9

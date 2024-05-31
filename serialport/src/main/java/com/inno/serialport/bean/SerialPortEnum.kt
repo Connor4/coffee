@@ -5,3 +5,8 @@ enum class ParityType(val value: Int) {
     ODD_PARITY(1),
     EVEN_PARITY(2)
 }
+
+enum class StopBits(val value: Int) {
+    SINGLE(1),
+    DOUBLE(2)
+}
