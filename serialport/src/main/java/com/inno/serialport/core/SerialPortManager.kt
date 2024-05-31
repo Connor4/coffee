@@ -15,16 +15,11 @@ object SerialPortManager : CoroutineScope {
     private val job = Job()
     override val coroutineContext = Dispatchers.IO + job
 
-    fun start(
-        port: SerialPort,
-        onSuccess: (buffer: ByteArray, size: Int) -> Unit,
-        onFailure: () -> Unit
-    ) {
+    fun open(port: SerialPort) {
         port.openSerialPort()
-        readData(port, onSuccess, onFailure)
     }
 
-    fun stop(port: SerialPort) {
+    fun close(port: SerialPort) {
         job.cancel()
         port.closeSerialPort()
     }
@@ -39,9 +34,9 @@ object SerialPortManager : CoroutineScope {
         }
     }
 
-    fun writeData(port: SerialPort, data: ByteArray) {
+    fun writeData(port: SerialPort, frame: ByteArray) {
         launch {
-            writeToSerialPort(port, data)
+            writeToSerialPort(port, frame)
         }
     }
 
@@ -65,11 +60,11 @@ object SerialPortManager : CoroutineScope {
         }
     }
 
-    private suspend fun writeToSerialPort(port: SerialPort, data: ByteArray) {
+    private suspend fun writeToSerialPort(port: SerialPort, frame: ByteArray) {
         withContext(Dispatchers.IO) {
             try {
                 if (isActive) {
-                    port.mFileOutputStream?.write(data)
+                    port.mFileOutputStream?.write(frame)
                 }
             } catch (e: IOException) {
                 Logger.e(TAG, "writeToSerialPort Exception $e")
