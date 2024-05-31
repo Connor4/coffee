@@ -14,7 +14,7 @@ class DispatchersModule {
 
     @Provides
     @DefaultDispatcher
-    fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+    fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.IO
 }
 
 @Retention(AnnotationRetention.BINARY)
