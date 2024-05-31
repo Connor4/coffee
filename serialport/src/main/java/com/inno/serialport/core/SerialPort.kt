@@ -135,7 +135,7 @@ class SerialPort private constructor(
             this.portFrameSize = size
         }
 
-        fun readTimeOutMillis(time: Long = 2000) = apply {
+        fun readTimeOutMillis(time: Long) = apply {
             this.readTimeOutMillis = time
         }
 
