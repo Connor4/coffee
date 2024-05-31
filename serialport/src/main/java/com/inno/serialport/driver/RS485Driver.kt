@@ -1,36 +1,35 @@
 package com.inno.serialport.driver
 
 import com.inno.common.utils.Logger
+import com.inno.serialport.bean.ParityType
 import com.inno.serialport.core.SerialPort
 import com.inno.serialport.core.SerialPortManager
 import java.nio.ByteBuffer
 
-class RS485Driver(
-    devicePath: String,
-    baudRate: Int,
-    dataBits: Int,
-    stopBits: Int,
-    parity: Int,
-    flag: Int
-) : IDriver {
+class RS485Driver : IDriver {
 
     companion object {
         private const val TAG = "RS485Driver"
+        private const val DEVICE_PATH = ""
+        private const val BAUD_RATE = 115200
+        private const val DATA_BITES = 8
+        private const val STOP_BITS = 1
+        private val PARITY = ParityType.NONE_PARITY.value
+        private const val FLAG = 1
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
     }
 
     private val mSerialPort: SerialPort = SerialPort.Builder()
-        .portName(devicePath)
-        .baudRate(baudRate)
-        .dataBits(dataBits)
-        .stopBits(stopBits)
-        .parity(parity)
-        .flag(flag)
+        .portName(DEVICE_PATH)
+        .baudRate(BAUD_RATE)
+        .dataBits(DATA_BITES)
+        .stopBits(STOP_BITS)
+        .parity(PARITY)
+        .flag(FLAG)
         .portFrameSize(MAX_BYTEARRAY_SIZE)
         .build()
 
     init {
-        mSerialPort
         SerialPortManager.open(mSerialPort)
     }
 

@@ -15,7 +15,8 @@ class SerialPort private constructor(
     val stopBits: Int,
     val parity: Int,
     val flag: Int,
-    val portFrameSize: Int
+    val portFrameSize: Int,
+    val readTimeOutMillis: Long
 ) {
     companion object {
         init {
@@ -99,6 +100,7 @@ class SerialPort private constructor(
         private var parity: Int = 0
         private var flag: Int = -1
         private var portFrameSize: Int = 256
+        private var readTimeOutMillis: Long = 2000
 
         fun portName(portName: String) = apply {
             this.portName = portName
@@ -133,6 +135,10 @@ class SerialPort private constructor(
             this.portFrameSize = size
         }
 
+        fun readTimeOutMillis(time: Long = 2000) = apply {
+            this.readTimeOutMillis = time
+        }
+
         fun build(): SerialPort {
             return SerialPort(
                 device,
@@ -142,7 +148,8 @@ class SerialPort private constructor(
                 stopBits,
                 parity,
                 flag,
-                portFrameSize
+                portFrameSize,
+                readTimeOutMillis
             )
         }
 
