@@ -11,12 +11,12 @@ class RS485Driver : IDriver {
 
     companion object {
         private const val TAG = "RS485Driver"
-        private const val DEVICE_PATH = ""
+        private const val DEVICE_PATH = "/dev/ttyS0"
         private const val BAUD_RATE = 115200
         private const val DATA_BITES = 8
         private val STOP_BITS = StopBits.SINGLE.value
         private val PARITY = ParityType.NONE_PARITY.value
-        private const val FLAG = 1
+        private const val FLAGS = 0x0002 or 0x0100 or 0x0800
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
     }
 
@@ -26,7 +26,7 @@ class RS485Driver : IDriver {
         .dataBits(DATA_BITES)
         .stopBits(STOP_BITS)
         .parity(PARITY)
-        .flag(FLAG)
+        .flag(FLAGS)
         .portFrameSize(MAX_BYTEARRAY_SIZE)
         .build()
 
