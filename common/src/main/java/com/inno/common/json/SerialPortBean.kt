@@ -1,4 +1,4 @@
-package com.inno.serialport.bean
+package com.inno.common.json
 
 import kotlinx.serialization.Serializable
 

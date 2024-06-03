@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kapt)
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -53,4 +54,5 @@ dependencies {
     implementation(libs.room.ktx)
     kapt(libs.room.compiler)
     api(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.serialization.json)
 }
