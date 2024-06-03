@@ -93,14 +93,7 @@ class RS485Driver : IDriver {
     private fun calculateCRC(data: ByteArray): Int {
         var crc = 0xFFFF
         for (b in data) {
-            crc = crc xor (b.toInt() and 0xFF)
-            for (i in 0..7) {
-                crc = if (crc and 1 != 0) {
-                    (crc shr 1) xor 0xA001
-                } else {
-                    crc shr 1
-                }
-            }
+            crc = (crc shr 8) xor fcstab[(crc xor (b.toInt() and 0xFF)) and 0xFF]
         }
         return crc and 0xFFFF
     }
