@@ -1,4 +1,4 @@
-package com.inno.serialport.function
+package com.inno.serialport.bean
 
 val fcstab = intArrayOf(
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,

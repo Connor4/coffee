@@ -1,4 +1,4 @@
-package com.inno.serialport.driver
+package com.inno.serialport.function
 
 interface IDriver {
     fun send(frame: ByteArray)

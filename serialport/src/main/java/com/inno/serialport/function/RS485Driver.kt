@@ -1,9 +1,10 @@
-package com.inno.serialport.driver
+package com.inno.serialport.function
 
 import com.inno.common.utils.Logger
 import com.inno.serialport.bean.ParityType
 import com.inno.serialport.bean.SerialErrorType
 import com.inno.serialport.bean.StopBits
+import com.inno.serialport.bean.fcstab
 import com.inno.serialport.core.SerialPort
 import com.inno.serialport.core.SerialPortManager
 import java.nio.ByteBuffer
@@ -37,13 +38,13 @@ class RS485Driver : IDriver {
 
     override fun send(frame: ByteArray) {
 //        serialPort?.setRTS(true)
-        SerialPortManager.writeData(mSerialPort, frame)
+        SerialPortManager.writeToSerialPort(mSerialPort, frame)
 //        serialPort?.setRTS(false)
     }
 
     override fun receive(): String? {
         var receivedData: String? = null
-        SerialPortManager.readData(mSerialPort, onSuccess = { buffer, _ ->
+        SerialPortManager.readFromSerialPort(mSerialPort, onSuccess = { buffer, _ ->
             // already checked bytesRead
             receivedData = parseFrame(buffer)
         }, onFailure = {

@@ -2,20 +2,11 @@ package com.inno.serialport.core
 
 import com.inno.common.utils.Logger
 import com.inno.serialport.bean.SerialErrorType
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.IOException
 
-object SerialPortManager : CoroutineScope {
+object SerialPortManager {
     private const val TAG = "SerialPortManager"
 
-    private val job = Job()
-    override val coroutineContext = Dispatchers.IO + job
     private const val READ_RETRY_COUNT = 10
     private const val OPEN_RETRY_COUNT = 3
     private var dataRetryCount = 0
@@ -26,87 +17,53 @@ object SerialPortManager : CoroutineScope {
     }
 
     fun close(port: SerialPort) {
-        job.cancel()
         dataRetryCount = 0
         port.closeSerialPort()
     }
 
-    fun readData(
-        port: SerialPort,
-        onSuccess: (buffer: ByteArray, size: Int) -> Unit,
-        onFailure: (type: SerialErrorType) -> Unit
-    ) {
-        launch {
-            readFromSerialPort(port, onSuccess, onFailure)
-        }
-    }
-
-    fun writeData(port: SerialPort, frame: ByteArray) {
-        launch {
-            writeToSerialPort(port, frame)
-        }
-    }
-
-    private suspend fun readFromSerialPort(
+    fun readFromSerialPort(
         port: SerialPort, onSuccess: (buffer: ByteArray, size: Int) -> Unit,
         onFailure: (type: SerialErrorType) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
-            val buffer = ByteArray(port.portFrameSize)
-            try {
-                while (isActive) {
-                    delay(500)
-                    val bytesRead = port.mFileInputStream?.read(buffer)
+        val buffer = ByteArray(port.portFrameSize)
+        try {
+            val bytesRead = port.mFileInputStream?.read(buffer)
 
-                    when {
-                        bytesRead != null && bytesRead > 0 -> {
-                            onSuccess(buffer, bytesRead)
-                        }
+            when {
+                bytesRead != null && bytesRead > 0 -> {
+                    onSuccess(buffer, bytesRead)
+                }
 
-                        bytesRead == -1 -> {
-                            if (++dataRetryCount == READ_RETRY_COUNT) {
-                                Logger.e(TAG, "Max data retry count reached")
-                                close(port)
-                                onFailure(SerialErrorType.MAX_READ_TRY)
-                                delay(1000)
-                                if (++openRetryCount < OPEN_RETRY_COUNT) {
-                                    Logger.e(
-                                        TAG,
-                                        "Attempting to reopen port, attempt $openRetryCount"
-                                    )
-                                    open(port)
-                                } else {
-                                    Logger.e(TAG, "Max open retry count reached")
-                                    onFailure(SerialErrorType.MAX_OPEN_TRY)
-                                    break
-                                }
-                            }
+                bytesRead == -1 -> {
+                    if (++dataRetryCount == READ_RETRY_COUNT) {
+                        Logger.e(TAG, "Max data retry count reached")
+                        close(port)
+                        onFailure(SerialErrorType.MAX_READ_TRY)
+                        if (++openRetryCount < OPEN_RETRY_COUNT) {
+                            Logger.e(
+                                TAG,
+                                "Attempting to reopen port, attempt $openRetryCount"
+                            )
+                            open(port)
+                        } else {
+                            Logger.e(TAG, "Max open retry count reached")
+                            onFailure(SerialErrorType.MAX_OPEN_TRY)
                         }
                     }
                 }
-            } catch (e: IOException) {
-                Logger.e(TAG, "readFromSerialPort Exception $e")
-                close(port)
-                onFailure(SerialErrorType.IO_EXCEPTION)
             }
+        } catch (e: IOException) {
+            Logger.e(TAG, "readFromSerialPort Exception $e")
+            close(port)
+            onFailure(SerialErrorType.IO_EXCEPTION)
         }
     }
 
-    private suspend fun writeToSerialPort(port: SerialPort, frame: ByteArray) {
-        withContext(Dispatchers.IO) {
-            try {
-                if (isActive) {
-                    port.mFileOutputStream?.write(frame)
-                }
-            } catch (e: IOException) {
-                Logger.e(TAG, "writeToSerialPort Exception $e")
-            }
-        }
-    }
-
-    private suspend fun reopen() {
-        withContext(Dispatchers.Main) {
-
+    fun writeToSerialPort(port: SerialPort, frame: ByteArray) {
+        try {
+            port.mFileOutputStream?.write(frame)
+        } catch (e: IOException) {
+            Logger.e(TAG, "writeToSerialPort Exception $e")
         }
     }
 

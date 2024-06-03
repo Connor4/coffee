@@ -1,4 +1,4 @@
-package com.inno.common.serialport.chain
+package com.inno.serialport.function
 
 abstract class Chain {
 

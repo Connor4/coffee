@@ -1,12 +1,12 @@
-package com.inno.common.json
+package com.inno.serialport.bean
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PollBufInfo(val id: Int, val pollBuf: String)
+data class PullBufInfo(val id: Int, val pollBuf: Int)
 
 @Serializable
-data class SingleComponent(val componentId: Int, val dosage: String)
+data class SingleComponent(val componentId: Int, val dosage: Int)
 
 @Serializable
 data class ComponentList(val componentNum: Int, val singleComponent: List<SingleComponent>)
