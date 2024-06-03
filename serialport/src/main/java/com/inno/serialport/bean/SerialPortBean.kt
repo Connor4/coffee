@@ -1,11 +1,17 @@
 package com.inno.serialport.bean
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class PollBufInfo(val id: Int, val pollBuf: String)
 
+@Serializable
 data class SingleComponent(val componentId: Int, val dosage: String)
 
+@Serializable
 data class ComponentList(val componentNum: Int, val singleComponent: List<SingleComponent>)
 
+@Serializable
 data class SingleTree(
     val treeNr: Int,
     val componentId: Int,
@@ -14,8 +20,10 @@ data class SingleTree(
     val conflictComponentId: Int
 )
 
+@Serializable
 data class TreeList(val treeLen: Int, val singleTree: List<SingleTree>)
 
+@Serializable
 data class ProductInfo(
     val productId: Int,
     val componentList: ComponentList,
