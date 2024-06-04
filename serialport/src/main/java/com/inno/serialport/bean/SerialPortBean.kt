@@ -3,7 +3,7 @@ package com.inno.serialport.bean
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PullBufInfo(val id: Int, val pollBuf: Int)
+data class PullBufInfo(val id: Int, val pollBuf: ByteArray)
 
 @Serializable
 data class SingleComponent(val componentId: Int, val dosage: Int)
@@ -29,6 +29,12 @@ data class ProductInfo(
     val componentList: ComponentList,
     val treeList: TreeList
 )
+
+fun main() {
+    check(1 > 2) {
+        println("xiaoyu")
+    }
+}
 
 
 //typedef struct

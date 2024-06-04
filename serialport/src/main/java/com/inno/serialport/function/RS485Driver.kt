@@ -2,6 +2,7 @@ package com.inno.serialport.function
 
 import com.inno.common.utils.Logger
 import com.inno.serialport.bean.ParityType
+import com.inno.serialport.bean.PullBufInfo
 import com.inno.serialport.bean.SerialErrorType
 import com.inno.serialport.bean.StopBits
 import com.inno.serialport.bean.fcstab
@@ -38,19 +39,19 @@ class RS485Driver : IDriver {
 
     override fun send(frame: ByteArray) {
 //        serialPort?.setRTS(true)
-        SerialPortManager.writeToSerialPort(mSerialPort, frame)
+//        SerialPortManager.writeToSerialPort(mSerialPort, frame)
 //        serialPort?.setRTS(false)
     }
 
-    override fun receive(): String? {
-        var receivedData: String? = null
+    override fun receive(): PullBufInfo {
+        var receivedData: PullBufInfo? = null
         SerialPortManager.readFromSerialPort(mSerialPort, onSuccess = { buffer, _ ->
             // already checked bytesRead
-            receivedData = parseFrame(buffer)
+            receivedData = parsePullBuffInfo(buffer)
         }, onFailure = {
-            receivedData = it.errorMsg
+            receivedData = PullBufInfo(it.value, it.errorMsg.toByteArray())
         })
-        return receivedData
+        return receivedData!!
     }
 
     override fun parseFrame(frame: ByteArray): String {
@@ -97,6 +98,18 @@ class RS485Driver : IDriver {
             crc = (crc shr 8) xor fcstab[(crc xor (b.toInt() and 0xFF)) and 0xFF]
         }
         return crc and 0xFFFF
+    }
+
+    private fun parsePullBuffInfo(data: ByteArray): PullBufInfo {
+        // 解析ID（前两个字节）
+        val id = ((data[0].toInt() and 0xFF) or ((data[1].toInt() and 0xFF) shl 8))
+        // 解析PollBuf（后16个字节）
+        val pullBuf = data.sliceArray(2 until 18)
+        return PullBufInfo(id, pullBuf)
+    }
+
+    private fun convertToFrame(command: String) {
+        // 发送命令转换成数据帧发送
     }
 
 }

@@ -1,8 +1,13 @@
 package com.inno.serialport.function
 
+import com.inno.serialport.bean.PullBufInfo
+import com.inno.serialport.function.chain.BoilerProcessor
+import com.inno.serialport.function.chain.GrindProcessor
+import com.inno.serialport.function.chain.RealProcessor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,11 +28,13 @@ class SerialPortDataManager private constructor() {
         }
 
         private const val TAG = "SerialPortDataManager"
+        private const val PULL_INTERVAL_MILLIS = 500L
     }
 
     private val driver = RS485Driver()
-    private val originString = ArrayBlockingQueue<String>(1024)
+    private val pullBuffInfo = ArrayBlockingQueue<PullBufInfo>(128)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val processors = listOf(BoilerProcessor(), GrindProcessor())
 
     init {
         scope.launch {
@@ -41,9 +48,9 @@ class SerialPortDataManager private constructor() {
     private suspend fun receiveData() {
         withContext(Dispatchers.IO) {
             while (isActive) {
-                driver.receive()?.let {
-                    originString.put(it)
-                }
+                delay(PULL_INTERVAL_MILLIS)
+                val receive = driver.receive()
+                pullBuffInfo.put(receive)
             }
         }
     }
@@ -51,9 +58,12 @@ class SerialPortDataManager private constructor() {
     private suspend fun processData() {
         withContext(Dispatchers.IO) {
             while (isActive) {
-                originString.take()?.let {
+                pullBuffInfo.take()?.let {
                     // 进行process，责任链处理完后然后放入业务各个list中进行ui更新，这里的list是所有端口数据list
                     // 每个类型id只上传一个int状态，要以大类作为一个类，保存当前最新状态
+                    val chain = RealProcessor(0, it, processors)
+                    val result = chain.proceed(it)
+                    // TODO 处理result进行ui业务更新
                 }
             }
         }
