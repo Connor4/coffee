@@ -45,6 +45,12 @@ class SerialPortDataManager private constructor() {
         }
     }
 
+    suspend fun sendCommand(command: String) {
+        withContext(Dispatchers.IO) {
+            driver.send(command)
+        }
+    }
+
     private suspend fun receiveData() {
         withContext(Dispatchers.IO) {
             while (isActive) {

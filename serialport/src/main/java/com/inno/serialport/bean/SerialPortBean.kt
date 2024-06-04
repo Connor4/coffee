@@ -6,30 +6,51 @@ import kotlinx.serialization.Serializable
 data class PullBufInfo(val id: Int, val pollBuf: ByteArray)
 
 @Serializable
-data class SingleComponent(val componentId: Int, val dosage: Int)
+data class SingleComponent(var componentId: Short, var dosage: ShortArray = ShortArray(4)) {
+    override fun toString(): String {
+        return "SingleComponent(componentId=$componentId, dosage=${dosage.contentToString()})"
+    }
+}
 
 @Serializable
-data class ComponentList(val componentNum: Int, val singleComponent: List<SingleComponent>)
+data class ComponentList(val componentNum: Short, val singleComponent: List<SingleComponent>) {
+    override fun toString(): String {
+        return "ComponentList(componentNum=$componentNum, singleComponent=$singleComponent)"
+    }
+}
 
 @Serializable
 data class SingleTree(
-    val treeNr: Int,
-    val componentId: Int,
-    val sendComponentId: Int,
-    val receiveComponentId: Int,
-    val conflictComponentId: Int
-)
+    val treeNr: Short,
+    val componentId: Short,
+    val sendComponentId: Short,
+    val receiveComponentId: Short,
+    val conflictComponentId: Short
+) {
+    override fun toString(): String {
+        return "SingleTree(treeNr=$treeNr, componentId=$componentId, " +
+                "sendComponentId=$sendComponentId, receiveComponentId=$receiveComponentId, " +
+                "conflictComponentId=$conflictComponentId)"
+    }
+}
 
 @Serializable
-data class TreeList(val treeLen: Int, val singleTree: List<SingleTree>)
+data class TreeList(val treeLen: Short, val singleTree: List<SingleTree>) {
+    override fun toString(): String {
+        return "TreeList(treeLen=$treeLen, singleTree=$singleTree)"
+    }
+}
 
 @Serializable
 data class ProductInfo(
-    val productId: Int,
+    val productId: Short,
     val componentList: ComponentList,
     val treeList: TreeList
-)
-
+) {
+    override fun toString(): String {
+        return "ProductInfo(productId=$productId, componentList=$componentList, treeList=$treeList)"
+    }
+}
 
 
 //typedef struct
