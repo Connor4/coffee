@@ -30,11 +30,6 @@ data class ProductInfo(
     val treeList: TreeList
 )
 
-fun main() {
-    check(1 > 2) {
-        println("xiaoyu")
-    }
-}
 
 
 //typedef struct

@@ -64,9 +64,13 @@ class SerialPortDataManager private constructor() {
                     val chain = RealProcessor(0, it, processors)
                     val result = chain.proceed(it)
                     // TODO 处理result进行ui业务更新
+                    updateUI(result)
                 }
             }
         }
     }
 
+    private fun updateUI(result: Int) {
+
+    }
 }
