@@ -98,9 +98,9 @@ data class ProductInfo(
 //#define MAX_COMPONET 		2
 //#define MAX_TREE_CONNECTION 2
 //详解：
-//7E
-//02
-//01
+//7E // flag
+//02 // addr
+//01 // control
 //30 00 //len 48
 //64 00 //cmd 100
 //01 00 //product id
@@ -121,5 +121,4 @@ data class ProductInfo(
 //ab cd //receiveComponentId
 //ef 02 //conflictComponentId
 //d2 ad //crc
-//7E
-
+//7E // flag

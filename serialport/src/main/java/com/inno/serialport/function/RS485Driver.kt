@@ -21,7 +21,18 @@ class RS485Driver : IDriver {
         private val STOP_BITS = StopBits.SINGLE.value
         private val PARITY = ParityType.NONE_PARITY.value
         private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
+
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
+        private const val MAX_COMPONENT = 64
+        private const val MAX_TREE = 64
+
+        // ComponentList = 2 + SingleComponent: (2 + 2 * 4)*MaxComponent
+        // TreeList = 2 + SingleTree: (2 * 5)*MaxTree
+        // CAPACITY = productId + ComponentList + TreeList
+        private const val COMMAND_BUFFER_CAPACITY = 6 + 10 * MAX_COMPONENT + 10 * MAX_TREE
+        private const val FRAME_FLAG = 0x7E.toByte()
+        private const val FRAME_ADDRESS = 0x2.toByte()
+        private const val FRAME_CONTROL = 0X1.toByte()
     }
 
     private val mSerialPort: SerialPort = SerialPort.Builder()
@@ -41,18 +52,31 @@ class RS485Driver : IDriver {
     override fun send(command: String) {
 //        serialPort?.setRTS(true)
 //        serialPort?.setRTS(false)
+        val totalBufferSize = (COMMAND_BUFFER_CAPACITY + 8)
+        val buffer = ByteBuffer.allocate(totalBufferSize)
         val serializeProductInfo = serializeProductInfo(command)
         val crc = calculateCRC(serializeProductInfo)
-        val buffer = ByteBuffer.allocate(serializeProductInfo.size + 2)
         buffer.order(ByteOrder.LITTLE_ENDIAN)
+        buffer.put(FRAME_ADDRESS)
+        buffer.put(FRAME_CONTROL)
+        // length
+        buffer.putShort((COMMAND_BUFFER_CAPACITY * 8).toShort())
+        // cmd
+        buffer.putShort(0x64.toShort())
         buffer.put(serializeProductInfo)
         buffer.putShort(crc.toShort())
-
         val escapeData = escapeData(buffer.array())
-        SerialPortManager.writeToSerialPort(mSerialPort, escapeData)
 
-        val hexString = toHexString(escapeData)
-        println("hexString: $hexString")
+        val packBuffer = ByteBuffer.allocate(totalBufferSize + 16)
+        packBuffer.order(ByteOrder.LITTLE_ENDIAN)
+        packBuffer.put(FRAME_FLAG)
+        packBuffer.put(escapeData)
+        packBuffer.put(FRAME_FLAG)
+        packBuffer.flip()
+        val packFrame = ByteArray(packBuffer.limit())
+        packBuffer.get(packFrame)
+
+        SerialPortManager.writeToSerialPort(mSerialPort, packFrame)
     }
 
     override fun receive(): PullBufInfo {
@@ -84,25 +108,37 @@ class RS485Driver : IDriver {
 
     private fun serializeProductInfo(command: String): ByteArray {
         val productInfo = Json.decodeFromString<ProductInfo>(command)
-        val buffer = ByteBuffer.allocate(1024)
+        val buffer = ByteBuffer.allocate(COMMAND_BUFFER_CAPACITY)
         buffer.order(ByteOrder.LITTLE_ENDIAN)
-
         buffer.putShort(productInfo.productId)
         buffer.putShort(productInfo.componentList.componentNum)
-        for (component in productInfo.componentList.singleComponent) {
-            buffer.putShort(component.componentId)
-            for (dosage in component.dosage) {
-                buffer.putShort(dosage)
+
+        val componentSize = productInfo.componentList.singleComponent.size
+        for (i in 0 until MAX_COMPONENT) {
+            if (i < componentSize) {
+                val singleComponent = productInfo.componentList.singleComponent[i]
+                buffer.putShort(singleComponent.componentId)
+                for (dosage in singleComponent.dosage) {
+                    buffer.putShort(dosage)
+                }
+            } else {
+                buffer.putShort(0)
             }
         }
 
         buffer.putShort(productInfo.treeList.treeLen)
-        for (tree in productInfo.treeList.singleTree) {
-            buffer.putShort(tree.treeNr)
-            buffer.putShort(tree.componentId)
-            buffer.putShort(tree.sendComponentId)
-            buffer.putShort(tree.receiveComponentId)
-            buffer.putShort(tree.conflictComponentId)
+        val treeSize = productInfo.treeList.singleTree.size
+        for (i in 0 until MAX_TREE) {
+            if (i < treeSize) {
+                val tree = productInfo.treeList.singleTree[i]
+                buffer.putShort(tree.treeNr)
+                buffer.putShort(tree.componentId)
+                buffer.putShort(tree.sendComponentId)
+                buffer.putShort(tree.receiveComponentId)
+                buffer.putShort(tree.conflictComponentId)
+            } else {
+                buffer.putShort(0)
+            }
         }
 
         buffer.flip()
@@ -120,34 +156,23 @@ class RS485Driver : IDriver {
     }
 
     private fun escapeData(data: ByteArray): ByteArray {
-        val buffer = ByteBuffer.allocate(data.size * 2)
+        val buffer = mutableListOf<Byte>()
         for (b in data) {
             when (b) {
                 0x7E.toByte() -> {
-                    buffer.put(0x7D.toByte())
-                    buffer.put(0x5E.toByte())
+                    buffer.add(0x7D)
+                    buffer.add(0x5E)
                 }
 
                 0x7D.toByte() -> {
-                    buffer.put(0x7D.toByte())
-                    buffer.put(0x5D.toByte())
+                    buffer.add(0x7D)
+                    buffer.add(0x5D)
                 }
 
-                else -> buffer.put(b)
+                else -> buffer.add(b)
             }
         }
-        buffer.flip()
-        val result = ByteArray(buffer.limit())
-        buffer.get(result)
-        return result
-    }
-
-    private fun toHexString(data: ByteArray): String {
-        val sb = StringBuilder()
-        for (b in data) {
-            sb.append(String.format("%02X ", b))
-        }
-        return sb.toString().trim()
+        return buffer.toByteArray()
     }
 
 //    override fun parseFrame(frame: ByteArray): String {

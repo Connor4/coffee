@@ -11,6 +11,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.util.concurrent.ArrayBlockingQueue
 
 /**
@@ -47,7 +49,9 @@ class SerialPortDataManager private constructor() {
 
     suspend fun sendCommand(command: String) {
         withContext(Dispatchers.IO) {
-            driver.send(command)
+            val createInfo = createInfo()
+            val infoString = Json.encodeToString(createInfo)
+            driver.send(infoString)
         }
     }
 
