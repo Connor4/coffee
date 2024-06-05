@@ -11,7 +11,7 @@ class BoilerHandler : Handler() {
         TODO("Not yet implemented")
     }
 
-    override fun handle(pullBufInfo: PullBufInfo) {
+    override fun handle(pullBufInfo: PullBufInfo): Int {
         TODO("Not yet implemented")
     }
 
