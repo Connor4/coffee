@@ -1,9 +1,8 @@
 package com.inno.serialport.function
 
 import com.inno.serialport.bean.PullBufInfo
-import com.inno.serialport.function.chain.BoilerProcessor
-import com.inno.serialport.function.chain.GrindProcessor
-import com.inno.serialport.function.chain.RealProcessor
+import com.inno.serialport.function.chain.BoilerHandler
+import com.inno.serialport.function.chain.GrindHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -36,9 +35,10 @@ class SerialPortDataManager private constructor() {
     private val driver = RS485Driver()
     private val pullBuffInfo = ArrayBlockingQueue<PullBufInfo>(128)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val processors = listOf(BoilerProcessor(), GrindProcessor())
+    private val headHandler = BoilerHandler()
 
     init {
+        headHandler.setNextHandler(GrindHandler()).setNextHandler(BoilerHandler())
         scope.launch {
             receiveData()
         }
@@ -71,10 +71,9 @@ class SerialPortDataManager private constructor() {
                 pullBuffInfo.take()?.let {
                     // 进行process，责任链处理完后然后放入业务各个list中进行ui更新，这里的list是所有端口数据list
                     // 每个类型id只上传一个int状态，要以大类作为一个类，保存当前最新状态
-                    val chain = RealProcessor(0, it, processors)
-                    val result = chain.proceed(it)
+
                     // TODO 处理result进行ui业务更新
-                    updateUI(result)
+                    updateUI(1)
                 }
             }
         }

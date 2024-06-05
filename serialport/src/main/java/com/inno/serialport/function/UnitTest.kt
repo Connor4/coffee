@@ -38,6 +38,7 @@ fun main() {
     buffer.put(FRAME_ADDRESS)
     buffer.put(FRAME_CONTROL)
     buffer.putShort((COMMAND_BUFFER_CAPACITY * 8).toShort())
+    println("size: ${COMMAND_BUFFER_CAPACITY * 8}")
     buffer.putShort(0x64.toShort())
     buffer.put(serializeProductInfo)
     buffer.putShort(crc.toShort())
