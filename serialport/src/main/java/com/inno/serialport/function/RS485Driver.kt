@@ -60,7 +60,7 @@ class RS485Driver : IDriver {
         buffer.put(FRAME_ADDRESS)
         buffer.put(FRAME_CONTROL)
         // length
-        buffer.putShort((COMMAND_BUFFER_CAPACITY * 8).toShort())
+        buffer.putShort((COMMAND_BUFFER_CAPACITY).toShort())
         // cmd
         buffer.putShort(0x64.toShort())
         buffer.put(serializeProductInfo)
