@@ -42,7 +42,7 @@ fun main() {
     // cmd
     buffer.putShort(0x64.toShort())
     buffer.put(serializeProductInfo)
-    buffer.putShort(calculateCRC(buffer.array()))
+    buffer.putShort(calculateCRC1(buffer.array()))
     println("pack:      ${buffer.toHexString()}")
 
     val packBuffer = ByteBuffer.allocate(totalBufferSize + 16)
@@ -205,7 +205,7 @@ private fun serializeProductInfo(command: String): ByteArray {
     return result
 }
 
-private fun calculateCRC1(data: ByteArray): Int {
+private fun calculateCRC1(data: ByteArray): Short {
     var fcs = 0xFFFF
     var index = 0
     var remaining = data.size
@@ -214,7 +214,7 @@ private fun calculateCRC1(data: ByteArray): Int {
         index++
         remaining--
     }
-    return fcs
+    return fcs.toShort()
 }
 
 private fun calculateCRC(data: ByteArray): Short {
