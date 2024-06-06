@@ -12,8 +12,8 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 //private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
-private const val MAX_COMPONENT = 2
-private const val MAX_TREE = 2
+private const val MAX_COMPONENT = 4
+private const val MAX_TREE = 4
 
 // ComponentList = 2 + SingleComponent: (2 + 2 * 4)*MaxComponent
 // TreeList = 2 + SingleTree: (2 * 5)*MaxTree
@@ -26,75 +26,130 @@ private const val FRAME_CONTROL = 0X1.toByte()
 fun main() {
     val info = createInfo()
     println("info: $info")
-    val infoString = Json.encodeToString(info)
-    println("string: $infoString")
+    val command = Json.encodeToString(info)
+    println("string: $command")
 
+    val serializeProductInfo = serializeProductInfo(command)
+    println("serialize: " + toHexString(serializeProductInfo))
     val totalBufferSize = (COMMAND_BUFFER_CAPACITY + 8)
     val buffer = ByteBuffer.allocate(totalBufferSize)
-    val serializeProductInfo = serializeProductInfo(infoString)
-    println("serialize: " + toHexString(serializeProductInfo))
-    val crc = calculateCRC(serializeProductInfo)
     buffer.order(ByteOrder.LITTLE_ENDIAN)
     buffer.put(FRAME_ADDRESS)
     buffer.put(FRAME_CONTROL)
-    buffer.putShort((COMMAND_BUFFER_CAPACITY).toShort())
-    println("size: ${COMMAND_BUFFER_CAPACITY}")
+    // length
+    buffer.putShort((COMMAND_BUFFER_CAPACITY + 2).toShort())
+    println("size: ${COMMAND_BUFFER_CAPACITY + 2}")
+    // cmd
     buffer.putShort(0x64.toShort())
     buffer.put(serializeProductInfo)
-    buffer.putShort(crc.toShort())
-    println("after crc: " + buffer.toHexString())
+    buffer.putShort(calculateCRC(buffer.array()))
+    println("pack:      ${buffer.toHexString()}")
+
+    val packBuffer = ByteBuffer.allocate(totalBufferSize + 16)
+    packBuffer.order(ByteOrder.LITTLE_ENDIAN)
+    packBuffer.put(FRAME_FLAG)
     val escapeData = escapeData(buffer.array())
-    println("escape:    " + toHexString(escapeData))
+    packBuffer.put(escapeData)
+    packBuffer.put(FRAME_FLAG)
+    packBuffer.flip()
+    val packFrame = ByteArray(packBuffer.limit())
+    packBuffer.get(packFrame)
 
-    val finalBuffer = ByteBuffer.allocate(totalBufferSize + 2)
-    finalBuffer.order(ByteOrder.LITTLE_ENDIAN)
-    finalBuffer.put(FRAME_FLAG)
-    finalBuffer.put(escapeData)
-    finalBuffer.put(FRAME_FLAG)
-    finalBuffer.flip()
-    val final = ByteArray(finalBuffer.limit())
-    finalBuffer.get(final)
-
-    println("final:     " + finalBuffer.toHexString())
+    println("final:     " + packBuffer.toHexString())
+    val value =
+        "02 01 58 00 64 00 01 00 04 00 B8 0B BB 34 56 78 AB CD EF EE E8 03 BB 34 56 78 AB CD EF EE D0 07 BB 34 56 78 AB CD EF EE A0 0F BB 34 56 78 AB CD EF EE 04 00 00 00 8B 0B 00 00 E8 03 00 00 01 00 E8 03 8B 0B 00 00 00 00 02 00 A0 0F 00 00 00 00 00 00 03 00 D0 07 00 00 E8 03 00 00 4F AD"
+    formatValue(value)
 }
 
 fun createInfo(): ProductInfo {
     val productInfo = ProductInfo(
         productId = 0x01,
         componentList = ComponentList(
-            componentNum = 2,
+            componentNum = 4,
             singleComponent = listOf(
                 SingleComponent(
-                    componentId = 0x01,
-                    dosage = shortArrayOf(0x34, 0x56, 0xAB, 0xEF)
+                    componentId = 0x0bb8,
+                    dosage = shortArrayOf(
+                        0x34bb.toShort(),
+                        0x7856.toShort(),
+                        0xCDAB.toShort(),
+                        0xEEEF.toShort()
+                    )
                 ),
                 SingleComponent(
-                    componentId = 0x02,
-                    dosage = shortArrayOf(0x12, 0x78, 0xCD, 0x02)
+                    componentId = 0x3e8,
+                    dosage = shortArrayOf(
+                        0x34bb.toShort(),
+                        0x7856.toShort(),
+                        0xCDAB.toShort(),
+                        0xEEEF.toShort()
+                    )
+                ),
+                SingleComponent(
+                    componentId = 0x7d0,
+                    dosage = shortArrayOf(
+                        0x34bb.toShort(),
+                        0x7856.toShort(),
+                        0xCDAB.toShort(),
+                        0xEEEF.toShort()
+                    )
+                ),
+                SingleComponent(
+                    componentId = 0xfa0,
+                    dosage = shortArrayOf(
+                        0x34bb.toShort(),
+                        0x7856.toShort(),
+                        0xCDAB.toShort(),
+                        0xEEEF.toShort()
+                    )
                 )
             )
         ),
         treeList = TreeList(
-            treeLen = 2,
+            treeLen = 4,
             singleTree = listOf(
                 SingleTree(
+                    treeNr = 0x0,
+                    componentId = 0xb8b,
+                    sendComponentId = 0x0,
+                    receiveComponentId = 0x3e8,
+                    conflictComponentId = 0x0
+                ),
+                SingleTree(
                     treeNr = 0x01,
-                    componentId = 0x12,
-                    sendComponentId = 0x56,
-                    receiveComponentId = 0xAB,
-                    conflictComponentId = 0xEF
+                    componentId = 0x3e8,
+                    sendComponentId = 0xb8b,
+                    receiveComponentId = 0x0,
+                    conflictComponentId = 0x0
                 ),
                 SingleTree(
                     treeNr = 0x02,
-                    componentId = 0x12,
-                    sendComponentId = 0x56,
-                    receiveComponentId = 0xAB,
-                    conflictComponentId = 0xEF
+                    componentId = 0xfa0,
+                    sendComponentId = 0x0,
+                    receiveComponentId = 0x0,
+                    conflictComponentId = 0x0
+                ),
+                SingleTree(
+                    treeNr = 0x03,
+                    componentId = 0x7d0,
+                    sendComponentId = 0x0,
+                    receiveComponentId = 0x3e8,
+                    conflictComponentId = 0x0
                 )
             )
         )
     )
     return productInfo
+}
+
+fun formatValue(value: String) {
+    val length = value.length
+    var index = 0
+    while (index < length - 5) {
+        val temp = value.substring(index, index + 5)
+        println(temp)
+        index += 6
+    }
 }
 
 fun ByteBuffer.toHexString(): String {
@@ -150,12 +205,24 @@ private fun serializeProductInfo(command: String): ByteArray {
     return result
 }
 
-private fun calculateCRC(data: ByteArray): Int {
+private fun calculateCRC1(data: ByteArray): Int {
+    var fcs = 0xFFFF
+    var index = 0
+    var remaining = data.size
+    while (remaining > 0) {
+        fcs = (fcs ushr 8) xor fcstab[(fcs xor data[index].toInt()) and 0xFF]
+        index++
+        remaining--
+    }
+    return fcs
+}
+
+private fun calculateCRC(data: ByteArray): Short {
     var crc = 0xFFFF
     for (b in data) {
-        crc = (crc shr 8) xor fcstab[(crc xor (b.toInt() and 0xFF)) and 0xFF]
+        crc = (crc ushr 8) xor fcstab[(crc xor (b.toInt() and 0xFF)) and 0xFF]
     }
-    return crc and 0xFFFF
+    return (crc and 0xFFFF).toShort()
 }
 
 private fun escapeData(data: ByteArray): ByteArray {

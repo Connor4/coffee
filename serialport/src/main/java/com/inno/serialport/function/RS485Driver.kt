@@ -52,24 +52,23 @@ class RS485Driver : IDriver {
     override fun send(command: String) {
 //        serialPort?.setRTS(true)
 //        serialPort?.setRTS(false)
+        val serializeProductInfo = serializeProductInfo(command)
         val totalBufferSize = (COMMAND_BUFFER_CAPACITY + 8)
         val buffer = ByteBuffer.allocate(totalBufferSize)
-        val serializeProductInfo = serializeProductInfo(command)
-        val crc = calculateCRC(serializeProductInfo)
         buffer.order(ByteOrder.LITTLE_ENDIAN)
         buffer.put(FRAME_ADDRESS)
         buffer.put(FRAME_CONTROL)
         // length
-        buffer.putShort((COMMAND_BUFFER_CAPACITY).toShort())
+        buffer.putShort((COMMAND_BUFFER_CAPACITY + 2).toShort())
         // cmd
         buffer.putShort(0x64.toShort())
         buffer.put(serializeProductInfo)
-        buffer.putShort(crc.toShort())
-        val escapeData = escapeData(buffer.array())
+        buffer.putShort(calculateCRC(buffer.array()))
 
         val packBuffer = ByteBuffer.allocate(totalBufferSize + 16)
         packBuffer.order(ByteOrder.LITTLE_ENDIAN)
         packBuffer.put(FRAME_FLAG)
+        val escapeData = escapeData(buffer.array())
         packBuffer.put(escapeData)
         packBuffer.put(FRAME_FLAG)
         packBuffer.flip()
@@ -147,12 +146,12 @@ class RS485Driver : IDriver {
         return result
     }
 
-    private fun calculateCRC(data: ByteArray): Int {
+    private fun calculateCRC(data: ByteArray): Short {
         var crc = 0xFFFF
         for (b in data) {
             crc = (crc shr 8) xor fcstab[(crc xor (b.toInt() and 0xFF)) and 0xFF]
         }
-        return crc and 0xFFFF
+        return (crc and 0xFFFF).toShort()
     }
 
     private fun escapeData(data: ByteArray): ByteArray {
