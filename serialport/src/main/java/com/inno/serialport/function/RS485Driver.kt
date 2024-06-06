@@ -10,6 +10,8 @@ import com.inno.serialport.core.SerialPortManager
 import kotlinx.serialization.json.Json
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 class RS485Driver : IDriver {
 
@@ -30,6 +32,8 @@ class RS485Driver : IDriver {
         // TreeList = 2 + SingleTree: (2 * 5)*MaxTree
         // CAPACITY = productId + ComponentList + TreeList
         private const val COMMAND_BUFFER_CAPACITY = 6 + 10 * MAX_COMPONENT + 10 * MAX_TREE
+        private const val TOTAL_BUFFER_SIZE = COMMAND_BUFFER_CAPACITY + 8
+        private const val PACK_BUFFER_SIZE = TOTAL_BUFFER_SIZE + 16
         private const val FRAME_FLAG = 0x7E.toByte()
         private const val FRAME_ADDRESS = 0x2.toByte()
         private const val FRAME_CONTROL = 0X1.toByte()
@@ -44,38 +48,46 @@ class RS485Driver : IDriver {
         .flag(FLAGS)
         .portFrameSize(MAX_BYTEARRAY_SIZE)
         .build()
+    private val lock = ReentrantLock()
+    private val commandBuffer = ByteBuffer.allocate(TOTAL_BUFFER_SIZE)
+    private val packBuffer = ByteBuffer.allocate(PACK_BUFFER_SIZE)
+    private val serializeBuffer = ByteBuffer.allocate(COMMAND_BUFFER_CAPACITY)
 
     init {
+        commandBuffer.order(ByteOrder.LITTLE_ENDIAN)
+        packBuffer.order(ByteOrder.LITTLE_ENDIAN)
+        serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
         open()
     }
 
     override fun send(command: String) {
 //        serialPort?.setRTS(true)
 //        serialPort?.setRTS(false)
-        val serializeProductInfo = serializeProductInfo(command)
-        val totalBufferSize = (COMMAND_BUFFER_CAPACITY + 8)
-        val buffer = ByteBuffer.allocate(totalBufferSize)
-        buffer.order(ByteOrder.LITTLE_ENDIAN)
-        buffer.put(FRAME_ADDRESS)
-        buffer.put(FRAME_CONTROL)
-        // length
-        buffer.putShort((COMMAND_BUFFER_CAPACITY + 2).toShort())
-        // cmd
-        buffer.putShort(0x64.toShort())
-        buffer.put(serializeProductInfo)
-        buffer.putShort(calculateCRC(buffer.array()))
+        lock.withLock {
+            val serializeProductInfo = serializeProductInfo(command)
+            commandBuffer.clear()
+            commandBuffer.put(FRAME_ADDRESS)
+            commandBuffer.put(FRAME_CONTROL)
+            // length
+            commandBuffer.putShort((COMMAND_BUFFER_CAPACITY + 2).toShort())
+            // cmd
+            commandBuffer.putShort(0x64.toShort())
+            commandBuffer.put(serializeProductInfo)
+            // crc
+            val crc = calculateCRC(commandBuffer)
+            commandBuffer.putShort(crc)
+            // generate frame
+            val escapeData = escapeData(commandBuffer.array())
+            packBuffer.clear()
+            packBuffer.put(FRAME_FLAG)
+            packBuffer.put(escapeData)
+            packBuffer.put(FRAME_FLAG)
+            packBuffer.flip()
+            val packFrame = ByteArray(packBuffer.limit())
+            packBuffer.get(packFrame)
 
-        val packBuffer = ByteBuffer.allocate(totalBufferSize + 16)
-        packBuffer.order(ByteOrder.LITTLE_ENDIAN)
-        packBuffer.put(FRAME_FLAG)
-        val escapeData = escapeData(buffer.array())
-        packBuffer.put(escapeData)
-        packBuffer.put(FRAME_FLAG)
-        packBuffer.flip()
-        val packFrame = ByteArray(packBuffer.limit())
-        packBuffer.get(packFrame)
-
-        SerialPortManager.writeToSerialPort(mSerialPort, packFrame)
+            SerialPortManager.writeToSerialPort(mSerialPort, packFrame)
+        }
     }
 
     override fun receive(): PullBufInfo {
@@ -107,49 +119,51 @@ class RS485Driver : IDriver {
 
     private fun serializeProductInfo(command: String): ByteArray {
         val productInfo = Json.decodeFromString<ProductInfo>(command)
-        val buffer = ByteBuffer.allocate(COMMAND_BUFFER_CAPACITY)
-        buffer.order(ByteOrder.LITTLE_ENDIAN)
-        buffer.putShort(productInfo.productId)
-        buffer.putShort(productInfo.componentList.componentNum)
+        serializeBuffer.clear()
+        serializeBuffer.putShort(productInfo.productId)
+        serializeBuffer.putShort(productInfo.componentList.componentNum)
 
         val componentSize = productInfo.componentList.singleComponent.size
         for (i in 0 until MAX_COMPONENT) {
             if (i < componentSize) {
                 val singleComponent = productInfo.componentList.singleComponent[i]
-                buffer.putShort(singleComponent.componentId)
+                serializeBuffer.putShort(singleComponent.componentId)
                 for (dosage in singleComponent.dosage) {
-                    buffer.putShort(dosage)
+                    serializeBuffer.putShort(dosage)
                 }
             } else {
-                buffer.putShort(0)
+                serializeBuffer.putShort(0)
             }
         }
 
-        buffer.putShort(productInfo.treeList.treeLen)
+        serializeBuffer.putShort(productInfo.treeList.treeLen)
         val treeSize = productInfo.treeList.singleTree.size
         for (i in 0 until MAX_TREE) {
             if (i < treeSize) {
                 val tree = productInfo.treeList.singleTree[i]
-                buffer.putShort(tree.treeNr)
-                buffer.putShort(tree.componentId)
-                buffer.putShort(tree.sendComponentId)
-                buffer.putShort(tree.receiveComponentId)
-                buffer.putShort(tree.conflictComponentId)
+                serializeBuffer.putShort(tree.treeNr)
+                serializeBuffer.putShort(tree.componentId)
+                serializeBuffer.putShort(tree.sendComponentId)
+                serializeBuffer.putShort(tree.receiveComponentId)
+                serializeBuffer.putShort(tree.conflictComponentId)
             } else {
-                buffer.putShort(0)
+                serializeBuffer.putShort(0)
             }
         }
 
-        buffer.flip()
-        val result = ByteArray(buffer.limit())
-        buffer.get(result)
+        serializeBuffer.flip()
+        val result = ByteArray(serializeBuffer.limit())
+        serializeBuffer.get(result)
         return result
     }
 
-    private fun calculateCRC(data: ByteArray): Short {
+    private fun calculateCRC(buffer: ByteBuffer): Short {
+        val hexString = buffer.toHexString()
+        val data = hexString.windowed(2, 3).map { it.trim().lowercase().toInt(16) }
         var crc = 0xFFFF
-        for (b in data) {
-            crc = (crc shr 8) xor fcstab[(crc xor (b.toInt() and 0xFF)) and 0xFF]
+        for (item in data) {
+            val index = (crc xor (item and 0xFF)) and 0xFF
+            crc = (crc ushr 8) xor fcstab[index]
         }
         return (crc and 0xFFFF).toShort()
     }
@@ -173,36 +187,5 @@ class RS485Driver : IDriver {
         }
         return buffer.toByteArray()
     }
-
-//    override fun parseFrame(frame: ByteArray): String {
-//        if (frame[0] != 0x7E.toByte() || frame[frame.size - 1] != 0x7E.toByte()) {
-//            Logger.e(TAG, "Invalid frame format")
-//            return SerialErrorType.FRAME_FLAG_ILLEGAL.errorMsg
-//        }
-//        val address = frame[1].toInt() and 0xFF
-//        val control = frame[2].toInt() and 0xFF
-//
-//        val length = ByteBuffer.wrap(frame, 3, 2).short.toInt() and 0xFFFF
-//        val command = frame[5].toInt() and 0xFF
-//        val payload = frame.sliceArray(6 until 6 + length - 1)
-//
-//        val receivedCRC = ByteBuffer.wrap(frame, 6 + length, 2).short.toInt() and 0xFFFF
-//        val dataToCheckCRC = frame.sliceArray(0 until 6 + length)
-//
-//        val calculatedCRC = calculateCRC(dataToCheckCRC)
-//        if (receivedCRC != calculatedCRC) {
-//            Logger.e(TAG, "CRC check failed")
-//            return SerialErrorType.CRC_CHECK_FAILED.errorMsg
-//        }
-//
-//        Logger.d(
-//            TAG, "Address: $address, Control: $control, Command: $command" +
-//                    "Payload: ${payload.contentToString()}"
-//        )
-//        // 示例帧 (需要替换为实际读取的帧)
-////        val frame = byteArrayOf(0x7E, 0x01, 0x01, 0x00, 0x03, 0x01, 0x02, 0x03, 0x00, 0x00, 0x7E)
-////        parseFrame(frame)
-//        return payload.contentToString()
-//    }
 
 }
