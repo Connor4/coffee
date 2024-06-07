@@ -50,7 +50,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     // room
-    implementation(libs.room.ktx)
+    api(libs.room.ktx)
     kapt(libs.room.compiler)
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlinx.serialization.json)
