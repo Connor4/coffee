@@ -55,4 +55,5 @@ dependencies {
     api(libs.room.runtime)
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlinx.serialization.json)
+    api(libs.androidx.work)
 }
