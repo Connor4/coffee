@@ -1,7 +1,6 @@
 package com.inno.coffee.data.home
 
 import androidx.lifecycle.ViewModel
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.di.DefaultDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher

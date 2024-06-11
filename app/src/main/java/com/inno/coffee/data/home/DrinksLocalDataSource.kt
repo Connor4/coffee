@@ -1,7 +1,6 @@
 package com.inno.coffee.data.home
 
 import com.inno.coffee.R
-import com.inno.coffee.data.DrinksModel
 import javax.inject.Inject
 import javax.inject.Singleton
 

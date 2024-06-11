@@ -37,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.inno.coffee.R
-import com.inno.coffee.data.DrinksModel
+import com.inno.coffee.data.home.DrinksModel
 import kotlinx.coroutines.delay
 
 @Composable

@@ -1,4 +1,4 @@
-package com.inno.coffee.data
+package com.inno.coffee.data.home
 
 import androidx.compose.runtime.Immutable
 
