@@ -52,6 +52,7 @@ dependencies {
     // room
     api(libs.room.ktx)
     kapt(libs.room.compiler)
+    api(libs.room.runtime)
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlinx.serialization.json)
 }

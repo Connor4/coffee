@@ -4,37 +4,31 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.db.entity.DrinksHistory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class DrinksHistoryViewModel @Inject constructor(
-    private val drinksHistoryRepository: DrinksHistoryRepository,
+    private val repository: DrinksHistoryRepository,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _drinksHistory = MutableStateFlow<List<DrinksHistory>>(emptyList())
-    val drinksHistory: StateFlow<List<DrinksHistory>> = _drinksHistory.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            drinksHistoryRepository.getAllDrinksHistory()
-                .flowOn(defaultDispatcher)
-                .collect {
-                    _drinksHistory.value = it
-                }
-        }
-    }
+    val drinksHistory: StateFlow<List<DrinksHistory>> = repository.getAllDrinksHistory().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = emptyList()
+    )
 
     fun insertDrinksHistory(drinksHistory: DrinksHistory) {
         viewModelScope.launch {
             withContext(defaultDispatcher) {
-                drinksHistoryRepository.insertDrinksHistory(drinksHistory)
+                repository.insertDrinksHistory(drinksHistory)
             }
         }
     }
@@ -42,7 +36,7 @@ class DrinksHistoryViewModel @Inject constructor(
     fun deleteAllDrinksHistory() {
         viewModelScope.launch {
             withContext(defaultDispatcher) {
-                drinksHistoryRepository.deleteAllDrinksHistory()
+                repository.deleteAllDrinksHistory()
             }
         }
     }
