@@ -15,7 +15,7 @@ coroutines = "1.8.0"
 lifecycle = "2.7.0"
 androidx-hilt-navigation-compose = "1.0.0"
 kotlinx-serialization = "1.7.0-RC"
-work_version = "2.10.0"
+work_version = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
