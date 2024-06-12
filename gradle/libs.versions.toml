@@ -14,7 +14,7 @@ hilt = "2.51.1"
 coroutines = "1.8.0"
 lifecycle = "2.7.0"
 androidx-hilt-navigation-compose = "1.0.0"
-kotlinx-serialization = "1.7.0-RC"
+kotlinx-serialization = "1.6.0"
 work_version = "2.9.0"
 
 [libraries]

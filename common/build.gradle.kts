@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kapt)
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -26,7 +27,7 @@ android {
         }
         release {
             buildConfigField("boolean", "DEBUG", "false")
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
