@@ -3,6 +3,7 @@ package com.inno.coffee.di
 import android.content.Context
 import com.inno.common.db.CoffeeRoomDatabase
 import com.inno.common.db.dao.DrinksHistoryDao
+import com.inno.common.db.dao.FormulaDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,6 +28,11 @@ object DatabaseModule {
     @Provides
     fun provideDrinksHistoryDao(database: CoffeeRoomDatabase): DrinksHistoryDao {
         return database.drinksHistoryDao()
+    }
+
+    @Provides
+    fun provideFormulaDao(database: CoffeeRoomDatabase): FormulaDao {
+        return database.formulaDao()
     }
 
 }

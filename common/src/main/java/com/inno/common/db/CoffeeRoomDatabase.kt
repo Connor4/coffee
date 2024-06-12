@@ -6,15 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.inno.common.db.dao.DrinksHistoryDao
+import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.entity.DrinksHistory
+import com.inno.common.db.entity.Formula
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(DrinksHistory::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(DrinksHistory::class, Formula::class), version = 1,
+    exportSchema = false)
 abstract class CoffeeRoomDatabase : RoomDatabase() {
 
     abstract fun drinksHistoryDao(): DrinksHistoryDao
+
+    abstract fun formulaDao(): FormulaDao
 
     companion object {
         @Volatile

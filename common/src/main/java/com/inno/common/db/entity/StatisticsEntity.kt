@@ -18,6 +18,7 @@ data class DrinksHistory(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 
+@Entity(tableName = "wash_machine_history_table")
 data class WashMachineHistory(
     var time: String,
     var startTime: String,
@@ -26,11 +27,14 @@ data class WashMachineHistory(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 
+@Entity(tableName = "failure_history_table")
 data class FailureHistory(
     var time: String, var code: String, var detail: String,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 
+@Entity(tableName = "rinse_history_table")
 data class RinseHistory(var time: String, @PrimaryKey(autoGenerate = true) val id: Int = 0)
 
+@Entity(tableName = "maintenance_history_table")
 data class MaintenanceHistory(var time: String, @PrimaryKey(autoGenerate = true) val id: Int = 0)
