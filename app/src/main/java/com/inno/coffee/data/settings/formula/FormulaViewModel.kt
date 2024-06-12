@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.db.entity.Formula
+import com.inno.common.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,7 +22,7 @@ class FormulaViewModel @Inject constructor(private val repository: FormulaReposi
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher) : ViewModel() {
 
     companion object {
-        private const val FORMULA_JSON_FILE = "formula.json"
+        private const val FORMULA_JSON_FILE = "formula.txt"
     }
 
     val formulaList: StateFlow<List<Formula>> = repository.getAllFormula()
@@ -34,6 +35,7 @@ class FormulaViewModel @Inject constructor(private val repository: FormulaReposi
                 val file = File(context.getExternalFilesDir(null), FORMULA_JSON_FILE)
                 if (file.exists()) {
                     val jsonContent = file.readText()
+                    Logger.d("jsonContent $jsonContent")
                     val list: List<Formula> = Json.decodeFromString(jsonContent)
                     repository.insertFormulaList(list)
                 }

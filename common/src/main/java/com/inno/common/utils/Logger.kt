@@ -10,6 +10,12 @@ object Logger {
         Logger.debuggable = debuggable
     }
 
+    fun d(msg: String) {
+        if (debuggable) {
+            Log.d("hello", msg)
+        }
+    }
+
     fun d(tag: String, msg: String) {
         if (debuggable) {
             Log.d(tag, msg)
