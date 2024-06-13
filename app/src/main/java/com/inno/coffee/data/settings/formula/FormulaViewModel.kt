@@ -1,12 +1,14 @@
 package com.inno.coffee.data.settings.formula
 
 import android.content.Context
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.db.entity.Formula
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -27,6 +29,7 @@ class FormulaViewModel @Inject constructor(private val repository: FormulaReposi
     val formulaList: StateFlow<List<Formula>> = repository.getAllFormula()
         .stateIn(scope = viewModelScope, started = SharingStarted.Lazily,
             initialValue = emptyList())
+    val fileNotFoundDialogFlag = mutableStateOf(false)
 
     fun loadFromSdCard(context: Context) {
         viewModelScope.launch {
@@ -38,10 +41,16 @@ class FormulaViewModel @Inject constructor(private val repository: FormulaReposi
                     val list: List<Formula> = Json.decodeFromString(jsonContent)
                     repository.insertFormulaList(list)
                 } else {
-                    // notice file not exists
+                    withContext(Dispatchers.Main) {
+                        fileNotFoundDialogFlag.value = true
+                    }
                 }
             }
         }
+    }
+
+    fun dismissFileNotFoundDialog() {
+        fileNotFoundDialogFlag.value = false
     }
 
     fun insertFormula(formula: Formula) {

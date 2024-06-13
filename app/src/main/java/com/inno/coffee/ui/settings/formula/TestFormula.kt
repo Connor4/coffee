@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +31,14 @@ fun FormulaPage(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
 
     Surface(modifier = Modifier.fillMaxSize()) {
         val context = LocalContext.current
+        val showDialog by rememberSaveable {
+            viewModel.fileNotFoundDialogFlag
+        }
+
+        if (showDialog) {
+            FileNotFoundDialog(onDismiss = { viewModel.dismissFileNotFoundDialog() })
+        }
+
         Column {
 
             Row {
@@ -57,6 +67,22 @@ fun FormulaPage(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
             }
         }
     }
+}
+
+@Composable
+fun FileNotFoundDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(text = "File Not Found") },
+        text = {
+            Text("The requested file does not exist. Please check the file path and try again.")
+        },
+        confirmButton = {
+            Button(onClick = onDismiss) {
+                Text("OK")
+            }
+        }
+    )
 }
 
 @Composable
