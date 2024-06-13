@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kapt) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.ksp) apply false
     kotlin("jvm") version libs.versions.kotlin.get() apply false
     kotlin("plugin.serialization") version libs.versions.kotlin.get() apply false
 }

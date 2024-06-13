@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
     kotlin("plugin.serialization")
 }
 
@@ -50,9 +50,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    // room
     api(libs.room.ktx)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     api(libs.room.runtime)
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlinx.serialization.json)
