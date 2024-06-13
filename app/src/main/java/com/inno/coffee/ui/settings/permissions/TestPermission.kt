@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
@@ -41,58 +42,63 @@ fun PermissionPage(
     }
     val context = LocalContext.current
 
-    Surface {
-        Row {
-            Column {
-                TextField(value = username, onValueChange = { username = it }, placeholder = {
-                    Text(text = "username")
-                },
-                    modifier = Modifier.width(200.dp))
-                Spacer(modifier = Modifier.width(10.dp))
-
-                TextField(value = password, onValueChange = { password = it }, placeholder = {
-                    Text(text = "password")
-                },
-                    modifier = Modifier.width(200.dp))
-                Spacer(modifier = Modifier.width(10.dp))
-
-                TextField(value = roleId, onValueChange = { roleId = it }, placeholder = {
-                    Text(text = "roleId")
-                },
-                    modifier = Modifier.width(200.dp))
-                Spacer(modifier = Modifier.width(10.dp))
-
-                TextField(value = permissionId, onValueChange = { permissionId = it },
-                    placeholder = {
-                        Text(text = "permissionId")
+    Surface(modifier = modifier
+        .width(300.dp)
+        .fillMaxHeight()) {
+        Column {
+            Text(text = "权限")
+            Row {
+                Column {
+                    TextField(value = username, onValueChange = { username = it }, placeholder = {
+                        Text(text = "username")
                     },
-                    modifier = Modifier.width(200.dp))
-                Spacer(modifier = Modifier.width(10.dp))
-            }
-            Column {
-                Button(onClick = {
-                    viewModel.authenticateUser(username, password) {
-                        if (it) {
-                            Toast.makeText(context, "密码正确", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "密码错误", Toast.LENGTH_SHORT).show()
+                        modifier = Modifier.width(200.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    TextField(value = password, onValueChange = { password = it }, placeholder = {
+                        Text(text = "password")
+                    },
+                        modifier = Modifier.width(200.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    TextField(value = roleId, onValueChange = { roleId = it }, placeholder = {
+                        Text(text = "roleId")
+                    },
+                        modifier = Modifier.width(200.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    TextField(value = permissionId, onValueChange = { permissionId = it },
+                        placeholder = {
+                            Text(text = "permissionId")
+                        },
+                        modifier = Modifier.width(200.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+                Column {
+                    Button(onClick = {
+                        viewModel.authenticateUser(username, password) {
+                            if (it) {
+                                Toast.makeText(context, "密码正确", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context, "密码错误", Toast.LENGTH_SHORT).show()
+                            }
                         }
+                    }) {
+                        Text(text = "登录")
                     }
-                }) {
-                    Text(text = "登录")
-                }
 
-                Button(onClick = {
-                    viewModel.registerUser(username, password, roleId.toInt(),
-                        permissionId.toLong())
-                }) {
-                    Text(text = "新增")
-                }
+                    Button(onClick = {
+                        viewModel.registerUser(username, password, roleId.toInt(),
+                            permissionId.toLong())
+                    }) {
+                        Text(text = "新增")
+                    }
 
-                Button(onClick = {
+                    Button(onClick = {
 
-                }) {
-                    Text(text = "更新")
+                    }) {
+                        Text(text = "更新")
+                    }
                 }
             }
         }

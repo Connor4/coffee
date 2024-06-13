@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,29 +30,36 @@ fun DrinksHistoryList(
     viewModel: DrinksHistoryViewModel = hiltViewModel(),
 ) {
     val drinksHistoryList by viewModel.drinksHistory.collectAsStateWithLifecycle()
-    Surface {
+    Surface(modifier = modifier
+        .width(300.dp)
+        .fillMaxHeight()) {
+
         Column {
-            Button(onClick = {
-                viewModel.insertDrinksHistory(
-                    DrinksHistory("2023", "left", "2f", "4s", ProductType.Coffee.name)
-                )
-            }) {
-                Text(text = "insert")
-            }
+            Text(text = "历史数据")
 
-            Button(onClick = {
-                viewModel.deleteAllDrinksHistory()
-            }) {
-                Text(text = "delete")
-            }
+            Column {
+                Button(onClick = {
+                    viewModel.insertDrinksHistory(
+                        DrinksHistory("2023", "left", "2f", "4s", ProductType.Coffee.name)
+                    )
+                }) {
+                    Text(text = "insert")
+                }
 
-            LazyColumn(
-                modifier = modifier.fillMaxSize(),
-                contentPadding = PaddingValues(vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                items(items = drinksHistoryList) {
-                    DrinksHistoryItem(history = it)
+                Button(onClick = {
+                    viewModel.deleteAllDrinksHistory()
+                }) {
+                    Text(text = "delete")
+                }
+
+                LazyColumn(
+                    modifier = modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    items(items = drinksHistoryList) {
+                        DrinksHistoryItem(history = it)
+                    }
                 }
             }
         }

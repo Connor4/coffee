@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,7 +30,9 @@ import com.inno.common.db.entity.Formula
 fun FormulaPage(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hiltViewModel()) {
     val formulaList by viewModel.formulaList.collectAsStateWithLifecycle()
 
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Surface(modifier = modifier
+        .width(300.dp)
+        .fillMaxHeight()) {
         val context = LocalContext.current
         val showDialog by rememberSaveable {
             viewModel.fileNotFoundDialogFlag
@@ -40,6 +43,7 @@ fun FormulaPage(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
         }
 
         Column {
+            Text(text = "配方")
 
             Row {
                 Button(modifier = modifier.padding(start = 10.dp, top = 10.dp), onClick = {
@@ -47,7 +51,6 @@ fun FormulaPage(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
                 }) {
                     Text(text = "load from sdcard")
                 }
-
 
                 Button(modifier = modifier.padding(start = 20.dp, top = 10.dp), onClick = {
                     val formula = Formula("coffee", "意式", "前", 20, 50, 20, 29)
