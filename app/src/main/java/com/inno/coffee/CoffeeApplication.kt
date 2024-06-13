@@ -2,7 +2,6 @@ package com.inno.coffee
 
 import android.app.Application
 import com.inno.common.utils.Logger
-import com.inno.common.utils.PreferencesManager
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -20,7 +19,6 @@ class CoffeeApplication : Application() {
     }
 
     private fun init() {
-        PreferencesManager.getInstance(this)
     }
 
     private fun delayInit() {

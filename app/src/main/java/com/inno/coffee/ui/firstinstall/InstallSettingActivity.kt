@@ -7,8 +7,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.inno.coffee.ui.home.launchMakeCoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
+import com.inno.common.utils.readFirstInstall
+import com.inno.common.utils.saveFirstInstall
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * 首次安装页面
@@ -17,14 +22,18 @@ class InstallSettingActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val preferencesManager =
-            com.inno.common.utils.PreferencesManager.getInstance(this@InstallSettingActivity)
-        val firstInstall = preferencesManager.isFirstInstall
-        if (true) {
+
+        val firstInstall = runBlocking {
+            this@InstallSettingActivity.readFirstInstall()
+        }
+
+        if (firstInstall) {
             setContent {
                 CoffeeTheme {
                     InstallSetting {
-                        preferencesManager.isFirstInstall = false
+                        lifecycleScope.launch {
+                            this@InstallSettingActivity.saveFirstInstall(false)
+                        }
                         launchMakeCoffeeActivity(this)
                         finish()
                     }
