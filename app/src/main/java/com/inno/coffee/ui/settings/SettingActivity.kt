@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.inno.coffee.ui.settings.formula.FormulaPage
+import com.inno.coffee.ui.settings.permissions.PermissionPage
 import com.inno.coffee.ui.theme.CoffeeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +26,8 @@ class SettingActivity : ComponentActivity() {
         setContent {
             CoffeeTheme {
 //                DrinksHistoryList()
-                FormulaPage()
+//                FormulaPage()
+                PermissionPage()
             }
         }
     }

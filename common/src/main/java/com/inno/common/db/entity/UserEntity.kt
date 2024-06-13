@@ -3,10 +3,10 @@ package com.inno.common.db.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "permission_table")
+@Entity(tableName = "users_table")
 data class User(
-    var userName: String,
-    var password: String,
+    var username: String,
+    var passwordHash: String,
     var roleId: Int,
     var permissionId: Long,
     @PrimaryKey(autoGenerate = true) var id: Int = 0

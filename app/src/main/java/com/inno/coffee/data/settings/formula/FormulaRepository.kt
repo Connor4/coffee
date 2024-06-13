@@ -5,7 +5,9 @@ import com.inno.common.db.entity.Formula
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class FormulaRepository @Inject constructor(private val formulaDao: FormulaDao) {
+class FormulaRepository @Inject constructor(
+    private val formulaDao: FormulaDao
+) {
 
     fun getAllFormula(): Flow<List<Formula>> {
         return formulaDao.getAllFormula()
