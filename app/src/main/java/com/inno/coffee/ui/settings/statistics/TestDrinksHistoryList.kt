@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.statictics
+package com.inno.coffee.ui.settings.statistics
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.inno.coffee.data.settings.statictics.DrinksHistoryViewModel
+import com.inno.coffee.data.settings.statistics.DrinksHistoryViewModel
 import com.inno.common.db.entity.DrinksHistory
 import com.inno.common.db.entity.ProductType
 

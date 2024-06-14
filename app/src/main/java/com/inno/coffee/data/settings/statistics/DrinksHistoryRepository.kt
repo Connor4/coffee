@@ -1,4 +1,4 @@
-package com.inno.coffee.data.settings.statictics
+package com.inno.coffee.data.settings.statistics
 
 import com.inno.common.db.dao.DrinksHistoryDao
 import com.inno.common.db.entity.DrinksHistory
