@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 fun launchMakeCoffeeActivity(context: Context) {
     context.startActivity(Intent(context, MakeCoffeeActivity::class.java))
     (context as? Activity)?.overridePendingTransition(0, 0)
+    (context as? Activity)?.finish()
 }
 
 

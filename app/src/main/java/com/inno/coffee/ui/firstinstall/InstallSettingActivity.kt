@@ -35,7 +35,6 @@ class InstallSettingActivity : ComponentActivity() {
                             this@InstallSettingActivity.saveFirstInstall(false)
                         }
                         launchMakeCoffeeActivity(this)
-                        finish()
                     }
                 }
             }
@@ -50,9 +49,9 @@ class InstallSettingActivity : ComponentActivity() {
         overridePendingTransition(0, 0)
     }
 
+    //=================================start 调试使用 start==============================================
     private val REQUEST_CODE_PERMISSIONS = 1001
 
-    // 检查并请求权限
     private fun requestPermissions() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
@@ -65,15 +64,10 @@ class InstallSettingActivity : ComponentActivity() {
         }
     }
 
-    // 处理权限请求结果
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
         grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-//            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-//            } else {
-//            }
-        }
     }
+//===================================end 调试使用 end ===============================================
 
 }
