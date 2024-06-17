@@ -15,6 +15,7 @@ data class DrinksHistory(
     var grindTime: String,
     var pqc: String,
     var type: String,
+    var username: String = "",
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 
