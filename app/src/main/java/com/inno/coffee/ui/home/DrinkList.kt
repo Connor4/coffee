@@ -102,8 +102,8 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
     ) {
         Box(
             modifier = Modifier
-                .width(80.dp)
-                .height(80.dp),
+                .width(160.dp)
+                .height(160.dp),
             contentAlignment = Alignment.TopCenter
         ) {
             Column {
