@@ -48,7 +48,8 @@ fun StatisticsMainScreen(
 
     val navController = rememberNavController()
     Scaffold(
-        topBar = { TopBarMenu(navController) }
+        topBar = { TopBarMenu(navController) },
+        containerColor = Color.White
     ) {
         Surface(modifier = Modifier.padding(it)) {
             NavHost(navController = navController, startDestination = PRODUCT) {
@@ -77,7 +78,7 @@ fun TopBarMenu(navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp),
+            .padding(start = 10.dp, end = 10.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -116,7 +117,7 @@ fun ProductScreen(navController: NavHostController) {
     BackHandler {
         navController.popBackStack()
     }
-
+    ProductStatistic()
 }
 
 @Composable

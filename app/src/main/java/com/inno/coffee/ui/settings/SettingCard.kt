@@ -14,6 +14,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -51,7 +52,7 @@ fun SettingCardLayout(
 
     NavHost(navController = navController, startDestination = HOME) {
         composable(HOME) {
-            Surface {
+            Surface(color = Color.White) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(4),
                     contentPadding = PaddingValues(horizontal = 8.dp),
@@ -69,7 +70,7 @@ fun SettingCardLayout(
         }
         composable("detail/{item}") {
             val item = it.arguments?.getString("item")
-            DetailScreen(item, navController)
+            DetailScreen(item, navController, modifier)
         }
     }
 
@@ -91,8 +92,8 @@ fun CardItem(onClick: () -> Unit) {
 }
 
 @Composable
-fun DetailScreen(item: String?, navHostController: NavHostController) {
-    Surface(modifier = Modifier.fillMaxSize()) {
+fun DetailScreen(item: String?, navHostController: NavHostController, modifier: Modifier) {
+    Surface(modifier = modifier.fillMaxSize()) {
         when (item) {
             STATISTICS -> StatisticsMainScreen(navHostController)
             FORMULA -> FormulaPage()
