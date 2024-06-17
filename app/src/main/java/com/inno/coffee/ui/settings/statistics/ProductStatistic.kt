@@ -4,9 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -35,7 +33,7 @@ fun ProductStatistic(modifier: Modifier = Modifier) {
         Column {
             StatisticTopBar()
             Divider(color = Color.Gray, thickness = 1.dp)
-            DrinksHistoryList()
+            ProductHistoryList()
         }
     }
 }
@@ -46,7 +44,7 @@ fun StatisticTopBar(modifier: Modifier = Modifier) {
     Row {
         Text(text = context.getString(R.string.statistic_product_top_date), color = Color.Black,
             modifier = modifier.weight(1f), textAlign = TextAlign.Center)
-        Text(text = context.getString(R.string.statistic_product_top_brew_size),
+        Text(text = context.getString(R.string.statistic_product_top_brew_side),
             color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
         Text(text = context.getString(R.string.statistic_product_top_grind_time),
             color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
@@ -64,43 +62,38 @@ fun StatisticTopBar(modifier: Modifier = Modifier) {
             color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
         Text(text = context.getString(R.string.statistic_product_top_product_type),
             color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
+        Text(text = context.getString(R.string.statistic_product_top_operator), color = Color.Black,
+            modifier = modifier.weight(1f), textAlign = TextAlign.Center)
     }
 }
 
 @Composable
-fun DrinksHistoryList(
+fun ProductHistoryList(
     modifier: Modifier = Modifier,
     viewModel: DrinksHistoryViewModel = hiltViewModel(),
 ) {
     val drinksHistoryList by viewModel.drinksHistory.collectAsStateWithLifecycle()
     Surface(modifier = modifier.fillMaxSize(), color = Color.Transparent) {
-
         Column {
-            Text(text = "历史数据")
+            Button(onClick = {
+                viewModel.insertDrinksHistory(
+                    DrinksHistory("2023.06.23 10:40:00", "left", "2f", "On", "19s", "50", "92",
+                        "64", "1.8", ProductType.Coffee.name, "Operator1"))
+            }) {
+                Text(text = "insert")
+            }
 
-            Column {
-                Button(onClick = {
-                    viewModel.insertDrinksHistory(
-                        DrinksHistory("2023", "left", "2f", "4s", ProductType.Coffee.name)
-                    )
-                }) {
-                    Text(text = "insert")
-                }
+            Button(onClick = {
+                viewModel.deleteAllDrinksHistory()
+            }) {
+                Text(text = "delete")
+            }
 
-                Button(onClick = {
-                    viewModel.deleteAllDrinksHistory()
-                }) {
-                    Text(text = "delete")
-                }
-
-                LazyColumn(
-                    modifier = modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(vertical = 8.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    items(items = drinksHistoryList) {
-                        DrinksHistoryItem(history = it)
-                    }
+            LazyColumn(modifier = modifier.fillMaxSize(),
+                contentPadding = PaddingValues(vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                items(items = drinksHistoryList) {
+                    DrinksHistoryItem(history = it)
                 }
             }
         }
@@ -110,15 +103,28 @@ fun DrinksHistoryList(
 @Composable
 fun DrinksHistoryItem(history: DrinksHistory, modifier: Modifier = Modifier) {
     Row {
-        Text(text = history.time)
-        Spacer(modifier = Modifier.width(5.dp))
-        Text(text = history.side)
-        Spacer(modifier = Modifier.width(5.dp))
-        Text(text = history.grindTime)
-        Spacer(modifier = Modifier.width(5.dp))
-        Text(text = history.pqc)
-        Spacer(modifier = Modifier.width(5.dp))
-        Text(text = history.type)
+        Text(text = history.time, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.side, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.grindTime, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.pqc, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.extTime, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.waterQnty, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.waterTemp, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.milkTemp, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.streamPress, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.type, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
+        Text(text = history.username, color = Color.Black, modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center)
     }
 }
 
