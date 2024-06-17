@@ -103,13 +103,13 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
         Box(
             modifier = Modifier
                 .width(160.dp)
-                .height(160.dp),
+                .height(200.dp),
             contentAlignment = Alignment.TopCenter
         ) {
             Column {
                 Text(
                     text = "$${model.price}",
-                    fontSize = 6.sp,
+                    fontSize = 20.sp,
                     modifier = Modifier.padding(start = 5.dp, top = 5.dp)
                 )
                 Spacer(modifier = Modifier.height(5.dp))
@@ -118,13 +118,13 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(120.dp)
                         .align(Alignment.CenterHorizontally)
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = model.name,
-                    fontSize = 6.sp,
+                    fontSize = 25.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
