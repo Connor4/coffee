@@ -52,7 +52,7 @@ fun SettingCardLayout(
 
     NavHost(navController = navController, startDestination = HOME) {
         composable(HOME) {
-            Surface(color = Color.White) {
+            Surface(color = Color.Transparent) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(4),
                     contentPadding = PaddingValues(horizontal = 8.dp),
@@ -93,7 +93,7 @@ fun CardItem(onClick: () -> Unit) {
 
 @Composable
 fun DetailScreen(item: String?, navHostController: NavHostController, modifier: Modifier) {
-    Surface(modifier = modifier.fillMaxSize()) {
+    Surface(modifier = modifier.fillMaxSize(), color = Color.Transparent) {
         when (item) {
             STATISTICS -> StatisticsMainScreen(navHostController)
             FORMULA -> FormulaPage()

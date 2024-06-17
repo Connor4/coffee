@@ -17,7 +17,7 @@ import com.inno.coffee.ui.settings.launchSettingActivity
 @Composable
 fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: DrinksViewModel = hiltViewModel()) {
 
-    Surface(color = Color.White) {
+    Surface(color = Color.Transparent) {
         val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
         DrinkList(modifier = modifier, drinksData = drinksData)
         val context = LocalContext.current

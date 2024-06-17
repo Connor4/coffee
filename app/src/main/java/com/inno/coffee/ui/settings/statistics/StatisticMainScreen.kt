@@ -51,7 +51,7 @@ fun StatisticsMainScreen(
         topBar = { TopBarMenu(navController) },
         containerColor = Color.White
     ) {
-        Surface(modifier = Modifier.padding(it)) {
+        Surface(modifier = Modifier.padding(it), color = Color.White) {
             NavHost(navController = navController, startDestination = PRODUCT) {
                 composable(PRODUCT) { ProductScreen(hostNavController) }
                 composable(WASH_MACHINE) { WashMachineScreen(hostNavController) }
