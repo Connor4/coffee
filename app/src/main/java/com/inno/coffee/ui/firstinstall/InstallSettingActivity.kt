@@ -64,10 +64,10 @@ class InstallSettingActivity : ComponentActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-        grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+//        grantResults: IntArray) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//    }
 //===================================end 调试使用 end ===============================================
 
 }
