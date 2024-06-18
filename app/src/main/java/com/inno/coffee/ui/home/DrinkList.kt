@@ -107,8 +107,10 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
                     modifier = Modifier.padding(start = 5.dp, top = 5.dp)
                 )
                 Spacer(modifier = Modifier.height(5.dp))
-                AsyncImage(model = model.imageRes, contentDescription = null, contentScale =
-                ContentScale.Crop,
+                AsyncImage(
+                    model = model.imageRes,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(120.dp)
                         .align(Alignment.CenterHorizontally))
