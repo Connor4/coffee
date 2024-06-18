@@ -1,8 +1,10 @@
 package com.inno.coffee.ui.settings.statistics
 
+import android.view.LayoutInflater
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
@@ -23,10 +25,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.anychart.AnyChart
+import com.anychart.AnyChartView
+import com.anychart.chart.common.dataentry.DataEntry
+import com.anychart.chart.common.dataentry.ValueDataEntry
+import com.anychart.enums.Align
+import com.anychart.enums.Anchor
+import com.anychart.enums.HoverMode
+import com.anychart.enums.LegendLayout
+import com.anychart.enums.Position
+import com.anychart.enums.TooltipPositionMode
 import com.inno.coffee.R
 import com.inno.common.utils.Logger
 
@@ -125,6 +138,79 @@ fun WashMachineScreen(navController: NavHostController) {
     Logger.d("WashMachineScreen")
     BackHandler {
         navController.popBackStack()
+    }
+    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
+
+        AndroidView(
+            factory = {
+                LayoutInflater.from(it).inflate(R.layout.statistic_product_layout, null)
+            }, update = {
+                val chartView = it.findViewById<AnyChartView>(R.id.any_chart_view1)
+                val pie = AnyChart.pie()
+                val data = mutableListOf<DataEntry>()
+                data.add(ValueDataEntry("apple", 1))
+                data.add(ValueDataEntry("pear", 2))
+                data.add(ValueDataEntry("bananas", 3))
+                data.add(ValueDataEntry("grapes", 4))
+                data.add(ValueDataEntry("oranges", 5))
+                pie.data(data)
+
+                pie.title("Fruits imported in 2015 (in kg)")
+
+                pie.labels().position("outside")
+
+                pie.legend().title().enabled(true)
+                pie.legend().title()
+                    .text("Retail channels")
+                    .padding(0.0, 0.0, 10.0, 0.0)
+
+                pie.legend()
+                    .position("center-bottom")
+                    .itemsLayout(LegendLayout.HORIZONTAL)
+                    .align(Align.CENTER)
+                    .align(Align.CENTER)
+                chartView.setChart(pie)
+                // ==============================================================
+                val anyChartView: AnyChartView = it.findViewById(R.id.any_chart_view2)
+                val cartesian = AnyChart.column()
+
+                val data2: MutableList<DataEntry> = ArrayList()
+                data2.add(ValueDataEntry("Rouge", 80540))
+                data2.add(ValueDataEntry("Foundation", 94190))
+                data2.add(ValueDataEntry("Mascara", 102610))
+                data2.add(ValueDataEntry("Lip gloss", 110430))
+                data2.add(ValueDataEntry("Lipstick", 128000))
+                data2.add(ValueDataEntry("Nail polish", 143760))
+                data2.add(ValueDataEntry("Eyebrow pencil", 170670))
+                data2.add(ValueDataEntry("Eyeliner", 213210))
+                data2.add(ValueDataEntry("Eyeshadows", 249980))
+
+                val column = cartesian.column(data2)
+
+                column.tooltip()
+                    .titleFormat("{%X}")
+                    .position(Position.CENTER_BOTTOM)
+                    .anchor(Anchor.CENTER_BOTTOM)
+                    .offsetX(0.0)
+                    .offsetY(5.0)
+                    .format("\${%Value}{groupsSeparator: }")
+
+                cartesian.animation(true)
+                cartesian.title("Top 10 Cosmetic Products by Revenue")
+
+                cartesian.yScale().minimum(0.0)
+
+                cartesian.yAxis(0).labels().format("\${%Value}{groupsSeparator: }")
+
+                cartesian.tooltip().positionMode(TooltipPositionMode.POINT)
+                cartesian.interactivity().hoverMode(HoverMode.BY_X)
+
+                cartesian.xAxis(0).title("Product")
+                cartesian.yAxis(0).title("Revenue")
+
+                anyChartView.setChart(cartesian)
+            }
+        )
     }
 }
 
