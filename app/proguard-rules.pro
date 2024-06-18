@@ -87,3 +87,6 @@
 -keepclasseswithmembernames class * {
     native <methods>;
 }
+
+-dontwarn com.inno.common.db.**
+-dontwarn com.inno.common.utils.**

@@ -21,9 +21,16 @@ android {
             useSupportLibrary = true
         }
     }
-
+    signingConfigs {
+        create("release") {
+            keyAlias = "inno"
+            keyPassword = "inno123"
+            storeFile = file("../inno.jks")
+            storePassword = "inno123"
+        }
+    }
     buildTypes {
-        debug {
+        getByName("debug") {
             isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(
@@ -31,13 +38,14 @@ android {
                 "proguard-rules.pro"
             )
         }
-        release {
+        getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
