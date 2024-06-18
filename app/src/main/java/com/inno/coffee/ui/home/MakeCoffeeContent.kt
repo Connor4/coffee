@@ -20,6 +20,7 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: DrinksViewModel 
     Surface(color = Color.Transparent) {
         val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
         DrinkList(modifier = modifier, drinksData = drinksData)
+
         val context = LocalContext.current
         Button(onClick = {
             launchSettingActivity(context)

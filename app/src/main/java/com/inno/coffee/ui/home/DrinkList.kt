@@ -41,33 +41,28 @@ import com.inno.coffee.data.home.DrinksModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun DrinkList(
-    modifier: Modifier = Modifier,
-    drinksData: List<DrinksModel> = emptyList()
-) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(4),
+fun DrinkList(modifier: Modifier = Modifier, drinksData: List<DrinksModel> = emptyList()) {
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = configuration.screenWidthDp.dp
+    val density = LocalDensity.current
+    val screenWidthPx = with(density) { screenWidthDp.toPx() }
+
+    LazyVerticalGrid(columns = GridCells.Fixed(4),
         contentPadding = PaddingValues(horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.fillMaxSize()
-    ) {
+        verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier.fillMaxSize()) {
         items(drinksData, key = { drink -> drink.hashCode() }) { drink ->
             val index = drinksData.indexOf(drink)
             val column = index % 4
-            AnimatedDrinkItem(model = drink, columnIndex = column, modifier = modifier)
+            AnimatedDrinkItem(model = drink, columnIndex = column, screenWidthPx = screenWidthPx,
+                modifier = modifier)
         }
     }
 }
 
 @Composable
-fun AnimatedDrinkItem(model: DrinksModel, columnIndex: Int, modifier: Modifier = Modifier) {
-    val configuration = LocalConfiguration.current
-    val screenWidthDp = configuration.screenWidthDp.dp
-
-    val density = LocalDensity.current
-    val screenWidthPx = with(density) { screenWidthDp.toPx() }
-
+fun AnimatedDrinkItem(model: DrinksModel, columnIndex: Int, screenWidthPx: Float,
+    modifier: Modifier = Modifier) {
     var startAnimation by remember {
         mutableStateOf(false)
     }
