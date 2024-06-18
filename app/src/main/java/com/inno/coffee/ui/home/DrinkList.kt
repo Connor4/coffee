@@ -3,7 +3,6 @@ package com.inno.coffee.ui.home
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,10 +31,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.inno.coffee.R
 import com.inno.coffee.data.home.DrinksModel
 import kotlinx.coroutines.delay
@@ -108,14 +107,11 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
                     modifier = Modifier.padding(start = 5.dp, top = 5.dp)
                 )
                 Spacer(modifier = Modifier.height(5.dp))
-                Image(
-                    painter = painterResource(id = model.imageRes),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                AsyncImage(model = model.imageRes, contentDescription = null, contentScale =
+                ContentScale.Crop,
                     modifier = Modifier
                         .size(120.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
+                        .align(Alignment.CenterHorizontally))
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = model.name,
