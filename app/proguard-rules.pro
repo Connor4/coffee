@@ -56,7 +56,7 @@
 ## usage.txt文件列出从apk中删除的代码
 #-printusage unused.txt
 # mapping.txt文件列出混淆前后的映射
--printmapping mapping.txt
+#-printmapping mapping.txt
 
 #不需混淆的Android类########
 -keep public class * extends android.app.Fragment
