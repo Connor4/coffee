@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,9 +26,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
 import com.inno.coffee.R
-import com.inno.coffee.ui.FloatCountComposable
 import com.inno.coffee.ui.settings.formula.FormulaPage
 import com.inno.coffee.ui.settings.permissions.PermissionPage
 import com.inno.coffee.ui.settings.statistics.StatisticsMainScreen
@@ -88,13 +88,14 @@ fun CardItem(onClick: () -> Unit) {
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
     ) {
-        AsyncImage(
-            model = R.drawable.ic_launcher_foreground,
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .size(250.dp)
+                .align(Alignment.CenterHorizontally)
         )
-        FloatCountComposable()
     }
 }
 
