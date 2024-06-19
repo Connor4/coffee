@@ -88,6 +88,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(project(":common"))
+    implementation(project(":serialport"))
     // dagger
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
