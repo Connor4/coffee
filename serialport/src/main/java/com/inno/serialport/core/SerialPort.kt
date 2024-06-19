@@ -19,17 +19,16 @@ class SerialPort private constructor(
     val readTimeOutMillis: Long
 ) {
     companion object {
-        init {
-            System.loadLibrary("serial_port")
-        }
-
         private const val TAG = "SerialPort"
         private const val SU_PATH = "/system/bin/su"
     }
-
     private var mFd: FileDescriptor? = null
     var mFileInputStream: FileInputStream? = null
     var mFileOutputStream: FileOutputStream? = null
+
+    init {
+        System.loadLibrary("serial_port")
+    }
 
     fun openSerialPort(): Boolean {
         if (!device.canRead() || !device.canWrite()) {

@@ -8,7 +8,8 @@ class RealHandler {
     init {
         val handlerList = listOf(BoilerHandler(), GrindHandler())
         handlerList.let {
-            for (i in it.indices) {
+            val size = it.size - 1
+            for (i in 0 until size) {
                 it[i].setNextHandler(it[i + 1])
             }
             head = it[0]

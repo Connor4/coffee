@@ -37,16 +37,24 @@ class SerialPortDataManager private constructor() {
     private val headHandler = RealHandler()
 
     init {
+//        scope.launch {
+//            receiveData()
+//        }
+//        scope.launch {
+//            processData()
+//        }
+    }
+
+    fun init() {
+        driver.open()
         scope.launch {
             receiveData()
-        }
-        scope.launch {
-            processData()
         }
     }
 
     suspend fun sendCommand(command: String) {
         withContext(Dispatchers.IO) {
+            // TODO fake data
             val createInfo = createInfo()
             val infoString = Json.encodeToString(createInfo)
             driver.send(infoString)
@@ -63,7 +71,8 @@ class SerialPortDataManager private constructor() {
         }
     }
 
-    private suspend fun processData() {
+    suspend fun processData(): PullBufInfo? {
+        var info: PullBufInfo? = null
         withContext(Dispatchers.IO) {
             while (isActive) {
                 pullBuffInfo.take()?.let {
@@ -72,9 +81,11 @@ class SerialPortDataManager private constructor() {
                     val result = headHandler.proceed(it)
                     // TODO 处理result进行ui业务更新
                     updateUI(result!!)
+                    info = it
                 }
             }
         }
+        return info
     }
 
     private fun updateUI(result: Int) {

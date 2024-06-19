@@ -17,7 +17,7 @@ class RS485Driver : IDriver {
 
     companion object {
         private const val TAG = "RS485Driver"
-        private const val DEVICE_PATH = "/dev/ttyS0"
+        private const val DEVICE_PATH = "/dev/ttyS9"
         private const val BAUD_RATE = 115200
         private const val DATA_BITES = 8
         private val STOP_BITS = StopBits.SINGLE.value
@@ -57,7 +57,6 @@ class RS485Driver : IDriver {
         commandBuffer.order(ByteOrder.LITTLE_ENDIAN)
         packBuffer.order(ByteOrder.LITTLE_ENDIAN)
         serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
-        open()
     }
 
     override fun send(command: String) {
