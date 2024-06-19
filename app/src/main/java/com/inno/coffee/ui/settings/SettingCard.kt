@@ -97,8 +97,7 @@ fun CardItem(onClick: () -> Unit) {
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(250.dp)
+                modifier = Modifier.size(250.dp)
             )
         }
     }
@@ -111,7 +110,7 @@ fun DetailScreen(item: String?, navHostController: NavHostController, modifier: 
             STATISTICS -> StatisticsMainScreen(navHostController)
             FORMULA -> FormulaPage()
             PERMISSION -> PermissionPage()
-//            else -> StatisticsMainScreen(navHostController)
+            else -> StatisticsMainScreen(navHostController)
         }
     }
 }
