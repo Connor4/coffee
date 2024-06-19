@@ -4,19 +4,19 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,8 +29,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,20 +39,26 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun DrinkList(modifier: Modifier = Modifier, drinksData: List<DrinksModel> = emptyList()) {
-    val configuration = LocalConfiguration.current
-    val screenWidthDp = configuration.screenWidthDp.dp
-    val density = LocalDensity.current
-    val screenWidthPx = with(density) { screenWidthDp.toPx() }
+//    val configuration = LocalConfiguration.current
+//    val screenWidthDp = configuration.screenWidthDp.dp
+//    val density = LocalDensity.current
+//    val screenWidthPx = with(density) { screenWidthDp.toPx() }
 
-    LazyVerticalGrid(columns = GridCells.Fixed(4),
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(4),
         contentPadding = PaddingValues(horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier.fillMaxSize()) {
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(top = 8.dp)
+    ) {
         items(drinksData, key = { drink -> drink.hashCode() }) { drink ->
             val index = drinksData.indexOf(drink)
             val column = index % 4
-            AnimatedDrinkItem(model = drink, columnIndex = column, screenWidthPx = screenWidthPx,
-                modifier = modifier)
+//            AnimatedDrinkItem(model = drink, columnIndex = column, screenWidthPx = screenWidthPx,
+//                modifier = modifier)
+            DrinkItem(drink, 0f)
         }
     }
 }
@@ -90,17 +94,15 @@ fun AnimatedDrinkItem(model: DrinksModel, columnIndex: Int, screenWidthPx: Float
 @Composable
 fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier) {
     Surface(
-        modifier = modifier.offset(x = offsetX.dp),
+//        modifier = modifier.offset(x = offsetX.dp),
         color = MaterialTheme.colorScheme.surfaceVariant,
         shape = MaterialTheme.shapes.small
     ) {
-        Box(
-            modifier = Modifier
-                .width(160.dp)
-                .height(200.dp),
-            contentAlignment = Alignment.TopCenter
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         ) {
-            Column {
+            Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(
                     text = "$${model.price}",
                     fontSize = 20.sp,

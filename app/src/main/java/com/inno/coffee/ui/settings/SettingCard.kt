@@ -4,6 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -24,6 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.inno.coffee.R
+import com.inno.coffee.ui.FloatCountComposable
 import com.inno.coffee.ui.settings.formula.FormulaPage
 import com.inno.coffee.ui.settings.permissions.PermissionPage
 import com.inno.coffee.ui.settings.statistics.StatisticsMainScreen
@@ -57,7 +60,9 @@ fun SettingCardLayout(
                     contentPadding = PaddingValues(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
-                    modifier = modifier.fillMaxSize()
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(top = 8.dp)
                 ) {
                     items(items) {
                         CardItem {
@@ -78,15 +83,18 @@ fun SettingCardLayout(
 @Composable
 fun CardItem(onClick: () -> Unit) {
     Card(
-        modifier = Modifier.clickable { onClick() },
+        modifier = Modifier
+            .size(300.dp)
+            .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
     ) {
         AsyncImage(
-            model = R.drawable.coffee6,
+            model = R.drawable.ic_launcher_foreground,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
+        FloatCountComposable()
     }
 }
 
@@ -97,7 +105,7 @@ fun DetailScreen(item: String?, navHostController: NavHostController, modifier: 
             STATISTICS -> StatisticsMainScreen(navHostController)
             FORMULA -> FormulaPage()
             PERMISSION -> PermissionPage()
-            else -> StatisticsMainScreen(navHostController)
+//            else -> StatisticsMainScreen(navHostController)
         }
     }
 }
