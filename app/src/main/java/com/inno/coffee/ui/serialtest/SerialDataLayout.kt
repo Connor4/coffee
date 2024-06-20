@@ -22,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.inno.serialport.bean.PullBufInfo
 import com.inno.serialport.core.SerialPortFinder
 import com.inno.serialport.function.SerialPortDataManager
 import kotlinx.coroutines.launch
@@ -37,7 +36,7 @@ fun SerialTest() {
             mutableStateOf("")
         }
         var receivedData by remember {
-            mutableStateOf<PullBufInfo?>(null)
+            mutableStateOf(ByteArray(0))
         }
         var path by remember {
             mutableStateOf("path: ")
@@ -63,7 +62,7 @@ fun SerialTest() {
             coroutineScope.launch {
                 SerialPortDataManager.instance.receivedDataFlow.collect {
                     it?.let {
-                        receivedData = it
+                        receivedData = it.pollBuf
                     }
                 }
             }
@@ -103,7 +102,7 @@ fun SerialTest() {
             }
             // 接收数据显示
             Text(
-                text = "Received Data: ${receivedData?.pollBuf}",
+                text = "Received Data: ${receivedData.contentToString()}",
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )

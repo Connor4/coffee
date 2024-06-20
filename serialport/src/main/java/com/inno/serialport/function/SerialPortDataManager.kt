@@ -1,5 +1,6 @@
 package com.inno.serialport.function
 
+import com.inno.common.utils.Logger
 import com.inno.serialport.bean.PullBufInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -66,10 +67,8 @@ class SerialPortDataManager private constructor() {
         withContext(Dispatchers.IO) {
             while (isActive) {
                 delay(PULL_INTERVAL_MILLIS)
-                val receive = driver.receive()
-                receive?.let {
-                    _receivedDataFlow.emit(it)
-                }
+                Logger.d("receiveData")
+                _receivedDataFlow.emit(driver.receive())
             }
         }
     }

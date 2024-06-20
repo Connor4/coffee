@@ -51,6 +51,10 @@ object SerialPortManager {
                         }
                     }
                 }
+
+                bytesRead == 0 -> {
+                    onFailure(SerialErrorType.SERIAL_CONNECTION_ERROR)
+                }
             }
         } catch (e: IOException) {
             Logger.e(TAG, "readFromSerialPort Exception $e")

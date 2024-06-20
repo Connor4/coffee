@@ -17,4 +17,5 @@ enum class SerialErrorType(val value: Int, val errorMsg: String) {
     IO_EXCEPTION(3, "IOException"),
     FRAME_FLAG_ILLEGAL(4, "Invalid frame format"),
     CRC_CHECK_FAILED(5, "CRC check failed"),
+    SERIAL_CONNECTION_ERROR(6, "connection error")
 }
