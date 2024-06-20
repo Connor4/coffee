@@ -89,7 +89,7 @@ class RS485Driver : IDriver {
         }
     }
 
-    override fun receive(): PullBufInfo? {
+    override fun receive(): PullBufInfo {
         var receivedData: PullBufInfo? = null
         SerialPortManager.readFromSerialPort(mSerialPort, onSuccess = { buffer, _ ->
             // already checked bytesRead
@@ -97,7 +97,7 @@ class RS485Driver : IDriver {
         }, onFailure = {
             receivedData = PullBufInfo(it.value, it.errorMsg.toByteArray())
         })
-        return receivedData
+        return receivedData!!
     }
 
     override fun open() {
