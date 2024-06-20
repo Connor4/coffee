@@ -29,7 +29,7 @@ class SerialPortRepository @Inject constructor(
         SerialPortDataManager.instance.sendCommand(command)
     }
 
-    suspend fun fetchSerialPort() {
+    fun fetchSerialPort() {
         val finder = SerialPortFinder()
         val path = finder.getAllDevicesPath()
         val devices = finder.getAllDevices()
