@@ -1,6 +1,5 @@
 package com.inno.serialport.function
 
-import com.inno.common.utils.Logger
 import com.inno.serialport.bean.PullBufInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -9,11 +8,8 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 /**
  * 1. string to json
@@ -34,6 +30,9 @@ class SerialPortDataManager private constructor() {
     }
 
     private val driver = RS485Driver()
+
+    @Volatile
+    private var isRunning = false
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val _receivedDataFlow = MutableSharedFlow<PullBufInfo?>(
         replay = 0,
@@ -42,34 +41,35 @@ class SerialPortDataManager private constructor() {
     )
     val receivedDataFlow: SharedFlow<PullBufInfo?> = _receivedDataFlow
 
-    fun init() {
+    fun open() {
         scope.launch {
             withContext(Dispatchers.IO) {
                 driver.open()
+                isRunning = true
+                receiveData()
             }
         }
+    }
+
+    fun close() {
         scope.launch {
-            receiveData()
+            withContext(Dispatchers.IO) {
+                isRunning = false
+                driver.close()
+            }
         }
     }
 
     suspend fun sendCommand(command: String) {
         withContext(Dispatchers.IO) {
-//            driver.send(command)
-
-            val createInfo = createInfo()
-            val infoString = Json.encodeToString(createInfo)
-            driver.send(infoString)
+            driver.send(command)
         }
     }
 
     private suspend fun receiveData() {
-        withContext(Dispatchers.IO) {
-            while (isActive) {
-                delay(PULL_INTERVAL_MILLIS)
-                Logger.d("receiveData")
-                _receivedDataFlow.emit(driver.receive())
-            }
+        while (isRunning) {
+            delay(PULL_INTERVAL_MILLIS)
+            _receivedDataFlow.emit(driver.receive())
         }
     }
 

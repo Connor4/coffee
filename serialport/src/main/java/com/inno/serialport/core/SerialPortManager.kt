@@ -52,7 +52,7 @@ object SerialPortManager {
                     }
                 }
 
-                bytesRead == 0 -> {
+                else -> {
                     onFailure(SerialErrorType.SERIAL_CONNECTION_ERROR)
                 }
             }

@@ -24,7 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.inno.serialport.core.SerialPortFinder
 import com.inno.serialport.function.SerialPortDataManager
+import com.inno.serialport.function.createInfo
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
 fun SerialTest() {
@@ -76,12 +79,28 @@ fun SerialTest() {
         ) {
             Button(
                 onClick = {
-                    SerialPortDataManager.instance.init()
+                    SerialPortDataManager.instance.open()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "init", fontSize = 18.sp)
+                Text(text = "open serial port", fontSize = 18.sp)
             }
+
+            Button(
+                onClick = {
+                    SerialPortDataManager.instance.close()
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "close serial port", fontSize = 18.sp)
+            }
+
+            // 接收数据显示
+            Text(
+                text = "Received Data: ${receivedData.contentToString()}",
+                fontSize = 18.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
             // 输入框
             OutlinedTextField(
                 value = sendData,
@@ -93,19 +112,15 @@ fun SerialTest() {
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        SerialPortDataManager.instance.sendCommand(sendData)
+                        val createInfo = createInfo()
+                        val infoString = Json.encodeToString(createInfo)
+                        SerialPortDataManager.instance.sendCommand(infoString)
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Send", fontSize = 18.sp)
             }
-            // 接收数据显示
-            Text(
-                text = "Received Data: ${receivedData.contentToString()}",
-                fontSize = 18.sp,
-                modifier = Modifier.fillMaxWidth()
-            )
 
             Button(
                 onClick = onFindClick,
