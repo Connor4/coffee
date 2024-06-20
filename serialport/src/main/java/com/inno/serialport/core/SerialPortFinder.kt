@@ -7,9 +7,6 @@ import java.io.IOException
 import java.io.LineNumberReader
 import java.util.Vector
 
-/**
- * TODO 可以整理getAll方法为同一个方法，返回一个pair数据
- */
 class SerialPortFinder {
     companion object {
         private const val TAG = "SerialPortFinder"
@@ -23,7 +20,7 @@ class SerialPortFinder {
 
     private var mDrivers: Vector<Driver>? = null
 
-    fun getAllDevicesPath(): Array<String> {
+    fun getAllDevicesPath(): List<String> {
         val devicesPath = mutableListOf<String>()
         try {
             for (driver in getDrivers()) {
@@ -34,10 +31,10 @@ class SerialPortFinder {
         } catch (e: IOException) {
             Logger.e(TAG, "getAllDevicesPath() IOException: [$e]")
         }
-        return devicesPath.toTypedArray()
+        return devicesPath
     }
 
-    fun getAllDevices(): Array<String> {
+    fun getAllDevices(): List<String> {
         val devices = mutableListOf<String>()
         try {
             for (driver in getDrivers()) {
@@ -49,7 +46,7 @@ class SerialPortFinder {
         } catch (e: IOException) {
             Logger.e(TAG, "getAllDevices() IOException: [$e]")
         }
-        return devices.toTypedArray()
+        return devices
     }
 
     /**

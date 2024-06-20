@@ -10,11 +10,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,55 +21,23 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.inno.serialport.core.SerialPortFinder
-import com.inno.serialport.function.SerialPortDataManager
-import com.inno.serialport.function.createInfo
-import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.inno.coffee.data.home.SerialPortViewModel
+import com.inno.serialport.bean.PullBufInfo
 
 @Composable
-fun SerialTest() {
+fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color.White
     ) {
+        val receivedData: PullBufInfo? by viewModel.receivedDataFlow.collectAsState(initial = null)
+        val path by viewModel.serialPortPath.collectAsState()
+        val devices by viewModel.serialPortDevices.collectAsState()
+
         var sendData by remember {
             mutableStateOf("")
         }
-        var receivedData by remember {
-            mutableStateOf(ByteArray(0))
-        }
-        var path by remember {
-            mutableStateOf("path: ")
-        }
-        var devices by remember {
-            mutableStateOf("devices: ")
-        }
-        val coroutineScope = rememberCoroutineScope()
-
-        val serialPortFinder = SerialPortFinder()
-        val onFindClick = {
-            val allDevicesPath = serialPortFinder.getAllDevicesPath()
-            allDevicesPath.forEach {
-                path += "$it "
-            }
-            val allDevices = serialPortFinder.getAllDevices()
-            allDevices.forEach {
-                devices += "$it "
-            }
-        }
-
-        LaunchedEffect(Unit) {
-            coroutineScope.launch {
-                SerialPortDataManager.instance.receivedDataFlow.collect {
-                    it?.let {
-                        receivedData = it.pollBuf
-                    }
-                }
-            }
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -79,7 +46,7 @@ fun SerialTest() {
         ) {
             Button(
                 onClick = {
-                    SerialPortDataManager.instance.open()
+                    viewModel.openSerialPort()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -88,7 +55,7 @@ fun SerialTest() {
 
             Button(
                 onClick = {
-                    SerialPortDataManager.instance.close()
+                    viewModel.closeSerialPort()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -97,7 +64,9 @@ fun SerialTest() {
 
             // 接收数据显示
             Text(
-                text = "Received Data: ${receivedData.contentToString()}",
+                text = "Received Data: ${
+                    receivedData?.let { it.pollBuf.contentToString() } ?: "no data yet"
+                }",
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -111,11 +80,7 @@ fun SerialTest() {
             // 发送按钮
             Button(
                 onClick = {
-                    coroutineScope.launch {
-                        val createInfo = createInfo()
-                        val infoString = Json.encodeToString(createInfo)
-                        SerialPortDataManager.instance.sendCommand(infoString)
-                    }
+                    viewModel.sendCommand(sendData)
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -123,7 +88,9 @@ fun SerialTest() {
             }
 
             Button(
-                onClick = onFindClick,
+                onClick = {
+                    viewModel.findSerialPort()
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Find SerialPort", fontSize = 18.sp)

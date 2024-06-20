@@ -1,15 +1,11 @@
 package com.inno.serialport.function
 
+import androidx.annotation.WorkerThread
 import com.inno.serialport.bean.PullBufInfo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * 1. string to json
@@ -18,6 +14,7 @@ import kotlinx.coroutines.withContext
  * 4. need two function 1) repeat send get data 2) send command, when 2, 1 need stop
  *
  */
+@WorkerThread
 class SerialPortDataManager private constructor() {
 
     companion object {
@@ -33,7 +30,6 @@ class SerialPortDataManager private constructor() {
 
     @Volatile
     private var isRunning = false
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val _receivedDataFlow = MutableSharedFlow<PullBufInfo?>(
         replay = 0,
         extraBufferCapacity = 12,
@@ -41,29 +37,19 @@ class SerialPortDataManager private constructor() {
     )
     val receivedDataFlow: SharedFlow<PullBufInfo?> = _receivedDataFlow
 
-    fun open() {
-        scope.launch {
-            withContext(Dispatchers.IO) {
-                driver.open()
-                isRunning = true
-                receiveData()
-            }
-        }
+    suspend fun open() {
+        driver.open()
+        isRunning = true
+        receiveData()
     }
 
     fun close() {
-        scope.launch {
-            withContext(Dispatchers.IO) {
-                isRunning = false
-                driver.close()
-            }
-        }
+        isRunning = false
+        driver.close()
     }
 
-    suspend fun sendCommand(command: String) {
-        withContext(Dispatchers.IO) {
-            driver.send(command)
-        }
+    fun sendCommand(command: String) {
+        driver.send(command)
     }
 
     private suspend fun receiveData() {
