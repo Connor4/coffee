@@ -1,17 +1,18 @@
 package com.inno.serialport.function
 
 import com.inno.serialport.bean.PullBufInfo
-import com.inno.serialport.function.chain.RealHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.util.concurrent.ArrayBlockingQueue
 
 /**
  * 1. string to json
@@ -32,21 +33,20 @@ class SerialPortDataManager private constructor() {
     }
 
     private val driver = RS485Driver()
-    private val pullBuffInfo = ArrayBlockingQueue<PullBufInfo>(128)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val headHandler = RealHandler()
-
-    init {
-//        scope.launch {
-//            receiveData()
-//        }
-//        scope.launch {
-//            processData()
-//        }
-    }
+    private val _receivedDataFlow = MutableSharedFlow<PullBufInfo?>(
+        replay = 0,
+        extraBufferCapacity = 12,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val receivedDataFlow: SharedFlow<PullBufInfo?> = _receivedDataFlow
 
     fun init() {
-        driver.open()
+        scope.launch {
+            withContext(Dispatchers.IO) {
+                driver.open()
+            }
+        }
         scope.launch {
             receiveData()
         }
@@ -54,7 +54,8 @@ class SerialPortDataManager private constructor() {
 
     suspend fun sendCommand(command: String) {
         withContext(Dispatchers.IO) {
-            // TODO fake data
+//            driver.send(command)
+
             val createInfo = createInfo()
             val infoString = Json.encodeToString(createInfo)
             driver.send(infoString)
@@ -66,29 +67,11 @@ class SerialPortDataManager private constructor() {
             while (isActive) {
                 delay(PULL_INTERVAL_MILLIS)
                 val receive = driver.receive()
-                pullBuffInfo.put(receive)
-            }
-        }
-    }
-
-    suspend fun processData(): PullBufInfo? {
-        var info: PullBufInfo? = null
-        withContext(Dispatchers.IO) {
-            while (isActive) {
-                pullBuffInfo.take()?.let {
-                    // 进行process，责任链处理完后然后放入业务各个list中进行ui更新，这里的list是所有端口数据list
-                    // 每个类型id只上传一个int状态，要以大类作为一个类，保存当前最新状态
-                    val result = headHandler.proceed(it)
-                    // TODO 处理result进行ui业务更新
-                    updateUI(result!!)
-                    info = it
+                receive?.let {
+                    _receivedDataFlow.emit(it)
                 }
             }
         }
-        return info
     }
 
-    private fun updateUI(result: Int) {
-
-    }
 }

@@ -1,6 +1,5 @@
 package com.inno.coffee.ui.serialtest
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +18,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import com.inno.serialport.bean.PullBufInfo
 import com.inno.serialport.core.SerialPortFinder
 import com.inno.serialport.function.SerialPortDataManager
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -50,7 +47,6 @@ fun SerialTest() {
         }
         val coroutineScope = rememberCoroutineScope()
 
-        val context = LocalContext.current
         val serialPortFinder = SerialPortFinder()
         val onFindClick = {
             val allDevicesPath = serialPortFinder.getAllDevicesPath()
@@ -65,9 +61,10 @@ fun SerialTest() {
 
         LaunchedEffect(Unit) {
             coroutineScope.launch {
-                while (true) {
-                    receivedData = SerialPortDataManager.instance.processData()
-                    delay(500L)
+                SerialPortDataManager.instance.receivedDataFlow.collect {
+                    it?.let {
+                        receivedData = it
+                    }
                 }
             }
         }
@@ -81,7 +78,6 @@ fun SerialTest() {
             Button(
                 onClick = {
                     SerialPortDataManager.instance.init()
-                    Toast.makeText(context, "init", Toast.LENGTH_SHORT).show()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -98,9 +94,8 @@ fun SerialTest() {
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        SerialPortDataManager.instance.sendCommand("")
+                        SerialPortDataManager.instance.sendCommand(sendData)
                     }
-                    Toast.makeText(context, "send", Toast.LENGTH_SHORT).show()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -108,7 +103,7 @@ fun SerialTest() {
             }
             // 接收数据显示
             Text(
-                text = "Received Data: $receivedData",
+                text = "Received Data: ${receivedData?.pollBuf}",
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -121,12 +116,12 @@ fun SerialTest() {
             }
             Text(
                 text = path,
-                fontSize = 14.sp,
+                fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
             Text(
                 text = devices,
-                fontSize = 14.sp,
+                fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
         }
