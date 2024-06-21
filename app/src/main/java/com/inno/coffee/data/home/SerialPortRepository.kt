@@ -3,15 +3,20 @@ package com.inno.coffee.data.home
 import com.inno.serialport.bean.PullBufInfo
 import com.inno.serialport.core.SerialPortFinder
 import com.inno.serialport.function.SerialPortDataManager
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class SerialPortRepository @Inject constructor(
 //    private val dataSource: SerialPortDataSource
 ) {
-    val receivedDataFlow: SharedFlow<PullBufInfo?> = SerialPortDataManager.instance.receivedDataFlow
+    val receivedDataFlow: Flow<PullBufInfo?> = SerialPortDataManager.instance.receivedDataFlow
+        .map {
+            // todo 转换数据
+            it
+        }
     private val _serialPortPath = MutableStateFlow<List<String>>(emptyList())
     val serialPortPath: StateFlow<List<String>> = _serialPortPath
     private val _serialPortDevices = MutableStateFlow<List<String>>(emptyList())

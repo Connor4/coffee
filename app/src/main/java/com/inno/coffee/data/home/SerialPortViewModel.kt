@@ -7,7 +7,7 @@ import com.inno.serialport.bean.PullBufInfo
 import com.inno.serialport.function.createInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -23,7 +23,7 @@ class SerialPortViewModel @Inject constructor(
     private val repository: SerialPortRepository,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-    val receivedDataFlow: SharedFlow<PullBufInfo?> = repository.receivedDataFlow
+    val receivedDataFlow: Flow<PullBufInfo?> = repository.receivedDataFlow
     val serialPortPath: StateFlow<String> = repository.serialPortPath.map {
         it.joinToString(separator = ", ")
     }.stateIn(
