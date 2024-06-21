@@ -96,12 +96,12 @@ fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
                 Text(text = "Find SerialPort", fontSize = 18.sp)
             }
             Text(
-                text = path,
+                text = "path: $path",
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
             Text(
-                text = devices,
+                text = "devices: $devices",
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
