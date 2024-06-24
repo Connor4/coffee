@@ -1,12 +1,14 @@
 package com.inno.serialport.function.chain
 
+import com.inno.serialport.bean.HandleResult
 import com.inno.serialport.bean.PullBufInfo
 
 class RealHandler {
-    private var head: Handler? = null
+    private var head: Chain? = null
 
     init {
-        val handlerList = listOf(BoilerHandler(), GrindHandler())
+        val handlerList = listOf(ErrorChain(), HeartBeatChain(),
+            BoilerChain(), GrindChain())
         handlerList.let {
             val size = it.size - 1
             for (i in 0 until size) {
@@ -16,8 +18,8 @@ class RealHandler {
         }
     }
 
-    fun proceed(pullBufInfo: PullBufInfo): Int? {
-        return head?.handleRequest(pullBufInfo)
+    fun proceed(pullBufInfo: PullBufInfo): HandleResult {
+        return head!!.handleRequest(pullBufInfo)
     }
 
 }

@@ -1,8 +1,9 @@
 package com.inno.serialport.function.chain
 
+import com.inno.serialport.bean.HandleResult
 import com.inno.serialport.bean.PullBufInfo
 
-class ErrorHandler : Handler() {
+class ErrorChain : Chain() {
     companion object {
         private const val level = 1
     }
@@ -11,7 +12,7 @@ class ErrorHandler : Handler() {
         TODO("Not yet implemented")
     }
 
-    override fun handle(pullBufInfo: PullBufInfo): Int {
+    override fun handle(pullBufInfo: PullBufInfo): HandleResult {
         TODO("Not yet implemented")
     }
 }

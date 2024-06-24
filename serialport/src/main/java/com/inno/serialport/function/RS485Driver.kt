@@ -23,6 +23,10 @@ class RS485Driver : IDriver {
         private val STOP_BITS = StopBits.SINGLE.value
         private val PARITY = ParityType.NONE_PARITY.value
         private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
+        private val HEART_BEAT_COMMAND = byteArrayOf(
+            0x7e.toByte(), 0x02.toByte(), 0x01.toByte(), 0x02.toByte(),
+            0x00.toByte(), 0x01.toByte(), 0x00.toByte(), 0xcc.toByte(),
+            0x2b.toByte(), 0x7e.toByte())
 
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
         private const val MAX_COMPONENT = 64
@@ -60,8 +64,6 @@ class RS485Driver : IDriver {
     }
 
     override fun send(command: String) {
-//        serialPort?.setRTS(true)
-//        serialPort?.setRTS(false)
         lock.withLock {
             val serializeProductInfo = serializeProductInfo(command)
             commandBuffer.clear()
@@ -87,6 +89,10 @@ class RS485Driver : IDriver {
 
             SerialPortManager.writeToSerialPort(mSerialPort, packFrame)
         }
+    }
+
+    fun sendHeartBeat() {
+        SerialPortManager.writeToSerialPort(mSerialPort, HEART_BEAT_COMMAND)
     }
 
     override suspend fun receive(): PullBufInfo {

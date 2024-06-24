@@ -1,7 +1,8 @@
 package com.inno.serialport.function
 
 import androidx.annotation.WorkerThread
-import com.inno.serialport.bean.PullBufInfo
+import com.inno.serialport.bean.HandleResult
+import com.inno.serialport.function.chain.RealHandler
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,37 +27,68 @@ class SerialPortDataManager private constructor() {
         private const val PULL_INTERVAL_MILLIS = 500L
     }
 
-    private val driver = RS485Driver()
-
     @Volatile
     private var isRunning = false
-    private val _receivedDataFlow = MutableSharedFlow<PullBufInfo?>(
+    private val _receivedDataFlow = MutableSharedFlow<HandleResult?>(
         replay = 0,
         extraBufferCapacity = 12,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-    val receivedDataFlow: SharedFlow<PullBufInfo?> = _receivedDataFlow
+    val receivedDataFlow: SharedFlow<HandleResult?> = _receivedDataFlow
+    private val driver = RS485Driver()
+    private var heartBeatMode = false
+
+    @Volatile
+    private var pendingCommandData = 0
+    private val chain = RealHandler()
 
     suspend fun open() {
         driver.open()
         isRunning = true
+        heartBeatMode = true
         receiveData()
     }
 
     fun close() {
         isRunning = false
+        heartBeatMode = false
+        pendingCommandData = 0
         driver.close()
     }
 
     fun sendCommand(command: String) {
+        heartBeatMode = false
         driver.send(command)
+        pendingCommandData++
     }
 
     private suspend fun receiveData() {
         while (isRunning) {
             delay(PULL_INTERVAL_MILLIS)
-            _receivedDataFlow.emit(driver.receive())
+            val pullBufInfo = driver.receive()
+            val result = chain.proceed(pullBufInfo)
+            if (heartBeatMode && pendingCommandData == 0) {
+                checkHeartBeat(result)
+            } else {
+                pendingCommandData--
+                _receivedDataFlow.emit(result)
+                if (pendingCommandData == 0) {
+                    heartBeatMode = true
+                    startHeartBeat()
+                }
+            }
         }
+    }
+
+    private suspend fun startHeartBeat() {
+        while (isRunning && heartBeatMode) {
+            delay(PULL_INTERVAL_MILLIS)
+            driver.sendHeartBeat()
+        }
+    }
+
+    private fun checkHeartBeat(result: HandleResult) {
+
     }
 
 }

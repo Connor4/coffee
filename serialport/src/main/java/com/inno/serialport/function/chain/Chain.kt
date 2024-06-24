@@ -1,25 +1,26 @@
 package com.inno.serialport.function.chain
 
+import com.inno.serialport.bean.HandleResult
 import com.inno.serialport.bean.PullBufInfo
 
-abstract class Handler {
-    private var nextHandler: Handler? = null
+abstract class Chain {
+    private var nextHandler: Chain? = null
 
-    fun setNextHandler(handler: Handler): Handler {
+    fun setNextHandler(handler: Chain): Chain {
         nextHandler = handler
         return handler
     }
 
-    fun handleRequest(pullBufInfo: PullBufInfo): Int {
+    fun handleRequest(pullBufInfo: PullBufInfo): HandleResult {
         if (canHandle(pullBufInfo)) {
             return handle(pullBufInfo)
         } else {
             nextHandler?.handleRequest(pullBufInfo)
         }
-        return -1
+        return HandleResult(-1)
     }
 
     abstract fun canHandle(pullBufInfo: PullBufInfo): Boolean
-    abstract fun handle(pullBufInfo: PullBufInfo): Int
+    abstract fun handle(pullBufInfo: PullBufInfo): HandleResult
 
 }

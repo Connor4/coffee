@@ -2,6 +2,8 @@ package com.inno.serialport.bean
 
 import kotlinx.serialization.Serializable
 
+data class HandleResult(val result: Int)
+
 @Serializable
 data class PullBufInfo(val id: Int, val pollBuf: ByteArray)
 
@@ -123,41 +125,14 @@ data class ProductInfo(
 //d2 ad //crc
 //7E // flag
 
-//7E
-//02
-//01
-//58 00 //len 48//??
-//64 00 //cmd 100
-//01 00 //product id
-//04 00 //componentNum
-//b8 0b //componentId//3000 GRINDER0_ID
-//bb 34 56 78 ab cd ef ee //dosage[4]
-//e8 03 //componentId //1000 BREWER0_ID
-//bb 34 56 78 ab cd ef ee //dosage[4]
-//d0 07 //componentId//3000 ES_BOILER0_ID
-//bb 34 56 78 ab cd ef ee //dosage[4]
-//a0 0f //componentId//3000 VALVE0_ID
-//bb 34 56 78 ab cd ef ee //dosage[4]
-//04 00 //treeLen
-//00 00 //treeNr
-//b8 0b //componentId
-//00 00 //sendComponentId
-//e8 03 //receiveComponentId
-//00 00 //conflictComponentId
-//01 00 //treeNr
-//e8 03 //componentId
-//b8 0b //sendComponentId
-//00 00 //receiveComponentId
-//00 00 //conflictComponentId
-//02 00 //treeNr
-//a0 0f //componentId
-//00 00 //sendComponentId
-//00 00 //receiveComponentId
-//00 00 //conflictComponentId
-//03 00 //treeNr
-//d0 07 //componentId
-//00 00 //sendComponentId
-//e8 03 //receiveComponentId
-//00 00 //conflictComponentId
-//38 90 //crc
-//7E
+// poll指令
+//7e 02 01 02 00 01 00 cc 2b 7e //send
+//7E 02 02 04 00 01 00 00 00 4F 4C 7E //reply
+//7E //包头
+//02 //地址
+//02 //控制
+//04 00 //长度
+//64 00 //指令
+//00 00 //结果： 0：success, 其他： fault
+//FC BB //crc
+//7E //reply
