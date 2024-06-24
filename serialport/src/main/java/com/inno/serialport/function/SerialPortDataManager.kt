@@ -2,7 +2,7 @@ package com.inno.serialport.function
 
 import androidx.annotation.WorkerThread
 import com.inno.serialport.bean.HandleResult
-import com.inno.serialport.function.chain.RealHandler
+import com.inno.serialport.function.chain.RealChainHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
@@ -42,14 +42,16 @@ class SerialPortDataManager private constructor() {
     private val scope = CoroutineScope(Dispatchers.IO)
     private val driver = RS485Driver()
     private var heartBeatMode = false
+    private var heartBeatMiss = AtomicInteger(0)
     private var pendingCommandData = AtomicInteger(0)
-    private val chain = RealHandler()
+    private val chain = RealChainHandler()
 
     suspend fun open() {
         driver.open()
         isRunning = true
         heartBeatMode = true
         scope.launch {
+            startHeartBeat()
             receiveData()
         }
     }
@@ -72,15 +74,14 @@ class SerialPortDataManager private constructor() {
             delay(PULL_INTERVAL_MILLIS)
             val pullBufInfo = driver.receive()
             val result = chain.proceed(pullBufInfo)
+            // process heartbeat
             if (heartBeatMode && pendingCommandData.get() == 0) {
                 checkHeartBeat(result)
-            } else {
+                _receivedDataFlow.emit(result)
+            } else { // command
                 _receivedDataFlow.emit(result)
                 if (pendingCommandData.decrementAndGet() == 0) {
                     heartBeatMode = true
-                    scope.launch {
-                        startHeartBeat()
-                    }
                 }
             }
         }

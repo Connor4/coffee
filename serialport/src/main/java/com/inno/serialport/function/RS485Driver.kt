@@ -1,8 +1,11 @@
 package com.inno.serialport.function
 
+import android.util.Log
+import com.inno.common.utils.Logger
 import com.inno.serialport.bean.ParityType
 import com.inno.serialport.bean.ProductInfo
 import com.inno.serialport.bean.PullBufInfo
+import com.inno.serialport.bean.SerialErrorType
 import com.inno.serialport.bean.StopBits
 import com.inno.serialport.bean.fcstab
 import com.inno.serialport.core.SerialPort
@@ -99,7 +102,7 @@ class RS485Driver : IDriver {
         var receivedData: PullBufInfo? = null
         SerialPortManager.readFromSerialPort(mSerialPort, onSuccess = { buffer, _ ->
             // already checked bytesRead
-            receivedData = parsePullBuffInfo(buffer)
+            receivedData = checkPullInfo(buffer) ?: parsePullBuffInfo(buffer)
         }, onFailure = {
             receivedData = PullBufInfo(it.value, it.errorMsg.toByteArray())
         })
@@ -114,11 +117,11 @@ class RS485Driver : IDriver {
         SerialPortManager.close(mSerialPort)
     }
 
-    private fun parsePullBuffInfo(data: ByteArray): PullBufInfo {
+    private fun parsePullBuffInfo(buffer: ByteArray): PullBufInfo {
         // 解析ID（前两个字节）
-        val id = ((data[0].toInt() and 0xFF) or ((data[1].toInt() and 0xFF) shl 8))
+        val id = ((buffer[0].toInt() and 0xFF) or ((buffer[1].toInt() and 0xFF) shl 8))
         // 解析PollBuf（后16个字节）
-        val pullBuf = data.sliceArray(2 until 18)
+        val pullBuf = buffer.sliceArray(2 until 18)
         return PullBufInfo(id, pullBuf)
     }
 
@@ -191,6 +194,31 @@ class RS485Driver : IDriver {
             }
         }
         return buffer.toByteArray()
+    }
+
+    private fun checkPullInfo(buffer: ByteArray): PullBufInfo? {
+        val size = buffer.size
+        if (size < 12 || buffer[0] != FRAME_FLAG || buffer[size - 1] != FRAME_FLAG) {
+            Log.e(TAG, "Invalid packet header or footer")
+            return PullBufInfo(SerialErrorType.FRAME_FORMAT_ILLEGAL.value, SerialErrorType
+                .FRAME_FORMAT_ILLEGAL.errorMsg.toByteArray())
+        }
+
+        val receivedCRC = ((buffer[size - 2].toInt() and 0xFF) shl 8 or (buffer[size - 1].toInt()
+                and 0xFF)).toShort()
+        // exclude frame flag and crc
+        val payload = buffer.sliceArray(1 until size - 3)
+        val payloadBuffer = ByteBuffer.allocate(payload.size)
+        payloadBuffer.put(payload)
+        payloadBuffer.flip()
+        val calculatedCRC = calculateCRC(payloadBuffer)
+        if (receivedCRC != calculatedCRC) {
+            Logger.e(TAG,
+                "CRC check failed: received ${receivedCRC.toUShort()}, calculated ${calculatedCRC.toUShort()}")
+            return PullBufInfo(SerialErrorType.CRC_CHECK_FAILED.value,
+                SerialErrorType.CRC_CHECK_FAILED.errorMsg.toByteArray())
+        }
+        return null
     }
 
 }

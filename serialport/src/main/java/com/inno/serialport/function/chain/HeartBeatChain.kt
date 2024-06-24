@@ -1,14 +1,13 @@
 package com.inno.serialport.function.chain
 
 import com.inno.serialport.bean.HandleResult
-import com.inno.serialport.bean.PullBufInfo
 
 class HeartBeatChain : Chain() {
-    override fun canHandle(pullBufInfo: PullBufInfo): Boolean {
+    override fun canHandle(handleResult: HandleResult): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun handle(pullBufInfo: PullBufInfo): HandleResult {
+    override fun handle(handleResult: HandleResult): HandleResult {
         TODO("Not yet implemented")
     }
 }

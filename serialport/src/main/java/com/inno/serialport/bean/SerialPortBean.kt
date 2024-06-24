@@ -2,7 +2,8 @@ package com.inno.serialport.bean
 
 import kotlinx.serialization.Serializable
 
-data class HandleResult(val result: Int)
+open class HandleResult(var length: Int = 0, var cmd: Int = 0,
+    var result: ByteArray = byteArrayOf())
 
 @Serializable
 data class PullBufInfo(val id: Int, val pollBuf: ByteArray)
