@@ -3,10 +3,14 @@ package com.inno.serialport.function
 import androidx.annotation.WorkerThread
 import com.inno.serialport.bean.HandleResult
 import com.inno.serialport.function.chain.RealHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * 1. string to json
@@ -35,31 +39,32 @@ class SerialPortDataManager private constructor() {
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val receivedDataFlow: SharedFlow<HandleResult?> = _receivedDataFlow
+    private val scope = CoroutineScope(Dispatchers.IO)
     private val driver = RS485Driver()
     private var heartBeatMode = false
-
-    @Volatile
-    private var pendingCommandData = 0
+    private var pendingCommandData = AtomicInteger(0)
     private val chain = RealHandler()
 
     suspend fun open() {
         driver.open()
         isRunning = true
         heartBeatMode = true
-        receiveData()
+        scope.launch {
+            receiveData()
+        }
     }
 
     fun close() {
         isRunning = false
         heartBeatMode = false
-        pendingCommandData = 0
+        pendingCommandData.set(0)
         driver.close()
     }
 
     fun sendCommand(command: String) {
         heartBeatMode = false
+        pendingCommandData.incrementAndGet()
         driver.send(command)
-        pendingCommandData++
     }
 
     private suspend fun receiveData() {
@@ -67,14 +72,15 @@ class SerialPortDataManager private constructor() {
             delay(PULL_INTERVAL_MILLIS)
             val pullBufInfo = driver.receive()
             val result = chain.proceed(pullBufInfo)
-            if (heartBeatMode && pendingCommandData == 0) {
+            if (heartBeatMode && pendingCommandData.get() == 0) {
                 checkHeartBeat(result)
             } else {
-                pendingCommandData--
                 _receivedDataFlow.emit(result)
-                if (pendingCommandData == 0) {
+                if (pendingCommandData.decrementAndGet() == 0) {
                     heartBeatMode = true
-                    startHeartBeat()
+                    scope.launch {
+                        startHeartBeat()
+                    }
                 }
             }
         }
