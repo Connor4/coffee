@@ -39,6 +39,7 @@ object SerialPortManager {
 
             try {
                 val bytesRead = port.mFileInputStream?.read(buffer)
+//                // EXCEPTION TEST
 //                throw IOException()
                 Logger.d(TAG, "bytesRead $bytesRead")
                 when {
@@ -46,9 +47,9 @@ object SerialPortManager {
                         onSuccess(buffer, bytesRead)
                     }
 
-                    bytesRead != null && bytesRead < 0 -> {
-                        retry(port, onFailure)
-                    }
+//                    bytesRead != null && bytesRead < 0 -> {
+//                        retry(port, onFailure)
+//                    }
 
                     else -> {
                         onFailure(SerialErrorType.READ_NO_DATA)
@@ -57,7 +58,6 @@ object SerialPortManager {
             } catch (e: IOException) {
                 Logger.e(TAG, "readFromSerialPort Exception $e")
                 onFailure(SerialErrorType.IO_EXCEPTION)
-            } finally {
                 close(port)
                 open(port)
             }

@@ -3,6 +3,7 @@ package com.inno.serialport.function
 import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
 import com.inno.serialport.bean.HandleResult
+import com.inno.serialport.bean.SerialErrorType
 import com.inno.serialport.function.chain.RealChainHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +33,7 @@ class SerialPortDataManager private constructor() {
 
         private const val TAG = "SerialPortDataManager"
         private const val PULL_INTERVAL_MILLIS = 500L
+        private const val MAX_HEARTBEAT_MISS_COUNT = 3
     }
 
     @Volatile
@@ -42,11 +44,12 @@ class SerialPortDataManager private constructor() {
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val receivedDataFlow: SharedFlow<HandleResult?> = _receivedDataFlow
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val driver = RS485Driver()
     private var heartBeatMode = false
     private var heartBeatMiss = AtomicInteger(0)
     private var pendingCommandData = AtomicInteger(0)
+    private var retryCount = AtomicInteger(0)
     private val chain = RealChainHandler()
 
     suspend fun open() {
@@ -56,6 +59,8 @@ class SerialPortDataManager private constructor() {
         heartBeatMode = true
         scope.launch {
             startHeartBeat()
+        }
+        scope.launch {
             receiveData()
         }
     }
@@ -78,20 +83,14 @@ class SerialPortDataManager private constructor() {
     }
 
     private suspend fun receiveData() {
+        Logger.d(TAG, "receiveData $isRunning")
         while (isRunning) {
             delay(PULL_INTERVAL_MILLIS)
             val pullBufInfo = driver.receive()
             val result = chain.proceed(pullBufInfo)
-            // process heartbeat
-            if (heartBeatMode && pendingCommandData.get() == 0) {
-                checkHeartBeat(result)
-                _receivedDataFlow.emit(result)
-            } else { // command
-                _receivedDataFlow.emit(result)
-                if (pendingCommandData.decrementAndGet() == 0) {
-                    heartBeatMode = true
-                }
-            }
+            Logger.d(TAG, "handle result: $result")
+            processHeartBeat(result)
+            _receivedDataFlow.emit(result)
         }
     }
 
@@ -103,19 +102,29 @@ class SerialPortDataManager private constructor() {
         }
     }
 
-    private suspend fun checkHeartBeat(result: HandleResult) {
-        if (!result.heartbeat) {
-            val miss = heartBeatMiss.incrementAndGet()
-            Logger.d(TAG, "heart beat miss time: $miss")
-            if (miss >= 3) {
-                scope.launch {
-                    close()
-                    delay(1000L)
-                    open()
+    private suspend fun processHeartBeat(result: HandleResult) {
+        if (heartBeatMode && pendingCommandData.get() == 0) {
+            if (result.heartbeat) {
+                heartBeatMiss.set(0)
+            } else {
+                val miss = heartBeatMiss.incrementAndGet()
+                Logger.d(TAG, "heart beat miss time: $miss")
+                if (miss >= MAX_HEARTBEAT_MISS_COUNT) {
+                    val retry = retryCount.incrementAndGet()
+                    if (retry > MAX_HEARTBEAT_MISS_COUNT) {
+                        result.result = SerialErrorType.HEART_BEAT_MISS.errorMsg
+                        result.heartbeat = false
+                        close()
+                    } else {
+                        close()
+                        open()
+                    }
                 }
             }
         } else {
-            heartBeatMiss.set(0)
+            if (pendingCommandData.decrementAndGet() == 0) {
+                heartBeatMode = true
+            }
         }
     }
 

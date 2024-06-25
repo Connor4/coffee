@@ -30,6 +30,10 @@ class RS485Driver : IDriver {
             0x7e.toByte(), 0x02.toByte(), 0x01.toByte(), 0x02.toByte(),
             0x00.toByte(), 0x01.toByte(), 0x00.toByte(), 0xcc.toByte(),
             0x2b.toByte(), 0x7e.toByte())
+        private val TEST_HEARTBEAT_FRAME = byteArrayOf(
+            0x7E.toByte(), 0x02.toByte(), 0x02.toByte(),
+            0x04.toByte(), 0x00.toByte(), 0x01.toByte(), 0x0.toByte(), 0x0.toByte(), 0x0.toByte(),
+            0x4f.toByte(), 0x4c.toByte(), 0x7e.toByte())
 
         private const val MINIMUM_PACK_SIZE = 12
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
@@ -105,7 +109,7 @@ class RS485Driver : IDriver {
             // already checked bytesRead
             receivedData = checkPullInfo(buffer) ?: parsePullBuffInfo(buffer)
         }, onFailure = {
-            receivedData = PullBufInfo(it.value)
+            receivedData = PullBufInfo(id = it.value)
         })
         return receivedData!!
     }

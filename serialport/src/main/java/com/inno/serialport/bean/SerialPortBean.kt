@@ -2,7 +2,7 @@ package com.inno.serialport.bean
 
 import kotlinx.serialization.Serializable
 
-data class HandleResult(var result: String = "", var heartbeat: Boolean = true)
+data class HandleResult(var result: String = "", var heartbeat: Boolean = false)
 
 @Serializable
 data class PullBufInfo(val id: Int, val pollBuf: ByteArray = byteArrayOf())

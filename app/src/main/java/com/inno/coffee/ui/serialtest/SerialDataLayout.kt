@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.data.home.SerialPortViewModel
-import com.inno.serialport.bean.PullBufInfo
+import com.inno.serialport.bean.HandleResult
 
 @Composable
 fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
@@ -31,7 +31,7 @@ fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
         modifier = Modifier.fillMaxSize(),
         color = Color.White
     ) {
-        val receivedData: PullBufInfo? by viewModel.receivedDataFlow.collectAsState(initial = null)
+        val receivedData: HandleResult? by viewModel.receivedDataFlow.collectAsState(initial = null)
         val path by viewModel.serialPortPath.collectAsState()
         val devices by viewModel.serialPortDevices.collectAsState()
 
@@ -44,6 +44,23 @@ fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // 输入框
+            OutlinedTextField(
+                value = sendData,
+                onValueChange = { sendData = it },
+                label = { Text("Send Data") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            // 发送按钮
+            Button(
+                onClick = {
+                    viewModel.sendCommand(sendData)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Send", fontSize = 18.sp)
+            }
+
             Button(
                 onClick = {
                     viewModel.openSerialPort()
@@ -65,27 +82,13 @@ fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
             // 接收数据显示
             Text(
                 text = "Received Data: ${
-                    receivedData?.let { it.pollBuf.contentToString() } ?: "no data yet"
+                    receivedData?.let {
+                        "handle result: ${it.result}, heartBeat: ${it.heartbeat}"
+                    } ?: "no data yet"
                 }",
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
-            // 输入框
-            OutlinedTextField(
-                value = sendData,
-                onValueChange = { sendData = it },
-                label = { Text("Send Data") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            // 发送按钮
-            Button(
-                onClick = {
-                    viewModel.sendCommand(sendData)
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = "Send", fontSize = 18.sp)
-            }
 
             Button(
                 onClick = {
