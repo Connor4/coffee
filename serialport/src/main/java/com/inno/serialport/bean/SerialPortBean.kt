@@ -2,11 +2,10 @@ package com.inno.serialport.bean
 
 import kotlinx.serialization.Serializable
 
-open class HandleResult(var length: Int = 0, var cmd: Int = 0,
-    var result: ByteArray = byteArrayOf())
+data class HandleResult(var result: String = "", var heartbeat: Boolean = true)
 
 @Serializable
-data class PullBufInfo(val id: Int, val pollBuf: ByteArray)
+data class PullBufInfo(val id: Int, val pollBuf: ByteArray = byteArrayOf())
 
 @Serializable
 data class SingleComponent(var componentId: Short, var dosage: ShortArray = ShortArray(4)) {
@@ -58,8 +57,8 @@ data class ProductInfo(
 
 //typedef struct
 //{
-//	uint16_t id;
-//	int8_t PollBuf[16];
+//	uint16_t id; // 错误码或者信息码
+//	int8_t PollBuf[16]; // 详细内容，当前未定义
 //	// PollData_t PollBuf;
 //}PollBufInfo_t;
 //

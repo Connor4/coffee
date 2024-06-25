@@ -31,6 +31,7 @@ class RS485Driver : IDriver {
             0x00.toByte(), 0x01.toByte(), 0x00.toByte(), 0xcc.toByte(),
             0x2b.toByte(), 0x7e.toByte())
 
+        private const val MINIMUM_PACK_SIZE = 12
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
         private const val MAX_COMPONENT = 64
         private const val MAX_TREE = 64
@@ -104,7 +105,7 @@ class RS485Driver : IDriver {
             // already checked bytesRead
             receivedData = checkPullInfo(buffer) ?: parsePullBuffInfo(buffer)
         }, onFailure = {
-            receivedData = PullBufInfo(it.value, it.errorMsg.toByteArray())
+            receivedData = PullBufInfo(it.value)
         })
         return receivedData!!
     }
@@ -198,10 +199,9 @@ class RS485Driver : IDriver {
 
     private fun checkPullInfo(buffer: ByteArray): PullBufInfo? {
         val size = buffer.size
-        if (size < 12 || buffer[0] != FRAME_FLAG || buffer[size - 1] != FRAME_FLAG) {
+        if (size < MINIMUM_PACK_SIZE || buffer[0] != FRAME_FLAG || buffer[size - 1] != FRAME_FLAG) {
             Log.e(TAG, "Invalid packet header or footer")
-            return PullBufInfo(SerialErrorType.FRAME_FORMAT_ILLEGAL.value, SerialErrorType
-                .FRAME_FORMAT_ILLEGAL.errorMsg.toByteArray())
+            return PullBufInfo(SerialErrorType.FRAME_FORMAT_ILLEGAL.value)
         }
 
         val receivedCRC = ((buffer[size - 2].toInt() and 0xFF) shl 8 or (buffer[size - 1].toInt()
@@ -215,8 +215,7 @@ class RS485Driver : IDriver {
         if (receivedCRC != calculatedCRC) {
             Logger.e(TAG,
                 "CRC check failed: received ${receivedCRC.toUShort()}, calculated ${calculatedCRC.toUShort()}")
-            return PullBufInfo(SerialErrorType.CRC_CHECK_FAILED.value,
-                SerialErrorType.CRC_CHECK_FAILED.errorMsg.toByteArray())
+            return PullBufInfo(SerialErrorType.CRC_CHECK_FAILED.value)
         }
         return null
     }
