@@ -1,5 +1,6 @@
 package com.inno.serialport.function
 
+import com.inno.common.utils.toHexString
 import com.inno.serialport.bean.ComponentList
 import com.inno.serialport.bean.ProductInfo
 import com.inno.serialport.bean.SingleComponent
@@ -33,6 +34,10 @@ private val packBuffer = ByteBuffer.allocate(PACK_BUFFER_SIZE)
 private val serializeBuffer = ByteBuffer.allocate(COMMAND_BUFFER_CAPACITY)
 
 fun main() {
+    testProductCommand()
+}
+
+fun testProductCommand() {
     val info = createInfo()
     println("info: $info")
     val command = Json.encodeToString(info)
@@ -55,6 +60,7 @@ fun main() {
         commandBuffer.put(serializeProductInfo)
         // crc
         val crc = calculateCRC(commandBuffer)
+        println("crc ${Integer.toHexString(crc.toInt())}")
         commandBuffer.putShort(crc)
         println("pack:      ${commandBuffer.toHexString()}")
 
@@ -69,7 +75,6 @@ fun main() {
         println("final:     " + packBuffer.toHexString())
 
     }
-
 }
 
 fun createInfo(): ProductInfo {
@@ -163,18 +168,6 @@ fun formatValue(value: String) {
     }
 }
 
-fun ByteBuffer.toHexString(): String {
-    val originPosition = this.position()
-    this.position(0)
-    val hexString = StringBuilder()
-    while (this.hasRemaining()) {
-        val byte = this.get()
-        hexString.append(String.format("%02X ", byte))
-    }
-    this.position(originPosition)
-    return hexString.toString()
-}
-
 private fun calculateCRC1(data: ByteArray): Short {
     var fcs = 0xFFFF
     var index = 0
@@ -238,11 +231,11 @@ private fun calculateCRC(buffer: ByteBuffer): Short {
     for (item in data) {
         val index = (crc xor (item and 0xFF)) and 0xFF
         crc = (crc ushr 8) xor fcstab[index]
-        println(
-            "data: ${String.format("%02X ", item)},fcs: ${String.format("%02X ", crc)}" +
-                    "fcsIndex: ${String.format("%02X ", index)}," +
-                    "tab: ${String.format("%02X ", fcstab[index])}"
-        )
+//        println(
+//            "data: ${String.format("%02X ", item)},fcs: ${String.format("%02X ", crc)}" +
+//                    "fcsIndex: ${String.format("%02X ", index)}," +
+//                    "tab: ${String.format("%02X ", fcstab[index])}"
+//        )
     }
     return (crc and 0xFFFF).toShort()
 }

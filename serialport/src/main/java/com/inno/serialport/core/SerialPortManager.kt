@@ -11,6 +11,10 @@ object SerialPortManager {
 
     private const val READ_RETRY_COUNT = 10
     private const val OPEN_RETRY_COUNT = 3
+    private val HEART_BEAT_REPLY = byteArrayOf(
+        0x7e.toByte(), 0x02.toByte(), 0x02.toByte(), 0x04.toByte(),
+        0x00.toByte(), 0x01.toByte(), 0x00.toByte(), 0x00.toByte(),
+        0x00.toByte(), 0x4f.toByte(), 0x4c.toByte(), 0x7e.toByte())
     private var dataRetryCount = 0
     private var openRetryCount = 0
     private var shouldIntercept = false
@@ -30,21 +34,22 @@ object SerialPortManager {
         onFailure: (type: SerialErrorType) -> Unit
     ) {
         portMutex.withLock {
-            if (shouldIntercept) {
-                Logger.e(TAG, "failed to read, try to reboot")
-                onFailure(SerialErrorType.MAX_OPEN_TRY)
-                return
-            }
+//            if (shouldIntercept) {
+//                Logger.e(TAG, "failed to read, try to reboot")
+//                onFailure(SerialErrorType.MAX_OPEN_TRY)
+//                return
+//            }
             val buffer = ByteArray(port.portFrameSize)
 
             try {
-                val bytesRead = port.mFileInputStream?.read(buffer)
+//                val bytesRead = port.mFileInputStream?.read(buffer)
+                val bytesRead = 1
 //                // EXCEPTION TEST
 //                throw IOException()
                 Logger.d(TAG, "bytesRead $bytesRead")
                 when {
                     bytesRead != null && bytesRead > 0 -> {
-                        onSuccess(buffer, bytesRead)
+                        onSuccess(HEART_BEAT_REPLY, bytesRead)
                     }
 
 //                    bytesRead != null && bytesRead < 0 -> {

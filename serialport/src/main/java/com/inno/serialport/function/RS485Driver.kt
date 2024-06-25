@@ -2,6 +2,7 @@ package com.inno.serialport.function
 
 import android.util.Log
 import com.inno.common.utils.Logger
+import com.inno.common.utils.toHexString
 import com.inno.serialport.bean.ParityType
 import com.inno.serialport.bean.ProductInfo
 import com.inno.serialport.bean.PullBufInfo
@@ -30,10 +31,6 @@ class RS485Driver : IDriver {
             0x7e.toByte(), 0x02.toByte(), 0x01.toByte(), 0x02.toByte(),
             0x00.toByte(), 0x01.toByte(), 0x00.toByte(), 0xcc.toByte(),
             0x2b.toByte(), 0x7e.toByte())
-        private val TEST_HEARTBEAT_FRAME = byteArrayOf(
-            0x7E.toByte(), 0x02.toByte(), 0x02.toByte(),
-            0x04.toByte(), 0x00.toByte(), 0x01.toByte(), 0x0.toByte(), 0x0.toByte(), 0x0.toByte(),
-            0x4f.toByte(), 0x4c.toByte(), 0x7e.toByte())
 
         private const val MINIMUM_PACK_SIZE = 12
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
@@ -207,18 +204,24 @@ class RS485Driver : IDriver {
             Log.e(TAG, "Invalid packet header or footer")
             return PullBufInfo(SerialErrorType.FRAME_FORMAT_ILLEGAL.value)
         }
+        Logger.d(TAG, "buffer: ${buffer.toHexString()}")
 
-        val receivedCRC = ((buffer[size - 2].toInt() and 0xFF) shl 8 or (buffer[size - 1].toInt()
-                and 0xFF)).toShort()
+        val receivedCRC = ((buffer[size - 3].toUByte().toInt() and 0xFF) shl 8 or (buffer[size - 2]
+            .toUByte().toInt() and 0xFF)).toShort()
+        Logger.d(TAG, "CRC: ${receivedCRC.toHexString()}")
+
         // exclude frame flag and crc
         val payload = buffer.sliceArray(1 until size - 3)
+        Logger.d(TAG, "payload: ${payload.toHexString()}")
         val payloadBuffer = ByteBuffer.allocate(payload.size)
         payloadBuffer.put(payload)
         payloadBuffer.flip()
+        Logger.d(TAG, "payloadBuffer: ${payloadBuffer.toHexString()}")
+
         val calculatedCRC = calculateCRC(payloadBuffer)
         if (receivedCRC != calculatedCRC) {
-            Logger.e(TAG,
-                "CRC check failed: received ${receivedCRC.toUShort()}, calculated ${calculatedCRC.toUShort()}")
+            Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
+                    " calculated ${calculatedCRC.toHexString()}")
             return PullBufInfo(SerialErrorType.CRC_CHECK_FAILED.value)
         }
         return null
