@@ -7,32 +7,13 @@ import android.graphics.PixelFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import android.widget.Button
+import android.widget.TextView
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.inno.coffee.R
-import com.inno.serialport.function.SerialPortDataManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class GlobalDialogManager private constructor(private val application: Application) {
 
@@ -43,18 +24,18 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private val scope = CoroutineScope(Dispatchers.Main)
 
     init {
-        scope.launch {
-            SerialPortDataManager.instance.receivedDataFlow.collect {
-                showDialog(DialogData(
-                    title = "Alert Info",
-                    message = "There is an Alert",
-                    onConfirm = { dismissDialog() }
-                ))
-            }
-        }
+//        scope.launch {
+//            SerialPortDataManager.instance.receivedDataFlow.collect {
+//                showDialog(DialogData(
+//                    title = "Alert Info ${it?.result}",
+//                    message = "There is an Alert",
+//                    onConfirm = { dismissDialog() }
+//                ))
+//            }
+//        }
     }
 
-    private fun showDialog(dialogData: DialogData) {
+    fun showDialog(dialogData: DialogData) {
         this.dialogData.value = dialogData
         showDialogView()
     }
@@ -77,8 +58,17 @@ class GlobalDialogManager private constructor(private val application: Applicati
                 PixelFormat.TRANSLUCENT
             )
             windowManager.addView(dialogView, params)
-            dialogView?.findViewById<ComposeView>(R.id.global_dialog_compose_view)?.setContent {
-                DialogContent()
+
+            dialogView?.let {
+                it.findViewById<TextView>(R.id.dialog_title)?.text = dialogData.value?.title
+                it.findViewById<TextView>(R.id.dialog_message)?.text = dialogData.value?.message
+                it.findViewById<Button>(R.id.dialog_confirm_button)?.setOnClickListener {
+                    dialogData.value?.onConfirm?.let { it1 -> it1() }
+                    dismissDialog()
+                }
+                it.findViewById<Button>(R.id.dialog_cancel_button)?.setOnClickListener {
+                    dismissDialog()
+                }
             }
         }
     }
@@ -87,43 +77,6 @@ class GlobalDialogManager private constructor(private val application: Applicati
         dialogView?.let {
             windowManager.removeView(it)
             dialogView = null
-        }
-    }
-
-    @Composable
-    private fun DialogContent() {
-        val dialogData by dialogData
-        dialogData?.let {
-            Dialog(onDismissRequest = { it.onDismiss() }) {
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
-                    color = MaterialTheme.colorScheme.background,
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(text = "Custom Dialog Title",
-                            style = MaterialTheme.typography.titleMedium)
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = "This is a custom dialog")
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Row(
-                            horizontalArrangement = Arrangement.End,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Button(onClick = { it.onConfirm }) {
-                                Text(text = "Confirm")
-                            }
-                            Button(onClick = { it.onDismiss() }) {
-                                Text("Close")
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -138,7 +91,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
             getInstance()
         }
 
-        private fun getInstance(): GlobalDialogManager {
+        fun getInstance(): GlobalDialogManager {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: GlobalDialogManager(application!!).also { INSTANCE = it }
             }

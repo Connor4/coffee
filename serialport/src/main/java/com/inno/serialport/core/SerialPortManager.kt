@@ -39,12 +39,12 @@ object SerialPortManager {
 
             try {
                 val bytesRead = port.mFileInputStream?.read(buffer)
-                //                val bytesRead = 1
+//                val bytesRead = 1
                 Logger.d(TAG, "bytesRead $bytesRead")
                 when {
                     bytesRead != null && bytesRead > 0 -> {
                         onSuccess(buffer, bytesRead)
-                        //                        onSuccess(HEART_BEAT_REPLY, 1)
+//                        onSuccess(HEART_BEAT_REPLY, 1)
                     }
 
 //                    bytesRead != null && bytesRead < 0 -> {
