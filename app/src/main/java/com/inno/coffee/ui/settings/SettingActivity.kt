@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.inno.coffee.ui.serialtest.SerialTest
 import com.inno.coffee.ui.theme.CoffeeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,8 +24,7 @@ class SettingActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-//                SettingCardLayout()
-                SerialTest()
+                SettingCardLayout()
             }
         }
     }

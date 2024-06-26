@@ -3,7 +3,7 @@ package com.inno.coffee.ui.settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,7 +13,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +30,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
+import com.inno.coffee.ui.serialtest.SerialTest
 import com.inno.coffee.ui.settings.formula.FormulaPage
 import com.inno.coffee.ui.settings.permissions.PermissionPage
 import com.inno.coffee.ui.settings.statistics.StatisticsMainScreen
@@ -42,10 +45,11 @@ private const val VAT_AND_GRIND = "vat_and_grind"
 private const val WASH_MACHINE = "wash_machine"
 private const val PERMISSION = "permission"
 private const val MAINTENANCE = "maintenance"
+private const val SERIAL_TEST = "serial_test"
 
 private val items =
     mutableListOf(STATISTICS, FORMULA, DISPLAY, MACHINE_SETTING, MACHINE_OPERATION, VAT_AND_GRIND,
-        WASH_MACHINE, PERMISSION, MAINTENANCE)
+        WASH_MACHINE, PERMISSION, MAINTENANCE, SERIAL_TEST)
 
 @Composable
 fun SettingCardLayout(
@@ -66,7 +70,7 @@ fun SettingCardLayout(
                         .padding(top = 8.dp)
                 ) {
                     items(items) {
-                        CardItem {
+                        CardItem(it) {
                             navController.navigate("detail/$it")
                         }
                     }
@@ -82,23 +86,26 @@ fun SettingCardLayout(
 }
 
 @Composable
-fun CardItem(onClick: () -> Unit) {
+fun CardItem(title: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .size(300.dp)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
     ) {
-        Box(
+        Column(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.size(250.dp)
+                modifier = Modifier
+                    .size(250.dp)
+                    .align(alignment = Alignment.CenterHorizontally)
             )
+            Text(text = title, style = MaterialTheme.typography.displaySmall, modifier = Modifier
+                .align(alignment = Alignment.CenterHorizontally))
         }
     }
 }
@@ -110,6 +117,7 @@ fun DetailScreen(item: String?, navHostController: NavHostController, modifier: 
             STATISTICS -> StatisticsMainScreen(navHostController)
             FORMULA -> FormulaPage()
             PERMISSION -> PermissionPage()
+            SERIAL_TEST -> SerialTest()
             else -> StatisticsMainScreen(navHostController)
         }
     }
