@@ -1,8 +1,8 @@
 package com.inno.coffee
 
 import android.app.Application
-import com.inno.coffee.ui.DialogData
-import com.inno.coffee.ui.GlobalDialogManager
+import com.inno.coffee.ui.notice.DialogData
+import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.common.utils.Logger
 import dagger.hilt.android.HiltAndroidApp
 

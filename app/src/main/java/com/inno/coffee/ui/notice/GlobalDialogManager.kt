@@ -1,4 +1,4 @@
-package com.inno.coffee.ui
+package com.inno.coffee.ui.notice
 
 import android.annotation.SuppressLint
 import android.app.Application
