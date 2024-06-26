@@ -29,6 +29,10 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.inno.coffee.R
+import com.inno.serialport.function.SerialPortDataManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GlobalDialogManager private constructor(private val application: Application) {
 
@@ -36,13 +40,26 @@ class GlobalDialogManager private constructor(private val application: Applicati
         application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private var dialogView: View? = null
     private var dialogData: MutableState<DialogData?> = mutableStateOf(null)
+    private val scope = CoroutineScope(Dispatchers.Main)
 
-    fun showDialog(dialogData: DialogData) {
+    init {
+        scope.launch {
+            SerialPortDataManager.instance.receivedDataFlow.collect {
+                showDialog(DialogData(
+                    title = "Alert Info",
+                    message = "There is an Alert",
+                    onConfirm = { dismissDialog() }
+                ))
+            }
+        }
+    }
+
+    private fun showDialog(dialogData: DialogData) {
         this.dialogData.value = dialogData
         showDialogView()
     }
 
-    fun dismissDialog() {
+    private fun dismissDialog() {
         dialogData.value = null
         removeDialogView()
     }
@@ -118,9 +135,10 @@ class GlobalDialogManager private constructor(private val application: Applicati
 
         fun init(context: Application) {
             application = context
+            getInstance()
         }
 
-        fun getInstance(): GlobalDialogManager {
+        private fun getInstance(): GlobalDialogManager {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: GlobalDialogManager(application!!).also { INSTANCE = it }
             }

@@ -1,7 +1,6 @@
 package com.inno.coffee
 
 import android.app.Application
-import com.inno.coffee.ui.notice.DialogData
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.common.utils.Logger
 import dagger.hilt.android.HiltAndroidApp
@@ -25,13 +24,6 @@ class CoffeeApplication : Application() {
 
     private fun delayInit() {
         GlobalDialogManager.init(this)
-        GlobalDialogManager.getInstance().showDialog(
-            DialogData(
-                title = "",
-                message = "",
-                onConfirm = {}
-            )
-        )
     }
 
     private fun dependenceInit() {
