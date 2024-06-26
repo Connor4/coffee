@@ -5,6 +5,7 @@ import com.inno.common.utils.Logger
 import com.inno.serialport.bean.HandleResult
 import com.inno.serialport.bean.SerialErrorType
 import com.inno.serialport.function.chain.RealChainHandler
+import com.inno.serialport.function.driver.RS485Driver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

@@ -1,4 +1,4 @@
-package com.inno.serialport.function
+package com.inno.serialport.function.driver
 
 import android.util.Log
 import com.inno.common.utils.Logger

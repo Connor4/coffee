@@ -1,4 +1,4 @@
-package com.inno.serialport.function
+package com.inno.serialport.function.driver
 
 import com.inno.serialport.bean.PullBufInfo
 
