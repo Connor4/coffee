@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.inno.common.db.entity.User
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
@@ -27,5 +28,8 @@ interface UserDao {
 
     @Query("UPDATE users_table SET permissionId = :permissionId WHERE id = :id")
     suspend fun updateUserPermissionId(id: Int, permissionId: Int)
+
+    @Query("SELECT * FROM users_table ORDER BY id ASC")
+    fun getAllUser(): Flow<List<User>>
 
 }

@@ -4,6 +4,7 @@ import com.inno.common.db.dao.UserDao
 import com.inno.common.db.entity.User
 import com.inno.common.utils.BcryptUtils
 import com.inno.common.utils.UserSessionManager
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -26,5 +27,10 @@ class UserRepository @Inject constructor(
             checkPassword
         } ?: false
     }
+
+    fun getAllUser(): Flow<List<User>> {
+        return userDao.getAllUser()
+    }
+
 
 }
