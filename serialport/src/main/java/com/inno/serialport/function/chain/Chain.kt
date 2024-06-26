@@ -11,16 +11,16 @@ abstract class Chain {
         return handler
     }
 
-    fun handleRequest(pullBufInfo: PullBufInfo): HandleResult {
+    fun handleRequest(pullBufInfo: PullBufInfo): HandleResult? {
         if (canHandle(pullBufInfo)) {
             return handle(pullBufInfo)
         } else {
             nextHandler?.handleRequest(pullBufInfo)
         }
-        return HandleResult()
+        return null
     }
 
     abstract fun canHandle(pullBufInfo: PullBufInfo): Boolean
-    abstract fun handle(pullBufInfo: PullBufInfo): HandleResult
+    abstract fun handle(pullBufInfo: PullBufInfo): HandleResult?
 
 }

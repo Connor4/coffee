@@ -83,7 +83,7 @@ fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
             Text(
                 text = "Received Data: ${
                     receivedData?.let {
-                        "handle result: ${it.result}, heartBeat: ${it.heartbeat}"
+                        "handle result: ${it.result}, heartBeat: ${it.heartbeatStatus}"
                     } ?: "no data yet"
                 }",
                 fontSize = 18.sp,

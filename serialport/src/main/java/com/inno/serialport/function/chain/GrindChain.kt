@@ -9,7 +9,10 @@ class GrindChain : Chain() {
     }
 
     override fun canHandle(pullBufInfo: PullBufInfo): Boolean {
-        TODO("Not yet implemented")
+        // TEST CODE
+        val buffer = pullBufInfo.pollBuf
+        val command = ((buffer[5].toInt() and 0xFF) shl 8) or (buffer[6].toInt() and 0xFF)
+        return command == 200
     }
 
     override fun handle(pullBufInfo: PullBufInfo): HandleResult {

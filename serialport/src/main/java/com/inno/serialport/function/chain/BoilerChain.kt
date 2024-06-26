@@ -12,7 +12,7 @@ class BoilerChain : Chain() {
         // TEST CODE
         val buffer = pullBufInfo.pollBuf
         val command = ((buffer[5].toInt() and 0xFF) shl 8) or (buffer[6].toInt() and 0xFF)
-        return command == 1
+        return command == 100
     }
 
     override fun handle(pullBufInfo: PullBufInfo): HandleResult {

@@ -19,5 +19,5 @@ fun ByteBuffer.toHexString(): String {
 }
 
 fun Short.toHexString(): String {
-    return String.format("%04x", this.toInt() and 0xFFFF)
+    return String.format("%04x ", this.toInt() and 0xFFFF)
 }

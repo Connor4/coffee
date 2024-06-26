@@ -88,9 +88,11 @@ class SerialPortDataManager private constructor() {
             delay(PULL_INTERVAL_MILLIS)
             val pullBufInfo = driver.receive()
             val result = chain.proceed(pullBufInfo)
-            Logger.d(TAG, "handle result: $result")
-            processHeartBeat(result)
-            _receivedDataFlow.emit(result)
+            result?.let {
+                Logger.d(TAG, "handle result: $it")
+                processHeartBeat(it)
+                _receivedDataFlow.emit(it)
+            }
         }
     }
 
@@ -104,7 +106,7 @@ class SerialPortDataManager private constructor() {
 
     private suspend fun processHeartBeat(result: HandleResult) {
         if (heartBeatMode && pendingCommandData.get() == 0) {
-            if (result.heartbeat) {
+            if (result.heartbeatStatus) {
                 heartBeatMiss.set(0)
             } else {
                 val miss = heartBeatMiss.incrementAndGet()
@@ -113,7 +115,7 @@ class SerialPortDataManager private constructor() {
                     val retry = retryCount.incrementAndGet()
                     if (retry > MAX_HEARTBEAT_MISS_COUNT) {
                         result.result = SerialErrorType.HEART_BEAT_MISS.errorMsg
-                        result.heartbeat = false
+                        result.heartbeatStatus = false
                         close()
                     } else {
                         close()

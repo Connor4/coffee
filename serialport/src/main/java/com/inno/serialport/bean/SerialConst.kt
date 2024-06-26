@@ -1,5 +1,24 @@
 package com.inno.serialport.bean
 
+const val INFO_FRAME_FLAG_INDEX = 2
+const val INFO_FRAME_DATA_START_INDEX = 3
+const val FRAME_FLAG_INDEX = 2
+const val FRAME_ADDRESS_INDEX = 3
+const val FRAME_CONTROL_INDEX = 4
+const val FRAME_LENGTH_INDEX = 5
+const val FRAME_CMD_INDEX_LOW = 5
+const val FRAME_CMD_INDEX_HIGH = 6
+
+val HEART_BEAT_COMMAND = byteArrayOf(
+    0x7e.toByte(), 0x02.toByte(), 0x01.toByte(), 0x02.toByte(),
+    0x00.toByte(), 0x01.toByte(), 0x00.toByte(), 0xcc.toByte(),
+    0x2b.toByte(), 0x7e.toByte())
+
+val HEART_BEAT_REPLY = byteArrayOf(0x01.toByte(), 0x00.toByte(),
+    0x7e.toByte(), 0x02.toByte(), 0x02.toByte(), 0x04.toByte(),
+    0x00.toByte(), 0x01.toByte(), 0x00.toByte(), 0x00.toByte(),
+    0x00.toByte(), 0x4f.toByte(), 0x4c.toByte(), 0x7e.toByte())
+
 val fcstab = intArrayOf(
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
     0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
