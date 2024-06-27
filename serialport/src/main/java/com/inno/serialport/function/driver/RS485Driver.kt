@@ -200,7 +200,6 @@ class RS485Driver : IDriver {
     }
 
     private fun validPullInfo(buffer: ByteArray): PullBufInfo? {
-        Logger.d(TAG, "buffer: ${buffer.toHexString()}")
         val size = buffer.size
         if (size < MINIMUM_PACK_SIZE || buffer[INFO_FRAME_FLAG_INDEX] != FRAME_FLAG || buffer[size - 1] !=
             FRAME_FLAG) {
@@ -209,16 +208,16 @@ class RS485Driver : IDriver {
         }
         val receivedCRC = ((buffer[size - 2].toUByte().toInt() shl 8) or (buffer[size - 3].toUByte()
             .toInt())).toShort()
-        Logger.d(TAG, "buffer: ${buffer.toHexString()}, Received CRC: ${receivedCRC.toHexString()}")
+//        Logger.d(TAG, "buffer: ${buffer.toHexString()}, Received CRC: ${receivedCRC.toHexString()}")
 
         // exclude frame flag and crc
         val payload = buffer.sliceArray(INFO_FRAME_DATA_START_INDEX until size - 3)
         val payloadBuffer = ByteBuffer.allocate(payload.size)
         payloadBuffer.put(payload)
         payloadBuffer.flip()
-        Logger.d(TAG, "payload: ${payload.toHexString()}， payloadBuffer: ${
-            payloadBuffer.toHexString()
-        }")
+//        Logger.d(TAG, "payload: ${payload.toHexString()}， payloadBuffer: ${
+//            payloadBuffer.toHexString()
+//        }")
 
         val calculatedCRC = calculateCRC(payloadBuffer)
         if (receivedCRC != calculatedCRC) {
