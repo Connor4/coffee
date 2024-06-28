@@ -2,8 +2,6 @@ package com.inno.serialport.bean
 
 import kotlinx.serialization.Serializable
 
-data class HandleResult(var result: String = "", var heartbeatStatus: Boolean = false)
-
 sealed class ReceivedData {
     data class ErrorData(var info: String, var reboot: Boolean = false) : ReceivedData()
     data class PartData(var info: String) : ReceivedData()

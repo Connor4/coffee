@@ -1,10 +1,10 @@
 package com.inno.serialport.function.driver
 
-import android.util.Log
+import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
+import com.inno.serialport.bean.FRAME_DATA_START_INDEX
+import com.inno.serialport.bean.FRAME_FLAG_INDEX
 import com.inno.serialport.bean.HEART_BEAT_COMMAND
-import com.inno.serialport.bean.INFO_FRAME_DATA_START_INDEX
-import com.inno.serialport.bean.INFO_FRAME_FLAG_INDEX
 import com.inno.serialport.bean.ParityType
 import com.inno.serialport.bean.ProductInfo
 import com.inno.serialport.bean.PullBufInfo
@@ -30,9 +30,9 @@ class RS485Driver : IDriver {
         private val PARITY = ParityType.NONE_PARITY.value
         private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
 
-        // id(2) + pull info12(flag1 + addr1 + control1 +
+        // pull info12(flag1 + addr1 + control1 +
         // len2 + cmd2 + data2 + crc2 + flag1)
-        private const val MINIMUM_PACK_SIZE = 14
+        private const val MINIMUM_PACK_SIZE = 12
         private const val MAX_BYTEARRAY_SIZE = 265 // 256 + 9
         private const val MAX_COMPONENT = 64
         private const val MAX_TREE = 64
@@ -103,8 +103,10 @@ class RS485Driver : IDriver {
     override suspend fun receive(): PullBufInfo {
         var receivedData: PullBufInfo? = null
         SerialPortManager.readFromSerialPort(mSerialPort, onSuccess = { buffer, _ ->
-            // already checked bytesRead
-            receivedData = validPullInfo(buffer) ?: parsePullBuffInfo(buffer)
+            val multiInfo = slicePullInfo(buffer)
+            for (info in multiInfo) {
+                receivedData = validPullInfo(info) ?: parsePullBuffInfo(info)
+            }
         }, onFailure = {
             receivedData = PullBufInfo(id = it.value)
         })
@@ -200,31 +202,54 @@ class RS485Driver : IDriver {
 
     private fun validPullInfo(buffer: ByteArray): PullBufInfo? {
         val size = buffer.size
-        if (size < MINIMUM_PACK_SIZE || buffer[INFO_FRAME_FLAG_INDEX] != FRAME_FLAG || buffer[size - 1] !=
-            FRAME_FLAG) {
-            Log.e(TAG, "Invalid packet header or footer")
+        if (size < MINIMUM_PACK_SIZE) {
+            Logger.e(TAG, "frame size error")
+            return PullBufInfo(SerialErrorType.FRAME_SIZE_ERROR.value)
+        }
+        if (buffer[FRAME_FLAG_INDEX] != FRAME_FLAG || buffer[size - 1] != FRAME_FLAG) {
+            Logger.e(TAG, "Invalid packet header or footer")
             return PullBufInfo(SerialErrorType.FRAME_FORMAT_ILLEGAL.value)
         }
+
         val receivedCRC = ((buffer[size - 2].toUByte().toInt() shl 8) or (buffer[size - 3].toUByte()
             .toInt())).toShort()
-//        Logger.d(TAG, "buffer: ${buffer.toHexString()}, Received CRC: ${receivedCRC.toHexString()}")
+        Logger.d(TAG, "buffer: ${buffer.toHexString()}, Received CRC: ${receivedCRC.toHexString()}")
 
         // exclude frame flag and crc
-        val payload = buffer.sliceArray(INFO_FRAME_DATA_START_INDEX until size - 3)
+        val payload = buffer.sliceArray(FRAME_DATA_START_INDEX until size - 3)
         val payloadBuffer = ByteBuffer.allocate(payload.size)
         payloadBuffer.put(payload)
         payloadBuffer.flip()
-//        Logger.d(TAG, "payload: ${payload.toHexString()}， payloadBuffer: ${
-//            payloadBuffer.toHexString()
-//        }")
+        Logger.d(TAG, "payload: ${payload.toHexString()}， payloadBuffer: ${
+            payloadBuffer.toHexString()
+        }")
 
         val calculatedCRC = calculateCRC(payloadBuffer)
         if (receivedCRC != calculatedCRC) {
-//            Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
-//                    " calculated ${calculatedCRC.toHexString()}")
+            Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
+                    " calculated ${calculatedCRC.toHexString()}")
             return PullBufInfo(SerialErrorType.CRC_CHECK_FAILED.value)
         }
         return null
+    }
+
+    private fun slicePullInfo(buffer: ByteArray): List<ByteArray> {
+        Logger.d(TAG, "slicePullInfo() called with: buffer = ${buffer.toHexString()}")
+        val multiPullInfo = mutableListOf<ByteArray>()
+        var start = -1
+        for (i in buffer.indices) {
+            if (buffer[i] == FRAME_FLAG) {
+                if (start == -1) {
+                    start = i
+                } else {
+                    val info = buffer.sliceArray(start until i + 1)
+                    multiPullInfo.add(info)
+                    Logger.d(TAG, "slicePullInfo: ${info.toHexString()}")
+                    start = -1
+                }
+            }
+        }
+        return multiPullInfo
     }
 
 }

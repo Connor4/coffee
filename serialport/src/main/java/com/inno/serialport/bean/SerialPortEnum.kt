@@ -19,7 +19,8 @@ enum class SerialErrorType(val value: Int, val errorMsg: String) {
     FRAME_FORMAT_ILLEGAL(-5, "Invalid frame format"),
     CRC_CHECK_FAILED(-6, "CRC check failed"),
     READ_NO_DATA(-7, "read no data"),
-    HEART_BEAT_MISS(-8, "heart beat miss, need reboot");
+    HEART_BEAT_MISS(-8, "heart beat miss, need reboot"),
+    FRAME_SIZE_ERROR(-9, "frame size error");
 
     companion object {
         fun getErrorMsgByValue(value: Int): String {
