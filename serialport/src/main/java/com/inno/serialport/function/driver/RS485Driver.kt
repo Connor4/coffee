@@ -122,11 +122,9 @@ class RS485Driver : IDriver {
     }
 
     private fun parsePullBuffInfo(buffer: ByteArray): PullBufInfo {
-        // 解析ID（前两个字节）
-        val id = ((buffer[0].toInt() and 0xFF) or ((buffer[1].toInt() and 0xFF) shl 8))
-        // 解析PollBuf（后16个字节）
-        val pullBuf = buffer.sliceArray(2 until buffer.size)
-        return PullBufInfo(id, pullBuf)
+//        val id = ((buffer[0].toInt() and 0xFF) or ((buffer[1].toInt() and 0xFF) shl 8))
+//        val pullBuf = buffer.sliceArray(2 until buffer.size - 2)
+        return PullBufInfo(1, buffer)
     }
 
     private fun serializeProductInfo(command: String): ByteArray {
@@ -213,28 +211,28 @@ class RS485Driver : IDriver {
 
         val receivedCRC = ((buffer[size - 2].toUByte().toInt() shl 8) or (buffer[size - 3].toUByte()
             .toInt())).toShort()
-        Logger.d(TAG, "buffer: ${buffer.toHexString()}, Received CRC: ${receivedCRC.toHexString()}")
+//        Logger.d(TAG, "buffer: ${buffer.toHexString()}, Received CRC: ${receivedCRC.toHexString()}")
 
         // exclude frame flag and crc
         val payload = buffer.sliceArray(FRAME_DATA_START_INDEX until size - 3)
         val payloadBuffer = ByteBuffer.allocate(payload.size)
         payloadBuffer.put(payload)
         payloadBuffer.flip()
-        Logger.d(TAG, "payload: ${payload.toHexString()}， payloadBuffer: ${
-            payloadBuffer.toHexString()
-        }")
+//        Logger.d(TAG, "payload: ${payload.toHexString()}， payloadBuffer: ${
+//            payloadBuffer.toHexString()
+//        }")
 
         val calculatedCRC = calculateCRC(payloadBuffer)
         if (receivedCRC != calculatedCRC) {
-            Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
-                    " calculated ${calculatedCRC.toHexString()}")
+//            Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
+//                    " calculated ${calculatedCRC.toHexString()}")
             return PullBufInfo(SerialErrorType.CRC_CHECK_FAILED.value)
         }
         return null
     }
 
     private fun slicePullInfo(buffer: ByteArray): List<ByteArray> {
-        Logger.d(TAG, "slicePullInfo() called with: buffer = ${buffer.toHexString()}")
+//        Logger.d(TAG, "slicePullInfo() called with: buffer = ${buffer.toHexString()}")
         val multiPullInfo = mutableListOf<ByteArray>()
         var start = -1
         for (i in buffer.indices) {
@@ -244,7 +242,7 @@ class RS485Driver : IDriver {
                 } else {
                     val info = buffer.sliceArray(start until i + 1)
                     multiPullInfo.add(info)
-                    Logger.d(TAG, "slicePullInfo: ${info.toHexString()}")
+//                    Logger.d(TAG, "slicePullInfo: ${info.toHexString()}")
                     start = -1
                 }
             }

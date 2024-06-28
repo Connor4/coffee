@@ -86,13 +86,14 @@ fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
                         var info = ""
                         when (it) {
                             is ReceivedData.ErrorData -> {
-                                info = "${it.info}, need reboot ${it.reboot}"
+                                info = "ErrorData: ${it.info}, need reboot ${it.reboot}"
                             }
                             is ReceivedData.PartData -> {
                                 info = it.info
                             }
                             is ReceivedData.HeartBeat -> {
-                                info = "${it.info}, need reboot ${it.reboot}"
+                                info = "HeartBeatData: ${it.info}, need reboot ${it.reboot}, " +
+                                        "status ${it.heartbeatStatus}"
                             }
                             else -> {}
                         }

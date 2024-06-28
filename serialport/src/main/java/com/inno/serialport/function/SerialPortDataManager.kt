@@ -77,13 +77,14 @@ class SerialPortDataManager private constructor() {
 
     private suspend fun receiveData() {
         delay(RECEIVE_INTERVAL_MILLIS)
-        Logger.d(TAG, "receiveData")
+//        Logger.d(TAG, "receiveData")
         val pullBufInfo = driver.receive()
         val result = chain.proceed(pullBufInfo)
+//        Logger.d(TAG, "result: $result")
         result?.let {
             processRetry(it)
             _receivedDataFlow.emit(it)
-            Logger.d(TAG, "handle result: $it")
+//            Logger.d(TAG, "handle result: $it")
         }
     }
 
