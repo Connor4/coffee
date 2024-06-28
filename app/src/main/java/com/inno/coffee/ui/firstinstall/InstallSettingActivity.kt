@@ -27,10 +27,10 @@ class InstallSettingActivity : ComponentActivity() {
             setContent {
                 CoffeeTheme {
                     InstallSetting {
+                        launchMakeCoffeeActivity(this)
                         lifecycleScope.launch {
                             this@InstallSettingActivity.saveFirstInstall(false)
                         }
-                        launchMakeCoffeeActivity(this)
                     }
                 }
             }
