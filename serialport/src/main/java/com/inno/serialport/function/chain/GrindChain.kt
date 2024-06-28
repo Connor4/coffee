@@ -1,7 +1,7 @@
 package com.inno.serialport.function.chain
 
-import com.inno.serialport.bean.HandleResult
 import com.inno.serialport.bean.PullBufInfo
+import com.inno.serialport.bean.ReceivedData
 
 class GrindChain : Chain() {
     companion object {
@@ -15,7 +15,7 @@ class GrindChain : Chain() {
         return command == 200
     }
 
-    override fun handle(pullBufInfo: PullBufInfo): HandleResult {
+    override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
         TODO("Not yet implemented")
     }
 

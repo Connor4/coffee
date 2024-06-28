@@ -3,7 +3,7 @@ package com.inno.coffee.data.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
-import com.inno.serialport.bean.HandleResult
+import com.inno.serialport.bean.ReceivedData
 import com.inno.serialport.function.createInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,7 +23,7 @@ class SerialPortViewModel @Inject constructor(
     private val repository: SerialPortRepository,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-    val receivedDataFlow: Flow<HandleResult?> = repository.receivedDataFlow
+    val receivedDataFlow: Flow<ReceivedData?> = repository.receivedDataFlow
     val serialPortPath: StateFlow<String> = repository.serialPortPath.map {
         it.joinToString(separator = ", ")
     }.stateIn(

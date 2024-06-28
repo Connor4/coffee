@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.data.home.SerialPortViewModel
-import com.inno.serialport.bean.HandleResult
+import com.inno.serialport.bean.ReceivedData
 
 @Composable
 fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
@@ -31,7 +31,7 @@ fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
         modifier = Modifier.fillMaxSize(),
         color = Color.White
     ) {
-        val receivedData: HandleResult? by viewModel.receivedDataFlow.collectAsState(initial = null)
+        val receivedData: ReceivedData? by viewModel.receivedDataFlow.collectAsState(initial = null)
         val path by viewModel.serialPortPath.collectAsState()
         val devices by viewModel.serialPortDevices.collectAsState()
 
@@ -83,7 +83,20 @@ fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
             Text(
                 text = "Received Data: ${
                     receivedData?.let {
-                        "handle result: ${it.result}, heartBeat: ${it.heartbeatStatus}"
+                        var info = ""
+                        when (it) {
+                            is ReceivedData.ErrorData -> {
+                                info = "${it.info}, need reboot ${it.reboot}"
+                            }
+                            is ReceivedData.PartData -> {
+                                info = it.info
+                            }
+                            is ReceivedData.HeartBeat -> {
+                                info = "${it.info}, need reboot ${it.reboot}"
+                            }
+                            else -> {}
+                        }
+                        info
                     } ?: "no data yet"
                 }",
                 fontSize = 18.sp,

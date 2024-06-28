@@ -28,7 +28,7 @@ enum class SerialErrorType(val value: Int, val errorMsg: String) {
                     return errorType.errorMsg
                 }
             }
-            return ""
+            return "miss match error message"
         }
     }
 }

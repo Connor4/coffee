@@ -2,7 +2,7 @@ package com.inno.serialport.function
 
 import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
-import com.inno.serialport.bean.HandleResult
+import com.inno.serialport.bean.ReceivedData
 import com.inno.serialport.bean.SerialErrorType
 import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.driver.RS485Driver
@@ -15,7 +15,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * 1. string to json
@@ -34,89 +33,79 @@ class SerialPortDataManager private constructor() {
 
         private const val TAG = "SerialPortDataManager"
         private const val PULL_INTERVAL_MILLIS = 500L
+        private const val RECEIVE_INTERVAL_MILLIS = 100L
         private const val MAX_HEARTBEAT_MISS_COUNT = 3
+        private const val MAX_RETRY_COUNT = 3
     }
 
-    @Volatile
-    private var isRunning = false
-    private val _receivedDataFlow = MutableSharedFlow<HandleResult?>(
+    private val _receivedDataFlow = MutableSharedFlow<ReceivedData?>(
         replay = 0,
         extraBufferCapacity = 12,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-    val receivedDataFlow: SharedFlow<HandleResult?> = _receivedDataFlow
+    val receivedDataFlow: SharedFlow<ReceivedData?> = _receivedDataFlow
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val driver = RS485Driver()
     private var heartBeatMode = false
-    private var heartBeatMiss = AtomicInteger(0)
-    private var pendingCommandData = AtomicInteger(0)
-    private var retryCount = AtomicInteger(0)
+    private var heartBeatMiss = 0
+    private var retryCount = 0
     private val chain = RealChainHandler()
 
     suspend fun open() {
         Logger.d(TAG, "open driver")
         driver.open()
-        isRunning = true
         heartBeatMode = true
         scope.launch {
             startHeartBeat()
-        }
-        scope.launch {
-            receiveData()
         }
     }
 
     fun close() {
         Logger.d(TAG, "close driver")
-        isRunning = false
         heartBeatMode = false
-        pendingCommandData.set(0)
-        heartBeatMiss.set(0)
+        heartBeatMiss = 0
         scope.coroutineContext.cancelChildren()
         driver.close()
     }
 
-    fun sendCommand(command: String) {
+    suspend fun sendCommand(command: String) {
         Logger.d(TAG, "sendCommand $command")
         heartBeatMode = false
-        pendingCommandData.incrementAndGet()
         driver.send(command)
+        receiveData()
     }
 
     private suspend fun receiveData() {
-        Logger.d(TAG, "receiveData $isRunning")
-        while (isRunning) {
-            delay(PULL_INTERVAL_MILLIS)
-            val pullBufInfo = driver.receive()
-            val result = chain.proceed(pullBufInfo)
-            result?.let {
-                Logger.d(TAG, "handle result: $it")
-                processHeartBeat(it)
-                _receivedDataFlow.emit(it)
-            }
+        delay(RECEIVE_INTERVAL_MILLIS)
+        Logger.d(TAG, "receiveData")
+        val pullBufInfo = driver.receive()
+        val result = chain.proceed(pullBufInfo)
+        result?.let {
+            processRetry(it)
+            _receivedDataFlow.emit(it)
+            Logger.d(TAG, "handle result: $it")
         }
     }
 
     private suspend fun startHeartBeat() {
-        while (isRunning && heartBeatMode) {
+        while (heartBeatMode) {
             delay(PULL_INTERVAL_MILLIS)
             Logger.d(TAG, "startHeartBeat")
             driver.sendHeartBeat()
+            receiveData()
         }
     }
 
-    private suspend fun processHeartBeat(result: HandleResult) {
-        if (heartBeatMode && pendingCommandData.get() == 0) {
-            if (result.heartbeatStatus) {
-                heartBeatMiss.set(0)
+    private suspend fun processRetry(receivedData: ReceivedData) {
+        if (receivedData is ReceivedData.HeartBeat) {
+            if (receivedData.heartbeatStatus) {
+                heartBeatMiss = 0
+                retryCount = 0
             } else {
-                val miss = heartBeatMiss.incrementAndGet()
-                Logger.d(TAG, "heart beat miss time: $miss")
-                if (miss >= MAX_HEARTBEAT_MISS_COUNT) {
-                    val retry = retryCount.incrementAndGet()
-                    if (retry > MAX_HEARTBEAT_MISS_COUNT) {
-                        result.result = SerialErrorType.HEART_BEAT_MISS.errorMsg
-                        result.heartbeatStatus = false
+                if (++heartBeatMiss >= MAX_HEARTBEAT_MISS_COUNT) {
+                    if (++retryCount > MAX_RETRY_COUNT) {
+                        receivedData.reboot = true
+                        receivedData.info = SerialErrorType.HEART_BEAT_MISS.errorMsg
                         close()
                     } else {
                         close()
@@ -124,9 +113,14 @@ class SerialPortDataManager private constructor() {
                     }
                 }
             }
-        } else {
-            if (pendingCommandData.decrementAndGet() == 0) {
-                heartBeatMode = true
+        } else if (receivedData is ReceivedData.ErrorData) {
+            if (++retryCount > MAX_RETRY_COUNT) {
+                receivedData.reboot = true
+                receivedData.info = SerialErrorType.READ_NO_DATA.errorMsg
+                close()
+            } else {
+                close()
+                open()
             }
         }
     }

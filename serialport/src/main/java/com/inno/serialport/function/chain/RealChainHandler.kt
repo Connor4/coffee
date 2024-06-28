@@ -1,7 +1,7 @@
 package com.inno.serialport.function.chain
 
-import com.inno.serialport.bean.HandleResult
 import com.inno.serialport.bean.PullBufInfo
+import com.inno.serialport.bean.ReceivedData
 
 class RealChainHandler {
     private var head: Chain? = null
@@ -18,7 +18,7 @@ class RealChainHandler {
         }
     }
 
-    fun proceed(pullBufInfo: PullBufInfo): HandleResult? {
+    fun proceed(pullBufInfo: PullBufInfo): ReceivedData? {
         return head!!.handleRequest(pullBufInfo)
     }
 

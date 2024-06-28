@@ -1,7 +1,6 @@
 package com.inno.serialport.function.driver
 
 import android.util.Log
-import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
 import com.inno.serialport.bean.HEART_BEAT_COMMAND
 import com.inno.serialport.bean.INFO_FRAME_DATA_START_INDEX
@@ -221,8 +220,8 @@ class RS485Driver : IDriver {
 
         val calculatedCRC = calculateCRC(payloadBuffer)
         if (receivedCRC != calculatedCRC) {
-            Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
-                    " calculated ${calculatedCRC.toHexString()}")
+//            Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
+//                    " calculated ${calculatedCRC.toHexString()}")
             return PullBufInfo(SerialErrorType.CRC_CHECK_FAILED.value)
         }
         return null

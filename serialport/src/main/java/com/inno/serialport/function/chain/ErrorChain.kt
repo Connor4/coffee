@@ -1,7 +1,7 @@
 package com.inno.serialport.function.chain
 
-import com.inno.serialport.bean.HandleResult
 import com.inno.serialport.bean.PullBufInfo
+import com.inno.serialport.bean.ReceivedData
 import com.inno.serialport.bean.SerialErrorType
 
 class ErrorChain : Chain() {
@@ -13,9 +13,9 @@ class ErrorChain : Chain() {
         return pullBufInfo.id < LEVEL
     }
 
-    override fun handle(pullBufInfo: PullBufInfo): HandleResult {
+    override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
         val errorMsg = SerialErrorType.getErrorMsgByValue(pullBufInfo.id)
-        return HandleResult(errorMsg)
+        return ReceivedData.ErrorData(errorMsg)
     }
 
 }

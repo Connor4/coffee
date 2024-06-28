@@ -1,10 +1,9 @@
 package com.inno.serialport.function.chain
 
-import com.inno.common.utils.Logger
 import com.inno.serialport.bean.FRAME_CMD_INDEX_HIGH
 import com.inno.serialport.bean.FRAME_CMD_INDEX_LOW
-import com.inno.serialport.bean.HandleResult
 import com.inno.serialport.bean.PullBufInfo
+import com.inno.serialport.bean.ReceivedData
 
 class HeartBeatChain : Chain() {
 
@@ -20,10 +19,9 @@ class HeartBeatChain : Chain() {
         return command == 1
     }
 
-    override fun handle(pullBufInfo: PullBufInfo): HandleResult {
+    override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
         val buffer = pullBufInfo.pollBuf
         val result = ((buffer[7].toInt() and 0xFF) shl 8) or (buffer[8].toInt() and 0xFF)
-        Logger.d("HeartBeatChain", "HeartBeatChain result: ${result == 0}")
-        return HandleResult(heartbeatStatus = (result == 0))
+        return ReceivedData.HeartBeat(heartbeatStatus = result == 0)
     }
 }

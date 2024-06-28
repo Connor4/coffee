@@ -1,6 +1,6 @@
 package com.inno.coffee.data.home
 
-import com.inno.serialport.bean.HandleResult
+import com.inno.serialport.bean.ReceivedData
 import com.inno.serialport.core.SerialPortFinder
 import com.inno.serialport.function.SerialPortDataManager
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class SerialPortRepository @Inject constructor(
 //    private val dataSource: SerialPortDataSource
 ) {
-    val receivedDataFlow: Flow<HandleResult?> = SerialPortDataManager.instance.receivedDataFlow
+    val receivedDataFlow: Flow<ReceivedData?> = SerialPortDataManager.instance.receivedDataFlow
         .map {
             // todo 转换数据
             it
@@ -30,7 +30,7 @@ class SerialPortRepository @Inject constructor(
         SerialPortDataManager.instance.close()
     }
 
-    fun sendCommand(command: String) {
+    suspend fun sendCommand(command: String) {
         SerialPortDataManager.instance.sendCommand(command)
     }
 
