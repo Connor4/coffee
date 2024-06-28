@@ -81,14 +81,14 @@ class SerialPort private constructor(
                 " stopBits=$stopBits, parity=$parity, flag=$flag)"
     }
 
-    external fun open(
+    private external fun open(
         path: String, baudRate: Int, dataBits: Int, parity: Int,
         stopBits: Int, flag: Int
     ): FileDescriptor?
 
-    external fun close()
+    private external fun close()
 
-    external fun setRTS(state: Boolean)
+    private external fun setRTS(state: Boolean)
 
     class Builder {
         private var portName: String = "defaultPort"
