@@ -58,7 +58,7 @@ fun StatisticTopBar(modifier: Modifier = Modifier) {
             color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
         Text(text = context.getString(R.string.statistic_product_top_mike_temp),
             color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
-        Text(text = context.getString(R.string.statistic_product_top_stream_press),
+        Text(text = context.getString(R.string.statistic_product_top_stream_pressure),
             color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
         Text(text = context.getString(R.string.statistic_product_top_product_type),
             color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
