@@ -21,6 +21,7 @@ work_version = "2.9.0"
 jbcrypt = "0.4"
 datastore = "1.1.1"
 coil = "2.2.2"
+constraintlayout = "1.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +55,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work_version" }
 org-mindrot = { group = "org.mindrot", name = "jbcrypt", version.ref = "jbcrypt" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
