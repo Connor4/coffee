@@ -24,10 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.inno.coffee.R
 import com.inno.coffee.data.home.DrinksViewModel
 import com.inno.coffee.data.home.LoginState
 import com.inno.coffee.ui.settings.launchSettingActivity
@@ -46,17 +48,17 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: DrinksViewModel 
                     launchSettingActivity(context)
 //                    showDialog = true
                 }) {
-                    Text(text = "打开设置")
+                    Text(text = stringResource(id = R.string.home_open_setting))
                 }
                 Button(onClick = {
 
                 }) {
-                    Text(text = "锁屏擦拭")
+                    Text(text = stringResource(id = R.string.home_clean_screen))
                 }
                 Button(onClick = {
 
                 }) {
-                    Text(text = "机器信息")
+                    Text(text = stringResource(id = R.string.home_machine_info))
                 }
                 LoginContent(context, showDialog = showDialog, onDismiss = {
                     showDialog = false
@@ -95,10 +97,10 @@ fun LoginContent(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     OutlinedTextField(value = username, onValueChange = viewModel::updateUsername,
-                        label = { Text(text = "用户名") })
+                        label = { Text(text = stringResource(id = R.string.home_login_username)) })
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(value = password, onValueChange = viewModel::updatePassword,
-                        label = { Text(text = "密码") })
+                        label = { Text(text = stringResource(id = R.string.home_login_password)) })
                     Spacer(modifier = Modifier.height(16.dp))
                     when (loginState) {
                         is LoginState.Success -> {
@@ -114,15 +116,15 @@ fun LoginContent(
                         }
                         else -> {}
                     }
-                    Button(onClick =
-                    viewModel::authenticateUser
+                    Button(
+                        onClick = viewModel::authenticateUser
                     ) {
-                        Text(text = "登录")
+                        Text(text = stringResource(id = R.string.home_login_confirm))
                     }
-                    Button(onClick = {
-                        onDismiss()
-                    }) {
-                        Text(text = "取消")
+                    Button(
+                        onClick = { onDismiss() }
+                    ) {
+                        Text(text = stringResource(id = R.string.common_button_cancel))
                     }
 
                 }

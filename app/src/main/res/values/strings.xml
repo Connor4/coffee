@@ -23,8 +23,14 @@
     <string name="statistic_product_top_product_type">Product Type</string>
     <string name="statistic_product_top_operator">Operate Account</string>
 
+    <string name="home_open_setting">open settings</string>
+    <string name="home_clean_screen">lock and clean</string>
+    <string name="home_machine_info">machine info</string>
     <string name="home_login_input_empty">Username or Password empty</string>
     <string name="home_login_input_invalid">Username or Password length not match</string>
     <string name="home_login_authenticate_fail">verification failed</string>
+    <string name="home_login_username">username</string>
+    <string name="home_login_password">password</string>
+    <string name="home_login_confirm">login</string>
 
 </resources>
