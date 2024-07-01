@@ -23,7 +23,7 @@ class InstallSettingActivity : ComponentActivity() {
             this@InstallSettingActivity.readFirstInstall()
         }
 
-        if (firstInstall) {
+        if (true) {
             setContent {
                 CoffeeTheme {
                     InstallSetting {
