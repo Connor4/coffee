@@ -16,13 +16,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
-/**
- * 1. string to json
- * 2. select chain to process, generate data bean
- * 3. as a repository to hold generate data
- * 4. need two function 1) repeat send get data 2) send command, when 2, 1 need stop
- *
- */
 @WorkerThread
 class SerialPortDataManager private constructor() {
 
