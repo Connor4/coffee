@@ -24,7 +24,7 @@ class InstallSettingActivity : ComponentActivity() {
             this@InstallSettingActivity.getCoffeePreference(FIRST_INSTALL_KEY, false)
         }
 
-        if (true) {
+        if (firstInstall) {
             setContent {
                 CoffeeTheme {
                     InstallSetting {
