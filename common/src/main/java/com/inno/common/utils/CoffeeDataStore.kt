@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 private const val USER_PREFERENCES_NAME = "settings"
@@ -16,23 +19,37 @@ private val Context.dataStore by preferencesDataStore(
     name = USER_PREFERENCES_NAME
 )
 
-val FIRST_INSTALL_KEY = booleanPreferencesKey("first_install")
+const val FIRST_INSTALL_KEY = "first_install"
+const val MACHINE_LANGUAGE = "machine_language"
 
-suspend fun Context.readFirstInstall(): Boolean {
-    return dataStore.data
-        .catch { exception ->
-            if (exception is IOException) {
-                emit(emptyPreferences())
-            } else {
-                throw exception
-            }
-        }.map { preferences ->
-            preferences[FIRST_INSTALL_KEY] ?: true
-        }.first()
+@Suppress("UNCHECKED_CAST")
+suspend fun <T> Context.getCoffeePreference(key: String, defaultValue: T): T {
+    val preferences = dataStore.data.catch { exception ->
+        if (exception is IOException) {
+            emit(emptyPreferences())
+        } else {
+            throw exception
+        }
+    }.first()
+    return when (defaultValue) {
+        is Boolean -> preferences[booleanPreferencesKey(key)] as T? ?: defaultValue
+        is Int -> preferences[intPreferencesKey(key)] as T? ?: defaultValue
+        is Long -> preferences[longPreferencesKey(key)] as T? ?: defaultValue
+        is Float -> preferences[floatPreferencesKey(key)] as T? ?: defaultValue
+        is String -> preferences[stringPreferencesKey(key)] as T? ?: defaultValue
+        else -> throw IllegalArgumentException("Unsupported type")
+    }
 }
 
-suspend fun Context.saveFirstInstall(isFirstInstall: Boolean) {
+suspend fun <T> Context.saveCoffeePreference(key: String, value: T) {
     dataStore.edit { preferences ->
-        preferences[FIRST_INSTALL_KEY] = isFirstInstall
+        when (value) {
+            is Boolean -> preferences[booleanPreferencesKey(key)] = value
+            is Int -> preferences[intPreferencesKey(key)] = value
+            is Long -> preferences[longPreferencesKey(key)] = value
+            is Float -> preferences[floatPreferencesKey(key)] = value
+            is String -> preferences[stringPreferencesKey(key)] = value
+            else -> throw IllegalArgumentException("Unsupported type")
+        }
     }
 }
