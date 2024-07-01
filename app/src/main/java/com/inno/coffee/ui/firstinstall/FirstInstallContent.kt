@@ -56,14 +56,14 @@ fun InstallSetting(onSetComplete: () -> Unit) {
         }
         composable(DATE) {
             DatePickerPage {
-                navController.navigate(TIME)
-            }
-        }
-        composable(TIME) {
-            TimePickerPage {
                 onSetComplete()
             }
         }
+//        composable(TIME) {
+//            TimePickerPage {
+//                onSetComplete()
+//            }
+//        }
     }
 }
 
@@ -136,15 +136,8 @@ fun DatePickerPage(onDatePick: () -> Unit) {
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
             )
 
-            Button(
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(end = 60.dp),
-                onClick = {
-                    onDatePick()
-                }
-            ) {
-                Text(text = stringResource(id = R.string.common_button_confirm))
+            TimePickerPage {
+                onDatePick()
             }
 
 //        Text(
@@ -153,6 +146,7 @@ fun DatePickerPage(onDatePick: () -> Unit) {
 //        )
         }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -178,7 +172,9 @@ fun TimePickerPage(onSetComplete: () -> Unit) {
             )
 
             Button(
-                onClick = { /* Handle cancel action */ },
+                onClick = {
+
+                },
                 modifier = Modifier.constrainAs(cancelButton) {
                     top.linkTo(timePicker.bottom, margin = 16.dp)
                     end.linkTo(confirmButton.start, margin = 8.dp)
