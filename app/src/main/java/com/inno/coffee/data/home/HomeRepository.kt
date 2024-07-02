@@ -5,11 +5,11 @@ import com.inno.common.utils.BcryptUtils
 import com.inno.common.utils.UserSessionManager
 import javax.inject.Inject
 
-class DrinksRepository @Inject constructor(
-    private val drinksLocalDataSource: DrinksLocalDataSource,
+class HomeRepository @Inject constructor(
+    private val homeLocalDataSource: HomeLocalDataSource,
     private val userDao: UserDao
 ) {
-    val drinksType: List<DrinksModel> = drinksLocalDataSource.drinksTypes
+    val drinksType: List<DrinksModel> = homeLocalDataSource.drinksTypes
 
     suspend fun authenticateUser(username: String, password: String): Boolean {
         val user = userDao.getUserByUserName(username)

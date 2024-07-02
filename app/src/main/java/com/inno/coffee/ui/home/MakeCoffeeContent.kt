@@ -33,12 +33,12 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
-import com.inno.coffee.data.home.DrinksViewModel
+import com.inno.coffee.data.home.HomeViewModel
 import com.inno.coffee.data.home.LoginState
 import com.inno.coffee.ui.settings.launchSettingActivity
 
 @Composable
-fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: DrinksViewModel = hiltViewModel()) {
+fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
     Surface(color = Color.Transparent) {
         Column {
             Row {
@@ -85,7 +85,7 @@ fun LoginContent(
     context: Context,
     showDialog: Boolean,
     onDismiss: () -> Unit,
-    viewModel: DrinksViewModel,
+    viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
 ) {
     val username by viewModel.username.collectAsState()
@@ -146,7 +146,7 @@ fun LoginContent(
 fun LockCleanDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
-    viewModel: DrinksViewModel,
+    viewModel: HomeViewModel,
 ) {
     val state = viewModel.countdown.collectAsState()
     var isDialogShown by remember {
