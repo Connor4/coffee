@@ -13,10 +13,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.inno.coffee.R
 import com.inno.serialport.bean.ReceivedData
-import com.inno.serialport.function.SerialPortDataManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class GlobalDialogManager private constructor(private val application: Application) {
 
@@ -27,22 +25,22 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private val scope = CoroutineScope(Dispatchers.Main)
     private var dialogShowing = false
 
-    init {
-        scope.launch {
-            SerialPortDataManager.instance.receivedDataFlow.collect { receivedData ->
-                val info = getMessage(receivedData)
-                if (dialogShowing) {
-                    updateDialogContent(info)
-                } else {
-                    showDialog(DialogData(
-                        title = "There is an Alert",
-                        message = "Alert Info $info",
-                        onConfirm = { dismissDialog() }
-                    ))
-                }
-            }
-        }
-    }
+//    init {
+//        scope.launch {
+//            SerialPortDataManager.instance.receivedDataFlow.collect { receivedData ->
+//                val info = getMessage(receivedData)
+//                if (dialogShowing) {
+//                    updateDialogContent(info)
+//                } else {
+//                    showDialog(DialogData(
+//                        title = "There is an Alert",
+//                        message = "Alert Info $info",
+//                        onConfirm = { dismissDialog() }
+//                    ))
+//                }
+//            }
+//        }
+//    }
 
     private fun getMessage(receivedData: ReceivedData?): String {
         var info = ""
