@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -25,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,7 +46,9 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: DrinksViewModel 
                 var showDialog by remember {
                     mutableStateOf(false)
                 }
-
+                var showCleanDialog by remember {
+                    mutableStateOf(false)
+                }
                 Button(onClick = {
                     launchSettingActivity(context)
 //                    showDialog = true
@@ -51,7 +56,7 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: DrinksViewModel 
                     Text(text = stringResource(id = R.string.home_open_setting))
                 }
                 Button(onClick = {
-
+//                    showCleanDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_clean_screen))
                 }
@@ -63,6 +68,9 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: DrinksViewModel 
                 LoginContent(context, showDialog = showDialog, onDismiss = {
                     showDialog = false
                 }, viewModel = viewModel)
+                LockCleanDialog(showDialog = showCleanDialog,
+                    onDismiss = { showCleanDialog = false },
+                    viewModel = viewModel)
             }
 
             val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
@@ -132,5 +140,48 @@ fun LoginContent(
         }
     }
 
+}
 
+@Composable
+fun LockCleanDialog(
+    showDialog: Boolean,
+    onDismiss: () -> Unit,
+    viewModel: DrinksViewModel,
+) {
+    val state = viewModel.countdown.collectAsState()
+    var isDialogShown by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(showDialog) {
+        isDialogShown = showDialog
+        viewModel.countdown()
+        onDismiss()
+    }
+    if (isDialogShown) {
+        Dialog(onDismissRequest = { }) {
+            Surface(
+                modifier = Modifier
+                    .width(700.dp)
+                    .height(500.dp),
+                shape = RoundedCornerShape(8.dp),
+                color = MaterialTheme.colorScheme.background,
+            ) {
+                Column {
+                    Text(text = stringResource(id = R.string.home_lock_clean_count_tip),
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 30.dp, top = 30.dp)
+                    )
+                    Text(text = state.value.toString(),
+                        style = MaterialTheme.typography.displayMedium,
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview(device = Devices.TABLET)
+@Composable
+fun PreviewLock() {
 }

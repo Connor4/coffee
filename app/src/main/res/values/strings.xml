@@ -32,5 +32,6 @@
     <string name="home_login_username">username</string>
     <string name="home_login_password">password</string>
     <string name="home_login_confirm">login</string>
+    <string name="home_lock_clean_count_tip">Unlock screen before countdown ends</string>
 
 </resources>

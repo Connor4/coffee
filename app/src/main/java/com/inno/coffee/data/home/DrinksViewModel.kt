@@ -8,6 +8,7 @@ import com.inno.coffee.di.DefaultDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +21,7 @@ class DrinksViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
+    private val countdownTime = 15
     private val _drinksTypes = MutableStateFlow<List<DrinksModel>>(emptyList())
     val drinksTypes: StateFlow<List<DrinksModel>> = _drinksTypes.asStateFlow()
     private val _username = MutableStateFlow("")
@@ -28,6 +30,8 @@ class DrinksViewModel @Inject constructor(
     val password: StateFlow<String> = _password
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState: StateFlow<LoginState> = _loginState
+    private val _countdown = MutableStateFlow(countdownTime)
+    val countdown: StateFlow<Int> = _countdown
 
     init {
         _drinksTypes.value = repository.drinksType
@@ -67,6 +71,14 @@ class DrinksViewModel @Inject constructor(
             }
 
             _loginState.value = LoginState.Success
+        }
+    }
+
+    suspend fun countdown() {
+        _countdown.value = countdownTime
+        while (_countdown.value > 0) {
+            delay(1000)
+            _countdown.value -= 1
         }
     }
 
