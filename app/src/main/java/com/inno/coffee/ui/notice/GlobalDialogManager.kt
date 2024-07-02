@@ -12,8 +12,11 @@ import android.widget.TextView
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.inno.coffee.R
+import com.inno.serialport.bean.ReceivedData
+import com.inno.serialport.function.SerialPortDataManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GlobalDialogManager private constructor(private val application: Application) {
 
@@ -22,33 +25,65 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private var dialogView: View? = null
     private var dialogData: MutableState<DialogData?> = mutableStateOf(null)
     private val scope = CoroutineScope(Dispatchers.Main)
+    private var dialogShowing = false
 
     init {
-//        scope.launch {
-//            SerialPortDataManager.instance.receivedDataFlow.collect {
-//                showDialog(DialogData(
-//                    title = "Alert Info ${it?.result}",
-//                    message = "There is an Alert",
-//                    onConfirm = { dismissDialog() }
-//                ))
-//            }
-//        }
+        scope.launch {
+            SerialPortDataManager.instance.receivedDataFlow.collect { receivedData ->
+                val info = getMessage(receivedData)
+                if (dialogShowing) {
+                    updateDialogContent(info)
+                } else {
+                    showDialog(DialogData(
+                        title = "There is an Alert",
+                        message = "Alert Info $info",
+                        onConfirm = { dismissDialog() }
+                    ))
+                }
+            }
+        }
     }
 
-    fun showDialog(dialogData: DialogData) {
+    private fun getMessage(receivedData: ReceivedData?): String {
+        var info = ""
+        receivedData?.let {
+            when (it) {
+                is ReceivedData.ErrorData -> {
+                    info = "ErrorData: ${it.info}, need reboot ${it.reboot}"
+                }
+                is ReceivedData.PartData -> {
+                    info = it.info
+                }
+                is ReceivedData.HeartBeat -> {
+                    info = "HeartBeatData: ${it.info}, need reboot ${it.reboot}, " +
+                            "status ${it.heartbeatStatus}"
+                }
+                else -> {}
+            }
+        }
+        return info
+    }
+
+    private fun updateDialogContent(message: String) {
+        dialogView?.findViewById<TextView>(R.id.dialog_message)?.text = message
+    }
+
+    private fun showDialog(dialogData: DialogData) {
         this.dialogData.value = dialogData
+        dialogShowing = true
         showDialogView()
     }
 
     private fun dismissDialog() {
         dialogData.value = null
         removeDialogView()
+        dialogShowing = false
     }
 
     private fun showDialogView() {
         if (dialogView == null) {
-            dialogView = LayoutInflater.from(application).inflate(R.layout.global_dialog_layout,
-                null)
+            dialogView =
+                LayoutInflater.from(application).inflate(R.layout.global_dialog_layout, null)
             val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -91,7 +126,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
             getInstance()
         }
 
-        fun getInstance(): GlobalDialogManager {
+        private fun getInstance(): GlobalDialogManager {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: GlobalDialogManager(application!!).also { INSTANCE = it }
             }
