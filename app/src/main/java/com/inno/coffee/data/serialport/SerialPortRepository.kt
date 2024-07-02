@@ -1,4 +1,4 @@
-package com.inno.coffee.data.home
+package com.inno.coffee.data.serialport
 
 import com.inno.serialport.bean.ReceivedData
 import com.inno.serialport.core.SerialPortFinder

@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.inno.coffee.data.home.SerialPortViewModel
+import com.inno.coffee.data.serialport.SerialPortViewModel
 import com.inno.serialport.bean.ReceivedData
 
 @Composable

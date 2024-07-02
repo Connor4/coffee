@@ -1,4 +1,4 @@
-package com.inno.coffee.data.home
+package com.inno.coffee.data.serialport
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

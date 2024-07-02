@@ -1,4 +1,4 @@
-package com.inno.coffee.data.home
+package com.inno.coffee.data.serialport
 
 import javax.inject.Inject
 import javax.inject.Singleton
