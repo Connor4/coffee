@@ -1,0 +1,4 @@
+keyAlias = "inno"
+keyPassword = "inno123"
+storeFile = file("../inno.jks")
+storePassword = "inno123"

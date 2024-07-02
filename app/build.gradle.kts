@@ -23,10 +23,10 @@ android {
     }
     signingConfigs {
         create("release") {
-            keyAlias = "inno"
-            keyPassword = "inno123"
-            storeFile = file("../inno.jks")
-            storePassword = "inno123"
+            keyAlias = "platform"
+            keyPassword = "gzpeite"
+            storeFile = file("../key/platform.keystore")
+            storePassword = "gzpeite"
         }
     }
     buildTypes {

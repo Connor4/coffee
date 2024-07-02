@@ -41,7 +41,7 @@
 # 不优化输入的类文件
 -dontoptimize
 # 保留注解不混淆
--keepattributes *Annotation*,InnerClasses
+#-keepattributes *Annotation*,InnerClasses
 # 避免混淆泛型
 -keepattributes Signature
 # 保留代码行号，方便异常信息的追踪
@@ -90,3 +90,12 @@
 
 -dontwarn com.inno.common.db.**
 -dontwarn com.inno.common.utils.**
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.Conscrypt$Version
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE
