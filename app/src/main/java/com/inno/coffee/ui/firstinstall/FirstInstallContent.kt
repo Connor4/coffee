@@ -23,8 +23,11 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,31 +47,47 @@ private const val LANGUAGE = "language"
 private const val DATE = "date"
 private const val TIME = "time"
 
-
 @Composable
-fun InstallSetting(onSetComplete: () -> Unit) {
+fun InstallSetting(onSetComplete: (String, Long, Int, Int) -> Unit) {
     val navController = rememberNavController()
+    var selectedLanguage by remember {
+        mutableStateOf("")
+    }
+    var selectedDateMillis by remember {
+        mutableStateOf<Long?>(null)
+    }
+    var selectedHour by remember {
+        mutableIntStateOf(0)
+    }
+    var selectedMin by remember {
+        mutableIntStateOf(0)
+    }
     NavHost(navController = navController, startDestination = LANGUAGE) {
         composable(LANGUAGE) {
-            LanguagePage {
+            LanguagePage { language ->
+                selectedLanguage = language
                 navController.navigate(DATE)
             }
         }
         composable(DATE) {
             DatePickerPage {
-                onSetComplete()
+                selectedDateMillis = it
+                navController.navigate(TIME)
             }
         }
-//        composable(TIME) {
-//            TimePickerPage {
-//                onSetComplete()
-//            }
-//        }
+        composable(TIME) {
+            TimePickerPage { hour, min ->
+                selectedHour = hour
+                selectedMin = min
+                onSetComplete(selectedLanguage, selectedDateMillis ?: 1704124800000, selectedHour,
+                    selectedMin)
+            }
+        }
     }
 }
 
 @Composable
-fun LanguagePage(onLanguagePick: () -> Unit) {
+fun LanguagePage(onLanguagePick: (String) -> Unit) {
     val context = LocalContext.current
     val radioOptions = listOf(
         context.getString(R.string.first_install_language_Chinese),
@@ -97,10 +116,9 @@ fun LanguagePage(onLanguagePick: () -> Unit) {
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    RadioButton(selected = (it == selectedOption),
-                        onClick = {
-                            onLanguagePick()
-                        }
+                    RadioButton(
+                        selected = (it == selectedOption),
+                        onClick = { onOptionSelected(it) }
                     )
                     Text(
                         text = it,
@@ -113,7 +131,7 @@ fun LanguagePage(onLanguagePick: () -> Unit) {
                 .align(Alignment.End)
                 .padding(end = 60.dp),
                 onClick = {
-                    onLanguagePick()
+                    onLanguagePick(selectedOption)
                 }
             ) {
                 Text(text = stringResource(id = R.string.common_button_confirm))
@@ -125,7 +143,7 @@ fun LanguagePage(onLanguagePick: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerPage(onDatePick: () -> Unit) {
+fun DatePickerPage(onDatePick: (Long?) -> Unit) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(modifier = Modifier
             .width(1100.dp)
@@ -135,15 +153,16 @@ fun DatePickerPage(onDatePick: () -> Unit) {
                 state = datePickerState,
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
             )
-
-            TimePickerPage {
-                onDatePick()
+            Button(
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(end = 60.dp),
+                onClick = {
+                    onDatePick(datePickerState.selectedDateMillis)
+                }
+            ) {
+                Text(text = stringResource(id = R.string.common_button_confirm))
             }
-
-//        Text(
-//            "Selected date timestamp: ${datePickerState.selectedDateMillis ?: "no selection"}",
-//            modifier = Modifier.align(Alignment.CenterHorizontally)
-//        )
         }
     }
 
@@ -151,7 +170,7 @@ fun DatePickerPage(onDatePick: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimePickerPage(onSetComplete: () -> Unit) {
+fun TimePickerPage(onSetComplete: (Int, Int) -> Unit) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         ConstraintLayout(
             modifier = Modifier
@@ -185,7 +204,7 @@ fun TimePickerPage(onSetComplete: () -> Unit) {
 
             Button(
                 onClick = {
-                    onSetComplete()
+                    onSetComplete(state.hour, state.minute)
                 },
                 modifier = Modifier.constrainAs(confirmButton) {
                     top.linkTo(timePicker.bottom, margin = 16.dp)
