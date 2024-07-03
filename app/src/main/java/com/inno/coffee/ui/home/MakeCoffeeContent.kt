@@ -31,10 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.home.HomeViewModel
 import com.inno.coffee.data.home.LoginState
+import com.inno.coffee.ui.composeClick
 import com.inno.coffee.ui.settings.launchSettingActivity
 
 @Composable
@@ -52,22 +52,31 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
                 var showInfoDialog by remember {
                     mutableStateOf(false)
                 }
+                var showStandByModeDialog by remember {
+                    mutableStateOf(false)
+                }
                 Button(onClick = {
                     launchSettingActivity(context)
 //                    showDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_open_setting))
                 }
-                Button(onClick = {
-//                    showCleanDialog = true
+                Button(onClick = composeClick {
+                    showCleanDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_clean_screen))
                 }
-                Button(onClick = {
-//                    showInfoDialog = true
+                Button(onClick = composeClick {
+                    showInfoDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_machine_info))
                 }
+                Button(onClick = composeClick {
+                    showStandByModeDialog = true
+                }) {
+                    Text(text = stringResource(id = R.string.home_standby_mode))
+                }
+
                 LoginContent(context, showDialog = showLoginDialog, onDismiss = {
                     showLoginDialog = false
                 }, viewModel = viewModel)
@@ -79,8 +88,8 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
                 }
             }
 
-            val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
-            DrinkList(modifier = modifier, drinksData = drinksData)
+//            val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
+//            DrinkList(modifier = modifier, drinksData = drinksData)
         }
     }
 
@@ -155,15 +164,13 @@ fun LockCleanDialog(
     viewModel: HomeViewModel,
 ) {
     val state = viewModel.countdown.collectAsState()
-    var isDialogShown by remember {
-        mutableStateOf(false)
-    }
     LaunchedEffect(showDialog) {
-        isDialogShown = showDialog
-        viewModel.countdown()
+        if (showDialog) {
+            viewModel.startCountDown()
+        }
         onDismiss()
     }
-    if (isDialogShown) {
+    if (showDialog) {
         Dialog(onDismissRequest = { }) {
             Surface(
                 modifier = Modifier
@@ -214,6 +221,15 @@ fun MachineInfoDialog(
             }
         }
     }
+}
+
+@Composable
+fun StandByModeDialog(
+    showDialog: Boolean,
+    onDismiss: () -> Unit,
+    viewModel: HomeViewModel
+) {
+
 }
 
 @Preview(device = Devices.TABLET)

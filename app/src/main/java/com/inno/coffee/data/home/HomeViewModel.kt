@@ -74,7 +74,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun countdown() {
+    suspend fun startCountDown() {
         _countdown.value = countdownTime
         while (_countdown.value > 0) {
             delay(1000)
