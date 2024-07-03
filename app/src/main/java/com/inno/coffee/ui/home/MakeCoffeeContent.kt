@@ -43,10 +43,13 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
         Column {
             Row {
                 val context = LocalContext.current
-                var showDialog by remember {
+                var showLoginDialog by remember {
                     mutableStateOf(false)
                 }
                 var showCleanDialog by remember {
+                    mutableStateOf(false)
+                }
+                var showInfoDialog by remember {
                     mutableStateOf(false)
                 }
                 Button(onClick = {
@@ -61,16 +64,19 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
                     Text(text = stringResource(id = R.string.home_clean_screen))
                 }
                 Button(onClick = {
-
+//                    showInfoDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_machine_info))
                 }
-                LoginContent(context, showDialog = showDialog, onDismiss = {
-                    showDialog = false
+                LoginContent(context, showDialog = showLoginDialog, onDismiss = {
+                    showLoginDialog = false
                 }, viewModel = viewModel)
                 LockCleanDialog(showDialog = showCleanDialog,
                     onDismiss = { showCleanDialog = false },
                     viewModel = viewModel)
+                MachineInfoDialog(showDialog = showInfoDialog) {
+                    showInfoDialog = false
+                }
             }
 
             val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
@@ -181,7 +187,39 @@ fun LockCleanDialog(
     }
 }
 
+@Composable
+fun MachineInfoDialog(
+    showDialog: Boolean,
+    onDismiss: () -> Unit,
+) {
+    if (showDialog) {
+        Dialog(onDismissRequest = { /*TODO*/ }) {
+            Surface(
+                modifier = Modifier
+                    .width(700.dp)
+                    .height(500.dp),
+                shape = RoundedCornerShape(8.dp),
+                color = MaterialTheme.colorScheme.background,
+            ) {
+                Column {
+                    Text(text = "机器信息")
+                    Text(text = "机器信息")
+                    Text(text = "机器信息")
+                    Button(
+                        onClick = { onDismiss() }
+                    ) {
+                        Text(text = stringResource(id = R.string.common_button_confirm))
+                    }
+                }
+            }
+        }
+    }
+}
+
 @Preview(device = Devices.TABLET)
 @Composable
 fun PreviewLock() {
+    MachineInfoDialog(showDialog = true) {
+
+    }
 }
