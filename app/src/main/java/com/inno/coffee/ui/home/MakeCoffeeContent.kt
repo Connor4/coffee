@@ -167,8 +167,8 @@ fun LockCleanDialog(
     LaunchedEffect(showDialog) {
         if (showDialog) {
             viewModel.startCountDown()
+            onDismiss()
         }
-        onDismiss()
     }
     if (showDialog) {
         Dialog(onDismissRequest = { }) {
