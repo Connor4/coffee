@@ -62,17 +62,17 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
                     Text(text = stringResource(id = R.string.home_open_setting))
                 }
                 Button(onClick = composeClick {
-                    showCleanDialog = true
+//                    showCleanDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_clean_screen))
                 }
                 Button(onClick = composeClick {
-                    showInfoDialog = true
+//                    showInfoDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_machine_info))
                 }
                 Button(onClick = composeClick {
-                    showStandByModeDialog = true
+//                    showStandByModeDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_standby_mode))
                 }
