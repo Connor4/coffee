@@ -74,11 +74,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun startCountDown() {
-        _countdown.value = countdownTime
-        while (_countdown.value > 0) {
-            delay(1000)
-            _countdown.value -= 1
+    fun startCountDown() {
+        _countdown.value = 15
+        viewModelScope.launch {
+            for (i in 15 downTo 0) {
+                _countdown.value = i
+                delay(1000)
+            }
         }
     }
 

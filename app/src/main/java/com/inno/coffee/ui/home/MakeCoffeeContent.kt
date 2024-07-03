@@ -229,7 +229,9 @@ fun StandByModeDialog(
     onDismiss: () -> Unit,
     viewModel: HomeViewModel
 ) {
+    if (showDialog) {
 
+    }
 }
 
 @Preview(device = Devices.TABLET)
