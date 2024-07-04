@@ -8,13 +8,18 @@ import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.SerialErrorType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 @WorkerThread
 class SerialPortDataManager private constructor() {
@@ -39,7 +44,8 @@ class SerialPortDataManager private constructor() {
     val receivedDataFlow: SharedFlow<ReceivedData?> = _receivedDataFlow
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val driver = RS485Driver()
-    private var heartBeatMode = false
+    private val mutex = Mutex()
+    private var heartBeatJob: Job? = null
     private var heartBeatMiss = 0
     private var retryCount = 0
     private val chain = RealChainHandler()
@@ -47,7 +53,6 @@ class SerialPortDataManager private constructor() {
     suspend fun open() {
         Logger.d(TAG, "open driver")
         driver.open()
-        heartBeatMode = true
         scope.launch {
             startHeartBeat()
         }
@@ -55,17 +60,19 @@ class SerialPortDataManager private constructor() {
 
     fun close() {
         Logger.d(TAG, "close driver")
-        heartBeatMode = false
         heartBeatMiss = 0
+        heartBeatJob?.cancel()
         scope.coroutineContext.cancelChildren()
         driver.close()
     }
 
     suspend fun sendCommand(command: String) {
         Logger.d(TAG, "sendCommand $command")
-        heartBeatMode = false
-        driver.send(command)
-        receiveData()
+        mutex.withLock {
+            heartBeatJob?.cancel()
+            driver.send(command)
+            receiveData()
+        }
     }
 
     private suspend fun receiveData() {
@@ -82,11 +89,20 @@ class SerialPortDataManager private constructor() {
     }
 
     private suspend fun startHeartBeat() {
-        while (heartBeatMode) {
-            delay(PULL_INTERVAL_MILLIS)
-            Logger.d(TAG, "startHeartBeat")
-            driver.sendHeartBeat()
-            receiveData()
+        heartBeatJob?.cancel()
+        heartBeatJob = scope.launch {
+            withContext(Dispatchers.IO) {
+                while (isActive) {
+                    // delay must stay here, or reopen will recall this and
+                    // interrupt delay.
+                    delay(PULL_INTERVAL_MILLIS)
+                    mutex.withLock {
+                        Logger.d(TAG, "startHeartBeat")
+                        driver.sendHeartBeat()
+                        receiveData()
+                    }
+                }
+            }
         }
     }
 
