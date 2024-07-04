@@ -33,21 +33,23 @@ class InstallSettingActivity : ComponentActivity() {
                     InstallSetting { language, date, hour, min ->
                         launchMakeCoffeeActivity(this)
                         lifecycleScope.launch {
-                            CoffeeDataStore.saveFirstInstall(this@InstallSettingActivity)
-                            CoffeeDataStore.saveMachineLanguage(this@InstallSettingActivity,
-                                language)
-                            val calendar = Calendar.getInstance().apply {
-                                timeInMillis = date
-                                set(Calendar.HOUR_OF_DAY, hour)
-                                set(Calendar.MINUTE, min)
-                                set(Calendar.SECOND, 0)
-                                set(Calendar.MILLISECOND, 0)
-                            }
-                            val timeInMillis = calendar.timeInMillis
+                            withContext(Dispatchers.IO) {
+                                CoffeeDataStore.saveFirstInstall(this@InstallSettingActivity)
+                                CoffeeDataStore.saveMachineLanguage(this@InstallSettingActivity,
+                                    language)
+                                val calendar = Calendar.getInstance().apply {
+                                    timeInMillis = date
+                                    set(Calendar.HOUR_OF_DAY, hour)
+                                    set(Calendar.MINUTE, min)
+                                    set(Calendar.SECOND, 0)
+                                    set(Calendar.MILLISECOND, 0)
+                                }
+                                val timeInMillis = calendar.timeInMillis
 //                        val dateFormat =
 //                            SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 //                        val dateString = dateFormat.format(timeInMillis)
-                            setSystemTimeRoot(timeInMillis)
+                                setSystemTimeRoot(timeInMillis)
+                            }
                         }
                     }
                 }
@@ -62,20 +64,18 @@ class InstallSettingActivity : ComponentActivity() {
         overridePendingTransition(0, 0)
     }
 
-    private suspend fun setSystemTimeRoot(timeInMillis: Long) {
-        withContext(Dispatchers.IO) {
-            try {
-                val process = Runtime.getRuntime().exec("su")
-                val outputStream = DataOutputStream(process.outputStream)
-                outputStream.writeBytes("date -s @${timeInMillis / 1000}\n")
-                outputStream.writeBytes("exit\n")
-                outputStream.flush()
-                process.waitFor()
-                Logger.d("SetTime", "System time set to $timeInMillis using root")
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Logger.e("SetTime", "Failed to set system time with root: ${e.message}")
-            }
+    private fun setSystemTimeRoot(timeInMillis: Long) {
+        try {
+            val process = Runtime.getRuntime().exec("su")
+            val outputStream = DataOutputStream(process.outputStream)
+            outputStream.writeBytes("date -s @${timeInMillis / 1000}\n")
+            outputStream.writeBytes("exit\n")
+            outputStream.flush()
+            process.waitFor()
+            Logger.d("SetTime", "System time set to $timeInMillis using root")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Logger.e("SetTime", "Failed to set system time with root: ${e.message}")
         }
     }
 
