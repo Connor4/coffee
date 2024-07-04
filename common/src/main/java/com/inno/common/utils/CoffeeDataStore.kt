@@ -23,6 +23,7 @@ object CoffeeDataStore {
 
     private const val FIRST_INSTALL_KEY = "first_install"
     private const val MACHINE_LANGUAGE = "machine_language"
+    private const val DEFAULT_LANGUAGE = "English"
 
     suspend fun getFirstInstall(context: Context): Boolean {
         return getCoffeePreference(context, FIRST_INSTALL_KEY, true)
@@ -33,7 +34,7 @@ object CoffeeDataStore {
     }
 
     suspend fun getMachineLanguage(context: Context): String {
-        return getCoffeePreference(context, MACHINE_LANGUAGE, "English")
+        return getCoffeePreference(context, MACHINE_LANGUAGE, DEFAULT_LANGUAGE)
     }
 
     suspend fun saveMachineLanguage(context: Context, language: String) {
