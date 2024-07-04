@@ -2,16 +2,15 @@ package com.inno.serialport.function.driver
 
 import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
+import com.inno.serialport.core.ISerialPort
 import com.inno.serialport.core.SerialPort
 import com.inno.serialport.core.SerialPortManager
 import com.inno.serialport.utilities.FRAME_DATA_START_INDEX
 import com.inno.serialport.utilities.FRAME_FLAG_INDEX
 import com.inno.serialport.utilities.HEART_BEAT_COMMAND
-import com.inno.serialport.utilities.ParityType
 import com.inno.serialport.utilities.ProductInfo
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.SerialErrorType
-import com.inno.serialport.utilities.StopBits
 import com.inno.serialport.utilities.fcstab
 import kotlinx.serialization.json.Json
 import java.nio.ByteBuffer
@@ -25,9 +24,9 @@ class RS485Driver : IDriver {
         private const val TAG = "RS485Driver"
         private const val DEVICE_PATH = "/dev/ttyS9"
         private const val BAUD_RATE = 115200
-        private const val DATA_BITES = 8
-        private val STOP_BITS = StopBits.SINGLE.value
-        private val PARITY = ParityType.NONE_PARITY.value
+        private const val DATA_BITES = ISerialPort.DATA_BITS_8
+        private const val STOP_BITS = ISerialPort.STOP_BITS_1
+        private const val PARITY = ISerialPort.PARITY_NONE
         private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
 
         // pull info12(flag1 + addr1 + control1 +

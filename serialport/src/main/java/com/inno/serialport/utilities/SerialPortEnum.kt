@@ -1,16 +1,5 @@
 package com.inno.serialport.utilities
 
-enum class ParityType(val value: Int) {
-    NONE_PARITY(0),
-    ODD_PARITY(1),
-    EVEN_PARITY(2)
-}
-
-enum class StopBits(val value: Int) {
-    SINGLE(1),
-    DOUBLE(2)
-}
-
 enum class SerialErrorType(val value: Int, val errorMsg: String) {
     READ_FAIL(-1, "read byte fail"),
     MAX_READ_TRY(-2, "Max data retry count reached"),

@@ -17,7 +17,7 @@ class SerialPort private constructor(
     val flag: Int,
     val portFrameSize: Int,
     val readTimeOutMillis: Long
-) {
+) : ISerialPort {
     companion object {
         private const val TAG = "SerialPort"
         private const val SU_PATH = "/system/bin/su"
@@ -114,15 +114,15 @@ class SerialPort private constructor(
             this.baudRate = baudRate
         }
 
-        fun dataBits(dataBits: Int) = apply {
+        fun dataBits(@ISerialPort.DataBits dataBits: Int) = apply {
             this.dataBits = dataBits
         }
 
-        fun parity(parity: Int) = apply {
+        fun parity(@ISerialPort.Parity parity: Int) = apply {
             this.parity = parity
         }
 
-        fun stopBits(stopBits: Int) = apply {
+        fun stopBits(@ISerialPort.StopBits stopBits: Int) = apply {
             this.stopBits = stopBits
         }
 
