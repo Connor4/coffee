@@ -1,6 +1,6 @@
 package com.inno.serialport.function.processor
 
-import com.inno.serialport.bean.PullBufInfo
+import com.inno.serialport.utilities.PullBufInfo
 
 interface Processor {
     fun intercept(chain: Chain): Boolean

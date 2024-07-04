@@ -1,12 +1,12 @@
 package com.inno.serialport.function
 
 import com.inno.common.utils.toHexString
-import com.inno.serialport.bean.ComponentList
-import com.inno.serialport.bean.ProductInfo
-import com.inno.serialport.bean.SingleComponent
-import com.inno.serialport.bean.SingleTree
-import com.inno.serialport.bean.TreeList
-import com.inno.serialport.bean.fcstab
+import com.inno.serialport.utilities.ComponentList
+import com.inno.serialport.utilities.ProductInfo
+import com.inno.serialport.utilities.SingleComponent
+import com.inno.serialport.utilities.SingleTree
+import com.inno.serialport.utilities.TreeList
+import com.inno.serialport.utilities.fcstab
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.nio.ByteBuffer

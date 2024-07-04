@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.data.serialport.SerialPortViewModel
-import com.inno.serialport.bean.ReceivedData
+import com.inno.serialport.utilities.ReceivedData
 
 @Composable
 fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {

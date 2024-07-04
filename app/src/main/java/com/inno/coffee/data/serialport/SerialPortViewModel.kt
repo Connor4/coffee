@@ -3,8 +3,8 @@ package com.inno.coffee.data.serialport
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
-import com.inno.serialport.bean.ReceivedData
 import com.inno.serialport.function.createInfo
+import com.inno.serialport.utilities.ReceivedData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

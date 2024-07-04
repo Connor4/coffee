@@ -1,4 +1,4 @@
-package com.inno.coffee.ui
+package com.inno.coffee.utilities
 
 import android.annotation.SuppressLint
 import android.os.SystemClock
@@ -18,8 +18,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
 import kotlinx.coroutines.delay
 
-const val VIEW_CLICK_INTERVAL_TIME = 300
-
+/**
+ * usage:
+ * Column(modifier = Modifier.debouncedClickable{ // do what you want to do here })
+ */
 @SuppressLint("ModifierFactoryUnreferencedReceiver")
 fun Modifier.debouncedClickable(onClick: () -> Unit, enabled: Boolean = true, delay: Long = 300) =
     composed {
@@ -45,7 +47,7 @@ fun Modifier.debouncedClickable(onClick: () -> Unit, enabled: Boolean = true, de
 @SuppressLint("ModifierFactoryUnreferencedReceiver")
 @Composable
 inline fun Modifier.click(
-    time: Int = VIEW_CLICK_INTERVAL_TIME,
+    time: Int = VIEW_FAST_CLICK_INTERVAL_TIME,
     enabled: Boolean = true,
     onClickLabel: String? = null,
     role: Role? = null,
@@ -69,7 +71,7 @@ inline fun Modifier.click(
  */
 @Composable
 inline fun composeClick(
-    time: Int = VIEW_CLICK_INTERVAL_TIME,
+    time: Int = VIEW_FAST_CLICK_INTERVAL_TIME,
     crossinline onClick: () -> Unit,
 ): () -> Unit {
     var lastClickTime by remember {

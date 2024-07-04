@@ -2,10 +2,10 @@ package com.inno.serialport.function
 
 import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
-import com.inno.serialport.bean.ReceivedData
-import com.inno.serialport.bean.SerialErrorType
 import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.driver.RS485Driver
+import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.SerialErrorType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

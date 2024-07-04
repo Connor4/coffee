@@ -1,9 +1,9 @@
 package com.inno.serialport.function.chain
 
-import com.inno.serialport.bean.FRAME_CMD_INDEX_HIGH
-import com.inno.serialport.bean.FRAME_CMD_INDEX_LOW
-import com.inno.serialport.bean.PullBufInfo
-import com.inno.serialport.bean.ReceivedData
+import com.inno.serialport.utilities.FRAME_CMD_INDEX_HIGH
+import com.inno.serialport.utilities.FRAME_CMD_INDEX_LOW
+import com.inno.serialport.utilities.PullBufInfo
+import com.inno.serialport.utilities.ReceivedData
 
 class HeartBeatChain : Chain() {
 

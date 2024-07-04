@@ -1,8 +1,8 @@
 package com.inno.coffee.data.serialport
 
-import com.inno.serialport.bean.ReceivedData
 import com.inno.serialport.core.SerialPortFinder
 import com.inno.serialport.function.SerialPortDataManager
+import com.inno.serialport.utilities.ReceivedData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

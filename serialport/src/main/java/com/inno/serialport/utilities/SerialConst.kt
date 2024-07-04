@@ -1,4 +1,4 @@
-package com.inno.serialport.bean
+package com.inno.serialport.utilities
 
 const val FRAME_DATA_START_INDEX = 1
 const val FRAME_FLAG_INDEX = 0

@@ -34,8 +34,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.home.HomeViewModel
 import com.inno.coffee.data.home.LoginState
-import com.inno.coffee.ui.composeClick
 import com.inno.coffee.ui.settings.launchSettingActivity
+import com.inno.coffee.utilities.composeClick
 
 @Composable
 fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {

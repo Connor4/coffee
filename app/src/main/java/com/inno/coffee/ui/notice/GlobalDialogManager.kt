@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.inno.coffee.R
-import com.inno.serialport.bean.ReceivedData
+import com.inno.serialport.utilities.ReceivedData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 

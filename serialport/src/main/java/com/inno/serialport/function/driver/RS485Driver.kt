@@ -2,17 +2,17 @@ package com.inno.serialport.function.driver
 
 import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
-import com.inno.serialport.bean.FRAME_DATA_START_INDEX
-import com.inno.serialport.bean.FRAME_FLAG_INDEX
-import com.inno.serialport.bean.HEART_BEAT_COMMAND
-import com.inno.serialport.bean.ParityType
-import com.inno.serialport.bean.ProductInfo
-import com.inno.serialport.bean.PullBufInfo
-import com.inno.serialport.bean.SerialErrorType
-import com.inno.serialport.bean.StopBits
-import com.inno.serialport.bean.fcstab
 import com.inno.serialport.core.SerialPort
 import com.inno.serialport.core.SerialPortManager
+import com.inno.serialport.utilities.FRAME_DATA_START_INDEX
+import com.inno.serialport.utilities.FRAME_FLAG_INDEX
+import com.inno.serialport.utilities.HEART_BEAT_COMMAND
+import com.inno.serialport.utilities.ParityType
+import com.inno.serialport.utilities.ProductInfo
+import com.inno.serialport.utilities.PullBufInfo
+import com.inno.serialport.utilities.SerialErrorType
+import com.inno.serialport.utilities.StopBits
+import com.inno.serialport.utilities.fcstab
 import kotlinx.serialization.json.Json
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

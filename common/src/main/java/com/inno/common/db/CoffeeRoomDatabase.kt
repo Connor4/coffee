@@ -15,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(DrinksHistory::class, Formula::class, User::class), version = 1,
+@Database(entities = [DrinksHistory::class, Formula::class, User::class], version = 1,
     exportSchema = false)
 abstract class CoffeeRoomDatabase : RoomDatabase() {
 
@@ -47,7 +47,7 @@ abstract class CoffeeRoomDatabase : RoomDatabase() {
 
     private class CoffeeDatabaseCallback(
         private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
+    ) : Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)

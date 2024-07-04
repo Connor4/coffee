@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,7 +22,6 @@ class HomeViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-    private val countdownTime = 15
     private val _drinksTypes = MutableStateFlow<List<DrinksModel>>(emptyList())
     val drinksTypes: StateFlow<List<DrinksModel>> = _drinksTypes.asStateFlow()
     private val _username = MutableStateFlow("")
@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
     val password: StateFlow<String> = _password
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState: StateFlow<LoginState> = _loginState
-    private val _countdown = MutableStateFlow(countdownTime)
+    private val _countdown = MutableStateFlow(LOCK_AND_CLEAN_TIME)
     val countdown: StateFlow<Int> = _countdown
 
     init {
@@ -79,7 +79,7 @@ class HomeViewModel @Inject constructor(
             delay(1000)
             _countdown.value--
         }
-        _countdown.value = 15
+        _countdown.value = LOCK_AND_CLEAN_TIME
     }
 
 }

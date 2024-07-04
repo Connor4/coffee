@@ -1,4 +1,4 @@
-package com.inno.serialport.bean
+package com.inno.serialport.utilities
 
 enum class ParityType(val value: Int) {
     NONE_PARITY(0),
