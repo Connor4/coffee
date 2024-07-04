@@ -1,5 +1,6 @@
 package com.inno.serialport.core
 
+import androidx.annotation.IntDef
 import com.inno.common.utils.Logger
 import java.io.File
 import java.io.FileDescriptor
@@ -17,11 +18,22 @@ class SerialPort private constructor(
     val flag: Int,
     val portFrameSize: Int,
     val readTimeOutMillis: Long
-) : ISerialPort {
+) {
+
     companion object {
+        const val PARITY_NONE = 0
+        const val PARITY_ODD = 1
+        const val PARITY_EVEN = 2
+        const val STOP_BITS_1 = 1
+        const val STOP_BITS_2 = 2
+        const val DATA_BITS_5 = 5
+        const val DATA_BITS_6 = 6
+        const val DATA_BITS_7 = 7
+        const val DATA_BITS_8 = 8
         private const val TAG = "SerialPort"
         private const val SU_PATH = "/system/bin/su"
     }
+
     private var mFd: FileDescriptor? = null
     var mFileInputStream: FileInputStream? = null
     var mFileOutputStream: FileOutputStream? = null
@@ -90,6 +102,18 @@ class SerialPort private constructor(
 
     private external fun setRTS(state: Boolean)
 
+    @Retention(AnnotationRetention.SOURCE)
+    @IntDef(PARITY_NONE, PARITY_ODD, PARITY_EVEN)
+    annotation class Parity
+
+    @Retention(AnnotationRetention.SOURCE)
+    @IntDef(STOP_BITS_1, STOP_BITS_2)
+    annotation class StopBits
+
+    @Retention(AnnotationRetention.SOURCE)
+    @IntDef(DATA_BITS_5, DATA_BITS_6, DATA_BITS_7, DATA_BITS_8)
+    annotation class DataBits
+
     class Builder {
         private var portName: String = "defaultPort"
         private var device: File = File(portName)
@@ -114,15 +138,15 @@ class SerialPort private constructor(
             this.baudRate = baudRate
         }
 
-        fun dataBits(@ISerialPort.DataBits dataBits: Int) = apply {
+        fun dataBits(@DataBits dataBits: Int) = apply {
             this.dataBits = dataBits
         }
 
-        fun parity(@ISerialPort.Parity parity: Int) = apply {
+        fun parity(@Parity parity: Int) = apply {
             this.parity = parity
         }
 
-        fun stopBits(@ISerialPort.StopBits stopBits: Int) = apply {
+        fun stopBits(@StopBits stopBits: Int) = apply {
             this.stopBits = stopBits
         }
 

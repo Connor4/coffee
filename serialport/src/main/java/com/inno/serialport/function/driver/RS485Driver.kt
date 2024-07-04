@@ -2,7 +2,6 @@ package com.inno.serialport.function.driver
 
 import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
-import com.inno.serialport.core.ISerialPort
 import com.inno.serialport.core.SerialPort
 import com.inno.serialport.core.SerialPortManager
 import com.inno.serialport.utilities.FRAME_DATA_START_INDEX
@@ -24,9 +23,9 @@ class RS485Driver : IDriver {
         private const val TAG = "RS485Driver"
         private const val DEVICE_PATH = "/dev/ttyS9"
         private const val BAUD_RATE = 115200
-        private const val DATA_BITES = ISerialPort.DATA_BITS_8
-        private const val STOP_BITS = ISerialPort.STOP_BITS_1
-        private const val PARITY = ISerialPort.PARITY_NONE
+        private const val DATA_BITES = SerialPort.DATA_BITS_8
+        private const val STOP_BITS = SerialPort.STOP_BITS_1
+        private const val PARITY = SerialPort.PARITY_NONE
         private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
 
         // pull info12(flag1 + addr1 + control1 +
