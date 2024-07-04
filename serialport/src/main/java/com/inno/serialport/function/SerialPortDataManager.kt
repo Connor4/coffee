@@ -71,6 +71,7 @@ class SerialPortDataManager private constructor() {
         mutex.withLock {
             heartBeatJob?.cancel()
             driver.send(command)
+            // TODO use delay to pull info is not reliable
             receiveData()
         }
     }
