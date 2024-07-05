@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
@@ -61,7 +62,6 @@ class SerialPortDataManager private constructor() {
     fun close() {
         Logger.d(TAG, "close driver")
         heartBeatMiss = 0
-        heartBeatJob?.cancel()
         scope.coroutineContext.cancelChildren()
         driver.close()
     }
@@ -69,23 +69,23 @@ class SerialPortDataManager private constructor() {
     suspend fun sendCommand(command: String) {
         Logger.d(TAG, "sendCommand $command")
         mutex.withLock {
-            heartBeatJob?.cancel()
+            heartBeatJob?.cancelAndJoin()
             driver.send(command)
-            // TODO use delay to pull info is not reliable
-            receiveData()
+//            receiveData()
+            // maybe we can share the heartbeat receive data, thus we don't need to
+            // worry about function command response
+            startHeartBeat()
         }
     }
 
     private suspend fun receiveData() {
         delay(RECEIVE_INTERVAL_MILLIS)
-//        Logger.d(TAG, "receiveData")
+        Logger.d(TAG, "receiveData() called $retryCount")
         val pullBufInfo = driver.receive()
         val result = chain.proceed(pullBufInfo)
-//        Logger.d(TAG, "result: $result")
         result?.let {
             processRetry(it)
             _receivedDataFlow.emit(it)
-//            Logger.d(TAG, "handle result: $it")
         }
     }
 
@@ -97,8 +97,8 @@ class SerialPortDataManager private constructor() {
                     // delay must stay here, or reopen will recall this and
                     // interrupt delay.
                     delay(PULL_INTERVAL_MILLIS)
+                    Logger.d(TAG, "startHeartBeat() called")
                     mutex.withLock {
-                        Logger.d(TAG, "startHeartBeat")
                         driver.sendHeartBeat()
                         receiveData()
                     }
