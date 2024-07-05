@@ -24,10 +24,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.inno.coffee.R
 import com.inno.coffee.data.settings.permissions.UserViewModel
 import com.inno.common.db.entity.User
 
@@ -58,26 +60,30 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
                     Button(onClick = {
                         viewModel.authenticateUser(username, password) {
                             if (it) {
-                                Toast.makeText(context, "密码正确", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context,
+                                    context.getString(R.string.permission_password_correct),
+                                    Toast.LENGTH_SHORT).show()
                             } else {
-                                Toast.makeText(context, "密码错误", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context,
+                                    context.getString(R.string.permission_password_error), Toast
+                                        .LENGTH_SHORT).show()
                             }
                         }
                     }, modifier = Modifier.padding(start = 10.dp)) {
-                        Text(text = "登录")
+                        Text(text = stringResource(id = R.string.permission_login_user))
                     }
 
                     Button(onClick = {
                         viewModel.registerUser(username, password, roleId.toInt(),
                             permissionId.toLong())
                     }, modifier = Modifier.padding(start = 10.dp)) {
-                        Text(text = "新增")
+                        Text(text = stringResource(id = R.string.permission_insert_user))
                     }
 
                     Button(onClick = {
 
                     }, modifier = Modifier.padding(start = 10.dp)) {
-                        Text(text = "更新")
+                        Text(text = stringResource(id = R.string.permission_update_user))
                     }
                 }
                 Row(modifier = Modifier.padding(start = 10.dp, top = 20.dp)) {
