@@ -41,5 +41,6 @@
     <string name="permission_login_user">登录</string>
     <string name="permission_update_user">更新用户</string>
     <string name="permission_insert_user">注册用户</string>
+    <string name="permission_delete_user">删除账号</string>
 
 </resources>

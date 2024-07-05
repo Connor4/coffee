@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.settings.permissions.UserViewModel
 import com.inno.common.db.entity.User
+import com.inno.common.utils.UserSessionManager
 
 @Composable
 fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hiltViewModel()) {
@@ -54,7 +55,6 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
         .width(300.dp)
         .fillMaxHeight()) {
         Column {
-            Text(text = "权限")
             Column {
                 Row(modifier = Modifier.padding(top = 10.dp)) {
                     Button(onClick = {
@@ -75,15 +75,26 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
 
                     Button(onClick = {
                         viewModel.registerUser(username, password, roleId.toInt(),
-                            permissionId.toLong())
+                            permissionId.toInt())
                     }, modifier = Modifier.padding(start = 10.dp)) {
                         Text(text = stringResource(id = R.string.permission_insert_user))
                     }
 
                     Button(onClick = {
-
+                        val user = UserSessionManager.getUser()
+                        user?.let {
+                            viewModel.updateUser(user)
+                        }
                     }, modifier = Modifier.padding(start = 10.dp)) {
                         Text(text = stringResource(id = R.string.permission_update_user))
+                    }
+                    Button(onClick = {
+                        val user = UserSessionManager.getUser()
+                        user?.let {
+                            viewModel.deleteUser(it)
+                        }
+                    }) {
+                        Text(text = stringResource(id = R.string.permission_delete_user))
                     }
                 }
                 Row(modifier = Modifier.padding(start = 10.dp, top = 20.dp)) {
@@ -140,5 +151,4 @@ fun UserInfoItem(user: User) {
 @Preview
 @Composable
 fun PreviewPermissionPage() {
-    PermissionPage()
 }

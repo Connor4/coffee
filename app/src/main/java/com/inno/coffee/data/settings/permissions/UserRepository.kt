@@ -1,36 +1,68 @@
 package com.inno.coffee.data.settings.permissions
 
+import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.db.dao.UserDao
 import com.inno.common.db.entity.User
 import com.inno.common.utils.BcryptUtils
 import com.inno.common.utils.UserSessionManager
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun registerUser(username: String, password: String, roleId: Int, permissionId: Long) {
-        val hashedPassword = BcryptUtils.hashPassword(password)
-        val user = User(username, hashedPassword, roleId, permissionId)
-        userDao.insertUser(user)
+    suspend fun registerUser(username: String, password: String, roleId: Int, permissionId: Int)
+            : Boolean {
+        return withContext(defaultDispatcher) {
+            val hashedPassword = BcryptUtils.hashPassword(password)
+            val user = User(username, hashedPassword, roleId, permissionId)
+            try {
+                userDao.insertUser(user) != -1L
+            } catch (e: Exception) {
+                false
+            }
+        }
     }
 
     suspend fun authenticateUser(username: String, password: String): Boolean {
-        val user = userDao.getUserByUserName(username)
-        return user?.let {
-            val checkPassword = BcryptUtils.checkPassword(password, it.passwordHash)
-            if (checkPassword) {
-                UserSessionManager.setUser(user)
+        return withContext(defaultDispatcher) {
+            val user = userDao.getUserByUserName(username)
+            user?.let {
+                val checkPassword = BcryptUtils.checkPassword(password, it.passwordHash)
+                if (checkPassword) {
+                    UserSessionManager.setUser(user)
+                }
+                checkPassword
+            } ?: false
+        }
+    }
+
+    suspend fun updateUser(user: User): Boolean {
+        return withContext(defaultDispatcher) {
+            try {
+                userDao.updateUser(user) > 0
+            } catch (e: Exception) {
+                false
             }
-            checkPassword
-        } ?: false
+        }
+    }
+
+    suspend fun deleteUser(user: User): Boolean {
+        return withContext(defaultDispatcher) {
+            try {
+                userDao.deleteUser(user.id) > 0
+            } catch (e: Exception) {
+                false
+            }
+        }
     }
 
     fun getAllUser(): Flow<List<User>> {
         return userDao.getAllUser()
     }
-
 
 }

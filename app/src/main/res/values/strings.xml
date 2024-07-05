@@ -40,5 +40,6 @@
     <string name="permission_login_user">login</string>
     <string name="permission_update_user">update</string>
     <string name="permission_insert_user">register</string>
+    <string name="permission_delete_user">delete account</string>
 
 </resources>
