@@ -2,13 +2,15 @@ package com.inno.common.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.inno.common.annotation.UserModule
+import com.inno.common.annotation.UserRole
 
 @Entity(tableName = "users_table")
 data class User(
     var username: String,
     var passwordHash: String,
-    var roleId: Int,
-    var permissionId: Long,
+    @UserRole var roleId: Int,
+    @UserModule var permissionId: Int,
     @PrimaryKey(autoGenerate = true) var id: Int = 0
 )
 
