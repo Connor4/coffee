@@ -3,6 +3,17 @@
 
     <string name="common_button_confirm">OK</string>
     <string name="common_button_cancel">Cancel</string>
+    <string name="common_statistic">statistic</string>
+    <string name="common_formula">formula</string>
+    <string name="common_display">display</string>
+    <string name="common_machine_setting">machine_setting</string>
+    <string name="common_machine_operation">machine_operation</string>
+    <string name="common_vat_and_grind">vat_and_grind</string>
+    <string name="common_wash_machine">wash_machine</string>
+    <string name="common_permission">permission</string>
+    <string name="common_maintenance">maintenance</string>
+    <string name="common_serial_test">serial_test</string>
+
     <string name="first_install_language_Chinese">中文</string>
     <string name="first_install_language_English">English</string>
 
@@ -41,5 +52,6 @@
     <string name="permission_update_user">update</string>
     <string name="permission_insert_user">register</string>
     <string name="permission_delete_user">delete account</string>
+
 
 </resources>

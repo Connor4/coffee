@@ -118,7 +118,7 @@ fun DetailScreen(item: String?, navHostController: NavHostController, modifier: 
             FORMULA -> FormulaPage()
             PERMISSION -> PermissionPage()
             SERIAL_TEST -> SerialTest()
-            else -> StatisticsMainScreen(navHostController)
+            else -> {}
         }
     }
 }

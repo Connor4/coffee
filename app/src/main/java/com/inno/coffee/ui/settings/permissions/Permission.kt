@@ -139,7 +139,7 @@ fun UserInfoItem(user: User) {
     Row {
         Text(text = user.username, style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.width(200.dp))
-        Text(text = user.passwordHash, style = MaterialTheme.typography.bodyMedium,
+        Text(text = "hash", style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.width(200.dp))
         Text(text = "${user.roleId}", style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.width(200.dp))
