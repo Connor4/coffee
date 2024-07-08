@@ -50,12 +50,13 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
     var password by rememberSaveable {
         mutableStateOf("")
     }
-    var roleValue by remember {
+    var roleValue by rememberSaveable {
         mutableIntStateOf(0)
     }
-    var permissionValue by remember {
+    var permissionValue by rememberSaveable {
         mutableIntStateOf(DEFAULT_PERMISSION_MODULE)
     }
+    val loginState by viewModel.authenticateResult.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val userList by viewModel.userList.collectAsStateWithLifecycle()
 
@@ -116,8 +117,8 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
                         Text(text = stringResource(id = R.string.permission_delete_user))
                     }
                 }
-
-                Text(text = "当前用户信息")
+                val state = if (loginState!!) "已登录" else "未登录"
+                Text(text = "当前账号状态：$state", modifier.padding(start = 16.dp, top = 20.dp))
                 Spacer(modifier = Modifier.height(10.dp))
                 LazyColumn(
                     modifier = Modifier
