@@ -8,7 +8,7 @@
     <string name="common_formula">配方管理</string>
     <string name="common_display">显示配置</string>
     <string name="common_machine_setting">机器设置</string>
-    <string name="common_machine_operation">机器管理？</string>
+    <string name="common_machine_operation">机器管理</string>
     <string name="common_vat_and_grind">豆缸磨刀</string>
     <string name="common_wash_machine">洗机设置</string>
     <string name="common_permission">权限管理</string>

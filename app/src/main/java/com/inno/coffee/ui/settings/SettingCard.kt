@@ -1,6 +1,5 @@
 package com.inno.coffee.ui.settings
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,8 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,28 +35,34 @@ import com.inno.coffee.ui.serialtest.SerialTest
 import com.inno.coffee.ui.settings.formula.FormulaPage
 import com.inno.coffee.ui.settings.permissions.PermissionPage
 import com.inno.coffee.ui.settings.statistics.StatisticsMainScreen
+import com.inno.common.annotation.DISPLAY
+import com.inno.common.annotation.FORMULA
+import com.inno.common.annotation.HOME
+import com.inno.common.annotation.MACHINE_OPERATION
+import com.inno.common.annotation.MACHINE_SETTING
+import com.inno.common.annotation.MAINTENANCE
+import com.inno.common.annotation.PERMISSION
+import com.inno.common.annotation.SERIAL_TEST
+import com.inno.common.annotation.STATISTIC
+import com.inno.common.annotation.VAT_AND_GRIND
+import com.inno.common.annotation.WASH_MACHINE
 
-private const val HOME = "home"
-private const val STATISTICS = "statistic"
-private const val FORMULA = "formula"
-private const val DISPLAY = "display"
-private const val MACHINE_SETTING = "machine_setting"
-private const val MACHINE_OPERATION = "machine_operation"
-private const val VAT_AND_GRIND = "vat_and_grind"
-private const val WASH_MACHINE = "wash_machine"
-private const val PERMISSION = "permission"
-private const val MAINTENANCE = "maintenance"
-private const val SERIAL_TEST = "serial_test"
-
-private val items =
-    mutableListOf(STATISTICS, FORMULA, DISPLAY, MACHINE_SETTING, MACHINE_OPERATION, VAT_AND_GRIND,
-        WASH_MACHINE, PERMISSION, MAINTENANCE, SERIAL_TEST)
 
 @Composable
 fun SettingCardLayout(
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
+    val names = arrayOf(
+        Pair(STATISTIC, R.string.common_statistic), Pair(FORMULA, R.string.common_formula),
+        Pair(DISPLAY, R.string.common_display),
+        Pair(MACHINE_SETTING, R.string.common_machine_setting),
+        Pair(MACHINE_OPERATION, R.string.common_machine_operation),
+        Pair(VAT_AND_GRIND, R.string.common_vat_and_grind),
+        Pair(WASH_MACHINE, R.string.common_wash_machine),
+        Pair(PERMISSION, R.string.common_permission),
+        Pair(MAINTENANCE, R.string.common_maintenance),
+        Pair(SERIAL_TEST, R.string.common_serial_test)
+    )
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = HOME) {
@@ -72,10 +77,10 @@ fun SettingCardLayout(
                         .fillMaxSize()
                         .padding(top = 8.dp)
                 ) {
-                    itemsIndexed(items) { index, _ ->
-                        val title = findTitle(index, context)
+                    itemsIndexed(names) { _, item ->
+                        val title = stringResource(id = item.second)
                         CardItem(title) {
-                            navController.navigate("detail/$it")
+                            navController.navigate("detail/${item.first}")
                         }
                     }
                 }
@@ -119,49 +124,14 @@ fun CardItem(title: String, onClick: () -> Unit) {
 fun DetailScreen(item: String?, navHostController: NavHostController, modifier: Modifier) {
     Surface(modifier = modifier.fillMaxSize(), color = Color.Transparent) {
         when (item) {
-            STATISTICS -> StatisticsMainScreen(navHostController)
+            STATISTIC -> StatisticsMainScreen(navHostController)
             FORMULA -> FormulaPage()
             PERMISSION -> PermissionPage()
+            MACHINE_SETTING -> {}
             SERIAL_TEST -> SerialTest()
             else -> {}
         }
     }
-}
-
-private fun findTitle(index: Int, context: Context): String {
-    when (index) {
-        0 -> {
-            context.getString(R.string.common_statistic)
-        }
-        1 -> {
-            context.getString(R.string.common_formula)
-        }
-        2 -> {
-            context.getString(R.string.common_display)
-        }
-        3 -> {
-            context.getString(R.string.common_machine_setting)
-        }
-        4 -> {
-            context.getString(R.string.common_machine_operation)
-        }
-        5 -> {
-            context.getString(R.string.common_vat_and_grind)
-        }
-        6 -> {
-            context.getString(R.string.common_wash_machine)
-        }
-        7 -> {
-            context.getString(R.string.common_permission)
-        }
-        8 -> {
-            context.getString(R.string.common_maintenance)
-        }
-        9 -> {
-            context.getString(R.string.common_serial_test)
-        }
-    }
-    return ""
 }
 
 @Preview(device = Devices.TABLET)
