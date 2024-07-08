@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,6 +57,7 @@ private val items =
 fun SettingCardLayout(
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = HOME) {
@@ -69,8 +72,9 @@ fun SettingCardLayout(
                         .fillMaxSize()
                         .padding(top = 8.dp)
                 ) {
-                    items(items) {
-                        CardItem(it) {
+                    itemsIndexed(items) { index, _ ->
+                        val title = findTitle(index, context)
+                        CardItem(title) {
                             navController.navigate("detail/$it")
                         }
                     }
@@ -104,6 +108,7 @@ fun CardItem(title: String, onClick: () -> Unit) {
                     .size(250.dp)
                     .align(alignment = Alignment.CenterHorizontally)
             )
+
             Text(text = title, style = MaterialTheme.typography.displaySmall, modifier = Modifier
                 .align(alignment = Alignment.CenterHorizontally))
         }
@@ -121,6 +126,42 @@ fun DetailScreen(item: String?, navHostController: NavHostController, modifier: 
             else -> {}
         }
     }
+}
+
+private fun findTitle(index: Int, context: Context): String {
+    when (index) {
+        0 -> {
+            context.getString(R.string.common_statistic)
+        }
+        1 -> {
+            context.getString(R.string.common_formula)
+        }
+        2 -> {
+            context.getString(R.string.common_display)
+        }
+        3 -> {
+            context.getString(R.string.common_machine_setting)
+        }
+        4 -> {
+            context.getString(R.string.common_machine_operation)
+        }
+        5 -> {
+            context.getString(R.string.common_vat_and_grind)
+        }
+        6 -> {
+            context.getString(R.string.common_wash_machine)
+        }
+        7 -> {
+            context.getString(R.string.common_permission)
+        }
+        8 -> {
+            context.getString(R.string.common_maintenance)
+        }
+        9 -> {
+            context.getString(R.string.common_serial_test)
+        }
+    }
+    return ""
 }
 
 @Preview(device = Devices.TABLET)
