@@ -53,5 +53,8 @@
     <string name="permission_update_user">更新用户</string>
     <string name="permission_insert_user">注册用户</string>
     <string name="permission_delete_user">删除账号</string>
+    <string name="permission_role_employee">店员</string>
+    <string name="permission_role_manager">管理员</string>
+    <string name="permission_role_support">售后支持</string>
 
 </resources>

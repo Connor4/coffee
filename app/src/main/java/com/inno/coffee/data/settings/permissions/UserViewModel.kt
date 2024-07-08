@@ -3,6 +3,7 @@ package com.inno.coffee.data.settings.permissions
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.common.db.entity.User
+import com.inno.common.utils.UserSessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -45,18 +46,23 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun updateUser(user: User) {
+    fun updateUser() {
         viewModelScope.launch {
-            val update = repository.updateUser(user)
-            _updateResult.value = update
+            val user = UserSessionManager.getUser()
+            user?.let {
+                val update = repository.updateUser(it)
+                _updateResult.value = update
+            }
         }
     }
 
-    // TODO need check role first
-    fun deleteUser(user: User) {
+    fun deleteUser() {
         viewModelScope.launch {
-            val deleteUser = repository.deleteUser(user)
-            _deleteResult.value = deleteUser
+            val user = UserSessionManager.getUser()
+            user?.let {
+                val deleteUser = repository.deleteUser(user)
+                _deleteResult.value = deleteUser
+            }
         }
     }
 

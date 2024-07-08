@@ -6,6 +6,6 @@ import androidx.annotation.IntDef
 @IntDef(SUPPORT, MANAGER, EMPLOYEE)
 annotation class UserRole
 
-const val SUPPORT = 3
-const val MANAGER = 2
 const val EMPLOYEE = 1
+const val MANAGER = 2
+const val SUPPORT = 3
