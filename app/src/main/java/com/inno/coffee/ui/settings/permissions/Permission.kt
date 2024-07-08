@@ -77,7 +77,7 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
 
                 }
                 RoleCheckBox {
-                    roleValue = it
+                    roleValue = it + 1
                 }
                 ModuleCheckBox(permissionValue) {
                     permissionValue = it
