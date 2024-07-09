@@ -40,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.settings.permissions.UserViewModel
 import com.inno.coffee.utilities.DEFAULT_PERMISSION_MODULE
+import com.inno.coffee.utilities.debouncedClickable
 import com.inno.common.db.entity.User
 
 @Composable
@@ -159,22 +160,23 @@ fun RoleCheckBox(onValueChanged: (Int) -> Unit) {
         mutableIntStateOf(0)
     }
     options.forEachIndexed { index, option ->
-        Row(
-            Modifier
-                .selectable(
-                    selected = (index == selectedOptionIndex),
-                    onClick = { onValueChanged(selectedOptionIndex) },
-                    role = Role.RadioButton,
-                )
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(selected = (index == selectedOptionIndex),
+        Row(Modifier
+            .selectable(
+                selected = (index == selectedOptionIndex),
                 onClick = {
                     selectedOptionIndex = index
                     onValueChanged(selectedOptionIndex)
-                }
+                },
+                role = Role.RadioButton,
             )
+            .debouncedClickable(onClick = {
+                selectedOptionIndex = index
+                onValueChanged(selectedOptionIndex)
+            })
+            .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RadioButton(selected = (index == selectedOptionIndex), onClick = { })
             Text(text = option, style = MaterialTheme.typography.bodyLarge, modifier = Modifier
                 .padding(start = 6.dp))
         }
