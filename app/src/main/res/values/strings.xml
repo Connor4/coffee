@@ -9,7 +9,7 @@
     <string name="common_machine_setting">Machine Setting</string>
     <string name="common_machine_operation">Machine Operation</string>
     <string name="common_vat_and_grind">Vat/Grind</string>
-    <string name="common_wash_machine">Wash Machine</string>
+    <string name="common_wash_machine">Rinse</string>
     <string name="common_permission">Permission</string>
     <string name="common_maintenance">Maintenance</string>
     <string name="common_serial_test">Serial Test</string>
