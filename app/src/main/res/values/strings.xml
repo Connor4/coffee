@@ -3,16 +3,16 @@
 
     <string name="common_button_confirm">OK</string>
     <string name="common_button_cancel">Cancel</string>
-    <string name="common_statistic">statistic</string>
-    <string name="common_formula">formula</string>
-    <string name="common_display">display</string>
-    <string name="common_machine_setting">machine_setting</string>
-    <string name="common_machine_operation">machine_operation</string>
-    <string name="common_vat_and_grind">vat_and_grind</string>
-    <string name="common_wash_machine">wash_machine</string>
-    <string name="common_permission">permission</string>
-    <string name="common_maintenance">maintenance</string>
-    <string name="common_serial_test">serial_test</string>
+    <string name="common_statistic">Statistic</string>
+    <string name="common_formula">Formula</string>
+    <string name="common_display">Display</string>
+    <string name="common_machine_setting">Machine Setting</string>
+    <string name="common_machine_operation">Machine Operation</string>
+    <string name="common_vat_and_grind">Vat/Grind</string>
+    <string name="common_wash_machine">Wash Machine</string>
+    <string name="common_permission">Permission</string>
+    <string name="common_maintenance">Maintenance</string>
+    <string name="common_serial_test">Serial Test</string>
 
     <string name="first_install_language_Chinese">中文</string>
     <string name="first_install_language_English">English</string>
