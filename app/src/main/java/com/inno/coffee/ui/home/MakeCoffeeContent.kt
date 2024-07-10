@@ -88,15 +88,15 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
                     Text(text = stringResource(id = R.string.home_standby_mode))
                 }
 
-                LoginContent(context, showDialog = showLoginDialog, onDismiss = {
-                    showLoginDialog = false
-                }, viewModel = viewModel)
+                LoginContent(context, showDialog = showLoginDialog,
+                    onDismiss = { showLoginDialog = false }, viewModel = viewModel)
                 LockCleanDialog(showDialog = showCleanDialog,
-                    onDismiss = { showCleanDialog = false },
-                    viewModel = viewModel)
+                    onDismiss = { showCleanDialog = false }, viewModel = viewModel)
                 MachineInfoDialog(showDialog = showInfoDialog) {
                     showInfoDialog = false
                 }
+                StandByModeDialog(showDialog = showStandByModeDialog,
+                    onDismiss = { showStandByModeDialog = false })
             }
 
             val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
@@ -265,10 +265,26 @@ fun MachineInfoDialog(
 fun StandByModeDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
-    viewModel: HomeViewModel
 ) {
     if (showDialog) {
-
+        Dialog(onDismissRequest = { /*TODO*/ }) {
+            Surface(
+                modifier = Modifier
+                    .width(700.dp)
+                    .height(500.dp),
+                shape = RoundedCornerShape(8.dp),
+                color = MaterialTheme.colorScheme.background,
+            ) {
+                Column {
+                    Text(text = "确认进去待机模式？")
+                    Button(
+                        onClick = { onDismiss() }
+                    ) {
+                        Text(text = stringResource(id = R.string.common_button_confirm))
+                    }
+                }
+            }
+        }
     }
 }
 
