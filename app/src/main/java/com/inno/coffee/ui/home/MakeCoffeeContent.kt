@@ -1,13 +1,16 @@
 package com.inno.coffee.ui.home
 
 import android.content.Context
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -23,14 +26,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.home.HomeViewModel
 import com.inno.coffee.data.home.LoginState
@@ -39,9 +44,15 @@ import com.inno.coffee.utilities.composeClick
 
 @Composable
 fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
-    Surface(color = Color.Transparent) {
-        Column {
-            Row {
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
+        Column(
+            modifier = modifier.fillMaxSize()
+        ) {
+            Row(
+                modifier = modifier.wrapContentHeight()
+            ) {
                 val context = LocalContext.current
                 var showLoginDialog by remember {
                     mutableStateOf(false)
@@ -88,11 +99,38 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
                 }
             }
 
-//            val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
-//            DrinkList(modifier = modifier, drinksData = drinksData)
+            val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
+            DrinkList(modifier = modifier, drinksData = drinksData)
+        }
+        BottomInfo(modifier = Modifier.align(Alignment.BottomCenter))
+    }
+}
+
+@Composable
+fun BottomInfo(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(100.dp),
+    ) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 200.dp)
+        ) {
+            Text(
+                text = "左边咖啡锅炉温度：30°C",
+                modifier = Modifier.padding(bottom = 8.dp),
+                style = TextStyle(fontSize = 19.sp)
+            )
+            Text(
+                text = "右边咖啡锅炉温度：29°C",
+                style = TextStyle(fontSize = 19.sp)
+            )
         }
     }
-
 }
 
 @Composable
