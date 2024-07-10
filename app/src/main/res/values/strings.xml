@@ -45,6 +45,20 @@
     <string name="home_login_password">password</string>
     <string name="home_login_confirm">login</string>
     <string name="home_lock_clean_count_tip">Unlock screen before countdown ends</string>
+    <string name="home_item_stop">stop</string>
+    <string name="home_item_hot_water">hot water</string>
+    <string name="home_item_foam">foam</string>
+    <string name="home_item_rinse">rinse</string>
+    <string name="home_item_espresso">espresso</string>
+    <string name="home_item_coffee">coffee</string>
+    <string name="home_item_americano">Americano</string>
+    <string name="home_item_auto_foam">auto foam</string>
+    <string name="home_item_double_espresso">double espresso</string>
+    <string name="home_item_double_coffee">double coffee</string>
+    <string name="home_item_double_americano">double Americano</string>
+    <string name="home_item_manual_foam">manual foam</string>
+    <string name="home_item_cappuccino">Cappuccino</string>
+    <string name="home_item_latte">Latte</string>
 
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>

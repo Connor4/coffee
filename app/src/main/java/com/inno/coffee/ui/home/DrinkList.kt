@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -104,11 +105,11 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
             elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         ) {
             Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-//                Text(
-//                    text = "$${model.price}",
-//                    fontSize = 20.sp,
-//                    modifier = Modifier.padding(start = 5.dp, top = 5.dp)
-//                )
+                Text(
+                    text = "",
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(start = 5.dp, top = 5.dp)
+                )
                 Spacer(modifier = Modifier.height(5.dp))
                 AsyncImage(
                     model = model.imageRes,
@@ -119,7 +120,7 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
                         .align(Alignment.CenterHorizontally))
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = model.name,
+                    text = stringResource(id = model.name),
                     fontSize = 25.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
@@ -131,7 +132,7 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
 @Preview
 @Composable
 fun DrinksItemPreview() {
-    DrinkItem(model = DrinksModel(20, "美式咖啡", R.drawable.coffee1), offsetX = 0f)
+    DrinkItem(model = DrinksModel(20, R.string.home_item_foam, R.drawable.coffee1), offsetX = 0f)
 //    val drinks = listOf(
 //        DrinksModel(50, "Coffee", android.R.drawable.ic_menu_report_image),
 //        DrinksModel(20, "Tea", android.R.drawable.ic_menu_report_image),

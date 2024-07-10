@@ -10,67 +10,73 @@ class HomeLocalDataSource @Inject constructor() {
     val drinksTypes = listOf(
         DrinksModel(
             price = 20,
-            name = "咖啡1",
-            imageRes = R.drawable.coffee1
+            name = R.string.home_item_stop,
+            imageRes = R.drawable.stop
         ),
         DrinksModel(
             price = 21,
-            name = "咖啡2",
+            name = R.string.home_item_hot_water,
             imageRes = R.drawable.coffee2
         ),
         DrinksModel(
             price = 22,
-            name = "咖啡3",
+            name = R.string.home_item_foam,
             imageRes = R.drawable.coffee3
         ),
         DrinksModel(
             price = 24,
-            name = "咖啡4",
+            name = R.string.home_item_rinse,
             imageRes = R.drawable.coffee4
         ),
         DrinksModel(
             price = 18,
-            name = "咖啡5",
+            name = R.string.home_item_espresso,
             imageRes = R.drawable.coffee5
         ),
         DrinksModel(
             price = 10,
-            name = "咖啡6",
+            name = R.string.home_item_coffee,
             imageRes = R.drawable.coffee6
         ),
         DrinksModel(
             price = 10,
-            name = "咖啡7",
+            name = R.string.home_item_americano,
             imageRes = R.drawable.coffee6
         ),
         DrinksModel(
             price = 10,
-            name = "咖啡8",
+            name = R.string.home_item_auto_foam,
             imageRes = R.drawable.coffee6
         ),
         DrinksModel(
             price = 10,
-            name = "咖啡9",
+            name = R.string.home_item_double_espresso,
             imageRes = R.drawable.coffee6
         ),
         DrinksModel(
             price = 10,
-            name = "咖啡10",
+            name = R.string.home_item_double_coffee,
             imageRes = R.drawable.coffee6
         ),
         DrinksModel(
             price = 10,
-            name = "咖啡11",
+            name = R.string.home_item_double_americano,
             imageRes = R.drawable.coffee6
         ),
         DrinksModel(
             price = 10,
-            name = "咖啡12",
+            name = R.string.home_item_manual_foam,
             imageRes = R.drawable.coffee6
         ),
         DrinksModel(
             price = 10,
-            name = "咖啡13",
+            name = R.string.home_item_cappuccino,
+            imageRes = R.drawable.coffee6
+        ),
+
+        DrinksModel(
+            price = 10,
+            name = R.string.home_item_latte,
             imageRes = R.drawable.coffee6
         ),
         )
