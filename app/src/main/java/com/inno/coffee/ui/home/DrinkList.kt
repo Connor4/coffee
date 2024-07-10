@@ -104,11 +104,11 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
             elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         ) {
             Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text(
-                    text = "$${model.price}",
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 5.dp, top = 5.dp)
-                )
+//                Text(
+//                    text = "$${model.price}",
+//                    fontSize = 20.sp,
+//                    modifier = Modifier.padding(start = 5.dp, top = 5.dp)
+//                )
                 Spacer(modifier = Modifier.height(5.dp))
                 AsyncImage(
                     model = model.imageRes,
