@@ -31,9 +31,10 @@ class UserViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    fun registerUser(username: String, password: String, roleId: Int, permissionId: Int) {
+    fun registerUser(username: String, password: String, role: Int, permission: Int,
+        remark: String = "-") {
         viewModelScope.launch {
-            val register = repository.registerUser(username, password, roleId, permissionId)
+            val register = repository.registerUser(username, password, role, permission, remark)
             _registerResult.value = register
         }
     }

@@ -51,6 +51,9 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
     var password by rememberSaveable {
         mutableStateOf("")
     }
+    var remark by rememberSaveable {
+        mutableStateOf("")
+    }
     var roleValue by rememberSaveable {
         mutableIntStateOf(0)
     }
@@ -68,15 +71,18 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
             Column {
                 Row(modifier = Modifier.padding(start = 10.dp, top = 20.dp)) {
                     TextField(value = username, onValueChange = { username = it }, placeholder = {
-                        Text(text = "username")
+                        Text(text = stringResource(id = R.string.permission_hint_username))
                     }, modifier = Modifier.width(200.dp))
                     Spacer(modifier = Modifier.width(10.dp))
 
                     TextField(value = password, onValueChange = { password = it }, placeholder = {
-                        Text(text = "password")
+                        Text(text = stringResource(id = R.string.permission_hint_password))
                     }, modifier = Modifier.width(200.dp))
                     Spacer(modifier = Modifier.width(10.dp))
 
+                    TextField(value = remark, onValueChange = { remark = it }, placeholder = {
+                        Text(text = stringResource(id = R.string.permission_hint_remark))
+                    }, modifier = Modifier.width(200.dp))
                 }
                 RoleCheckBox {
                     roleValue = it + 1
@@ -85,7 +91,7 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
                     permissionValue = it
                 }
                 Button(onClick = {
-                    viewModel.registerUser(username, password, roleValue, permissionValue)
+                    viewModel.registerUser(username, password, roleValue, permissionValue, remark)
                 }, modifier = Modifier.padding(start = 10.dp)) {
                     Text(text = stringResource(id = R.string.permission_insert_user))
                 }
@@ -143,9 +149,11 @@ fun UserInfoItem(user: User) {
             modifier = Modifier.width(200.dp))
         Text(text = "hash", style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.width(200.dp))
-        Text(text = "${user.roleId}", style = MaterialTheme.typography.bodyMedium,
+        Text(text = "${user.role}", style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.width(200.dp))
-        Text(text = "${user.permissionId}", style = MaterialTheme.typography.bodyMedium,
+        Text(text = "${user.permission}", style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.width(200.dp))
+        Text(text = user.remark, style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.width(200.dp))
     }
 }

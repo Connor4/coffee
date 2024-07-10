@@ -9,8 +9,9 @@ import com.inno.common.annotation.UserRole
 data class User(
     var username: String,
     var passwordHash: String,
-    @UserRole var roleId: Int,
-    @UserModule var permissionId: Int,
+    @UserRole var role: Int,
+    @UserModule var permission: Int,
+    var remark: String,
     @PrimaryKey(autoGenerate = true) var id: Int = 0
 )
 

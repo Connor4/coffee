@@ -23,10 +23,10 @@ interface UserDao {
     @Query("DELETE FROM users_table WHERE id = :id")
     suspend fun deleteUser(id: Int): Int
 
-    @Query("UPDATE users_table SET roleId = :roleId WHERE id = :id")
+    @Query("UPDATE users_table SET role = :roleId WHERE id = :id")
     suspend fun updateUserRoleId(id: Int, roleId: Long)
 
-    @Query("UPDATE users_table SET permissionId = :permissionId WHERE id = :id")
+    @Query("UPDATE users_table SET permission = :permissionId WHERE id = :id")
     suspend fun updateUserPermissionId(id: Int, permissionId: Int)
 
     @Query("SELECT * FROM users_table ORDER BY id ASC")

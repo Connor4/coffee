@@ -15,11 +15,11 @@ class UserRepository @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun registerUser(username: String, password: String, roleId: Int, permissionId: Int)
-            : Boolean {
+    suspend fun registerUser(username: String, password: String, role: Int, permission: Int,
+        remark: String): Boolean {
         return withContext(defaultDispatcher) {
             val hashedPassword = BcryptUtils.hashPassword(password)
-            val user = User(username, hashedPassword, roleId, permissionId)
+            val user = User(username, hashedPassword, role, permission, remark)
             try {
                 userDao.insertUser(user) != -1L
             } catch (e: Exception) {
