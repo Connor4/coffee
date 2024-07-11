@@ -82,7 +82,6 @@ class UserViewModel @Inject constructor(
                     LoginState.Error(context.getString(R.string.home_login_authenticate_fail))
                 return@launch
             }
-
             _loginState.value = LoginState.Success
         }
     }

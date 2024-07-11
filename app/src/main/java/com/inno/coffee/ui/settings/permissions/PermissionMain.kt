@@ -13,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -21,9 +22,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
 import com.inno.coffee.data.home.LoginState
 import com.inno.coffee.data.settings.permissions.UserViewModel
+import com.inno.common.utils.Logger
 
 @Composable
 fun PermissionEntrance(
@@ -33,41 +38,60 @@ fun PermissionEntrance(
     val username by viewModel.username.collectAsState()
     val password by viewModel.password.collectAsState()
     val loginState by viewModel.loginState.collectAsState()
-    when (loginState) {
-        is LoginState.Success -> {
-            PermissionPage()
+    val context = LocalContext.current
+
+    val navHostController = rememberNavController()
+    LaunchedEffect(key1 = loginState) {
+        when (loginState) {
+            is LoginState.Success -> {
+                Logger.d("Navigating to PermissionPage")
+                navHostController.navigate("there") {
+                    popUpTo("login") { inclusive = true }
+                }
+            }
+            is LoginState.Error -> {
+                viewModel.resetLoginState()
+                Toast.makeText(context, (loginState as LoginState.Error).message, Toast
+                    .LENGTH_SHORT).show()
+            }
+            else -> {
+                Logger.d("Navigating to else")
+            }
         }
-        is LoginState.Error -> {
-            viewModel.resetLoginState()
-            Toast.makeText(LocalContext.current, (loginState as LoginState.Error).message, Toast
-                .LENGTH_SHORT).show()
-        }
-        else -> {}
     }
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(start = 30.dp, top = 50.dp)
-    ) {
-        Row(
-            modifier = Modifier.wrapContentSize()
-        ) {
-            TextField(value = username, onValueChange = { viewModel.updateUsername(it) },
-                placeholder = {
-                    Text(text = stringResource(id = R.string.permission_hint_username))
-                })
-            Spacer(modifier = Modifier.width(10.dp))
-            TextField(value = password, onValueChange = { viewModel.updatePassword(it) },
-                placeholder = {
-                    Text(text = stringResource(id = R.string.permission_hint_password))
-                })
+
+    NavHost(navController = navHostController, startDestination = "here") {
+        composable("here") {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 30.dp, top = 50.dp)
+            ) {
+                Row(
+                    modifier = Modifier.wrapContentSize()
+                ) {
+                    TextField(value = username, onValueChange = { viewModel.updateUsername(it) },
+                        placeholder = {
+                            Text(text = stringResource(id = R.string.permission_hint_username))
+                        })
+                    Spacer(modifier = Modifier.width(10.dp))
+                    TextField(value = password, onValueChange = { viewModel.updatePassword(it) },
+                        placeholder = {
+                            Text(text = stringResource(id = R.string.permission_hint_password))
+                        })
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Button(onClick = viewModel::authenticateUser) {
+                    Text(text = stringResource(id = R.string.permission_login_user))
+                }
+            }
         }
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(onClick = viewModel::authenticateUser) {
-            Text(text = stringResource(id = R.string.permission_login_user))
+        composable("there") {
+            PermissionPage()
         }
     }
 }
+
 
 @Preview
 @Composable
