@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,13 +14,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -29,21 +30,58 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.settings.permissions.UserViewModel
 import com.inno.coffee.utilities.DEFAULT_PERMISSION_MODULE
 import com.inno.coffee.utilities.debouncedClickable
+import com.inno.common.annotation.MANAGER
 import com.inno.common.db.entity.User
+import com.inno.common.utils.UserSessionManager
 
 @Composable
 fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hiltViewModel()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(start = 20.dp, top = 50.dp, end = 20.dp)
+    ) {
+        LoginStateText()
+        Spacer(modifier = Modifier.height(20.dp))
+        HorizontalDivider(modifier = Modifier
+            .fillMaxWidth()
+            .height(4.dp))
+        RegisterUser(viewModel = viewModel)
+        Spacer(modifier = Modifier.height(20.dp))
+        HorizontalDivider(modifier = Modifier
+            .fillMaxWidth()
+            .height(4.dp))
+        Spacer(modifier = Modifier.height(20.dp))
+        UserList(viewModel = viewModel)
+    }
+}
+
+@Composable
+fun Update(viewModel: UserViewModel) {
+    Row(modifier = Modifier.padding(top = 10.dp)) {
+        Button(onClick = {
+            viewModel.updateUser()
+        }, modifier = Modifier.padding(start = 10.dp)) {
+            Text(text = stringResource(id = R.string.permission_update_user))
+        }
+        Button(onClick = {
+            viewModel.deleteUser()
+        }, modifier = Modifier.padding(start = 10.dp)) {
+            Text(text = stringResource(id = R.string.permission_delete_user))
+        }
+    }
+}
+
+@Composable
+fun RegisterUser(viewModel: UserViewModel) {
     var username by rememberSaveable {
         mutableStateOf("")
     }
@@ -59,84 +97,63 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
     var permissionValue by rememberSaveable {
         mutableIntStateOf(DEFAULT_PERMISSION_MODULE)
     }
-    val loginState by viewModel.authenticateResult.collectAsStateWithLifecycle()
-    val context = LocalContext.current
-    val userList by viewModel.userList.collectAsStateWithLifecycle()
+    Row(modifier = Modifier.padding(start = 10.dp, top = 20.dp)) {
+        TextField(value = username, onValueChange = { username = it }, placeholder = {
+            Text(text = stringResource(id = R.string.permission_hint_username))
+        }, modifier = Modifier.width(200.dp))
+        Spacer(modifier = Modifier.width(10.dp))
 
-    Surface(modifier = modifier
-        .width(300.dp)
-        .fillMaxHeight()) {
-        Column {
-            Column {
-                Row(modifier = Modifier.padding(start = 10.dp, top = 20.dp)) {
-                    TextField(value = username, onValueChange = { username = it }, placeholder = {
-                        Text(text = stringResource(id = R.string.permission_hint_username))
-                    }, modifier = Modifier.width(200.dp))
-                    Spacer(modifier = Modifier.width(10.dp))
+        TextField(value = password, onValueChange = { password = it }, placeholder = {
+            Text(text = stringResource(id = R.string.permission_hint_password))
+        }, modifier = Modifier.width(200.dp))
+        Spacer(modifier = Modifier.width(10.dp))
 
-                    TextField(value = password, onValueChange = { password = it }, placeholder = {
-                        Text(text = stringResource(id = R.string.permission_hint_password))
-                    }, modifier = Modifier.width(200.dp))
-                    Spacer(modifier = Modifier.width(10.dp))
+        TextField(value = remark, onValueChange = { remark = it }, placeholder = {
+            Text(text = stringResource(id = R.string.permission_hint_remark))
+        }, modifier = Modifier.width(200.dp))
+    }
+    RoleCheckBox {
+        roleValue = it + 1
+    }
+    ModuleCheckBox(permissionValue) {
+        permissionValue = it
+    }
+    Button(onClick = {
+        viewModel.registerUser(username, password, roleValue, permissionValue, remark)
+    }, modifier = Modifier.padding(start = 10.dp)) {
+        Text(text = stringResource(id = R.string.permission_insert_user))
+    }
+}
 
-                    TextField(value = remark, onValueChange = { remark = it }, placeholder = {
-                        Text(text = stringResource(id = R.string.permission_hint_remark))
-                    }, modifier = Modifier.width(200.dp))
-                }
-                RoleCheckBox {
-                    roleValue = it + 1
-                }
-                ModuleCheckBox(permissionValue) {
-                    permissionValue = it
-                }
-                Button(onClick = {
-                    viewModel.registerUser(username, password, roleValue, permissionValue, remark)
-                }, modifier = Modifier.padding(start = 10.dp)) {
-                    Text(text = stringResource(id = R.string.permission_insert_user))
-                }
+@Composable
+fun UserList(viewModel: UserViewModel) {
+    val userList by viewModel.userList.collectAsState()
+    Text(text = "当前用户列表")
+    Spacer(modifier = Modifier.height(10.dp))
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 10.dp, top = 10.dp),
+        contentPadding = PaddingValues(horizontal = 20.dp),
+    ) {
+        items(userList) {
+            UserInfoItem(user = it)
+        }
+    }
+}
 
-                Row(modifier = Modifier.padding(top = 10.dp)) {
-                    Button(onClick = {
-//                        viewModel.authenticateUser(username, password) {
-//                            if (it) {
-//                                Toast.makeText(context,
-//                                    context.getString(R.string.permission_password_correct),
-//                                    Toast.LENGTH_SHORT).show()
-//                            } else {
-//                                Toast.makeText(context,
-//                                    context.getString(R.string.permission_password_error), Toast
-//                                        .LENGTH_SHORT).show()
-//                            }
-//                        }
-                    }, modifier = Modifier.padding(start = 10.dp)) {
-                        Text(text = stringResource(id = R.string.permission_login_user))
-                    }
-
-                    Button(onClick = {
-                        viewModel.updateUser()
-                    }, modifier = Modifier.padding(start = 10.dp)) {
-                        Text(text = stringResource(id = R.string.permission_update_user))
-                    }
-                    Button(onClick = {
-                        viewModel.deleteUser()
-                    }, modifier = Modifier.padding(start = 10.dp)) {
-                        Text(text = stringResource(id = R.string.permission_delete_user))
-                    }
-                }
-                val state = if (loginState!!) "已登录" else "未登录"
-                Text(text = "当前账号状态：$state", modifier.padding(start = 16.dp, top = 20.dp))
-                Spacer(modifier = Modifier.height(10.dp))
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, top = 10.dp),
-                    contentPadding = PaddingValues(horizontal = 20.dp),
-                ) {
-                    items(userList) {
-                        UserInfoItem(user = it)
-                    }
-                }
-            }
+@Composable
+fun LoginStateText() {
+    Row {
+        val user = UserSessionManager.getUser()
+        val loginState = user != null
+        val state = if (loginState) "已登录" else "未登录"
+        Text(text = "当前账号状态：$state")
+        Spacer(modifier = Modifier.height(10.dp))
+        user?.let {
+            val role = if (it.role == MANAGER) "Manager" else "employee"
+            Text(text = " 登录账号：${it.username} 角色：$role 权限：${it.permission} " +
+                    "备注：${it.remark}")
         }
     }
 }

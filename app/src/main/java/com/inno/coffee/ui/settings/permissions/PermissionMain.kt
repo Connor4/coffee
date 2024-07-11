@@ -30,6 +30,9 @@ import com.inno.coffee.data.home.LoginState
 import com.inno.coffee.data.settings.permissions.UserViewModel
 import com.inno.common.utils.Logger
 
+private const val HERE = "here"
+private const val THERE = "there"
+
 @Composable
 fun PermissionEntrance(
     modifier: Modifier = Modifier,
@@ -41,12 +44,13 @@ fun PermissionEntrance(
     val context = LocalContext.current
 
     val navHostController = rememberNavController()
+    Logger.d("type: ${loginState.javaClass}")
     LaunchedEffect(key1 = loginState) {
         when (loginState) {
             is LoginState.Success -> {
                 Logger.d("Navigating to PermissionPage")
-                navHostController.navigate("there") {
-                    popUpTo("login") { inclusive = true }
+                navHostController.navigate(THERE) {
+                    popUpTo(HERE) { inclusive = true }
                 }
             }
             is LoginState.Error -> {
@@ -60,8 +64,8 @@ fun PermissionEntrance(
         }
     }
 
-    NavHost(navController = navHostController, startDestination = "here") {
-        composable("here") {
+    NavHost(navController = navHostController, startDestination = HERE) {
+        composable(HERE) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -86,7 +90,7 @@ fun PermissionEntrance(
                 }
             }
         }
-        composable("there") {
+        composable(THERE) {
             PermissionPage()
         }
     }
