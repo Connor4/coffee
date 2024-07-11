@@ -1,7 +1,8 @@
 package com.inno.coffee.ui.settings
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -21,23 +22,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
-import com.inno.coffee.ui.serialtest.SerialTest
-import com.inno.coffee.ui.settings.formula.FormulaPage
-import com.inno.coffee.ui.settings.permissions.PermissionPage
-import com.inno.coffee.ui.settings.statistics.StatisticsMainScreen
+import com.inno.coffee.ui.settings.formula.launchFormulaActivity
+import com.inno.coffee.ui.settings.permissions.launchPermissionActivity
+import com.inno.coffee.ui.settings.serialtest.launchSerialPortActivity
+import com.inno.coffee.ui.settings.statistics.launchStatisticActivity
+import com.inno.coffee.utilities.fastclick
 import com.inno.common.annotation.DISPLAY
 import com.inno.common.annotation.FORMULA
-import com.inno.common.annotation.HOME
 import com.inno.common.annotation.MACHINE_OPERATION
 import com.inno.common.annotation.MACHINE_SETTING
 import com.inno.common.annotation.MAINTENANCE
@@ -63,32 +61,23 @@ fun SettingCardLayout(
         Pair(MAINTENANCE, R.string.common_maintenance),
         Pair(SERIAL_TEST, R.string.common_serial_test)
     )
-    val navController = rememberNavController()
-
-    NavHost(navController = navController, startDestination = HOME) {
-        composable(HOME) {
-            Surface(color = Color.Transparent) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(4),
-                    contentPadding = PaddingValues(horizontal = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    modifier = modifier
-                        .fillMaxSize()
-                        .padding(top = 8.dp)
-                ) {
-                    itemsIndexed(names) { _, item ->
-                        val title = stringResource(id = item.second)
-                        CardItem(title) {
-                            navController.navigate("detail/${item.first}")
-                        }
-                    }
+    val context = LocalContext.current
+    Surface(color = Color.Transparent) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(4),
+            contentPadding = PaddingValues(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(top = 8.dp)
+        ) {
+            items(names) { name ->
+                val title = stringResource(id = name.second)
+                CardItem(title = title) {
+                    jumpDetail(name.first, context)
                 }
             }
-        }
-        composable("detail/{item}") {
-            val item = it.arguments?.getString("item")
-            DetailScreen(item, navController, modifier)
         }
     }
 
@@ -99,7 +88,7 @@ fun CardItem(title: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .size(300.dp)
-            .clickable { onClick() },
+            .fastclick { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
     ) {
         Column(
@@ -120,17 +109,31 @@ fun CardItem(title: String, onClick: () -> Unit) {
     }
 }
 
-@Composable
-fun DetailScreen(item: String?, navHostController: NavHostController, modifier: Modifier) {
-    Surface(modifier = modifier.fillMaxSize(), color = Color.Transparent) {
-        when (item) {
-            STATISTIC -> StatisticsMainScreen(navHostController)
-            FORMULA -> FormulaPage()
-            PERMISSION -> PermissionPage()
-            MACHINE_SETTING -> {}
-            SERIAL_TEST -> SerialTest()
-            else -> {}
+private fun jumpDetail(name: String, context: Context) {
+    when (name) {
+        STATISTIC -> launchStatisticActivity(context)
+        FORMULA -> launchFormulaActivity(context)
+        DISPLAY -> {
+            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
         }
+        MACHINE_SETTING -> {
+            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+        }
+        MACHINE_OPERATION -> {
+            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+        }
+        VAT_AND_GRIND -> {
+            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+        }
+        WASH_MACHINE -> {
+            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+        }
+        PERMISSION -> launchPermissionActivity(context)
+        MAINTENANCE -> {
+            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+        }
+        SERIAL_TEST -> launchSerialPortActivity(context)
+        else -> {}
     }
 }
 

@@ -21,6 +21,7 @@
         <activity
             android:name=".ui.firstinstall.InstallSettingActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Coffee">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +29,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.home.MakeCoffeeActivity" />
-        <activity android:name=".ui.settings.SettingActivity" />
+        <activity
+            android:name=".ui.home.MakeCoffeeActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.settings.SettingActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.settings.permissions.PermissionActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.settings.statistics.StatisticActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.settings.formula.FormulaActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.settings.serialtest.SerialPortActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

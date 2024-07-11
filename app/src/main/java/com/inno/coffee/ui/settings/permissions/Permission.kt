@@ -1,6 +1,5 @@
 package com.inno.coffee.ui.settings.permissions
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -98,17 +97,17 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
 
                 Row(modifier = Modifier.padding(top = 10.dp)) {
                     Button(onClick = {
-                        viewModel.authenticateUser(username, password) {
-                            if (it) {
-                                Toast.makeText(context,
-                                    context.getString(R.string.permission_password_correct),
-                                    Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(context,
-                                    context.getString(R.string.permission_password_error), Toast
-                                        .LENGTH_SHORT).show()
-                            }
-                        }
+//                        viewModel.authenticateUser(username, password) {
+//                            if (it) {
+//                                Toast.makeText(context,
+//                                    context.getString(R.string.permission_password_correct),
+//                                    Toast.LENGTH_SHORT).show()
+//                            } else {
+//                                Toast.makeText(context,
+//                                    context.getString(R.string.permission_password_error), Toast
+//                                        .LENGTH_SHORT).show()
+//                            }
+//                        }
                     }, modifier = Modifier.padding(start = 10.dp)) {
                         Text(text = stringResource(id = R.string.permission_login_user))
                     }

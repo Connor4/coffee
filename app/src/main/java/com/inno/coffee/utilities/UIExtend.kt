@@ -46,7 +46,7 @@ fun Modifier.debouncedClickable(onClick: () -> Unit, enabled: Boolean = true, de
  */
 @SuppressLint("ModifierFactoryUnreferencedReceiver")
 @Composable
-inline fun Modifier.click(
+inline fun Modifier.fastclick(
     time: Int = VIEW_FAST_CLICK_INTERVAL_TIME,
     enabled: Boolean = true,
     onClickLabel: String? = null,

@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.serialtest
+package com.inno.coffee.ui.settings.serialtest
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
