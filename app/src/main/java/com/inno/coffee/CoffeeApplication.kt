@@ -20,10 +20,13 @@ class CoffeeApplication : Application() {
     }
 
     private fun init() {
+        GlobalDialogManager.init(this)
     }
 
     private fun delayInit() {
-        GlobalDialogManager.init(this)
+//        CoroutineScope(Dispatchers.IO).launch {
+//            delay(3000)
+//        }
     }
 
     private fun dependenceInit() {

@@ -38,17 +38,23 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
+import com.inno.coffee.data.firstinstall.InstallViewModel
 
 private const val LANGUAGE = "language"
 private const val DATE = "date"
 private const val TIME = "time"
+private const val DEFAULT_TIME = 1704124800000
 
 @Composable
-fun InstallSetting(onSetComplete: (String, Long, Int, Int) -> Unit) {
+fun InstallSetting(
+    onSetComplete: () -> Unit,
+    viewModel: InstallViewModel = hiltViewModel()
+) {
     val navController = rememberNavController()
     var selectedLanguage by remember {
         mutableStateOf("")
@@ -79,8 +85,9 @@ fun InstallSetting(onSetComplete: (String, Long, Int, Int) -> Unit) {
             TimePickerPage { hour, min ->
                 selectedHour = hour
                 selectedMin = min
-                onSetComplete(selectedLanguage, selectedDateMillis ?: 1704124800000, selectedHour,
-                    selectedMin)
+                onSetComplete()
+                viewModel.finishSetting(selectedLanguage, selectedDateMillis ?: DEFAULT_TIME,
+                    selectedHour, selectedMin)
             }
         }
     }

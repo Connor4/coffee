@@ -1,4 +1,4 @@
-package com.inno.common.utils
+package com.inno.coffee.utilities
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -9,40 +9,43 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import java.io.IOException
+import javax.inject.Inject
 
-object CoffeeDataStore {
+class CoffeeDataStore @Inject constructor(@ApplicationContext private val context: Context) {
 
-    private const val USER_PREFERENCES_NAME = "settings"
+    companion object {
+        private const val USER_PREFERENCES_NAME = "settings"
+        private const val FIRST_INSTALL_KEY = "first_install"
+        private const val MACHINE_LANGUAGE = "machine_language"
+        private const val DEFAULT_LANGUAGE = "English"
+    }
 
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
 
-    private const val FIRST_INSTALL_KEY = "first_install"
-    private const val MACHINE_LANGUAGE = "machine_language"
-    private const val DEFAULT_LANGUAGE = "English"
-
-    suspend fun getFirstInstall(context: Context): Boolean {
-        return getCoffeePreference(context, FIRST_INSTALL_KEY, true)
+    suspend fun getFirstInstall(): Boolean {
+        return getCoffeePreference(FIRST_INSTALL_KEY, true)
     }
 
-    suspend fun saveFirstInstall(context: Context) {
-        saveCoffeePreference(context, FIRST_INSTALL_KEY, false)
+    suspend fun saveFirstInstall() {
+        saveCoffeePreference(FIRST_INSTALL_KEY, false)
     }
 
-    suspend fun getMachineLanguage(context: Context): String {
-        return getCoffeePreference(context, MACHINE_LANGUAGE, DEFAULT_LANGUAGE)
+    suspend fun getMachineLanguage(): String {
+        return getCoffeePreference(MACHINE_LANGUAGE, DEFAULT_LANGUAGE)
     }
 
-    suspend fun saveMachineLanguage(context: Context, language: String) {
-        saveCoffeePreference(context, MACHINE_LANGUAGE, language)
+    suspend fun saveMachineLanguage(language: String) {
+        saveCoffeePreference(MACHINE_LANGUAGE, language)
     }
 
     @Suppress("UNCHECKED_CAST")
-    private suspend fun <T> getCoffeePreference(context: Context, key: String, defaultValue: T): T {
+    private suspend fun <T> getCoffeePreference(key: String, defaultValue: T): T {
         val preferences = context.dataStore.data.catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -60,7 +63,7 @@ object CoffeeDataStore {
         }
     }
 
-    private suspend fun <T> saveCoffeePreference(context: Context, key: String, value: T) {
+    private suspend fun <T> saveCoffeePreference(key: String, value: T) {
         context.dataStore.edit { preferences ->
             when (value) {
                 is Boolean -> preferences[booleanPreferencesKey(key)] = value

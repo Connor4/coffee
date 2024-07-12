@@ -57,5 +57,4 @@ dependencies {
     api(libs.kotlinx.serialization.json)
     api(libs.androidx.work)
     implementation(libs.org.mindrot)
-    implementation(libs.androidx.datastore)
 }
