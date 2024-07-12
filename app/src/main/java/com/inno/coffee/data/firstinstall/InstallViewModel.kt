@@ -33,7 +33,6 @@ class InstallViewModel @Inject constructor(
     fun finishSetting(language: String, date: Long, hour: Int, min: Int) {
         viewModelScope.launch {
             withContext(defaultDispatcher) {
-                dataStore.saveFirstInstall()
                 dataStore.saveMachineLanguage(language)
 
                 val calendar = Calendar.getInstance().apply {

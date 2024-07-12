@@ -17,7 +17,6 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
 
     companion object {
         private const val USER_PREFERENCES_NAME = "settings"
-        private const val FIRST_INSTALL_KEY = "first_install"
         private const val MACHINE_LANGUAGE = "machine_language"
         private const val DEFAULT_LANGUAGE = "English"
     }
@@ -25,14 +24,6 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
-
-    suspend fun getFirstInstall(): Boolean {
-        return getCoffeePreference(FIRST_INSTALL_KEY, true)
-    }
-
-    suspend fun saveFirstInstall() {
-        saveCoffeePreference(FIRST_INSTALL_KEY, false)
-    }
 
     suspend fun getMachineLanguage(): String {
         return getCoffeePreference(MACHINE_LANGUAGE, DEFAULT_LANGUAGE)

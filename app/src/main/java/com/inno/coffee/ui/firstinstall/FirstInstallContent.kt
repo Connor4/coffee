@@ -73,6 +73,7 @@ fun InstallSetting(
             LanguagePage { language ->
                 selectedLanguage = language
                 navController.navigate(DATE)
+                viewModel.insertDefaultUsers()
             }
         }
         composable(DATE) {
