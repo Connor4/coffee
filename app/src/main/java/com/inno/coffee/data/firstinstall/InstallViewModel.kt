@@ -1,7 +1,5 @@
 package com.inno.coffee.data.firstinstall
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
@@ -22,15 +20,6 @@ class InstallViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-
-    private val _firstInstall = MutableLiveData<Boolean>()
-    val firstInstall: LiveData<Boolean> get() = _firstInstall
-
-    init {
-        viewModelScope.launch {
-            _firstInstall.value = dataStore.getFirstInstall()
-        }
-    }
 
     fun insertDefaultUsers() {
         viewModelScope.launch {

@@ -3,16 +3,14 @@ package com.inno.coffee.utilities
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.inno.common.utils.Logger
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
-import java.io.IOException
 import javax.inject.Inject
 
 class CoffeeDataStore @Inject constructor(@ApplicationContext private val context: Context) {
@@ -46,13 +44,9 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
 
     @Suppress("UNCHECKED_CAST")
     private suspend fun <T> getCoffeePreference(key: String, defaultValue: T): T {
-        val preferences = context.dataStore.data.catch { exception ->
-            if (exception is IOException) {
-                emit(emptyPreferences())
-            } else {
-                throw exception
-            }
-        }.first()
+        Logger.d("getCoffeePreference() called with: key = $key, defaultValue = $defaultValue")
+        val preferences = context.dataStore.data.first()
+        Logger.d("mid")
         return when (defaultValue) {
             is Boolean -> preferences[booleanPreferencesKey(key)] as T? ?: defaultValue
             is Int -> preferences[intPreferencesKey(key)] as T? ?: defaultValue
