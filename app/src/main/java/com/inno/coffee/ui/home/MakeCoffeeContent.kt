@@ -67,8 +67,8 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
                     mutableStateOf(false)
                 }
                 Button(onClick = {
-//                    launchSettingActivity(context)
-                    showLoginDialog = true
+                    launchSettingActivity(context)
+//                    showLoginDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_open_setting))
                 }
