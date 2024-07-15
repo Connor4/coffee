@@ -12,11 +12,18 @@ import android.widget.TextView
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.inno.coffee.R
+import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.utilities.ReceivedData
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class GlobalDialogManager private constructor(private val application: Application) {
+@Singleton
+class GlobalDialogManager @Inject constructor(@ApplicationContext private val application:
+Application) {
 
     private val windowManager =
         application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -25,9 +32,9 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private val scope = CoroutineScope(Dispatchers.Main)
     private var dialogShowing = false
 
-//    init {
-//        scope.launch {
-//            SerialPortDataManager.instance.receivedDataFlow.collect { receivedData ->
+    init {
+        scope.launch {
+            SerialPortDataManager.instance.receivedDataFlow.collect { receivedData ->
 //                val info = getMessage(receivedData)
 //                if (dialogShowing) {
 //                    updateDialogContent(info)
@@ -38,9 +45,9 @@ class GlobalDialogManager private constructor(private val application: Applicati
 //                        onConfirm = { dismissDialog() }
 //                    ))
 //                }
-//            }
-//        }
-//    }
+            }
+        }
+    }
 
     private fun getMessage(receivedData: ReceivedData?): String {
         var info = ""
