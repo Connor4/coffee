@@ -3,8 +3,8 @@ package com.inno.coffee.data.firstinstall
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
-import com.inno.coffee.utilities.CoffeeDataStore
 import com.inno.common.db.entity.defaultUsers
+import com.inno.common.utils.CoffeeDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch

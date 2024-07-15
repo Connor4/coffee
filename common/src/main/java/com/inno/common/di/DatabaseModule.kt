@@ -1,4 +1,4 @@
-package com.inno.coffee.di
+package com.inno.common.di
 
 import android.content.Context
 import com.inno.common.db.CoffeeRoomDatabase

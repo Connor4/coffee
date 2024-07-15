@@ -1,20 +1,28 @@
-package com.inno.coffee.utilities
+package com.inno.common.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 
-class PreferencesManager private constructor(context: Context) {
+class CoffeeSharedPreferences private constructor(context: Context) {
 
+    @SuppressLint("StaticFieldLeak")
     companion object {
         private const val PREFS_NAME = "coffee_prefs"
         private const val KEY_FIRST_INSTALL = "first_install"
 
         @Volatile
-        private var instance: PreferencesManager? = null
+        private var instance: CoffeeSharedPreferences? = null
+        private var context: Context? = null
 
-        fun getInstance(context: Context): PreferencesManager =
+        fun init(ctx: Context) {
+            context = ctx
+            getInstance()
+        }
+
+        fun getInstance(): CoffeeSharedPreferences =
             instance ?: synchronized(this) {
-                instance ?: PreferencesManager(context.applicationContext).also { instance = it }
+                instance ?: CoffeeSharedPreferences(context!!).also { instance = it }
             }
     }
 

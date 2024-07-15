@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
     kotlin("plugin.serialization")
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -57,4 +58,7 @@ dependencies {
     api(libs.kotlinx.serialization.json)
     api(libs.androidx.work)
     implementation(libs.org.mindrot)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.datastore)
 }

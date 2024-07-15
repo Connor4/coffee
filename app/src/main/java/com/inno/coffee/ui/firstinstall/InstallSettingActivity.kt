@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.inno.coffee.ui.home.launchMakeCoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
-import com.inno.coffee.utilities.PreferencesManager
+import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,13 +14,13 @@ class InstallSettingActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val firstInstall = PreferencesManager.getInstance(this).isFirstInstall
+        val firstInstall = CoffeeSharedPreferences.getInstance().isFirstInstall
         if (firstInstall) {
             setContent {
                 CoffeeTheme {
                     InstallSetting(onSetComplete = { date, hour, min ->
                         launchMakeCoffeeActivity(this)
-                        PreferencesManager.getInstance(this).isFirstInstall = false
+                        CoffeeSharedPreferences.getInstance().isFirstInstall = false
                         TimeUtils.setDateAndTime(this, date, hour, min)
                     })
                 }

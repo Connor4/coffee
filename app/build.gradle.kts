@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.kapt)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -92,7 +92,7 @@ dependencies {
     implementation(project(":serialport"))
     // dagger
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.kotlinx.coroutines.android)
     // lifecycle
@@ -100,5 +100,4 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.coil.compose)
-    implementation(libs.androidx.datastore)
 }

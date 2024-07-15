@@ -35,16 +35,16 @@ Application) {
     init {
         scope.launch {
             SerialPortDataManager.instance.receivedDataFlow.collect { receivedData ->
-//                val info = getMessage(receivedData)
-//                if (dialogShowing) {
-//                    updateDialogContent(info)
-//                } else {
-//                    showDialog(DialogData(
-//                        title = "There is an Alert",
-//                        message = "Alert Info $info",
-//                        onConfirm = { dismissDialog() }
-//                    ))
-//                }
+                val info = getMessage(receivedData)
+                if (dialogShowing) {
+                    updateDialogContent(info)
+                } else {
+                    showDialog(DialogData(
+                            title = "There is an Alert",
+                            message = "Alert Info $info",
+                            onConfirm = { dismissDialog() }
+                    ))
+                }
             }
         }
     }

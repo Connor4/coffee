@@ -1,7 +1,7 @@
-package com.inno.coffee.di
+package com.inno.common.di
 
 import android.content.Context
-import com.inno.coffee.utilities.CoffeeDataStore
+import com.inno.common.utils.CoffeeDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object CoffeeDataStoreModule {
+object CommonModule {
 
     @Provides
     @Singleton

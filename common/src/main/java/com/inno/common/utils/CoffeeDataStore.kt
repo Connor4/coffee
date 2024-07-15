@@ -1,4 +1,4 @@
-package com.inno.coffee.utilities
+package com.inno.common.utils
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -8,7 +8,6 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.inno.common.utils.Logger
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
