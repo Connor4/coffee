@@ -67,8 +67,8 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
                     mutableStateOf(false)
                 }
                 Button(onClick = {
-                    launchSettingActivity(context)
-//                    showDialog = true
+//                    launchSettingActivity(context)
+                    showLoginDialog = true
                 }) {
                     Text(text = stringResource(id = R.string.home_open_setting))
                 }
@@ -154,15 +154,11 @@ fun LoginContent(
                 color = MaterialTheme.colorScheme.background,
             ) {
                 Column(
-                    modifier = modifier.fillMaxSize(),
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(top = 30.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    OutlinedTextField(value = username, onValueChange = viewModel::updateUsername,
-                        label = { Text(text = stringResource(id = R.string.home_login_username)) })
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(value = password, onValueChange = viewModel::updatePassword,
-                        label = { Text(text = stringResource(id = R.string.home_login_password)) })
-                    Spacer(modifier = Modifier.height(16.dp))
                     when (loginState) {
                         is LoginState.Success -> {
                             LaunchedEffect(Unit) {
@@ -177,17 +173,29 @@ fun LoginContent(
                         }
                         else -> {}
                     }
-                    Button(
-                        onClick = viewModel::authenticateUser
-                    ) {
-                        Text(text = stringResource(id = R.string.home_login_confirm))
-                    }
-                    Button(
-                        onClick = { onDismiss() }
-                    ) {
-                        Text(text = stringResource(id = R.string.common_button_cancel))
-                    }
+                    OutlinedTextField(value = username, onValueChange = viewModel::updateUsername,
+                        label = { Text(text = stringResource(id = R.string.home_login_username)) })
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(value = password, onValueChange = viewModel::updatePassword,
+                        label = { Text(text = stringResource(id = R.string.home_login_password)) })
+                    Spacer(modifier = Modifier.height(16.dp))
 
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(end = 120.dp)
+                    ) {
+                        Button(
+                            onClick = { onDismiss() }
+                        ) {
+                            Text(text = stringResource(id = R.string.common_button_cancel))
+                        }
+                        Button(
+                            onClick = viewModel::authenticateUser
+                        ) {
+                            Text(text = stringResource(id = R.string.home_login_confirm))
+                        }
+                    }
                 }
             }
         }

@@ -58,11 +58,11 @@ class HomeViewModel @Inject constructor(
                     LoginState.Error(context.getString(R.string.home_login_input_empty))
                 return@launch
             }
-            if (_username.value.length < 3 || _password.value.length < 6) {
-                _loginState.value =
-                    LoginState.Error(context.getString(R.string.home_login_input_invalid))
-                return@launch
-            }
+//            if (_username.value.length < 3 || _password.value.length < 6) {
+//                _loginState.value =
+//                    LoginState.Error(context.getString(R.string.home_login_input_invalid))
+//                return@launch
+//            }
             val isAuthenticated = repository.authenticateUser(_username.value, _password.value)
             if (!isAuthenticated) {
                 _loginState.value =
