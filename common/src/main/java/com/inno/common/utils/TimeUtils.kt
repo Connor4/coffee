@@ -110,6 +110,22 @@ class TimeUtils {
             }
         }
 
+        @RequiresPermission(android.Manifest.permission.SET_TIME)
+        fun setDateAndTime(context: Context, yearInMillis: Long, hour: Int, minute: Int) {
+            thread {
+                val calendar = Calendar.getInstance().apply {
+                    timeInMillis = yearInMillis
+                    set(Calendar.HOUR_OF_DAY, hour)
+                    set(Calendar.MINUTE, minute)
+                }
+                val timeInMillis = calendar.timeInMillis
+                if (timeInMillis / 1000 < Int.MAX_VALUE) {
+                    (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager).setTime(
+                        timeInMillis)
+                }
+            }
+        }
+
         /**
          * 设置系统时区
          * 获取以及设置时区用到的都是TimezoneID，它们以字符串的形式存在。

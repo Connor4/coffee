@@ -27,7 +27,7 @@ class InstallViewModel @Inject constructor(
         }
     }
 
-    fun finishSetting(language: String, date: Long, hour: Int, min: Int) {
+    fun finishSetting(language: String) {
         viewModelScope.launch {
             withContext(defaultDispatcher) {
                 dataStore.saveMachineLanguage(language)

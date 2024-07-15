@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import com.inno.coffee.ui.home.launchMakeCoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
 import com.inno.coffee.utilities.PreferencesManager
+import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,9 +18,10 @@ class InstallSettingActivity : ComponentActivity() {
         if (firstInstall) {
             setContent {
                 CoffeeTheme {
-                    InstallSetting(onSetComplete = {
-                        PreferencesManager.getInstance(this).isFirstInstall = false
+                    InstallSetting(onSetComplete = { date, hour, min ->
                         launchMakeCoffeeActivity(this)
+                        PreferencesManager.getInstance(this).isFirstInstall = false
+                        TimeUtils.setDateAndTime(this, date, hour, min)
                     })
                 }
             }

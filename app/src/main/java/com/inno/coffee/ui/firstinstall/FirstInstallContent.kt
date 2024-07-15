@@ -53,15 +53,16 @@ private const val DEFAULT_TIME = 1704124800000
 
 @Composable
 fun InstallSetting(
-    onSetComplete: () -> Unit,
+    onSetComplete: (date: Long, hour: Int, min: Int) -> Unit,
     viewModel: InstallViewModel = hiltViewModel()
 ) {
     val navController = rememberNavController()
+    val defaultLanguage = stringResource(id = R.string.first_install_language_English)
     var selectedLanguage by remember {
-        mutableStateOf("")
+        mutableStateOf(defaultLanguage)
     }
     var selectedDateMillis by remember {
-        mutableStateOf<Long?>(null)
+        mutableStateOf<Long?>(DEFAULT_TIME)
     }
     var selectedHour by remember {
         mutableIntStateOf(0)
@@ -87,9 +88,8 @@ fun InstallSetting(
             TimePickerPage { hour, min ->
                 selectedHour = hour
                 selectedMin = min
-                onSetComplete()
-                viewModel.finishSetting(selectedLanguage, selectedDateMillis ?: DEFAULT_TIME,
-                    selectedHour, selectedMin)
+                onSetComplete(selectedDateMillis ?: DEFAULT_TIME, selectedHour, selectedMin)
+                viewModel.finishSetting(selectedLanguage)
             }
         }
     }
@@ -99,8 +99,8 @@ fun InstallSetting(
 fun LanguagePage(onLanguagePick: (String) -> Unit) {
     val context = LocalContext.current
     val radioOptions = listOf(
-        context.getString(R.string.first_install_language_Chinese),
-        context.getString(R.string.first_install_language_English)
+        context.getString(R.string.first_install_language_English),
+        context.getString(R.string.first_install_language_Chinese)
     )
     val (selectedOption, onOptionSelected) = remember {
         mutableStateOf(radioOptions[0])
@@ -157,7 +157,7 @@ fun DatePickerPage(onDatePick: (Long?) -> Unit) {
         Column(modifier = Modifier
             .width(1100.dp)
             .fillMaxHeight()) {
-            val datePickerState = rememberDatePickerState(initialSelectedDateMillis = 1704124800000)
+            val datePickerState = rememberDatePickerState(initialSelectedDateMillis = DEFAULT_TIME)
             DatePicker(
                 state = datePickerState,
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
