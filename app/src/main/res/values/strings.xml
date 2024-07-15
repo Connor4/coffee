@@ -18,7 +18,7 @@
     <string name="first_install_language_English">English</string>
 
     <string name="statistic_product">Product Statistics</string>
-    <string name="statistic_machine_history">Machine History</string>
+    <string name="statistic_machine_change_history">Machine Change History</string>
     <string name="statistic_wash_machine">Machine Washing History</string>
     <string name="statistic_rinse">Rinse History</string>
     <string name="statistic_fault">Fault History</string>

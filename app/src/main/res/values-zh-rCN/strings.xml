@@ -19,7 +19,7 @@
     <string name="first_install_language_English">English</string>
 
     <string name="statistic_product">产品统计</string>
-    <string name="statistic_machine_history">机器历史</string>
+    <string name="statistic_machine_change_history">机器历史</string>
     <string name="statistic_wash_machine">洗机历史</string>
     <string name="statistic_rinse">冲水历史</string>
     <string name="statistic_fault">故障历史</string>
