@@ -22,7 +22,7 @@ android {
         }
     }
     signingConfigs {
-        create("release") {
+        create("peite") {
             keyAlias = "platform"
             keyPassword = "gzpeite"
             storeFile = file("../key/platform.keystore")
@@ -37,6 +37,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("peite")
         }
         getByName("release") {
             isMinifyEnabled = true
@@ -45,7 +46,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("peite")
         }
     }
     compileOptions {
