@@ -48,6 +48,7 @@ import com.inno.coffee.data.firstinstall.InstallViewModel
 private const val LANGUAGE = "language"
 private const val DATE = "date"
 private const val TIME = "time"
+// 2024/01/01
 private const val DEFAULT_TIME = 1704124800000
 
 @Composable
