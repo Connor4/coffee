@@ -14,16 +14,11 @@ import androidx.compose.runtime.mutableStateOf
 import com.inno.coffee.R
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.utilities.ReceivedData
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class GlobalDialogManager @Inject constructor(@ApplicationContext private val application:
-Application) {
+class GlobalDialogManager private constructor(private val application: Application) {
 
     private val windowManager =
         application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -40,9 +35,9 @@ Application) {
                     updateDialogContent(info)
                 } else {
                     showDialog(DialogData(
-                            title = "There is an Alert",
-                            message = "Alert Info $info",
-                            onConfirm = { dismissDialog() }
+                        title = "There is an Alert",
+                        message = "Alert Info $info",
+                        onConfirm = { dismissDialog() }
                     ))
                 }
             }

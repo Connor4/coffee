@@ -24,7 +24,6 @@ class CoffeeApplication : Application() {
     }
 
     private fun init() {
-
         CoffeeSharedPreferences.init(this)
     }
 
