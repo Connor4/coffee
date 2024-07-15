@@ -102,14 +102,20 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
             val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
             DrinkList(modifier = modifier, drinksData = drinksData)
         }
-        BottomInfo(modifier = Modifier.align(Alignment.BottomCenter))
+        BottomInfo(modifier = Modifier.align(Alignment.BottomCenter), viewModel = viewModel)
     }
 }
 
 @Composable
 fun BottomInfo(
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.startRecycleTemp()
+    }
+    val leftTemp = viewModel.leftBoilerTemp.collectAsStateWithLifecycle()
+    val rightTemp = viewModel.rightBoilerTemp.collectAsStateWithLifecycle()
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -121,12 +127,12 @@ fun BottomInfo(
                 .padding(start = 200.dp)
         ) {
             Text(
-                text = "左边咖啡锅炉温度：30°C",
+                text = "左边咖啡锅炉温度：${leftTemp.value}°C",
                 modifier = Modifier.padding(bottom = 8.dp),
                 style = TextStyle(fontSize = 19.sp)
             )
             Text(
-                text = "右边咖啡锅炉温度：29°C",
+                text = "右边咖啡锅炉温度：${rightTemp.value}°C",
                 style = TextStyle(fontSize = 19.sp)
             )
         }

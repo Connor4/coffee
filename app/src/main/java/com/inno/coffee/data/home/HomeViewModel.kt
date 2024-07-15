@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
-import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
+import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +20,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: HomeRepository,
     @ApplicationContext private val context: Context,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
     private val _drinksTypes = MutableStateFlow<List<DrinksModel>>(emptyList())
     val drinksTypes: StateFlow<List<DrinksModel>> = _drinksTypes.asStateFlow()
@@ -32,6 +31,10 @@ class HomeViewModel @Inject constructor(
     val loginState: StateFlow<LoginState> = _loginState
     private val _countdown = MutableStateFlow(LOCK_AND_CLEAN_TIME)
     val countdown: StateFlow<Int> = _countdown
+    private val _leftBoilerTemp = MutableStateFlow(HOME_LEFT_COFFEE_BOILER_TEMP)
+    val leftBoilerTemp = _leftBoilerTemp
+    private val _rightBoilerTemp = MutableStateFlow(HOME_RIGHT_COFFEE_BOILER_TEMP)
+    val rightBoilerTemp = _rightBoilerTemp
 
     init {
         _drinksTypes.value = repository.drinksType
@@ -80,6 +83,21 @@ class HomeViewModel @Inject constructor(
             _countdown.value--
         }
         _countdown.value = LOCK_AND_CLEAN_TIME
+    }
+
+    fun startRecycleTemp() {
+        viewModelScope.launch {
+            while (true) {
+                delay(1500)
+                if (_leftBoilerTemp.value < 92) {
+                    _leftBoilerTemp.value++
+                    _rightBoilerTemp.value++
+                } else {
+                    _leftBoilerTemp.value = HOME_LEFT_COFFEE_BOILER_TEMP
+                    _rightBoilerTemp.value = HOME_RIGHT_COFFEE_BOILER_TEMP
+                }
+            }
+        }
     }
 
 }
