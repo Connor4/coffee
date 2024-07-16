@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,12 +29,10 @@ import com.inno.common.db.entity.ProductType
 
 @Composable
 fun ProductStatistic(modifier: Modifier = Modifier) {
-    Surface(modifier = modifier.fillMaxSize(), color = Color.Transparent) {
-        Column {
-            StatisticTopBar()
-            Divider(color = Color.Gray, thickness = 1.dp)
-            ProductHistoryList()
-        }
+    Column(modifier = modifier.fillMaxSize()) {
+        StatisticTopBar()
+        HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+        ProductHistoryList()
     }
 }
 
@@ -42,7 +40,7 @@ fun ProductStatistic(modifier: Modifier = Modifier) {
 fun StatisticTopBar(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     Row {
-        Text(text = context.getString(R.string.statistic_product_top_date), color = Color.Black,
+        Text(text = context.getString(R.string.statistic_product_top_time), color = Color.Black,
             modifier = modifier.weight(1f), textAlign = TextAlign.Center)
         Text(text = context.getString(R.string.statistic_product_top_brew_side),
             color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)

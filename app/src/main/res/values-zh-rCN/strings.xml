@@ -23,7 +23,7 @@
     <string name="statistic_wash_machine">洗机历史</string>
     <string name="statistic_rinse">冲水历史</string>
     <string name="statistic_fault">故障历史</string>
-    <string name="statistic_product_top_date">日期</string>
+    <string name="statistic_product_top_time">时间</string>
     <string name="statistic_product_top_brew_side">制作位置</string>
     <string name="statistic_product_top_grind_time">研磨时间</string>
     <string name="statistic_product_top_PQC">PQC</string>
@@ -34,6 +34,14 @@
     <string name="statistic_product_top_stream_pressure">蒸汽压力[bar]</string>
     <string name="statistic_product_top_product_type">产品类型</string>
     <string name="statistic_product_top_operator">操作账号</string>
+    <string name="statistic_change_top_event">事件</string>
+    <string name="statistic_wash_top_duration">时长</string>
+    <string name="statistic_wash_top_left">左侧</string>
+    <string name="statistic_wash_top_right">右侧</string>
+    <string name="statistic_rinse_top_type">冲水类型</string>
+    <string name="statistic_rinse_top_system_flow_rate">系统水流[tick/s]</string>
+    <string name="statistic_rinse_top_water_pressure">水压[bar]</string>
+    <string name="statistic_rinse_top_limit_flow_rate">限流孔水流[tick/s]</string>
 
     <string name="home_login_input_empty">用户名或密码未输入</string>
     <string name="home_login_input_invalid">用户名或密码长度不符</string>
@@ -46,6 +54,20 @@
     <string name="home_login_password">密码</string>
     <string name="home_login_confirm">登录</string>
     <string name="home_lock_clean_count_tip">倒计时结束后解锁屏幕</string>
+    <string name="home_item_stop">停止</string>
+    <string name="home_item_hot_water">热水</string>
+    <string name="home_item_foam">奶泡</string>
+    <string name="home_item_rinse">冲水</string>
+    <string name="home_item_espresso">意式咖啡</string>
+    <string name="home_item_coffee">咖啡</string>
+    <string name="home_item_americano">美式咖啡</string>
+    <string name="home_item_auto_foam">自动奶泡</string>
+    <string name="home_item_double_espresso">双份意式咖啡</string>
+    <string name="home_item_double_coffee">双份咖啡</string>
+    <string name="home_item_double_americano">双份美式咖啡</string>
+    <string name="home_item_manual_foam">手动奶泡</string>
+    <string name="home_item_cappuccino">卡布奇诺</string>
+    <string name="home_item_latte">拿铁</string>
 
     <string name="permission_password_correct">密码正确</string>
     <string name="permission_password_error">密码错误</string>

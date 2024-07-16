@@ -22,7 +22,7 @@
     <string name="statistic_wash_machine">Machine Washing History</string>
     <string name="statistic_rinse">Rinse History</string>
     <string name="statistic_fault">Fault History</string>
-    <string name="statistic_product_top_date">Date</string>
+    <string name="statistic_product_top_time">Time</string>
     <string name="statistic_product_top_brew_side">Brew Side</string>
     <string name="statistic_product_top_grind_time">Grind Time</string>
     <string name="statistic_product_top_PQC">PQC</string>
@@ -33,6 +33,14 @@
     <string name="statistic_product_top_stream_pressure">Stream Pressure[bar]</string>
     <string name="statistic_product_top_product_type">Product Type</string>
     <string name="statistic_product_top_operator">Operate Account</string>
+    <string name="statistic_change_top_event">Event</string>
+    <string name="statistic_wash_top_duration">Duration</string>
+    <string name="statistic_wash_top_left">Left</string>
+    <string name="statistic_wash_top_right">Right</string>
+    <string name="statistic_rinse_top_type">Rinse Type</string>
+    <string name="statistic_rinse_top_system_flow_rate">System Flow Rate[tick/s]</string>
+    <string name="statistic_rinse_top_water_pressure">Water Pressure[bar]</string>
+    <string name="statistic_rinse_top_limit_flow_rate">Limit Flow Rate[tick/s]</string>
 
     <string name="home_open_setting">Open Settings</string>
     <string name="home_clean_screen">Lock and Clean</string>

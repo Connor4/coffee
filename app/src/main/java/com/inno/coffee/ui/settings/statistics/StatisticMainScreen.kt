@@ -1,17 +1,10 @@
 package com.inno.coffee.ui.settings.statistics
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,11 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -66,7 +57,7 @@ fun StatisticsMainScreen(
                 composable(WASH_MACHINE) { WashMachineScreen(hostNavController) }
                 composable(RINSE) { RinseScreen(hostNavController) }
                 composable(FAULT) { FaultScreen(hostNavController) }
-                composable(MACHINE_HISTORY) { MachineHistoryScreen(hostNavController) }
+                composable(MACHINE_HISTORY) { MachineChangeScreen(hostNavController) }
             }
         }
     }
@@ -77,7 +68,7 @@ fun TopBarMenu(navController: NavHostController) {
     val context = LocalContext.current
     val menuItems = listOf(
         context.getString(R.string.statistic_product),
-        context.getString(R.string.statistic_machine_history),
+        context.getString(R.string.statistic_machine_change_history),
         context.getString(R.string.statistic_wash_machine),
         context.getString(R.string.statistic_rinse),
         context.getString(R.string.statistic_fault),
@@ -97,7 +88,8 @@ fun TopBarMenu(navController: NavHostController) {
                     selectedMenuItem = item
                     val route = when (item) {
                         context.getString(R.string.statistic_product) -> PRODUCT
-                        context.getString(R.string.statistic_machine_history) -> MACHINE_HISTORY
+                        context.getString(
+                            R.string.statistic_machine_change_history) -> MACHINE_HISTORY
                         context.getString(R.string.statistic_wash_machine) -> WASH_MACHINE
                         context.getString(R.string.statistic_rinse) -> RINSE
                         context.getString(R.string.statistic_fault) -> FAULT
@@ -135,8 +127,7 @@ fun WashMachineScreen(navController: NavHostController) {
     BackHandler {
         navController.popBackStack()
     }
-    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
-    }
+    WashMachineStatistic()
 }
 
 @Composable
@@ -145,60 +136,7 @@ fun RinseScreen(navController: NavHostController) {
     BackHandler {
         navController.popBackStack()
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // First Image
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = "First Image",
-            modifier = Modifier.size(150.dp)
-        )
-
-        // Second Image
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = "Second Image",
-            modifier = Modifier.size(150.dp)
-        )
-
-        // First Button
-        Button(
-            onClick = { /* Do something */ },
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Text(text = "Button 1", fontSize = 18.sp)
-        }
-
-        // Second Button
-        Button(
-            onClick = { /* Do something */ },
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Text(text = "Button 2", fontSize = 18.sp)
-        }
-
-        // Third Button
-        Button(
-            onClick = { /* Do something */ },
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Text(text = "Button 3", fontSize = 18.sp)
-        }
-    }
+    RinseStatistic()
 }
 
 @Composable
@@ -207,14 +145,16 @@ fun FaultScreen(navController: NavHostController) {
     BackHandler {
         navController.popBackStack()
     }
+    FaultStatistic()
 }
 
 @Composable
-fun MachineHistoryScreen(navController: NavHostController) {
+fun MachineChangeScreen(navController: NavHostController) {
     Logger.d("MachineHistoryScreen")
     BackHandler {
         navController.popBackStack()
     }
+    MachineChangeStatistic()
 }
 
 @Preview(device = Devices.TABLET, showBackground = true)
