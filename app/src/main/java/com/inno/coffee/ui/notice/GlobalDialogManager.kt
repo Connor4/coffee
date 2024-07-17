@@ -24,6 +24,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
         application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private var dialogView: View? = null
     private var dialogData: MutableState<DialogData?> = mutableStateOf(null)
+    // TODO 修改成接收时用IO，更新UI时转Main
     private val scope = CoroutineScope(Dispatchers.Main)
     private var dialogShowing = false
 
