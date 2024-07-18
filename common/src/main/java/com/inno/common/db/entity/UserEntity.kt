@@ -18,9 +18,9 @@ data class User(
 
 val defaultUsers = listOf(
     User(id = 1, username = "manager", passwordHash = "1234", role = MANAGER, permission = 762,
-        remark = "经理"),
+        remark = "Manager"),
     User(id = 2, username = "employee", passwordHash = "1234", role = EMPLOYEE, permission = 746,
-        remark = "店员")
+        remark = "Employee")
 )
 
 // role id | role name
