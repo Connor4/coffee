@@ -37,6 +37,6 @@ val defaultUsers = listOf(
 //   6               vat/grind setting
 //   7               wash machine
 //   8               permission
-//   9               maintainance
+//   9               maintenance
 //   10              state
 //   11              machine test
