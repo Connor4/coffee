@@ -144,16 +144,8 @@ class SerialPort private constructor(
         }
 
         fun build(): SerialPort {
-            return SerialPort(
-                device,
-                portName,
-                baudRate,
-                dataBits,
-                stopBits,
-                parity,
-                flag,
-                portFrameSize,
-                readTimeOutMillis
+            return SerialPort(device, portName, baudRate, dataBits, stopBits, parity, flag,
+                portFrameSize, readTimeOutMillis
             )
         }
 
