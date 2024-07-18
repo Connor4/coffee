@@ -18,7 +18,7 @@ data class DrinksHistory(
     var waterQnty: String,
     var waterTemp: String,
     var milkTemp: String,
-    var streamPress: String,
+    var streamPressure: String,
     var type: String,
     var username: String = "",
     @PrimaryKey(autoGenerate = true) val id: Int = 0,

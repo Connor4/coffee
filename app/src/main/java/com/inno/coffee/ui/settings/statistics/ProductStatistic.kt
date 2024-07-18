@@ -117,7 +117,7 @@ fun DrinksHistoryItem(history: DrinksHistory, modifier: Modifier = Modifier) {
             textAlign = TextAlign.Center)
         Text(text = history.milkTemp, color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
-        Text(text = history.streamPress, color = Color.Black, modifier = modifier.weight(1f),
+        Text(text = history.streamPressure, color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
         Text(text = history.type, color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
