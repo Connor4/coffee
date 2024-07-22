@@ -43,15 +43,18 @@ import com.inno.coffee.ui.settings.launchSettingActivity
 import com.inno.coffee.utilities.composeClick
 
 @Composable
-fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
+fun MakeCoffeeContent(
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         Column(
-            modifier = modifier.fillMaxSize()
+            modifier = modifier.fillMaxSize(),
         ) {
             Row(
-                modifier = modifier.wrapContentHeight()
+                modifier = modifier.wrapContentHeight(),
             ) {
                 val context = LocalContext.current
                 var showLoginDialog by remember {
@@ -72,35 +75,55 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
                 }) {
                     Text(text = stringResource(id = R.string.home_open_setting))
                 }
-                Button(onClick = composeClick {
+                Button(
+                    onClick =
+                    composeClick {
 //                    showCleanDialog = true
-                }) {
+                    },
+                ) {
                     Text(text = stringResource(id = R.string.home_clean_screen))
                 }
-                Button(onClick = composeClick {
+                Button(
+                    onClick =
+                    composeClick {
 //                    showInfoDialog = true
-                }) {
+                    },
+                ) {
                     Text(text = stringResource(id = R.string.home_machine_info))
                 }
-                Button(onClick = composeClick {
+                Button(
+                    onClick =
+                    composeClick {
 //                    showStandByModeDialog = true
-                }) {
+                    },
+                ) {
                     Text(text = stringResource(id = R.string.home_standby_mode))
                 }
 
-                LoginContent(context, showDialog = showLoginDialog,
-                    onDismiss = { showLoginDialog = false }, viewModel = viewModel)
-                LockCleanDialog(showDialog = showCleanDialog,
-                    onDismiss = { showCleanDialog = false }, viewModel = viewModel)
+                LoginContent(
+                    context,
+                    showDialog = showLoginDialog,
+                    onDismiss = { showLoginDialog = false },
+                    viewModel = viewModel,
+                )
+                LockCleanDialog(
+                    showDialog = showCleanDialog,
+                    onDismiss = { showCleanDialog = false },
+                    viewModel = viewModel,
+                )
                 MachineInfoDialog(showDialog = showInfoDialog) {
                     showInfoDialog = false
                 }
-                StandByModeDialog(showDialog = showStandByModeDialog,
-                    onDismiss = { showStandByModeDialog = false })
+                StandByModeDialog(
+                    showDialog = showStandByModeDialog,
+                    onDismiss = { showStandByModeDialog = false },
+                )
             }
 
             val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
-            DrinkList(modifier = modifier, drinksData = drinksData)
+            DrinkList(modifier = modifier, drinksData = drinksData) {
+                viewModel.startMakeDrink(it)
+            }
         }
         BottomInfo(modifier = Modifier.align(Alignment.BottomCenter), viewModel = viewModel)
     }
@@ -109,7 +132,7 @@ fun MakeCoffeeContent(modifier: Modifier = Modifier, viewModel: HomeViewModel = 
 @Composable
 fun BottomInfo(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
 ) {
     LaunchedEffect(Unit) {
         viewModel.startRecycleTemp()
@@ -117,23 +140,25 @@ fun BottomInfo(
     val leftTemp = viewModel.leftBoilerTemp.collectAsStateWithLifecycle()
     val rightTemp = viewModel.rightBoilerTemp.collectAsStateWithLifecycle()
     Box(
-        modifier = modifier
+        modifier =
+        modifier
             .fillMaxWidth()
             .height(100.dp),
     ) {
         Column(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .align(Alignment.CenterStart)
-                .padding(start = 200.dp)
+                .padding(start = 200.dp),
         ) {
             Text(
                 text = "左边咖啡锅炉温度：${leftTemp.value}°C",
                 modifier = Modifier.padding(bottom = 8.dp),
-                style = TextStyle(fontSize = 19.sp)
+                style = TextStyle(fontSize = 19.sp),
             )
             Text(
                 text = "右边咖啡锅炉温度：${rightTemp.value}°C",
-                style = TextStyle(fontSize = 19.sp)
+                style = TextStyle(fontSize = 19.sp),
             )
         }
     }
@@ -179,25 +204,32 @@ fun LoginContent(
                         }
                         else -> {}
                     }
-                    OutlinedTextField(value = username, onValueChange = viewModel::updateUsername,
-                        label = { Text(text = stringResource(id = R.string.home_login_username)) })
+                    OutlinedTextField(
+                        value = username,
+                        onValueChange = viewModel::updateUsername,
+                        label = { Text(text = stringResource(id = R.string.home_login_username)) },
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(value = password, onValueChange = viewModel::updatePassword,
-                        label = { Text(text = stringResource(id = R.string.home_login_password)) })
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = viewModel::updatePassword,
+                        label = { Text(text = stringResource(id = R.string.home_login_password)) },
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Row(
-                        modifier = Modifier
+                        modifier =
+                        Modifier
                             .align(Alignment.End)
-                            .padding(end = 120.dp)
+                            .padding(end = 120.dp),
                     ) {
                         Button(
-                            onClick = { onDismiss() }
+                            onClick = { onDismiss() },
                         ) {
                             Text(text = stringResource(id = R.string.common_button_cancel))
                         }
                         Button(
-                            onClick = viewModel::authenticateUser
+                            onClick = viewModel::authenticateUser,
                         ) {
                             Text(text = stringResource(id = R.string.home_login_confirm))
                         }
@@ -206,7 +238,6 @@ fun LoginContent(
             }
         }
     }
-
 }
 
 @Composable
@@ -225,20 +256,23 @@ fun LockCleanDialog(
     if (showDialog) {
         Dialog(onDismissRequest = { }) {
             Surface(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .width(700.dp)
                     .height(500.dp),
                 shape = RoundedCornerShape(8.dp),
                 color = MaterialTheme.colorScheme.background,
             ) {
                 Column {
-                    Text(text = stringResource(id = R.string.home_lock_clean_count_tip),
+                    Text(
+                        text = stringResource(id = R.string.home_lock_clean_count_tip),
                         style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(start = 30.dp, top = 30.dp)
+                        modifier = Modifier.padding(start = 30.dp, top = 30.dp),
                     )
-                    Text(text = state.value.toString(),
+                    Text(
+                        text = state.value.toString(),
                         style = MaterialTheme.typography.displayMedium,
-                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                        modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
                     )
                 }
             }
@@ -254,7 +288,8 @@ fun MachineInfoDialog(
     if (showDialog) {
         Dialog(onDismissRequest = { /*TODO*/ }) {
             Surface(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .width(700.dp)
                     .height(500.dp),
                 shape = RoundedCornerShape(8.dp),
@@ -265,7 +300,7 @@ fun MachineInfoDialog(
                     Text(text = "机器信息")
                     Text(text = "机器信息")
                     Button(
-                        onClick = { onDismiss() }
+                        onClick = { onDismiss() },
                     ) {
                         Text(text = stringResource(id = R.string.common_button_confirm))
                     }
@@ -283,7 +318,8 @@ fun StandByModeDialog(
     if (showDialog) {
         Dialog(onDismissRequest = { /*TODO*/ }) {
             Surface(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .width(700.dp)
                     .height(500.dp),
                 shape = RoundedCornerShape(8.dp),
@@ -292,7 +328,7 @@ fun StandByModeDialog(
                 Column {
                     Text(text = "确认进去待机模式？")
                     Button(
-                        onClick = { onDismiss() }
+                        onClick = { onDismiss() },
                     ) {
                         Text(text = stringResource(id = R.string.common_button_confirm))
                     }
@@ -306,6 +342,5 @@ fun StandByModeDialog(
 @Composable
 fun PreviewLock() {
     MachineInfoDialog(showDialog = true) {
-
     }
 }

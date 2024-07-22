@@ -17,7 +17,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class HomeViewModel
+@Inject
+constructor(
     private val repository: HomeRepository,
     @ApplicationContext private val context: Context,
 ) : ViewModel() {
@@ -77,6 +79,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun startMakeDrink(model: DrinksModel) {
+
+    }
+
     suspend fun startCountDown() {
         while (_countdown.value >= 0) {
             delay(1000)
@@ -99,5 +105,4 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -36,10 +37,15 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.inno.coffee.R
 import com.inno.coffee.data.home.DrinksModel
+import com.inno.coffee.utilities.debouncedClickable
 import kotlinx.coroutines.delay
 
 @Composable
-fun DrinkList(modifier: Modifier = Modifier, drinksData: List<DrinksModel> = emptyList()) {
+fun DrinkList(
+    modifier: Modifier = Modifier,
+    drinksData: List<DrinksModel> = emptyList(),
+    onDrinkClick: (model: DrinksModel) -> Unit,
+) {
 //    val configuration = LocalConfiguration.current
 //    val screenWidthDp = configuration.screenWidthDp.dp
 //    val density = LocalDensity.current
@@ -50,42 +56,44 @@ fun DrinkList(modifier: Modifier = Modifier, drinksData: List<DrinksModel> = emp
         contentPadding = PaddingValues(horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier
+        modifier =
+        modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(top = 8.dp)
+            .padding(top = 8.dp),
     ) {
         items(drinksData, key = { drink -> drink.hashCode() }) { drink ->
             val index = drinksData.indexOf(drink)
             val column = index % 4
-//            AnimatedDrinkItem(model = drink, columnIndex = column, screenWidthPx = screenWidthPx,
-//                modifier = modifier)
-            DrinkItem(drink, 0f)
+//            AnimatedDrinkItem(
+//                model = drink,
+//                columnIndex = column,
+//                screenWidthPx = screenWidthPx,
+//                modifier = modifier,
+//            )
+            DrinkItem(modifier, drink, 0f, onDrinkClick)
         }
     }
 }
 
 @Composable
-fun AnimatedDrinkItem(model: DrinksModel, columnIndex: Int, screenWidthPx: Float,
-    modifier: Modifier = Modifier) {
-    var startAnimation by remember {
-        mutableStateOf(false)
-    }
+fun AnimatedDrinkItem(
+    model: DrinksModel,
+    columnIndex: Int,
+    screenWidthPx: Float,
+    modifier: Modifier = Modifier,
+) {
+    var startAnimation by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = model) {
         delay(columnIndex * 100L)
         startAnimation = true
     }
-    val offsetX = remember {
-        Animatable(screenWidthPx)
-    }
+    val offsetX = remember { Animatable(screenWidthPx) }
     LaunchedEffect(key1 = startAnimation) {
         if (startAnimation) {
             offsetX.animateTo(
                 targetValue = 0f,
-                animationSpec = tween(
-                    durationMillis = 1200,
-                    easing = FastOutSlowInEasing
-                )
+                animationSpec = tween(durationMillis = 1200, easing = FastOutSlowInEasing),
             )
         }
     }
@@ -94,21 +102,28 @@ fun AnimatedDrinkItem(model: DrinksModel, columnIndex: Int, screenWidthPx: Float
 }
 
 @Composable
-fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier) {
+fun DrinkItem(
+    modifier: Modifier = Modifier,
+    model: DrinksModel,
+    offsetX: Float,
+    onDrinkClick: (model: DrinksModel) -> Unit = {},
+) {
     Surface(
-//        modifier = modifier.offset(x = offsetX.dp),
+        modifier = modifier.offset(x = offsetX.dp),
         color = MaterialTheme.colorScheme.surfaceVariant,
-        shape = MaterialTheme.shapes.small
+        shape = MaterialTheme.shapes.medium,
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .debouncedClickable(onClick = { onDrinkClick(model) }),
             elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         ) {
             Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(
                     text = "",
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 5.dp, top = 5.dp)
+                    modifier = Modifier.padding(start = 5.dp, top = 5.dp),
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 AsyncImage(
@@ -117,12 +132,13 @@ fun DrinkItem(model: DrinksModel, offsetX: Float, modifier: Modifier = Modifier)
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(120.dp)
-                        .align(Alignment.CenterHorizontally))
+                        .align(Alignment.CenterHorizontally),
+                )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = stringResource(id = model.name),
                     fontSize = 25.sp,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                 )
             }
         }
