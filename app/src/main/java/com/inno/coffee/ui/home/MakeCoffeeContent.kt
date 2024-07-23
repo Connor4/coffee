@@ -68,10 +68,12 @@ fun MakeCoffeeContent(
                 var showStandByModeDialog by remember {
                     mutableStateOf(false)
                 }
-                Button(onClick = {
-                    launchSettingActivity(context)
+                Button(
+                    onClick =
+                    composeClick {
+                        launchSettingActivity(context)
 //                    showLoginDialog = true
-                }) {
+                    }) {
                     Text(text = stringResource(id = R.string.home_open_setting))
                 }
                 Button(
