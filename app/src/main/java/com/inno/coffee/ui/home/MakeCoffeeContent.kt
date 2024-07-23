@@ -34,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.home.HomeViewModel
@@ -44,8 +43,8 @@ import com.inno.coffee.utilities.composeClick
 
 @Composable
 fun MakeCoffeeContent(
+    viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
