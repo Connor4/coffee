@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.fragment.app.FragmentActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +15,7 @@ fun launchFormulaActivity(context: Context) {
 }
 
 @AndroidEntryPoint
-class FormulaActivity : ComponentActivity() {
+class FormulaActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
