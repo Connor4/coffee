@@ -2,4 +2,9 @@
 <resources>
 
     <style name="Theme.Coffee" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="OnePixelTheme">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>
