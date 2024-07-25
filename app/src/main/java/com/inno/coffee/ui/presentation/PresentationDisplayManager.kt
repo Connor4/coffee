@@ -42,7 +42,7 @@ object PresentationDisplayManager {
             launchDisplayId = displayId
         }
         val intent = Intent(packageContext, targetCls)
-        intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         packageContext.startActivity(intent, options.toBundle())
     }
 
