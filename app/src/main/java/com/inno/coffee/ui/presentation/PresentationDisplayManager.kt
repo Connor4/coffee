@@ -31,9 +31,11 @@ object PresentationDisplayManager {
     }
 
     fun autoRoute(packageContext: Context, targetCls: Class<*>?) {
-        packageContext.getSystemService(WindowManager::class.java).defaultDisplay?.let {
-            route(packageContext, targetCls, it.displayId)
-        } ?: {
+        val defaultDisplay =
+            packageContext.getSystemService(WindowManager::class.java).defaultDisplay
+        if (defaultDisplay == validDisplay) {
+            route(packageContext, targetCls, defaultDisplay.displayId)
+        } else {
             route(packageContext, targetCls)
         }
     }

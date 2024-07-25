@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +15,7 @@ fun launchPermissionActivity(context: Context) {
 }
 
 @AndroidEntryPoint
-class PermissionActivity : ComponentActivity() {
+class PermissionActivity : CoffeeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

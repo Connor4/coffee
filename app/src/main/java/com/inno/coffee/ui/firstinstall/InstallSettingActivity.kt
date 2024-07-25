@@ -1,8 +1,8 @@
 package com.inno.coffee.ui.firstinstall
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.home.MakeCoffeeActivity
 import com.inno.coffee.ui.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.theme.CoffeeTheme
@@ -11,7 +11,7 @@ import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class InstallSettingActivity : ComponentActivity() {
+class InstallSettingActivity : CoffeeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +33,8 @@ class InstallSettingActivity : ComponentActivity() {
 
     private fun startCoffee() {
         PresentationDisplayManager.autoRoute(this, MakeCoffeeActivity::class.java)
-//        PresentationDisplayManager.manualRoute(this, MakeCoffeeActivity::class.java, false)
+        PresentationDisplayManager.manualRoute(this, MakeCoffeeActivity::class.java, false)
         finish()
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(0, 0)
     }
 
 }
