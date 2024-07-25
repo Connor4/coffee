@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.home
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,13 +40,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.home.HomeViewModel
 import com.inno.coffee.data.home.LoginState
-import com.inno.coffee.ui.settings.launchSettingActivity
+import com.inno.coffee.ui.presentation.PresentationDisplayManager
+import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
 
 @Composable
 fun MakeCoffeeContent(
-    viewModel: HomeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -72,7 +74,9 @@ fun MakeCoffeeContent(
                 Button(
                     onClick =
                     composeClick {
-                        launchSettingActivity(context)
+                        val display = (context as Activity).windowManager.defaultDisplay
+                        PresentationDisplayManager.autoRoute(context, SettingActivity::class.java,
+                            display)
 //                    showLoginDialog = true
                     }) {
                     Text(text = stringResource(id = R.string.home_open_setting))
@@ -197,7 +201,10 @@ fun LoginContent(
                             LaunchedEffect(Unit) {
                                 viewModel.resetLoginState()
                                 onDismiss()
-                                launchSettingActivity(context)
+                                val display = (context as Activity).windowManager.defaultDisplay
+                                PresentationDisplayManager.autoRoute(context,
+                                    SettingActivity::class.java,
+                                    display)
                             }
                         }
                         is LoginState.Error -> {
@@ -288,7 +295,7 @@ fun MachineInfoDialog(
     onDismiss: () -> Unit,
 ) {
     if (showDialog) {
-        Dialog(onDismissRequest = { /*TODO*/ }) {
+        Dialog(onDismissRequest = { }) {
             Surface(
                 modifier =
                 Modifier
@@ -318,7 +325,7 @@ fun StandByModeDialog(
     onDismiss: () -> Unit,
 ) {
     if (showDialog) {
-        Dialog(onDismissRequest = { /*TODO*/ }) {
+        Dialog(onDismissRequest = { }) {
             Surface(
                 modifier =
                 Modifier
