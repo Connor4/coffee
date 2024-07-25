@@ -68,6 +68,8 @@
     <string name="home_item_manual_foam">手动奶泡</string>
     <string name="home_item_cappuccino">卡布奇诺</string>
     <string name="home_item_latte">拿铁</string>
+    <string name="home_left_boiler_temperature">左边锅炉温度: %d°C</string>
+    <string name="home_right_boiler_temperature">右边锅炉温度: %d°C</string>
 
     <string name="permission_password_correct">密码正确</string>
     <string name="permission_password_error">密码错误</string>

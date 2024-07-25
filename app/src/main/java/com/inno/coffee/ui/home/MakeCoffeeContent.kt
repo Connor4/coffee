@@ -158,12 +158,12 @@ fun BottomInfo(
                 .padding(start = 200.dp),
         ) {
             Text(
-                text = "左边咖啡锅炉温度：${leftTemp.value}°C",
+                text = stringResource(id = R.string.home_left_boiler_temperature, leftTemp.value),
                 modifier = Modifier.padding(bottom = 8.dp),
                 style = TextStyle(fontSize = 19.sp),
             )
             Text(
-                text = "右边咖啡锅炉温度：${rightTemp.value}°C",
+                text = stringResource(id = R.string.home_right_boiler_temperature, rightTemp.value),
                 style = TextStyle(fontSize = 19.sp),
             )
         }

@@ -78,7 +78,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun startMakeDrink(model: DrinksModel) {
-
+        // 1 多次点击需要可排队
+        // 2 停止、冲水跟制作饮品不一样，不可以多次点击
     }
 
     suspend fun startCountDown() {
