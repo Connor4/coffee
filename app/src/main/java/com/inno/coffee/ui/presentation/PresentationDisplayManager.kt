@@ -5,36 +5,33 @@ import android.content.Context
 import android.content.Intent
 import android.hardware.display.DisplayManager
 import android.view.Display
-import android.view.WindowManager
 
 
 object PresentationDisplayManager {
     private const val TAG = "PresentationDisplayManager"
-    private var validDisplay: Display? = null
+    private var secondDisplay: Display? = null
 
     fun init(context: Context) {
         context.getSystemService(DisplayManager::class.java).getDisplays(DisplayManager
             .DISPLAY_CATEGORY_PRESENTATION).firstOrNull()?.let {
-            validDisplay = it
+            secondDisplay = it
         }
     }
 
-    fun getDisplay(): Display? = validDisplay
+    fun getSecondDisplay(): Display? = secondDisplay
 
     fun manualRoute(packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = true) {
         if (defaultScreen) {
             route(packageContext, targetCls)
         } else {
-            val displayId = validDisplay?.displayId ?: Display.DEFAULT_DISPLAY
+            val displayId = secondDisplay?.displayId ?: Display.DEFAULT_DISPLAY
             route(packageContext, targetCls, displayId)
         }
     }
 
-    fun autoRoute(packageContext: Context, targetCls: Class<*>?) {
-        val defaultDisplay =
-            packageContext.getSystemService(WindowManager::class.java).defaultDisplay
-        if (defaultDisplay == validDisplay) {
-            route(packageContext, targetCls, defaultDisplay.displayId)
+    fun autoRoute(packageContext: Context, targetCls: Class<*>?, display: Display) {
+        if (display == secondDisplay) {
+            route(packageContext, targetCls, display.displayId)
         } else {
             route(packageContext, targetCls)
         }

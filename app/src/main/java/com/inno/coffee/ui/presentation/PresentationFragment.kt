@@ -53,7 +53,7 @@ abstract class PresentationFragment(private val context: Context) : DialogFragme
     abstract fun InflateCompose()
 
     private fun setDisplay() {
-        val display = PresentationDisplayManager.getDisplay()
+        val display = PresentationDisplayManager.getSecondDisplay()
         display?.let {
             presentation = Presentation(context, it)
         }

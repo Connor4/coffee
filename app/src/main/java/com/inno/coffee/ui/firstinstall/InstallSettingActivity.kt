@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.home.MakeCoffeeActivity
 import com.inno.coffee.ui.presentation.PresentationDisplayManager
+import com.inno.coffee.ui.test.ClickTestActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.TimeUtils
@@ -32,8 +33,9 @@ class InstallSettingActivity : CoffeeActivity() {
     }
 
     private fun startCoffee() {
-        PresentationDisplayManager.autoRoute(this, MakeCoffeeActivity::class.java)
-        PresentationDisplayManager.manualRoute(this, MakeCoffeeActivity::class.java, false)
+        PresentationDisplayManager.autoRoute(this, MakeCoffeeActivity::class.java,
+            windowManager.defaultDisplay)
+        PresentationDisplayManager.manualRoute(this, ClickTestActivity::class.java, false)
         finish()
     }
 
