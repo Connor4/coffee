@@ -43,41 +43,41 @@ class HomeLocalDataSource @Inject constructor() {
             name = R.string.home_item_americano,
             imageRes = R.drawable.coffee6
         ),
-        DrinksModel(
-            price = 10,
-            name = R.string.home_item_auto_foam,
-            imageRes = R.drawable.coffee6
-        ),
-        DrinksModel(
-            price = 10,
-            name = R.string.home_item_double_espresso,
-            imageRes = R.drawable.coffee6
-        ),
-        DrinksModel(
-            price = 10,
-            name = R.string.home_item_double_coffee,
-            imageRes = R.drawable.coffee6
-        ),
-        DrinksModel(
-            price = 10,
-            name = R.string.home_item_double_americano,
-            imageRes = R.drawable.coffee6
-        ),
-        DrinksModel(
-            price = 10,
-            name = R.string.home_item_manual_foam,
-            imageRes = R.drawable.coffee6
-        ),
-        DrinksModel(
-            price = 10,
-            name = R.string.home_item_cappuccino,
-            imageRes = R.drawable.coffee6
-        ),
-
-        DrinksModel(
-            price = 10,
-            name = R.string.home_item_latte,
-            imageRes = R.drawable.coffee6
-        ),
+//        DrinksModel(
+//            price = 10,
+//            name = R.string.home_item_auto_foam,
+//            imageRes = R.drawable.coffee6
+//        ),
+//        DrinksModel(
+//            price = 10,
+//            name = R.string.home_item_double_espresso,
+//            imageRes = R.drawable.coffee6
+//        ),
+//        DrinksModel(
+//            price = 10,
+//            name = R.string.home_item_double_coffee,
+//            imageRes = R.drawable.coffee6
+//        ),
+//        DrinksModel(
+//            price = 10,
+//            name = R.string.home_item_double_americano,
+//            imageRes = R.drawable.coffee6
+//        ),
+//        DrinksModel(
+//            price = 10,
+//            name = R.string.home_item_manual_foam,
+//            imageRes = R.drawable.coffee6
+//        ),
+//        DrinksModel(
+//            price = 10,
+//            name = R.string.home_item_cappuccino,
+//            imageRes = R.drawable.coffee6
+//        ),
+//
+//        DrinksModel(
+//            price = 10,
+//            name = R.string.home_item_latte,
+//            imageRes = R.drawable.coffee6
+//        ),
         )
 }
