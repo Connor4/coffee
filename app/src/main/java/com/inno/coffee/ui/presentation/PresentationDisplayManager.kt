@@ -21,8 +21,8 @@ object PresentationDisplayManager {
 
     fun getDisplay(): Display? = validDisplay
 
-    fun manualRoute(packageContext: Context, targetCls: Class<*>?, main: Boolean = true) {
-        if (main) {
+    fun manualRoute(packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = true) {
+        if (defaultScreen) {
             route(packageContext, targetCls)
         } else {
             val displayId = validDisplay?.displayId ?: Display.DEFAULT_DISPLAY
