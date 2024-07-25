@@ -2,6 +2,7 @@ package com.inno.coffee
 
 import android.app.Application
 import com.inno.coffee.ui.notice.GlobalDialogManager
+import com.inno.coffee.ui.presentation.PresentationDisplayManager
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
 import dagger.hilt.android.HiltAndroidApp
@@ -18,18 +19,20 @@ class CoffeeApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Logger.d(TAG, "onCreate() called")
         init()
         delayInit()
     }
 
     private fun init() {
+        Logger.d(TAG, "CoffeeApplication init() call")
         CoffeeSharedPreferences.init(this)
+        PresentationDisplayManager.init(this)
     }
 
     private fun delayInit() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(3000)
+            Logger.d(TAG, "CoffeeApplication delayInit start")
             GlobalDialogManager.init(this@CoffeeApplication)
         }
     }

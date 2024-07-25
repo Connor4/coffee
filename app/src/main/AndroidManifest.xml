@@ -42,24 +42,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.home.MakeCoffeeActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".ui.settings.SettingActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".ui.settings.permissions.PermissionActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".ui.settings.statistics.StatisticActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".ui.settings.formula.FormulaActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".ui.settings.serialtest.SerialPortActivity"
-            android:launchMode="singleTop" />
+        <activity android:name=".ui.home.MakeCoffeeActivity" />
+        <activity android:name=".ui.settings.SettingActivity" />
+        <activity android:name=".ui.settings.permissions.PermissionActivity" />
+        <activity android:name=".ui.settings.statistics.StatisticActivity" />
+        <activity android:name=".ui.settings.formula.FormulaActivity" />
+        <activity android:name=".ui.settings.serialtest.SerialPortActivity" />
     </application>
 
 </manifest>

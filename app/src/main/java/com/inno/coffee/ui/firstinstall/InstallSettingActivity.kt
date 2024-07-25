@@ -3,7 +3,8 @@ package com.inno.coffee.ui.firstinstall
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.inno.coffee.ui.home.launchMakeCoffeeActivity
+import com.inno.coffee.ui.home.MakeCoffeeActivity
+import com.inno.coffee.ui.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.theme.CoffeeTheme
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.TimeUtils
@@ -19,15 +20,21 @@ class InstallSettingActivity : ComponentActivity() {
             setContent {
                 CoffeeTheme {
                     InstallSetting(onSetComplete = { date, hour, min ->
-                        launchMakeCoffeeActivity(this)
                         CoffeeSharedPreferences.getInstance().isFirstInstall = false
                         TimeUtils.setDateAndTime(this, date, hour, min)
+                        startCoffee()
                     })
                 }
             }
         } else {
-            launchMakeCoffeeActivity(this)
+            startCoffee()
         }
+    }
+
+    private fun startCoffee() {
+        PresentationDisplayManager.autoRoute(this, MakeCoffeeActivity::class.java)
+//        PresentationDisplayManager.manualRoute(this, MakeCoffeeActivity::class.java, false)
+        finish()
     }
 
     override fun finish() {
