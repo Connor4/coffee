@@ -5,9 +5,16 @@ import com.inno.common.BuildConfig
 
 object Logger {
     private var debuggable = BuildConfig.DEBUG
+    private var lengthyOpen = false
 
     fun isDebuggable(debuggable: Boolean) {
         Logger.debuggable = debuggable
+    }
+
+    fun lengthy(tag: String = "hello", msg: String) {
+        if (lengthyOpen) {
+            d(tag, msg)
+        }
     }
 
     fun d(msg: String) {
