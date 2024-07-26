@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.inno.coffee.R
-import com.inno.coffee.data.home.DrinksModel
+import com.inno.coffee.data.bean.DrinksModel
 import com.inno.coffee.utilities.debouncedClickable
 import kotlinx.coroutines.delay
 

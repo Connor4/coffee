@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
+import com.inno.coffee.data.bean.DrinksModel
+import com.inno.coffee.data.bean.LoginState
 import com.inno.coffee.makedrinks.MakeDrinksHandler
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP

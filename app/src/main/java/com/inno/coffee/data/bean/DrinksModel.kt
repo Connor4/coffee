@@ -1,4 +1,4 @@
-package com.inno.coffee.data.home
+package com.inno.coffee.data.bean
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -10,9 +10,3 @@ data class DrinksModel(
     @StringRes val name: Int,
     @DrawableRes val imageRes: Int
 )
-
-sealed class LoginState {
-    data object Idle : LoginState()
-    data object Success : LoginState()
-    data class Error(val message: String) : LoginState()
-}
