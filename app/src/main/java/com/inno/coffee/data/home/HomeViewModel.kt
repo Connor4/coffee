@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
+import com.inno.coffee.makedrinks.MakeDrinksHandler
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
@@ -80,6 +81,9 @@ class HomeViewModel @Inject constructor(
     fun startMakeDrink(model: DrinksModel) {
         // 1 多次点击需要可排队
         // 2 停止、冲水跟制作饮品不一样，不可以多次点击
+        // 3 由于主副屏上的viewmodel独立，只能按照时间戳排队进去给manager处理队列
+        // 4 完成制作通知去除队列任务
+        MakeDrinksHandler.enqueueMessage(model.price)
     }
 
     suspend fun startCountDown() {
