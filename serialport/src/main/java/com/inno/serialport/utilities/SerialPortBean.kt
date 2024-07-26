@@ -2,16 +2,6 @@ package com.inno.serialport.utilities
 
 import kotlinx.serialization.Serializable
 
-sealed class ReceivedData {
-    data class ErrorData(var info: String, var reboot: Boolean = false) : ReceivedData()
-    data class PartData(var info: String) : ReceivedData()
-    data class HeartBeat(var heartbeatStatus: Boolean = false, var reboot: Boolean = false,
-        var info: String = "") : ReceivedData()
-}
-
-@Serializable
-data class PullBufInfo(val id: Int, val pollBuf: ByteArray = byteArrayOf())
-
 @Serializable
 data class SingleComponent(var componentId: Short, var dosage: ShortArray = ShortArray(4)) {
     override fun toString(): String {
