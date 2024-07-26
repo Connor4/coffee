@@ -1,4 +1,4 @@
-package com.inno.coffee.data.home
+package com.inno.coffee.viewmodel.home
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

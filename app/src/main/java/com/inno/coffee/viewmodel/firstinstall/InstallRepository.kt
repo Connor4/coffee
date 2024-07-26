@@ -1,4 +1,4 @@
-package com.inno.coffee.data.firstinstall
+package com.inno.coffee.viewmodel.firstinstall
 
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.db.dao.UserDao

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
-import com.inno.coffee.data.settings.statistics.DrinksHistoryViewModel
+import com.inno.coffee.viewmodel.settings.statistics.DrinksHistoryViewModel
 import com.inno.common.db.entity.DrinksHistory
 import com.inno.common.db.entity.ProductType
 

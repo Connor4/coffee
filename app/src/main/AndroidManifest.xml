@@ -43,7 +43,7 @@
         <activity android:name=".ui.settings.statistics.StatisticActivity" />
         <activity android:name=".ui.settings.formula.FormulaActivity" />
         <activity android:name=".ui.settings.serialtest.SerialPortActivity" />
-        <activity android:name=".ui.test.ClickTestActivity" />
+        <activity android:name=".ui.test.TestActivity" />
     </application>
 
 </manifest>

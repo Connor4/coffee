@@ -43,7 +43,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
-import com.inno.coffee.data.firstinstall.InstallViewModel
+import com.inno.coffee.viewmodel.firstinstall.InstallViewModel
 
 private const val LANGUAGE = "language"
 private const val DATE = "date"

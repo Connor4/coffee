@@ -1,4 +1,4 @@
-package com.inno.coffee.data.settings.permissions
+package com.inno.coffee.viewmodel.settings.permissions
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

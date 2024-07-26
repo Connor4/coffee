@@ -1,4 +1,4 @@
-package com.inno.coffee.data.settings.formula
+package com.inno.coffee.viewmodel.settings.formula
 
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.entity.Formula

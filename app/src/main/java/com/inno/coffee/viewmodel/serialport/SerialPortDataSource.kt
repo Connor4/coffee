@@ -1,4 +1,4 @@
-package com.inno.coffee.data.serialport
+package com.inno.coffee.viewmodel.serialport
 
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,4 +1,4 @@
-package com.inno.coffee.data.home
+package com.inno.coffee.viewmodel.home
 
 import com.inno.coffee.R
 import com.inno.coffee.data.bean.DrinksModel

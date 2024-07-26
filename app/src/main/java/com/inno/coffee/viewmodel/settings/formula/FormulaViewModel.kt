@@ -1,4 +1,4 @@
-package com.inno.coffee.data.settings.formula
+package com.inno.coffee.viewmodel.settings.formula
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf

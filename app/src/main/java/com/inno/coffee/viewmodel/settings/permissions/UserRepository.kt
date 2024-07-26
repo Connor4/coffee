@@ -1,4 +1,4 @@
-package com.inno.coffee.data.settings.permissions
+package com.inno.coffee.viewmodel.settings.permissions
 
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.db.dao.UserDao

@@ -1,4 +1,4 @@
-package com.inno.coffee.data.settings.statistics
+package com.inno.coffee.viewmodel.settings.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

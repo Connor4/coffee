@@ -1,4 +1,4 @@
-package com.inno.coffee.data.firstinstall
+package com.inno.coffee.viewmodel.firstinstall
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
