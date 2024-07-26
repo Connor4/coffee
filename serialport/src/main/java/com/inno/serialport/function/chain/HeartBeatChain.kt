@@ -20,9 +20,9 @@ class HeartBeatChain : Chain() {
     }
 
     override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
-        val buffer = pullBufInfo.pollBuf
-        val result = ((buffer[7].toInt() and 0xFF) shl 8) or (buffer[8].toInt() and 0xFF)
+//        val buffer = pullBufInfo.pollBuf
+//        val result = ((buffer[7].toInt() and 0xFF) shl 8) or (buffer[8].toInt() and 0xFF)
 //        Logger.d("HeartBeatChain", "result: $result")
-        return ReceivedData.HeartBeat(heartbeatStatus = result == 0)
+        return ReceivedData.HeartBeat(heartbeatStatus = true)
     }
 }

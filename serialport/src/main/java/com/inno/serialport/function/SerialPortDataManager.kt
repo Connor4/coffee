@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
@@ -69,11 +68,10 @@ class SerialPortDataManager private constructor() {
     suspend fun sendCommand(command: String) {
         Logger.d(TAG, "sendCommand $command")
         mutex.withLock {
-            heartBeatJob?.cancelAndJoin()
+            heartBeatJob?.cancel()
             driver.send(command)
-//            receiveData()
-            // maybe we can share the heartbeat receive data, thus we don't need to
-            // worry about function command response
+            // we can share the heartbeat receive data,
+            // thus we don't need to worry about function command response
             startHeartBeat()
         }
     }
@@ -93,11 +91,11 @@ class SerialPortDataManager private constructor() {
         heartBeatJob?.cancel()
         heartBeatJob = scope.launch {
             withContext(Dispatchers.IO) {
+                Logger.d(TAG, "startHeartBeat() called")
                 while (isActive) {
                     // delay must stay here, or reopen will recall this and
                     // interrupt delay.
                     delay(PULL_INTERVAL_MILLIS)
-                    Logger.d(TAG, "startHeartBeat() called")
                     mutex.withLock {
                         driver.sendHeartBeat()
                         receiveData()
