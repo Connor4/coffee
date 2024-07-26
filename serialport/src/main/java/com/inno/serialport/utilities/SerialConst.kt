@@ -72,66 +72,7 @@ val fcstab = intArrayOf(
 )
 
 /**
- * productProfile_t productProfile1 = ////美式，先出水后咖啡
- * {
- * 	1, //productId
- * 	0,
- * 	0,
- * 	{
- * 		7, //componentNum
- * 		{
- * 			{
- * 				FRONT_GRINDER_ID, //componentId
- * 				{//para
- * 					 140, 0, 0, 0, 0, 0////
- * 				},
- * 			},
- *
- * 			{
- * 				LEFT_BREWER_ID, //componentId
- * 				{//para
- * 					 20, 800, 2000, 0, 0, 0////
- * 				},
- * 			},
- *
- * 			{
- * 				LEFT_BOILER_ID, //componentId
- * 				{//para
- * 					 50, 150, 0, 1, 0, 0////
- * 				},
- * 			},
- *
- * 			{
- * 				WATER_INPUT_PUMP_ID, //componentId
- * 				{//para
- * 					 0, 0, 0, 0, 0, 0////
- * 				},
- * 			},
- *
- * 			{
- * 				WATER_INPUT_VALVE_ID, //componentId
- * 				{//para
- * 					 0, 0, 0, 0, 0, 0////
- * 				},
- * 			},
- *
- * 			{
- * 				MIDILE_VALVE_LEFT_BOILER_ID, //componentId
- * 				{//para
- * 					 0, 0, 0, 0, 0, 0////
- * 				},
- * 			},
- *
- * 			{
- * 				RIGHT_VALVE_LEFT_BOILER_ID, //componentId
- * 				{//para
- * 					 0, 0, 0, 0, 0, 0////
- * 				},
- * 			},
- *
- * 		},
- * 	},
- * };
+ * see{@link ProductProfile}
  */
 val PRODUCT_COMMAND_DEMO = byteArrayOf(
         0x7E.toByte(), 0x02.toByte(), 0x01.toByte(), 0x6C.toByte(),
