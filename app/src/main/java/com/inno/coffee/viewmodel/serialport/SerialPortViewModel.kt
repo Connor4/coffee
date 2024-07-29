@@ -3,7 +3,7 @@ package com.inno.coffee.viewmodel.serialport
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
-import com.inno.serialport.function.createInfo
+import com.inno.serialport.function.createProductProfile
 import com.inno.serialport.utilities.ReceivedData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -58,7 +58,7 @@ class SerialPortViewModel @Inject constructor(
     fun sendCommand(command: String) {
         viewModelScope.launch {
             withContext(defaultDispatcher) {
-                val createInfo = createInfo()
+                val createInfo = createProductProfile()
                 val info = Json.encodeToString(createInfo)
                 repository.sendCommand(info)
             }

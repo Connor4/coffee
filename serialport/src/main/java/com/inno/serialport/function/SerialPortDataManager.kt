@@ -65,13 +65,12 @@ class SerialPortDataManager private constructor() {
         driver.close()
     }
 
-    suspend fun sendCommand(command: String) {
-        Logger.d(TAG, "sendCommand $command")
+    suspend fun sendCommand(content: String) {
+        Logger.d(TAG, "sendCommand $content")
         mutex.withLock {
             heartBeatJob?.cancel()
-            driver.send(command)
-            // we can share the heartbeat receive data,
-            // thus we don't need to worry about function command response
+            driver.send(0x64.toShort(), content)
+            // let heart beat response
             startHeartBeat()
         }
     }
