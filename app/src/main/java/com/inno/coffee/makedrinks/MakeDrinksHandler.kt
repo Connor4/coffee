@@ -29,7 +29,7 @@ object MakeDrinksHandler {
             }
             prev.next = message
         }
-        Logger.lengthy(TAG, "message: ${messageHead.toString()}")
+        Logger.d(TAG, "message: ${messageHead.toString()}")
         //        handleMessage()
     }
 

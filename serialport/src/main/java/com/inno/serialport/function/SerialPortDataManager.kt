@@ -4,6 +4,7 @@ import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.driver.RS485Driver
+import com.inno.serialport.utilities.MAKE_DRINKS_COMMAND
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.SerialErrorType
 import kotlinx.coroutines.CoroutineScope
@@ -69,7 +70,7 @@ class SerialPortDataManager private constructor() {
         Logger.d(TAG, "sendCommand $content")
         mutex.withLock {
             heartBeatJob?.cancel()
-            driver.send(0x64.toShort(), content)
+            driver.send(MAKE_DRINKS_COMMAND, content)
             // let heart beat response
             startHeartBeat()
         }

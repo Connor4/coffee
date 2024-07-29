@@ -205,7 +205,7 @@ class RS485Driver : IDriver {
 
         val receivedCRC = ((buffer[size - 2].toUByte().toInt() shl 8) or (buffer[size - 3].toUByte()
             .toInt())).toShort()
-        Logger.lengthy(TAG,
+        Logger.d(TAG,
             "buffer: ${buffer.toHexString()}, Received CRC: ${receivedCRC.toHexString()}")
 
         // exclude frame flag and crc
@@ -213,7 +213,7 @@ class RS485Driver : IDriver {
         val payloadBuffer = ByteBuffer.allocate(payload.size)
         payloadBuffer.put(payload)
         payloadBuffer.flip()
-        Logger.lengthy(TAG,
+        Logger.d(TAG,
             "payload: ${payload.toHexString()}， payloadBuffer: ${payloadBuffer.toHexString()}")
 
         val calculatedCRC = calculateCRC(payloadBuffer)
@@ -226,7 +226,7 @@ class RS485Driver : IDriver {
     }
 
     private fun slicePullInfo(buffer: ByteArray): List<ByteArray> {
-        Logger.lengthy(TAG, "slicePullInfo() called with: buffer = ${buffer.toHexString()}")
+        Logger.d(TAG, "slicePullInfo() called with: buffer = ${buffer.toHexString()}")
         val multiPullInfo = mutableListOf<ByteArray>()
         var start = -1
         for (i in buffer.indices) {
@@ -236,7 +236,7 @@ class RS485Driver : IDriver {
                 } else {
                     val info = buffer.sliceArray(start until i + 1)
                     multiPullInfo.add(info)
-                    Logger.lengthy(TAG, "slicePullInfo: ${info.toHexString()}")
+                    Logger.d(TAG, "slicePullInfo: ${info.toHexString()}")
                     start = -1
                 }
             }

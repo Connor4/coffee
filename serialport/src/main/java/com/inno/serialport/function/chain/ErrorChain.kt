@@ -6,11 +6,11 @@ import com.inno.serialport.utilities.SerialErrorType
 
 class ErrorChain : Chain() {
     companion object {
-        private const val LEVEL = 0
+        private const val ERROR_ID = 0
     }
 
     override fun canHandle(pullBufInfo: PullBufInfo): Boolean {
-        return pullBufInfo.command < LEVEL
+        return pullBufInfo.command < ERROR_ID
     }
 
     override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
