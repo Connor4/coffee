@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.presentation
 
+import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
@@ -20,6 +21,10 @@ object PresentationDisplayManager {
 
     fun getSecondDisplay(): Display? = secondDisplay
 
+    fun isSecondDisplay(packageContext: Context): Boolean {
+        return (packageContext as Activity).windowManager.defaultDisplay == secondDisplay
+    }
+
     fun manualRoute(packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = true) {
         if (defaultScreen) {
             route(packageContext, targetCls)
@@ -29,7 +34,8 @@ object PresentationDisplayManager {
         }
     }
 
-    fun autoRoute(packageContext: Context, targetCls: Class<*>?, display: Display) {
+    fun autoRoute(packageContext: Context, targetCls: Class<*>?) {
+        val display = (packageContext as Activity).windowManager.defaultDisplay
         if (display == secondDisplay) {
             route(packageContext, targetCls, display.displayId)
         } else {

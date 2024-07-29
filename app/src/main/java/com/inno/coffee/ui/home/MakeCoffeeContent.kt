@@ -1,6 +1,5 @@
 package com.inno.coffee.ui.home
 
-import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,9 +73,7 @@ fun MakeCoffeeContent(
                 Button(
                     onClick =
                     composeClick {
-                        val display = (context as Activity).windowManager.defaultDisplay
-                        PresentationDisplayManager.autoRoute(context, SettingActivity::class.java,
-                            display)
+                        PresentationDisplayManager.autoRoute(context, SettingActivity::class.java)
 //                    showLoginDialog = true
                     }) {
                     Text(text = stringResource(id = R.string.home_open_setting))
@@ -201,10 +198,8 @@ fun LoginContent(
                             LaunchedEffect(Unit) {
                                 viewModel.resetLoginState()
                                 onDismiss()
-                                val display = (context as Activity).windowManager.defaultDisplay
                                 PresentationDisplayManager.autoRoute(context,
-                                    SettingActivity::class.java,
-                                    display)
+                                    SettingActivity::class.java)
                             }
                         }
                         is LoginState.Error -> {
