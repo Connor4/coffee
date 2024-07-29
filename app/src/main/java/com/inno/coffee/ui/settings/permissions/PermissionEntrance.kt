@@ -26,7 +26,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
-import com.inno.coffee.data.bean.LoginState
+import com.inno.coffee.data.LoginState
 import com.inno.coffee.viewmodel.settings.permissions.UserViewModel
 import com.inno.common.utils.Logger
 

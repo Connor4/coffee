@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
-import com.inno.coffee.data.bean.LoginState
+import com.inno.coffee.data.LoginState
 import com.inno.common.db.entity.User
 import com.inno.common.utils.Logger
 import com.inno.common.utils.UserSessionManager

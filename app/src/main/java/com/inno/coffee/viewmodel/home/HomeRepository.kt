@@ -1,6 +1,6 @@
 package com.inno.coffee.viewmodel.home
 
-import com.inno.coffee.data.bean.DrinksModel
+import com.inno.coffee.data.DrinksModel
 import com.inno.common.db.dao.UserDao
 import com.inno.common.utils.BcryptUtils
 import com.inno.common.utils.UserSessionManager

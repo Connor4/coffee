@@ -2,6 +2,7 @@ package com.inno.coffee.viewmodel.serialport
 
 import com.inno.serialport.core.SerialPortFinder
 import com.inno.serialport.function.SerialPortDataManager
+import com.inno.serialport.utilities.MAKE_DRINKS_COMMAND
 import com.inno.serialport.utilities.ReceivedData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +32,7 @@ class SerialPortRepository @Inject constructor(
     }
 
     suspend fun sendCommand(command: String) {
-        SerialPortDataManager.instance.sendCommand(command)
+        SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, command)
     }
 
     fun fetchSerialPort() {

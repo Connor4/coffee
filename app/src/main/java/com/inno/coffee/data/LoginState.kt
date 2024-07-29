@@ -1,4 +1,4 @@
-package com.inno.coffee.data.bean
+package com.inno.coffee.data
 
 sealed class LoginState {
     data object Idle : LoginState()
