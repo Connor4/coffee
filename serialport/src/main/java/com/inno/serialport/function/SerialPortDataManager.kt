@@ -19,7 +19,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 
 @WorkerThread
 class SerialPortDataManager private constructor() {
@@ -89,16 +88,14 @@ class SerialPortDataManager private constructor() {
     private suspend fun startHeartBeat() {
         heartBeatJob?.cancel()
         heartBeatJob = scope.launch {
-            withContext(Dispatchers.IO) {
-                Logger.d(TAG, "startHeartBeat() called")
-                while (isActive) {
-                    // delay must stay here, or reopen will recall this and
-                    // interrupt delay.
-                    delay(PULL_INTERVAL_MILLIS)
-                    mutex.withLock {
-                        driver.sendHeartBeat()
-                        receiveData()
-                    }
+            Logger.d(TAG, "startHeartBeat() called")
+            while (isActive) {
+                // delay must stay here, or reopen will recall this and
+                // interrupt delay.
+                delay(PULL_INTERVAL_MILLIS)
+                mutex.withLock {
+                    driver.sendHeartBeat()
+                    receiveData()
                 }
             }
         }

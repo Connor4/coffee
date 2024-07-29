@@ -6,7 +6,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 object MakeDrinksHandler {
     private const val TAG = "MakeDrinksHandler"
@@ -41,17 +40,15 @@ object MakeDrinksHandler {
         handleMessage()
     }
 
-    // every enqueue, he can just only run for once. until get response
+    // every time enqueue, only run for once. until get response
     private fun handleMessage() {
         if (messageHead != null) {
             // id parse to command, send command
             val actionId = messageHead!!.actionId
             scope.launch {
-                withContext(Dispatchers.IO) {
-                    // TODO actionId to Command, retrieve data from receipt files
-                    // TODO see {@link ProductProfile}
-                    SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, "")
-                }
+                // TODO actionId to Command, retrieve data from receipt files
+                // TODO see {@link ProductProfile}
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, "")
             }
             // recycle the message
             val p = messageHead
