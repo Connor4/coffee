@@ -7,8 +7,13 @@ import com.inno.serialport.annotation.PARITY_NONE
 import com.inno.serialport.annotation.STOP_BITS_1
 import com.inno.serialport.core.SerialPort
 import com.inno.serialport.core.SerialPortManager
+import com.inno.serialport.utilities.FRAME_CMD_INDEX_HIGH
+import com.inno.serialport.utilities.FRAME_CMD_INDEX_LOW
+import com.inno.serialport.utilities.FRAME_CONTENT_START_INDEX
 import com.inno.serialport.utilities.FRAME_DATA_START_INDEX
 import com.inno.serialport.utilities.FRAME_FLAG_INDEX
+import com.inno.serialport.utilities.FRAME_LENGTH_INDEX_HIGH
+import com.inno.serialport.utilities.FRAME_LENGTH_INDEX_LOW
 import com.inno.serialport.utilities.HEART_BEAT_COMMAND
 import com.inno.serialport.utilities.ProductProfile
 import com.inno.serialport.utilities.PullBufInfo
@@ -30,19 +35,17 @@ class RS485Driver : IDriver {
         private const val STOP_BITS = STOP_BITS_1
         private const val PARITY = PARITY_NONE
         private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
-
         // pull info12(flag1 + addr1 + control1 + len2 + cmd2 + data2 + crc2 + flag1)
         private const val MINIMUM_FRAME_PACK_SIZE = 12
         // TODO depends on whether use max or not
         private const val MAX_COMPONENT: Short = 7
-        private const val MAX_TREE = 64
-
         // ProductProfile = id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + MAX_COMPONENT * (comid2 + 2*para6)
         private const val COMMAND_BUFFER_CAPACITY = 8 + 14 * MAX_COMPONENT
         // 6 = addr1 + control1 + len2 + cmd2
         private const val CONTENT_BUFFER_CAPACITY = COMMAND_BUFFER_CAPACITY + 6
         // 8 = addr1 + control1 + len2 + cmd2 + crc2
         private const val TOTAL_BUFFER_SIZE = COMMAND_BUFFER_CAPACITY + 8
+        // why there is 16?
         private const val PACK_BUFFER_SIZE = TOTAL_BUFFER_SIZE + 16
         private const val FRAME_FLAG = 0x7E.toByte()
         private const val FRAME_ADDRESS = 0x2.toByte()
@@ -64,6 +67,7 @@ class RS485Driver : IDriver {
     private val packBuffer = ByteBuffer.allocate(PACK_BUFFER_SIZE)
 
     init {
+        contentBuffer.order(ByteOrder.LITTLE_ENDIAN)
         commandBuffer.order(ByteOrder.LITTLE_ENDIAN)
         packBuffer.order(ByteOrder.LITTLE_ENDIAN)
         serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
@@ -109,7 +113,7 @@ class RS485Driver : IDriver {
                 receivedData = validPullInfo(info) ?: parsePullBuffInfo(info)
             }
         }, onFailure = {
-            receivedData = PullBufInfo(id = it.value)
+            receivedData = PullBufInfo(command = it.value)
         })
         return receivedData!!
     }
@@ -120,12 +124,6 @@ class RS485Driver : IDriver {
 
     override fun close() {
         SerialPortManager.close(mSerialPort)
-    }
-
-    private fun parsePullBuffInfo(buffer: ByteArray): PullBufInfo {
-//        val id = ((buffer[0].toInt() and 0xFF) or ((buffer[1].toInt() and 0xFF) shl 8))
-//        val pullBuf = buffer.sliceArray(2 until buffer.size - 2)
-        return PullBufInfo(1, buffer)
     }
 
     private fun serializeProductInfo(command: String): ByteArray {
@@ -185,15 +183,24 @@ class RS485Driver : IDriver {
         return buffer.toByteArray()
     }
 
+    private fun parsePullBuffInfo(buffer: ByteArray): PullBufInfo {
+        val length = ((buffer[FRAME_LENGTH_INDEX_LOW].toInt() and 0xFF) shl 8) or
+                (buffer[FRAME_LENGTH_INDEX_HIGH].toInt() and 0xFF)
+        val command = ((buffer[FRAME_CMD_INDEX_LOW].toInt() and 0xFF) shl 8) or
+                (buffer[FRAME_CMD_INDEX_HIGH].toInt() and 0xFF)
+        val content = buffer.sliceArray(FRAME_CONTENT_START_INDEX until buffer.size - 2)
+        return PullBufInfo(length, command, content)
+    }
+
     private fun validPullInfo(buffer: ByteArray): PullBufInfo? {
         val size = buffer.size
         if (size < MINIMUM_FRAME_PACK_SIZE) {
             Logger.e(TAG, "frame size error")
-            return PullBufInfo(SerialErrorType.FRAME_SIZE_ERROR.value)
+            return PullBufInfo(command = SerialErrorType.FRAME_SIZE_ERROR.value)
         }
         if (buffer[FRAME_FLAG_INDEX] != FRAME_FLAG || buffer[size - 1] != FRAME_FLAG) {
             Logger.e(TAG, "Invalid packet header or footer")
-            return PullBufInfo(SerialErrorType.FRAME_FORMAT_ILLEGAL.value)
+            return PullBufInfo(command = SerialErrorType.FRAME_FORMAT_ILLEGAL.value)
         }
 
         val receivedCRC = ((buffer[size - 2].toUByte().toInt() shl 8) or (buffer[size - 3].toUByte()
@@ -213,7 +220,7 @@ class RS485Driver : IDriver {
         if (receivedCRC != calculatedCRC) {
             Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
                     " calculated ${calculatedCRC.toHexString()}")
-            return PullBufInfo(SerialErrorType.CRC_CHECK_FAILED.value)
+            return PullBufInfo(command = SerialErrorType.CRC_CHECK_FAILED.value)
         }
         return null
     }

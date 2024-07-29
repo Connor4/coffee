@@ -10,11 +10,11 @@ class ErrorChain : Chain() {
     }
 
     override fun canHandle(pullBufInfo: PullBufInfo): Boolean {
-        return pullBufInfo.id < LEVEL
+        return pullBufInfo.command < LEVEL
     }
 
     override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
-        val errorMsg = SerialErrorType.getErrorMsgByValue(pullBufInfo.id)
+        val errorMsg = SerialErrorType.getErrorMsgByValue(pullBufInfo.command)
         return ReceivedData.ErrorData(errorMsg)
     }
 
