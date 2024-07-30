@@ -39,9 +39,11 @@ class HomeViewModel @Inject constructor(
     val leftBoilerTemp = _leftBoilerTemp
     private val _rightBoilerTemp = MutableStateFlow(HOME_RIGHT_COFFEE_BOILER_TEMP)
     val rightBoilerTemp = _rightBoilerTemp
+    private val _specialItem = MutableStateFlow<List<Int>>(emptyList())
 
     init {
         _drinksTypes.value = repository.drinksType
+        _specialItem.value = repository.specialItem
     }
 
     fun updateUsername(username: String) {
@@ -89,11 +91,15 @@ class HomeViewModel @Inject constructor(
         // 5 副屏饮品id+100
         // 6 主屏副屏独立使用handler处理各自任务，同用任务只让主屏handler执行即可
         var productId = model.productId
-        if (second) {
-            productId += 100
-            MakeRightDrinksHandler.enqueueMessage(productId)
+        if (_specialItem.value.contains(productId)) {
+            MakeLeftDrinksHandler.executeNow(productId)
         } else {
-            MakeLeftDrinksHandler.enqueueMessage(productId)
+            if (second) {
+                productId += 100
+                MakeRightDrinksHandler.enqueueMessage(productId)
+            } else {
+                MakeLeftDrinksHandler.enqueueMessage(productId)
+            }
         }
     }
 

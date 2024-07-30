@@ -11,6 +11,7 @@ class HomeRepository @Inject constructor(
     private val userDao: UserDao
 ) {
     val drinksType: List<DrinksModel> = homeLocalDataSource.drinksTypes
+    val specialItem = homeLocalDataSource.specialItem
 
     suspend fun authenticateUser(username: String, password: String): Boolean {
         val user = userDao.getUserByUserName(username)

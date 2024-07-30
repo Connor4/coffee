@@ -7,6 +7,7 @@ import javax.inject.Singleton
 
 @Singleton
 class HomeLocalDataSource @Inject constructor() {
+    val specialItem = listOf(1, 2, 3)
 
     val drinksTypes = listOf(
         DrinksModel(

@@ -33,7 +33,7 @@ object MakeLeftDrinksHandler {
     }
 
     @Synchronized
-    fun executeNow(actionId: Int) {
+    fun executeNow(productId: Int) {
         // rinse foam and steam need execute immediately, different from drinks
         scope.launch {
             // TODO actionId to Command, retrieve data from receipt files
