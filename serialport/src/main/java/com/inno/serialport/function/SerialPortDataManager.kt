@@ -6,7 +6,7 @@ import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.driver.RS485Driver
 import com.inno.serialport.utilities.ReceivedData
-import com.inno.serialport.utilities.SerialErrorType
+import com.inno.serialport.utilities.SerialErrorTypeEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -113,7 +113,7 @@ class SerialPortDataManager private constructor() {
                 if (++heartBeatMiss >= MAX_HEARTBEAT_MISS_COUNT) {
                     if (++retryCount > MAX_RETRY_COUNT) {
                         receivedData.reboot = true
-                        receivedData.info = SerialErrorType.HEART_BEAT_MISS.errorMsg
+                        receivedData.info = SerialErrorTypeEnum.HEART_BEAT_MISS.errorMsg
                         close()
                     } else {
                         close()
@@ -124,7 +124,7 @@ class SerialPortDataManager private constructor() {
         } else if (receivedData is ReceivedData.ErrorData) {
             if (++retryCount > MAX_RETRY_COUNT) {
                 receivedData.reboot = true
-                receivedData.info = SerialErrorType.READ_NO_DATA.errorMsg
+                receivedData.info = SerialErrorTypeEnum.READ_NO_DATA.errorMsg
                 close()
             } else {
                 close()

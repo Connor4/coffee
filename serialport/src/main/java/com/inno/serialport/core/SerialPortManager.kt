@@ -1,7 +1,7 @@
 package com.inno.serialport.core
 
 import com.inno.common.utils.Logger
-import com.inno.serialport.utilities.SerialErrorType
+import com.inno.serialport.utilities.SerialErrorTypeEnum
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.io.IOException
@@ -27,7 +27,7 @@ object SerialPortManager {
 
     suspend fun readFromSerialPort(
         port: SerialPort, onSuccess: (buffer: ByteArray, size: Int) -> Unit,
-        onFailure: (type: SerialErrorType) -> Unit
+        onFailure: (type: SerialErrorTypeEnum) -> Unit
     ) {
         portMutex.withLock {
 //            if (shouldIntercept) {
@@ -52,12 +52,12 @@ object SerialPortManager {
 //                    }
 
                     else -> {
-                        onFailure(SerialErrorType.READ_NO_DATA)
+                        onFailure(SerialErrorTypeEnum.READ_NO_DATA)
                     }
                 }
             } catch (e: IOException) {
                 Logger.e(TAG, "readFromSerialPort Exception $e")
-                onFailure(SerialErrorType.IO_EXCEPTION)
+                onFailure(SerialErrorTypeEnum.IO_EXCEPTION)
                 close(port)
                 open(port)
             }
@@ -73,24 +73,24 @@ object SerialPortManager {
     }
 
     private fun retry(port: SerialPort,
-        onFailure: (type: SerialErrorType) -> Unit) {
+        onFailure: (type: SerialErrorTypeEnum) -> Unit) {
         if (++dataRetryCount >= READ_RETRY_COUNT) {
             Logger.e(TAG, "reached max retry read count, reopen port")
             close(port)
-            onFailure(SerialErrorType.MAX_READ_TRY)
+            onFailure(SerialErrorTypeEnum.MAX_READ_TRY)
             if (++openRetryCount < OPEN_RETRY_COUNT) {
                 Logger.e(TAG,
                     "attempting to reopen port, attempt $openRetryCount")
-                onFailure(SerialErrorType.MAX_READ_TRY)
+                onFailure(SerialErrorTypeEnum.MAX_READ_TRY)
                 open(port)
             } else {
                 Logger.e(TAG, "reached max reopen count, need reboot")
                 shouldIntercept = true
-                onFailure(SerialErrorType.MAX_OPEN_TRY)
+                onFailure(SerialErrorTypeEnum.MAX_OPEN_TRY)
             }
         } else {
             Logger.e(TAG, "read failed, retry time $dataRetryCount")
-            onFailure(SerialErrorType.READ_FAIL)
+            onFailure(SerialErrorTypeEnum.READ_FAIL)
         }
     }
 

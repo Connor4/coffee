@@ -17,7 +17,7 @@ import com.inno.serialport.utilities.FRAME_LENGTH_INDEX_LOW
 import com.inno.serialport.utilities.HEART_BEAT_COMMAND
 import com.inno.serialport.utilities.ProductProfile
 import com.inno.serialport.utilities.PullBufInfo
-import com.inno.serialport.utilities.SerialErrorType
+import com.inno.serialport.utilities.SerialErrorTypeEnum
 import com.inno.serialport.utilities.fcstab
 import kotlinx.serialization.json.Json
 import java.nio.ByteBuffer
@@ -196,11 +196,11 @@ class RS485Driver : IDriver {
         val size = buffer.size
         if (size < MINIMUM_FRAME_PACK_SIZE) {
             Logger.e(TAG, "frame size error")
-            return PullBufInfo(command = SerialErrorType.FRAME_SIZE_ERROR.value)
+            return PullBufInfo(command = SerialErrorTypeEnum.FRAME_SIZE_ERROR.value)
         }
         if (buffer[FRAME_FLAG_INDEX] != FRAME_FLAG || buffer[size - 1] != FRAME_FLAG) {
             Logger.e(TAG, "Invalid packet header or footer")
-            return PullBufInfo(command = SerialErrorType.FRAME_FORMAT_ILLEGAL.value)
+            return PullBufInfo(command = SerialErrorTypeEnum.FRAME_FORMAT_ILLEGAL.value)
         }
 
         val receivedCRC = ((buffer[size - 2].toUByte().toInt() shl 8) or (buffer[size - 3].toUByte()
@@ -220,7 +220,7 @@ class RS485Driver : IDriver {
         if (receivedCRC != calculatedCRC) {
             Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
                     " calculated ${calculatedCRC.toHexString()}")
-            return PullBufInfo(command = SerialErrorType.CRC_CHECK_FAILED.value)
+            return PullBufInfo(command = SerialErrorTypeEnum.CRC_CHECK_FAILED.value)
         }
         return null
     }
