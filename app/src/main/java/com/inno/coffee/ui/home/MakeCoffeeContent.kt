@@ -54,10 +54,10 @@ fun MakeCoffeeContent(
         Column(
             modifier = modifier.fillMaxSize(),
         ) {
+            val context = LocalContext.current
             Row(
                 modifier = modifier.wrapContentHeight(),
             ) {
-                val context = LocalContext.current
                 var showLoginDialog by remember {
                     mutableStateOf(false)
                 }
@@ -124,8 +124,9 @@ fun MakeCoffeeContent(
             }
 
             val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
+            val second = PresentationDisplayManager.isSecondDisplay(context)
             DrinkList(modifier = modifier, drinksData = drinksData) {
-                viewModel.startMakeDrink(it)
+                viewModel.startMakeDrink(it, second)
             }
         }
         BottomInfo(modifier = Modifier.align(Alignment.BottomCenter), viewModel = viewModel)

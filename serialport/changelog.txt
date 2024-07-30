@@ -4,3 +4,5 @@
 1. 修改制作产品数据实体结构，从ProductInfo修改为ProductProfile。
 2. 提供返回字段id映射表，对应具体结果。
 3. 明确每个下发命令的指令字段是对应的，send指令多少，reply指令会对应多少。
+2024/07/30
+1. 明确pullBuf返回饮品制作数据为ID2个字节+ProductId2个字节

@@ -80,12 +80,18 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun startMakeDrink(model: DrinksModel) {
+    fun startMakeDrink(model: DrinksModel, second: Boolean) {
         // 1 多次点击需要可排队
         // 2 停止、冲水跟制作饮品不一样，不可以多次点击
         // 3 由于主副屏上的viewmodel独立，只能按照时间戳排队进去给manager处理队列
         // 4 完成制作通知去除队列任务
-        MakeDrinksHandler.enqueueMessage(model.productId)
+        // 5 副屏饮品id+100
+        // 6 主屏副屏独立使用handler处理各自任务，同用任务只让主屏handler执行即可
+        var productId = model.productId
+        if (second) {
+            productId += 100
+        }
+        MakeDrinksHandler.enqueueMessage(productId)
     }
 
     suspend fun startCountDown() {

@@ -3,6 +3,7 @@ package com.inno.serialport.function
 import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.chain.RealChainHandler
+import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.driver.RS485Driver
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.SerialErrorType
@@ -37,7 +38,7 @@ class SerialPortDataManager private constructor() {
 
     private val _receivedDataFlow = MutableSharedFlow<ReceivedData?>(
         replay = 0,
-        extraBufferCapacity = 12,
+        extraBufferCapacity = 8,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val receivedDataFlow: SharedFlow<ReceivedData?> = _receivedDataFlow
@@ -55,6 +56,7 @@ class SerialPortDataManager private constructor() {
         scope.launch {
             startHeartBeat()
         }
+        DataCenter.init()
     }
 
     fun close() {
@@ -62,6 +64,7 @@ class SerialPortDataManager private constructor() {
         heartBeatMiss = 0
         scope.coroutineContext.cancelChildren()
         driver.close()
+        DataCenter.destroy()
     }
 
     suspend fun sendCommand(command: Short, content: String) {

@@ -50,9 +50,6 @@ class GlobalDialogManager private constructor(private val application: Applicati
                 is ReceivedData.ErrorData -> {
                     info = "ErrorData: ${it.info}, need reboot ${it.reboot}"
                 }
-                is ReceivedData.PartData -> {
-                    info = it.info
-                }
                 is ReceivedData.HeartBeat -> {
                     info = "HeartBeatData: ${it.info}, need reboot ${it.reboot}, " +
                             "status ${it.heartbeatStatus}"
