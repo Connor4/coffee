@@ -25,7 +25,7 @@ object PresentationDisplayManager {
         return (packageContext as Activity).windowManager.defaultDisplay == secondDisplay
     }
 
-    fun manualRoute(packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = true) {
+    fun manualRoute(packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = false) {
         if (defaultScreen) {
             route(packageContext, targetCls)
         } else {
