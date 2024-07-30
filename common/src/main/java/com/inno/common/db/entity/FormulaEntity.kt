@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity(tableName = "formula_table")
 data class Formula(
+    var productId: Int,
     var productType: String,
     var productName: String,
     var vat: String,

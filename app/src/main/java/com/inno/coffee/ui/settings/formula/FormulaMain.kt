@@ -52,7 +52,7 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
                 }
 
                 Button(modifier = modifier.padding(start = 20.dp, top = 10.dp), onClick = {
-                    val formula = Formula("coffee", "意式", "前", 20, 50, 20, 29)
+                    val formula = Formula(1, "coffee", "意式", "前", 20, 50, 20, 29)
                     viewModel.insertFormula(formula)
                 }) {
                     Text(text = "add formula")
@@ -90,6 +90,8 @@ fun FileNotFoundDialog(onDismiss: () -> Unit) {
 @Composable
 fun FormulaItem(formula: Formula, modifier: Modifier = Modifier) {
     Row {
+        Text(text = "${formula.productId}")
+        Spacer(modifier = Modifier.width(5.dp))
         Text(text = formula.productType)
         Spacer(modifier = Modifier.width(5.dp))
         Text(text = formula.productName)
