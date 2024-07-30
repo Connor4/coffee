@@ -6,7 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.data.LoginState
-import com.inno.coffee.makedrinks.MakeDrinksHandler
+import com.inno.coffee.makedrinks.MakeLeftDrinksHandler
+import com.inno.coffee.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
@@ -90,8 +91,10 @@ class HomeViewModel @Inject constructor(
         var productId = model.productId
         if (second) {
             productId += 100
+            MakeRightDrinksHandler.enqueueMessage(productId)
+        } else {
+            MakeLeftDrinksHandler.enqueueMessage(productId)
         }
-        MakeDrinksHandler.enqueueMessage(productId)
     }
 
     suspend fun startCountDown() {

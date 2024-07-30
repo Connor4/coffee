@@ -13,8 +13,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-object MakeDrinksHandler {
-    private const val TAG = "MakeDrinksHandler"
+object MakeLeftDrinksHandler {
+    private const val TAG = "MakeLeftDrinksHandler"
     private var messageHead: DrinkMessage? = null
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var processingProductId = -1
