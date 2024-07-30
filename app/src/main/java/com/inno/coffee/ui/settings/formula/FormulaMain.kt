@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,20 +18,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.inno.coffee.R
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 import com.inno.common.db.entity.Formula
 
 @Composable
-fun FormulaPage(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hiltViewModel()) {
+fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hiltViewModel()) {
     val formulaList by viewModel.formulaList.collectAsStateWithLifecycle()
 
-    Surface(modifier = modifier
-        .width(300.dp)
-        .fillMaxHeight()) {
+    Surface(modifier = modifier.fillMaxSize()) {
         val context = LocalContext.current
         val showDialog by rememberSaveable {
             viewModel.fileNotFoundDialogFlag
@@ -82,7 +81,7 @@ fun FileNotFoundDialog(onDismiss: () -> Unit) {
         },
         confirmButton = {
             Button(onClick = onDismiss) {
-                Text("OK")
+                Text(stringResource(id = R.string.common_button_confirm))
             }
         }
     )
@@ -111,5 +110,5 @@ fun FormulaItem(formula: Formula, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun PreviewFormula() {
-    FormulaPage()
+    FormulaMain()
 }

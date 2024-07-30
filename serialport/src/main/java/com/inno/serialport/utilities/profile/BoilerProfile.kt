@@ -1,4 +1,4 @@
-package com.inno.serialport.utilities
+package com.inno.serialport.utilities.profile
 
 import kotlinx.serialization.Serializable
 
@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 // water second
 @Serializable
 data class BoilerProfile(val coffeeWater: Int, val hotWater: Int, val bypassWater: Int,
-    val waterSequence: Int, val reserve0: Int, val reserve1: Int)
+    val waterSequence: Int, val reserve0: Int, val reserve1: Int) : Profile()

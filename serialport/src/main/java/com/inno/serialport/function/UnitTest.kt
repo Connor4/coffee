@@ -1,10 +1,10 @@
 package com.inno.serialport.function
 
 import com.inno.common.utils.toHexString
-import com.inno.serialport.utilities.ComponentProfile
-import com.inno.serialport.utilities.ComponentProfileList
-import com.inno.serialport.utilities.ProductProfile
 import com.inno.serialport.utilities.fcstab
+import com.inno.serialport.utilities.profile.ComponentProfile
+import com.inno.serialport.utilities.profile.ComponentProfileList
+import com.inno.serialport.utilities.profile.ProductProfile
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.nio.ByteBuffer

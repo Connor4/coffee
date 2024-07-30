@@ -15,10 +15,10 @@ import com.inno.serialport.utilities.FRAME_FLAG_INDEX
 import com.inno.serialport.utilities.FRAME_LENGTH_INDEX_HIGH
 import com.inno.serialport.utilities.FRAME_LENGTH_INDEX_LOW
 import com.inno.serialport.utilities.HEART_BEAT_COMMAND
-import com.inno.serialport.utilities.ProductProfile
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.SerialErrorTypeEnum
 import com.inno.serialport.utilities.fcstab
+import com.inno.serialport.utilities.profile.ProductProfile
 import kotlinx.serialization.json.Json
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

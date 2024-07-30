@@ -1,4 +1,4 @@
-package com.inno.serialport.utilities
+package com.inno.serialport.utilities.profile
 
 import kotlinx.serialization.Serializable
 
