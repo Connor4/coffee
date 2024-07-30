@@ -33,16 +33,6 @@ object MakeRightDrinksHandler {
     }
 
     @Synchronized
-    fun executeNow(actionId: Int) {
-        // rinse foam and steam need execute immediately, different from drinks
-        scope.launch {
-            // TODO actionId to Command, retrieve data from receipt files
-            // TODO see {@link ProductProfile}
-            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, "")
-        }
-    }
-
-    @Synchronized
     fun enqueueMessage(productId: Int) {
         val message = DrinkMessage.obtainMessage(productId)
         if (messageHead == null) {
