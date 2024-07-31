@@ -18,7 +18,7 @@ data class Formula(
     var postPreMakeWaitTime: Int,
     var secPressWeight: Int,
     var hotWater: Int,
-    var waterSequence: Int,
+    var americanoSequence: Int,
     var coffeeCycles: Int, // i don't know what it's
     var bypassWater: Int,
     @PrimaryKey(autoGenerate = true) val id: Int = 0

@@ -84,4 +84,18 @@
     <string name="permission_hint_password">密码</string>
     <string name="permission_hint_remark">备注</string>
 
+    <string name="formula_product_type">产品类型</string>
+    <string name="formula_product_name">产品名称</string>
+    <string name="formula_vat_position">豆缸</string>
+    <string name="formula_water_dosage">水量</string>
+    <string name="formula_powder_dosage">粉量</string>
+    <string name="formula_press_weight">压粉重量</string>
+    <string name="formula_pre_make_time">预泡时间</string>
+    <string name="formula_pre_make_wait_time">预泡等待时间</string>
+    <string name="formula_second_press_weight">二次压粉重量</string>
+    <string name="formula_hot_water_dosage">热水用量</string>
+    <string name="formula_americano_seq">美式咖啡出料顺序</string>
+    <string name="formula_coffee_cycles">Coffee Cycles</string>
+    <string name="formula_bypass_dosage">旁路水路出水量</string>
+
 </resources>

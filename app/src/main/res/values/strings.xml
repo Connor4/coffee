@@ -83,5 +83,19 @@
     <string name="permission_hint_password">password</string>
     <string name="permission_hint_remark">remark</string>
 
+    <string name="formula_product_type">Product Type</string>
+    <string name="formula_product_name">Product Name</string>
+    <string name="formula_vat_position">Vat Position</string>
+    <string name="formula_water_dosage">Water dosage</string>
+    <string name="formula_powder_dosage">Powder Dosage</string>
+    <string name="formula_press_weight">Press Weight</string>
+    <string name="formula_pre_make_time">Pre-Make Time</string>
+    <string name="formula_pre_make_wait_time">Pre-Make Wait Time</string>
+    <string name="formula_second_press_weight">Second Press Weight</string>
+    <string name="formula_hot_water_dosage">Hot Water Dosage</string>
+    <string name="formula_americano_seq">Americano Seq.</string>
+    <string name="formula_coffee_cycles">Coffee Cycles</string>
+    <string name="formula_bypass_dosage">Bypass Dosage</string>
+
 
 </resources>
