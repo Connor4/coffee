@@ -34,7 +34,7 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
     Surface(modifier = modifier.fillMaxSize()) {
         val context = LocalContext.current
         val showDialog by rememberSaveable {
-            viewModel.fileNotFoundDialogFlag
+            viewModel.loadFileErrorDialogFlag
         }
 
         if (showDialog) {
@@ -52,7 +52,9 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
                 }
 
                 Button(modifier = modifier.padding(start = 20.dp, top = 10.dp), onClick = {
-                    val formula = Formula(1, "coffee", "意式", "前", 20, 50, 20, 29)
+                    val formula = Formula(1, "coffee", "意式", "前",
+                        20, 50, 20, 29,
+                        30, 40, 20, 30, 1, 1)
                     viewModel.insertFormula(formula)
                 }) {
                     Text(text = "add formula")
@@ -98,13 +100,13 @@ fun FormulaItem(formula: Formula, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.width(5.dp))
         Text(text = formula.vat)
         Spacer(modifier = Modifier.width(5.dp))
-        Text(text = formula.waterDosage.toString())
+        Text(text = formula.coffeeWater.toString())
         Spacer(modifier = Modifier.width(5.dp))
-        Text(text = formula.coffeeDosage.toString())
+        Text(text = formula.powderDosage.toString())
         Spacer(modifier = Modifier.width(5.dp))
-        Text(text = formula.pressure.toString())
+        Text(text = formula.pressWeight.toString())
         Spacer(modifier = Modifier.width(5.dp))
-        Text(text = formula.preSoakingTime.toString())
+        Text(text = formula.preMakeTime.toString())
         Spacer(modifier = Modifier.width(5.dp))
     }
 }

@@ -25,11 +25,12 @@ sealed class Profile {
 
     @Serializable
     data class BoilerProfile(
-        val coffeeWater: Int, // 咖啡出水量
+        val coffeeWater: Int, // 水量
         val hotWater: Int, // 热水出水量
         val bypassWater: Int, // 旁路出水量
-        val waterSequence: Int, // waterSequence: 0:one flow; 1:two flow, water first, coffee second; 2:two flow, coffee first,
-// water second
+        val waterSequence: Int, // 出咖啡出水顺序
+        // 0:one flow; 1:two flow, water first, coffee second;
+        // 2:two flow, coffee first, water second
         val reserve0: Int,
         val reserve1: Int
     ) : Profile()
