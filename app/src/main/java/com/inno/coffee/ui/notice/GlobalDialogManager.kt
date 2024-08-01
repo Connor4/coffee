@@ -12,9 +12,13 @@ import android.widget.TextView
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.inno.coffee.R
+import com.inno.serialport.function.data.DataCenter
+import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.ReceivedDataType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GlobalDialogManager private constructor(private val application: Application) {
 
@@ -22,40 +26,43 @@ class GlobalDialogManager private constructor(private val application: Applicati
         application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private var dialogView: View? = null
     private var dialogData: MutableState<DialogData?> = mutableStateOf(null)
-    // TODO 修改成接收时用IO，更新UI时转Main
     private val scope = CoroutineScope(Dispatchers.Main)
     private var dialogShowing = false
+    private val subscriber = object : Subscriber {
+        override fun onDataReceived(data: Any) {
+            scope.launch {
+                val error = data as ReceivedData
+                val info = getMessage(error)
 
-    init {
-//        scope.launch {
-//            SerialPortDataManager.instance.receivedDataFlow.collect { receivedData ->
-//                val info = getMessage(receivedData)
-//                if (dialogShowing) {
-//                    updateDialogContent(info)
-//                } else {
-//                    showDialog(DialogData(
-//                        title = "There is an Alert",
-//                        message = "Alert Info $info",
-//                        onConfirm = { dismissDialog() }
-//                    ))
-//                }
-//            }
-//        }
+                if (dialogShowing) {
+                    updateDialogContent(info)
+                } else {
+                    showDialog(DialogData(
+                        title = "There is an Alert",
+                        message = "Alert Info $info",
+                        onConfirm = { dismissDialog() }
+                    ))
+                }
+            }
+        }
     }
 
-    private fun getMessage(receivedData: ReceivedData?): String {
+    init {
+        DataCenter.subscribe(ReceivedDataType.ERROR, subscriber)
+        DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
+    }
+
+    private fun getMessage(receivedData: ReceivedData): String {
         var info = ""
-        receivedData?.let {
-            when (it) {
-                is ReceivedData.ErrorData -> {
-                    info = "ErrorData: ${it.info}, need reboot ${it.reboot}"
-                }
-                is ReceivedData.HeartBeat -> {
-                    info = "HeartBeatData: ${it.info}, need reboot ${it.reboot}, " +
-                            "status ${it.heartbeatStatus}"
-                }
-                else -> {}
+        when (receivedData) {
+            is ReceivedData.ErrorData -> {
+                info = "ErrorData: ${receivedData.info}, need reboot ${receivedData.reboot}"
             }
+            is ReceivedData.HeartBeat -> {
+                info = "HeartBeatData: ${receivedData.info}, need reboot ${receivedData.reboot}, " +
+                        "status ${receivedData.heartbeatStatus}"
+            }
+            else -> {}
         }
         return info
     }

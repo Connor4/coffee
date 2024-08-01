@@ -10,7 +10,6 @@ import com.inno.serialport.utilities.ReceivedDataType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 object MakeRightDrinksHandler {
@@ -25,11 +24,7 @@ object MakeRightDrinksHandler {
     }
 
     init {
-        scope.launch {
-            // TODO not a good way to subscribe
-            delay(3000)
-            DataCenter.subscribe(ReceivedDataType.MAKE_DRINK, subscriber)
-        }
+        DataCenter.subscribe(ReceivedDataType.MAKE_DRINK, subscriber)
     }
 
     @Synchronized

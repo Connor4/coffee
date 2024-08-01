@@ -3,7 +3,6 @@ package com.inno.serialport.function
 import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.chain.RealChainHandler
-import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.driver.RS485Driver
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.SerialErrorTypeEnum
@@ -56,7 +55,6 @@ class SerialPortDataManager private constructor() {
         scope.launch {
             startHeartBeat()
         }
-        DataCenter.init()
     }
 
     fun close() {
@@ -64,7 +62,6 @@ class SerialPortDataManager private constructor() {
         heartBeatMiss = 0
         scope.coroutineContext.cancelChildren()
         driver.close()
-        DataCenter.destroy()
     }
 
     suspend fun sendCommand(command: Short, content: String) {
@@ -84,6 +81,7 @@ class SerialPortDataManager private constructor() {
         val result = chain.proceed(pullBufInfo)
         result?.let {
             processRetry(it)
+            Logger.d(TAG, "receiveData() data $it")
             _receivedDataFlow.emit(it)
         }
     }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 object DataCenter {
+    private const val TAG = "DataCenter"
     private var collectJob: Job? = null
     private val subscribers = mutableMapOf<ReceivedDataType, MutableList<Subscriber>>()
 

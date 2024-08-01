@@ -8,6 +8,7 @@ import com.inno.common.utils.Logger
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -16,6 +17,8 @@ class CoffeeApplication : Application() {
     companion object {
         private const val TAG = "CoffeeApplication"
     }
+
+    private val applicationScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     override fun onCreate() {
         super.onCreate()
@@ -27,10 +30,15 @@ class CoffeeApplication : Application() {
         Logger.d(TAG, "CoffeeApplication init() call")
         CoffeeSharedPreferences.init(this)
         PresentationDisplayManager.init(this)
+        applicationScope.launch {
+            Logger.d(TAG, "CoffeeApplication init() launch call")
+//            SerialPortDataManager.instance.open()
+//            DataCenter.init()
+        }
     }
 
     private fun delayInit() {
-        CoroutineScope(Dispatchers.IO).launch {
+        applicationScope.launch {
             delay(3000)
             Logger.d(TAG, "CoffeeApplication delayInit start")
             GlobalDialogManager.init(this@CoffeeApplication)
