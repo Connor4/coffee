@@ -1,4 +1,4 @@
-package com.inno.coffee.makedrinks
+package com.inno.coffee.utils.makedrinks
 
 import okio.withLock
 import java.util.LinkedList

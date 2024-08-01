@@ -6,11 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.data.LoginState
-import com.inno.coffee.makedrinks.MakeLeftDrinksHandler
-import com.inno.coffee.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
+import com.inno.coffee.utils.makedrinks.MakeLeftDrinksHandler
+import com.inno.coffee.utils.makedrinks.MakeRightDrinksHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay

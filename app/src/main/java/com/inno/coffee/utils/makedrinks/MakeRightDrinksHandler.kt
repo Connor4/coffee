@@ -1,4 +1,4 @@
-package com.inno.coffee.makedrinks
+package com.inno.coffee.utils.makedrinks
 
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
@@ -12,8 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-object MakeLeftDrinksHandler {
-    private const val TAG = "MakeLeftDrinksHandler"
+object MakeRightDrinksHandler {
+    private const val TAG = "MakeRightDrinksHandler"
     private var messageHead: DrinkMessage? = null
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var processingProductId = -1
@@ -25,16 +25,6 @@ object MakeLeftDrinksHandler {
 
     init {
         DataCenter.subscribe(ReceivedDataType.MAKE_DRINK, subscriber)
-    }
-
-    @Synchronized
-    fun executeNow(productId: Int) {
-        // rinse foam and steam need execute immediately, different from drinks
-        scope.launch {
-            // TODO actionId to Command, retrieve data from receipt files
-            // TODO see {@link ProductProfile}
-            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, "")
-        }
     }
 
     @Synchronized
@@ -80,9 +70,9 @@ object MakeLeftDrinksHandler {
         val status = drinkData.status
         val productId = drinkData.productId
         when (status) {
-            MakeDrinkStatusEnum.LEFT_BREWING -> {}
-            MakeDrinkStatusEnum.LEFT_BREWING_COMPLETE -> {}
-            MakeDrinkStatusEnum.LEFT_FINISHED -> {
+            MakeDrinkStatusEnum.RIGHT_BREWING -> {}
+            MakeDrinkStatusEnum.RIGHT_BREWING_COMPLETE -> {}
+            MakeDrinkStatusEnum.RIGHT_FINISHED -> {
                 if (processingProductId == productId) {
                     // finish, proceed next drink
                     processingProductId = -1
