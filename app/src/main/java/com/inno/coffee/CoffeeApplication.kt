@@ -3,6 +3,7 @@ package com.inno.coffee
 import android.app.Application
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.coffee.ui.presentation.PresentationDisplayManager
+import com.inno.coffee.utils.formula.ProductProfileManager
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
 import dagger.hilt.android.HiltAndroidApp
@@ -42,6 +43,7 @@ class CoffeeApplication : Application() {
             delay(3000)
             Logger.d(TAG, "CoffeeApplication delayInit start")
             GlobalDialogManager.init(this@CoffeeApplication)
+            ProductProfileManager.init(this@CoffeeApplication)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.inno.coffee.utils.makedrinks
 
+import com.inno.coffee.utilities.INVALID_INT
 import okio.withLock
 import java.util.LinkedList
 import java.util.concurrent.locks.ReentrantLock
@@ -26,7 +27,7 @@ class DrinkMessage {
         fun recycleMessage(message: DrinkMessage) {
             lock.withLock {
                 if (poolList.size < MAX_POOL_SIZE) {
-                    message.actionId = -1
+                    message.actionId = INVALID_INT
                     message.next = null
                     poolList.offer(message)
                 }
@@ -37,7 +38,7 @@ class DrinkMessage {
 
 
     var next: DrinkMessage? = null
-    var actionId: Int = -1
+    var actionId: Int = INVALID_INT
 
     override fun toString(): String {
         val next = if (next != null) {

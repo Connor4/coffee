@@ -1,5 +1,7 @@
 package com.inno.coffee.utils.makedrinks
 
+import com.inno.coffee.utilities.INVALID_INT
+import com.inno.coffee.utils.formula.ProductProfileManager
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -16,7 +18,7 @@ object MakeLeftDrinksHandler {
     private const val TAG = "MakeLeftDrinksHandler"
     private var messageHead: DrinkMessage? = null
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    private var processingProductId = -1
+    private var processingProductId = INVALID_INT
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
@@ -31,9 +33,8 @@ object MakeLeftDrinksHandler {
     fun executeNow(productId: Int) {
         // rinse foam and steam need execute immediately, different from drinks
         scope.launch {
-            // TODO actionId to Command, retrieve data from receipt files
-            // TODO see {@link ProductProfile}
-            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, "")
+            val content = ProductProfileManager.convertProductProfile(productId, true)
+            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, content)
         }
     }
 
@@ -60,13 +61,12 @@ object MakeLeftDrinksHandler {
 
     // every time enqueue, only run for once. until get response
     private fun handleMessage() {
-        if (messageHead != null && processingProductId == -1) {
+        if (messageHead != null && processingProductId == INVALID_INT) {
             // id parse to command, send command
             processingProductId = messageHead!!.actionId
             scope.launch {
-                // TODO actionId to Command, retrieve data from receipt files
-                // TODO see {@link ProductProfile}
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, "")
+                val content = ProductProfileManager.convertProductProfile(processingProductId, true)
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, content)
             }
             // recycle the message
             val p = messageHead
@@ -85,7 +85,7 @@ object MakeLeftDrinksHandler {
             MakeDrinkStatusEnum.LEFT_FINISHED -> {
                 if (processingProductId == productId) {
                     // finish, proceed next drink
-                    processingProductId = -1
+                    processingProductId = INVALID_INT
                     handleMessage()
                 }
             }

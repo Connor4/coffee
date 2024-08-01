@@ -13,6 +13,10 @@ class FormulaRepository @Inject constructor(
         return formulaDao.getAllFormula()
     }
 
+    suspend fun getFormulaByProductId(productId: Int): Formula? {
+        return formulaDao.getFormulaByProductId(productId)
+    }
+
     suspend fun insertFormulaList(list: List<Formula>) {
         formulaDao.insertFormulaList(list)
     }

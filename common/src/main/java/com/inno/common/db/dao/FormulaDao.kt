@@ -14,6 +14,9 @@ interface FormulaDao {
     @Query("SELECT * FROM formula_table ORDER BY id ASC")
     fun getAllFormula(): Flow<List<Formula>>
 
+    @Query("SELECT * FROM formula_table WHERE productId =:productId LIMIT 1")
+    suspend fun getFormulaByProductId(productId: Int): Formula?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFormulaList(list: List<Formula>)
 

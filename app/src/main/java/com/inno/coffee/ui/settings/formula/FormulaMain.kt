@@ -75,8 +75,8 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
                         modifier = Modifier.padding(start = 20.dp),
                         onClick = {
                             val formula = Formula(
-                                productId = 1, productType = "coffee", productName = "意式",
-                                vat = "前方豆缸",
+                                productId = 3, productType = "coffee", productName = "意式",
+                                vat = true,
                                 coffeeWater = 20, powderDosage = 50, pressWeight = 20,
                                 preMakeTime = 29, postPreMakeWaitTime = 30, secPressWeight = 40,
                                 hotWater = 20, americanoSequence = 30, coffeeCycles = 1,
@@ -152,7 +152,7 @@ fun FormulaItem(
         Spacer(modifier = Modifier.width(5.dp))
         Text(text = formula.productName)
         Spacer(modifier = Modifier.width(5.dp))
-        Text(text = formula.vat)
+        Text(text = "前方豆缸噢噢噢噢")
         Spacer(modifier = Modifier.width(5.dp))
         Text(text = formula.coffeeWater.toString())
         Spacer(modifier = Modifier.width(5.dp))
@@ -192,7 +192,7 @@ fun ItemList(formula: Formula, modifier: Modifier) {
                 text = stringResource(id = R.string.formula_vat_position),
                 modifier = Modifier.width(150.dp)
             )
-            Text(text = formula.vat)
+            Text(text = "前方豆缸哦哦哦")
         }
         Row {
             Text(
@@ -271,7 +271,7 @@ fun ItemList(formula: Formula, modifier: Modifier) {
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
 fun PreviewFormula() {
-    ItemList(formula = Formula(1, "coffee", "意式", "前",
+    ItemList(formula = Formula(1, "coffee", "意式", true,
         20, 50, 20, 29,
         30, 40, 20, 30, 1, 1),
         modifier = Modifier)
