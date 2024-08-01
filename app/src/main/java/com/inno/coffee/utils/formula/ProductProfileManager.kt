@@ -34,8 +34,8 @@ object ProductProfileManager {
     suspend fun convertProductProfile(productId: Int, leftSize: Boolean): String {
         Logger.d(TAG,
             "convertProductProfile() called with: productId = $productId, leftSize = $leftSize")
-        val formula = repository.getFormulaByProductId(productId)
-        val productProfile = createProductProfile(formula!!, leftSize)
+        val formula = repository.getFormulaByProductId(productId) ?: return ""
+        val productProfile = createProductProfile(formula, leftSize)
         return productProfile
     }
 

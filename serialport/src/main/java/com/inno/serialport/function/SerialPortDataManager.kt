@@ -65,7 +65,10 @@ class SerialPortDataManager private constructor() {
     }
 
     suspend fun sendCommand(command: Short, content: String) {
-        Logger.d(TAG, "sendCommand $content")
+        if (content.isEmpty()) {
+            return
+        }
+        Logger.d(TAG, "sendCommand command: $command, content: $content")
         mutex.withLock {
             heartBeatJob?.cancel()
             driver.send(command, content)
