@@ -1,6 +1,6 @@
 package com.inno.serialport.utilities
 
-enum class SerialErrorTypeEnum(val value: Int, val errorMsg: String) {
+enum class SerialErrorTypeEnum(val value: Short, val errorMsg: String) {
     READ_FAIL(-1, "read byte fail"),
     MAX_READ_TRY(-2, "Max data retry count reached"),
     MAX_OPEN_TRY(-3, "Max open retry count reached"),
@@ -12,7 +12,7 @@ enum class SerialErrorTypeEnum(val value: Int, val errorMsg: String) {
     FRAME_SIZE_ERROR(-9, "frame size error");
 
     companion object {
-        fun getErrorMsgByValue(value: Int): String {
+        fun getErrorMsgByValue(value: Short): String {
             for (errorType in entries) {
                 if (errorType.value == value) {
                     return errorType.errorMsg

@@ -3,7 +3,7 @@ package com.inno.serialport.utilities
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PullBufInfo(val length: Int = 0, val command: Int = 0,
+data class PullBufInfo(val length: Int = 0, val command: Short = 0,
     val pollBuf: ByteArray = byteArrayOf())
 
 // poll指令

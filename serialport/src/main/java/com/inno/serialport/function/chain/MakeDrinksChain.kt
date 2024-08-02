@@ -8,7 +8,7 @@ import com.inno.serialport.utilities.ReceivedData
 class MakeDrinksChain : Chain() {
 
     override fun canHandle(pullBufInfo: PullBufInfo): Boolean {
-        return MAKE_DRINKS_COMMAND == pullBufInfo.command.toShort()
+        return MAKE_DRINKS_COMMAND == pullBufInfo.command
     }
 
     override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
