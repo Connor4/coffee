@@ -4,6 +4,7 @@ import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.driver.RS485Driver
+import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.SerialErrorTypeEnum
 import com.inno.serialport.utilities.profile.ProductProfile
@@ -20,6 +21,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeoutOrNull
 
 @WorkerThread
 class SerialPortDataManager private constructor() {
@@ -49,6 +51,12 @@ class SerialPortDataManager private constructor() {
     private var heartBeatMiss = 0
     private var retryCount = 0
     private val chain = RealChainHandler()
+    private var waitingCommandId: Short? = null
+    private val commandResponseFlow = MutableSharedFlow<PullBufInfo?>(
+        replay = 0,
+        extraBufferCapacity = 4,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
     suspend fun open() {
         Logger.d(TAG, "open driver")
@@ -65,27 +73,32 @@ class SerialPortDataManager private constructor() {
         driver.close()
     }
 
-    suspend fun sendCommand(command: Short, productProfile: ProductProfile?) {
-        Logger.d(TAG, "sendCommand command: $command, productProfile: $productProfile")
+    suspend fun sendCommand(commandId: Short, productProfile: ProductProfile?) {
+        Logger.d(TAG, "sendCommand command: $commandId, productProfile: $productProfile")
         productProfile?.let {
             mutex.withLock {
                 heartBeatJob?.cancel()
-                driver.send(command, productProfile)
-                // let heart beat response
-                startHeartBeat()
+                waitingCommandId = commandId
+                driver.send(commandId, productProfile)
+                receiveData()
+                waitForCommandResponse()
             }
         }
     }
 
     private suspend fun receiveData() {
         delay(RECEIVE_INTERVAL_MILLIS)
-        Logger.d(TAG, "receiveData() called $retryCount")
         val pullBufInfo = driver.receive()
-        val result = chain.proceed(pullBufInfo)
-        result?.let {
-            processRetry(it)
-            Logger.d(TAG, "receiveData() data $it")
-            _receivedDataFlow.emit(it)
+        if (waitingCommandId != null) {
+            Logger.d(TAG, "receiveData() waitingCommandId called")
+            commandResponseFlow.emit(pullBufInfo)
+        } else {
+            val result = chain.proceed(pullBufInfo)
+            result?.let {
+                processRetry(it)
+                Logger.d(TAG, "receiveData() data $it")
+                _receivedDataFlow.emit(it)
+            }
         }
     }
 
@@ -94,8 +107,7 @@ class SerialPortDataManager private constructor() {
         heartBeatJob = scope.launch {
             Logger.d(TAG, "startHeartBeat() called")
             while (isActive) {
-                // delay must stay here, or reopen will recall this and
-                // interrupt delay.
+                // delay must stay here, or reopen will recall this and interrupt delay.
                 delay(PULL_INTERVAL_MILLIS)
                 mutex.withLock {
                     driver.sendHeartBeat()
@@ -130,6 +142,24 @@ class SerialPortDataManager private constructor() {
             } else {
                 close()
                 open()
+            }
+        }
+    }
+
+    private suspend fun waitForCommandResponse() {
+        scope.launch {
+            withTimeoutOrNull<Nothing>(PULL_INTERVAL_MILLIS * MAX_RETRY_COUNT) {
+                commandResponseFlow.collect { response ->
+                    if (response?.command == waitingCommandId) {
+                        startHeartBeat()
+                        waitingCommandId = null
+                        return@collect
+                    }
+                }
+            }
+            if (waitingCommandId != null) {
+                _receivedDataFlow.emit(
+                    ReceivedData.ErrorData(SerialErrorTypeEnum.IO_NO_REPLY.errorMsg, true))
             }
         }
     }

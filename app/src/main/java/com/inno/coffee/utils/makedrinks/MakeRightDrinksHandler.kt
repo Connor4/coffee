@@ -5,7 +5,7 @@ import com.inno.coffee.utils.formula.ProductProfileManager
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
-import com.inno.serialport.utilities.MAKE_DRINKS_COMMAND
+import com.inno.serialport.utilities.MAKE_DRINKS_COMMAND_ID
 import com.inno.serialport.utilities.MakeDrinkStatusEnum
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
@@ -58,7 +58,7 @@ object MakeRightDrinksHandler {
             scope.launch {
                 val productProfile =
                     ProductProfileManager.convertProductProfile(processingProductId, false)
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, productProfile)
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
             }
             // recycle the message
             val p = messageHead
