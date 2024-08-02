@@ -16,6 +16,10 @@ object Logger {
         }
     }
 
+    fun lengthy(tag: String, msg: String) {
+        d(tag, msg)
+    }
+
     fun d(tag: String, msg: String) {
         if (debuggable) {
             Log.d(tag, msg)

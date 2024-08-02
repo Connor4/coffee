@@ -5,6 +5,7 @@ import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.utilities.MAKE_DRINKS_COMMAND
 import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.profile.ProductProfile
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -34,8 +35,8 @@ class SerialPortRepository @Inject constructor(
         DataCenter.destroy()
     }
 
-    suspend fun sendCommand(command: String) {
-        SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, command)
+    suspend fun sendCommand(productProfile: ProductProfile?) {
+        SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, productProfile)
     }
 
     fun fetchSerialPort() {

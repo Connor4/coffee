@@ -19,7 +19,6 @@ import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.SerialErrorTypeEnum
 import com.inno.serialport.utilities.fcstab
 import com.inno.serialport.utilities.profile.ProductProfile
-import kotlinx.serialization.json.Json
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.concurrent.locks.ReentrantLock
@@ -37,8 +36,7 @@ class RS485Driver : IDriver {
         private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
         // pull info12(flag1 + addr1 + control1 + len2 + cmd2 + data2 + crc2 + flag1)
         private const val MINIMUM_FRAME_PACK_SIZE = 12
-        // TODO depends on whether use max or not
-        private const val MAX_COMPONENT: Short = 7
+        private const val MAX_COMPONENT: Short = 3
         // ProductProfile = id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + MAX_COMPONENT * (comid2 + 2*para6)
         private const val COMMAND_BUFFER_CAPACITY = 8 + 14 * MAX_COMPONENT
         // 6 = addr1 + control1 + len2 + cmd2
@@ -52,7 +50,7 @@ class RS485Driver : IDriver {
         private const val FRAME_CONTROL = 0X1.toByte()
     }
 
-    private val mSerialPort: SerialPort = SerialPort.Builder()
+    private val serialPort: SerialPort = SerialPort.Builder()
         .portName(DEVICE_PATH)
         .baudRate(BAUD_RATE)
         .dataBits(DATA_BITES)
@@ -73,9 +71,9 @@ class RS485Driver : IDriver {
         serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
     }
 
-    override fun send(command: Short, content: String) {
+    override fun send(command: Short, productProfile: ProductProfile) {
         lock.withLock {
-            val serializeProductInfo = serializeProductInfo(content)
+            val serializeProductInfo = serializeProductInfo(productProfile)
             contentBuffer.clear()
             contentBuffer.put(FRAME_ADDRESS)
             contentBuffer.put(FRAME_CONTROL)
@@ -97,17 +95,17 @@ class RS485Driver : IDriver {
             packBuffer.put(FRAME_FLAG)
             packBuffer.flip()
             val packFrame = ByteArray(packBuffer.limit())
-            SerialPortManager.writeToSerialPort(mSerialPort, packFrame)
+            SerialPortManager.writeToSerialPort(serialPort, packFrame)
         }
     }
 
     fun sendHeartBeat() {
-        SerialPortManager.writeToSerialPort(mSerialPort, HEART_BEAT_COMMAND)
+        SerialPortManager.writeToSerialPort(serialPort, HEART_BEAT_COMMAND)
     }
 
     override suspend fun receive(): PullBufInfo {
         var receivedData: PullBufInfo? = null
-        SerialPortManager.readFromSerialPort(mSerialPort, onSuccess = { buffer, _ ->
+        SerialPortManager.readFromSerialPort(serialPort, onSuccess = { buffer, _ ->
             val multiInfo = slicePullInfo(buffer)
             for (info in multiInfo) {
                 receivedData = validPullInfo(info) ?: parsePullBuffInfo(info)
@@ -119,25 +117,24 @@ class RS485Driver : IDriver {
     }
 
     override fun open() {
-        SerialPortManager.open(mSerialPort)
+        SerialPortManager.open(serialPort)
     }
 
     override fun close() {
-        SerialPortManager.close(mSerialPort)
+        SerialPortManager.close(serialPort)
     }
 
-    private fun serializeProductInfo(command: String): ByteArray {
-        val productInfo = Json.decodeFromString<ProductProfile>(command)
+    private fun serializeProductInfo(productProfile: ProductProfile): ByteArray {
         serializeBuffer.clear()
-        serializeBuffer.putShort(productInfo.productId)
-        serializeBuffer.putShort(productInfo.preFlush)
-        serializeBuffer.putShort(productInfo.postFlush)
-        serializeBuffer.putShort(productInfo.componentProfileList.componentNum)
+        serializeBuffer.putShort(productProfile.productId)
+        serializeBuffer.putShort(productProfile.preFlush)
+        serializeBuffer.putShort(productProfile.postFlush)
+        serializeBuffer.putShort(productProfile.componentProfileList.componentNum)
 
-        val componentSize = productInfo.componentProfileList.componentList.size
+        val componentSize = productProfile.componentProfileList.componentList.size
         for (i in 0 until MAX_COMPONENT) {
             if (i < componentSize) {
-                val componentProfile = productInfo.componentProfileList.componentList[i]
+                val componentProfile = productProfile.componentProfileList.componentList[i]
                 serializeBuffer.putShort(componentProfile.componentId)
                 for (para in componentProfile.para) {
                     serializeBuffer.putShort(para)
@@ -205,7 +202,7 @@ class RS485Driver : IDriver {
 
         val receivedCRC = ((buffer[size - 2].toUByte().toInt() shl 8) or (buffer[size - 3].toUByte()
             .toInt())).toShort()
-        Logger.d(TAG,
+        Logger.lengthy(TAG,
             "buffer: ${buffer.toHexString()}, Received CRC: ${receivedCRC.toHexString()}")
 
         // exclude frame flag and crc
@@ -213,7 +210,7 @@ class RS485Driver : IDriver {
         val payloadBuffer = ByteBuffer.allocate(payload.size)
         payloadBuffer.put(payload)
         payloadBuffer.flip()
-        Logger.d(TAG,
+        Logger.lengthy(TAG,
             "payload: ${payload.toHexString()}， payloadBuffer: ${payloadBuffer.toHexString()}")
 
         val calculatedCRC = calculateCRC(payloadBuffer)
@@ -226,7 +223,7 @@ class RS485Driver : IDriver {
     }
 
     private fun slicePullInfo(buffer: ByteArray): List<ByteArray> {
-        Logger.d(TAG, "slicePullInfo() called with: buffer = ${buffer.toHexString()}")
+        Logger.lengthy(TAG, "slicePullInfo() called with: buffer = ${buffer.toHexString()}")
         val multiPullInfo = mutableListOf<ByteArray>()
         var start = -1
         for (i in buffer.indices) {
@@ -236,7 +233,7 @@ class RS485Driver : IDriver {
                 } else {
                     val info = buffer.sliceArray(start until i + 1)
                     multiPullInfo.add(info)
-                    Logger.d(TAG, "slicePullInfo: ${info.toHexString()}")
+                    Logger.lengthy(TAG, "slicePullInfo: ${info.toHexString()}")
                     start = -1
                 }
             }

@@ -56,9 +56,9 @@ object MakeRightDrinksHandler {
             // id parse to command, send command
             processingProductId = messageHead!!.actionId
             scope.launch {
-                val content =
+                val productProfile =
                     ProductProfileManager.convertProductProfile(processingProductId, false)
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, content)
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, productProfile)
             }
             // recycle the message
             val p = messageHead

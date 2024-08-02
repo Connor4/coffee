@@ -33,8 +33,8 @@ object MakeLeftDrinksHandler {
     fun executeNow(productId: Int) {
         // rinse foam and steam need execute immediately, different from drinks
         scope.launch {
-            val content = ProductProfileManager.convertProductProfile(productId, true)
-            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, content)
+            val productProfile = ProductProfileManager.convertProductProfile(productId, true)
+            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, productProfile)
         }
     }
 
@@ -65,8 +65,9 @@ object MakeLeftDrinksHandler {
             // id parse to command, send command
             processingProductId = messageHead!!.actionId
             scope.launch {
-                val content = ProductProfileManager.convertProductProfile(processingProductId, true)
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, content)
+                val productProfile =
+                    ProductProfileManager.convertProductProfile(processingProductId, true)
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND, productProfile)
             }
             // recycle the message
             val p = messageHead

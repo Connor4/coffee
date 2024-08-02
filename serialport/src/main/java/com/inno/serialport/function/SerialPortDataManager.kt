@@ -6,6 +6,7 @@ import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.driver.RS485Driver
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.SerialErrorTypeEnum
+import com.inno.serialport.utilities.profile.ProductProfile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -64,16 +65,15 @@ class SerialPortDataManager private constructor() {
         driver.close()
     }
 
-    suspend fun sendCommand(command: Short, content: String) {
-        if (content.isEmpty()) {
-            return
-        }
-        Logger.d(TAG, "sendCommand command: $command, content: $content")
-        mutex.withLock {
-            heartBeatJob?.cancel()
-            driver.send(command, content)
-            // let heart beat response
-            startHeartBeat()
+    suspend fun sendCommand(command: Short, productProfile: ProductProfile?) {
+        Logger.d(TAG, "sendCommand command: $command, productProfile: $productProfile")
+        productProfile?.let {
+            mutex.withLock {
+                heartBeatJob?.cancel()
+                driver.send(command, productProfile)
+                // let heart beat response
+                startHeartBeat()
+            }
         }
     }
 

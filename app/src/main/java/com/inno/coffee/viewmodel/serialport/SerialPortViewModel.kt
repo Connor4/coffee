@@ -14,8 +14,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,8 +57,7 @@ class SerialPortViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(defaultDispatcher) {
                 val createInfo = createProductProfile()
-                val info = Json.encodeToString(createInfo)
-                repository.sendCommand(info)
+                repository.sendCommand(createInfo)
             }
         }
     }

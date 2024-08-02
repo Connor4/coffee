@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.File
 import javax.inject.Inject
@@ -47,11 +46,8 @@ class FormulaViewModel @Inject constructor(
                     try {
                         val list: List<Formula> = Json.decodeFromString(jsonContent)
                         repository.insertFormulaList(list)
-                    } catch (e: SerializationException) {
-                        Logger.e("FormulaViewModel", "decodeFromString SerializationException $e")
-                        loadFileErrorDialogFlag.value = true
-                    } catch (e: IllegalArgumentException) {
-                        Logger.e("FormulaViewModel", "decodeFromString IllegalArgumentException $e")
+                    } catch (e: Exception) {
+                        Logger.e("FormulaViewModel", "decodeFromString Exception $e")
                         loadFileErrorDialogFlag.value = true
                     }
                 } else {

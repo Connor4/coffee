@@ -15,9 +15,6 @@ import com.inno.serialport.utilities.profile.ProductProfile
 import com.inno.serialport.utilities.profile.RIGHT_BOILER_ID
 import com.inno.serialport.utilities.profile.RIGHT_BREWER_ID
 import dagger.hilt.android.EntryPointAccessors
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 object ProductProfileManager {
     private const val TAG = "ProductProfileManager"
@@ -31,15 +28,14 @@ object ProductProfileManager {
         repository = entryPoint.formulaRepository()
     }
 
-    suspend fun convertProductProfile(productId: Int, leftSize: Boolean): String {
+    suspend fun convertProductProfile(productId: Int, leftSize: Boolean): ProductProfile? {
         Logger.d(TAG,
             "convertProductProfile() called with: productId = $productId, leftSize = $leftSize")
-        val formula = repository.getFormulaByProductId(productId) ?: return ""
-        val productProfile = createProductProfile(formula, leftSize)
-        return productProfile
+        val formula = repository.getFormulaByProductId(productId) ?: return null
+        return createProductProfile(formula, leftSize)
     }
 
-    private fun createProductProfile(formula: Formula, leftSize: Boolean): String {
+    private fun createProductProfile(formula: Formula, leftSize: Boolean): ProductProfile {
         val grinderId = if (formula.vat) FRONT_GRINDER_ID else BACK_GRINDER_ID
         val grinderProfile = ComponentProfile(grinderId, shortArrayOf(formula.powderDosage, 0, 0,
             0, 0, 0))
@@ -60,17 +56,7 @@ object ProductProfileManager {
 
         val componentList = mutableListOf(grinderProfile, brewerProfile, boilerProfile)
         val componentProfileList = ComponentProfileList(componentList.size.toShort(), componentList)
-        val productProfile = ProductProfile(formula.productId, 0, 0, componentProfileList)
-        try {
-            val content = Json.encodeToString(productProfile)
-            return content
-        } catch (e: SerializationException) {
-            Logger.e(TAG, "createProductProfile SerializationException $e")
-            return ""
-        } catch (e: IllegalArgumentException) {
-            Logger.e(TAG, "createProductProfile IllegalArgumentException $e")
-            return ""
-        }
+        return ProductProfile(formula.productId, 0, 0, componentProfileList)
     }
 
 }
