@@ -6,9 +6,9 @@ import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.MAKE_DRINKS_COMMAND_ID
-import com.inno.serialport.utilities.MakeDrinkStatusEnum
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
+import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

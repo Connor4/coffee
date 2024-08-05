@@ -14,9 +14,9 @@ import androidx.compose.runtime.mutableStateOf
 import com.inno.coffee.R
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
-import com.inno.serialport.utilities.ErrorStatusEnum
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
+import com.inno.serialport.utilities.statusenum.ErrorStatusEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

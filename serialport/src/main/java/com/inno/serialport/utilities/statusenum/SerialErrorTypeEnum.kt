@@ -1,4 +1,4 @@
-package com.inno.serialport.utilities
+package com.inno.serialport.utilities.statusenum
 
 enum class SerialErrorTypeEnum(val value: Short, val errorMsg: String) {
     READ_FAIL(-1, "read byte fail"),

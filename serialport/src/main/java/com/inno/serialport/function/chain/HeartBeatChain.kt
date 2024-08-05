@@ -1,11 +1,11 @@
 package com.inno.serialport.function.chain
 
-import com.inno.serialport.utilities.ErrorStatusEnum
 import com.inno.serialport.utilities.HEARTBEAT_COMMAND_ID
 import com.inno.serialport.utilities.HeartBeatReply
-import com.inno.serialport.utilities.MakeDrinkStatusEnum
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.statusenum.ErrorStatusEnum
+import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 
 class HeartBeatChain : Chain() {
     companion object {

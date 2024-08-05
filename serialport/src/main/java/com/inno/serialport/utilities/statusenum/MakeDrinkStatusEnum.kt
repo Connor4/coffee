@@ -1,4 +1,4 @@
-package com.inno.serialport.utilities
+package com.inno.serialport.utilities.statusenum
 
 enum class MakeDrinkStatusEnum(val value: Int) {
     FAIL(-1),

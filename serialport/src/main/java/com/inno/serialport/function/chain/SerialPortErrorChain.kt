@@ -3,7 +3,7 @@ package com.inno.serialport.function.chain
 import com.inno.serialport.utilities.ERROR_ID
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
-import com.inno.serialport.utilities.SerialErrorTypeEnum
+import com.inno.serialport.utilities.statusenum.SerialErrorTypeEnum
 
 class SerialPortErrorChain : Chain() {
 

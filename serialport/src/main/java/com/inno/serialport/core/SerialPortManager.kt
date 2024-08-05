@@ -1,7 +1,7 @@
 package com.inno.serialport.core
 
 import com.inno.common.utils.Logger
-import com.inno.serialport.utilities.SerialErrorTypeEnum
+import com.inno.serialport.utilities.statusenum.SerialErrorTypeEnum
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.io.IOException

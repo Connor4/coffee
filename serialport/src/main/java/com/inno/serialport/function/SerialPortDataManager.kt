@@ -6,8 +6,8 @@ import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.driver.RS485Driver
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
-import com.inno.serialport.utilities.SerialErrorTypeEnum
 import com.inno.serialport.utilities.profile.ProductProfile
+import com.inno.serialport.utilities.statusenum.SerialErrorTypeEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
