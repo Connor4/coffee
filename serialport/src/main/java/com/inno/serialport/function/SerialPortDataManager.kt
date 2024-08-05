@@ -77,11 +77,17 @@ class SerialPortDataManager private constructor() {
         Logger.d(TAG, "sendCommand command: $commandId, productProfile: $productProfile")
         productProfile?.let {
             mutex.withLock {
-                heartBeatJob?.cancel()
-                waitingCommandId = commandId
-                driver.send(commandId, productProfile)
-                receiveData()
-                waitForCommandResponse()
+                if (waitingCommandId == null) {
+                    heartBeatJob?.cancel()
+                    waitingCommandId = commandId
+                    driver.send(commandId, productProfile)
+                    receiveData()
+                    waitForCommandResponse()
+                } else {
+                    _receivedDataFlow.emit(
+                        ReceivedData.SerialErrorData(SerialErrorTypeEnum.WAITING_COMMAND
+                            .errorMsg, false))
+                }
             }
         }
     }
