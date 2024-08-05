@@ -5,7 +5,7 @@ import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.SerialErrorTypeEnum
 
-class ErrorChain : Chain() {
+class SerialPortErrorChain : Chain() {
 
     override fun canHandle(pullBufInfo: PullBufInfo): Boolean {
         return pullBufInfo.command < ERROR_ID
@@ -13,7 +13,7 @@ class ErrorChain : Chain() {
 
     override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
         val errorMsg = SerialErrorTypeEnum.getErrorMsgByValue(pullBufInfo.command)
-        return ReceivedData.ErrorData(errorMsg)
+        return ReceivedData.SerialErrorData(errorMsg)
     }
 
 }

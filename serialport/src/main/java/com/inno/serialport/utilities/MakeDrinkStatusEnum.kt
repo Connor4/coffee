@@ -7,9 +7,7 @@ enum class MakeDrinkStatusEnum(val value: Int) {
     LEFT_BREWING_COMPLETE(1002),
     RIGHT_BREWING_COMPLETE(1003),
     LEFT_FINISHED(1004),
-    RIGHT_FINISHED(1005),
-    LEFT_BOILER_TEMPERATURE(1006),
-    RIGHT_BOILER_TEMPERATURE(1007);
+    RIGHT_FINISHED(1005);
 
     companion object {
         fun getStatus(value: Int): MakeDrinkStatusEnum {

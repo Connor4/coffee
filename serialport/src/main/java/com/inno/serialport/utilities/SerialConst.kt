@@ -11,8 +11,8 @@ const val FRAME_CMD_INDEX_HIGH = 6
 const val FRAME_CONTENT_START_INDEX = 7
 
 const val ERROR_ID = 0
-const val HEARTBEAT_COMMAND_ID: Short = 0
-const val MAKE_DRINKS_COMMAND_ID = 0x64.toShort()
+const val HEARTBEAT_COMMAND_ID: Short = 1
+const val MAKE_DRINKS_COMMAND_ID: Short = 100
 
 val fcstab = intArrayOf(
         0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,

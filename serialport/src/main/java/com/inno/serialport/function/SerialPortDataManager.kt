@@ -95,8 +95,8 @@ class SerialPortDataManager private constructor() {
         } else {
             val result = chain.proceed(pullBufInfo)
             result?.let {
-                processRetry(it)
-                Logger.d(TAG, "receiveData() data $it")
+//                processRetry(it)
+//                Logger.d(TAG, "receiveData() data $it")
                 _receivedDataFlow.emit(it)
             }
         }
@@ -117,49 +117,49 @@ class SerialPortDataManager private constructor() {
         }
     }
 
-    private suspend fun processRetry(receivedData: ReceivedData) {
-        if (receivedData is ReceivedData.HeartBeat) {
-            if (receivedData.heartbeatStatus) {
-                heartBeatMiss = 0
-                retryCount = 0
-            } else {
-                if (++heartBeatMiss >= MAX_HEARTBEAT_MISS_COUNT) {
-                    if (++retryCount > MAX_RETRY_COUNT) {
-                        receivedData.reboot = true
-                        receivedData.info = SerialErrorTypeEnum.HEART_BEAT_MISS.errorMsg
-                        close()
-                    } else {
-                        close()
-                        open()
-                    }
-                }
-            }
-        } else if (receivedData is ReceivedData.ErrorData) {
-            if (++retryCount > MAX_RETRY_COUNT) {
-                receivedData.reboot = true
-                receivedData.info = SerialErrorTypeEnum.READ_NO_DATA.errorMsg
-                close()
-            } else {
-                close()
-                open()
-            }
-        }
-    }
+//    private suspend fun processRetry(receivedData: ReceivedData) {
+//        if (receivedData is ReceivedData.HeartBeat) {
+//            if (receivedData.heartbeatStatus) {
+//                heartBeatMiss = 0
+//                retryCount = 0
+//            } else {
+//                if (++heartBeatMiss >= MAX_HEARTBEAT_MISS_COUNT) {
+//                    if (++retryCount > MAX_RETRY_COUNT) {
+//                        receivedData.reboot = true
+//                        receivedData.info = SerialErrorTypeEnum.HEART_BEAT_MISS.errorMsg
+//                        close()
+//                    } else {
+//                        close()
+//                        open()
+//                    }
+//                }
+//            }
+//        } else if (receivedData is ReceivedData.ErrorData) {
+//            if (++retryCount > MAX_RETRY_COUNT) {
+//                receivedData.reboot = true
+//                receivedData.info = SerialErrorTypeEnum.READ_NO_DATA.errorMsg
+//                close()
+//            } else {
+//                close()
+//                open()
+//            }
+//        }
+//    }
 
     private suspend fun waitForCommandResponse() {
         scope.launch {
             withTimeoutOrNull<Nothing>(PULL_INTERVAL_MILLIS * MAX_RETRY_COUNT) {
                 commandResponseFlow.collect { response ->
                     if (response?.command == waitingCommandId) {
-                        startHeartBeat()
                         waitingCommandId = null
+                        startHeartBeat()
                         return@collect
                     }
                 }
             }
             if (waitingCommandId != null) {
                 _receivedDataFlow.emit(
-                    ReceivedData.ErrorData(SerialErrorTypeEnum.IO_NO_REPLY.errorMsg, true))
+                    ReceivedData.SerialErrorData(SerialErrorTypeEnum.IO_NO_REPLY.errorMsg, true))
             }
         }
     }

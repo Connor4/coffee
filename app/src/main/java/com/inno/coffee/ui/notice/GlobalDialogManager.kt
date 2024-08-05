@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.inno.coffee.R
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.ErrorStatusEnum
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import kotlinx.coroutines.CoroutineScope
@@ -48,19 +49,21 @@ class GlobalDialogManager private constructor(private val application: Applicati
     }
 
     init {
-        DataCenter.subscribe(ReceivedDataType.ERROR, subscriber)
+        DataCenter.subscribe(ReceivedDataType.SERIAL_PORT_ERROR, subscriber)
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
     private fun getMessage(receivedData: ReceivedData): String {
         var info = ""
         when (receivedData) {
-            is ReceivedData.ErrorData -> {
+            is ReceivedData.SerialErrorData -> {
                 info = "ErrorData: ${receivedData.info}, need reboot ${receivedData.reboot}"
             }
             is ReceivedData.HeartBeat -> {
-                info = "HeartBeatData: ${receivedData.info}, need reboot ${receivedData.reboot}, " +
-                        "status ${receivedData.heartbeatStatus}"
+                receivedData.error?.let {
+                    val status = ErrorStatusEnum.getStatus(it.id)
+                    // TODO 展示具体错误类型
+                }
             }
             else -> {}
         }

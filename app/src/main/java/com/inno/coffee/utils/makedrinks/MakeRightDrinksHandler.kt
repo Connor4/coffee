@@ -26,7 +26,7 @@ object MakeRightDrinksHandler {
     }
 
     init {
-        DataCenter.subscribe(ReceivedDataType.MAKE_DRINK, subscriber)
+        DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
     @Synchronized
@@ -68,20 +68,22 @@ object MakeRightDrinksHandler {
     }
 
     private fun parseReceivedData(data: Any) {
-        val drinkData = data as ReceivedData.DrinkData
-        val status = drinkData.status
-        val productId = drinkData.productId
-        when (status) {
-            MakeDrinkStatusEnum.RIGHT_BREWING -> {}
-            MakeDrinkStatusEnum.RIGHT_BREWING_COMPLETE -> {}
-            MakeDrinkStatusEnum.RIGHT_FINISHED -> {
-                if (processingProductId == productId) {
-                    // finish, proceed next drink
-                    processingProductId = INVALID_INT
-                    handleMessage()
+        val drinkData = data as ReceivedData.HeartBeat
+        drinkData.makeDrink?.let { reply ->
+            val status = reply.status
+            val productId = reply.productId
+            when (status) {
+                MakeDrinkStatusEnum.RIGHT_BREWING -> {}
+                MakeDrinkStatusEnum.RIGHT_BREWING_COMPLETE -> {}
+                MakeDrinkStatusEnum.RIGHT_FINISHED -> {
+                    if (processingProductId == productId) {
+                        // finish, proceed next drink
+                        processingProductId = INVALID_INT
+                        handleMessage()
+                    }
                 }
+                else -> {}
             }
-            else -> {}
         }
     }
 

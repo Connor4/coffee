@@ -30,11 +30,11 @@ object SerialPortManager {
         onFailure: (type: SerialErrorTypeEnum) -> Unit
     ) {
         portMutex.withLock {
-//            if (shouldIntercept) {
-//                Logger.e(TAG, "failed to read, try to reboot")
-//                onFailure(SerialErrorType.MAX_OPEN_TRY)
-//                return
-//            }
+            if (shouldIntercept) {
+                Logger.e(TAG, "failed to read, try to reboot")
+                onFailure(SerialErrorTypeEnum.MAX_OPEN_TRY)
+                return
+            }
             val buffer = ByteArray(port.portFrameSize)
 
             try {
@@ -47,12 +47,12 @@ object SerialPortManager {
 //                        onSuccess(HEART_BEAT_REPLY, 1)
                     }
 
-//                    bytesRead != null && bytesRead < 0 -> {
-//                        retry(port, onFailure)
-//                    }
+                    bytesRead != null && bytesRead < 0 -> {
+                        retry(port, onFailure)
+                    }
 
                     else -> {
-                        onFailure(SerialErrorTypeEnum.READ_NO_DATA)
+                        retry(port, onFailure)
                     }
                 }
             } catch (e: IOException) {

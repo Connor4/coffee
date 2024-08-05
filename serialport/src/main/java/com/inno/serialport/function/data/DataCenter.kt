@@ -18,14 +18,11 @@ object DataCenter {
             SerialPortDataManager.instance.receivedDataFlow.collect { data ->
                 data?.let {
                     when (it) {
-                        is ReceivedData.ErrorData -> {
-                            notify(ReceivedDataType.ERROR, it)
+                        is ReceivedData.SerialErrorData -> {
+                            notify(ReceivedDataType.SERIAL_PORT_ERROR, it)
                         }
                         is ReceivedData.HeartBeat -> {
                             notify(ReceivedDataType.HEARTBEAT, it)
-                        }
-                        is ReceivedData.DrinkData -> {
-                            notify(ReceivedDataType.MAKE_DRINK, it)
                         }
                     }
                 }

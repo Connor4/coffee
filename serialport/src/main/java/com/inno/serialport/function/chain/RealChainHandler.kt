@@ -7,8 +7,7 @@ class RealChainHandler {
     private var head: Chain? = null
 
     init {
-        val handlerList = listOf(ErrorChain(), HeartBeatChain(), MakeDrinksChain(),
-            BoilerChain(), GrindChain())
+        val handlerList = listOf(SerialPortErrorChain(), HeartBeatChain())
         handlerList.let {
             val size = it.size - 1
             for (i in 0 until size) {
