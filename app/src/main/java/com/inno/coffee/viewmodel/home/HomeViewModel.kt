@@ -49,15 +49,21 @@ class HomeViewModel @Inject constructor(
     private val _steamBoilerPressure = MutableStateFlow(0)
     val steamBoilerPressure = _steamBoilerPressure
     private val _specialItem = MutableStateFlow<List<Int>>(emptyList())
+    private val subscriber = object : Subscriber {
+        override fun onDataReceived(data: Any) {
+            parseReceivedData(data)
+        }
+    }
 
     init {
         _drinksTypes.value = repository.drinksType
         _specialItem.value = repository.specialItem
-        DataCenter.subscribe(ReceivedDataType.HEARTBEAT, object : Subscriber {
-            override fun onDataReceived(data: Any) {
-                parseReceivedData(data)
-            }
-        })
+        DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
     fun updateUsername(username: String) {
