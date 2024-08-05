@@ -1,6 +1,7 @@
 package com.inno.coffee.ui.home
 
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,7 +28,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Devices
@@ -41,6 +45,7 @@ import com.inno.coffee.data.LoginState
 import com.inno.coffee.ui.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
+import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.viewmodel.home.HomeViewModel
 
 @Composable
@@ -165,6 +170,15 @@ fun BottomInfo(
                 style = TextStyle(fontSize = 19.sp),
             )
         }
+        Image(
+            painter = painterResource(id = R.drawable.main_alert_ic),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(32.dp)
+                .align(alignment = Alignment.Center)
+                .debouncedClickable({})
+        )
     }
 }
 
