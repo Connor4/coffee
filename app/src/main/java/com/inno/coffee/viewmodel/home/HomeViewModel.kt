@@ -11,6 +11,11 @@ import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.coffee.utils.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.utils.makedrinks.MakeRightDrinksHandler
+import com.inno.serialport.function.data.DataCenter
+import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.ReceivedDataType
+import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
@@ -39,11 +44,20 @@ class HomeViewModel @Inject constructor(
     val leftBoilerTemp = _leftBoilerTemp
     private val _rightBoilerTemp = MutableStateFlow(HOME_RIGHT_COFFEE_BOILER_TEMP)
     val rightBoilerTemp = _rightBoilerTemp
+    private val _steamBoilerTemp = MutableStateFlow(HOME_LEFT_COFFEE_BOILER_TEMP)
+    val steamBoilerTemp = _steamBoilerTemp
+    private val _steamBoilerPressure = MutableStateFlow(0)
+    val steamBoilerPressure = _steamBoilerPressure
     private val _specialItem = MutableStateFlow<List<Int>>(emptyList())
 
     init {
         _drinksTypes.value = repository.drinksType
         _specialItem.value = repository.specialItem
+        DataCenter.subscribe(ReceivedDataType.HEARTBEAT, object : Subscriber {
+            override fun onDataReceived(data: Any) {
+                parseReceivedData(data)
+            }
+        })
     }
 
     fun updateUsername(username: String) {
@@ -118,11 +132,32 @@ class HomeViewModel @Inject constructor(
                 if (_leftBoilerTemp.value < 92) {
                     _leftBoilerTemp.value++
                     _rightBoilerTemp.value++
+                    _steamBoilerTemp.value++
                 } else {
                     _leftBoilerTemp.value = HOME_LEFT_COFFEE_BOILER_TEMP
                     _rightBoilerTemp.value = HOME_RIGHT_COFFEE_BOILER_TEMP
+                    _steamBoilerTemp.value = HOME_LEFT_COFFEE_BOILER_TEMP
                 }
             }
         }
     }
+
+    private fun parseReceivedData(data: Any) {
+        val temp = data as ReceivedData.HeartBeat
+        temp.temperature?.let { reply ->
+            when (reply.status) {
+                BoilerStatusEnum.LEFT_BOILER_TEMPERATURE -> {
+                    _leftBoilerTemp.value = reply.value
+                }
+                BoilerStatusEnum.RIGHT_BOILER_TEMPERATURE -> {
+                    _rightBoilerTemp.value = reply.value
+                }
+                BoilerStatusEnum.STREAM_BOILER_TEMPERATURE -> {
+                    _steamBoilerTemp.value = reply.value
+                }
+                else -> {}
+            }
+        }
+    }
+
 }

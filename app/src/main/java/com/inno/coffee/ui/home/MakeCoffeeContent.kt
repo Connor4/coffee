@@ -146,30 +146,52 @@ fun BottomInfo(
     LaunchedEffect(Unit) {
         viewModel.startRecycleTemp()
     }
-    val leftTemp = viewModel.leftBoilerTemp.collectAsStateWithLifecycle()
-    val rightTemp = viewModel.rightBoilerTemp.collectAsStateWithLifecycle()
+    val leftTemp = viewModel.leftBoilerTemp.collectAsState()
+    val rightTemp = viewModel.rightBoilerTemp.collectAsState()
+    val steamTemp = viewModel.steamBoilerTemp.collectAsState()
+    val steamPressure = viewModel.steamBoilerPressure.collectAsState()
     Box(
         modifier =
         modifier
             .fillMaxWidth()
             .height(100.dp),
     ) {
-        Column(
-            modifier =
-            Modifier
+        Row(
+            modifier = Modifier
                 .align(Alignment.CenterStart)
-                .padding(start = 200.dp),
+                .padding(start = 200.dp)
         ) {
-            Text(
-                text = stringResource(id = R.string.home_left_boiler_temperature, leftTemp.value),
-                modifier = Modifier.padding(bottom = 8.dp),
-                style = TextStyle(fontSize = 19.sp),
-            )
-            Text(
-                text = stringResource(id = R.string.home_right_boiler_temperature, rightTemp.value),
-                style = TextStyle(fontSize = 19.sp),
-            )
+
+            Column {
+                Text(
+                    text = stringResource(id = R.string.home_left_boiler_temperature,
+                        leftTemp.value),
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    style = TextStyle(fontSize = 19.sp),
+                )
+                Text(
+                    text = stringResource(id = R.string.home_right_boiler_temperature,
+                        rightTemp.value),
+                    style = TextStyle(fontSize = 19.sp),
+                )
+            }
+            Column(
+                modifier = Modifier.padding(start = 20.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.home_steam_boiler_temperature,
+                        steamTemp.value),
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    style = TextStyle(fontSize = 19.sp),
+                )
+                Text(
+                    text = stringResource(id = R.string.home_steam_boiler_pressure,
+                        steamPressure.value),
+                    style = TextStyle(fontSize = 19.sp),
+                )
+            }
         }
+
         Image(
             painter = painterResource(id = R.drawable.main_alert_ic),
             contentDescription = null,

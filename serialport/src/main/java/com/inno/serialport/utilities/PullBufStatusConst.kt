@@ -9,6 +9,7 @@ package com.inno.serialport.utilities
 //const val RIGHT_FINISHED = 1005
 //const val LEFT_BOILER_TEMPERATURE = 1006
 //const val RIGHT_BOILER_TEMPERATURE = 1007
+//const val STREAM_BOILER_TEMPERATURE = 1008
 
 //============================ERROR===============================
 //const val FRONT_VAT_EMPTY = 2000

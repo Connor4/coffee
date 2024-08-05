@@ -4,6 +4,7 @@ import com.inno.serialport.utilities.HEARTBEAT_COMMAND_ID
 import com.inno.serialport.utilities.HeartBeatReply
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import com.inno.serialport.utilities.statusenum.ErrorStatusEnum
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 
@@ -29,12 +30,17 @@ class HeartBeatChain : Chain() {
             val id = ((data[i].toInt() and 0xFF) shl 8) or (data[i + 1].toInt() and 0xFF)
             val value = ((data[i + 2].toInt() and 0xFF) shl 8) or (data[i + 3].toInt() and 0xFF)
             if ((id >= MakeDrinkStatusEnum.LEFT_BREWING.value) and (id < MakeDrinkStatusEnum
-                    .RIGHT_FINISHED.value)) { // 1000 - 1006
+                    .RIGHT_FINISHED.value)) { // 1000 - 1005
                 val drinkStatus = MakeDrinkStatusEnum.getStatus(id)
                 info.makeDrink = HeartBeatReply.MakeDrink(drinkStatus, value)
-            } else if ((id >= ErrorStatusEnum.FRONT_VAT_EMPTY.value) and (id < ErrorStatusEnum
-                    .STREAM_BOILER_ERROR.value)) { // 2000 - 3006
-                info.error = HeartBeatReply.Error(id, value)
+            } else if ((id >= BoilerStatusEnum.LEFT_BOILER_TEMPERATURE.value) and (id <
+                        BoilerStatusEnum.RIGHT_BOILER_TEMPERATURE.value)) { // 1006 - 1008
+                val temperature = BoilerStatusEnum.getStatus(id)
+                info.temperature = HeartBeatReply.BoilerTemperature(temperature, value)
+            } else if ((id >= ErrorStatusEnum.FRONT_VAT_EMPTY.value) and (id <
+                        ErrorStatusEnum.STREAM_BOILER_ERROR.value)) { // 2000 - 3006
+                val error = ErrorStatusEnum.getStatus(id)
+                info.error = HeartBeatReply.Error(error, value)
             }
         }
         return info

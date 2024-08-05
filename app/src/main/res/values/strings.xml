@@ -69,6 +69,8 @@
     <string name="home_item_latte">Latte</string>
     <string name="home_left_boiler_temperature">Left Boiler Temperature: %d°C</string>
     <string name="home_right_boiler_temperature">Right Boiler Temperature: %d°C</string>
+    <string name="home_steam_boiler_temperature">Steam Boiler Temperature: %d°C</string>
+    <string name="home_steam_boiler_pressure">Steam Boiler Pressure: %dbar</string>
 
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>

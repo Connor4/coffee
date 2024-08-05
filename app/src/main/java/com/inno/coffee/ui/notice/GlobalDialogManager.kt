@@ -16,7 +16,6 @@ import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
-import com.inno.serialport.utilities.statusenum.ErrorStatusEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,7 +60,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
             }
             is ReceivedData.HeartBeat -> {
                 receivedData.error?.let {
-                    val status = ErrorStatusEnum.getStatus(it.id)
+//                    val status = ErrorStatusEnum.getStatus(it.id)
                     // TODO 展示具体错误类型
                 }
             }
