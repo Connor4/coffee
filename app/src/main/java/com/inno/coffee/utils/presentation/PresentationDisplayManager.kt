@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.presentation
+package com.inno.coffee.utils.presentation
 
 import android.app.Activity
 import android.app.ActivityOptions
