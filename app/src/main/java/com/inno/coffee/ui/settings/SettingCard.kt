@@ -29,10 +29,11 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.ui.settings.formula.launchFormulaActivity
-import com.inno.coffee.ui.settings.permissions.launchPermissionActivity
-import com.inno.coffee.ui.settings.serialtest.launchSerialPortActivity
-import com.inno.coffee.ui.settings.statistics.launchStatisticActivity
+import com.inno.coffee.function.presentation.PresentationDisplayManager
+import com.inno.coffee.ui.settings.formula.FormulaActivity
+import com.inno.coffee.ui.settings.permissions.PermissionActivity
+import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
+import com.inno.coffee.ui.settings.statistics.StatisticActivity
 import com.inno.coffee.utilities.fastclick
 import com.inno.common.annotation.DISPLAY
 import com.inno.common.annotation.FORMULA
@@ -111,8 +112,12 @@ fun CardItem(title: String, onClick: () -> Unit) {
 
 private fun jumpDetail(name: String, context: Context) {
     when (name) {
-        STATISTIC -> launchStatisticActivity(context)
-        FORMULA -> launchFormulaActivity(context)
+        STATISTIC -> {
+            PresentationDisplayManager.autoRoute(context, StatisticActivity::class.java)
+        }
+        FORMULA -> {
+            PresentationDisplayManager.autoRoute(context, FormulaActivity::class.java)
+        }
         DISPLAY -> {
             Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
         }
@@ -128,11 +133,15 @@ private fun jumpDetail(name: String, context: Context) {
         WASH_MACHINE -> {
             Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
         }
-        PERMISSION -> launchPermissionActivity(context)
+        PERMISSION -> {
+            PresentationDisplayManager.autoRoute(context, PermissionActivity::class.java)
+        }
         MAINTENANCE -> {
             Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
         }
-        SERIAL_TEST -> launchSerialPortActivity(context)
+        SERIAL_TEST -> {
+            PresentationDisplayManager.autoRoute(context, SerialPortActivity::class.java)
+        }
         else -> {}
     }
 }

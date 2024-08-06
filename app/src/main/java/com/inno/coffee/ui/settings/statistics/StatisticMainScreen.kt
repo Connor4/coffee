@@ -39,13 +39,8 @@ private const val MACHINE_HISTORY = "machine_history"
 
 @Composable
 fun StatisticsMainScreen(
-    hostNavController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier
 ) {
-    BackHandler {
-        hostNavController.popBackStack()
-    }
-
     val navController = rememberNavController()
     Scaffold(
         topBar = { TopBarMenu(navController) },
@@ -53,11 +48,11 @@ fun StatisticsMainScreen(
     ) {
         Surface(modifier = Modifier.padding(it), color = Color.White) {
             NavHost(navController = navController, startDestination = PRODUCT) {
-                composable(PRODUCT) { ProductScreen(hostNavController) }
-                composable(WASH_MACHINE) { WashMachineScreen(hostNavController) }
-                composable(RINSE) { RinseScreen(hostNavController) }
-                composable(FAULT) { FaultScreen(hostNavController) }
-                composable(MACHINE_HISTORY) { MachineChangeScreen(hostNavController) }
+                composable(PRODUCT) { ProductScreen(navController) }
+                composable(WASH_MACHINE) { WashMachineScreen(navController) }
+                composable(RINSE) { RinseScreen(navController) }
+                composable(FAULT) { FaultScreen(navController) }
+                composable(MACHINE_HISTORY) { MachineChangeScreen(navController) }
             }
         }
     }
@@ -115,9 +110,6 @@ fun TopBarMenu(navController: NavHostController) {
 @Composable
 fun ProductScreen(navController: NavHostController) {
     Logger.d("ProductScreen")
-    BackHandler {
-        navController.popBackStack()
-    }
     ProductStatistic()
 }
 
