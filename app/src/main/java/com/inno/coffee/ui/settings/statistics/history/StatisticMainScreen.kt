@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.statistics
+package com.inno.coffee.ui.settings.statistics.history
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement

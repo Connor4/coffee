@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.statistics
+package com.inno.coffee.ui.settings.statistics.history
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

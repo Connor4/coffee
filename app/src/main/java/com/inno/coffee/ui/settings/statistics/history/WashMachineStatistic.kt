@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.statistics
+package com.inno.coffee.ui.settings.statistics.history
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,30 +16,36 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 
 @Composable
-fun MachineChangeStatistic(modifier: Modifier = Modifier) {
+fun WashMachineStatistic(
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        ChangeTopBar(modifier)
+        WashTopBar(modifier)
         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
     }
 }
 
 @Composable
-fun ChangeTopBar(
+fun WashTopBar(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     Row {
         Text(text = context.getString(R.string.statistic_product_top_time), color = Color.Black,
             modifier = modifier.weight(1f), textAlign = TextAlign.Center)
-        Text(text = context.getString(R.string.statistic_change_top_event), color = Color.Black,
+        Text(text = context.getString(R.string.statistic_wash_top_duration), color = Color.Black,
+            modifier = modifier.weight(4f))
+        Text(text = context.getString(R.string.statistic_wash_top_left), color = Color.Black,
+            modifier = modifier.weight(4f))
+        Text(text = context.getString(R.string.statistic_wash_top_right), color = Color.Black,
             modifier = modifier.weight(4f))
     }
 }
 
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
-fun PreviewChange() {
-    MachineChangeStatistic()
+fun PreviewWash() {
+    WashMachineStatistic()
 }

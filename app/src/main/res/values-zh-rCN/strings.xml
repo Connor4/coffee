@@ -23,6 +23,9 @@
     <string name="statistic_wash_machine">洗机历史</string>
     <string name="statistic_rinse">冲水历史</string>
     <string name="statistic_fault">故障历史</string>
+    <string name="statistic_main_product_count">产品杯数</string>
+    <string name="statistic_main_machine_count">机器数据</string>
+    <string name="statistic_main_history_data">历史数据</string>
     <string name="statistic_product_top_time">时间</string>
     <string name="statistic_product_top_brew_side">制作位置</string>
     <string name="statistic_product_top_grind_time">研磨时间</string>

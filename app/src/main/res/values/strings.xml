@@ -22,6 +22,9 @@
     <string name="statistic_wash_machine">Machine Washing History</string>
     <string name="statistic_rinse">Rinse History</string>
     <string name="statistic_fault">Fault History</string>
+    <string name="statistic_main_product_count">Product Count</string>
+    <string name="statistic_main_machine_count">Machine Count</string>
+    <string name="statistic_main_history_data">History Data</string>
     <string name="statistic_product_top_time">Time</string>
     <string name="statistic_product_top_brew_side">Brew Side</string>
     <string name="statistic_product_top_grind_time">Grind Time</string>

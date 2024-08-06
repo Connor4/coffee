@@ -42,6 +42,9 @@
         <activity android:name=".ui.settings.SettingActivity" />
         <activity android:name=".ui.settings.permissions.PermissionActivity" />
         <activity android:name=".ui.settings.statistics.StatisticActivity" />
+        <activity android:name=".ui.settings.statistics.product.StatisticProductActivity" />
+        <activity android:name=".ui.settings.statistics.machine.StatisticMachineActivity" />
+        <activity android:name=".ui.settings.statistics.history.StatisticHistoryActivity" />
         <activity android:name=".ui.settings.formula.FormulaActivity" />
         <activity android:name=".ui.settings.serialtest.SerialPortActivity" />
     </application>
