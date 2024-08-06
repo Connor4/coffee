@@ -3,6 +3,7 @@ package com.inno.coffee
 import android.app.Application
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.coffee.ui.presentation.PresentationDisplayManager
+import com.inno.coffee.utils.defaultsetting.DefaultSettingManager
 import com.inno.coffee.utils.formula.ProductProfileManager
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
@@ -29,15 +30,17 @@ class CoffeeApplication : Application() {
         Logger.d(TAG, "CoffeeApplication init() call")
         CoffeeSharedPreferences.init(this)
         PresentationDisplayManager.init(this)
+
         applicationScope.launch {
             Logger.d(TAG, "CoffeeApplication init() launch call")
 //            SerialPortDataManager.instance.open()
 //            DataCenter.init()
-            ProductProfileManager.init(this@CoffeeApplication)
 
             delay(3000)
             Logger.d(TAG, "CoffeeApplication delayInit start")
             GlobalDialogManager.init(this@CoffeeApplication)
+            ProductProfileManager.init(this@CoffeeApplication)
+            DefaultSettingManager.init(this@CoffeeApplication)
         }
     }
 
