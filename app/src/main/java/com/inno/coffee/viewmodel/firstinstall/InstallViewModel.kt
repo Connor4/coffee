@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.utils.defaultsetting.DefaultSettingManager
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.SystemLocaleHelper
@@ -23,6 +24,7 @@ class InstallViewModel @Inject constructor(
     fun finishSetting(context: Context, date: Long, hour: Int, min: Int, language: String) {
         viewModelScope.launch {
             withContext(defaultDispatcher) {
+                DefaultSettingManager.insertDefaultUser()
                 CoffeeSharedPreferences.getInstance().isFirstInstall = false
                 TimeUtils.setDateAndTime(context, date, hour, min)
                 SystemLocaleHelper.changeSystemLocale(context, language)
