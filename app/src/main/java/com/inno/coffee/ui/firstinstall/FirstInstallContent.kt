@@ -44,6 +44,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
 import com.inno.coffee.viewmodel.firstinstall.InstallViewModel
+import java.util.Locale
 
 private const val LANGUAGE = "language"
 private const val DATE = "date"
@@ -53,9 +54,10 @@ private const val DEFAULT_TIME = 1704124800000
 
 @Composable
 fun InstallSetting(
-    onSetComplete: (date: Long, hour: Int, min: Int) -> Unit,
+    onSetComplete: () -> Unit,
     viewModel: InstallViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val navController = rememberNavController()
     val defaultLanguage = stringResource(id = R.string.first_install_language_English)
     var selectedLanguage by remember {
@@ -86,10 +88,11 @@ fun InstallSetting(
         }
         composable(TIME) {
             TimePickerPage { hour, min ->
+                onSetComplete()
                 selectedHour = hour
                 selectedMin = min
-                onSetComplete(selectedDateMillis ?: DEFAULT_TIME, selectedHour, selectedMin)
-                viewModel.finishSetting(selectedLanguage)
+                viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_TIME, selectedHour,
+                    selectedMin, selectedLanguage)
             }
         }
     }
@@ -98,12 +101,18 @@ fun InstallSetting(
 @Composable
 fun LanguagePage(onLanguagePick: (String) -> Unit) {
     val context = LocalContext.current
-    val radioOptions = listOf(
-        context.getString(R.string.first_install_language_English),
-        context.getString(R.string.first_install_language_Chinese)
+    val english = context.getString(R.string.first_install_language_English)
+    val simplifiedChinese = context.getString(R.string.first_install_language_Chinese)
+    val radioOptions = mapOf<String, String>(
+        Pair(english, Locale.ENGLISH.language),
+        Pair(simplifiedChinese, Locale.SIMPLIFIED_CHINESE.language)
     )
-    val (selectedOption, onOptionSelected) = remember {
-        mutableStateOf(radioOptions[0])
+
+    val (selectedKey, setSelectedKey) = remember {
+        mutableStateOf(english)
+    }
+    val (selectedValue, setSelectedValue) = remember {
+        mutableStateOf(radioOptions[english]!!)
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -118,19 +127,25 @@ fun LanguagePage(onLanguagePick: (String) -> Unit) {
                         .fillMaxWidth()
                         .height(56.dp)
                         .selectable(
-                            selected = (it == selectedOption),
-                            onClick = { onOptionSelected(it) },
+                            selected = (it.key == selectedKey),
+                            onClick = {
+                                setSelectedKey(it.key)
+                                setSelectedValue(it.value)
+                            },
                             role = Role.RadioButton,
                         )
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = (it == selectedOption),
-                        onClick = { onOptionSelected(it) }
+                        selected = (it.key == selectedKey),
+                        onClick = {
+                            setSelectedKey(it.key)
+                            setSelectedValue(it.value)
+                        }
                     )
                     Text(
-                        text = it,
+                        text = it.key,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(start = 16.dp)
                     )
@@ -140,7 +155,7 @@ fun LanguagePage(onLanguagePick: (String) -> Unit) {
                 .align(Alignment.End)
                 .padding(end = 60.dp),
                 onClick = {
-                    onLanguagePick(selectedOption)
+                    onLanguagePick(selectedValue)
                 }
             ) {
                 Text(text = stringResource(id = R.string.common_button_confirm))
