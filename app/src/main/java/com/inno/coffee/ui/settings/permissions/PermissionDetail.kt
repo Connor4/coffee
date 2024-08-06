@@ -130,6 +130,20 @@ fun UserList(viewModel: UserViewModel) {
     val userList by viewModel.userList.collectAsState()
     Text(text = "当前用户列表")
     Spacer(modifier = Modifier.height(10.dp))
+    Row(
+        modifier = Modifier.padding(start = 30.dp)
+    ) {
+        Text(text = "用户名", style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.width(200.dp))
+        Text(text = "密码", style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.width(200.dp))
+        Text(text = "账号角色", style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.width(200.dp))
+        Text(text = "账号权限", style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.width(200.dp))
+        Text(text = "说明", style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.width(200.dp))
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()

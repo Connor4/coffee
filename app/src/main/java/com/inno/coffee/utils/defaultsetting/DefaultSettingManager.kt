@@ -9,16 +9,15 @@ import dagger.hilt.android.EntryPointAccessors
 object DefaultSettingManager {
     private lateinit var repository: DefaultSettingRepository
 
-    suspend fun init(application: Application) {
+    fun init(application: Application) {
         val entryPoint = EntryPointAccessors.fromApplication(
             application,
             DefaultSettingRepositoryEntryPoint::class.java
         )
         repository = entryPoint.defaultSettingRepository()
-        insertDefaultUser()
     }
 
-    private suspend fun insertDefaultUser() {
+    suspend fun insertDefaultUser() {
         defaultUsers.forEach {
             repository.insertDefaultUsers(it.username, it.passwordHash, it.role, it.permission,
                 it.remark)
