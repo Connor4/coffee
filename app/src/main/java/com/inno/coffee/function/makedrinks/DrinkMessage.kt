@@ -1,4 +1,4 @@
-package com.inno.coffee.utils.makedrinks
+package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.utilities.INVALID_INT
 import okio.withLock

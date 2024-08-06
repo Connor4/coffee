@@ -1,4 +1,4 @@
-package com.inno.coffee.utils.defaultsetting
+package com.inno.coffee.function.defaultsetting
 
 import android.app.Application
 import com.inno.coffee.di.DefaultSettingRepositoryEntryPoint

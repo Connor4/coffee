@@ -1,4 +1,4 @@
-package com.inno.coffee.utils.formula
+package com.inno.coffee.function.formula
 
 import android.app.Application
 import com.inno.coffee.di.FormulaRepositoryEntryPoint

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
-import com.inno.coffee.utils.defaultsetting.DefaultSettingManager
+import com.inno.coffee.function.defaultsetting.DefaultSettingManager
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.SystemLocaleHelper

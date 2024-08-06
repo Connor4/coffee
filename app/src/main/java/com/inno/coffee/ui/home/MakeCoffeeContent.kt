@@ -42,10 +42,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
+import com.inno.coffee.function.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
-import com.inno.coffee.utils.presentation.PresentationDisplayManager
 import com.inno.coffee.viewmodel.home.HomeViewModel
 
 @Composable

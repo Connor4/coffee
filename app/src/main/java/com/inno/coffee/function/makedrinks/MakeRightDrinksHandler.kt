@@ -1,7 +1,7 @@
-package com.inno.coffee.utils.makedrinks
+package com.inno.coffee.function.makedrinks
 
+import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.utilities.INVALID_INT
-import com.inno.coffee.utils.formula.ProductProfileManager
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -14,8 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-object MakeLeftDrinksHandler {
-    private const val TAG = "MakeLeftDrinksHandler"
+object MakeRightDrinksHandler {
+    private const val TAG = "MakeRightDrinksHandler"
     private var messageHead: DrinkMessage? = null
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var processingProductId = INVALID_INT
@@ -27,15 +27,6 @@ object MakeLeftDrinksHandler {
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
-    }
-
-    @Synchronized
-    fun executeNow(productId: Int) {
-        // rinse foam and steam need execute immediately, different from drinks
-        scope.launch {
-            val productProfile = ProductProfileManager.convertProductProfile(productId, true)
-            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
-        }
     }
 
     @Synchronized
@@ -66,7 +57,7 @@ object MakeLeftDrinksHandler {
             processingProductId = messageHead!!.actionId
             scope.launch {
                 val productProfile =
-                    ProductProfileManager.convertProductProfile(processingProductId, true)
+                    ProductProfileManager.convertProductProfile(processingProductId, false)
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
             }
             // recycle the message
@@ -82,9 +73,9 @@ object MakeLeftDrinksHandler {
             val status = reply.status
             val productId = reply.productId
             when (status) {
-                MakeDrinkStatusEnum.LEFT_BREWING -> {}
-                MakeDrinkStatusEnum.LEFT_BREWING_COMPLETE -> {}
-                MakeDrinkStatusEnum.LEFT_FINISHED -> {
+                MakeDrinkStatusEnum.RIGHT_BREWING -> {}
+                MakeDrinkStatusEnum.RIGHT_BREWING_COMPLETE -> {}
+                MakeDrinkStatusEnum.RIGHT_FINISHED -> {
                     if (processingProductId == productId) {
                         // finish, proceed next drink
                         processingProductId = INVALID_INT

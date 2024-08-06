@@ -1,10 +1,10 @@
 package com.inno.coffee
 
 import android.app.Application
+import com.inno.coffee.function.defaultsetting.DefaultSettingManager
+import com.inno.coffee.function.formula.ProductProfileManager
+import com.inno.coffee.function.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
-import com.inno.coffee.utils.defaultsetting.DefaultSettingManager
-import com.inno.coffee.utils.formula.ProductProfileManager
-import com.inno.coffee.utils.presentation.PresentationDisplayManager
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
 import dagger.hilt.android.HiltAndroidApp

@@ -2,10 +2,10 @@ package com.inno.coffee.ui.firstinstall
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import com.inno.coffee.function.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.home.MakeCoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
-import com.inno.coffee.utils.presentation.PresentationDisplayManager
 import com.inno.common.utils.CoffeeSharedPreferences
 import dagger.hilt.android.AndroidEntryPoint
 
