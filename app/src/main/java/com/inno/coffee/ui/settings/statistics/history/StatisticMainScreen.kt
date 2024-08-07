@@ -1,6 +1,5 @@
 package com.inno.coffee.ui.settings.statistics.history
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,18 +27,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
-import com.inno.common.utils.Logger
 
 
 private const val PRODUCT = "product"
-private const val WASH_MACHINE = "wash_machine"
+private const val CLEAN = "clean"
 private const val RINSE = "rinse"
-private const val FAULT = "fault"
-private const val MACHINE_HISTORY = "machine_history"
+private const val ERROR = "error"
+private const val SERVICE = "service"
 
 @Composable
 fun StatisticsMainScreen(
-    modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
     Scaffold(
@@ -48,11 +45,11 @@ fun StatisticsMainScreen(
     ) {
         Surface(modifier = Modifier.padding(it), color = Color.White) {
             NavHost(navController = navController, startDestination = PRODUCT) {
-                composable(PRODUCT) { ProductScreen(navController) }
-                composable(WASH_MACHINE) { WashMachineScreen(navController) }
-                composable(RINSE) { RinseScreen(navController) }
-                composable(FAULT) { FaultScreen(navController) }
-                composable(MACHINE_HISTORY) { MachineChangeScreen(navController) }
+                composable(PRODUCT) { ProductStatistic() }
+                composable(CLEAN) { WashMachineStatistic() }
+                composable(RINSE) { RinseStatistic() }
+                composable(ERROR) { FaultStatistic() }
+                composable(SERVICE) { MachineChangeStatistic() }
             }
         }
     }
@@ -84,14 +81,14 @@ private fun TopBarMenu(navController: NavHostController) {
                     val route = when (item) {
                         context.getString(R.string.statistic_product_history) -> PRODUCT
                         context.getString(
-                            R.string.statistic_machine_service_history) -> MACHINE_HISTORY
-                        context.getString(R.string.statistic_clean_history) -> WASH_MACHINE
+                            R.string.statistic_machine_service_history) -> SERVICE
+                        context.getString(R.string.statistic_clean_history) -> CLEAN
                         context.getString(R.string.statistic_rinse_history) -> RINSE
-                        context.getString(R.string.statistic_error_history) -> FAULT
+                        context.getString(R.string.statistic_error_history) -> ERROR
                         else -> PRODUCT
                     }
                     navController.navigate(route) {
-                        popUpTo(PRODUCT) { inclusive = true }
+                        launchSingleTop = true
                     }
                 },
                 colors = ButtonDefaults.textButtonColors(
@@ -107,50 +104,8 @@ private fun TopBarMenu(navController: NavHostController) {
     }
 }
 
-@Composable
-private fun ProductScreen(navController: NavHostController) {
-    Logger.d("ProductScreen")
-    ProductStatistic()
-}
-
-@Composable
-private fun WashMachineScreen(navController: NavHostController) {
-    Logger.d("WashMachineScreen")
-    BackHandler {
-        navController.popBackStack()
-    }
-    WashMachineStatistic()
-}
-
-@Composable
-private fun RinseScreen(navController: NavHostController) {
-    Logger.d("RinseScreen")
-    BackHandler {
-        navController.popBackStack()
-    }
-    RinseStatistic()
-}
-
-@Composable
-private fun FaultScreen(navController: NavHostController) {
-    Logger.d("FaultScreen")
-    BackHandler {
-        navController.popBackStack()
-    }
-    FaultStatistic()
-}
-
-@Composable
-private fun MachineChangeScreen(navController: NavHostController) {
-    Logger.d("MachineHistoryScreen")
-    BackHandler {
-        navController.popBackStack()
-    }
-    MachineChangeStatistic()
-}
 
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
 private fun PreviewMainScreen() {
-    StatisticsMainScreen()
 }

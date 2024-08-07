@@ -18,4 +18,9 @@ class StatisticHistoryActivity : CoffeeActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
 }
