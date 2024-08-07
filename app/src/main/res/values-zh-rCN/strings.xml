@@ -6,25 +6,25 @@
     <string name="common_button_cancel">取消</string>
     <string name="common_statistic">统计数据</string>
     <string name="common_formula">配方管理</string>
-    <string name="common_display">显示配置</string>
-    <string name="common_machine_setting">机器设置</string>
-    <string name="common_machine_operation">机器管理</string>
-    <string name="common_vat_and_grind">豆缸磨刀</string>
-    <string name="common_wash_machine">洗机设置</string>
+    <string name="common_display">显示设置</string>
+    <string name="common_machine_config">机器设置</string>
+    <string name="common_machine_params">机器参数</string>
+    <string name="common_vat_and_grind">豆缸/磨刀</string>
+    <string name="common_machine_clean">洗机</string>
     <string name="common_permission">权限管理</string>
-    <string name="common_maintenance">保养管理</string>
+    <string name="common_maintenance">保养记录</string>
     <string name="common_serial_test">串口测试</string>
 
     <string name="first_install_language_Chinese">中文</string>
     <string name="first_install_language_English">English</string>
 
-    <string name="statistic_product">产品统计</string>
-    <string name="statistic_machine_change_history">机器历史</string>
-    <string name="statistic_wash_machine">洗机历史</string>
-    <string name="statistic_rinse">冲水历史</string>
-    <string name="statistic_fault">故障历史</string>
-    <string name="statistic_main_product_count">产品杯数</string>
-    <string name="statistic_main_machine_count">机器数据</string>
+    <string name="statistic_product_history">产品统计</string>
+    <string name="statistic_machine_service_history">机器历史</string>
+    <string name="statistic_clean_history">洗机历史</string>
+    <string name="statistic_rinse_history">冲水历史</string>
+    <string name="statistic_error_history">故障历史</string>
+    <string name="statistic_main_product_counter">产品杯数</string>
+    <string name="statistic_main_machine_counter">机器数据</string>
     <string name="statistic_main_history_data">历史数据</string>
     <string name="statistic_product_top_time">时间</string>
     <string name="statistic_product_top_brew_side">制作位置</string>
@@ -45,8 +45,8 @@
     <string name="statistic_rinse_top_system_flow_rate">系统水流[tick/s]</string>
     <string name="statistic_rinse_top_water_pressure">水压[bar]</string>
     <string name="statistic_rinse_top_limit_flow_rate">限流孔水流[tick/s]</string>
-    <string name="statistic_reset_text">重置数据</string>
-    <string name="statistic_record_time">记录起始日期: %s</string>
+    <string name="statistic_reset_all">重置数据</string>
+    <string name="statistic_last_reset">上次重置: %s</string>
 
     <string name="home_login_input_empty">用户名或密码未输入</string>
     <string name="home_login_input_invalid">用户名或密码长度不符</string>

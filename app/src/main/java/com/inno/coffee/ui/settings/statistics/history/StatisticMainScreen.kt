@@ -62,11 +62,11 @@ fun StatisticsMainScreen(
 private fun TopBarMenu(navController: NavHostController) {
     val context = LocalContext.current
     val menuItems = listOf(
-        context.getString(R.string.statistic_product),
-        context.getString(R.string.statistic_machine_change_history),
-        context.getString(R.string.statistic_wash_machine),
-        context.getString(R.string.statistic_rinse),
-        context.getString(R.string.statistic_fault),
+        context.getString(R.string.statistic_product_history),
+        context.getString(R.string.statistic_machine_service_history),
+        context.getString(R.string.statistic_clean_history),
+        context.getString(R.string.statistic_rinse_history),
+        context.getString(R.string.statistic_error_history),
     )
     var selectedMenuItem by remember { mutableStateOf(menuItems[0]) }
 
@@ -82,12 +82,12 @@ private fun TopBarMenu(navController: NavHostController) {
                 onClick = {
                     selectedMenuItem = item
                     val route = when (item) {
-                        context.getString(R.string.statistic_product) -> PRODUCT
+                        context.getString(R.string.statistic_product_history) -> PRODUCT
                         context.getString(
-                            R.string.statistic_machine_change_history) -> MACHINE_HISTORY
-                        context.getString(R.string.statistic_wash_machine) -> WASH_MACHINE
-                        context.getString(R.string.statistic_rinse) -> RINSE
-                        context.getString(R.string.statistic_fault) -> FAULT
+                            R.string.statistic_machine_service_history) -> MACHINE_HISTORY
+                        context.getString(R.string.statistic_clean_history) -> WASH_MACHINE
+                        context.getString(R.string.statistic_rinse_history) -> RINSE
+                        context.getString(R.string.statistic_error_history) -> FAULT
                         else -> PRODUCT
                     }
                     navController.navigate(route) {

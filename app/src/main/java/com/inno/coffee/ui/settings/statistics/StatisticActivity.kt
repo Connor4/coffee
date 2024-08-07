@@ -58,10 +58,10 @@ fun StatisticMain() {
             .padding(top = 100.dp),
         horizontalArrangement = Arrangement.spacedBy(50.dp, Alignment.CenterHorizontally)
     ) {
-        StatisticCardItem(text = stringResource(id = R.string.statistic_main_product_count)) {
+        StatisticCardItem(text = stringResource(id = R.string.statistic_main_product_counter)) {
             PresentationDisplayManager.autoRoute(context, StatisticProductActivity::class.java)
         }
-        StatisticCardItem(text = stringResource(id = R.string.statistic_main_machine_count)) {
+        StatisticCardItem(text = stringResource(id = R.string.statistic_main_machine_counter)) {
             PresentationDisplayManager.autoRoute(context, StatisticMachineActivity::class.java)
         }
         StatisticCardItem(text = stringResource(id = R.string.statistic_main_history_data)) {

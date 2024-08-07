@@ -113,12 +113,12 @@ private fun StatisticProductLeftSide(
         modifier = Modifier.width(screenWidthDp / 2)
     ) {
         Button(onClick = { onResetClick() }) {
-            Text(text = stringResource(id = R.string.statistic_reset_text),
+            Text(text = stringResource(id = R.string.statistic_reset_all),
                 style = MaterialTheme.typography.displaySmall)
         }
         Spacer(modifier = Modifier.height(5.dp))
         Text(
-            text = stringResource(id = R.string.statistic_record_time, "2024/08/08"),
+            text = stringResource(id = R.string.statistic_last_reset, "2024/08/08"),
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.height(10.dp))

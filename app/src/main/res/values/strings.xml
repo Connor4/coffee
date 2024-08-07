@@ -6,10 +6,10 @@
     <string name="common_statistic">Statistic</string>
     <string name="common_formula">Formula</string>
     <string name="common_display">Display</string>
-    <string name="common_machine_setting">Machine Setting</string>
-    <string name="common_machine_operation">Machine Operation</string>
+    <string name="common_machine_config">Machine Config</string>
+    <string name="common_machine_params">Machine Params</string>
     <string name="common_vat_and_grind">Vat/Grind</string>
-    <string name="common_wash_machine">Rinse</string>
+    <string name="common_machine_clean">Clean</string>
     <string name="common_permission">Permission</string>
     <string name="common_maintenance">Maintenance</string>
     <string name="common_serial_test">Serial Test</string>
@@ -17,14 +17,14 @@
     <string name="first_install_language_Chinese">中文</string>
     <string name="first_install_language_English">English</string>
 
-    <string name="statistic_product">Product Statistics</string>
-    <string name="statistic_machine_change_history">Machine Change History</string>
-    <string name="statistic_wash_machine">Machine Washing History</string>
-    <string name="statistic_rinse">Rinse History</string>
-    <string name="statistic_fault">Fault History</string>
-    <string name="statistic_main_product_count">Product Count</string>
-    <string name="statistic_main_machine_count">Machine Count</string>
-    <string name="statistic_main_history_data">History Data</string>
+    <string name="statistic_product_history">Product History</string>
+    <string name="statistic_machine_service_history">Service History</string>
+    <string name="statistic_clean_history">Clean History</string>
+    <string name="statistic_rinse_history">Rinse History</string>
+    <string name="statistic_error_history">Error History</string>
+    <string name="statistic_main_product_counter">Product Counter</string>
+    <string name="statistic_main_machine_counter">Machine Counter</string>
+    <string name="statistic_main_history_data">History</string>
     <string name="statistic_product_top_time">Time</string>
     <string name="statistic_product_top_brew_side">Brew Side</string>
     <string name="statistic_product_top_grind_time">Grind Time</string>
@@ -44,8 +44,8 @@
     <string name="statistic_rinse_top_system_flow_rate">System Flow Rate[tick/s]</string>
     <string name="statistic_rinse_top_water_pressure">Water Pressure[bar]</string>
     <string name="statistic_rinse_top_limit_flow_rate">Limit Flow Rate[tick/s]</string>
-    <string name="statistic_reset_text">Reset Data</string>
-    <string name="statistic_record_time">Record Since: %s</string>
+    <string name="statistic_reset_all">Reset All</string>
+    <string name="statistic_last_reset">Last Reset: %s</string>
 
     <string name="home_open_setting">Open Settings</string>
     <string name="home_clean_screen">Lock and Clean</string>

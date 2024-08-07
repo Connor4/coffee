@@ -54,10 +54,10 @@ fun SettingCardLayout(
     val names = arrayOf(
         Pair(STATISTIC, R.string.common_statistic), Pair(FORMULA, R.string.common_formula),
         Pair(DISPLAY, R.string.common_display),
-        Pair(MACHINE_SETTING, R.string.common_machine_setting),
-        Pair(MACHINE_OPERATION, R.string.common_machine_operation),
+        Pair(MACHINE_SETTING, R.string.common_machine_config),
+        Pair(MACHINE_OPERATION, R.string.common_machine_params),
         Pair(VAT_AND_GRIND, R.string.common_vat_and_grind),
-        Pair(WASH_MACHINE, R.string.common_wash_machine),
+        Pair(WASH_MACHINE, R.string.common_machine_clean),
         Pair(PERMISSION, R.string.common_permission),
         Pair(MAINTENANCE, R.string.common_maintenance),
         Pair(SERIAL_TEST, R.string.common_serial_test)
