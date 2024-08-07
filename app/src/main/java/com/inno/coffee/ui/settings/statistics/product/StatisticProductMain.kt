@@ -114,7 +114,7 @@ private fun StatisticProductLeftSide(
     ) {
         Button(onClick = { onResetClick() }) {
             Text(text = stringResource(id = R.string.statistic_reset_all),
-                style = MaterialTheme.typography.displaySmall)
+                style = MaterialTheme.typography.titleLarge)
         }
         Spacer(modifier = Modifier.height(5.dp))
         Text(
