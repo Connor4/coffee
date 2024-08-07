@@ -18,12 +18,17 @@ class InstallViewModel @Inject constructor(
 //    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
+    fun selectLanguage(context: Context, language: String) {
+        SystemLocaleHelper.changeSystemLocale(context, language)
+        viewModelScope.launch {
+            dataStore.saveMachineLanguage(language)
+        }
+    }
+
     fun finishSetting(context: Context, date: Long, hour: Int, min: Int, language: String) {
         TimeUtils.setDateAndTime(context, date, hour, min)
         viewModelScope.launch {
-            SystemLocaleHelper.changeSystemLocale(context, language)
             CoffeeSharedPreferences.getInstance().isFirstInstall = false
-            dataStore.saveMachineLanguage(language)
             DefaultSettingManager.insertDefaultUser()
         }
     }

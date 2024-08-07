@@ -18,11 +18,13 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -39,13 +41,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
 import com.inno.coffee.viewmodel.firstinstall.InstallViewModel
+import kotlinx.coroutines.delay
 import java.util.Locale
 
+private const val SPLASH = "splash"
 private const val LANGUAGE = "language"
 private const val DATE = "date"
 private const val TIME = "time"
@@ -72,11 +77,15 @@ fun InstallSetting(
     var selectedMin by remember {
         mutableIntStateOf(0)
     }
-    NavHost(navController = navController, startDestination = LANGUAGE) {
+    NavHost(navController = navController, startDestination = SPLASH) {
+        composable(SPLASH) {
+            SplashPage(navController)
+        }
         composable(LANGUAGE) {
             LanguagePage { language ->
                 selectedLanguage = language
                 navController.navigate(DATE)
+                viewModel.selectLanguage(context, language)
             }
         }
         composable(DATE) {
@@ -87,11 +96,11 @@ fun InstallSetting(
         }
         composable(TIME) {
             TimePickerPage { hour, min ->
-                onSetComplete()
                 selectedHour = hour
                 selectedMin = min
                 viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_TIME, selectedHour,
                     selectedMin, selectedLanguage)
+                onSetComplete()
             }
         }
     }
@@ -240,6 +249,26 @@ private fun TimePickerPage(onSetComplete: (Int, Int) -> Unit) {
     }
 }
 
+@Composable
+private fun SplashPage(navController: NavHostController) {
+    LaunchedEffect(Unit) {
+        delay(3000)
+        navController.navigate(LANGUAGE)
+    }
+    Surface(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Box(
+            modifier = Modifier
+                .width(1000.dp)
+                .height(800.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "*欢迎使用，正在加载\n展示品牌信息",
+                style = MaterialTheme.typography.displayMedium)
+        }
+    }
+}
 
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
