@@ -44,6 +44,8 @@
     <string name="statistic_rinse_top_system_flow_rate">System Flow Rate[tick/s]</string>
     <string name="statistic_rinse_top_water_pressure">Water Pressure[bar]</string>
     <string name="statistic_rinse_top_limit_flow_rate">Limit Flow Rate[tick/s]</string>
+    <string name="statistic_reset_text">Reset Data</string>
+    <string name="statistic_record_time">Record Since: %s</string>
 
     <string name="home_open_setting">Open Settings</string>
     <string name="home_clean_screen">Lock and Clean</string>

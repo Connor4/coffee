@@ -45,6 +45,8 @@
     <string name="statistic_rinse_top_system_flow_rate">系统水流[tick/s]</string>
     <string name="statistic_rinse_top_water_pressure">水压[bar]</string>
     <string name="statistic_rinse_top_limit_flow_rate">限流孔水流[tick/s]</string>
+    <string name="statistic_reset_text">重置数据</string>
+    <string name="statistic_record_time">记录起始日期: %s</string>
 
     <string name="home_login_input_empty">用户名或密码未输入</string>
     <string name="home_login_input_invalid">用户名或密码长度不符</string>
