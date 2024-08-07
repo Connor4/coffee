@@ -2,9 +2,9 @@ package com.inno.common.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.inno.common.annotation.EMPLOYEE
 import com.inno.common.annotation.MANAGER
-import com.inno.common.annotation.SUPPORT
+import com.inno.common.annotation.OPERATOR
+import com.inno.common.annotation.TECHNICIAN
 import com.inno.common.annotation.UserRole
 
 @Entity(tableName = "users_table")
@@ -20,10 +20,10 @@ data class User(
 val defaultUsers = listOf(
     User(id = 1, username = "manager", passwordHash = "1234", role = MANAGER, permission = 762,
         remark = "Manager"),
-    User(id = 2, username = "employee", passwordHash = "1234", role = EMPLOYEE, permission = 746,
-        remark = "Employee"),
-    User(id = 3, username = "support", passwordHash = "1234", role = SUPPORT, permission = 762,
-        remark = "Support")
+    User(id = 2, username = "operator", passwordHash = "1234", role = OPERATOR, permission = 746,
+        remark = "Operator"),
+    User(id = 3, username = "technician", passwordHash = "1234", role = TECHNICIAN,
+        permission = 762, remark = "Technician")
 )
 
 // role id | role name
