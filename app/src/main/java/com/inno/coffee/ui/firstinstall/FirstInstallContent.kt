@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.firstinstall
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Devices
@@ -264,8 +266,11 @@ private fun SplashPage(navController: NavHostController) {
                 .height(800.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "*欢迎使用，正在加载\n展示品牌信息",
-                style = MaterialTheme.typography.displayMedium)
+            Column {
+                Image(painter = painterResource(id = R.drawable.logo), contentDescription = null)
+                Text(text = "*欢迎使用，正在加载",
+                    style = MaterialTheme.typography.displayMedium)
+            }
         }
     }
 }
