@@ -58,6 +58,7 @@ private const val DATE = "date"
 private const val TIME = "time"
 // 2024/01/01
 private const val DEFAULT_TIME = 1704124800000
+private const val SPLASH_TIME = 3000L
 
 @Composable
 fun InstallSetting(
@@ -254,7 +255,7 @@ private fun TimePickerPage(onSetComplete: (Int, Int) -> Unit) {
 @Composable
 private fun SplashPage(navController: NavHostController) {
     LaunchedEffect(Unit) {
-        delay(3000)
+        delay(SPLASH_TIME)
         navController.navigate(LANGUAGE)
     }
     Surface(
