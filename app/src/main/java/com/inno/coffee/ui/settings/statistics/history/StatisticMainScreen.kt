@@ -59,7 +59,7 @@ fun StatisticsMainScreen(
 }
 
 @Composable
-fun TopBarMenu(navController: NavHostController) {
+private fun TopBarMenu(navController: NavHostController) {
     val context = LocalContext.current
     val menuItems = listOf(
         context.getString(R.string.statistic_product),
@@ -108,13 +108,13 @@ fun TopBarMenu(navController: NavHostController) {
 }
 
 @Composable
-fun ProductScreen(navController: NavHostController) {
+private fun ProductScreen(navController: NavHostController) {
     Logger.d("ProductScreen")
     ProductStatistic()
 }
 
 @Composable
-fun WashMachineScreen(navController: NavHostController) {
+private fun WashMachineScreen(navController: NavHostController) {
     Logger.d("WashMachineScreen")
     BackHandler {
         navController.popBackStack()
@@ -123,7 +123,7 @@ fun WashMachineScreen(navController: NavHostController) {
 }
 
 @Composable
-fun RinseScreen(navController: NavHostController) {
+private fun RinseScreen(navController: NavHostController) {
     Logger.d("RinseScreen")
     BackHandler {
         navController.popBackStack()
@@ -132,7 +132,7 @@ fun RinseScreen(navController: NavHostController) {
 }
 
 @Composable
-fun FaultScreen(navController: NavHostController) {
+private fun FaultScreen(navController: NavHostController) {
     Logger.d("FaultScreen")
     BackHandler {
         navController.popBackStack()
@@ -141,7 +141,7 @@ fun FaultScreen(navController: NavHostController) {
 }
 
 @Composable
-fun MachineChangeScreen(navController: NavHostController) {
+private fun MachineChangeScreen(navController: NavHostController) {
     Logger.d("MachineHistoryScreen")
     BackHandler {
         navController.popBackStack()
@@ -151,6 +151,6 @@ fun MachineChangeScreen(navController: NavHostController) {
 
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
-fun PreviewMainScreen() {
+private fun PreviewMainScreen() {
     StatisticsMainScreen()
 }
