@@ -125,6 +125,6 @@ fun SerialTest(viewModel: SerialPortViewModel = hiltViewModel()) {
 
 @Preview(device = Devices.TABLET)
 @Composable
-fun PreviewSerialTest() {
+private fun PreviewSerialTest() {
     SerialTest()
 }

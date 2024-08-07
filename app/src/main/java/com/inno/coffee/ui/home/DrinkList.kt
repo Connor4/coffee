@@ -77,7 +77,7 @@ fun DrinkList(
 }
 
 @Composable
-fun AnimatedDrinkItem(
+private fun AnimatedDrinkItem(
     model: DrinksModel,
     columnIndex: Int,
     screenWidthPx: Float,
@@ -102,7 +102,7 @@ fun AnimatedDrinkItem(
 }
 
 @Composable
-fun DrinkItem(
+private fun DrinkItem(
     modifier: Modifier = Modifier,
     model: DrinksModel,
     offsetX: Float,
@@ -147,7 +147,7 @@ fun DrinkItem(
 
 @Preview
 @Composable
-fun DrinksItemPreview() {
+private fun DrinksItemPreview() {
     DrinkItem(model = DrinksModel(1, 20, R.string.home_item_foam,
         R.drawable.coffee1), offsetX = 0f)
 //    val drinks = listOf(

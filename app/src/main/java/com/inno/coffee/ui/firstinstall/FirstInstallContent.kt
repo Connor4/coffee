@@ -98,7 +98,7 @@ fun InstallSetting(
 }
 
 @Composable
-fun LanguagePage(onLanguagePick: (String) -> Unit) {
+private fun LanguagePage(onLanguagePick: (String) -> Unit) {
     val context = LocalContext.current
     val english = context.getString(R.string.first_install_language_English)
     val simplifiedChinese = context.getString(R.string.first_install_language_Chinese)
@@ -166,7 +166,7 @@ fun LanguagePage(onLanguagePick: (String) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerPage(onDatePick: (Long?) -> Unit) {
+private fun DatePickerPage(onDatePick: (Long?) -> Unit) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(modifier = Modifier
             .width(1100.dp)
@@ -193,7 +193,7 @@ fun DatePickerPage(onDatePick: (Long?) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimePickerPage(onSetComplete: (Int, Int) -> Unit) {
+private fun TimePickerPage(onSetComplete: (Int, Int) -> Unit) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         ConstraintLayout(
             modifier = Modifier

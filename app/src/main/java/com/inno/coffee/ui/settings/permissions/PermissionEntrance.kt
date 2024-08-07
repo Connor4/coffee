@@ -99,6 +99,6 @@ fun PermissionEntrance(
 
 @Preview
 @Composable
-fun PreviewPermission() {
+private fun PreviewPermission() {
     PermissionEntrance()
 }

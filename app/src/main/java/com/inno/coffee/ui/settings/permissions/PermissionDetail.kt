@@ -65,7 +65,7 @@ fun PermissionPage(modifier: Modifier = Modifier, viewModel: UserViewModel = hil
 }
 
 @Composable
-fun Update(viewModel: UserViewModel) {
+private fun Update(viewModel: UserViewModel) {
     Row(modifier = Modifier.padding(top = 10.dp)) {
         Button(onClick = {
             viewModel.updateUser()
@@ -81,7 +81,7 @@ fun Update(viewModel: UserViewModel) {
 }
 
 @Composable
-fun RegisterUser(viewModel: UserViewModel) {
+private fun RegisterUser(viewModel: UserViewModel) {
     var username by rememberSaveable {
         mutableStateOf("")
     }
@@ -126,7 +126,7 @@ fun RegisterUser(viewModel: UserViewModel) {
 }
 
 @Composable
-fun UserList(viewModel: UserViewModel) {
+private fun UserList(viewModel: UserViewModel) {
     val userList by viewModel.userList.collectAsState()
     Text(text = "当前用户列表")
     Spacer(modifier = Modifier.height(10.dp))
@@ -157,7 +157,7 @@ fun UserList(viewModel: UserViewModel) {
 }
 
 @Composable
-fun LoginStateText() {
+private fun LoginStateText() {
     Row {
         val user = UserSessionManager.getUser()
         val loginState = user != null
@@ -173,7 +173,7 @@ fun LoginStateText() {
 }
 
 @Composable
-fun UserInfoItem(user: User) {
+private fun UserInfoItem(user: User) {
     Row {
         Text(text = user.username, style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.width(200.dp))
@@ -189,7 +189,7 @@ fun UserInfoItem(user: User) {
 }
 
 @Composable
-fun RoleCheckBox(onValueChanged: (Int) -> Unit) {
+private fun RoleCheckBox(onValueChanged: (Int) -> Unit) {
     val options = listOf(
         stringResource(id = R.string.permission_role_employee),
         stringResource(id = R.string.permission_role_manager),
@@ -222,7 +222,7 @@ fun RoleCheckBox(onValueChanged: (Int) -> Unit) {
 }
 
 @Composable
-fun ModuleCheckBox(defaultCheckedValue: Int, onValueChanged: (Int) -> Unit) {
+private fun ModuleCheckBox(defaultCheckedValue: Int, onValueChanged: (Int) -> Unit) {
     val options = listOf(
         stringResource(id = R.string.common_statistic),
         stringResource(id = R.string.common_formula),
@@ -268,7 +268,7 @@ fun ModuleCheckBox(defaultCheckedValue: Int, onValueChanged: (Int) -> Unit) {
     }
 }
 
-fun checkBoxStatesToInt(checkBoxStates: Array<MutableState<Boolean>>, size: Int): Int {
+private fun checkBoxStatesToInt(checkBoxStates: Array<MutableState<Boolean>>, size: Int): Int {
     var result = 0
     for (i in checkBoxStates.indices) {
         if (checkBoxStates[i].value) {
@@ -280,6 +280,6 @@ fun checkBoxStatesToInt(checkBoxStates: Array<MutableState<Boolean>>, size: Int)
 
 @Preview
 @Composable
-fun PreviewPermissionPage() {
+private fun PreviewPermissionPage() {
     PermissionPage()
 }

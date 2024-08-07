@@ -119,7 +119,7 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
 
 
 @Composable
-fun FileNotFoundDialog(onDismiss: () -> Unit) {
+private fun FileNotFoundDialog(onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = "Load File Error") },
@@ -135,7 +135,7 @@ fun FileNotFoundDialog(onDismiss: () -> Unit) {
 }
 
 @Composable
-fun FormulaItem(
+private fun FormulaItem(
     modifier: Modifier = Modifier,
     formula: Formula,
     onItemClick: (model: Formula) -> Unit = {},
@@ -166,7 +166,7 @@ fun FormulaItem(
 }
 
 @Composable
-fun ItemList(formula: Formula, modifier: Modifier) {
+private fun ItemList(formula: Formula, modifier: Modifier) {
     Column(
         modifier = modifier
             .width(300.dp)
@@ -270,7 +270,7 @@ fun ItemList(formula: Formula, modifier: Modifier) {
 
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
-fun PreviewFormula() {
+private fun PreviewFormula() {
     ItemList(formula = Formula(1, "coffee", "意式", true,
         20, 50, 20, 29,
         30, 40, 20, 30, 1, 1),

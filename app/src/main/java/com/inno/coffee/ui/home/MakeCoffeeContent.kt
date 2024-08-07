@@ -139,7 +139,7 @@ fun MakeCoffeeContent(
 }
 
 @Composable
-fun BottomInfo(
+private fun BottomInfo(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
 ) {
@@ -205,7 +205,7 @@ fun BottomInfo(
 }
 
 @Composable
-fun LoginContent(
+private fun LoginContent(
     context: Context,
     showDialog: Boolean,
     onDismiss: () -> Unit,
@@ -282,7 +282,7 @@ fun LoginContent(
 }
 
 @Composable
-fun LockCleanDialog(
+private fun LockCleanDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
     viewModel: HomeViewModel,
@@ -322,7 +322,7 @@ fun LockCleanDialog(
 }
 
 @Composable
-fun MachineInfoDialog(
+private fun MachineInfoDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
 ) {
@@ -352,7 +352,7 @@ fun MachineInfoDialog(
 }
 
 @Composable
-fun StandByModeDialog(
+private fun StandByModeDialog(
     showDialog: Boolean,
     onDismiss: () -> Unit,
 ) {
@@ -381,7 +381,7 @@ fun StandByModeDialog(
 
 @Preview(device = Devices.TABLET)
 @Composable
-fun PreviewLock() {
+private fun PreviewLock() {
     MachineInfoDialog(showDialog = true) {
     }
 }
