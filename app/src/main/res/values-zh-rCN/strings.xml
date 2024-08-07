@@ -9,7 +9,7 @@
     <string name="common_display">显示设置</string>
     <string name="common_machine_config">机器设置</string>
     <string name="common_machine_params">机器参数</string>
-    <string name="common_vat_and_grind">豆缸/磨刀</string>
+    <string name="common_vat_and_grind">豆缸&amp;磨刀</string>
     <string name="common_machine_clean">洗机</string>
     <string name="common_permission">权限管理</string>
     <string name="common_maintenance">保养记录</string>

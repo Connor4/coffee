@@ -8,7 +8,7 @@
     <string name="common_display">Display</string>
     <string name="common_machine_config">Machine Config</string>
     <string name="common_machine_params">Machine Params</string>
-    <string name="common_vat_and_grind">Vat/Grind</string>
+    <string name="common_vat_and_grind">Vat&amp;Grind</string>
     <string name="common_machine_clean">Clean</string>
     <string name="common_permission">Permission</string>
     <string name="common_maintenance">Maintenance</string>
