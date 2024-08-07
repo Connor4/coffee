@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
@@ -52,7 +53,9 @@ class StatisticActivity : CoffeeActivity() {
 fun StatisticMain() {
     val context = LocalContext.current
     Row(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 100.dp),
         horizontalArrangement = Arrangement.spacedBy(50.dp, Alignment.CenterHorizontally)
     ) {
         StatisticCardItem(text = stringResource(id = R.string.statistic_main_product_count)) {
