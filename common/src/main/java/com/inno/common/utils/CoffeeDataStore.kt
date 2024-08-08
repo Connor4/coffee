@@ -15,9 +15,10 @@ import javax.inject.Inject
 class CoffeeDataStore @Inject constructor(@ApplicationContext private val context: Context) {
 
     companion object {
+        private const val TAG = "CoffeeDataStore"
         private const val USER_PREFERENCES_NAME = "settings"
         private const val MACHINE_LANGUAGE = "machine_language"
-        private const val DEFAULT_LANGUAGE = "English"
+        private const val DEFAULT_LANGUAGE = "en"
     }
 
     private val Context.dataStore by preferencesDataStore(
@@ -34,9 +35,8 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
 
     @Suppress("UNCHECKED_CAST")
     private suspend fun <T> getCoffeePreference(key: String, defaultValue: T): T {
-        Logger.d("getCoffeePreference() called with: key = $key, defaultValue = $defaultValue")
+        Logger.d(TAG, "getCoffeePreference() called with: key = $key, defaultValue = $defaultValue")
         val preferences = context.dataStore.data.first()
-        Logger.d("mid")
         return when (defaultValue) {
             is Boolean -> preferences[booleanPreferencesKey(key)] as T? ?: defaultValue
             is Int -> preferences[intPreferencesKey(key)] as T? ?: defaultValue
@@ -48,6 +48,7 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
     }
 
     private suspend fun <T> saveCoffeePreference(key: String, value: T) {
+        Logger.d(TAG, "saveCoffeePreference() called with: key = $key, value = $value")
         context.dataStore.edit { preferences ->
             when (value) {
                 is Boolean -> preferences[booleanPreferencesKey(key)] = value
