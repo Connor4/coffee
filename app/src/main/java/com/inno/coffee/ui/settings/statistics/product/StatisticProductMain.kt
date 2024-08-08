@@ -61,7 +61,9 @@ fun ShowProductStatistic(viewModel: StatisticProductViewModel = hiltViewModel())
         StatisticProductLeftSide(screenWidthDp) {
             viewModel.resetData()
         }
-        StatisticProductRightSide(screenWidthDp, selectedProduct, drinksTypeList)
+        StatisticProductRightSide(screenWidthDp, selectedProduct, drinksTypeList) {
+            selectedProduct = it
+        }
     }
 
 }
@@ -70,9 +72,9 @@ fun ShowProductStatistic(viewModel: StatisticProductViewModel = hiltViewModel())
 private fun StatisticProductRightSide(
     screenWidthDp: Dp,
     selectedProduct: DrinksModel?,
-    drinksTypeList: List<DrinksModel>
+    drinksTypeList: List<DrinksModel>,
+    onProductClick: (model: DrinksModel) -> Unit,
 ) {
-    var selectedProduct1 = selectedProduct
     Row(
         modifier = Modifier
             .width(screenWidthDp / 2)
@@ -80,7 +82,7 @@ private fun StatisticProductRightSide(
     ) {
         Column {
             Spacer(modifier = Modifier.height(50.dp))
-            Text(text = "*产品杯数 ${selectedProduct1?.productId}", style = MaterialTheme.typography
+            Text(text = "*产品杯数 ${selectedProduct?.productId}", style = MaterialTheme.typography
                 .displaySmall)
             Spacer(modifier = Modifier.height(30.dp))
             LazyVerticalGrid(
@@ -95,7 +97,7 @@ private fun StatisticProductRightSide(
             ) {
                 items(drinksTypeList) { drinksModel ->
                     StatisticDrinkItem(model = drinksModel) {
-                        selectedProduct1 = drinksModel
+                        onProductClick(drinksModel)
                     }
                 }
             }
