@@ -24,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.viewmodel.settings.statistics.DrinksHistoryViewModel
-import com.inno.common.db.entity.DrinksHistory
+import com.inno.common.db.entity.ProductHistory
 import com.inno.common.db.entity.ProductType
 
 @Composable
@@ -75,7 +75,7 @@ fun ProductHistoryList(
         Column {
             Button(onClick = {
                 viewModel.insertDrinksHistory(
-                    DrinksHistory("2023.06.23 10:40:00", "left", "2f", "On", "19s", "50", "92",
+                    ProductHistory("2023.06.23 10:40:00", "left", "2f", "On", "19s", "50", "92",
                         "64", "1.8", ProductType.Coffee.name, "Operator1"))
             }) {
                 Text(text = "insert")
@@ -99,7 +99,7 @@ fun ProductHistoryList(
 }
 
 @Composable
-fun DrinksHistoryItem(history: DrinksHistory, modifier: Modifier = Modifier) {
+fun DrinksHistoryItem(history: ProductHistory, modifier: Modifier = Modifier) {
     Row {
         Text(text = history.time, color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)

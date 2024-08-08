@@ -9,7 +9,7 @@ enum class ProductType(product: String) {
 }
 
 @Entity(tableName = "product_history_table")
-data class DrinksHistory(
+data class ProductHistory(
     var time: String,
     var side: String,
     var grindTime: String,
@@ -24,7 +24,7 @@ data class DrinksHistory(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 
-@Entity(tableName = "clean_machine_history_table")
+@Entity(tableName = "clean_history_table")
 data class CleanMachineHistory(
     var time: String,
     var startTime: String,

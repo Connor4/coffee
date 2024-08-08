@@ -8,14 +8,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.inno.common.db.dao.DrinksHistoryDao
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.dao.UserDao
-import com.inno.common.db.entity.DrinksHistory
 import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.ProductHistory
 import com.inno.common.db.entity.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [DrinksHistory::class, Formula::class, User::class], version = 1,
+@Database(entities = [ProductHistory::class, Formula::class, User::class], version = 1,
     exportSchema = false)
 abstract class CoffeeRoomDatabase : RoomDatabase() {
 
