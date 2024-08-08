@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class DrinksHistoryViewModel @Inject constructor(
+class ProductHistoryViewModel @Inject constructor(
     private val repository: ProductHistoryRepository,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {

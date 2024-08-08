@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
-import com.inno.coffee.viewmodel.settings.statistics.DrinksHistoryViewModel
+import com.inno.coffee.viewmodel.settings.statistics.ProductHistoryViewModel
 import com.inno.common.db.entity.ProductHistory
 import com.inno.common.db.entity.ProductType
 
@@ -68,7 +68,7 @@ fun StatisticTopBar(modifier: Modifier = Modifier) {
 @Composable
 fun ProductHistoryList(
     modifier: Modifier = Modifier,
-    viewModel: DrinksHistoryViewModel = hiltViewModel(),
+    viewModel: ProductHistoryViewModel = hiltViewModel(),
 ) {
     val drinksHistoryList by viewModel.productHistory.collectAsStateWithLifecycle()
     Surface(modifier = modifier.fillMaxSize(), color = Color.Transparent) {
