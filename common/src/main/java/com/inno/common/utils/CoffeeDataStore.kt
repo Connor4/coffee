@@ -18,7 +18,7 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val TAG = "CoffeeDataStore"
         private const val USER_PREFERENCES_NAME = "settings"
         private const val MACHINE_LANGUAGE = "machine_language"
-        private const val DEFAULT_LANGUAGE = "en"
+        private const val DEFAULT_LANGUAGE_VALUE = "en"
     }
 
     private val Context.dataStore by preferencesDataStore(
@@ -26,7 +26,7 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
     )
 
     suspend fun getMachineLanguage(): String {
-        return getCoffeePreference(MACHINE_LANGUAGE, DEFAULT_LANGUAGE)
+        return getCoffeePreference(MACHINE_LANGUAGE, DEFAULT_LANGUAGE_VALUE)
     }
 
     suspend fun saveMachineLanguage(language: String) {
