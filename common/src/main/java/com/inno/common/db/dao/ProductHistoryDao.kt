@@ -14,7 +14,7 @@ interface ProductHistoryDao {
     fun getAllProductHistory(): Flow<List<ProductHistory>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(drinksHistory: ProductHistory)
+    suspend fun insert(productHistory: ProductHistory)
 
     @Query("DELETE FROM product_history_table")
     suspend fun deleteAll()

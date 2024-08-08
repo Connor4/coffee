@@ -8,6 +8,15 @@ enum class ProductType(product: String) {
     Espresso("espresso"),
 }
 
+@Entity(tableName = "product_count_table")
+data class ProductCount(
+    var productName: String,
+    var count: Int,
+    var time: String,
+    var side: Boolean,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0
+)
+
 @Entity(tableName = "product_history_table")
 data class ProductHistory(
     var time: String,

@@ -138,6 +138,8 @@ private fun StatisticProductLeftSide(
                 Text(text = "*奶泡杯数", style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
                 Text(text = "*蒸汽次数", style = MaterialTheme.typography.displaySmall)
+                Spacer(modifier = Modifier.height(50.dp))
+                Text(text = "*总杯数", style = MaterialTheme.typography.displaySmall)
             }
             Column(
                 modifier = Modifier.width(screenWidthDp / 4)
@@ -152,6 +154,8 @@ private fun StatisticProductLeftSide(
                 Text(text = "*5", style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
                 Text(text = "*2", style = MaterialTheme.typography.displaySmall)
+                Spacer(modifier = Modifier.height(50.dp))
+                Text(text = "*12", style = MaterialTheme.typography.displaySmall)
             }
         }
     }

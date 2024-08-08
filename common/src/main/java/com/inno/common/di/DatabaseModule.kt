@@ -3,6 +3,7 @@ package com.inno.common.di
 import android.content.Context
 import com.inno.common.db.CoffeeRoomDatabase
 import com.inno.common.db.dao.FormulaDao
+import com.inno.common.db.dao.ProductCountDao
 import com.inno.common.db.dao.ProductHistoryDao
 import com.inno.common.db.dao.UserDao
 import dagger.Module
@@ -28,7 +29,7 @@ object DatabaseModule {
 
     @Provides
     fun provideDrinksHistoryDao(database: CoffeeRoomDatabase): ProductHistoryDao {
-        return database.drinksHistoryDao()
+        return database.productHistoryDao()
     }
 
     @Provides
@@ -39,6 +40,11 @@ object DatabaseModule {
     @Provides
     fun provideUserDao(database: CoffeeRoomDatabase): UserDao {
         return database.userDao()
+    }
+
+    @Provides
+    fun provideProductCountDao(database: CoffeeRoomDatabase): ProductCountDao {
+        return database.productCountDao()
     }
 
 }

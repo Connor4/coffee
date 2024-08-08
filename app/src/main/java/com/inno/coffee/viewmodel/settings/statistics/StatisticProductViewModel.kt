@@ -1,11 +1,13 @@
 package com.inno.coffee.viewmodel.settings.statistics
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.inno.coffee.data.DrinksModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,7 +23,9 @@ class StatisticProductViewModel @Inject constructor(
     }
 
     fun resetData() {
-
+        viewModelScope.launch {
+            repository.deleteAllProductCount()
+        }
     }
 
 }
