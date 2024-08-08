@@ -19,43 +19,11 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val USER_PREFERENCES_NAME = "settings"
         private const val MACHINE_LANGUAGE = "machine_language"
         private const val DEFAULT_LANGUAGE_VALUE = "en"
-        private const val COFFEE_COUNT = "coffee_count"
-        private const val HOT_WATER_COUNT = "hot_water_count"
-        private const val MILK_COUNT = "milk_count"
-        private const val FOAM_COUNT = "foam_count"
-        private const val STEAM_COUNT = "steam_count"
-        private const val TOTAL_COUNT = "total_count"
-        private const val DEFAULT_COUNT_VALUE = 0
     }
 
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
-
-    suspend fun addCoffeeCount() {
-        var count = getCoffeePreference(COFFEE_COUNT, 0)
-        saveCoffeePreference(COFFEE_COUNT, ++count)
-    }
-
-    suspend fun addHotWaterCount() {
-        var count = getCoffeePreference(HOT_WATER_COUNT, 0)
-        saveCoffeePreference(HOT_WATER_COUNT, ++count)
-    }
-
-    suspend fun addMilkCount() {
-        var count = getCoffeePreference(MILK_COUNT, 0)
-        saveCoffeePreference(MILK_COUNT, ++count)
-    }
-
-    suspend fun addFoamCount() {
-        var count = getCoffeePreference(FOAM_COUNT, 0)
-        saveCoffeePreference(FOAM_COUNT, ++count)
-    }
-
-    suspend fun addSteamCount() {
-        var count = getCoffeePreference(STEAM_COUNT, 0)
-        saveCoffeePreference(STEAM_COUNT, ++count)
-    }
 
     suspend fun getMachineLanguage(): String {
         return getCoffeePreference(MACHINE_LANGUAGE, DEFAULT_LANGUAGE_VALUE)
