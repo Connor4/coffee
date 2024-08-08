@@ -4,6 +4,7 @@ import android.app.Application
 import com.inno.coffee.function.defaultsetting.DefaultSettingManager
 import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.function.presentation.PresentationDisplayManager
+import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
@@ -41,6 +42,7 @@ class CoffeeApplication : Application() {
             GlobalDialogManager.init(this@CoffeeApplication)
             ProductProfileManager.init(this@CoffeeApplication)
             DefaultSettingManager.init(this@CoffeeApplication)
+            StatisticManager.init(this@CoffeeApplication)
         }
     }
 

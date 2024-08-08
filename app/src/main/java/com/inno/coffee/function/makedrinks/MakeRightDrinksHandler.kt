@@ -1,6 +1,7 @@
 package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.function.formula.ProductProfileManager
+import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
@@ -82,6 +83,7 @@ object MakeRightDrinksHandler {
                 MakeDrinkStatusEnum.RIGHT_BREWING_COMPLETE -> {}
                 MakeDrinkStatusEnum.RIGHT_FINISHED -> {
                     if (processingProductId == productId) {
+                        StatisticManager.countProductType(productId, false)
                         // finish, proceed next drink
                         processingProductId = INVALID_INT
                         handleMessage()

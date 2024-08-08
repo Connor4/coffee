@@ -1,6 +1,7 @@
 package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.function.formula.ProductProfileManager
+import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
@@ -39,6 +40,7 @@ object MakeLeftDrinksHandler {
         scope.launch {
             val productProfile = ProductProfileManager.convertProductProfile(productId, true)
             SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+            StatisticManager.countProductType(productId, true)
         }
     }
 
@@ -91,6 +93,7 @@ object MakeLeftDrinksHandler {
                 MakeDrinkStatusEnum.LEFT_BREWING_COMPLETE -> {}
                 MakeDrinkStatusEnum.LEFT_FINISHED -> {
                     if (processingProductId == productId) {
+                        StatisticManager.countProductType(productId, true)
                         // finish, proceed next drink
                         processingProductId = INVALID_INT
                         handleMessage()
