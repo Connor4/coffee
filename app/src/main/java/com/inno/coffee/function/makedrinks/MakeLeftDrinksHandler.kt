@@ -12,6 +12,8 @@ import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 object MakeLeftDrinksHandler {
@@ -19,6 +21,8 @@ object MakeLeftDrinksHandler {
     private var messageHead: DrinkMessage? = null
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var processingProductId = INVALID_INT
+    private val _size = MutableStateFlow(0)
+    val size: StateFlow<Int> = _size
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
@@ -55,6 +59,7 @@ object MakeLeftDrinksHandler {
             }
             prev.next = message
         }
+        _size.value++
 //        Logger.d(TAG, "message: ${messageHead.toString()}")
         handleMessage()
     }

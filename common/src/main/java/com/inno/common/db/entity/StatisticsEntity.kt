@@ -8,7 +8,7 @@ enum class ProductType(product: String) {
     Espresso("espresso"),
 }
 
-@Entity(tableName = "drinks_history_table")
+@Entity(tableName = "product_history_table")
 data class DrinksHistory(
     var time: String,
     var side: String,
@@ -24,8 +24,8 @@ data class DrinksHistory(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 
-@Entity(tableName = "wash_machine_history_table")
-data class WashMachineHistory(
+@Entity(tableName = "clean_machine_history_table")
+data class CleanMachineHistory(
     var time: String,
     var startTime: String,
     var duration: String,
@@ -33,8 +33,8 @@ data class WashMachineHistory(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 
-@Entity(tableName = "failure_history_table")
-data class FailureHistory(
+@Entity(tableName = "error_history_table")
+data class ErrorHistory(
     var time: String, var code: String, var detail: String,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )

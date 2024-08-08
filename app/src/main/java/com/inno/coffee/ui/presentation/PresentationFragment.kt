@@ -1,4 +1,4 @@
-package com.inno.coffee.function.presentation
+package com.inno.coffee.ui.presentation
 
 import android.app.Dialog
 import android.app.Presentation
@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.DialogFragment
+import com.inno.coffee.function.presentation.PresentationDisplayManager
 import com.inno.common.utils.Logger
 
 abstract class PresentationFragment(private val context: Context) : DialogFragment() {

@@ -1,4 +1,4 @@
-package com.inno.coffee.function.presentation
+package com.inno.coffee.ui.presentation
 
 import android.content.Context
 import androidx.compose.runtime.Composable

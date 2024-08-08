@@ -1,4 +1,4 @@
-package com.inno.coffee.function.presentation
+package com.inno.coffee.ui.presentation
 
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle

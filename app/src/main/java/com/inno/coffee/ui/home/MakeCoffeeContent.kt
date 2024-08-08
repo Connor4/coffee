@@ -2,6 +2,7 @@ package com.inno.coffee.ui.home
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -28,11 +30,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,6 +47,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
+import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
+import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
@@ -53,79 +60,29 @@ fun MakeCoffeeContent(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
+    val secondDisplay = PresentationDisplayManager.isSecondDisplay(context)
+    val size by if (secondDisplay) {
+        MakeRightDrinksHandler.size.collectAsState()
+    } else {
+        MakeLeftDrinksHandler.size.collectAsState()
+    }
+
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
         Column(
             modifier = modifier.fillMaxSize(),
         ) {
-            val context = LocalContext.current
             Row(
-                modifier = modifier.wrapContentHeight(),
+                modifier = modifier
+                    .wrapContentSize(),
             ) {
-                var showLoginDialog by remember {
-                    mutableStateOf(false)
+                Functions(context, viewModel)
+                Spacer(modifier = Modifier.weight(1f))
+                if (size > 0) {
+                    QueueText(size.toString())
                 }
-                var showCleanDialog by remember {
-                    mutableStateOf(false)
-                }
-                var showInfoDialog by remember {
-                    mutableStateOf(false)
-                }
-                var showStandByModeDialog by remember {
-                    mutableStateOf(false)
-                }
-                Button(
-                    onClick =
-                    composeClick {
-                        PresentationDisplayManager.autoRoute(context, SettingActivity::class.java)
-//                    showLoginDialog = true
-                    }) {
-                    Text(text = stringResource(id = R.string.home_open_setting))
-                }
-                Button(
-                    onClick =
-                    composeClick {
-//                    showCleanDialog = true
-                    },
-                ) {
-                    Text(text = stringResource(id = R.string.home_clean_screen))
-                }
-                Button(
-                    onClick =
-                    composeClick {
-//                    showInfoDialog = true
-                    },
-                ) {
-                    Text(text = stringResource(id = R.string.home_machine_info))
-                }
-                Button(
-                    onClick =
-                    composeClick {
-//                    showStandByModeDialog = true
-                    },
-                ) {
-                    Text(text = stringResource(id = R.string.home_standby_mode))
-                }
-
-                LoginContent(
-                    context,
-                    showDialog = showLoginDialog,
-                    onDismiss = { showLoginDialog = false },
-                    viewModel = viewModel,
-                )
-                LockCleanDialog(
-                    showDialog = showCleanDialog,
-                    onDismiss = { showCleanDialog = false },
-                    viewModel = viewModel,
-                )
-                MachineInfoDialog(showDialog = showInfoDialog) {
-                    showInfoDialog = false
-                }
-                StandByModeDialog(
-                    showDialog = showStandByModeDialog,
-                    onDismiss = { showStandByModeDialog = false },
-                )
             }
 
             val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
@@ -136,6 +93,92 @@ fun MakeCoffeeContent(
         }
         BottomInfo(modifier = Modifier.align(Alignment.BottomCenter), viewModel = viewModel)
     }
+}
+
+@Composable
+private fun QueueText(number: String) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(45.dp)
+            .clip(CircleShape)
+            .background(Color.Red),
+    ) {
+        Text(
+            text = number,
+            color = Color.White,
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun Functions(context: Context,
+    viewModel: HomeViewModel) {
+    var showLoginDialog by remember {
+        mutableStateOf(false)
+    }
+    var showCleanDialog by remember {
+        mutableStateOf(false)
+    }
+    var showInfoDialog by remember {
+        mutableStateOf(false)
+    }
+    var showStandByModeDialog by remember {
+        mutableStateOf(false)
+    }
+    Button(
+        onClick =
+        composeClick {
+            PresentationDisplayManager.autoRoute(context, SettingActivity::class.java)
+//                    showLoginDialog = true
+        }) {
+        Text(text = stringResource(id = R.string.home_open_setting))
+    }
+    Button(
+        onClick =
+        composeClick {
+//                    showCleanDialog = true
+        },
+    ) {
+        Text(text = stringResource(id = R.string.home_clean_screen))
+    }
+    Button(
+        onClick =
+        composeClick {
+//                    showInfoDialog = true
+        },
+    ) {
+        Text(text = stringResource(id = R.string.home_machine_info))
+    }
+    Button(
+        onClick =
+        composeClick {
+//                    showStandByModeDialog = true
+        },
+    ) {
+        Text(text = stringResource(id = R.string.home_standby_mode))
+    }
+
+    LoginContent(
+        context,
+        showDialog = showLoginDialog,
+        onDismiss = { showLoginDialog = false },
+        viewModel = viewModel,
+    )
+    LockCleanDialog(
+        showDialog = showCleanDialog,
+        onDismiss = { showCleanDialog = false },
+        viewModel = viewModel,
+    )
+    MachineInfoDialog(showDialog = showInfoDialog) {
+        showInfoDialog = false
+    }
+    StandByModeDialog(
+        showDialog = showStandByModeDialog,
+        onDismiss = { showStandByModeDialog = false },
+    )
 }
 
 @Composable
