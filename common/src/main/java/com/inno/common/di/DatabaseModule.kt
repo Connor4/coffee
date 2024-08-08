@@ -2,8 +2,8 @@ package com.inno.common.di
 
 import android.content.Context
 import com.inno.common.db.CoffeeRoomDatabase
-import com.inno.common.db.dao.DrinksHistoryDao
 import com.inno.common.db.dao.FormulaDao
+import com.inno.common.db.dao.ProductHistoryDao
 import com.inno.common.db.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -27,7 +27,7 @@ object DatabaseModule {
     }
 
     @Provides
-    fun provideDrinksHistoryDao(database: CoffeeRoomDatabase): DrinksHistoryDao {
+    fun provideDrinksHistoryDao(database: CoffeeRoomDatabase): ProductHistoryDao {
         return database.drinksHistoryDao()
     }
 

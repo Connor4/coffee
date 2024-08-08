@@ -70,11 +70,11 @@ fun ProductHistoryList(
     modifier: Modifier = Modifier,
     viewModel: DrinksHistoryViewModel = hiltViewModel(),
 ) {
-    val drinksHistoryList by viewModel.drinksHistory.collectAsStateWithLifecycle()
+    val drinksHistoryList by viewModel.productHistory.collectAsStateWithLifecycle()
     Surface(modifier = modifier.fillMaxSize(), color = Color.Transparent) {
         Column {
             Button(onClick = {
-                viewModel.insertDrinksHistory(
+                viewModel.insertProductHistory(
                     ProductHistory("2023.06.23 10:40:00", "left", "2f", "On", "19s", "50", "92",
                         "64", "1.8", ProductType.Coffee.name, "Operator1"))
             }) {
@@ -82,7 +82,7 @@ fun ProductHistoryList(
             }
 
             Button(onClick = {
-                viewModel.deleteAllDrinksHistory()
+                viewModel.deleteAllProductHistory()
             }) {
                 Text(text = "delete")
             }

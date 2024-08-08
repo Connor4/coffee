@@ -8,15 +8,15 @@ import com.inno.common.db.entity.ProductHistory
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface DrinksHistoryDao {
+interface ProductHistoryDao {
 
-    @Query("SELECT * FROM drinks_history_table ORDER BY id ASC")
-    fun getAllDrinksHistory(): Flow<List<ProductHistory>>
+    @Query("SELECT * FROM product_history_table ORDER BY id ASC")
+    fun getAllProductHistory(): Flow<List<ProductHistory>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(drinksHistory: ProductHistory)
 
-    @Query("DELETE FROM drinks_history_table")
+    @Query("DELETE FROM product_history_table")
     suspend fun deleteAll()
 
 }

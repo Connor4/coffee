@@ -5,8 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.inno.common.db.dao.DrinksHistoryDao
 import com.inno.common.db.dao.FormulaDao
+import com.inno.common.db.dao.ProductHistoryDao
 import com.inno.common.db.dao.UserDao
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.ProductHistory
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
     exportSchema = false)
 abstract class CoffeeRoomDatabase : RoomDatabase() {
 
-    abstract fun drinksHistoryDao(): DrinksHistoryDao
+    abstract fun drinksHistoryDao(): ProductHistoryDao
 
     abstract fun formulaDao(): FormulaDao
 

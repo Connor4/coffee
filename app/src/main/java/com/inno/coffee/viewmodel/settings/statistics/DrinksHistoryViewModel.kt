@@ -15,28 +15,28 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DrinksHistoryViewModel @Inject constructor(
-    private val repository: DrinksHistoryRepository,
+    private val repository: ProductHistoryRepository,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val drinksHistory: StateFlow<List<ProductHistory>> = repository.getAllDrinksHistory().stateIn(
+    val productHistory: StateFlow<List<ProductHistory>> = repository.getAllProductHistory().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()
     )
 
-    fun insertDrinksHistory(drinksHistory: ProductHistory) {
+    fun insertProductHistory(drinksHistory: ProductHistory) {
         viewModelScope.launch {
             withContext(defaultDispatcher) {
-                repository.insertDrinksHistory(drinksHistory)
+                repository.insertProductHistory(drinksHistory)
             }
         }
     }
 
-    fun deleteAllDrinksHistory() {
+    fun deleteAllProductHistory() {
         viewModelScope.launch {
             withContext(defaultDispatcher) {
-                repository.deleteAllDrinksHistory()
+                repository.deleteAllProductHistory()
             }
         }
     }
