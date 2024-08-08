@@ -40,6 +40,7 @@ import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.viewmodel.settings.statistics.StatisticProductViewModel
+import com.inno.common.db.entity.ProductCount
 
 
 @Composable
@@ -48,6 +49,7 @@ fun ShowProductStatistic(viewModel: StatisticProductViewModel = hiltViewModel())
     val screenWidthDp = configuration.screenWidthDp.dp
 
     val drinksTypeList by viewModel.drinksType.collectAsState()
+    val productCounts by viewModel.productCounts.collectAsState()
     var selectedProduct by remember {
         mutableStateOf(drinksTypeList.firstOrNull())
     }
@@ -58,7 +60,7 @@ fun ShowProductStatistic(viewModel: StatisticProductViewModel = hiltViewModel())
     }
 
     Row(modifier = Modifier.fillMaxSize()) {
-        StatisticProductLeftSide(screenWidthDp) {
+        StatisticProductLeftSide(screenWidthDp, productCounts) {
             viewModel.resetData()
         }
         StatisticProductRightSide(screenWidthDp, selectedProduct, drinksTypeList) {
@@ -109,6 +111,7 @@ private fun StatisticProductRightSide(
 @Composable
 private fun StatisticProductLeftSide(
     screenWidthDp: Dp,
+    productCounts: List<ProductCount>,
     onResetClick: () -> Unit,
 ) {
     Column(
@@ -141,6 +144,7 @@ private fun StatisticProductLeftSide(
                 Spacer(modifier = Modifier.height(50.dp))
                 Text(text = "*总杯数", style = MaterialTheme.typography.displaySmall)
             }
+            // TODO 显示数据
             Column(
                 modifier = Modifier.width(screenWidthDp / 4)
             ) {

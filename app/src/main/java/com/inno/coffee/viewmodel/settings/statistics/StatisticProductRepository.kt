@@ -3,6 +3,7 @@ package com.inno.coffee.viewmodel.settings.statistics
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.viewmodel.home.HomeLocalDataSource
 import com.inno.common.db.dao.ProductCountDao
+import com.inno.common.db.entity.ProductCount
 import javax.inject.Inject
 
 class StatisticProductRepository @Inject constructor(
@@ -21,6 +22,10 @@ class StatisticProductRepository @Inject constructor(
             productCount.count += 1
             productCountDao.updateProductCount(it)
         }
+    }
+
+    suspend fun getAllProductCounts(): List<ProductCount> {
+        return productCountDao.getAllProductCounts()
     }
 
 }

@@ -25,4 +25,7 @@ interface ProductCountDao {
     @Update
     suspend fun updateProductCount(productCount: ProductCount)
 
+    @Query("SELECT * FROM product_count_table")
+    suspend fun getAllProductCounts(): List<ProductCount>
+
 }
