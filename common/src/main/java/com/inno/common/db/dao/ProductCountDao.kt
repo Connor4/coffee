@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.inno.common.db.entity.ProductCount
 
 @Dao
@@ -17,4 +18,11 @@ interface ProductCountDao {
 
     @Query("SELECT COUNT(*) FROM product_count_table")
     suspend fun getProductCount(): Int
+
+    @Query("SELECT * FROM product_count_table WHERE productId = :productId LIMIT 1")
+    suspend fun getProductCountByProductId(productId: Int): ProductCount?
+
+    @Update
+    suspend fun updateProductCount(productCount: ProductCount)
+
 }

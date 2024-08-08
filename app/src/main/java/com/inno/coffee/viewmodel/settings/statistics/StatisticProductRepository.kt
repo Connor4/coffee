@@ -15,4 +15,12 @@ class StatisticProductRepository @Inject constructor(
         productCountDao.deleteAll()
     }
 
+    suspend fun incrementProductCount(productId: Int) {
+        val productCount = productCountDao.getProductCountByProductId(productId)
+        productCount?.let {
+            productCount.count += 1
+            productCountDao.updateProductCount(it)
+        }
+    }
+
 }

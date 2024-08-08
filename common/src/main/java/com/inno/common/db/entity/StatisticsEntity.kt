@@ -10,10 +10,8 @@ enum class ProductType(product: String) {
 
 @Entity(tableName = "product_count_table")
 data class ProductCount(
-    var productName: String,
+    var productId: Int,
     var count: Int,
-    var time: String,
-    var side: Boolean,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 )
 

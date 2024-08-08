@@ -40,7 +40,7 @@ object MakeLeftDrinksHandler {
         scope.launch {
             val productProfile = ProductProfileManager.convertProductProfile(productId, true)
             SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
-            StatisticManager.countProductType(productId, true)
+            StatisticManager.countProductType(productId)
         }
     }
 
@@ -93,7 +93,7 @@ object MakeLeftDrinksHandler {
                 MakeDrinkStatusEnum.LEFT_BREWING_COMPLETE -> {}
                 MakeDrinkStatusEnum.LEFT_FINISHED -> {
                     if (processingProductId == productId) {
-                        StatisticManager.countProductType(productId, true)
+                        StatisticManager.countProductType(productId)
                         // finish, proceed next drink
                         processingProductId = INVALID_INT
                         handleMessage()

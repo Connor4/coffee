@@ -83,7 +83,7 @@ object MakeRightDrinksHandler {
                 MakeDrinkStatusEnum.RIGHT_BREWING_COMPLETE -> {}
                 MakeDrinkStatusEnum.RIGHT_FINISHED -> {
                     if (processingProductId == productId) {
-                        StatisticManager.countProductType(productId, false)
+                        StatisticManager.countProductType(productId)
                         // finish, proceed next drink
                         processingProductId = INVALID_INT
                         handleMessage()

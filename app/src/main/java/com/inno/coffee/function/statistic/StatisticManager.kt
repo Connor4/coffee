@@ -4,13 +4,14 @@ import android.app.Application
 import com.inno.coffee.di.StatisticProductRepositoryEntryPoint
 import com.inno.coffee.viewmodel.settings.statistics.StatisticProductRepository
 import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 object StatisticManager {
-    // 统计当个产品数量
-    // 统计当前产品组成用量
-    // 需要异步自己执行
     private const val TAG = "StatisticManager"
     private lateinit var repository: StatisticProductRepository
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     fun init(application: Application) {
         val entryPoint = EntryPointAccessors.fromApplication(
@@ -20,8 +21,10 @@ object StatisticManager {
         repository = entryPoint.statisticProductRepository()
     }
 
-    fun countProductType(productId: Int, size: Boolean) {
-
+    fun countProductType(productId: Int) {
+        scope.launch {
+            repository.incrementProductCount(productId)
+        }
     }
 
 }
