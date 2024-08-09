@@ -19,17 +19,21 @@ data class ProductTypeCount(
 
 @Entity(tableName = "product_history_table")
 data class ProductHistory(
-    var time: String,
-    var side: String,
-    var grindTime: String,
-    var pqc: String,
-    var extTime: String,
-    var waterQnty: String,
-    var waterTemp: String,
-    var milkTemp: String,
-    var streamPressure: String,
-    var type: ProductType,
-    var username: String = "",
+    var time: String = "",
+    var pressFinal: Float = 0f,
+    var brewSide: Boolean = false,
+    var grindTime: Float = 0f,
+    var pqc: Boolean = false,
+    var grindAdjust: Int = 0,
+    var extTime: Float = 0f,
+    var waterQuality: Int = 0,
+    var waterTemp: Int = 0,
+    var milkTemp: Int = 0,
+    var steamPress: Int = 0,
+    var productType: ProductType,
+    var cups: Int = 1,
+    var discard: Boolean = false,
+    var account: String = "",
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 

@@ -1,10 +1,10 @@
 package com.inno.common.enums
 
-enum class ProductType {
-    COFFEE,
-    HOT_WATER,
-    MILK,
-    FOAM,
-    STEAM,
-    OPERATION,
+enum class ProductType(val value: String) {
+    COFFEE("Coffee"),
+    HOT_WATER("HotWater"),
+    MILK("Milk"),
+    FOAM("Foam"),
+    STEAM("Steam"),
+    OPERATION("Op"),
 }
