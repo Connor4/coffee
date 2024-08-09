@@ -23,9 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -40,7 +37,7 @@ import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.viewmodel.settings.statistics.StatisticProductViewModel
-import com.inno.common.db.entity.ProductCount
+import com.inno.common.db.entity.ProductTypeCount
 
 
 @Composable
@@ -49,22 +46,22 @@ fun ShowProductStatistic(viewModel: StatisticProductViewModel = hiltViewModel())
     val screenWidthDp = configuration.screenWidthDp.dp
 
     val drinksTypeList by viewModel.drinksType.collectAsState()
-    val productCounts by viewModel.productCounts.collectAsState()
-    var selectedProduct by remember {
-        mutableStateOf(drinksTypeList.firstOrNull())
-    }
-    LaunchedEffect(drinksTypeList) {
-        if (selectedProduct == null && drinksTypeList.isNotEmpty()) {
-            selectedProduct = drinksTypeList.first()
+    val typeCounts by viewModel.typeCounts.collectAsState()
+    val selectedProductCount by viewModel.productCount.collectAsState()
+    LaunchedEffect(Unit) {
+        if (drinksTypeList.isNotEmpty()) {
+            val productId = drinksTypeList.first().productId
+            viewModel.getProductCount(productId)
         }
     }
 
     Row(modifier = Modifier.fillMaxSize()) {
-        StatisticProductLeftSide(screenWidthDp, productCounts) {
+        StatisticProductLeftSide(screenWidthDp, typeCounts) {
             viewModel.resetData()
         }
-        StatisticProductRightSide(screenWidthDp, selectedProduct, drinksTypeList) {
-            selectedProduct = it
+        StatisticProductRightSide(screenWidthDp, selectedProductCount?.count ?: 0,
+            drinksTypeList) {
+            viewModel.getProductCount(it.productId)
         }
     }
 
@@ -73,7 +70,7 @@ fun ShowProductStatistic(viewModel: StatisticProductViewModel = hiltViewModel())
 @Composable
 private fun StatisticProductRightSide(
     screenWidthDp: Dp,
-    selectedProduct: DrinksModel?,
+    selectedProductCount: Int,
     drinksTypeList: List<DrinksModel>,
     onProductClick: (model: DrinksModel) -> Unit,
 ) {
@@ -84,7 +81,7 @@ private fun StatisticProductRightSide(
     ) {
         Column {
             Spacer(modifier = Modifier.height(50.dp))
-            Text(text = "*产品杯数 ${selectedProduct?.productId}", style = MaterialTheme.typography
+            Text(text = "*产品杯数 $selectedProductCount", style = MaterialTheme.typography
                 .displaySmall)
             Spacer(modifier = Modifier.height(30.dp))
             LazyVerticalGrid(
@@ -111,7 +108,7 @@ private fun StatisticProductRightSide(
 @Composable
 private fun StatisticProductLeftSide(
     screenWidthDp: Dp,
-    productCounts: List<ProductCount>,
+    typeCounts: List<ProductTypeCount>,
     onResetClick: () -> Unit,
 ) {
     Column(
@@ -144,7 +141,6 @@ private fun StatisticProductLeftSide(
                 Spacer(modifier = Modifier.height(50.dp))
                 Text(text = "*总杯数", style = MaterialTheme.typography.displaySmall)
             }
-            // TODO 显示数据
             Column(
                 modifier = Modifier.width(screenWidthDp / 4)
             ) {

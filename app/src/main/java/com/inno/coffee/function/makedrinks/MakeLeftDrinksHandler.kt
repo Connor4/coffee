@@ -1,7 +1,7 @@
 package com.inno.coffee.function.makedrinks
 
+import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.formula.ProductProfileManager
-import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
@@ -35,18 +35,17 @@ object MakeLeftDrinksHandler {
     }
 
     @Synchronized
-    fun executeNow(productId: Int) {
+    fun executeNow(model: DrinksModel) {
         // rinse foam and steam need execute immediately, different from drinks
         scope.launch {
-            val productProfile = ProductProfileManager.convertProductProfile(productId, true)
+            val productProfile = ProductProfileManager.convertProductProfile(model.productId, true)
             SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
-            StatisticManager.countProductType(productId)
         }
     }
 
     @Synchronized
-    fun enqueueMessage(productId: Int) {
-        val message = DrinkMessage.obtainMessage(productId)
+    fun enqueueMessage(model: DrinksModel) {
+        val message = DrinkMessage.obtainMessage(model.productId)
         if (messageHead == null) {
             messageHead = message
         } else {
@@ -93,7 +92,6 @@ object MakeLeftDrinksHandler {
                 MakeDrinkStatusEnum.LEFT_BREWING_COMPLETE -> {}
                 MakeDrinkStatusEnum.LEFT_FINISHED -> {
                     if (processingProductId == productId) {
-                        StatisticManager.countProductType(productId)
                         // finish, proceed next drink
                         processingProductId = INVALID_INT
                         handleMessage()

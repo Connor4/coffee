@@ -24,8 +24,14 @@ object DefaultSettingManager {
         }
     }
 
-    fun resetDefault() {
+    suspend fun insertDefaultProductType() {
+        // 预设饮品，保证统计展示页面可以获取到0的数据
 
+    }
+
+    suspend fun resetDefault() {
+        insertDefaultUser()
+        insertDefaultProductType()
     }
 
 }

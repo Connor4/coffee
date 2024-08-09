@@ -25,7 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.viewmodel.settings.statistics.ProductHistoryViewModel
 import com.inno.common.db.entity.ProductHistory
-import com.inno.common.db.entity.ProductType
+import com.inno.common.enums.ProductType
 
 @Composable
 fun ProductStatistic(modifier: Modifier = Modifier) {
@@ -76,7 +76,7 @@ fun ProductHistoryList(
             Button(onClick = {
                 viewModel.insertProductHistory(
                     ProductHistory("2023.06.23 10:40:00", "left", "2f", "On", "19s", "50", "92",
-                        "64", "1.8", ProductType.Coffee.name, "Operator1"))
+                        "64", "1.8", ProductType.COFFEE, "Operator1"))
             }) {
                 Text(text = "insert")
             }
@@ -119,7 +119,7 @@ fun DrinksHistoryItem(history: ProductHistory, modifier: Modifier = Modifier) {
             textAlign = TextAlign.Center)
         Text(text = history.streamPressure, color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
-        Text(text = history.type, color = Color.Black, modifier = modifier.weight(1f),
+        Text(text = "${history.type}", color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
         Text(text = history.username, color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.db.entity.ProductCount
+import com.inno.common.db.entity.ProductTypeCount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,19 +22,28 @@ class StatisticProductViewModel @Inject constructor(
 
     private val _drinksType = MutableStateFlow<List<DrinksModel>>(emptyList())
     val drinksType: StateFlow<List<DrinksModel>> = _drinksType.asStateFlow()
-    private val _productCounts = MutableStateFlow<List<ProductCount>>(emptyList())
-    val productCounts: StateFlow<List<ProductCount>> = _productCounts.asStateFlow()
+    private val _typeCounts = MutableStateFlow<List<ProductTypeCount>>(emptyList())
+    val typeCounts: StateFlow<List<ProductTypeCount>> = _typeCounts
+    private val _productCount = MutableStateFlow<ProductCount?>(null)
+    val productCount: StateFlow<ProductCount?> = _productCount.asStateFlow()
 
     init {
         viewModelScope.launch(defaultDispatcher) {
             _drinksType.value = repository.drinkType
-            _productCounts.value = repository.getAllProductCounts()
+            _typeCounts.value = repository.getTypeCounts()
         }
     }
 
     fun resetData() {
         viewModelScope.launch(defaultDispatcher) {
             repository.deleteAllProductCount()
+        }
+    }
+
+    fun getProductCount(productId: Int) {
+        viewModelScope.launch(defaultDispatcher) {
+            val count = repository.getProductCountByProductId(productId)
+            _productCount.value = count
         }
     }
 

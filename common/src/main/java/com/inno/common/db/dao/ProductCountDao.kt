@@ -6,6 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.inno.common.db.entity.ProductCount
+import com.inno.common.db.entity.ProductTypeCount
+import com.inno.common.enums.ProductType
 
 @Dao
 interface ProductCountDao {
@@ -19,13 +21,22 @@ interface ProductCountDao {
     @Query("SELECT COUNT(*) FROM product_count_table")
     suspend fun getProductCount(): Int
 
-    @Query("SELECT * FROM product_count_table WHERE productId = :productId LIMIT 1")
-    suspend fun getProductCountByProductId(productId: Int): ProductCount?
+//    @Query("SELECT * FROM product_count_table WHERE type = :type LIMIT 1")
+//    suspend fun getProductCountByType(type: ProductType): ProductCount?
 
     @Update
     suspend fun updateProductCount(productCount: ProductCount)
 
     @Query("SELECT * FROM product_count_table")
     suspend fun getAllProductCounts(): List<ProductCount>
+
+    @Query("SELECT * FROM product_count_table WHERE productId = :productId LIMIT 1")
+    suspend fun getProductCountByProductId(productId: Int): ProductCount?
+
+    @Query("SELECT type, SUM(count) as totalCount FROM product_count_table GROUP BY type")
+    suspend fun getTypeCounts(): List<ProductTypeCount>
+
+    @Query("SELECT * FROM product_count_table WHERE type = :type")
+    suspend fun getProductCountsByType(type: ProductType): List<ProductCount>
 
 }

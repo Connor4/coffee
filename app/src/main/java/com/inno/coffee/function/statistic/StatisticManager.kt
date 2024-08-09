@@ -1,6 +1,7 @@
 package com.inno.coffee.function.statistic
 
 import android.app.Application
+import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.di.StatisticProductRepositoryEntryPoint
 import com.inno.coffee.viewmodel.settings.statistics.StatisticProductRepository
 import dagger.hilt.android.EntryPointAccessors
@@ -21,9 +22,9 @@ object StatisticManager {
         repository = entryPoint.statisticProductRepository()
     }
 
-    fun countProductType(productId: Int) {
+    fun countProductType(model: DrinksModel) {
         scope.launch {
-            repository.incrementProductCount(productId)
+            repository.incrementProductCount(model)
         }
     }
 

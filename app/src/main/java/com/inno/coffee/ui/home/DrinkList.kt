@@ -38,6 +38,7 @@ import coil.compose.AsyncImage
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.utilities.debouncedClickable
+import com.inno.common.enums.ProductType
 import kotlinx.coroutines.delay
 
 @Composable
@@ -148,7 +149,7 @@ private fun DrinkItem(
 @Preview
 @Composable
 private fun DrinksItemPreview() {
-    DrinkItem(model = DrinksModel(1, 20, R.string.home_item_foam,
+    DrinkItem(model = DrinksModel(1, ProductType.COFFEE, R.string.home_item_foam,
         R.drawable.coffee1), offsetX = 0f)
 //    val drinks = listOf(
 //        DrinksModel(50, "Coffee", android.R.drawable.ic_menu_report_image),

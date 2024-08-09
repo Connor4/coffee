@@ -1,4 +1,4 @@
-package com.inno.common.annotation
+package com.inno.common.annotations
 
 import androidx.annotation.StringDef
 

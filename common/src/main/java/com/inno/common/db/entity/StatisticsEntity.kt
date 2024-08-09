@@ -2,17 +2,19 @@ package com.inno.common.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
-enum class ProductType(product: String) {
-    Coffee("coffee"),
-    Espresso("espresso"),
-}
+import com.inno.common.enums.ProductType
 
 @Entity(tableName = "product_count_table")
 data class ProductCount(
     var productId: Int,
+    var type: ProductType,
     var count: Int = 0,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
+)
+
+data class ProductTypeCount(
+    val type: ProductType,
+    val totalCount: Int,
 )
 
 @Entity(tableName = "product_history_table")
@@ -26,7 +28,7 @@ data class ProductHistory(
     var waterTemp: String,
     var milkTemp: String,
     var streamPressure: String,
-    var type: String,
+    var type: ProductType,
     var username: String = "",
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )

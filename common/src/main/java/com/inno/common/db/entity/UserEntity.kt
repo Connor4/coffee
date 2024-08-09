@@ -2,10 +2,10 @@ package com.inno.common.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.inno.common.annotation.MANAGER
-import com.inno.common.annotation.OPERATOR
-import com.inno.common.annotation.TECHNICIAN
-import com.inno.common.annotation.UserRole
+import com.inno.common.annotations.MANAGER
+import com.inno.common.annotations.OPERATOR
+import com.inno.common.annotations.TECHNICIAN
+import com.inno.common.annotations.UserRole
 
 @Entity(tableName = "users_table")
 data class User(

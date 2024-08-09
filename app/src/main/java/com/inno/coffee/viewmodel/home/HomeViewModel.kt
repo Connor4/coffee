@@ -8,6 +8,7 @@ import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
+import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
@@ -110,17 +111,16 @@ class HomeViewModel @Inject constructor(
         // 4 完成制作通知去除队列任务
         // 5 副屏饮品id+100
         // 6 主屏副屏独立使用handler处理各自任务，同用任务只让主屏handler执行即可
-        var productId = model.productId
-        if (_specialItem.value.contains(productId)) {
-            MakeLeftDrinksHandler.executeNow(productId)
+        if (_specialItem.value.contains(model.productId)) {
+            MakeLeftDrinksHandler.executeNow(model)
         } else {
             if (second) {
-                productId += 100
-                MakeRightDrinksHandler.enqueueMessage(productId)
+                MakeRightDrinksHandler.enqueueMessage(model)
             } else {
-                MakeLeftDrinksHandler.enqueueMessage(productId)
+                MakeLeftDrinksHandler.enqueueMessage(model)
             }
         }
+        StatisticManager.countProductType(model)
     }
 
     suspend fun startCountDown() {

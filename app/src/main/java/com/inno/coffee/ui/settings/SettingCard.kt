@@ -35,16 +35,16 @@ import com.inno.coffee.ui.settings.permissions.PermissionActivity
 import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
 import com.inno.coffee.ui.settings.statistics.StatisticActivity
 import com.inno.coffee.utilities.fastclick
-import com.inno.common.annotation.DISPLAY
-import com.inno.common.annotation.FORMULA
-import com.inno.common.annotation.MACHINE_OPERATION
-import com.inno.common.annotation.MACHINE_SETTING
-import com.inno.common.annotation.MAINTENANCE
-import com.inno.common.annotation.PERMISSION
-import com.inno.common.annotation.SERIAL_TEST
-import com.inno.common.annotation.STATISTIC
-import com.inno.common.annotation.VAT_AND_GRIND
-import com.inno.common.annotation.WASH_MACHINE
+import com.inno.common.annotations.DISPLAY
+import com.inno.common.annotations.FORMULA
+import com.inno.common.annotations.MACHINE_OPERATION
+import com.inno.common.annotations.MACHINE_SETTING
+import com.inno.common.annotations.MAINTENANCE
+import com.inno.common.annotations.PERMISSION
+import com.inno.common.annotations.SERIAL_TEST
+import com.inno.common.annotations.STATISTIC
+import com.inno.common.annotations.VAT_AND_GRIND
+import com.inno.common.annotations.WASH_MACHINE
 
 
 @Composable
