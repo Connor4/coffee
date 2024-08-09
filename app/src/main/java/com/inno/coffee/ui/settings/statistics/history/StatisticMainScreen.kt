@@ -60,10 +60,10 @@ private fun TopBarMenu(navController: NavHostController) {
     val context = LocalContext.current
     val menuItems = listOf(
         context.getString(R.string.statistic_product_history),
-        context.getString(R.string.statistic_machine_service_history),
+        context.getString(R.string.statistic_error_history),
         context.getString(R.string.statistic_clean_history),
         context.getString(R.string.statistic_rinse_history),
-        context.getString(R.string.statistic_error_history),
+        context.getString(R.string.statistic_machine_service_history),
     )
     var selectedMenuItem by remember { mutableStateOf(menuItems[0]) }
 

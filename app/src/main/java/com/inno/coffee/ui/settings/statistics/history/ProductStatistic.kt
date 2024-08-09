@@ -37,7 +37,7 @@ fun ProductStatistic(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun StatisticTopBar(modifier: Modifier = Modifier) {
+private fun StatisticTopBar(modifier: Modifier = Modifier) {
     Row {
         Text(text = stringResource(R.string.statistic_product_top_time), color = Color.Black,
             modifier = modifier.weight(1f), textAlign = TextAlign.Center)
@@ -72,7 +72,7 @@ fun StatisticTopBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ProductHistoryList(
+private fun ProductHistoryList(
     modifier: Modifier = Modifier,
     viewModel: ProductHistoryViewModel = hiltViewModel(),
 ) {
@@ -107,7 +107,7 @@ fun ProductHistoryList(
 }
 
 @Composable
-fun DrinksHistoryItem(history: ProductHistory, modifier: Modifier = Modifier) {
+private fun DrinksHistoryItem(history: ProductHistory, modifier: Modifier = Modifier) {
     val side = if (history.brewSide) "L" else "R"
     val pqc = if (history.pqc) "On" else "Off"
     val discard = if (history.discard) Color.Red else Color.Green

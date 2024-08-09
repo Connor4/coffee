@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -26,30 +26,25 @@ fun RinseStatistic(
 }
 
 @Composable
-fun RinseTopBar(
+private fun RinseTopBar(
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
     Row {
-        Text(text = context.getString(R.string.statistic_product_top_time), color = Color.Black,
+        Text(text = stringResource(R.string.statistic_product_top_time), color = Color.Black,
             modifier = modifier.weight(1f), textAlign = TextAlign.Center)
-        Text(text = context.getString(R.string.statistic_rinse_top_type), color = Color.Black,
-            modifier = modifier.weight(4f))
-        Text(text = context.getString(R.string.statistic_rinse_top_system_flow_rate) + "L",
-            color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
-        Text(text = context.getString(R.string.statistic_rinse_top_system_flow_rate) + "R",
-            color = Color.Black, modifier = modifier.weight(4f))
-        Text(text = context.getString(R.string.statistic_rinse_top_water_pressure) + "L",
-            color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
-        Text(text = context.getString(R.string.statistic_rinse_top_water_pressure) + "R",
-            color = Color.Black, modifier = modifier.weight(4f))
-        Text(text = context.getString(R.string.statistic_rinse_top_limit_flow_rate) + "L",
-            color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
-        Text(text = context.getString(R.string.statistic_rinse_top_limit_flow_rate) + "R",
-            color = Color.Black, modifier = modifier.weight(4f))
-        Text(text = context.getString(R.string.statistic_rinse_top_water_pressure) + "L",
-            color = Color.Black, modifier = modifier.weight(1f), textAlign = TextAlign.Center)
-        Text(text = context.getString(R.string.statistic_rinse_top_water_pressure) + "R",
-            color = Color.Black, modifier = modifier.weight(4f))
+        Text(text = stringResource(R.string.statistic_rinse_top_type), color = Color.Black,
+            modifier = modifier.weight(1f))
+        Text(text = stringResource(
+            R.string.statistic_rinse_top_system_flow_rate) + "\nL\t\t\t\t\t\tR",
+            color = Color.Black, modifier = modifier.weight(2f), textAlign = TextAlign.Center)
+        Text(
+            text = stringResource(R.string.statistic_rinse_top_water_pressure) + "\nL\t\t\t\t\t\tR",
+            color = Color.Black, modifier = modifier.weight(2f), textAlign = TextAlign.Center)
+        Text(text = stringResource(
+            R.string.statistic_rinse_top_limit_flow_rate) + "\nL\t\t\t\t\t\tR",
+            color = Color.Black, modifier = modifier.weight(2f), textAlign = TextAlign.Center)
+        Text(
+            text = stringResource(R.string.statistic_rinse_top_water_pressure) + "\nL\t\t\t\t\t\tR",
+            color = Color.Black, modifier = modifier.weight(2f), textAlign = TextAlign.Center)
     }
 }
