@@ -16,11 +16,20 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
+// 1 多次点击需要可排队
+// 2 停止、冲水跟制作饮品不一样，不可以多次点击
+// 3 由于主副屏上的viewmodel独立，只能按照时间戳排队进去给manager处理队列
+// 4 完成制作通知去除队列任务
+// 5 副屏饮品id+100
+// 6 主屏副屏独立使用handler处理各自任务，同用任务只让主屏handler执行即可
 object MakeLeftDrinksHandler {
     private const val TAG = "MakeLeftDrinksHandler"
     private var messageHead: DrinkMessage? = null
-    private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val mutex = Mutex()
     private var processingProductId = INVALID_INT
     private val _size = MutableStateFlow(0)
     val size: StateFlow<Int> = _size
@@ -34,47 +43,50 @@ object MakeLeftDrinksHandler {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
-    @Synchronized
     fun executeNow(model: DrinksModel) {
         // rinse foam and steam need execute immediately, different from drinks
         scope.launch {
-            val productProfile = ProductProfileManager.convertProductProfile(model.productId, true)
-            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+            mutex.withLock {
+                val productProfile =
+                    ProductProfileManager.convertProductProfile(model.productId, true)
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+            }
         }
     }
 
-    @Synchronized
     fun enqueueMessage(model: DrinksModel) {
-        val message = DrinkMessage.obtainMessage(model.productId)
-        if (messageHead == null) {
-            messageHead = message
-        } else {
-            var prev: DrinkMessage
-            var p = messageHead
-            while (true) {
-                prev = p!!
-                p = p.next
-                if (p == null) {
-                    break
+        scope.launch {
+            mutex.withLock {
+                val message = DrinkMessage.obtainMessage(model.productId)
+                if (messageHead == null) {
+                    messageHead = message
+                } else {
+                    var prev: DrinkMessage
+                    var p = messageHead
+                    while (true) {
+                        prev = p!!
+                        p = p.next
+                        if (p == null) {
+                            break
+                        }
+                    }
+                    prev.next = message
                 }
-            }
-            prev.next = message
-        }
-        _size.value++
+                _size.value++
 //        Logger.d(TAG, "message: ${messageHead.toString()}")
-        handleMessage()
+                handleMessage()
+            }
+        }
     }
 
     // every time enqueue, only run for once. until get response
-    private fun handleMessage() {
+    private suspend fun handleMessage() {
         if (messageHead != null && processingProductId == INVALID_INT) {
             // id parse to command, send command
             processingProductId = messageHead!!.actionId
-            scope.launch {
-                val productProfile =
-                    ProductProfileManager.convertProductProfile(processingProductId, true)
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
-            }
+            val productProfile =
+                ProductProfileManager.convertProductProfile(processingProductId, true)
+            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
             // recycle the message
             val p = messageHead
             messageHead = messageHead!!.next
@@ -92,9 +104,13 @@ object MakeLeftDrinksHandler {
                 MakeDrinkStatusEnum.LEFT_BREWING_COMPLETE -> {}
                 MakeDrinkStatusEnum.LEFT_FINISHED -> {
                     if (processingProductId == productId) {
-                        // finish, proceed next drink
-                        processingProductId = INVALID_INT
-                        handleMessage()
+                        scope.launch {
+                            mutex.withLock {
+                                // finish, proceed next drink
+                                processingProductId = INVALID_INT
+                                handleMessage()
+                            }
+                        }
                     }
                 }
                 else -> {}

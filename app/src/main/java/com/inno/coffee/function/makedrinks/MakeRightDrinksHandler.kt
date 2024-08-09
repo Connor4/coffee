@@ -16,11 +16,14 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 object MakeRightDrinksHandler {
     private const val TAG = "MakeRightDrinksHandler"
     private var messageHead: DrinkMessage? = null
-    private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val mutex = Mutex()
     private var processingProductId = INVALID_INT
     private val _size = MutableStateFlow(0)
     val size: StateFlow<Int> = _size
@@ -34,39 +37,40 @@ object MakeRightDrinksHandler {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
-    @Synchronized
     fun enqueueMessage(model: DrinksModel) {
-        val productId = model.productId + 100
-        val message = DrinkMessage.obtainMessage(productId)
-        if (messageHead == null) {
-            messageHead = message
-        } else {
-            var prev: DrinkMessage
-            var p = messageHead
-            while (true) {
-                prev = p!!
-                p = p.next
-                if (p == null) {
-                    break
+        scope.launch {
+            mutex.withLock {
+                val productId = model.productId + 100
+                val message = DrinkMessage.obtainMessage(productId)
+                if (messageHead == null) {
+                    messageHead = message
+                } else {
+                    var prev: DrinkMessage
+                    var p = messageHead
+                    while (true) {
+                        prev = p!!
+                        p = p.next
+                        if (p == null) {
+                            break
+                        }
+                    }
+                    prev.next = message
                 }
-            }
-            prev.next = message
-        }
-        _size.value++
+                _size.value++
 //        Logger.d(TAG, "message: ${messageHead.toString()}")
-        handleMessage()
+                handleMessage()
+            }
+        }
     }
 
     // every time enqueue, only run for once. until get response
-    private fun handleMessage() {
+    private suspend fun handleMessage() {
         if (messageHead != null && processingProductId == INVALID_INT) {
             // id parse to command, send command
             processingProductId = messageHead!!.actionId
-            scope.launch {
-                val productProfile =
-                    ProductProfileManager.convertProductProfile(processingProductId, false)
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
-            }
+            val productProfile =
+                ProductProfileManager.convertProductProfile(processingProductId, false)
+            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
             // recycle the message
             val p = messageHead
             messageHead = messageHead!!.next
@@ -84,9 +88,13 @@ object MakeRightDrinksHandler {
                 MakeDrinkStatusEnum.RIGHT_BREWING_COMPLETE -> {}
                 MakeDrinkStatusEnum.RIGHT_FINISHED -> {
                     if (processingProductId == productId) {
-                        // finish, proceed next drink
-                        processingProductId = INVALID_INT
-                        handleMessage()
+                        scope.launch {
+                            mutex.withLock {
+                                // finish, proceed next drink
+                                processingProductId = INVALID_INT
+                                handleMessage()
+                            }
+                        }
                     }
                 }
                 else -> {}
