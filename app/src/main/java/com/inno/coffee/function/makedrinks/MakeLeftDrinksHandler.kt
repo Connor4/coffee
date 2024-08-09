@@ -25,6 +25,7 @@ import kotlinx.coroutines.sync.withLock
 // 4 完成制作通知去除队列任务
 // 5 副屏饮品id+100
 // 6 主屏副屏独立使用handler处理各自任务，同用任务只让主屏handler执行即可
+// 7 制作异常，需要取消并执行清除操作。
 object MakeLeftDrinksHandler {
     private const val TAG = "MakeLeftDrinksHandler"
     private var messageHead: DrinkMessage? = null
@@ -41,6 +42,16 @@ object MakeLeftDrinksHandler {
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
+    }
+
+    fun discardAndClear(discardProductId: Int) {
+        scope.launch {
+            mutex.withLock {
+                if (discardProductId == processingProductId) {
+
+                }
+            }
+        }
     }
 
     fun executeNow(model: DrinksModel) {
