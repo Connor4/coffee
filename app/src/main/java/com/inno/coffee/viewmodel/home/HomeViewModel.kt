@@ -49,7 +49,7 @@ class HomeViewModel @Inject constructor(
     val steamBoilerTemp = _steamBoilerTemp
     private val _steamBoilerPressure = MutableStateFlow(0)
     val steamBoilerPressure = _steamBoilerPressure
-    private val _specialItem = MutableStateFlow<List<Int>>(emptyList())
+    private val specialItem = MutableStateFlow<List<Int>>(emptyList())
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
@@ -58,7 +58,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         _drinksTypes.value = repository.drinksType
-        _specialItem.value = repository.specialItem
+        specialItem.value = repository.specialItem
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
@@ -105,7 +105,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun startMakeDrink(model: DrinksModel, second: Boolean) {
-        if (_specialItem.value.contains(model.productId)) {
+        if (specialItem.value.contains(model.productId)) {
             MakeLeftDrinksHandler.executeNow(model)
         } else {
             if (second) {
