@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.db.entity.ProductHistory
+import com.inno.common.db.entity.RinseHistory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,6 +21,12 @@ class ProductHistoryViewModel @Inject constructor(
 ) : ViewModel() {
 
     val productHistory: StateFlow<List<ProductHistory>> = repository.getAllProductHistory().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = emptyList()
+    )
+
+    val rinseHistory: StateFlow<List<RinseHistory>> = repository.getAllRinseHistory().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()

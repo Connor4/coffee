@@ -14,19 +14,19 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 
 @Composable
-fun FaultStatistic(
+fun ErrorStatistic(
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        FaultTopBar(modifier)
+        ErrorTopBar(modifier)
         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
     }
 }
 
 @Composable
-fun FaultTopBar(
+private fun ErrorTopBar(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current

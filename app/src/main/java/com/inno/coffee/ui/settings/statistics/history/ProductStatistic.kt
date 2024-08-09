@@ -86,18 +86,20 @@ private fun ProductHistoryList(
                         92, 0, 0, ProductType.COFFEE, 1,
                         false, "Operator1"))
             }) {
-                Text(text = "insert")
+                Text(text = "*insert")
             }
 
             Button(onClick = {
                 viewModel.deleteAllProductHistory()
             }) {
-                Text(text = "delete")
+                Text(text = "*delete")
             }
 
-            LazyColumn(modifier = modifier.fillMaxSize(),
+            LazyColumn(
+                modifier = modifier.fillMaxSize(),
                 contentPadding = PaddingValues(vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
                 items(items = drinksHistoryList) {
                     DrinksHistoryItem(history = it)
                 }

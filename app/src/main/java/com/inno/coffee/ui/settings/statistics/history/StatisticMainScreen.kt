@@ -48,7 +48,7 @@ fun StatisticsMainScreen(
                 composable(PRODUCT) { ProductStatistic() }
                 composable(CLEAN) { WashMachineStatistic() }
                 composable(RINSE) { RinseStatistic() }
-                composable(ERROR) { FaultStatistic() }
+                composable(ERROR) { ErrorStatistic() }
                 composable(SERVICE) { MachineChangeStatistic() }
             }
         }

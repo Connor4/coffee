@@ -8,16 +8,19 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.dao.ProductCountDao
 import com.inno.common.db.dao.ProductHistoryDao
+import com.inno.common.db.dao.RinseHistoryDao
 import com.inno.common.db.dao.UserDao
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.ProductCount
 import com.inno.common.db.entity.ProductHistory
+import com.inno.common.db.entity.RinseHistory
 import com.inno.common.db.entity.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [ProductHistory::class, Formula::class, User::class, ProductCount::class],
+@Database(entities = [ProductHistory::class, Formula::class, User::class, ProductCount::class,
+    RinseHistory::class],
     version = 1, exportSchema = false)
 abstract class CoffeeRoomDatabase : RoomDatabase() {
 
@@ -28,6 +31,8 @@ abstract class CoffeeRoomDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     abstract fun productCountDao(): ProductCountDao
+
+    abstract fun rinseHistoryDao(): RinseHistoryDao
 
     companion object {
         @Volatile

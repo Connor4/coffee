@@ -5,6 +5,7 @@ import com.inno.common.db.CoffeeRoomDatabase
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.dao.ProductCountDao
 import com.inno.common.db.dao.ProductHistoryDao
+import com.inno.common.db.dao.RinseHistoryDao
 import com.inno.common.db.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -45,6 +46,11 @@ object DatabaseModule {
     @Provides
     fun provideProductCountDao(database: CoffeeRoomDatabase): ProductCountDao {
         return database.productCountDao()
+    }
+
+    @Provides
+    fun provideRinseHistoryDao(database: CoffeeRoomDatabase): RinseHistoryDao {
+        return database.rinseHistoryDao()
     }
 
 }
