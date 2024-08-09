@@ -19,7 +19,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
@@ -258,20 +257,18 @@ private fun SplashPage(navController: NavHostController) {
         delay(SPLASH_TIME)
         navController.navigate(LANGUAGE)
     }
-    Surface(
-        modifier = Modifier.fillMaxSize()
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.White),
+        contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = Modifier
-                .width(1000.dp)
-                .height(800.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Column {
-                Image(painter = painterResource(id = R.drawable.logo), contentDescription = null)
-                Text(text = "*欢迎使用，正在加载",
-                    style = MaterialTheme.typography.displayMedium)
-            }
+        Column {
+            Image(painter = painterResource(id = R.drawable.logo), contentDescription = null)
+            Text(
+                text = "*欢迎使用，正在加载",
+                style = MaterialTheme.typography.displayMedium
+            )
         }
     }
 }
