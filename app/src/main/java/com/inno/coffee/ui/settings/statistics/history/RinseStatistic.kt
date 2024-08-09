@@ -29,22 +29,26 @@ fun RinseStatistic(
 private fun RinseTopBar(
     modifier: Modifier = Modifier
 ) {
+    val left = stringResource(id = R.string.statistic_left)
+    val right = stringResource(id = R.string.statistic_right)
     Row {
         Text(text = stringResource(R.string.statistic_product_top_time), color = Color.Black,
             modifier = modifier.weight(1f), textAlign = TextAlign.Center)
         Text(text = stringResource(R.string.statistic_rinse_top_type), color = Color.Black,
             modifier = modifier.weight(1f))
         Text(text = stringResource(
-            R.string.statistic_rinse_top_system_flow_rate) + "\nL\t\t\t\t\t\tR",
+            R.string.statistic_rinse_top_system_flow_rate) + "\n$left\t\t\t\t\t\t$right",
             color = Color.Black, modifier = modifier.weight(2f), textAlign = TextAlign.Center)
         Text(
-            text = stringResource(R.string.statistic_rinse_top_water_pressure) + "\nL\t\t\t\t\t\tR",
+            text = stringResource(
+                R.string.statistic_rinse_top_water_pressure) + "\n$left\t\t\t\t\t\t$right",
             color = Color.Black, modifier = modifier.weight(2f), textAlign = TextAlign.Center)
         Text(text = stringResource(
-            R.string.statistic_rinse_top_limit_flow_rate) + "\nL\t\t\t\t\t\tR",
+            R.string.statistic_rinse_top_limit_flow_rate) + "\n$left\t\t\t\t\t\t$right",
             color = Color.Black, modifier = modifier.weight(2f), textAlign = TextAlign.Center)
         Text(
-            text = stringResource(R.string.statistic_rinse_top_water_pressure) + "\nL\t\t\t\t\t\tR",
+            text = stringResource(
+                R.string.statistic_rinse_top_water_pressure) + "\n$left\t\t\t\t\t\t$right",
             color = Color.Black, modifier = modifier.weight(2f), textAlign = TextAlign.Center)
     }
 }

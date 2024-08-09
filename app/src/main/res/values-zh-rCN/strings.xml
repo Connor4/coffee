@@ -50,6 +50,10 @@
     <string name="statistic_rinse_top_limit_flow_rate">限流孔水流\n[tick/s]</string>
     <string name="statistic_reset_all">重置数据</string>
     <string name="statistic_last_reset">上次重置: %s</string>
+    <string name="statistic_left">左</string>
+    <string name="statistic_right">右</string>
+    <string name="statistic_on">开</string>
+    <string name="statistic_off">关</string>
 
     <string name="home_login_input_empty">用户名或密码未输入</string>
     <string name="home_login_input_invalid">用户名或密码长度不符</string>

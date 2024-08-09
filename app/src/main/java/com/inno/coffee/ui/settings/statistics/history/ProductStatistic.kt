@@ -108,8 +108,12 @@ private fun ProductHistoryList(
 
 @Composable
 private fun DrinksHistoryItem(history: ProductHistory, modifier: Modifier = Modifier) {
-    val side = if (history.brewSide) "L" else "R"
-    val pqc = if (history.pqc) "On" else "Off"
+    val side =
+        if (history.brewSide) stringResource(id = R.string.statistic_left)
+        else stringResource(id = R.string.statistic_right)
+    val pqc =
+        if (history.pqc) stringResource(id = R.string.statistic_on)
+        else stringResource(id = R.string.statistic_off)
     val discard = if (history.discard) Color.Red else Color.Green
     Row {
         Text(text = history.time, color = Color.Black, modifier = modifier.weight(1f),
@@ -132,7 +136,7 @@ private fun DrinksHistoryItem(history: ProductHistory, modifier: Modifier = Modi
             textAlign = TextAlign.Center)
         Text(text = "${history.milkTemp}", color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
-        Text(text = "${history.steamPress}", color = Color.Black, modifier = modifier.weight(1f),
+        Text(text = "${history.steamPressure}", color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
         Text(text = history.productType.value, color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
