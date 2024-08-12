@@ -46,10 +46,10 @@ fun StatisticsMainScreen(
         Surface(modifier = Modifier.padding(it), color = Color.White) {
             NavHost(navController = navController, startDestination = PRODUCT) {
                 composable(PRODUCT) { ProductStatistic() }
-                composable(CLEAN) { WashMachineStatistic() }
+                composable(CLEAN) { CleanMachineStatistic() }
                 composable(RINSE) { RinseStatistic() }
                 composable(ERROR) { ErrorStatistic() }
-                composable(SERVICE) { MachineChangeStatistic() }
+                composable(SERVICE) { MaintenanceStatistic() }
             }
         }
     }

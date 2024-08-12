@@ -19,7 +19,7 @@
     <string name="first_install_language_English">English</string>
 
     <string name="statistic_product_history">产品统计</string>
-    <string name="statistic_machine_service_history">机器历史</string>
+    <string name="statistic_machine_service_history">维修历史</string>
     <string name="statistic_clean_history">洗机历史</string>
     <string name="statistic_rinse_history">冲水历史</string>
     <string name="statistic_error_history">故障历史</string>
@@ -40,10 +40,14 @@
     <string name="statistic_product_top_product_type">产品类型</string>
     <string name="statistic_product_top_cups">杯数</string>
     <string name="statistic_product_top_operator">操作账号</string>
-    <string name="statistic_change_top_event">事件</string>
+    <string name="statistic_error_top_event">事件</string>
+    <string name="statistic_error_top_code">代号</string>
+    <string name="statistic_wash_top_start">开始</string>
     <string name="statistic_wash_top_duration">时长</string>
+    <string name="statistic_wash_top_stop">中止</string>
     <string name="statistic_wash_top_left">左侧</string>
     <string name="statistic_wash_top_right">右侧</string>
+    <string name="statistic_maintenance_top_description">描述</string>
     <string name="statistic_rinse_top_type">冲水类型</string>
     <string name="statistic_rinse_top_system_flow_rate">系统水流\n[tick/s]</string>
     <string name="statistic_rinse_top_water_pressure">水压\n[bar]</string>
@@ -54,6 +58,8 @@
     <string name="statistic_right">右</string>
     <string name="statistic_on">开</string>
     <string name="statistic_off">关</string>
+    <string name="statistic_yes">是</string>
+    <string name="statistic_no">否</string>
 
     <string name="home_login_input_empty">用户名或密码未输入</string>
     <string name="home_login_input_invalid">用户名或密码长度不符</string>

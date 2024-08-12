@@ -89,7 +89,7 @@ private fun RinseTopBar(
         Text(text = stringResource(R.string.statistic_product_top_time), color = Color.Black,
             modifier = modifier.weight(1f), textAlign = TextAlign.Center)
         Text(text = stringResource(R.string.statistic_rinse_top_type), color = Color.Black,
-            modifier = modifier.weight(1f))
+            modifier = modifier.weight(1f), textAlign = TextAlign.Center)
         Text(text = stringResource(
             R.string.statistic_rinse_top_system_flow_rate) + "\n$left\t\t\t\t\t\t$right",
             color = Color.Black, modifier = modifier.weight(2f), textAlign = TextAlign.Center)

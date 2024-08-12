@@ -26,7 +26,7 @@ data class ProductHistory(
     var pqc: Boolean = false,
     var grindAdjust: Int = 0,
     var extTime: Float = 0f,
-    var waterQuality: Int = 0,
+    var waterQuantity: Int = 0,
     var waterTemp: Int = 0,
     var milkTemp: Int = 0,
     var steamPressure: Int = 0,
@@ -39,16 +39,20 @@ data class ProductHistory(
 
 @Entity(tableName = "clean_history_table")
 data class CleanMachineHistory(
-    var time: String,
-    var startTime: String,
-    var duration: String,
-    var interrupt: Boolean,
+    var time: String = "",
+    var startTime: String = "",
+    var duration: String = "",
+    var stopped: Boolean = false,
+    var tabsL: Boolean = false,
+    var tabsR: Boolean = false,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 
 @Entity(tableName = "error_history_table")
 data class ErrorHistory(
-    var time: String, var code: String, var detail: String,
+    var time: String = "",
+    var code: String = "",
+    var detail: String = "",
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 
@@ -68,4 +72,8 @@ data class RinseHistory(
 )
 
 @Entity(tableName = "maintenance_history_table")
-data class MaintenanceHistory(var time: String, @PrimaryKey(autoGenerate = true) val id: Int = 0)
+data class MaintenanceHistory(
+    var time: String = "",
+    var description: String = "",
+    @PrimaryKey(autoGenerate = true) val id: Int = 0
+)

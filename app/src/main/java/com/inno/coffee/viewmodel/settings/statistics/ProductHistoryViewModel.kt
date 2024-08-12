@@ -3,6 +3,9 @@ package com.inno.coffee.viewmodel.settings.statistics
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.common.db.entity.CleanMachineHistory
+import com.inno.common.db.entity.ErrorHistory
+import com.inno.common.db.entity.MaintenanceHistory
 import com.inno.common.db.entity.ProductHistory
 import com.inno.common.db.entity.RinseHistory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,17 +23,40 @@ class ProductHistoryViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val productHistory: StateFlow<List<ProductHistory>> = repository.getAllProductHistory().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = emptyList()
-    )
+    val productHistory: StateFlow<List<ProductHistory>> =
+        repository.getAllProductHistory().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
 
-    val rinseHistory: StateFlow<List<RinseHistory>> = repository.getAllRinseHistory().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = emptyList()
-    )
+    val rinseHistory: StateFlow<List<RinseHistory>> =
+        repository.getAllRinseHistory().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
+
+    val cleanHistory: StateFlow<List<CleanMachineHistory>> =
+        repository.getAllCleanHistory().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
+
+    val errorHistory: StateFlow<List<ErrorHistory>> =
+        repository.getAllErrorHistory().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
+
+    val maintenanceHistory: StateFlow<List<MaintenanceHistory>> =
+        repository.getAllMaintenanceHistoryDao().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
 
     fun insertProductHistory(drinksHistory: ProductHistory) {
         viewModelScope.launch {

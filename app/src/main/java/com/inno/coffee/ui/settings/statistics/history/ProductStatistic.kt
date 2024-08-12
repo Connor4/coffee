@@ -132,7 +132,7 @@ private fun DrinksHistoryItem(history: ProductHistory, modifier: Modifier = Modi
             textAlign = TextAlign.Center)
         Text(text = "${history.extTime}", color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
-        Text(text = "${history.waterQuality}", color = Color.Black, modifier = modifier.weight(1f),
+        Text(text = "${history.waterQuantity}", color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)
         Text(text = "${history.waterTemp}", color = Color.Black, modifier = modifier.weight(1f),
             textAlign = TextAlign.Center)

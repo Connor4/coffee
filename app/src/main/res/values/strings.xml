@@ -32,17 +32,21 @@
     <string name="statistic_product_top_pqc">PQC</string>
     <string name="statistic_product_top_grind_adjust">Grind Adjust</string>
     <string name="statistic_product_top_ext_time">Ext Time\n[s]</string>
-    <string name="statistic_product_top_water_qnty">Water Quality\n[tick]</string>
+    <string name="statistic_product_top_water_qnty">Water Quantity\n[tick]</string>
     <string name="statistic_product_top_water_temp">Water Temp\n[℃]</string>
     <string name="statistic_product_top_mike_temp">Milk Temp\n[℃]</string>
     <string name="statistic_product_top_stream_pressure">Steam Pressure\n[bar]</string>
     <string name="statistic_product_top_product_type">Product Type</string>
     <string name="statistic_product_top_cups">Cups</string>
     <string name="statistic_product_top_operator">Operate Account</string>
-    <string name="statistic_change_top_event">Event</string>
+    <string name="statistic_error_top_event">Event</string>
+    <string name="statistic_error_top_code">Code</string>
+    <string name="statistic_wash_top_start">Started</string>
     <string name="statistic_wash_top_duration">Duration</string>
-    <string name="statistic_wash_top_left">Left</string>
-    <string name="statistic_wash_top_right">Right</string>
+    <string name="statistic_wash_top_stop">Stopped</string>
+    <string name="statistic_wash_top_left">Tabs L</string>
+    <string name="statistic_wash_top_right">Tabs R</string>
+    <string name="statistic_maintenance_top_description">Description</string>
     <string name="statistic_rinse_top_type">Rinse Type</string>
     <string name="statistic_rinse_top_system_flow_rate">System Flow Rate\n[tick/s]</string>
     <string name="statistic_rinse_top_water_pressure">Water Pressure\n[bar]</string>
@@ -53,6 +57,8 @@
     <string name="statistic_right">R</string>
     <string name="statistic_on">On</string>
     <string name="statistic_off">Off</string>
+    <string name="statistic_yes">Yes</string>
+    <string name="statistic_no">No</string>
 
     <string name="home_open_setting">Open Settings</string>
     <string name="home_clean_screen">Lock and Clean</string>
