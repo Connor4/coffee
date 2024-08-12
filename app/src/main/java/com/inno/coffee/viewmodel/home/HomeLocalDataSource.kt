@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class HomeLocalDataSource @Inject constructor() {
-    val specialItem = listOf(1, 2, 4)
+    val specialItem = listOf(1, 2, 4, 8)
 
     val drinksTypes = listOf(
         DrinksModel(
@@ -21,7 +21,7 @@ class HomeLocalDataSource @Inject constructor() {
             productId = 2,
             type = ProductType.COFFEE,
             name = R.string.home_item_hot_water,
-            imageRes = R.drawable.coffee2
+            imageRes = R.drawable.hotwater
         ),
         DrinksModel(
             productId = 3,
@@ -33,7 +33,7 @@ class HomeLocalDataSource @Inject constructor() {
             productId = 4,
             type = ProductType.OPERATION,
             name = R.string.home_item_rinse,
-            imageRes = R.drawable.coffee4
+            imageRes = R.drawable.rinse
         ),
         DrinksModel(
             productId = 5,
@@ -45,19 +45,20 @@ class HomeLocalDataSource @Inject constructor() {
             productId = 6,
             type = ProductType.COFFEE,
             name = R.string.home_item_coffee,
-            imageRes = R.drawable.coffee6
+            imageRes = R.drawable.coffee2
         ),
         DrinksModel(
             productId = 7,
             type = ProductType.COFFEE,
             name = R.string.home_item_americano,
-            imageRes = R.drawable.coffee6
+            imageRes = R.drawable.coffee4
         ),
-//        DrinksModel(
-//            productId = ,
-//            name = R.string.home_item_auto_foam,
-//            imageRes = R.drawable.coffee6
-//        ),
+        DrinksModel(
+            productId = 8,
+            type = ProductType.OPERATION,
+            name = R.string.home_item_auto_foam,
+            imageRes = R.drawable.steam,
+        ),
 //        DrinksModel(
 //            productId = ,
 //            name = R.string.home_item_double_espresso,
