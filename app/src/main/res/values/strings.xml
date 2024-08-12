@@ -59,6 +59,35 @@
     <string name="statistic_off">Off</string>
     <string name="statistic_yes">Yes</string>
     <string name="statistic_no">No</string>
+    <string name="statistic_absolute_counter">Absolut Counter:</string>
+    <string name="statistic_total_water_quantity">Total Water Quantity:</string>
+    <string name="statistic_total_water_products">Total Water Products:</string>
+    <string name="statistic_total_water_rinse">Total Water Rinse:</string>
+    <string name="statistic_total_water_cleaning">Total Water Cleaning:</string>
+    <string name="statistic_total_coffee_bean_quantity">Total Coffee Bean Quantity:</string>
+    <string name="statistic_total_coffee_beans_rear">Total Coffee Beans Rear:</string>
+    <string name="statistic_total_coffee_beans_front">Total Coffee Beans Front:</string>
+    <string name="statistic_total_coffee_powder_chute">Total Coffee Powder Chute:</string>
+    <string name="statistic_cleaning_counter">Cleaning Counter:</string>
+    <string name="statistic_time_hot_water">Time Hot Water:</string>
+    <string name="statistic_time_steam_left">Time Steam Left:</string>
+    <string name="statistic_time_steam_right">Time Steam Right:</string>
+    <string name="statistic_time_steam_boiler_purge">Time Steam Boiler Purge:</string>
+    <string name="statistic_brew_cycles_left">Brew Cycles Left:</string>
+    <string name="statistic_brew_cycles_right">Brew Cycles Right:</string>
+    <string name="statistic_cycles_rinse_left">Cycles Rinse Left:</string>
+    <string name="statistic_cycles_rinse_right">Cycles Rinse Right:</string>
+    <string name="statistic_milk_cycles_left">Milk Cycles Left:</string>
+    <string name="statistic_milk_cycles_right">Milk Cycles Right:</string>
+    <string name="statistic_time_milk">Time Milk:</string>
+    <string name="statistic_heating_time_boiler_left">Heating Time Boiler Left:</string>
+    <string name="statistic_heating_time_boiler_right">Heating Time Boiler Right:</string>
+    <string name="statistic_heat_time_steam_boiler_1">Heat Time Steam Boiler 1:</string>
+    <string name="statistic_heat_time_steam_boiler_2">Heat Time Steam Boiler 2:</string>
+    <string name="statistic_time_air_pump">Time Air Pump:</string>
+    <string name="statistic_time_milk_steam_left">Time Milk Steam Left:</string>
+    <string name="statistic_time_milk_steam_right">Time Milk Steam Right:</string>
+
 
     <string name="home_open_setting">Open Settings</string>
     <string name="home_clean_screen">Lock and Clean</string>
