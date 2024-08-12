@@ -62,6 +62,8 @@ fun MakeCoffeeContent(
 ) {
     val context = LocalContext.current
     val secondDisplay = PresentationDisplayManager.isSecondDisplay(context)
+    val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
+    val second = PresentationDisplayManager.isSecondDisplay(context)
     val size by if (secondDisplay) {
         MakeRightDrinksHandler.size.collectAsState()
     } else {
@@ -80,14 +82,12 @@ fun MakeCoffeeContent(
             ) {
                 Functions(context, viewModel)
                 Spacer(modifier = Modifier.weight(1f))
-                if (size > 0) {
-                    QueueText(size.toString())
-                }
+//                if (size > 0) {
+//                    QueueText(size.toString())
+//                }
             }
-
-            val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
-            val second = PresentationDisplayManager.isSecondDisplay(context)
-            DrinkList(modifier = modifier, drinksData = drinksData) {
+            DrinkList(modifier = modifier, drinksData = drinksData, enableMask = size > 0,
+                viewModel = viewModel) {
                 viewModel.startMakeDrink(it, second)
             }
         }
@@ -114,8 +114,10 @@ private fun QueueText(number: String) {
 }
 
 @Composable
-private fun Functions(context: Context,
-    viewModel: HomeViewModel) {
+private fun Functions(
+    context: Context,
+    viewModel: HomeViewModel
+) {
     var showLoginDialog by remember {
         mutableStateOf(false)
     }

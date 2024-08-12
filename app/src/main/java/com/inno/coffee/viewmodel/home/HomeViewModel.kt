@@ -105,7 +105,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun startMakeDrink(model: DrinksModel, second: Boolean) {
-        if (specialItem.value.contains(model.productId)) {
+        if (isFunctionItem(model)) {
             MakeLeftDrinksHandler.executeNow(model)
         } else {
             if (second) {
@@ -115,6 +115,10 @@ class HomeViewModel @Inject constructor(
             }
         }
         StatisticManager.countProductType(model)
+    }
+
+    fun isFunctionItem(model: DrinksModel): Boolean {
+        return specialItem.value.contains(model.productId)
     }
 
     suspend fun startCountDown() {

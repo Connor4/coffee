@@ -37,7 +37,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
+import com.inno.coffee.utilities.MaskBoxWithContent
 import com.inno.coffee.utilities.debouncedClickable
+import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.common.enums.ProductType
 import kotlinx.coroutines.delay
 
@@ -45,6 +47,8 @@ import kotlinx.coroutines.delay
 fun DrinkList(
     modifier: Modifier = Modifier,
     drinksData: List<DrinksModel> = emptyList(),
+    enableMask: Boolean,
+    viewModel: HomeViewModel,
     onDrinkClick: (model: DrinksModel) -> Unit,
 ) {
 //    val configuration = LocalConfiguration.current
@@ -57,22 +61,27 @@ fun DrinkList(
         contentPadding = PaddingValues(horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier =
-        modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(top = 8.dp),
     ) {
         items(drinksData, key = { drink -> drink.hashCode() }) { drink ->
-            val index = drinksData.indexOf(drink)
-            val column = index % 4
+//            val index = drinksData.indexOf(drink)
+//            val column = index % 4
 //            AnimatedDrinkItem(
 //                model = drink,
 //                columnIndex = column,
 //                screenWidthPx = screenWidthPx,
 //                modifier = modifier,
 //            )
-            DrinkItem(modifier, drink, 0f, onDrinkClick)
+            val enable = if (enableMask) {
+                !viewModel.isFunctionItem(model = drink)
+            } else {
+                false
+            }
+            DrinkItem(modifier, model = drink, offsetX = 0f, onDrinkClick = onDrinkClick,
+                enableMask = enable)
         }
     }
 }
@@ -107,6 +116,7 @@ private fun DrinkItem(
     modifier: Modifier = Modifier,
     model: DrinksModel,
     offsetX: Float,
+    enableMask: Boolean = false,
     onDrinkClick: (model: DrinksModel) -> Unit = {},
 ) {
     Surface(
@@ -114,33 +124,35 @@ private fun DrinkItem(
         color = MaterialTheme.colorScheme.surfaceVariant,
         shape = MaterialTheme.shapes.medium,
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .debouncedClickable(onClick = { onDrinkClick(model) }),
-            elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
-        ) {
-            Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text(
-                    text = "",
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 5.dp, top = 5.dp),
-                )
-                Spacer(modifier = Modifier.height(5.dp))
-                AsyncImage(
-                    model = model.imageRes,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(120.dp)
-                        .align(Alignment.CenterHorizontally),
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = stringResource(id = model.name),
-                    fontSize = 25.sp,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                )
+        MaskBoxWithContent(enableMask = enableMask) {
+            Card(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .debouncedClickable(enabled = !enableMask, onClick = { onDrinkClick(model) }),
+                elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
+            ) {
+                Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                    Text(
+                        text = "",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(start = 5.dp, top = 5.dp),
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    AsyncImage(
+                        model = model.imageRes,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(120.dp)
+                            .align(Alignment.CenterHorizontally),
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = stringResource(id = model.name),
+                        fontSize = 25.sp,
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                    )
+                }
             }
         }
     }
