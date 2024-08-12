@@ -56,7 +56,7 @@ class HomeLocalDataSource @Inject constructor() {
         DrinksModel(
             productId = 8,
             type = ProductType.OPERATION,
-            name = R.string.home_item_auto_foam,
+            name = R.string.home_item_steam,
             imageRes = R.drawable.steam,
         ),
 //        DrinksModel(

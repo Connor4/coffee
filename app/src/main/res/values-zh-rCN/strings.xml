@@ -108,6 +108,7 @@
     <string name="home_item_coffee">咖啡</string>
     <string name="home_item_americano">美式咖啡</string>
     <string name="home_item_auto_foam">自动奶泡</string>
+    <string name="home_item_steam">蒸汽</string>
     <string name="home_item_double_espresso">双份意式咖啡</string>
     <string name="home_item_double_coffee">双份咖啡</string>
     <string name="home_item_double_americano">双份美式咖啡</string>
