@@ -60,7 +60,7 @@ fun ShowProductStatistic(viewModel: StatisticProductViewModel = hiltViewModel())
             viewModel.resetData()
         }
         StatisticProductRightSide(screenWidthDp, selectedProductCount?.count ?: 0,
-            drinksTypeList) {
+            drinksTypeList.subList(1, drinksTypeList.size - 1)) {
             viewModel.getProductCount(it.productId)
         }
     }
