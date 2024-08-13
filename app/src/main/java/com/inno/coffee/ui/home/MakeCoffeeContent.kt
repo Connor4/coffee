@@ -53,6 +53,7 @@ import com.inno.coffee.function.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
+import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 
@@ -88,11 +89,12 @@ fun MakeCoffeeContent(
             ) {
                 Functions(context, viewModel)
                 Spacer(modifier = Modifier.weight(1f))
-//                if (size > 0) {
-//                    QueueText(number = size.toString(), status = status)
-//                }
+                if (size > 0) {
+                    QueueText(number = size.toString(), status = status, second = second,
+                        viewModel = viewModel)
+                }
             }
-            DrinkList(modifier = modifier, drinksData = drinksData, enableMask = size > 0,
+            DrinkList(modifier = modifier, drinksData = drinksData, enableMask = false,
                 viewModel = viewModel) {
                 viewModel.startMakeDrink(it, second)
             }
@@ -102,7 +104,8 @@ fun MakeCoffeeContent(
 }
 
 @Composable
-private fun QueueText(number: String, status: MakeDrinkStatusEnum) {
+private fun QueueText(number: String, status: MakeDrinkStatusEnum, second: Boolean,
+    viewModel: HomeViewModel) {
     val text = when (status) {
         MakeDrinkStatusEnum.LEFT_BREWING, MakeDrinkStatusEnum.RIGHT_BREWING -> {
             stringResource(id = R.string.home_process_status_brewing)
@@ -111,16 +114,20 @@ private fun QueueText(number: String, status: MakeDrinkStatusEnum) {
             stringResource(id = R.string.home_process_status_brew_completed)
         }
         MakeDrinkStatusEnum.LEFT_FINISHED, MakeDrinkStatusEnum.RIGHT_FINISHED -> {
-            stringResource(id = R.string.home_process_status_brewing)
+            stringResource(id = R.string.home_process_status_finished)
         }
         else -> {
             ""
         }
     }
+    var showQueueDialog by remember {
+        mutableStateOf(false)
+    }
     Row {
         Text(
-            text = text,
-            style = MaterialTheme.typography.headlineMedium
+            text = "*队列弹窗",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.fastclick { showQueueDialog = true }
         )
 
         Box(
@@ -140,6 +147,9 @@ private fun QueueText(number: String, status: MakeDrinkStatusEnum) {
                 )
             }
         }
+    }
+    QueueDialog(showQueueDialog, second, viewModel) {
+        showQueueDialog = false
     }
 }
 

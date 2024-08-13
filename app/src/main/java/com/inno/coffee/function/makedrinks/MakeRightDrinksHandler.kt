@@ -26,6 +26,7 @@ object MakeRightDrinksHandler {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
     private var processingProductId = INVALID_INT
+    val queue = mutableListOf<DrinksModel>()
     private val _size = MutableStateFlow(0)
     val size: StateFlow<Int> = _size
     private val _status = MutableStateFlow(MakeDrinkStatusEnum.RIGHT_BREWING)

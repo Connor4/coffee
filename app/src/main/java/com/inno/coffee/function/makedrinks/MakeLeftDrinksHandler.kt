@@ -33,6 +33,7 @@ object MakeLeftDrinksHandler {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
     private var processingProductId = INVALID_INT
+    val queue = mutableListOf<DrinksModel>()
     private val _size = MutableStateFlow(0)
     val size: StateFlow<Int> = _size
     private val _status = MutableStateFlow(MakeDrinkStatusEnum.LEFT_BREWING)
@@ -89,7 +90,8 @@ object MakeLeftDrinksHandler {
                     }
                     prev.next = message
                 }
-                _size.value++
+                queue.add(model)
+                _size.value = queue.size
                 Logger.d(TAG, "message: ${messageHead.toString()}")
                 handleMessage()
             }
@@ -117,7 +119,8 @@ object MakeLeftDrinksHandler {
         DrinkMessage.recycleMessage(p)
         Logger.d(TAG, "message: ${messageHead.toString()}")
 
-        _size.value--
+        queue.removeAt(0)
+        _size.value = queue.size
         processingProductId = INVALID_INT
     }
 
