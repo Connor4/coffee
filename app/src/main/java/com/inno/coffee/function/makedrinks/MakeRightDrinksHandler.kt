@@ -90,7 +90,7 @@ object MakeRightDrinksHandler {
     // id parse to command, send command
     private suspend fun handleMessage() {
         if (messageHead != null && processingProductId == INVALID_INT) {
-            processingProductId = messageHead!!.actionId
+            processingProductId = messageHead!!.productId
             val productProfile =
                 ProductProfileManager.convertProductProfile(
                     processingProductId, true)

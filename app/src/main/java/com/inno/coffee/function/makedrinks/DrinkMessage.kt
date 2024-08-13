@@ -16,9 +16,9 @@ class DrinkMessage {
             lock.withLock {
                 val message: DrinkMessage
                 if (poolList.isNotEmpty() and (poolList.size < MAX_POOL_SIZE)) {
-                    message = poolList.first.apply { actionId = id }
+                    message = poolList.first.apply { productId = id }
                 } else {
-                    message = DrinkMessage().apply { actionId = id }
+                    message = DrinkMessage().apply { productId = id }
                 }
                 return message
             }
@@ -27,7 +27,7 @@ class DrinkMessage {
         fun recycleMessage(message: DrinkMessage) {
             lock.withLock {
                 if (poolList.size < MAX_POOL_SIZE) {
-                    message.actionId = INVALID_INT
+                    message.productId = INVALID_INT
                     message.next = null
                     poolList.offer(message)
                 }
@@ -38,7 +38,7 @@ class DrinkMessage {
 
 
     var next: DrinkMessage? = null
-    var actionId: Int = INVALID_INT
+    var productId: Int = INVALID_INT
 
     override fun toString(): String {
         val next = if (next != null) {
@@ -46,6 +46,6 @@ class DrinkMessage {
         } else {
             ""
         }
-        return "actionId: $actionId $next"
+        return "actionId: $productId $next"
     }
 }
