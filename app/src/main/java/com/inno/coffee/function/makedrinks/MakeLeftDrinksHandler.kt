@@ -51,7 +51,7 @@ object MakeLeftDrinksHandler {
         scope.launch {
             mutex.withLock {
                 if (discardProductId == processingProductId) {
-                    recycleMessage()
+                    recycleMessageHead()
                     handleMessage()
                 } else {
                     // TODO
@@ -107,7 +107,10 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    private fun recycleMessage() {
+    private fun recycleMessageHead() {
+        if (messageHead == null) {
+            return
+        }
         // recycle the message
         val p = messageHead
         messageHead = p!!.next
@@ -131,7 +134,7 @@ object MakeLeftDrinksHandler {
                         scope.launch {
                             mutex.withLock {
                                 // finish, proceed next drink
-                                recycleMessage()
+                                recycleMessageHead()
                                 handleMessage()
                             }
                         }
