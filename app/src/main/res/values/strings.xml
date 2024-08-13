@@ -88,7 +88,6 @@
     <string name="statistic_time_milk_steam_left">Time Milk Steam Left:</string>
     <string name="statistic_time_milk_steam_right">Time Milk Steam Right:</string>
 
-
     <string name="home_open_setting">Open Settings</string>
     <string name="home_clean_screen">Lock and Clean</string>
     <string name="home_machine_info">Machine Info</string>
@@ -119,6 +118,9 @@
     <string name="home_right_boiler_temperature">Right Boiler Temperature: %d°C</string>
     <string name="home_steam_boiler_temperature">Steam Boiler Temperature: %d°C</string>
     <string name="home_steam_boiler_pressure">Steam Boiler Pressure: %dbar</string>
+    <string name="home_process_status_brewing">Brewing</string>
+    <string name="home_process_status_brew_completed">Brew Completed</string>
+    <string name="home_process_status_finished">Finished</string>
 
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>

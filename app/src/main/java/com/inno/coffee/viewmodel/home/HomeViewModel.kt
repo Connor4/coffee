@@ -106,7 +106,11 @@ class HomeViewModel @Inject constructor(
 
     fun startMakeDrink(model: DrinksModel, second: Boolean) {
         if (isFunctionItem(model)) {
-            MakeLeftDrinksHandler.executeNow(model)
+            if (second) {
+                MakeRightDrinksHandler.executeNow(model)
+            } else {
+                MakeLeftDrinksHandler.executeNow(model)
+            }
         } else {
             if (second) {
                 MakeRightDrinksHandler.enqueueMessage(model)

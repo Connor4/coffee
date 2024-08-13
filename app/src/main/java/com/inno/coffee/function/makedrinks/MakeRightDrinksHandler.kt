@@ -3,6 +3,7 @@ package com.inno.coffee.function.makedrinks
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.utilities.INVALID_INT
+import com.inno.common.utils.Logger
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -27,6 +28,8 @@ object MakeRightDrinksHandler {
     private var processingProductId = INVALID_INT
     private val _size = MutableStateFlow(0)
     val size: StateFlow<Int> = _size
+    private val _status = MutableStateFlow(MakeDrinkStatusEnum.RIGHT_BREWING)
+    val status: StateFlow<MakeDrinkStatusEnum> = _status
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
@@ -37,11 +40,31 @@ object MakeRightDrinksHandler {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
+    fun discardAndClear(discardProductId: Int) {
+        scope.launch {
+            mutex.withLock {
+                if (discardProductId == processingProductId) {
+                    recycleMessage()
+                    handleMessage()
+                }
+            }
+        }
+    }
+
+    fun executeNow(model: DrinksModel) {
+        scope.launch {
+            mutex.withLock {
+                val productProfile =
+                    ProductProfileManager.convertProductProfile(model.productId, true)
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+            }
+        }
+    }
+
     fun enqueueMessage(model: DrinksModel) {
         scope.launch {
             mutex.withLock {
-                val productId = model.productId + 100
-                val message = DrinkMessage.obtainMessage(productId)
+                val message = DrinkMessage.obtainMessage(model.productId)
                 if (messageHead == null) {
                     messageHead = message
                 } else {
@@ -57,25 +80,33 @@ object MakeRightDrinksHandler {
                     prev.next = message
                 }
                 _size.value++
-//        Logger.d(TAG, "message: ${messageHead.toString()}")
+                Logger.d(TAG, "message: ${messageHead.toString()}")
                 handleMessage()
             }
         }
     }
 
     // every time enqueue, only run for once. until get response
+    // id parse to command, send command
     private suspend fun handleMessage() {
         if (messageHead != null && processingProductId == INVALID_INT) {
-            // id parse to command, send command
             processingProductId = messageHead!!.actionId
             val productProfile =
-                ProductProfileManager.convertProductProfile(processingProductId, false)
+                ProductProfileManager.convertProductProfile(
+                    processingProductId, true)
             SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
-            // recycle the message
-            val p = messageHead
-            messageHead = messageHead!!.next
-            DrinkMessage.recycleMessage(p!!)
         }
+    }
+
+    private fun recycleMessage() {
+        // recycle the message
+        val p = messageHead
+        messageHead = p!!.next
+        DrinkMessage.recycleMessage(p)
+        Logger.d(TAG, "message: ${messageHead.toString()}")
+
+        _size.value--
+        processingProductId = INVALID_INT
     }
 
     private fun parseReceivedData(data: Any) {
@@ -84,14 +115,14 @@ object MakeRightDrinksHandler {
             val status = reply.status
             val productId = reply.productId
             when (status) {
-                MakeDrinkStatusEnum.RIGHT_BREWING -> {}
-                MakeDrinkStatusEnum.RIGHT_BREWING_COMPLETE -> {}
-                MakeDrinkStatusEnum.RIGHT_FINISHED -> {
+                MakeDrinkStatusEnum.LEFT_BREWING -> {}
+                MakeDrinkStatusEnum.LEFT_BREW_COMPLETED -> {}
+                MakeDrinkStatusEnum.LEFT_FINISHED -> {
                     if (processingProductId == productId) {
                         scope.launch {
                             mutex.withLock {
                                 // finish, proceed next drink
-                                processingProductId = INVALID_INT
+                                recycleMessage()
                                 handleMessage()
                             }
                         }
@@ -99,6 +130,7 @@ object MakeRightDrinksHandler {
                 }
                 else -> {}
             }
+            _status.value = status
         }
     }
 

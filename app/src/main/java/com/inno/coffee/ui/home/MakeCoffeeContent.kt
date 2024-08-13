@@ -54,6 +54,7 @@ import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.viewmodel.home.HomeViewModel
+import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 
 @Composable
 fun MakeCoffeeContent(
@@ -61,13 +62,18 @@ fun MakeCoffeeContent(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val secondDisplay = PresentationDisplayManager.isSecondDisplay(context)
     val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
+    val secondDisplay = PresentationDisplayManager.isSecondDisplay(context)
     val second = PresentationDisplayManager.isSecondDisplay(context)
     val size by if (secondDisplay) {
         MakeRightDrinksHandler.size.collectAsState()
     } else {
         MakeLeftDrinksHandler.size.collectAsState()
+    }
+    val status by if (secondDisplay) {
+        MakeRightDrinksHandler.status.collectAsState()
+    } else {
+        MakeLeftDrinksHandler.status.collectAsState()
     }
 
     Box(
@@ -83,7 +89,7 @@ fun MakeCoffeeContent(
                 Functions(context, viewModel)
                 Spacer(modifier = Modifier.weight(1f))
 //                if (size > 0) {
-//                    QueueText(size.toString())
+//                    QueueText(number = size.toString(), status = status)
 //                }
             }
             DrinkList(modifier = modifier, drinksData = drinksData, enableMask = size > 0,
@@ -96,20 +102,44 @@ fun MakeCoffeeContent(
 }
 
 @Composable
-private fun QueueText(number: String) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .size(45.dp)
-            .clip(CircleShape)
-            .background(Color.Red),
-    ) {
+private fun QueueText(number: String, status: MakeDrinkStatusEnum) {
+    val text = when (status) {
+        MakeDrinkStatusEnum.LEFT_BREWING, MakeDrinkStatusEnum.RIGHT_BREWING -> {
+            stringResource(id = R.string.home_process_status_brewing)
+        }
+        MakeDrinkStatusEnum.LEFT_BREW_COMPLETED, MakeDrinkStatusEnum.RIGHT_BREW_COMPLETED -> {
+            stringResource(id = R.string.home_process_status_brew_completed)
+        }
+        MakeDrinkStatusEnum.LEFT_FINISHED, MakeDrinkStatusEnum.RIGHT_FINISHED -> {
+            stringResource(id = R.string.home_process_status_brewing)
+        }
+        else -> {
+            ""
+        }
+    }
+    Row {
         Text(
-            text = number,
-            color = Color.White,
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold
+            text = text,
+            style = MaterialTheme.typography.headlineMedium
         )
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .size(45.dp)
+                .clip(CircleShape)
+                .background(Color.Red),
+        ) {
+
+            Row {
+                Text(
+                    text = number,
+                    color = Color.White,
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
     }
 }
 
