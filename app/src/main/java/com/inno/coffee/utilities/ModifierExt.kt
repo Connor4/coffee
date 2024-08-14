@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.SystemClock
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -56,7 +57,10 @@ inline fun Modifier.fastclick(
     var lastClickTime by remember {
         mutableLongStateOf(0)
     }
-    return clickable(enabled, onClickLabel, role) {
+    return clickable(enabled = enabled, onClickLabel = onClickLabel, role = role,
+        indication = null, interactionSource = remember {
+            MutableInteractionSource()
+        }) {
         val currentTimeMills = SystemClock.elapsedRealtime()
         if (currentTimeMills - time >= lastClickTime) {
             onClick()

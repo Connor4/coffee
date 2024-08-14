@@ -81,7 +81,7 @@ private fun ProductHistoryList(
         Column {
             Button(onClick = {
                 viewModel.insertProductHistory(
-                    ProductHistory("2023.06.23 10:40:00", 20.3f, true,
+                    ProductHistory(4, "2023.06.23 10:40:00", 20.3f, true,
                         5.5f, true, -60, 12.2f, 400,
                         92, 0, 0, ProductType.COFFEE, 1,
                         false, "Operator1"))

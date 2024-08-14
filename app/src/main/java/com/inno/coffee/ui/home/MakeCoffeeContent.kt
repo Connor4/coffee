@@ -52,7 +52,6 @@ import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
-import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
@@ -90,8 +89,7 @@ fun MakeCoffeeContent(
                 Functions(context, viewModel)
                 Spacer(modifier = Modifier.weight(1f))
                 if (size > 0) {
-//                    QueueText(number = size.toString(), status = status, second = second,
-//                        viewModel = viewModel)
+//                    QueueText(number = size.toString(), second = second, viewModel = viewModel)
                     SingleDrinkText(status = status)
                 }
             }
@@ -125,7 +123,7 @@ private fun SingleDrinkText(status: MakeDrinkStatusEnum) {
 }
 
 @Composable
-private fun QueueText(number: String, status: MakeDrinkStatusEnum, second: Boolean,
+private fun QueueText(number: String, second: Boolean,
     viewModel: HomeViewModel) {
 
     var showQueueDialog by remember {
@@ -282,7 +280,6 @@ private fun BottomInfo(
                 )
             }
         }
-
         Image(
             painter = painterResource(id = R.drawable.main_alert_ic),
             contentDescription = null,
@@ -290,7 +287,7 @@ private fun BottomInfo(
             modifier = Modifier
                 .size(32.dp)
                 .align(alignment = Alignment.Center)
-                .debouncedClickable({})
+                .fastclick {}
         )
     }
 }
