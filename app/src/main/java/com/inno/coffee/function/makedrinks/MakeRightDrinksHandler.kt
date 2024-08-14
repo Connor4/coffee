@@ -142,6 +142,7 @@ object MakeRightDrinksHandler {
         drinkData.makeDrink?.let { reply ->
             val status = reply.status
             val productId = reply.value
+            val params = reply.params
             when (status) {
                 MakeDrinkStatusEnum.RIGHT_BREWING -> {}
                 MakeDrinkStatusEnum.RIGHT_BREW_COMPLETED -> {}
@@ -151,6 +152,7 @@ object MakeRightDrinksHandler {
                             mutex.withLock {
                                 // finish, proceed next drink
                                 recycleMessage(0)
+                                processBrewParams(params)
                                 handleMessage()
                             }
                         }
@@ -160,6 +162,10 @@ object MakeRightDrinksHandler {
             }
             _status.value = status
         }
+    }
+
+    private fun processBrewParams(params: Int) {
+
     }
 
 }
