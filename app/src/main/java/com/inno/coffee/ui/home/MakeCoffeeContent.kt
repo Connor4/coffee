@@ -95,6 +95,7 @@ fun MakeCoffeeContent(
                     SingleDrinkText(status = status)
                 }
             }
+//            DrinkList(modifier = modifier, drinksData = drinksData, enableMask = size > 0,
             DrinkList(modifier = modifier, drinksData = drinksData, enableMask = false,
                 viewModel = viewModel) {
                 viewModel.startMakeDrink(it, second)
