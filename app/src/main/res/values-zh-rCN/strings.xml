@@ -40,6 +40,13 @@
     <string name="statistic_product_top_product_type">产品类型</string>
     <string name="statistic_product_top_cups">杯数</string>
     <string name="statistic_product_top_operator">操作账号</string>
+    <string name="statistic_product_coffee_counter">咖啡杯数</string>
+    <string name="statistic_product_hotwater_counter">热水杯数</string>
+    <string name="statistic_product_milk_counter">奶类杯数</string>
+    <string name="statistic_product_foam_counter">奶泡杯数</string>
+    <string name="statistic_product_steam_counter">蒸汽次数</string>
+    <string name="statistic_product_total_counter">总量</string>
+    <string name="statistic_product_single_counter">产品杯数</string>
     <string name="statistic_error_top_event">事件</string>
     <string name="statistic_error_top_code">代号</string>
     <string name="statistic_wash_top_start">开始</string>

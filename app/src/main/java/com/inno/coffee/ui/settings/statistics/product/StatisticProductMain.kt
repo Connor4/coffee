@@ -76,6 +76,7 @@ private fun StatisticProductRightSide(
     drinksTypeList: List<DrinksModel>,
     onProductClick: (model: DrinksModel) -> Unit,
 ) {
+    val text = stringResource(id = R.string.statistic_product_single_counter)
     Row(
         modifier = Modifier
             .width(screenWidthDp / 2)
@@ -83,7 +84,7 @@ private fun StatisticProductRightSide(
     ) {
         Column {
             Spacer(modifier = Modifier.height(50.dp))
-            Text(text = "*产品杯数 $selectedProductCount", style = MaterialTheme.typography
+            Text(text = "$text: $selectedProductCount", style = MaterialTheme.typography
                 .displaySmall)
             Spacer(modifier = Modifier.height(30.dp))
             LazyVerticalGrid(
@@ -139,17 +140,23 @@ private fun StatisticProductLeftSide(
                 modifier = Modifier.width(screenWidthDp / 4)
             ) {
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*咖啡杯数", style = MaterialTheme.typography.displaySmall)
+                Text(text = stringResource(id = R.string.statistic_product_coffee_counter),
+                    style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*热水杯数", style = MaterialTheme.typography.displaySmall)
+                Text(text = stringResource(id = R.string.statistic_product_hotwater_counter),
+                    style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*奶类杯数", style = MaterialTheme.typography.displaySmall)
+                Text(text = stringResource(id = R.string.statistic_product_milk_counter),
+                    style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*奶泡杯数", style = MaterialTheme.typography.displaySmall)
+                Text(text = stringResource(id = R.string.statistic_product_foam_counter),
+                    style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*蒸汽次数", style = MaterialTheme.typography.displaySmall)
+                Text(text = stringResource(id = R.string.statistic_product_steam_counter),
+                    style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*总杯数", style = MaterialTheme.typography.displaySmall)
+                Text(text = stringResource(id = R.string.statistic_total_water_products),
+                    style = MaterialTheme.typography.displaySmall)
             }
             Column(
                 modifier = Modifier.width(screenWidthDp / 4)
