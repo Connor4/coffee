@@ -16,13 +16,18 @@ object DataCenter {
     fun init() {
         collectJob = CoroutineScope(Dispatchers.IO).launch {
             SerialPortDataManager.instance.receivedDataFlow.collect { data ->
-                data?.let {
-                    when (it) {
+                data?.let { receivedData ->
+                    when (receivedData) {
                         is ReceivedData.SerialErrorData -> {
-                            notify(ReceivedDataType.SERIAL_PORT_ERROR, it)
+                            notify(ReceivedDataType.SERIAL_PORT_ERROR, receivedData)
                         }
                         is ReceivedData.HeartBeat -> {
-                            notify(ReceivedDataType.HEARTBEAT, it)
+                            notify(ReceivedDataType.HEARTBEAT, receivedData)
+                        }
+                        is ReceivedData.HeatBeatList -> {
+                            receivedData.list.forEach {
+                                notify(ReceivedDataType.HEARTBEAT, it)
+                            }
                         }
                     }
                 }

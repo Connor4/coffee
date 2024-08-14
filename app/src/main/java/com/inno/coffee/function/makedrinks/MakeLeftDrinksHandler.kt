@@ -148,7 +148,7 @@ object MakeLeftDrinksHandler {
         val drinkData = data as ReceivedData.HeartBeat
         drinkData.makeDrink?.let { reply ->
             val status = reply.status
-            val productId = reply.productId
+            val productId = reply.value
             when (status) {
                 MakeDrinkStatusEnum.LEFT_BREWING -> {}
                 MakeDrinkStatusEnum.LEFT_BREW_COMPLETED -> {}
