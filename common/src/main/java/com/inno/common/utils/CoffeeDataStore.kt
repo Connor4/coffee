@@ -20,7 +20,7 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val SYSTEM_LANGUAGE = "system_language"
         private const val DEFAULT_LANGUAGE_VALUE = "en"
         private const val LAST_RESET_PRODUCT_TIME = "last_reset_product_time"
-        private const val DEFAULT_LAST_RESET_PRODUCT_TIME = 1704124800000 // 2024/01/01
+        private const val DEFAULT_LAST_RESET_PRODUCT_TIME = 1704038400000 // 2024/01/01
     }
 
     private val Context.dataStore by preferencesDataStore(

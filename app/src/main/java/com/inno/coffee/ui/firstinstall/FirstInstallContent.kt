@@ -183,7 +183,8 @@ private fun DatePickerPage(onDatePick: (Long?) -> Unit) {
             .width(1100.dp)
             .fillMaxHeight()) {
             val datePickerState =
-                rememberDatePickerState(initialSelectedDateMillis = DEFAULT_SYSTEM_TIME)
+                rememberDatePickerState(
+                    initialSelectedDateMillis = (DEFAULT_SYSTEM_TIME + 86400000))
             DatePicker(
                 state = datePickerState,
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)

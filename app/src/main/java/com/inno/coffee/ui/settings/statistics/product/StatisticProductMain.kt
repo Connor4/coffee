@@ -155,7 +155,7 @@ private fun StatisticProductLeftSide(
                 Text(text = stringResource(id = R.string.statistic_product_steam_counter),
                     style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = stringResource(id = R.string.statistic_total_water_products),
+                Text(text = stringResource(id = R.string.statistic_product_total_counter),
                     style = MaterialTheme.typography.displaySmall)
             }
             Column(
