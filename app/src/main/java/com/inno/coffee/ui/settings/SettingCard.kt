@@ -119,25 +119,25 @@ private fun jumpDetail(name: String, context: Context) {
             PresentationDisplayManager.autoRoute(context, FormulaActivity::class.java)
         }
         DISPLAY -> {
-            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         MACHINE_SETTING -> {
-            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         MACHINE_OPERATION -> {
-            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         VAT_AND_GRIND -> {
-            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         WASH_MACHINE -> {
-            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         PERMISSION -> {
             PresentationDisplayManager.autoRoute(context, PermissionActivity::class.java)
         }
         MAINTENANCE -> {
-            Toast.makeText(context, "还没做啦", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         SERIAL_TEST -> {
             PresentationDisplayManager.autoRoute(context, SerialPortActivity::class.java)
