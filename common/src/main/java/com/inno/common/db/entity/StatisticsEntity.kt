@@ -19,6 +19,7 @@ data class ProductTypeCount(
 
 @Entity(tableName = "product_history_table")
 data class ProductHistory(
+    var productId: Int = 0,
     var time: String = "",
     var pressFinal: Float = 0f,
     var brewSide: Boolean = false,
