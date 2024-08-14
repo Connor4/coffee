@@ -84,7 +84,7 @@ private fun StatisticProductRightSide(
     ) {
         Column {
             Spacer(modifier = Modifier.height(50.dp))
-            Text(text = "$text: $selectedProductCount", style = MaterialTheme.typography
+            Text(text = "$text $selectedProductCount", style = MaterialTheme.typography
                 .displaySmall)
             Spacer(modifier = Modifier.height(30.dp))
             LazyVerticalGrid(
