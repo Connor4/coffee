@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
@@ -46,9 +47,9 @@ fun QueueDialog(
 ) {
     if (showDialog) {
         val queue = if (second) {
-            MakeRightDrinksHandler.queue
+            MakeRightDrinksHandler.queue.collectAsState()
         } else {
-            MakeLeftDrinksHandler.queue
+            MakeLeftDrinksHandler.queue.collectAsState()
         }
 
         Dialog(
@@ -81,9 +82,9 @@ fun QueueDialog(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(horizontal = 8.dp),
                 ) {
-                    itemsIndexed(items = queue) { index, item ->
+                    itemsIndexed(items = queue.value) { index, item ->
                         QueueItem(index, item) {
-
+                            viewModel.removeQueueDrink(index, item, second)
                         }
                     }
                 }

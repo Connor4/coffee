@@ -90,8 +90,9 @@ fun MakeCoffeeContent(
                 Functions(context, viewModel)
                 Spacer(modifier = Modifier.weight(1f))
                 if (size > 0) {
-                    QueueText(number = size.toString(), status = status, second = second,
-                        viewModel = viewModel)
+//                    QueueText(number = size.toString(), status = status, second = second,
+//                        viewModel = viewModel)
+                    SingleDrinkText(status = status)
                 }
             }
             DrinkList(modifier = modifier, drinksData = drinksData, enableMask = false,
@@ -104,8 +105,7 @@ fun MakeCoffeeContent(
 }
 
 @Composable
-private fun QueueText(number: String, status: MakeDrinkStatusEnum, second: Boolean,
-    viewModel: HomeViewModel) {
+private fun SingleDrinkText(status: MakeDrinkStatusEnum) {
     val text = when (status) {
         MakeDrinkStatusEnum.LEFT_BREWING, MakeDrinkStatusEnum.RIGHT_BREWING -> {
             stringResource(id = R.string.home_process_status_brewing)
@@ -120,6 +120,13 @@ private fun QueueText(number: String, status: MakeDrinkStatusEnum, second: Boole
             ""
         }
     }
+    Text(text = text, style = MaterialTheme.typography.headlineMedium)
+}
+
+@Composable
+private fun QueueText(number: String, status: MakeDrinkStatusEnum, second: Boolean,
+    viewModel: HomeViewModel) {
+
     var showQueueDialog by remember {
         mutableStateOf(false)
     }
@@ -129,7 +136,6 @@ private fun QueueText(number: String, status: MakeDrinkStatusEnum, second: Boole
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.fastclick { showQueueDialog = true }
         )
-
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -137,7 +143,6 @@ private fun QueueText(number: String, status: MakeDrinkStatusEnum, second: Boole
                 .clip(CircleShape)
                 .background(Color.Red),
         ) {
-
             Row {
                 Text(
                     text = number,

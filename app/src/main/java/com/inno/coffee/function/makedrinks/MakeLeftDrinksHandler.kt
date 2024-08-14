@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -33,36 +34,41 @@ object MakeLeftDrinksHandler {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
     private var processingProductId = INVALID_INT
-    val queue = mutableListOf<DrinksModel>()
-    private val _size = MutableStateFlow(0)
-    val size: StateFlow<Int> = _size
-    private val _status = MutableStateFlow(MakeDrinkStatusEnum.LEFT_BREWING)
-    val status: StateFlow<MakeDrinkStatusEnum> = _status
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
         }
     }
+    private val _queue = MutableStateFlow<List<DrinksModel>>(emptyList())
+    val queue: StateFlow<List<DrinksModel>> = _queue.asStateFlow()
+    private val _size = MutableStateFlow(0)
+    val size: StateFlow<Int> = _size.asStateFlow()
+    private val _status = MutableStateFlow(MakeDrinkStatusEnum.LEFT_BREWING)
+    val status: StateFlow<MakeDrinkStatusEnum> = _status.asStateFlow()
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
-    fun discardAndClear(discardProductId: Int) {
+    fun discardAndClear(index: Int, model: DrinksModel) {
         scope.launch {
             mutex.withLock {
-                if (discardProductId == processingProductId) {
-                    recycleMessageHead()
+                Logger.d(TAG, "index $index, processingProductId: $processingProductId, model:" +
+                        "${model.productId}")
+                if (processingProductId == model.productId) {
+                    recycleMessage(index)
+                    minusQueueSize(model)
+                    processingProductId = INVALID_INT
                     handleMessage()
                 } else {
-                    // TODO
+                    recycleMessage(index)
+                    minusQueueSize(model)
                 }
             }
         }
     }
 
     fun executeNow(model: DrinksModel) {
-        // rinse foam and steam need execute immediately, different from drinks
         scope.launch {
             mutex.withLock {
                 val productProfile =
@@ -90,8 +96,7 @@ object MakeLeftDrinksHandler {
                     }
                     prev.next = message
                 }
-                queue.add(model)
-                _size.value = queue.size
+                addQueueSize(model)
                 Logger.d(TAG, "message: ${messageHead.toString()}")
                 handleMessage()
             }
@@ -109,19 +114,34 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    private fun recycleMessageHead() {
-        if (messageHead == null) {
+    private fun recycleMessage(index: Int) {
+        if (messageHead == null || index < 0) {
             return
         }
-        // recycle the message
-        val p = messageHead
-        messageHead = p!!.next
-        DrinkMessage.recycleMessage(p)
-        Logger.d(TAG, "message: ${messageHead.toString()}")
 
-        queue.removeAt(0)
-        _size.value = queue.size
-        processingProductId = INVALID_INT
+        var current = messageHead
+        var currentIndex = 0
+        while (current != null && currentIndex < index - 1) {
+            current = current.next
+            currentIndex++
+        }
+        if (current?.next != null) {
+            val p = current.next
+            current.next = current.next?.next
+            DrinkMessage.recycleMessage(p!!)
+        }
+    }
+
+    private fun addQueueSize(model: DrinksModel) {
+        _queue.value += model
+        _size.value = _queue.value.size
+    }
+
+    private fun minusQueueSize(model: DrinksModel) {
+        _queue.value = _queue.value.filter {
+            it.productId != model.productId
+        }
+        _size.value = _queue.value.size
     }
 
     private fun parseReceivedData(data: Any) {
@@ -137,7 +157,7 @@ object MakeLeftDrinksHandler {
                         scope.launch {
                             mutex.withLock {
                                 // finish, proceed next drink
-                                recycleMessageHead()
+                                recycleMessage(0)
                                 handleMessage()
                             }
                         }

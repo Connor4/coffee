@@ -42,10 +42,10 @@ class DrinkMessage {
 
     override fun toString(): String {
         val next = if (next != null) {
-            "next.actionId ${next.toString()}"
+            "next.productId ${next.toString()}"
         } else {
             ""
         }
-        return "actionId: $productId $next"
+        return "productId: $productId $next"
     }
 }

@@ -121,6 +121,14 @@ class HomeViewModel @Inject constructor(
         StatisticManager.countProductType(model)
     }
 
+    fun removeQueueDrink(index: Int, model: DrinksModel, second: Boolean) {
+        if (second) {
+            MakeRightDrinksHandler.discardAndClear(index, model)
+        } else {
+            MakeLeftDrinksHandler.discardAndClear(index, model)
+        }
+    }
+
     fun isFunctionItem(model: DrinksModel): Boolean {
         return specialItem.value.contains(model.productId)
     }
