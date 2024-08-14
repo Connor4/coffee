@@ -47,6 +47,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
+import com.inno.coffee.utilities.DEFAULT_SYSTEM_TIME
 import com.inno.coffee.viewmodel.firstinstall.InstallViewModel
 import kotlinx.coroutines.delay
 import java.util.Locale
@@ -55,8 +56,6 @@ private const val SPLASH = "splash"
 private const val LANGUAGE = "language"
 private const val DATE = "date"
 private const val TIME = "time"
-// 2024/01/01
-private const val DEFAULT_TIME = 1704124800000
 private const val SPLASH_TIME = 3000L
 
 @Composable
@@ -71,7 +70,7 @@ fun InstallSetting(
         mutableStateOf(defaultLanguage)
     }
     var selectedDateMillis by remember {
-        mutableStateOf<Long?>(DEFAULT_TIME)
+        mutableStateOf<Long?>(DEFAULT_SYSTEM_TIME)
     }
     var selectedHour by remember {
         mutableIntStateOf(0)
@@ -100,7 +99,8 @@ fun InstallSetting(
             TimePickerPage { hour, min ->
                 selectedHour = hour
                 selectedMin = min
-                viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_TIME, selectedHour,
+                viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_SYSTEM_TIME,
+                    selectedHour,
                     selectedMin, selectedLanguage)
                 onSetComplete()
             }
@@ -182,7 +182,8 @@ private fun DatePickerPage(onDatePick: (Long?) -> Unit) {
         Column(modifier = Modifier
             .width(1100.dp)
             .fillMaxHeight()) {
-            val datePickerState = rememberDatePickerState(initialSelectedDateMillis = DEFAULT_TIME)
+            val datePickerState =
+                rememberDatePickerState(initialSelectedDateMillis = DEFAULT_SYSTEM_TIME)
             DatePicker(
                 state = datePickerState,
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
