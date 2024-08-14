@@ -38,6 +38,7 @@ import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.viewmodel.settings.statistics.StatisticProductViewModel
 import com.inno.common.db.entity.ProductTypeCount
+import com.inno.common.enums.ProductType
 
 
 @Composable
@@ -48,6 +49,7 @@ fun ShowProductStatistic(viewModel: StatisticProductViewModel = hiltViewModel())
     val drinksTypeList by viewModel.drinksType.collectAsState()
     val typeCounts by viewModel.typeCounts.collectAsState()
     val selectedProductCount by viewModel.productCount.collectAsState()
+    val time by viewModel.time.collectAsState()
     LaunchedEffect(Unit) {
         if (drinksTypeList.isNotEmpty()) {
             val productId = drinksTypeList.first().productId
@@ -56,11 +58,11 @@ fun ShowProductStatistic(viewModel: StatisticProductViewModel = hiltViewModel())
     }
 
     Row(modifier = Modifier.fillMaxSize()) {
-        StatisticProductLeftSide(screenWidthDp, typeCounts) {
+        StatisticProductLeftSide(screenWidthDp, typeCounts, time) {
             viewModel.resetData()
         }
         StatisticProductRightSide(screenWidthDp, selectedProductCount?.count ?: 0,
-            drinksTypeList.subList(1, drinksTypeList.size - 1)) {
+            drinksTypeList) {
             viewModel.getProductCount(it.productId)
         }
     }
@@ -109,8 +111,16 @@ private fun StatisticProductRightSide(
 private fun StatisticProductLeftSide(
     screenWidthDp: Dp,
     typeCounts: List<ProductTypeCount>,
+    time: String,
     onResetClick: () -> Unit,
 ) {
+    val coffee = lookForCount(typeCounts, ProductType.COFFEE)
+    val hotWater = lookForCount(typeCounts, ProductType.HOT_WATER)
+    val milk = lookForCount(typeCounts, ProductType.MILK)
+    val foam = lookForCount(typeCounts, ProductType.FOAM)
+    val steam = lookForCount(typeCounts, ProductType.STEAM)
+    val total = coffee + hotWater + milk + foam + steam
+
     Column(
         modifier = Modifier.width(screenWidthDp / 2)
     ) {
@@ -120,7 +130,7 @@ private fun StatisticProductLeftSide(
         }
         Spacer(modifier = Modifier.height(5.dp))
         Text(
-            text = stringResource(id = R.string.statistic_last_reset, "2024/08/08"),
+            text = stringResource(id = R.string.statistic_last_reset, time),
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.height(10.dp))
@@ -145,17 +155,17 @@ private fun StatisticProductLeftSide(
                 modifier = Modifier.width(screenWidthDp / 4)
             ) {
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*2", style = MaterialTheme.typography.displaySmall)
+                Text(text = "$coffee", style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*4", style = MaterialTheme.typography.displaySmall)
+                Text(text = "$hotWater", style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*1", style = MaterialTheme.typography.displaySmall)
+                Text(text = "$milk", style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*5", style = MaterialTheme.typography.displaySmall)
+                Text(text = "$foam", style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*2", style = MaterialTheme.typography.displaySmall)
+                Text(text = "$steam", style = MaterialTheme.typography.displaySmall)
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "*12", style = MaterialTheme.typography.displaySmall)
+                Text(text = "$total", style = MaterialTheme.typography.displaySmall)
             }
         }
     }
@@ -183,4 +193,9 @@ private fun StatisticDrinkItem(model: DrinksModel, onItemClick: () -> Unit) {
             modifier = Modifier.align(Alignment.CenterHorizontally),
         )
     }
+}
+
+private fun lookForCount(list: List<ProductTypeCount>, type: ProductType): Int {
+    val typeCount = list.find { it.type == type }
+    return typeCount?.totalCount ?: 0
 }

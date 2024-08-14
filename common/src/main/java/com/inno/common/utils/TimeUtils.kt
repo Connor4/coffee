@@ -6,7 +6,9 @@ import android.os.SystemClock
 import android.provider.Settings
 import android.text.format.DateFormat
 import androidx.annotation.RequiresPermission
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.TimeZone
 import kotlin.concurrent.thread
 
@@ -167,5 +169,12 @@ class TimeUtils {
                 SystemClock.setCurrentTimeMillis(millis)
             }
         }
+
+        fun getNowTime(): String {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val date = Date(System.currentTimeMillis())
+            return dateFormat.format(date)
+        }
+
     }
 }
