@@ -17,30 +17,30 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
     companion object {
         private const val TAG = "CoffeeDataStore"
         private const val USER_PREFERENCES_NAME = "settings"
-        private const val MACHINE_LANGUAGE = "machine_language"
+        private const val SYSTEM_LANGUAGE = "system_language"
         private const val DEFAULT_LANGUAGE_VALUE = "en"
         private const val LAST_RESET_PRODUCT_TIME = "last_reset_product_time"
-        private const val DEFAULT_LAST_RESET_PRODUCT_TIME = "2024-01-01 00:00:00"
+        private const val DEFAULT_LAST_RESET_PRODUCT_TIME = 1704124800000 // 2024/01/01
     }
 
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
 
-    suspend fun getLastResetProductTime(): String {
+    suspend fun getLastResetProductTime(): Long {
         return getCoffeePreference(LAST_RESET_PRODUCT_TIME, DEFAULT_LAST_RESET_PRODUCT_TIME)
     }
 
-    suspend fun saveLastResetProductTime(time: String) {
+    suspend fun saveLastResetProductTime(time: Long) {
         saveCoffeePreference(LAST_RESET_PRODUCT_TIME, time)
     }
 
-    suspend fun getMachineLanguage(): String {
-        return getCoffeePreference(MACHINE_LANGUAGE, DEFAULT_LANGUAGE_VALUE)
+    suspend fun getSystemLanguage(): String {
+        return getCoffeePreference(SYSTEM_LANGUAGE, DEFAULT_LANGUAGE_VALUE)
     }
 
-    suspend fun saveMachineLanguage(language: String) {
-        saveCoffeePreference(MACHINE_LANGUAGE, language)
+    suspend fun saveSystemLanguage(language: String) {
+        saveCoffeePreference(SYSTEM_LANGUAGE, language)
     }
 
     @Suppress("UNCHECKED_CAST")

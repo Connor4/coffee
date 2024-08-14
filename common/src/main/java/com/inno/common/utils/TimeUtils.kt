@@ -9,6 +9,7 @@ import androidx.annotation.RequiresPermission
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import java.util.TimeZone
 import kotlin.concurrent.thread
 
@@ -170,9 +171,14 @@ class TimeUtils {
             }
         }
 
-        fun getNowTime(): String {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            val date = Date(System.currentTimeMillis())
+        fun getNowTime(time: Long, language: String): String {
+            val dateFormat = when (language) {
+                Locale.ENGLISH.language -> SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
+                Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+                    Locale.SIMPLIFIED_CHINESE)
+                else -> SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.SIMPLIFIED_CHINESE)
+            }
+            val date = Date(time)
             return dateFormat.format(date)
         }
 

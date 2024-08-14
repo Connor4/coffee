@@ -21,7 +21,7 @@ class InstallViewModel @Inject constructor(
     fun selectLanguage(context: Context, language: String) {
         SystemLocaleHelper.changeSystemLocale(context, language)
         viewModelScope.launch {
-            dataStore.saveMachineLanguage(language)
+            dataStore.saveSystemLanguage(language)
         }
     }
 

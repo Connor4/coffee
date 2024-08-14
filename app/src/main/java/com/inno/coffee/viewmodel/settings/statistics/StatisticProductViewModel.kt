@@ -36,15 +36,20 @@ class StatisticProductViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             _drinksType.value = repository.drinkType
             _typeCounts.value = repository.getTypeCounts()
-            _time.value = dataStore.getLastResetProductTime()
+            val time = dataStore.getLastResetProductTime()
+            val language = dataStore.getSystemLanguage()
+            _time.value = TimeUtils.getNowTime(time, language)
         }
     }
 
     fun resetData() {
         viewModelScope.launch(defaultDispatcher) {
             repository.deleteAllProductCount()
-            val nowTime = TimeUtils.getNowTime()
-            _time.value = nowTime
+
+            val nowTime = System.currentTimeMillis()
+            val language = dataStore.getSystemLanguage()
+            val nowTimeFormat = TimeUtils.getNowTime(nowTime, language)
+            _time.value = nowTimeFormat
             dataStore.saveLastResetProductTime(nowTime)
         }
     }
