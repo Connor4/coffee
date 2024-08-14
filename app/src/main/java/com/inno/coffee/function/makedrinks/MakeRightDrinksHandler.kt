@@ -36,7 +36,7 @@ object MakeRightDrinksHandler {
     val queue: StateFlow<List<DrinksModel>> = _queue.asStateFlow()
     private val _size = MutableStateFlow(0)
     val size: StateFlow<Int> = _size.asStateFlow()
-    private val _status = MutableStateFlow(MakeDrinkStatusEnum.LEFT_BREWING)
+    private val _status = MutableStateFlow(MakeDrinkStatusEnum.RIGHT_BREWING)
     val status: StateFlow<MakeDrinkStatusEnum> = _status.asStateFlow()
 
     init {
@@ -143,9 +143,9 @@ object MakeRightDrinksHandler {
             val status = reply.status
             val productId = reply.value
             when (status) {
-                MakeDrinkStatusEnum.LEFT_BREWING -> {}
-                MakeDrinkStatusEnum.LEFT_BREW_COMPLETED -> {}
-                MakeDrinkStatusEnum.LEFT_FINISHED -> {
+                MakeDrinkStatusEnum.RIGHT_BREWING -> {}
+                MakeDrinkStatusEnum.RIGHT_BREW_COMPLETED -> {}
+                MakeDrinkStatusEnum.RIGHT_FINISHED -> {
                     if (processingProductId == productId) {
                         scope.launch {
                             mutex.withLock {
