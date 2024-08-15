@@ -53,6 +53,7 @@ import com.inno.coffee.function.presentation.PresentationDisplayManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.fastclick
+import com.inno.coffee.utilities.fastclickWithoutRipple
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 
@@ -287,7 +288,7 @@ private fun BottomInfo(
             modifier = Modifier
                 .size(32.dp)
                 .align(alignment = Alignment.Center)
-                .fastclick {}
+                .fastclickWithoutRipple {}
         )
     }
 }

@@ -43,11 +43,36 @@ fun Modifier.debouncedClickable(onClick: () -> Unit, enabled: Boolean = true, de
 
 /**
  * usage:
- * Text(text = "", modifier = Modifier.click{ // do what you want to do here })
+ * Text(text = "", modifier = Modifier.fastclick{ // do what you want to do here })
  */
 @SuppressLint("ModifierFactoryUnreferencedReceiver")
 @Composable
 inline fun Modifier.fastclick(
+    time: Int = VIEW_FAST_CLICK_INTERVAL_TIME,
+    enabled: Boolean = true,
+    onClickLabel: String? = null,
+    role: Role? = null,
+    crossinline onClick: () -> Unit,
+): Modifier {
+    var lastClickTime by remember {
+        mutableLongStateOf(0)
+    }
+    return clickable(enabled = enabled, onClickLabel = onClickLabel, role = role) {
+        val currentTimeMills = SystemClock.elapsedRealtime()
+        if (currentTimeMills - time >= lastClickTime) {
+            onClick()
+            lastClickTime = currentTimeMills
+        }
+    }
+}
+
+/**
+ * usage:
+ * Text(text = "", modifier = Modifier.fastclickWithoutRipple{ // do what you want to do here })
+ */
+@SuppressLint("ModifierFactoryUnreferencedReceiver")
+@Composable
+inline fun Modifier.fastclickWithoutRipple(
     time: Int = VIEW_FAST_CLICK_INTERVAL_TIME,
     enabled: Boolean = true,
     onClickLabel: String? = null,
