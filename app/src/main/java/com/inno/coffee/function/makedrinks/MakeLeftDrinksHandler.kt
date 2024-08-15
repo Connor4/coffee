@@ -2,6 +2,7 @@ package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.formula.ProductProfileManager
+import com.inno.coffee.utilities.HEAD_INDEX
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.SerialPortDataManager
@@ -74,6 +75,11 @@ object MakeLeftDrinksHandler {
                 val productProfile =
                     ProductProfileManager.convertProductProfile(model.productId, true)
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+
+                // stop operation need to discard current
+                if (model.productId == 1 && processingProductId != INVALID_INT) {
+                    discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
+                }
             }
         }
     }
@@ -158,7 +164,7 @@ object MakeLeftDrinksHandler {
                         scope.launch {
                             mutex.withLock {
                                 // finish, proceed next drink
-                                recycleMessage(0)
+                                recycleMessage(HEAD_INDEX)
                                 processBrewParams(params)
                                 handleMessage()
                             }

@@ -6,5 +6,5 @@ enum class ProductType(val value: String) {
     MILK("Milk"),
     FOAM("Foam"),
     STEAM("Steam"),
-    OPERATION("Op"),
+    OPERATION("Operation"),
 }
