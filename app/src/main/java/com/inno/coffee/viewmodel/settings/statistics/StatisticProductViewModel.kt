@@ -6,6 +6,7 @@ import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.db.entity.ProductCount
 import com.inno.common.db.entity.ProductTypeCount
+import com.inno.common.enums.ProductType
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,11 +35,13 @@ class StatisticProductViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(defaultDispatcher) {
-            _drinksType.value = repository.drinkType
+            _drinksType.value = repository.drinkType.filter {
+                it.type != ProductType.OPERATION
+            }
             _typeCounts.value = repository.getTypeCounts()
-            val time = dataStore.getLastResetProductTime()
+            val resetTime = dataStore.getLastResetProductTime()
             val language = dataStore.getSystemLanguage()
-            _time.value = TimeUtils.getNowTime(time, language)
+            _time.value = TimeUtils.getNowTime(resetTime, language)
         }
     }
 

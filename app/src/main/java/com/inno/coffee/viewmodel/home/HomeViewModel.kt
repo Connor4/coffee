@@ -49,7 +49,7 @@ class HomeViewModel @Inject constructor(
     val steamBoilerTemp = _steamBoilerTemp
     private val _steamBoilerPressure = MutableStateFlow(0)
     val steamBoilerPressure = _steamBoilerPressure
-    private val specialItem = MutableStateFlow<List<Int>>(emptyList())
+    private var specialItem = mutableListOf<Int>()
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
@@ -58,7 +58,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         _drinksTypes.value = repository.drinksType
-        specialItem.value = repository.specialItem
+        specialItem.addAll(repository.specialItem)
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
@@ -130,7 +130,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun isFunctionItem(model: DrinksModel): Boolean {
-        return specialItem.value.contains(model.productId)
+        return specialItem.contains(model.productId)
     }
 
     suspend fun startCountDown() {
