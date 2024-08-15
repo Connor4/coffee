@@ -30,24 +30,24 @@ class HeartBeatChain : Chain() {
             val id = ((data[i].toInt() and 0xFF) shl 8) or (data[i + 1].toInt() and 0xFF)
             val value = ((data[i + 2].toInt() and 0xFF) shl 8) or (data[i + 3].toInt() and 0xFF)
 
-            if ((id >= MakeDrinkStatusEnum.LEFT_BREWING.value) and (id < MakeDrinkStatusEnum
+            if ((id >= MakeDrinkStatusEnum.LEFT_BREWING.value) and (id <= MakeDrinkStatusEnum
                     .RIGHT_BREW_COMPLETED.value)) { // 1000 - 1003
                 val drinkStatus = MakeDrinkStatusEnum.getStatus(id)
                 info.makeDrink = HeartBeatReply.MakeDrink(drinkStatus, value)
 
-            } else if ((id >= MakeDrinkStatusEnum.LEFT_FINISHED.value) and (id < MakeDrinkStatusEnum
-                    .RIGHT_FINISHED.value)) { // 1004 - 1005
+            } else if ((id >= MakeDrinkStatusEnum.LEFT_FINISHED.value) and (id <=
+                        MakeDrinkStatusEnum.RIGHT_FINISHED.value)) { // 1004 - 1005
                 val params = ((data[i + 4].toInt() and 0xFF) shl 8) or (data[i + 5].toInt() and
                         0xFF)
                 val drinkStatus = MakeDrinkStatusEnum.getStatus(id)
                 info.makeDrink = HeartBeatReply.MakeDrink(drinkStatus, value, params)
 
-            } else if ((id >= BoilerStatusEnum.LEFT_BOILER_TEMPERATURE.value) and (id <
+            } else if ((id >= BoilerStatusEnum.LEFT_BOILER_TEMPERATURE.value) and (id <=
                         BoilerStatusEnum.RIGHT_GRINDER_POWDER_DOSAGE.value)) { // 1006 - 1010
                 val temperature = BoilerStatusEnum.getStatus(id)
                 info.temperature = HeartBeatReply.BoilerTemperature(temperature, value)
 
-            } else if ((id >= ErrorStatusEnum.FRONT_VAT_EMPTY.value) and (id <
+            } else if ((id >= ErrorStatusEnum.FRONT_VAT_EMPTY.value) and (id <=
                         ErrorStatusEnum.STREAM_BOILER_ERROR.value)) { // 2000 - 3006
                 val error = ErrorStatusEnum.getStatus(id)
                 info.error = HeartBeatReply.Error(error, value)
