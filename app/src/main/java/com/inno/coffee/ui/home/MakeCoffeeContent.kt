@@ -50,7 +50,6 @@ import com.inno.coffee.data.LoginState
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.presentation.PresentationDisplayManager
-import com.inno.coffee.ui.notice.DialogData
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
@@ -293,7 +292,7 @@ private fun BottomInfo(
                 .fastclickWithoutRipple {
                     GlobalDialogManager
                         .getInstance()
-                        .showDialog(DialogData())
+                        .showDialog()
                 }
         )
     }

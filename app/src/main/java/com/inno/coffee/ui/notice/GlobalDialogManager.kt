@@ -8,7 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.inno.coffee.R
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -25,8 +26,9 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private val scope = CoroutineScope(Dispatchers.Main)
     private var dialogView: View? = null
     private var dialogShowing = false
-    private var dialogData: DialogData? = null
     private val dialogDataList = mutableListOf<DialogData>()
+    private val errorAdapter = ErrorViewPagerAdapter(dialogDataList)
+    private var recyclerView: RecyclerView? = null
     private var updateDialogFlag = false
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -80,10 +82,11 @@ class GlobalDialogManager private constructor(private val application: Applicati
             }
 
             if (updateDialogFlag) {
+                updateDialogFlag = false
                 if (dialogShowing) {
-                    updateDialogContent(DialogData())
+                    updateDialogContent()
                 } else {
-                    showDialog(DialogData())
+                    showDialog()
                 }
             }
         }
@@ -93,20 +96,23 @@ class GlobalDialogManager private constructor(private val application: Applicati
         return dialogDataList.none { it.errorCode == code }
     }
 
-    private fun updateDialogContent(data: DialogData) {
-        dialogView?.findViewById<TextView>(R.id.dialog_title)?.text = "${data.errorCode}"
-        dialogView?.findViewById<TextView>(R.id.dialog_message)?.text = data.message
+    @SuppressLint("NotifyDataSetChanged")
+    private fun updateDialogContent() {
+        errorAdapter.notifyDataSetChanged()
     }
 
-    fun showDialog(data: DialogData) {
-        dialogData = data
+    fun showDialog() {
+        if (dialogShowing) {
+            return
+        }
         dialogShowing = true
         showDialogView()
     }
 
     private fun dismissDialog() {
-        dialogData = null
-        removeDialogView()
+        dialogView?.let {
+            windowManager.removeView(it)
+        }
         dialogShowing = false
     }
 
@@ -125,23 +131,31 @@ class GlobalDialogManager private constructor(private val application: Applicati
             windowManager.addView(dialogView, params)
 
             dialogView?.let {
-                it.findViewById<TextView>(R.id.dialog_title)?.text = "${dialogData?.errorCode}"
-                it.findViewById<TextView>(R.id.dialog_message)?.text = dialogData?.message
-                it.findViewById<Button>(R.id.dialog_confirm_button)?.setOnClickListener {
-                    dialogData?.onConfirm?.let { it1 -> it1() }
+                recyclerView = it.findViewById<RecyclerView>(R.id.dialog_error_rv).apply {
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
+                        false)
+                    adapter = errorAdapter
+                }
+                it.findViewById<Button>(R.id.dialog_next_bt).setOnClickListener {
+                    recyclerView?.smoothScrollToPosition(1)
+                }
+                it.findViewById<Button>(R.id.dialog_confirm_bt).setOnClickListener {
                     dismissDialog()
                 }
-                it.findViewById<Button>(R.id.dialog_cancel_button)?.setOnClickListener {
+                it.findViewById<Button>(R.id.dialog_cancel_bt).setOnClickListener {
                     dismissDialog()
                 }
             }
-        }
-    }
-
-    private fun removeDialogView() {
-        dialogView?.let {
-            windowManager.removeView(it)
-            dialogView = null
+        } else {
+            val params = WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams
+                    .FLAG_NOT_TOUCH_MODAL,
+                PixelFormat.TRANSLUCENT
+            )
+            windowManager.addView(dialogView, params)
         }
     }
 
@@ -150,6 +164,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
         @Volatile
         private var INSTANCE: GlobalDialogManager? = null
         private var application: Application? = null
+        private const val TAG = "GlobalDialogManager"
 
         fun init(context: Application) {
             application = context
@@ -168,6 +183,5 @@ class GlobalDialogManager private constructor(private val application: Applicati
 data class DialogData(
     var errorCode: Int = 0,
     var message: String = "",
-    val onConfirm: () -> Unit = {},
-    val onDismiss: () -> Unit = {},
+//    @DrawableRes var image: Int,
 )

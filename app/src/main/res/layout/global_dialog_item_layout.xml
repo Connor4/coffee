@@ -10,7 +10,7 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/dialog_title"
+        android:id="@+id/dialog_item_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -19,7 +19,7 @@
         tools:text="Title" />
 
     <TextView
-        android:id="@+id/dialog_message"
+        android:id="@+id/dialog_item_message_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -27,6 +27,7 @@
         tools:text="Message" />
 
     <ImageView
+        android:id="@+id/dialog_item_error_iv"
         android:layout_width="400dp"
         android:layout_height="300dp"
         android:layout_gravity="center_horizontal"
