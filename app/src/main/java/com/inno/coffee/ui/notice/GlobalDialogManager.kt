@@ -9,8 +9,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import com.inno.coffee.R
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -24,63 +22,90 @@ class GlobalDialogManager private constructor(private val application: Applicati
 
     private val windowManager =
         application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    private var dialogView: View? = null
-    private var dialogData: MutableState<DialogData?> = mutableStateOf(null)
     private val scope = CoroutineScope(Dispatchers.Main)
+    private var dialogView: View? = null
     private var dialogShowing = false
+    private var dialogData: DialogData? = null
+    private val dialogDataList = mutableListOf<DialogData>()
+    private var updateDialogFlag = false
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
-            scope.launch {
-                val error = data as ReceivedData
-                val info = getMessage(error)
-
-                if (dialogShowing) {
-                    updateDialogContent(info)
-                } else {
-                    showDialog(DialogData(
-                        title = "There is an Alert",
-                        message = "Alert Info $info",
-                        onConfirm = { dismissDialog() }
-                    ))
-                }
-            }
+            parseReceivedData(data)
         }
     }
 
     init {
         DataCenter.subscribe(ReceivedDataType.SERIAL_PORT_ERROR, subscriber)
-        DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
+        DataCenter.subscribe(ReceivedDataType.HEARTBEAT_LIST, subscriber)
     }
 
-    private fun getMessage(receivedData: ReceivedData): String {
-        var info = ""
-        when (receivedData) {
-            is ReceivedData.SerialErrorData -> {
-                info = "ErrorData: ${receivedData.info}, need reboot ${receivedData.reboot}"
+    private fun parseReceivedData(data: Any) {
+        // SerialErrorData发生，一定不会有HeatBeatList；出现HeatBeatList，一定已经解决SerialErrorData
+        scope.launch {
+            when (val receivedData = data as ReceivedData) {
+                is ReceivedData.SerialErrorData -> {
+                    if (validDialogData(receivedData.code)) {
+                        val dialogData = DialogData().apply {
+                            errorCode = receivedData.code
+                            message =
+                                "ErrorData: ${receivedData.info}, need reboot ${receivedData.reboot}"
+                        }
+                        dialogDataList.clear()
+                        dialogDataList.add(dialogData)
+                        updateDialogFlag = true
+                    }
+                }
+                is ReceivedData.HeatBeatList -> {
+                    receivedData.list.let { list ->
+                        val tempList = mutableListOf<DialogData>()
+                        list.forEach { heartbeat ->
+                            heartbeat.error?.let { error ->
+                                if (validDialogData(error.status.value)) {
+                                    val dialogData = DialogData().apply {
+                                        errorCode = error.status.value
+                                        message = "${error.value}"
+                                    }
+                                    tempList.add(dialogData)
+                                }
+                            }
+                        }
+                        if (tempList.isNotEmpty()) {
+                            dialogDataList.clear()
+                            dialogDataList.addAll(tempList)
+                            updateDialogFlag = true
+                        }
+                    }
+                }
+                else -> {}
             }
-            is ReceivedData.HeartBeat -> {
-                receivedData.error?.let {
-//                    val status = ErrorStatusEnum.getStatus(it.id)
-                    // TODO 展示具体错误类型
+
+            if (updateDialogFlag) {
+                if (dialogShowing) {
+                    updateDialogContent(DialogData())
+                } else {
+                    showDialog(DialogData())
                 }
             }
-            else -> {}
         }
-        return info
     }
 
-    private fun updateDialogContent(message: String) {
-        dialogView?.findViewById<TextView>(R.id.dialog_message)?.text = message
+    private fun validDialogData(code: Int): Boolean {
+        return dialogDataList.none { it.errorCode == code }
     }
 
-    private fun showDialog(dialogData: DialogData) {
-        this.dialogData.value = dialogData
+    private fun updateDialogContent(data: DialogData) {
+        dialogView?.findViewById<TextView>(R.id.dialog_title)?.text = "${data.errorCode}"
+        dialogView?.findViewById<TextView>(R.id.dialog_message)?.text = data.message
+    }
+
+    private fun showDialog(data: DialogData) {
+        dialogData = data
         dialogShowing = true
         showDialogView()
     }
 
     private fun dismissDialog() {
-        dialogData.value = null
+        dialogData = null
         removeDialogView()
         dialogShowing = false
     }
@@ -100,10 +125,10 @@ class GlobalDialogManager private constructor(private val application: Applicati
             windowManager.addView(dialogView, params)
 
             dialogView?.let {
-                it.findViewById<TextView>(R.id.dialog_title)?.text = dialogData.value?.title
-                it.findViewById<TextView>(R.id.dialog_message)?.text = dialogData.value?.message
+                it.findViewById<TextView>(R.id.dialog_title)?.text = "${dialogData?.errorCode}"
+                it.findViewById<TextView>(R.id.dialog_message)?.text = dialogData?.message
                 it.findViewById<Button>(R.id.dialog_confirm_button)?.setOnClickListener {
-                    dialogData.value?.onConfirm?.let { it1 -> it1() }
+                    dialogData?.onConfirm?.let { it1 -> it1() }
                     dismissDialog()
                 }
                 it.findViewById<Button>(R.id.dialog_cancel_button)?.setOnClickListener {
@@ -131,7 +156,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
             getInstance()
         }
 
-        private fun getInstance(): GlobalDialogManager {
+        fun getInstance(): GlobalDialogManager {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: GlobalDialogManager(application!!).also { INSTANCE = it }
             }
@@ -141,8 +166,8 @@ class GlobalDialogManager private constructor(private val application: Applicati
 }
 
 data class DialogData(
-    val title: String,
-    val message: String,
-    val onConfirm: () -> Unit,
-    val onDismiss: () -> Unit = {}
+    var errorCode: Int = 0,
+    var message: String = "",
+    val onConfirm: () -> Unit = {},
+    val onDismiss: () -> Unit = {},
 )

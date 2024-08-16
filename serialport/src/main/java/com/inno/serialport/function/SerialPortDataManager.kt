@@ -85,8 +85,9 @@ class SerialPortDataManager private constructor() {
                     waitForCommandResponse()
                 } else {
                     _receivedDataFlow.emit(
-                        ReceivedData.SerialErrorData(SerialErrorTypeEnum.WAITING_COMMAND
-                            .errorMsg, false))
+                        ReceivedData.SerialErrorData(
+                            SerialErrorTypeEnum.WAITING_COMMAND.value.toInt(),
+                            SerialErrorTypeEnum.WAITING_COMMAND.errorMsg, false))
                 }
             }
         }
@@ -165,7 +166,9 @@ class SerialPortDataManager private constructor() {
             }
             if (waitingCommandId != null) {
                 _receivedDataFlow.emit(
-                    ReceivedData.SerialErrorData(SerialErrorTypeEnum.IO_NO_REPLY.errorMsg, true))
+                    ReceivedData.SerialErrorData(
+                        SerialErrorTypeEnum.IO_NO_REPLY.value.toInt(),
+                        SerialErrorTypeEnum.IO_NO_REPLY.errorMsg, true))
             }
         }
     }

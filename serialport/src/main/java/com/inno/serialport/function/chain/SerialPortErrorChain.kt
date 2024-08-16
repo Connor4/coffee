@@ -13,7 +13,7 @@ class SerialPortErrorChain : Chain() {
 
     override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
         val errorMsg = SerialErrorTypeEnum.getErrorMsgByValue(pullBufInfo.command)
-        return ReceivedData.SerialErrorData(errorMsg)
+        return ReceivedData.SerialErrorData(pullBufInfo.command.toInt(), errorMsg)
     }
 
 }

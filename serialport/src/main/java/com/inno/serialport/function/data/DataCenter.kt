@@ -28,6 +28,7 @@ object DataCenter {
                             receivedData.list.forEach {
                                 notify(ReceivedDataType.HEARTBEAT, it)
                             }
+                            notify(ReceivedDataType.HEARTBEAT_LIST, receivedData)
                         }
                     }
                 }
