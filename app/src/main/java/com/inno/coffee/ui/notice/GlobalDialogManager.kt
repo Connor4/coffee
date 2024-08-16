@@ -30,6 +30,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private val errorAdapter = ErrorViewPagerAdapter(dialogDataList)
     private var recyclerView: RecyclerView? = null
     private var updateDialogFlag = false
+    private var windowLayoutParams: WindowManager.LayoutParams? = null
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
@@ -39,48 +40,55 @@ class GlobalDialogManager private constructor(private val application: Applicati
     init {
         DataCenter.subscribe(ReceivedDataType.SERIAL_PORT_ERROR, subscriber)
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT_LIST, subscriber)
+        windowLayoutParams = WindowManager.LayoutParams(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams
+                .FLAG_NOT_TOUCH_MODAL,
+            PixelFormat.TRANSLUCENT
+        )
     }
 
     private fun parseReceivedData(data: Any) {
         // SerialErrorData发生，一定不会有HeatBeatList；出现HeatBeatList，一定已经解决SerialErrorData
-        scope.launch {
-            when (val receivedData = data as ReceivedData) {
-                is ReceivedData.SerialErrorData -> {
-                    if (validDialogData(receivedData.code)) {
-                        val dialogData = DialogData().apply {
-                            errorCode = receivedData.code
-                            message =
-                                "ErrorData: ${receivedData.info}, need reboot ${receivedData.reboot}"
+        when (val receivedData = data as ReceivedData) {
+            is ReceivedData.SerialErrorData -> {
+                if (validDialogData(receivedData.code)) {
+                    val dialogData = DialogData().apply {
+                        errorCode = receivedData.code
+                        message =
+                            "ErrorData: ${receivedData.info}, need reboot ${receivedData.reboot}"
+                    }
+                    dialogDataList.clear()
+                    dialogDataList.add(dialogData)
+                    updateDialogFlag = true
+                }
+            }
+            is ReceivedData.HeatBeatList -> {
+                receivedData.list.let { list ->
+                    val tempList = mutableListOf<DialogData>()
+                    list.forEach { heartbeat ->
+                        heartbeat.error?.let { error ->
+                            if (validDialogData(error.status.value)) {
+                                val dialogData = DialogData().apply {
+                                    errorCode = error.status.value
+                                    message = "${error.value}"
+                                }
+                                tempList.add(dialogData)
+                            }
                         }
+                    }
+                    if (tempList.isNotEmpty()) {
                         dialogDataList.clear()
-                        dialogDataList.add(dialogData)
+                        dialogDataList.addAll(tempList)
                         updateDialogFlag = true
                     }
                 }
-                is ReceivedData.HeatBeatList -> {
-                    receivedData.list.let { list ->
-                        val tempList = mutableListOf<DialogData>()
-                        list.forEach { heartbeat ->
-                            heartbeat.error?.let { error ->
-                                if (validDialogData(error.status.value)) {
-                                    val dialogData = DialogData().apply {
-                                        errorCode = error.status.value
-                                        message = "${error.value}"
-                                    }
-                                    tempList.add(dialogData)
-                                }
-                            }
-                        }
-                        if (tempList.isNotEmpty()) {
-                            dialogDataList.clear()
-                            dialogDataList.addAll(tempList)
-                            updateDialogFlag = true
-                        }
-                    }
-                }
-                else -> {}
             }
-
+            else -> {}
+        }
+        scope.launch {
             if (updateDialogFlag) {
                 updateDialogFlag = false
                 if (dialogShowing) {
@@ -120,16 +128,6 @@ class GlobalDialogManager private constructor(private val application: Applicati
         if (dialogView == null) {
             dialogView =
                 LayoutInflater.from(application).inflate(R.layout.global_dialog_layout, null)
-            val params = WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams
-                    .FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT
-            )
-            windowManager.addView(dialogView, params)
-
             dialogView?.let {
                 recyclerView = it.findViewById<RecyclerView>(R.id.dialog_error_rv).apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
@@ -146,17 +144,8 @@ class GlobalDialogManager private constructor(private val application: Applicati
                     dismissDialog()
                 }
             }
-        } else {
-            val params = WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams
-                    .FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT
-            )
-            windowManager.addView(dialogView, params)
         }
+        windowManager.addView(dialogView, windowLayoutParams)
     }
 
     companion object {
