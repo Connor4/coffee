@@ -98,7 +98,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
         dialogView?.findViewById<TextView>(R.id.dialog_message)?.text = data.message
     }
 
-    private fun showDialog(data: DialogData) {
+    fun showDialog(data: DialogData) {
         dialogData = data
         dialogShowing = true
         showDialogView()
