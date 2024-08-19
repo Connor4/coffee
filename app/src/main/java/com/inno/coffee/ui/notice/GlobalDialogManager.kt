@@ -30,7 +30,13 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private val errorAdapter = ErrorViewPagerAdapter(dialogDataList)
     private var recyclerView: RecyclerView? = null
     private var updateDialogFlag = false
-    private var windowLayoutParams: WindowManager.LayoutParams? = null
+    private var windowLayoutParams = WindowManager.LayoutParams(
+        WindowManager.LayoutParams.MATCH_PARENT,
+        WindowManager.LayoutParams.MATCH_PARENT,
+        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams
+            .FLAG_NOT_TOUCH_MODAL, PixelFormat.TRANSLUCENT
+    )
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
@@ -40,14 +46,6 @@ class GlobalDialogManager private constructor(private val application: Applicati
     init {
         DataCenter.subscribe(ReceivedDataType.SERIAL_PORT_ERROR, subscriber)
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT_LIST, subscriber)
-        windowLayoutParams = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams
-                .FLAG_NOT_TOUCH_MODAL,
-            PixelFormat.TRANSLUCENT
-        )
     }
 
     private fun parseReceivedData(data: Any) {
