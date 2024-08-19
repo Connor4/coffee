@@ -100,8 +100,7 @@ fun InstallSetting(
                 selectedHour = hour
                 selectedMin = min
                 viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_SYSTEM_TIME,
-                    selectedHour,
-                    selectedMin, selectedLanguage)
+                    selectedHour, selectedMin, selectedLanguage)
                 onSetComplete()
             }
         }
