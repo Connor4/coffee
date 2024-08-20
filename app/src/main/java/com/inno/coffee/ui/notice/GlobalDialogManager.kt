@@ -108,7 +108,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
     }
 
     fun showDialog() {
-        if (dialogShowing) {
+        if (dialogShowing || dialogDataList.isEmpty()) {
             return
         }
         dialogShowing = true
