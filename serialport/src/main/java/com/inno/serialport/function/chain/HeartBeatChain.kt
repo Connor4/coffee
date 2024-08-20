@@ -50,7 +50,7 @@ class HeartBeatChain : Chain() {
                 info.temperature = HeartBeatReply.BoilerTemperature(temperature, value)
 
             } else if ((id >= ErrorStatusEnum.FRONT_VAT_EMPTY.value) and (id <=
-                        ErrorStatusEnum.STREAM_BOILER_ERROR.value)) { // 2000 - 3006
+                        ErrorStatusEnum.NO_WATER_ERROR.value)) { // 2000 - 4000
                 val error = ErrorStatusEnum.getStatus(id)
                 info.error = HeartBeatReply.Error(error, value)
 

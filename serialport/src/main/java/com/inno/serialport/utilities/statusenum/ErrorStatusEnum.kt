@@ -10,7 +10,8 @@ enum class ErrorStatusEnum(val value: Int) {
     RIGHT_BOILER_ERROR(3003),
     LEFT_EXTRACT_ERROR(3004),
     RIGHT_EXTRACT_ERROR(3005),
-    STREAM_BOILER_ERROR(3006);
+    STREAM_BOILER_ERROR(3006),
+    NO_WATER_ERROR(4000);
 
     companion object {
         fun getStatus(value: Int): ErrorStatusEnum {

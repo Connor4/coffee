@@ -21,3 +21,4 @@ package com.inno.serialport.utilities
 //const val LEFT_EXTRACT_ERROR = 3004
 //const val RIGHT_EXTRACT_ERROR = 3005
 //const val STREAM_BOILER_ERROR = 3006
+//const val NO_WATER_ERROR = 4000
