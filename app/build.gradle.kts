@@ -25,8 +25,14 @@ android {
         create("peite") {
             keyAlias = "platform"
             keyPassword = "gzpeite"
-            storeFile = file("../key/platform.keystore")
+            storeFile = file("../key/peite/platform.keystore")
             storePassword = "gzpeite"
+        }
+        create("uwin") {
+            keyAlias = "androidalias"
+            keyPassword = "inno123"
+            storeFile = file("../key/uwin/inno.jks")
+            storePassword = "inno123"
         }
     }
     buildTypes {
@@ -47,6 +53,17 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("peite")
+        }
+    }
+    flavorDimensions += "version"
+    productFlavors {
+        create("peite") {
+            dimension = "version"
+            versionNameSuffix = "-peite"
+        }
+        create("uwin") {
+            dimension = "version"
+            versionNameSuffix = "-uwin"
         }
     }
     compileOptions {
