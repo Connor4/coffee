@@ -27,17 +27,12 @@ object SystemLocaleHelper {
             userSetLocaleField.isAccessible = true
             userSetLocaleField.setBoolean(configuration, true)
 
-            val packageName = context.applicationInfo.packageName
-
             val updatePersistentConfigurationMethod =
                 activityManagerNative.javaClass.getDeclaredMethod(
-                    "updatePersistentConfigurationWithAttribution",
+                    "updatePersistentConfiguration",
                     Configuration::class.java,
-                    String::class.java,
-                    String::class.java
                 )
-            updatePersistentConfigurationMethod.invoke(activityManagerNative, configuration,
-                packageName, null)
+            updatePersistentConfigurationMethod.invoke(activityManagerNative, configuration)
 
             BackupManager.dataChanged("com.android.providers.settings")
         } catch (e: Exception) {
