@@ -124,6 +124,26 @@ class SerialPortDataManager private constructor() {
         }
     }
 
+    private suspend fun waitForCommandResponse() {
+        scope.launch {
+            withTimeoutOrNull<Nothing>(PULL_INTERVAL_MILLIS * MAX_RETRY_COUNT) {
+                commandResponseFlow.collect { response ->
+                    if (response?.command == waitingCommandId) {
+                        waitingCommandId = null
+                        startHeartBeat()
+                        return@collect
+                    }
+                }
+            }
+            if (waitingCommandId != null) {
+                _receivedDataFlow.emit(
+                    ReceivedData.SerialErrorData(
+                        SerialErrorTypeEnum.IO_NO_REPLY.value.toInt(),
+                        SerialErrorTypeEnum.IO_NO_REPLY.errorMsg, true))
+            }
+        }
+    }
+
 //    private suspend fun processRetry(receivedData: ReceivedData) {
 //        if (receivedData is ReceivedData.HeartBeat) {
 //            if (receivedData.heartbeatStatus) {
@@ -152,25 +172,5 @@ class SerialPortDataManager private constructor() {
 //            }
 //        }
 //    }
-
-    private suspend fun waitForCommandResponse() {
-        scope.launch {
-            withTimeoutOrNull<Nothing>(PULL_INTERVAL_MILLIS * MAX_RETRY_COUNT) {
-                commandResponseFlow.collect { response ->
-                    if (response?.command == waitingCommandId) {
-                        waitingCommandId = null
-                        startHeartBeat()
-                        return@collect
-                    }
-                }
-            }
-            if (waitingCommandId != null) {
-                _receivedDataFlow.emit(
-                    ReceivedData.SerialErrorData(
-                        SerialErrorTypeEnum.IO_NO_REPLY.value.toInt(),
-                        SerialErrorTypeEnum.IO_NO_REPLY.errorMsg, true))
-            }
-        }
-    }
 
 }
