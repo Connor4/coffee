@@ -119,4 +119,5 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.coil.compose)
+    debugImplementation(libs.square.leakcanary)
 }
