@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.function.presentation.PresentationDisplayManager
+import com.inno.coffee.function.presentation.ScreenDisplayManager
 import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.settings.statistics.history.StatisticHistoryActivity
 import com.inno.coffee.ui.settings.statistics.machine.StatisticMachineActivity
@@ -59,13 +59,13 @@ fun StatisticMain() {
         horizontalArrangement = Arrangement.spacedBy(50.dp, Alignment.CenterHorizontally)
     ) {
         StatisticCardItem(text = stringResource(id = R.string.statistic_main_product_counter)) {
-            PresentationDisplayManager.autoRoute(context, StatisticProductActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, StatisticProductActivity::class.java)
         }
         StatisticCardItem(text = stringResource(id = R.string.statistic_main_machine_counter)) {
-            PresentationDisplayManager.autoRoute(context, StatisticMachineActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, StatisticMachineActivity::class.java)
         }
         StatisticCardItem(text = stringResource(id = R.string.statistic_main_history_data)) {
-            PresentationDisplayManager.autoRoute(context, StatisticHistoryActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, StatisticHistoryActivity::class.java)
         }
     }
 }

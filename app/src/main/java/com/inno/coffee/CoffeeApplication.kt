@@ -3,7 +3,7 @@ package com.inno.coffee
 import android.app.Application
 import com.inno.coffee.function.defaultsetting.DefaultSettingManager
 import com.inno.coffee.function.formula.ProductProfileManager
-import com.inno.coffee.function.presentation.PresentationDisplayManager
+import com.inno.coffee.function.presentation.ScreenDisplayManager
 import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.common.utils.CoffeeSharedPreferences
@@ -30,7 +30,7 @@ class CoffeeApplication : Application() {
     private fun init() {
         Logger.d(TAG, "CoffeeApplication init() call")
         CoffeeSharedPreferences.init(this)
-        PresentationDisplayManager.init(this)
+        ScreenDisplayManager.init(this)
 
         applicationScope.launch {
             Logger.d(TAG, "CoffeeApplication init() launch call")

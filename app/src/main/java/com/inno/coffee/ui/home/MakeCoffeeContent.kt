@@ -49,7 +49,7 @@ import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
-import com.inno.coffee.function.presentation.PresentationDisplayManager
+import com.inno.coffee.function.presentation.ScreenDisplayManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick
@@ -65,14 +65,13 @@ fun MakeCoffeeContent(
 ) {
     val context = LocalContext.current
     val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
-    val secondDisplay = PresentationDisplayManager.isSecondDisplay(context)
-    val second = PresentationDisplayManager.isSecondDisplay(context)
-    val size by if (secondDisplay) {
+    val second = ScreenDisplayManager.isSecondDisplay(context)
+    val size by if (second) {
         MakeRightDrinksHandler.size.collectAsState()
     } else {
         MakeLeftDrinksHandler.size.collectAsState()
     }
-    val status by if (secondDisplay) {
+    val status by if (second) {
         MakeRightDrinksHandler.status.collectAsState()
     } else {
         MakeLeftDrinksHandler.status.collectAsState()
@@ -179,7 +178,7 @@ private fun Functions(
     Button(
         onClick =
         composeClick {
-            PresentationDisplayManager.autoRoute(context, SettingActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, SettingActivity::class.java)
 //                    showLoginDialog = true
         }) {
         Text(text = stringResource(id = R.string.home_open_setting))
@@ -329,7 +328,7 @@ private fun LoginContent(
                             LaunchedEffect(Unit) {
                                 viewModel.resetLoginState()
                                 onDismiss()
-                                PresentationDisplayManager.autoRoute(context,
+                                ScreenDisplayManager.autoRoute(context,
                                     SettingActivity::class.java)
                             }
                         }

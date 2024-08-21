@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.function.presentation.PresentationDisplayManager
+import com.inno.coffee.function.presentation.ScreenDisplayManager
 import com.inno.coffee.ui.settings.formula.FormulaActivity
 import com.inno.coffee.ui.settings.permissions.PermissionActivity
 import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
@@ -113,10 +113,10 @@ fun CardItem(title: String, onClick: () -> Unit) {
 private fun jumpDetail(name: String, context: Context) {
     when (name) {
         STATISTIC -> {
-            PresentationDisplayManager.autoRoute(context, StatisticActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, StatisticActivity::class.java)
         }
         FORMULA -> {
-            PresentationDisplayManager.autoRoute(context, FormulaActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, FormulaActivity::class.java)
         }
         DISPLAY -> {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
@@ -134,13 +134,13 @@ private fun jumpDetail(name: String, context: Context) {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         PERMISSION -> {
-            PresentationDisplayManager.autoRoute(context, PermissionActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, PermissionActivity::class.java)
         }
         MAINTENANCE -> {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         SERIAL_TEST -> {
-            PresentationDisplayManager.autoRoute(context, SerialPortActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, SerialPortActivity::class.java)
         }
         else -> {}
     }

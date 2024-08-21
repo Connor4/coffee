@@ -8,8 +8,8 @@ import android.hardware.display.DisplayManager
 import android.view.Display
 
 
-object PresentationDisplayManager {
-    private const val TAG = "PresentationDisplayManager"
+object ScreenDisplayManager {
+    private const val TAG = "ScreenDisplayManager"
     private var secondDisplay: Display? = null
 
     fun init(context: Context) {

@@ -2,7 +2,7 @@ package com.inno.coffee.ui.firstinstall
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import com.inno.coffee.function.presentation.PresentationDisplayManager
+import com.inno.coffee.function.presentation.ScreenDisplayManager
 import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.home.MakeCoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
@@ -29,7 +29,7 @@ class InstallSettingActivity : CoffeeActivity() {
     }
 
     private fun startCoffee() {
-        PresentationDisplayManager.autoRoute(this, MakeCoffeeActivity::class.java)
+        ScreenDisplayManager.autoRoute(this, MakeCoffeeActivity::class.java)
 //        PresentationDisplayManager.manualRoute(this, MakeCoffeeActivity::class.java)
         finish()
     }
