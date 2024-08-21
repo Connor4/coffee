@@ -2,7 +2,7 @@ package com.inno.coffee.ui.firstinstall
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import com.inno.coffee.function.presentation.ScreenDisplayManager
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.home.MakeCoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme

@@ -47,9 +47,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
-import com.inno.coffee.function.presentation.ScreenDisplayManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.utilities.composeClick

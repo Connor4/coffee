@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.function.presentation.ScreenDisplayManager
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.settings.statistics.history.StatisticHistoryActivity
 import com.inno.coffee.ui.settings.statistics.machine.StatisticMachineActivity

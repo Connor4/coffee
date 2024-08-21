@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.DialogFragment
-import com.inno.coffee.function.presentation.ScreenDisplayManager
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.common.utils.Logger
 
 abstract class PresentationFragment(private val context: Context) : DialogFragment() {

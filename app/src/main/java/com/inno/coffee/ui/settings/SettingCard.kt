@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.function.presentation.ScreenDisplayManager
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.settings.formula.FormulaActivity
 import com.inno.coffee.ui.settings.permissions.PermissionActivity
 import com.inno.coffee.ui.settings.serialtest.SerialPortActivity

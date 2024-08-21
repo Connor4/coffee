@@ -2,8 +2,8 @@ package com.inno.coffee
 
 import android.app.Application
 import com.inno.coffee.function.defaultsetting.DefaultSettingManager
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.formula.ProductProfileManager
-import com.inno.coffee.function.presentation.ScreenDisplayManager
 import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.common.utils.CoffeeSharedPreferences
