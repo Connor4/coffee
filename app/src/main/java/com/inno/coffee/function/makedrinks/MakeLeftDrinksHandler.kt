@@ -177,7 +177,7 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    private fun processBrewParams(params: Int) {
+    private fun processBrewParams(params: ByteArray) {
 
     }
 

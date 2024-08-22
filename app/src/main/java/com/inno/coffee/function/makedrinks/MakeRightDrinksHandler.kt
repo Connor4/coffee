@@ -169,7 +169,7 @@ object MakeRightDrinksHandler {
         }
     }
 
-    private fun processBrewParams(params: Int) {
+    private fun processBrewParams(params: ByteArray) {
 
     }
 
