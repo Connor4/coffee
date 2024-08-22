@@ -39,15 +39,15 @@ class HeartBeatChain : Chain() {
 
             } else if ((id >= MakeDrinkStatusEnum.LEFT_FINISHED.value) and (id <=
                         MakeDrinkStatusEnum.RIGHT_FINISHED.value)) { // 1004 - 1005
-                val params = ((data[i + 4].toInt() and 0xFF) shl 8) or (data[i + 5].toInt() and
-                        0xFF)
                 val drinkStatus = MakeDrinkStatusEnum.getStatus(id)
+                val params = data.sliceArray(4 until data.size - 1)
                 info.makeDrink = HeartBeatReply.MakeDrink(drinkStatus, value, params)
 
-            } else if ((id >= BoilerStatusEnum.LEFT_BOILER_TEMPERATURE.value) and (id <=
+            } else if ((id >= BoilerStatusEnum.BOILER_TEMPERATURE.value) and (id <=
                         BoilerStatusEnum.RIGHT_GRINDER_POWDER_DOSAGE.value)) { // 1006 - 1010
                 val temperature = BoilerStatusEnum.getStatus(id)
-                info.temperature = HeartBeatReply.BoilerTemperature(temperature, value)
+                val params = data.sliceArray(2 until data.size - 1)
+                info.temperature = HeartBeatReply.BoilerTemperature(temperature, params)
 
             } else if ((id >= ErrorStatusEnum.FRONT_VAT_EMPTY.value) and (id <=
                         ErrorStatusEnum.NO_WATER_ERROR.value)) { // 2000 - 4000

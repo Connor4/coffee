@@ -159,17 +159,16 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun parseReceivedData(data: Any) {
-        val temp = data as ReceivedData.HeartBeat
-        temp.temperature?.let { reply ->
+        val boiler = data as ReceivedData.HeartBeat
+        boiler.temperature?.let { reply ->
             when (reply.status) {
-                BoilerStatusEnum.LEFT_BOILER_TEMPERATURE -> {
-                    _leftBoilerTemp.value = reply.value
-                }
-                BoilerStatusEnum.RIGHT_BOILER_TEMPERATURE -> {
-                    _rightBoilerTemp.value = reply.value
-                }
-                BoilerStatusEnum.STREAM_BOILER_TEMPERATURE -> {
-                    _steamBoilerTemp.value = reply.value
+                BoilerStatusEnum.BOILER_TEMPERATURE -> {
+                    _leftBoilerTemp.value = ((reply.value[0].toInt() and 0xFF) shl 8) or
+                            (reply.value[1].toInt() and 0xFF)
+                    _rightBoilerTemp.value = ((reply.value[2].toInt() and 0xFF) shl 8) or
+                            (reply.value[3].toInt() and 0xFF)
+                    _steamBoilerTemp.value = ((reply.value[4].toInt() and 0xFF) shl 8) or
+                            (reply.value[5].toInt() and 0xFF)
                 }
                 else -> {}
             }
