@@ -4,10 +4,8 @@ import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.driver.RS485Driver
-import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.profile.ProductProfile
-import com.inno.serialport.utilities.statusenum.SerialErrorTypeEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,7 +19,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withTimeoutOrNull
 
 @WorkerThread
 class SerialPortDataManager private constructor() {
@@ -34,8 +31,8 @@ class SerialPortDataManager private constructor() {
         private const val TAG = "SerialPortDataManager"
         private const val PULL_INTERVAL_MILLIS = 500L
         private const val RECEIVE_INTERVAL_MILLIS = 100L
-        private const val MAX_HEARTBEAT_MISS_COUNT = 3
-        private const val MAX_RETRY_COUNT = 3
+//        private const val MAX_HEARTBEAT_MISS_COUNT = 3
+//        private const val MAX_RETRY_COUNT = 3
     }
 
     private val _receivedDataFlow = MutableSharedFlow<ReceivedData?>(
@@ -51,12 +48,6 @@ class SerialPortDataManager private constructor() {
     private var heartBeatMiss = 0
     private var retryCount = 0
     private val chain = RealChainHandler()
-    private var waitingCommandId: Short? = null
-    private val commandResponseFlow = MutableSharedFlow<PullBufInfo?>(
-        replay = 0,
-        extraBufferCapacity = 4,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
 
     suspend fun open() {
         Logger.d(TAG, "open driver")
@@ -77,18 +68,9 @@ class SerialPortDataManager private constructor() {
         Logger.d(TAG, "sendCommand command: $commandId, productProfile: $productProfile")
         productProfile?.let {
             mutex.withLock {
-                if (waitingCommandId == null) {
-                    heartBeatJob?.cancel()
-                    waitingCommandId = commandId
-                    driver.send(commandId, productProfile)
-                    receiveData()
-                    waitForCommandResponse()
-                } else {
-                    _receivedDataFlow.emit(
-                        ReceivedData.SerialErrorData(
-                            SerialErrorTypeEnum.WAITING_COMMAND.value.toInt(),
-                            SerialErrorTypeEnum.WAITING_COMMAND.errorMsg, false))
-                }
+                heartBeatJob?.cancel()
+                driver.send(commandId, productProfile)
+                startHeartBeat()
             }
         }
     }
@@ -96,16 +78,11 @@ class SerialPortDataManager private constructor() {
     private suspend fun receiveData() {
         delay(RECEIVE_INTERVAL_MILLIS)
         val pullBufInfo = driver.receive()
-        if (waitingCommandId != null) {
-            Logger.d(TAG, "receiveData() waitingCommandId called")
-            commandResponseFlow.emit(pullBufInfo)
-        } else {
-            val result = chain.proceed(pullBufInfo)
-            result?.let {
+        val result = chain.proceed(pullBufInfo)
+        result?.let {
 //                processRetry(it)
 //                Logger.d(TAG, "receiveData() data $it")
-                _receivedDataFlow.emit(it)
-            }
+            _receivedDataFlow.emit(it)
         }
     }
 
@@ -120,26 +97,6 @@ class SerialPortDataManager private constructor() {
                     driver.sendHeartBeat()
                     receiveData()
                 }
-            }
-        }
-    }
-
-    private suspend fun waitForCommandResponse() {
-        scope.launch {
-            withTimeoutOrNull<Nothing>(PULL_INTERVAL_MILLIS * MAX_RETRY_COUNT) {
-                commandResponseFlow.collect { response ->
-                    if (response?.command == waitingCommandId) {
-                        waitingCommandId = null
-                        startHeartBeat()
-                        return@collect
-                    }
-                }
-            }
-            if (waitingCommandId != null) {
-                _receivedDataFlow.emit(
-                    ReceivedData.SerialErrorData(
-                        SerialErrorTypeEnum.IO_NO_REPLY.value.toInt(),
-                        SerialErrorTypeEnum.IO_NO_REPLY.errorMsg, true))
             }
         }
     }
