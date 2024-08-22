@@ -28,7 +28,7 @@ class RS485Driver : IDriver {
 
     companion object {
         private const val TAG = "RS485Driver"
-        private const val DEVICE_PATH = "/dev/ttyS9"
+        private const val DEVICE_PATH = "/dev/ttyS0"
         private const val BAUD_RATE = 115200
         private const val DATA_BITES = DATA_BITS_8
         private const val STOP_BITS = STOP_BITS_1
@@ -95,6 +95,7 @@ class RS485Driver : IDriver {
             packBuffer.put(FRAME_FLAG)
             packBuffer.flip()
             val packFrame = ByteArray(packBuffer.limit())
+            packBuffer.get(packFrame)
             SerialPortManager.writeToSerialPort(serialPort, packFrame)
         }
     }
