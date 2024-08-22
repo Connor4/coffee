@@ -108,6 +108,9 @@ class RS485Driver : IDriver {
         var receivedData: PullBufInfo? = null
         SerialPortManager.readFromSerialPort(serialPort, onSuccess = { buffer, _ ->
             val multiInfo = slicePullInfo(buffer)
+            if (multiInfo.isEmpty()) {
+                receivedData = PullBufInfo(command = SerialErrorTypeEnum.FRAME_FORMAT_ILLEGAL.value)
+            }
             for (info in multiInfo) {
                 receivedData = validPullInfo(info) ?: parsePullBuffInfo(info)
             }
