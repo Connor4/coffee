@@ -13,8 +13,6 @@ class HeartBeatChain : Chain() {
         private const val VALUE_STEP = 18 // id(16bit)2 + content (8bit*16)16
     }
 
-//    private val heartBeatList = ReceivedData.HeatBeatList()
-
     override fun canHandle(pullBufInfo: PullBufInfo): Boolean {
         return HEARTBEAT_COMMAND_ID == pullBufInfo.command
     }
