@@ -104,18 +104,18 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun startMakeDrink(model: DrinksModel, second: Boolean) {
+    fun startMakeDrink(model: DrinksModel, main: Boolean) {
         if (isFunctionItem(model)) {
-            if (second) {
-                MakeRightDrinksHandler.executeNow(model)
-            } else {
+            if (main) {
                 MakeLeftDrinksHandler.executeNow(model)
+            } else {
+                MakeRightDrinksHandler.executeNow(model)
             }
         } else {
-            if (second) {
-                MakeRightDrinksHandler.enqueueMessage(model)
-            } else {
+            if (main) {
                 MakeLeftDrinksHandler.enqueueMessage(model)
+            } else {
+                MakeRightDrinksHandler.enqueueMessage(model)
             }
         }
         StatisticManager.countProductType(model)

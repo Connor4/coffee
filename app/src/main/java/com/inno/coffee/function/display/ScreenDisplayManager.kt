@@ -21,8 +21,8 @@ object ScreenDisplayManager {
 
     fun getSecondDisplay(): Display? = secondDisplay
 
-    fun isSecondDisplay(packageContext: Context): Boolean {
-        return (packageContext as Activity).windowManager.defaultDisplay == secondDisplay
+    fun isMainDisplay(packageContext: Context): Boolean {
+        return (packageContext as Activity).windowManager.defaultDisplay.displayId == Display.DEFAULT_DISPLAY
     }
 
     fun manualRoute(packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = false) {

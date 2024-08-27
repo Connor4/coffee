@@ -65,16 +65,16 @@ fun MakeCoffeeContent(
 ) {
     val context = LocalContext.current
     val drinksData by viewModel.drinksTypes.collectAsStateWithLifecycle()
-    val second = ScreenDisplayManager.isSecondDisplay(context)
-    val size by if (second) {
-        MakeRightDrinksHandler.size.collectAsState()
-    } else {
+    val mainScreen = ScreenDisplayManager.isMainDisplay(context)
+    val size by if (mainScreen) {
         MakeLeftDrinksHandler.size.collectAsState()
-    }
-    val status by if (second) {
-        MakeRightDrinksHandler.status.collectAsState()
     } else {
+        MakeRightDrinksHandler.size.collectAsState()
+    }
+    val status by if (mainScreen) {
         MakeLeftDrinksHandler.status.collectAsState()
+    } else {
+        MakeRightDrinksHandler.status.collectAsState()
     }
 
     Box(
@@ -97,7 +97,7 @@ fun MakeCoffeeContent(
 //            DrinkList(modifier = modifier, drinksData = drinksData, enableMask = size > 0,
             DrinkList(modifier = modifier, drinksData = drinksData, enableMask = false,
                 viewModel = viewModel) {
-                viewModel.startMakeDrink(it, second)
+                viewModel.startMakeDrink(it, mainScreen)
             }
         }
         BottomInfo(modifier = Modifier.align(Alignment.BottomCenter), viewModel = viewModel)
