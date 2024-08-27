@@ -14,13 +14,16 @@ import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeoutOrNull
 
 // 1 多次点击需要可排队 done
 // 2 停止、冲水跟制作饮品不一样，不可以多次点击 done
@@ -28,12 +31,14 @@ import kotlinx.coroutines.sync.withLock
 // 4 完成制作通知去除队列任务 done
 // 5 副屏饮品id+100 done
 // 6 主屏副屏独立使用handler处理各自任务，同用任务只让主屏handler执行即可 done
-// TODO 7 制作异常，需要取消并执行清除操作。同时提供入头操作
+// 7 制作异常，需要取消并 TODO 执行清除机器操作
 object MakeLeftDrinksHandler {
     private const val TAG = "MakeLeftDrinksHandler"
+    private const val REPLY_WAIT_TIME = 2000L
     private var messageHead: DrinkMessage? = null
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
+    private var replyConfirmJob: Job? = null
     private var processingProductId = INVALID_INT
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -54,8 +59,8 @@ object MakeLeftDrinksHandler {
     fun discardAndClear(index: Int, model: DrinksModel) {
         scope.launch {
             mutex.withLock {
-                Logger.d(TAG, "index $index, processingProductId: $processingProductId, model:" +
-                        "${model.productId}")
+                Logger.d(TAG, "discard index $index, processingProductId: $processingProductId, " +
+                        "model:" + "${model.productId}")
                 if (processingProductId == model.productId) {
                     recycleMessage(index)
                     minusQueueSize(model)
@@ -117,11 +122,17 @@ object MakeLeftDrinksHandler {
             val productProfile =
                 ProductProfileManager.convertProductProfile(processingProductId, true)
             SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+            waitForReplyConfirm()
         }
     }
 
     private fun recycleMessage(index: Int) {
         if (messageHead == null || index < 0) {
+            return
+        }
+
+        if (index == 0) {
+            messageHead = messageHead?.next
             return
         }
 
@@ -150,6 +161,20 @@ object MakeLeftDrinksHandler {
         _size.value = _queue.value.size
     }
 
+    private fun waitForReplyConfirm() {
+        // 1. after send start command, we have to start countdown
+        // 2. if timeout, show notification, this command failed
+        replyConfirmJob = scope.launch {
+            val result = withTimeoutOrNull(REPLY_WAIT_TIME) {
+                delay(REPLY_WAIT_TIME + 1)
+            }
+            if (result == null) {
+                discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
+                // TODO show notification
+            }
+        }
+    }
+
     private fun parseReceivedData(data: Any) {
         val drinkData = data as ReceivedData.HeartBeat
         drinkData.makeDrink?.let { reply ->
@@ -157,18 +182,24 @@ object MakeLeftDrinksHandler {
             val productId = reply.value
             val params = reply.params
             when (status) {
-                MakeDrinkStatusEnum.LEFT_BREWING -> {}
+                MakeDrinkStatusEnum.LEFT_BREWING -> {
+                    if (processingProductId == productId) {
+                        replyConfirmJob?.cancel()
+                    }
+                }
                 MakeDrinkStatusEnum.LEFT_BREW_COMPLETED -> {}
                 MakeDrinkStatusEnum.LEFT_FINISHED -> {
                     if (processingProductId == productId) {
                         scope.launch {
                             mutex.withLock {
                                 // finish, proceed next drink
-                                recycleMessage(HEAD_INDEX)
+                                discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
                                 processBrewParams(params)
                                 handleMessage()
                             }
                         }
+                    } else {
+                        // TODO dispose product id, you need to notify.
                     }
                 }
                 else -> {}

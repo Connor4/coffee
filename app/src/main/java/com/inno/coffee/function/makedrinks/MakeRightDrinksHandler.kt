@@ -14,19 +14,24 @@ import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeoutOrNull
 
 object MakeRightDrinksHandler {
     private const val TAG = "MakeRightDrinksHandler"
+    private const val REPLY_WAIT_TIME = 2000L
     private var messageHead: DrinkMessage? = null
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
+    private var replyConfirmJob: Job? = null
     private var processingProductId = INVALID_INT
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -47,7 +52,8 @@ object MakeRightDrinksHandler {
     fun discardAndClear(index: Int, model: DrinksModel) {
         scope.launch {
             mutex.withLock {
-                Logger.d(TAG, "index $index, processingProductId: $processingProductId, model:" +
+                Logger.d(TAG,
+                    "discard index $index, processingProductId: $processingProductId, model:" +
                         "${model.productId}")
                 if (processingProductId == model.productId) {
                     recycleMessage(index)
@@ -109,11 +115,17 @@ object MakeRightDrinksHandler {
             val productProfile =
                 ProductProfileManager.convertProductProfile(processingProductId, true)
             SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+            waitForReplyConfirm()
         }
     }
 
     private fun recycleMessage(index: Int) {
         if (messageHead == null || index < 0) {
+            return
+        }
+
+        if (index == 0) {
+            messageHead = messageHead?.next
             return
         }
 
@@ -142,6 +154,17 @@ object MakeRightDrinksHandler {
         _size.value = _queue.value.size
     }
 
+    private fun waitForReplyConfirm() {
+        replyConfirmJob = scope.launch {
+            val result = withTimeoutOrNull(REPLY_WAIT_TIME) {
+                delay(REPLY_WAIT_TIME + 1)
+            }
+            if (result == null) {
+                discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
+            }
+        }
+    }
+
     private fun parseReceivedData(data: Any) {
         val drinkData = data as ReceivedData.HeartBeat
         drinkData.makeDrink?.let { reply ->
@@ -149,18 +172,24 @@ object MakeRightDrinksHandler {
             val productId = reply.value
             val params = reply.params
             when (status) {
-                MakeDrinkStatusEnum.RIGHT_BREWING -> {}
+                MakeDrinkStatusEnum.RIGHT_BREWING -> {
+                    if (processingProductId == productId) {
+                        replyConfirmJob?.cancel()
+                    }
+                }
                 MakeDrinkStatusEnum.RIGHT_BREW_COMPLETED -> {}
                 MakeDrinkStatusEnum.RIGHT_FINISHED -> {
                     if (processingProductId == productId) {
                         scope.launch {
                             mutex.withLock {
                                 // finish, proceed next drink
-                                recycleMessage(HEAD_INDEX)
+                                discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
                                 processBrewParams(params)
                                 handleMessage()
                             }
                         }
+                    } else {
+
                     }
                 }
                 else -> {}
