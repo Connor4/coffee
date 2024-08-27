@@ -29,8 +29,8 @@ class InstallSettingActivity : CoffeeActivity() {
     }
 
     private fun startCoffee() {
+        ScreenDisplayManager.manualRoute(this, MakeCoffeeActivity::class.java)
         ScreenDisplayManager.autoRoute(this, MakeCoffeeActivity::class.java)
-//        PresentationDisplayManager.manualRoute(this, MakeCoffeeActivity::class.java)
         finish()
     }
 
