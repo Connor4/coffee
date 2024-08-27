@@ -1,9 +1,9 @@
 package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.utilities.INVALID_INT
-import okio.withLock
 import java.util.LinkedList
 import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 class DrinkMessage {
 
