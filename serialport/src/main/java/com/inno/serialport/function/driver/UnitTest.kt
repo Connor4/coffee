@@ -1,4 +1,4 @@
-package com.inno.serialport.function
+package com.inno.serialport.function.driver
 
 import com.inno.common.utils.toHexString
 import com.inno.serialport.utilities.fcstab

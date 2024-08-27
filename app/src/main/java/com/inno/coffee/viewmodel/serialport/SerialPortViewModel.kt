@@ -3,7 +3,7 @@ package com.inno.coffee.viewmodel.serialport
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
-import com.inno.serialport.function.createProductProfile
+import com.inno.serialport.function.driver.createProductProfile
 import com.inno.serialport.utilities.ReceivedData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
