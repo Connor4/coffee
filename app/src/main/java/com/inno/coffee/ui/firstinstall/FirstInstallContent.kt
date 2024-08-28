@@ -132,10 +132,10 @@ private fun LanguagePage(modifier: Modifier = Modifier, onLanguagePick: (String)
     val radioOptions = mapOf<String, String>(
         Pair(english, Locale.ENGLISH.language),
         Pair(simplifiedChinese, Locale.SIMPLIFIED_CHINESE.language),
-//        Pair("日本语", Locale.SIMPLIFIED_CHINESE.language),
-//        Pair("韩语", Locale.SIMPLIFIED_CHINESE.language),
-//        Pair("中文繁体", Locale.SIMPLIFIED_CHINESE.language),
-//        Pair("法语", Locale.SIMPLIFIED_CHINESE.language)
+//        Pair("中文(繁體)", Locale.TRADITIONAL_CHINESE.language),
+//        Pair("日本語", Locale.JAPAN.language),
+//        Pair("한국어", Locale.KOREA.language),
+//        Pair("Français", Locale.FRANCE.language)
     )
 
     val (selectedKey, setSelectedKey) = remember {
