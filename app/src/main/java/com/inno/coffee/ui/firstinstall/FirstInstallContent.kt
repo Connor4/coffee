@@ -20,7 +20,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
@@ -61,7 +63,6 @@ import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.draw9Patch
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.firstinstall.InstallViewModel
-import com.inno.common.utils.Logger
 import kotlinx.coroutines.delay
 import java.util.Locale
 
@@ -130,7 +131,11 @@ private fun LanguagePage(modifier: Modifier = Modifier, onLanguagePick: (String)
     val simplifiedChinese = context.getString(R.string.first_install_language_Chinese_simplified)
     val radioOptions = mapOf<String, String>(
         Pair(english, Locale.ENGLISH.language),
-        Pair(simplifiedChinese, Locale.SIMPLIFIED_CHINESE.language)
+        Pair(simplifiedChinese, Locale.SIMPLIFIED_CHINESE.language),
+//        Pair("日本语", Locale.SIMPLIFIED_CHINESE.language),
+//        Pair("韩语", Locale.SIMPLIFIED_CHINESE.language),
+//        Pair("中文繁体", Locale.SIMPLIFIED_CHINESE.language),
+//        Pair("法语", Locale.SIMPLIFIED_CHINESE.language)
     )
 
     val (selectedKey, setSelectedKey) = remember {
@@ -139,6 +144,7 @@ private fun LanguagePage(modifier: Modifier = Modifier, onLanguagePick: (String)
     val (selectedValue, setSelectedValue) = remember {
         mutableStateOf(radioOptions[english]!!)
     }
+    val scrollState = rememberScrollState()
 
     Box(
         modifier = modifier,
@@ -171,6 +177,7 @@ private fun LanguagePage(modifier: Modifier = Modifier, onLanguagePick: (String)
                 modifier = Modifier
                     .width(450.dp)
                     .height(450.dp)
+                    .verticalScroll(scrollState)
                     .selectableGroup()
             ) {
                 radioOptions.forEach {
@@ -185,8 +192,7 @@ private fun LanguagePage(modifier: Modifier = Modifier, onLanguagePick: (String)
 
         Button(
             onClick = {
-//                onLanguagePick(selectedValue)
-                Logger.d("SELECTED VALUE $selectedValue")
+                onLanguagePick(selectedValue)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent
