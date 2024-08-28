@@ -14,8 +14,10 @@
     <string name="common_maintenance">Maintenance</string>
     <string name="common_serial_test">Serial Test</string>
 
-    <string name="first_install_language_Chinese">中文</string>
+    <string name="first_install_title">Language Settings</string>
+    <string name="first_install_language_Chinese_simplified">中文(简体)</string>
     <string name="first_install_language_English">English</string>
+    <string name="first_install_next">Next Step</string>
 
     <string name="statistic_product_history">Product History</string>
     <string name="statistic_machine_service_history">Service History</string>

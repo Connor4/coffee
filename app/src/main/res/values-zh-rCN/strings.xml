@@ -15,8 +15,10 @@
     <string name="common_maintenance">保养记录</string>
     <string name="common_serial_test">串口测试</string>
 
-    <string name="first_install_language_Chinese">中文</string>
+    <string name="first_install_title">语言设置</string>
+    <string name="first_install_language_Chinese_simplified">中文(简体)</string>
     <string name="first_install_language_English">English</string>
+    <string name="first_install_next">下一步</string>
 
     <string name="statistic_product_history">产品统计</string>
     <string name="statistic_machine_service_history">维修历史</string>
