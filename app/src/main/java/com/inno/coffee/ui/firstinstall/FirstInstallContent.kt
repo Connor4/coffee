@@ -256,7 +256,11 @@ private fun TimePickerPage(onSetComplete: (Int, Int) -> Unit) {
 private fun SplashPage(navController: NavHostController) {
     LaunchedEffect(Unit) {
         delay(SPLASH_TIME)
-        navController.navigate(LANGUAGE)
+        navController.navigate(LANGUAGE) {
+            popUpTo(SPLASH) {
+                inclusive = true
+            }
+        }
     }
     Box(
         modifier = Modifier
@@ -265,7 +269,10 @@ private fun SplashPage(navController: NavHostController) {
         contentAlignment = Alignment.Center
     ) {
         Column {
-            Image(painter = painterResource(id = R.drawable.logo), contentDescription = null)
+            Image(
+                painter = painterResource(id = R.drawable.install_splash_logo_ic),
+                contentDescription = null,
+            )
             Text(
                 text = "*欢迎使用，正在加载",
                 style = MaterialTheme.typography.displayMedium
