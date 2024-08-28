@@ -1,5 +1,11 @@
 package com.inno.coffee.ui.firstinstall
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.selection.selectable
@@ -33,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,6 +73,9 @@ fun InstallSetting(
 ) {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val modifier = Modifier
+        .fillMaxSize()
+        .background(color = Color(0xFF191A1D))
     val defaultLanguage = stringResource(id = R.string.first_install_language_English)
     var selectedLanguage by remember {
         mutableStateOf(defaultLanguage)
@@ -80,7 +91,7 @@ fun InstallSetting(
     }
     NavHost(navController = navController, startDestination = SPLASH) {
         composable(SPLASH) {
-            SplashPage(navController)
+            SplashPage(navController, modifier)
         }
         composable(LANGUAGE) {
             LanguagePage { language ->
@@ -253,7 +264,7 @@ private fun TimePickerPage(onSetComplete: (Int, Int) -> Unit) {
 }
 
 @Composable
-private fun SplashPage(navController: NavHostController) {
+private fun SplashPage(navController: NavHostController, modifier: Modifier = Modifier) {
     LaunchedEffect(Unit) {
         delay(SPLASH_TIME)
         navController.navigate(LANGUAGE) {
@@ -262,22 +273,36 @@ private fun SplashPage(navController: NavHostController) {
             }
         }
     }
+
+    val infiniteTransition = rememberInfiniteTransition(label = "")
+    val rotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 3000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ), label = ""
+    )
+
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White),
-        contentAlignment = Alignment.Center
+        modifier = modifier,
     ) {
-        Column {
-            Image(
-                painter = painterResource(id = R.drawable.install_splash_logo_ic),
-                contentDescription = null,
-            )
-            Text(
-                text = "*欢迎使用，正在加载",
-                style = MaterialTheme.typography.displayMedium
-            )
-        }
+        Image(
+            painter = painterResource(id = R.drawable.install_splash_logo_ic),
+            contentDescription = null,
+            modifier = Modifier.align(Alignment.Center),
+        )
+
+        Image(
+            painter = painterResource(id = R.drawable.install_splash_loading_ic),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(start = 615.dp, top = 601.dp, end = 615.dp, bottom = 149.dp)
+                .size(50.dp)
+                .graphicsLayer {
+                    rotationZ = rotation
+                },
+        )
     }
 }
 
@@ -286,5 +311,9 @@ private fun SplashPage(navController: NavHostController) {
 fun PreviewInstallPage() {
 //    LanguagePage {}
 //    TimePickerPage {}
-    DatePickerPage {}
+//    DatePickerPage {}
+    SplashPage(navController = rememberNavController(), modifier = Modifier
+        .fillMaxSize()
+        .background(color = Color(0xFF191A1D))
+    )
 }
