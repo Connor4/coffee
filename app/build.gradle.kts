@@ -31,7 +31,7 @@ android {
         create("uwin") {
             keyAlias = "androidalias"
             keyPassword = "inno123"
-            storeFile = file("../key/uwin/inno.jks")
+            storeFile = file("../key/uwin/inno-uwin.jks")
             storePassword = "inno123"
         }
     }
