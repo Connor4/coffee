@@ -58,7 +58,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
 import com.inno.coffee.utilities.DEFAULT_SYSTEM_TIME
-import com.inno.coffee.utilities.StateImage
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.draw9Patch
 import com.inno.coffee.utilities.nsp
@@ -145,6 +144,9 @@ private fun LanguagePage(modifier: Modifier = Modifier, onLanguagePick: (String)
         mutableStateOf(radioOptions[english]!!)
     }
     val scrollState = rememberScrollState()
+    var isPressed by remember {
+        mutableStateOf(false)
+    }
 
     Box(
         modifier = modifier,
@@ -192,6 +194,7 @@ private fun LanguagePage(modifier: Modifier = Modifier, onLanguagePick: (String)
 
         Button(
             onClick = {
+                isPressed = true
                 onLanguagePick(selectedValue)
             },
             colors = ButtonDefaults.buttonColors(
@@ -207,9 +210,12 @@ private fun LanguagePage(modifier: Modifier = Modifier, onLanguagePick: (String)
                 color = Color.White
             )
             Spacer(modifier = Modifier.width(13.dp))
-            StateImage(
-                normalImage = painterResource(id = R.drawable.install_language_next_normal_ic),
-                pressedImage = painterResource(id = R.drawable.install_language_next_pressed_ic),
+            Image(
+                painter = if (isPressed) painterResource(
+                    id = R.drawable.install_language_next_pressed_ic)
+                else painterResource(
+                    id = R.drawable.install_language_next_normal_ic),
+                contentDescription = null,
             )
         }
     }
@@ -234,7 +240,7 @@ private fun LanguageRadioButton(
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .draw9Patch(LocalContext.current, R.drawable.install_select_bg))
+                .draw9Patch(LocalContext.current, R.drawable.common_select_bg))
         }
         Text(
             text = text,
