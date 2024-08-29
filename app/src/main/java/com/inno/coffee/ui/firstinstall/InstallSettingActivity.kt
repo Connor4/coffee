@@ -2,6 +2,7 @@ package com.inno.coffee.ui.firstinstall
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.home.MakeCoffeeActivity
@@ -13,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class InstallSettingActivity : CoffeeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Coffee)
         super.onCreate(savedInstanceState)
         val firstInstall = CoffeeSharedPreferences.getInstance().isFirstInstall
         if (firstInstall) {
