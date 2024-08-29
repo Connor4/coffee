@@ -51,7 +51,7 @@ fun HomeDrinksLayout(
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 23.dp),
         ) {
-            HomePageIndicator(selectedPage = pagerState.currentPage, totalPage = TOTAL_PAGE)
+            HomePageIndicator(pagerState.currentPage)
         }
     }
 }
@@ -59,17 +59,16 @@ fun HomeDrinksLayout(
 @Composable
 private fun HomePageIndicator(
     selectedPage: Int = 0,
-    totalPage: Int = 2,
 ) {
     Row {
-        for (i in 0 until totalPage) {
+        for (i in 0 until TOTAL_PAGE) {
             Image(
                 painter = if (i == selectedPage) painterResource(id = R.drawable
                     .home_page_indicator_selected_ic)
                 else painterResource(id = R.drawable.home_page_indicator_normal_ic),
                 contentDescription = null
             )
-            if (i in 0 until totalPage - 1) {
+            if (i in 0 until TOTAL_PAGE - 1) {
                 Spacer(modifier = Modifier.width(10.dp))
             }
         }
