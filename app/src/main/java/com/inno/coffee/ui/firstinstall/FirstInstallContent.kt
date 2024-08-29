@@ -240,7 +240,7 @@ private fun LanguageRadioButton(
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .draw9Patch(LocalContext.current, R.drawable.common_select_bg))
+                .draw9Patch(LocalContext.current, R.drawable.common_item_select_bg))
         }
         Text(
             text = text,
