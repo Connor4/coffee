@@ -43,7 +43,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("peite")
+            signingConfig = null
         }
         getByName("release") {
             isMinifyEnabled = true
@@ -52,7 +52,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("peite")
+            signingConfig = null
         }
     }
     flavorDimensions += "version"
@@ -60,10 +60,12 @@ android {
         create("peite") {
             dimension = "version"
             versionNameSuffix = "-peite"
+            signingConfig = signingConfigs.getByName("peite")
         }
         create("uwin") {
             dimension = "version"
             versionNameSuffix = "-uwin"
+            signingConfig = signingConfigs.getByName("uwin")
         }
     }
     compileOptions {
