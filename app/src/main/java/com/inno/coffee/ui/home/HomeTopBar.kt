@@ -41,8 +41,8 @@ fun HomeTopBar(
     var currentTime by remember { mutableStateOf(getCurrentTime()) }
 
     LaunchedEffect(Unit) {
-        date = getCurrentDate()
         while (true) {
+            date = getCurrentDate()
             currentTime = getCurrentTime()
             delay(60_000L)
         }
