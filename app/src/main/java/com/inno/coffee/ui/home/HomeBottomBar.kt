@@ -56,7 +56,9 @@ fun HomeBottomBar(
             )
             Spacer(modifier = Modifier.width(20.dp))
             Button(
-                modifier = Modifier.height(50.dp),
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(50.dp),
                 colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
                     Color.Magenta),
                 shape = RoundedCornerShape(10.dp),
@@ -66,7 +68,9 @@ fun HomeBottomBar(
             }
             Spacer(modifier = Modifier.width(10.dp))
             Button(
-                modifier = Modifier.height(50.dp),
+                modifier = Modifier
+                    .width(320.dp)
+                    .height(50.dp),
                 colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
                     Color.Magenta),
                 shape = RoundedCornerShape(10.dp),
