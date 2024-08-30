@@ -18,17 +18,22 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.function.display.ScreenDisplayManager
+import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
+import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.viewmodel.home.HomeViewModel
 
 private const val TOTAL_PAGE = 2
@@ -39,10 +44,15 @@ private const val PAGE_COUNT = 12
 fun HomeDrinksLayout(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val pagerState = rememberPagerState(pageCount = { TOTAL_PAGE })
+    val context = LocalContext.current
+    val mainScreen = ScreenDisplayManager.isMainDisplay(context)
     val drinksList by viewModel.drinksTypes.collectAsState()
-    val selected = remember {
-        mutableStateOf(false)
+    val pagerState = rememberPagerState(pageCount = { TOTAL_PAGE })
+    val selected = remember { mutableIntStateOf(INVALID_INT) }
+    val size by if (mainScreen) {
+        MakeLeftDrinksHandler.size.collectAsState()
+    } else {
+        MakeRightDrinksHandler.size.collectAsState()
     }
 
     Box(
@@ -62,8 +72,17 @@ fun HomeDrinksLayout(
                 maxItemsInEachRow = 4,
             ) {
                 repeat(currentList.size) {
-                    DrinkItem(model = currentList[it]) {
+                    val drinkModel = currentList[it]
+                    val enable = if (size > 0) {
+                        !viewModel.isFunctionItem(model = drinkModel)
+                    } else {
+                        false
+                    }
 
+                    DrinkItem(model = drinkModel, enableMask = enable,
+                        selected = (selected.intValue == drinkModel.productId)) { model ->
+                        selected.intValue = model.productId
+//                        viewModel.startMakeDrink(model, mainScreen)
                     }
                 }
             }

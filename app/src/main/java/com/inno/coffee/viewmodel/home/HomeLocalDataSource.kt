@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class HomeLocalDataSource @Inject constructor() {
-    val specialItem = mutableListOf(1, 2, 4, 8)
+    val specialItem = mutableListOf(1, 3, 4, 11, 12)
 
     val drinksTypes = listOf(
         DrinksModel(
