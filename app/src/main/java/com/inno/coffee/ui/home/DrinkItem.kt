@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
@@ -16,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -26,12 +24,11 @@ import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.utilities.MaskBoxWithContent
 import com.inno.coffee.utilities.debouncedClickable
-import com.inno.coffee.utilities.draw9Patch
 import com.inno.coffee.utilities.nsp
 import com.inno.common.enums.ProductType
 
 @Composable
-private fun DrinkItem(
+fun DrinkItem(
     model: DrinksModel,
     enableMask: Boolean = false,
     selected: Boolean = false,
@@ -39,41 +36,34 @@ private fun DrinkItem(
 ) {
     Box(
         modifier = Modifier
-            .width(287.dp)
-            .height(180.dp)
+            .width(300.dp)
+            .height(200.dp)
             .debouncedClickable({ onDrinkClick(model) }),
         contentAlignment = Alignment.Center,
     ) {
         if (selected) {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .draw9Patch(LocalContext.current, R.drawable.common_item_select_bg))
+            Image(painter = painterResource(id = R.drawable.home_item_select_bg),
+                contentDescription = null)
         }
+
         Box(
             modifier = Modifier
-                .width(262.dp)
-                .height(154.dp)
-                .border(1.dp, Color(0xFF484848), RoundedCornerShape(10.dp))
-                .clip(RoundedCornerShape(10.dp))
+                .width(274.dp)
+                .height(174.dp)
+                .border(1.dp, Color(0xFF484848), RoundedCornerShape(18.dp))
+                .clip(RoundedCornerShape(18.dp))
                 .background(color = Color(0xFF191A1D)),
         ) {
             MaskBoxWithContent(enableMask = enableMask) {
-//                    AsyncImage(
-//                        model = model.imageRes,
-//                        contentDescription = null,
-//                        contentScale = ContentScale.Fit,
-//                        modifier = Modifier
-//                            .size(120.dp),
-//                    )
                 Image(
                     painter = painterResource(id = model.imageRes),
                     contentDescription = null,
-                    contentScale = ContentScale.Fit,
+                    contentScale = ContentScale.Inside,
                     modifier = Modifier
                         .width(80.dp)
                         .height(60.dp)
                         .align(Alignment.TopCenter)
-                        .offset(y = 35.dp),
+                        .offset(y = 41.dp),
                 )
                 Text(
                     text = stringResource(id = model.name),
@@ -81,7 +71,7 @@ private fun DrinkItem(
                     color = Color.White,
                     modifier = Modifier
                         .align(alignment = Alignment.TopCenter)
-                        .offset(y = 105.dp)
+                        .offset(y = 124.dp)
                 )
             }
         }
