@@ -82,7 +82,7 @@ fun HomeDrinksLayout(
                     DrinkItem(model = drinkModel, enableMask = enable,
                         selected = (selected.intValue == drinkModel.productId)) { model ->
                         selected.intValue = model.productId
-//                        viewModel.startMakeDrink(model, mainScreen)
+                        viewModel.startMakeDrink(model, mainScreen)
                     }
                 }
             }

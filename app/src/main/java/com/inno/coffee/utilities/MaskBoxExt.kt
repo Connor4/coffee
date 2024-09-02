@@ -16,7 +16,7 @@ fun MaskBoxWithContent(enableMask: Boolean = false, content: @Composable () -> U
                 drawContent()
                 if (enableMask) {
                     drawRect(
-                        color = Color(0x80000000),
+                        color = Color(0xCC000000),
                         size = this.size,
                     )
                 }
