@@ -34,9 +34,9 @@ import java.util.Locale
 
 @Composable
 fun HomeTopBar(
-    onClick: () -> Unit = {},
+    open: Boolean,
+    onClick: (show: Boolean) -> Unit = {},
 ) {
-    var open by remember { mutableStateOf(false) }
     var date by remember { mutableStateOf(getCurrentDate()) }
     var currentTime by remember { mutableStateOf(getCurrentTime()) }
 
@@ -77,8 +77,7 @@ fun HomeTopBar(
                 .wrapContentWidth(Alignment.End)
                 .size(60.dp)
                 .debouncedClickable({
-                    open = !open
-                    onClick()
+                    onClick(!open)
                 }),
             contentAlignment = Alignment.Center,
         ) {
@@ -106,5 +105,5 @@ private fun getCurrentDate(): String {
 @Preview(device = Devices.TABLET)
 @Composable
 private fun PreviewTop() {
-    HomeTopBar()
+    HomeTopBar(true)
 }
