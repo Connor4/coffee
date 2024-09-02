@@ -5,7 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -37,9 +37,10 @@ fun MachineInfoLayout(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(800.dp)
-            .padding(top = 60.dp, bottom = 70.dp)
+            .fillMaxSize()
+//            .fillMaxWidth()
+//            .height(800.dp)
+//            .padding(top = 60.dp, bottom = 70.dp)
             .background(Color(0xED000000)),
         contentAlignment = Alignment.Center
     ) {

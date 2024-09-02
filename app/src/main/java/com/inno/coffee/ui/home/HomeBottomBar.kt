@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.nsp
 
@@ -62,7 +63,7 @@ fun HomeBottomBar(
                 colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
                     Color.Magenta),
                 shape = RoundedCornerShape(10.dp),
-                onClick = { /*TODO*/ },
+                onClick = composeClick { /*TODO*/ },
             ) {
                 Text(text = "*Decaffeinated", fontSize = 5.nsp(), color = Color.White)
             }
@@ -74,7 +75,7 @@ fun HomeBottomBar(
                 colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
                     Color.Magenta),
                 shape = RoundedCornerShape(10.dp),
-                onClick = { /*TODO*/ },
+                onClick = composeClick { /*TODO*/ },
             ) {
                 Text(text = "*Press first for Second Milk", fontSize = 5.nsp(), color = Color.White)
             }

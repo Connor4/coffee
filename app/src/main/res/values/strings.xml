@@ -144,6 +144,7 @@
     <string name="home_entrance_info_version">Software Version</string>
     <string name="home_entrance_info_service_company">Service Company</string>
     <string name="home_entrance_info_machine_id">Telemetry Machine ID</string>
+    <string name="home_entrance_enter_standby">Confirm to enter standby mode?</string>
 
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>

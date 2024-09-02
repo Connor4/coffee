@@ -89,6 +89,13 @@ fun HomeContent(
                 showInfoDialog = false
             }
         }
+        if (showStandByModeDialog) {
+            StandbyModeLayout(onConfirmClick = {
+                showStandByModeDialog = false
+            }, onCloseClick = {
+                showStandByModeDialog = false
+            })
+        }
     }
 
 }

@@ -145,6 +145,7 @@
     <string name="home_entrance_info_version">软件版本</string>
     <string name="home_entrance_info_service_company">售后公司</string>
     <string name="home_entrance_info_machine_id">遥测机器ID</string>
+    <string name="home_entrance_enter_standby">确认进入待机模式？</string>
 
     <string name="permission_password_correct">密码正确</string>
     <string name="permission_password_error">密码错误</string>
