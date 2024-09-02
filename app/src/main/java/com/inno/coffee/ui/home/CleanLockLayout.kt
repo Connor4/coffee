@@ -24,7 +24,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,7 +31,6 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.utilities.draw9Patch
 import com.inno.coffee.utilities.nsp
 import kotlinx.coroutines.delay
 
@@ -61,13 +59,20 @@ fun CleanLockLayout(
             .background(Color(0xED000000)),
         contentAlignment = Alignment.Center
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.home_entrance_dialog_bg),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .width(834.dp)
+                .height(394.dp)
+        )
         Box(
             modifier = Modifier
                 .width(770.dp)
                 .height(340.dp)
-                .clip(RoundedCornerShape(18.dp))
+                .clip(RoundedCornerShape(20.dp))
                 .background(Color(0xFF191A1D))
-                .draw9Patch(LocalContext.current, R.drawable.common_item_select_bg)
         ) {
             Text(
                 text = stringResource(id = R.string.home_lock_clean_count_tip),
