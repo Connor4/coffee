@@ -1,10 +1,7 @@
 package com.inno.coffee.ui.home
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,12 +16,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -36,20 +34,25 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.utilities.draw9Patch
 import com.inno.coffee.utilities.nsp
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeCleanLayout(
     count: Int = 10,
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "")
-    val rotation by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ), label = ""
-    )
+    val rotation = remember {
+        Animatable(0f)
+    }
+    LaunchedEffect(Unit) {
+        while (true) {
+            rotation.animateTo(
+                targetValue = 180f,
+                animationSpec = tween(durationMillis = 1000, easing = LinearEasing)
+            )
+            delay(300)
+            rotation.snapTo(0f)
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -75,9 +78,7 @@ fun HomeCleanLayout(
                     .align(Alignment.TopCenter)
                     .padding(top = 141.dp)
                     .size(50.dp)
-                    .graphicsLayer {
-                        rotationZ = rotation
-                    },
+                    .rotate(rotation.value),
                 painter = painterResource(id = R.drawable.home_entrance_countdown_ic),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
