@@ -82,7 +82,12 @@ fun HomeContent(
                     showCleanDialog = false
                 }
             }
-            HomeCleanLayout(state.value)
+            CleanLockLayout(state.value)
+        }
+        if (showInfoDialog) {
+            MachineInfoLayout() {
+                showInfoDialog = false
+            }
         }
     }
 

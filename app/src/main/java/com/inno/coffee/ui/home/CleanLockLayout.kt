@@ -37,7 +37,7 @@ import com.inno.coffee.utilities.nsp
 import kotlinx.coroutines.delay
 
 @Composable
-fun HomeCleanLayout(
+fun CleanLockLayout(
     count: Int = 10,
 ) {
     val rotation = remember {
@@ -51,6 +51,7 @@ fun HomeCleanLayout(
             )
             delay(300)
             rotation.snapTo(0f)
+            delay(200)
         }
     }
 
@@ -104,5 +105,5 @@ fun HomeCleanLayout(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun PreviewEntrance() {
-    HomeCleanLayout()
+    CleanLockLayout()
 }

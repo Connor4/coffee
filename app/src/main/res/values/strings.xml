@@ -140,6 +140,10 @@
     <string name="home_process_status_brewing">Brewing</string>
     <string name="home_process_status_brew_completed">Brew Completed</string>
     <string name="home_process_status_finished">Finished</string>
+    <string name="home_entrance_info_sn">S/N Machine</string>
+    <string name="home_entrance_info_version">Software Version</string>
+    <string name="home_entrance_info_service_company">Service Company</string>
+    <string name="home_entrance_info_machine_id">Telemetry Machine ID</string>
 
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>

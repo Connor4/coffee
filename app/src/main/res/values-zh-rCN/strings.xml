@@ -141,6 +141,10 @@
     <string name="home_process_status_brewing">正在研磨</string>
     <string name="home_process_status_brew_completed">研磨完成</string>
     <string name="home_process_status_finished">制作完成</string>
+    <string name="home_entrance_info_sn">设备S/N</string>
+    <string name="home_entrance_info_version">软件版本</string>
+    <string name="home_entrance_info_service_company">售后公司</string>
+    <string name="home_entrance_info_machine_id">遥测机器ID</string>
 
     <string name="permission_password_correct">密码正确</string>
     <string name="permission_password_error">密码错误</string>
