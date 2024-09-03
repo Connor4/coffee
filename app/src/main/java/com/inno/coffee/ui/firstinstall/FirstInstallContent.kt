@@ -10,21 +10,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -45,8 +37,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,12 +48,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
 import com.inno.coffee.utilities.DEFAULT_SYSTEM_TIME
-import com.inno.coffee.utilities.debouncedClickable
-import com.inno.coffee.utilities.draw9Patch
-import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.firstinstall.InstallViewModel
 import kotlinx.coroutines.delay
-import java.util.Locale
 
 private const val SPLASH = "splash"
 private const val LANGUAGE = "language"
@@ -99,14 +85,18 @@ fun InstallSetting(
             SplashPage(navController, modifier)
         }
         composable(LANGUAGE) {
-            LanguagePage(modifier) { language ->
+            LanguageLayout(modifier) { language ->
                 selectedLanguage = language
                 navController.navigate(DATE)
                 viewModel.selectLanguage(context, language)
             }
         }
         composable(DATE) {
-            DatePickerPage {
+//            DatePickerPage {
+//                selectedDateMillis = it
+//                navController.navigate(TIME)
+//            }
+            DatePickerLayout(modifier) {
                 selectedDateMillis = it
                 navController.navigate(TIME)
             }
@@ -120,133 +110,6 @@ fun InstallSetting(
                 onSetComplete()
             }
         }
-    }
-}
-
-@Composable
-private fun LanguagePage(modifier: Modifier = Modifier, onLanguagePick: (String) -> Unit) {
-    val context = LocalContext.current
-    val english = context.getString(R.string.first_install_language_English)
-    val simplifiedChinese = context.getString(R.string.first_install_language_Chinese_simplified)
-    val radioOptions = mapOf<String, String>(
-        Pair(english, Locale.ENGLISH.language),
-        Pair(simplifiedChinese, Locale.SIMPLIFIED_CHINESE.language),
-//        Pair("中文(繁體)", Locale.TRADITIONAL_CHINESE.language),
-//        Pair("日本語", Locale.JAPAN.language),
-//        Pair("한국어", Locale.KOREA.language),
-//        Pair("Français", Locale.FRANCE.language)
-    )
-
-    val (selectedKey, setSelectedKey) = remember {
-        mutableStateOf(english)
-    }
-    val (selectedValue, setSelectedValue) = remember {
-        mutableStateOf(radioOptions[english]!!)
-    }
-    val scrollState = rememberScrollState()
-    var isPressed by remember {
-        mutableStateOf(false)
-    }
-
-    Box(
-        modifier = modifier,
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 66.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = stringResource(id = R.string.first_install_title),
-                fontSize = 15.nsp(),
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 217.dp)
-                .background(color = Color.Transparent),
-            contentAlignment = Alignment.Center,
-        ) {
-            Column(
-                modifier = Modifier
-                    .width(450.dp)
-                    .height(450.dp)
-                    .verticalScroll(scrollState)
-                    .selectableGroup()
-            ) {
-                radioOptions.forEach {
-                    LanguageRadioButton(text = it.key, isSelected = (it.key == selectedKey),
-                        onClick = {
-                            setSelectedKey(it.key)
-                            setSelectedValue(it.value)
-                        })
-                }
-            }
-        }
-
-        Button(
-            onClick = {
-                isPressed = true
-                onLanguagePick(selectedValue)
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent
-            ),
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-        ) {
-            Text(
-                text = stringResource(id = R.string.first_install_next),
-                fontSize = 7.nsp(),
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.width(13.dp))
-            Image(
-                painter = if (isPressed) painterResource(
-                    id = R.drawable.install_language_next_pressed_ic)
-                else painterResource(
-                    id = R.drawable.install_language_next_normal_ic),
-                contentDescription = null,
-            )
-        }
-    }
-}
-
-@Composable
-private fun LanguageRadioButton(
-    text: String,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(90.dp)
-            .debouncedClickable({
-                onClick()
-            }),
-    ) {
-        if (isSelected) {
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .draw9Patch(LocalContext.current, R.drawable.common_item_select_bg))
-        }
-        Text(
-            text = text,
-            fontSize = 7.nsp(),
-            color = Color.White,
-        )
     }
 }
 
@@ -374,7 +237,7 @@ private fun SplashPage(navController: NavHostController, modifier: Modifier = Mo
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
 private fun PreviewInstallPage() {
-    LanguagePage(modifier = Modifier
+    LanguageLayout(modifier = Modifier
         .fillMaxSize()
         .background(color = Color(0xFF191A1D))
     ) {}
