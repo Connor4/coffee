@@ -19,6 +19,7 @@
     <string name="first_install_language_English">English</string>
     <string name="first_install_next">Next Step</string>
     <string name="first_install_date_title">Date Settings</string>
+    <string name="first_install_select_date">Select Date</string>
     <string name="first_install_time_title">Time Settings</string>
 
     <string name="statistic_product_history">Product History</string>

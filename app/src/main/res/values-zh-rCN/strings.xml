@@ -20,6 +20,7 @@
     <string name="first_install_language_English">English</string>
     <string name="first_install_next">下一步</string>
     <string name="first_install_date_title">日期设置</string>
+    <string name="first_install_select_date">选择日期</string>
     <string name="first_install_time_title">时间设置</string>
 
     <string name="statistic_product_history">产品统计</string>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="coffee_datePicker_dayTextAppearance">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="coffee_datePicker_dayOfWeekTextAppearance">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+</resources>

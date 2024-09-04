@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CoffeeDatePickerView">
+        <attr name="coffeeDateTextAppearance" format="reference" />
+        <attr name="coffeeDaySelectorColor" format="color|reference" />
+    </declare-styleable>
+</resources>

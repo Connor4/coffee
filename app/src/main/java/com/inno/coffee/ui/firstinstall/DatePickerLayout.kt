@@ -3,8 +3,11 @@ package com.inno.coffee.ui.firstinstall
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -14,6 +17,7 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerFormatter
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -32,8 +36,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.inno.coffee.R
 import com.inno.coffee.utilities.DEFAULT_SYSTEM_TIME
+import com.inno.coffee.utilities.fastclickWithoutRipple
 import com.inno.coffee.utilities.nsp
 
 
@@ -42,9 +48,15 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
     var isPressed by remember {
         mutableStateOf(false)
     }
+    val datePickerViewRef = remember {
+        mutableStateOf<CoffeeDatePickerView?>(null)
+    }
 
     Box(
-        modifier = modifier.background(Color.LightGray),
+        modifier = modifier,
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(Color.LightGray)
     ) {
         Box(
             modifier = Modifier
@@ -61,8 +73,69 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
                 textAlign = TextAlign.Center,
             )
         }
+        Text(
+            text = stringResource(id = R.string.first_install_select_date),
+            fontSize = 7.nsp(),
+            color = Color.White,
+            modifier = Modifier.padding(top = 155.dp, start = 54.dp)
+        )
+        Text(
+            text = "Jan 1，2024",
+            fontSize = 10.nsp(),
+            color = Color.White,
+            modifier = Modifier.padding(top = 200.dp, start = 54.dp)
+        )
+        HorizontalDivider(
+            color = Color(0xFFFDFDFD),
+            thickness = 2.dp,
+            modifier = Modifier.padding(top = 280.dp, start = 54.dp, end = 54.dp)
+        )
+        Row {
 
-        CustomDatePicker()
+        }
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 300.dp, end = 54.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.install_date_prev_ic),
+                contentDescription = null,
+                modifier = Modifier.fastclickWithoutRipple {
+                    datePickerViewRef.value?.performPrevClick()
+                }
+            )
+            Spacer(modifier = Modifier.width(20.dp))
+            Image(
+                painter = painterResource(id = R.drawable.install_date_next_ic),
+                contentDescription = null,
+                modifier = Modifier.fastclickWithoutRipple {
+                    datePickerViewRef.value?.performNextClick()
+                }
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .padding(top = 325.dp)
+                .width(700.dp)
+                .height(336.dp)
+                .align(Alignment.TopCenter),
+        ) {
+            AndroidView(
+                modifier = Modifier.fillMaxSize(),
+                factory = { context ->
+                    CoffeeDatePickerView(context).also {
+                        datePickerViewRef.value = it
+                    }
+                },
+                update = {}
+            )
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .background(Color(0xFF191A1D)))
+        }
 
         Button(
             onClick = {

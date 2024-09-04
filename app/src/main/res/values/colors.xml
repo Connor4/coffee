@@ -8,5 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="transparent">#00FFFFFF</color>
     <color name="splash_bg">#FF191A1D</color>
+    <color name="date_picker_select_bg">#FF00DE93</color>
 </resources>
