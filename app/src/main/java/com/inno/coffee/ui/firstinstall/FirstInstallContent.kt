@@ -92,10 +92,6 @@ fun InstallSetting(
             }
         }
         composable(DATE) {
-//            DatePickerPage {
-//                selectedDateMillis = it
-//                navController.navigate(TIME)
-//            }
             DatePickerLayout(modifier) {
                 selectedDateMillis = it
                 navController.navigate(TIME)
