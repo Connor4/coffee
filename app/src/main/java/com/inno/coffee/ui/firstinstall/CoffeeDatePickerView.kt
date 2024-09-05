@@ -22,7 +22,7 @@ import java.util.Locale
 
 class CoffeeDatePickerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-    var onDateSelected: ((String?, String?) -> Unit)? = null,
+    var onDateSelected: ((String?, String?, Long) -> Unit)? = null,
 ) : FrameLayout(context, attrs, defStyleAttr) {
     private val TAG = "CoffeeDatePickerView"
     private val DEFAULT_START_YEAR = 1970
@@ -73,7 +73,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     fun updateDate() {
         val monthDayYear = currentDate?.time?.let { mDYDateFormat?.format(it) }
         val monthYear = currentDate?.time?.let { mYDateFormat?.format(it) }
-        onDateSelected?.invoke(monthDayYear, monthYear)
+        onDateSelected?.invoke(monthDayYear, monthYear, currentDate?.timeInMillis ?: 0)
     }
 
     @SuppressLint("PrivateApi")

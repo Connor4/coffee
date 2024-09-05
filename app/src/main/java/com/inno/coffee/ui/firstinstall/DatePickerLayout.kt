@@ -19,6 +19,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,6 +50,9 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
     }
     val monthYearState = remember {
         mutableStateOf<String?>("")
+    }
+    val currentTimeInMillsState = remember {
+        mutableLongStateOf(0)
     }
     val openYear = remember {
         mutableStateOf(false)
@@ -169,9 +173,10 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
                 modifier = Modifier.fillMaxSize(),
                 factory = { context ->
                     CoffeeDatePickerView(context).apply {
-                        onDateSelected = { arg1, arg2 ->
+                        onDateSelected = { arg1, arg2, arg3 ->
                             monthDayYearState.value = arg1
                             monthYearState.value = arg2
+                            currentTimeInMillsState.longValue = arg3
                             openYear.value = false
                         }
                         datePickerViewRef.value = this
@@ -188,7 +193,7 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
         }
 
         NextStepButton(modifier = Modifier.align(Alignment.BottomEnd)) {
-//            onDatePick(datePickerState.selectedDateMillis)
+            onDatePick(currentTimeInMillsState.longValue)
         }
     }
 }
