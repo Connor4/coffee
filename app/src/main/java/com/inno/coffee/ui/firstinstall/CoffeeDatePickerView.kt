@@ -22,7 +22,7 @@ import java.util.Locale
 
 class CoffeeDatePickerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-    var onDateSelected: ((String?) -> Unit)? = null,
+    var onDateSelected: ((String?, String?) -> Unit)? = null,
 ) : FrameLayout(context, attrs, defStyleAttr) {
     private val TAG = "CoffeeDatePickerView"
     private val DEFAULT_START_YEAR = 1970
@@ -31,11 +31,14 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     private var nextButton: ImageButton? = null
     //    private var dayPickerView: View? = null
     private var yearPickerView: View? = null
+    private var dayInstance: Any? = null
+    private var yearInstance: Any? = null
     private var observableSparseArray: ObservableSparseArray? = null
     private var currentDate: Calendar? = null
     private var minDate: Calendar? = null
     private var maxDate: Calendar? = null
-    private var dateFormat: SimpleDateFormat? = null
+    private var mDYDateFormat: SimpleDateFormat? = null
+    private var mYDateFormat: SimpleDateFormat? = null
 
     init {
         val locale = Locale.getDefault()
@@ -44,7 +47,8 @@ class CoffeeDatePickerView @JvmOverloads constructor(
         maxDate = Calendar.getInstance(locale)
         minDate!!.set(DEFAULT_START_YEAR, Calendar.JANUARY, 1)
         maxDate!!.set(DEFAULT_END_YEAR, Calendar.DECEMBER, 31)
-        dateFormat = SimpleDateFormat("MMM d, yyyy", locale)
+        mDYDateFormat = SimpleDateFormat("MMM d, yyyy", locale)
+        mYDateFormat = SimpleDateFormat("MMM, yyyy", locale)
         addDayPickerView(context, attrs, defStyleAttr)
         addYearPickerView(context, attrs)
         showYearPickerView(false)
@@ -66,9 +70,10 @@ class CoffeeDatePickerView @JvmOverloads constructor(
         }
     }
 
-    fun initDate() {
-        val currentDateStr = currentDate?.time?.let { dateFormat?.format(it) }
-        onDateSelected?.invoke(currentDateStr)
+    fun updateDate() {
+        val monthDayYear = currentDate?.time?.let { mDYDateFormat?.format(it) }
+        val monthYear = currentDate?.time?.let { mYDateFormat?.format(it) }
+        onDateSelected?.invoke(monthDayYear, monthYear)
     }
 
     @SuppressLint("PrivateApi")
@@ -79,12 +84,14 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                 yearPickerViewClass.getDeclaredConstructor(Context::class.java,
                     AttributeSet::class.java)
             constructor.isAccessible = true
-            val yearPickerViewInstance = constructor.newInstance(context, attrs)
+            yearInstance = constructor.newInstance(context, attrs)
+            val yearPickerViewInstance = yearInstance
             if (yearPickerViewInstance is ListView) {
                 yearPickerView = yearPickerViewInstance
                 addView(yearPickerViewInstance)
                 setYearPickerMethodParams(yearPickerViewClass, yearPickerViewInstance)
                 setYearPickerSize()
+                setYearSelectedListener(yearPickerViewClass, yearPickerViewInstance)
             } else {
                 Logger.e(TAG, "Failed to cast to ListView")
             }
@@ -112,6 +119,16 @@ class CoffeeDatePickerView @JvmOverloads constructor(
             Logger.e(TAG, "setYearPickerMethodParams $e")
         }
     }
+    @SuppressLint("PrivateApi")
+    private fun updateYearPickerViewYear(year: Int) {
+        try {
+            val yearPickerViewClass = Class.forName("android.widget.YearPickerView")
+            val methodSetYear = yearPickerViewClass.getDeclaredMethod("setYear", Int::class.java)
+            methodSetYear.invoke(yearInstance, year)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     private fun setYearPickerSize() {
         yearPickerView?.setBackgroundColor(resources.getColor(R.color.white, null))
@@ -122,13 +139,56 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     }
 
     @SuppressLint("PrivateApi")
+    private fun setYearSelectedListener(yearPickerViewClass: Class<*>,
+        yearPickerViewInstance: Any) {
+        try {
+            val onYearSelectedListenerClass =
+                Class.forName("android.widget.YearPickerView\$OnYearSelectedListener")
+            val setOnYearSelectedListenerMethod =
+                yearPickerViewClass.getDeclaredMethod("setOnYearSelectedListener",
+                    onYearSelectedListenerClass)
+            setOnYearSelectedListenerMethod.isAccessible = true
+
+            val listener = Proxy.newProxyInstance(
+                onYearSelectedListenerClass.classLoader,
+                arrayOf(onYearSelectedListenerClass)
+            ) { _, method, args ->
+                if (method.name == "onYearChanged") {
+                    val selectedYear = args[1] as Int
+                    Logger.d(TAG, "selected year: $selectedYear")
+                    val day = currentDate?.get(Calendar.DAY_OF_MONTH) ?: 1
+                    val month = currentDate?.get(Calendar.MONTH) ?: Calendar.JANUARY
+                    val daysInMonth = getDaysInMonth(month, day)
+                    if (day > daysInMonth) {
+                        currentDate?.set(Calendar.DAY_OF_MONTH, daysInMonth)
+                    }
+                    currentDate?.set(Calendar.YEAR, selectedYear)
+                    if (currentDate!! < minDate) {
+                        currentDate!!.timeInMillis = minDate!!.timeInMillis
+                    } else if (currentDate!! > maxDate) {
+                        currentDate!!.timeInMillis = maxDate!!.timeInMillis
+                    }
+
+                    updateDayPickerViewDate()
+                    updateDate()
+                }
+                null
+            }
+            setOnYearSelectedListenerMethod.invoke(yearPickerViewInstance, listener)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    @SuppressLint("PrivateApi")
     private fun addDayPickerView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
         try {
             val dayPickerViewClass = Class.forName("android.widget.DayPickerView")
             val constructor: Constructor<*> =
                 dayPickerViewClass.getDeclaredConstructor(Context::class.java)
             constructor.isAccessible = true
-            val dayPickerViewInstance = constructor.newInstance(context)
+            dayInstance = constructor.newInstance(context)
+            val dayPickerViewInstance = dayInstance
             if (dayPickerViewInstance is ViewGroup) {
 //                dayPickerView = dayPickerViewInstance
                 addView(dayPickerViewInstance)
@@ -241,33 +301,53 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     }
 
     @SuppressLint("PrivateApi")
-    private fun setDaySelectedListener(dayPickerViewClass: Class<*>, dayPickerViewInstance: Any) {
-        val onDaySelectedListenerClass =
-            Class.forName("android.widget.DayPickerView\$OnDaySelectedListener")
-        val setOnDaySelectedListenerMethod =
-            dayPickerViewClass.getDeclaredMethod("setOnDaySelectedListener",
-                onDaySelectedListenerClass)
-        setOnDaySelectedListenerMethod.isAccessible = true
-
-        val listener = Proxy.newProxyInstance(
-            onDaySelectedListenerClass.classLoader,
-            arrayOf(onDaySelectedListenerClass)
-        ) { _, method, args ->
-            if (method.name == "onDaySelected") {
-                val selectedDay = args[1] as Calendar
-                Logger.d(TAG, "Selected day: ${selectedDay.time}")
-                updateDate(selectedDay)
-            }
-            null
+    private fun updateDayPickerViewDate() {
+        try {
+            val dayPickerViewClass = Class.forName("android.widget.DayPickerView")
+            val methodSetDate = dayPickerViewClass.getDeclaredMethod("setDate", Long::class.java)
+            methodSetDate.invoke(dayInstance, currentDate?.timeInMillis)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        setOnDaySelectedListenerMethod.invoke(dayPickerViewInstance, listener)
     }
 
-    private fun updateDate(selectedDay: Calendar) {
-        Logger.d(TAG, "updateDate ${selectedDay.time}")
-        currentDate?.timeInMillis = selectedDay.timeInMillis
-        val monthDay = currentDate?.time?.let { dateFormat?.format(it) }
-        onDateSelected?.invoke(monthDay)
+    @SuppressLint("PrivateApi")
+    private fun setDaySelectedListener(dayPickerViewClass: Class<*>, dayPickerViewInstance: Any) {
+        try {
+            val onDaySelectedListenerClass =
+                Class.forName("android.widget.DayPickerView\$OnDaySelectedListener")
+            val setOnDaySelectedListenerMethod =
+                dayPickerViewClass.getDeclaredMethod("setOnDaySelectedListener",
+                    onDaySelectedListenerClass)
+            setOnDaySelectedListenerMethod.isAccessible = true
+
+            val listener = Proxy.newProxyInstance(
+                onDaySelectedListenerClass.classLoader,
+                arrayOf(onDaySelectedListenerClass)
+            ) { _, method, args ->
+                if (method.name == "onDaySelected") {
+                    val selectedDay = args[1] as Calendar
+                    Logger.d(TAG, "Selected day: ${selectedDay.time}")
+                    currentDate?.timeInMillis = selectedDay.timeInMillis
+                    val year = currentDate?.get(Calendar.YEAR) ?: 2024
+                    updateYearPickerViewYear(year)
+                    updateDate()
+                }
+                null
+            }
+            setOnDaySelectedListenerMethod.invoke(dayPickerViewInstance, listener)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun getDaysInMonth(month: Int, year: Int): Int {
+        return when (month) {
+            Calendar.JANUARY, Calendar.MARCH, Calendar.MAY, Calendar.JULY, Calendar.AUGUST, Calendar.OCTOBER, Calendar.DECEMBER -> 31
+            Calendar.APRIL, Calendar.JUNE, Calendar.SEPTEMBER, Calendar.NOVEMBER -> 30
+            Calendar.FEBRUARY -> if ((year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) 29 else 28
+            else -> throw IllegalArgumentException("Invalid Month")
+        }
     }
 
 }
