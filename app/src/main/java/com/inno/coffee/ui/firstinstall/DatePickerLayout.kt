@@ -81,12 +81,14 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
             text = stringResource(id = R.string.first_install_select_date),
             fontSize = 7.nsp(),
             color = Color.White,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(top = 155.dp, start = 54.dp)
         )
         Text(
             text = monthDayState.value ?: "",
             fontSize = 10.nsp(),
             color = Color.White,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(top = 200.dp, start = 54.dp)
         )
         HorizontalDivider(
@@ -131,6 +133,19 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
                 )
             }
         }
+        Row(
+            modifier = Modifier.padding(top = 294.dp, start = 54.dp)
+        ) {
+            Text(text = "January 2024", fontSize = 6.nsp(), color = Color.White)
+            Image(
+                painter = painterResource(id = R.drawable.install_date_drop_arrow_ic),
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(start = 30.dp)
+            )
+        }
+
         Box(
             modifier = Modifier
                 .padding(top = 325.dp)
