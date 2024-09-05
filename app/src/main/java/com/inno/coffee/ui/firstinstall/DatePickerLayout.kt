@@ -53,6 +53,9 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
         mutableStateOf<CoffeeDatePickerView?>(null)
     }
     val monthDayState = remember { mutableStateOf<String?>("") }
+    val openYear = remember {
+        mutableStateOf(false)
+    }
 
     val prevInteractionSource = remember { MutableInteractionSource() }
     val nextInteractionSource = remember { MutableInteractionSource() }
@@ -137,15 +140,22 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
         Row(
             modifier = Modifier
                 .padding(top = 294.dp, start = 54.dp)
-                .debouncedClickable({})
+                .debouncedClickable({
+                    openYear.value = !openYear.value
+                })
         ) {
             Text(text = "January 2024", fontSize = 6.nsp(), color = Color.White)
             Image(
-                painter = painterResource(id = R.drawable.install_date_drop_arrow_ic),
+                painter = if (openYear.value)
+                    painterResource(id = R.drawable.install_date_arrow_up_ic)
+                else
+                    painterResource(id = R.drawable.install_date_arrow_down_ic),
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(start = 30.dp)
+                    .width(30.dp)
+                    .height(16.dp)
             )
         }
 
