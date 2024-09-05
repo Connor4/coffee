@@ -2,7 +2,10 @@ package com.inno.coffee.ui.firstinstall
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerFormatter
@@ -19,6 +24,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,7 +42,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.inno.coffee.R
 import com.inno.coffee.utilities.DEFAULT_SYSTEM_TIME
 import com.inno.coffee.utilities.NextStepButton
-import com.inno.coffee.utilities.fastclickWithoutRipple
+import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.nsp
 
 
@@ -45,12 +51,16 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
     val datePickerViewRef = remember {
         mutableStateOf<CoffeeDatePickerView?>(null)
     }
+    val monthDayState = remember { mutableStateOf<String?>("") }
+
+    val prevInteractionSource = remember { MutableInteractionSource() }
+    val nextInteractionSource = remember { MutableInteractionSource() }
+    val prevPressed by prevInteractionSource.collectIsPressedAsState()
+    val nextPressed by nextInteractionSource.collectIsPressedAsState()
 
     Box(
-        modifier = modifier,
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .background(Color.LightGray)
+        modifier = modifier
+            .fillMaxSize()
     ) {
         Box(
             modifier = Modifier
@@ -74,7 +84,7 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
             modifier = Modifier.padding(top = 155.dp, start = 54.dp)
         )
         Text(
-            text = "Jan 1，2024",
+            text = monthDayState.value ?: "",
             fontSize = 10.nsp(),
             color = Color.White,
             modifier = Modifier.padding(top = 200.dp, start = 54.dp)
@@ -84,46 +94,63 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
             thickness = 2.dp,
             modifier = Modifier.padding(top = 280.dp, start = 54.dp, end = 54.dp)
         )
-        Row {
-
-        }
         Row(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(top = 300.dp, end = 54.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.install_date_prev_ic),
-                contentDescription = null,
-                modifier = Modifier.fastclickWithoutRipple {
-                    datePickerViewRef.value?.performPrevClick()
-                }
-            )
-            Spacer(modifier = Modifier.width(20.dp))
-            Image(
-                painter = painterResource(id = R.drawable.install_date_next_ic),
-                contentDescription = null,
-                modifier = Modifier.fastclickWithoutRipple {
-                    datePickerViewRef.value?.performNextClick()
-                }
-            )
+            Button(
+                onClick = { datePickerViewRef.value?.performPrevClick() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent
+                ),
+                contentPadding = PaddingValues(0.dp),
+                interactionSource = prevInteractionSource,
+            ) {
+                Image(
+                    painter =
+                    if (prevPressed) painterResource(id = R.drawable.install_date_prev_pressed_ic)
+                    else painterResource(id = R.drawable.install_date_prev_normal_ic),
+                    contentDescription = null,
+                )
+            }
+            Spacer(modifier = Modifier.width(6.dp))
+            Button(
+                onClick = composeClick { datePickerViewRef.value?.performNextClick() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent
+                ),
+                contentPadding = PaddingValues(0.dp),
+                interactionSource = nextInteractionSource,
+            ) {
+                Image(
+                    painter =
+                    if (nextPressed) painterResource(id = R.drawable.install_date_next_pressed_ic)
+                    else painterResource(id = R.drawable.install_date_next_normal_ic),
+                    contentDescription = null,
+                )
+            }
         }
-
         Box(
             modifier = Modifier
                 .padding(top = 325.dp)
                 .width(700.dp)
-                .height(336.dp)
+                .height(436.dp)
                 .align(Alignment.TopCenter),
         ) {
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
                 factory = { context ->
-                    CoffeeDatePickerView(context).also {
-                        datePickerViewRef.value = it
+                    CoffeeDatePickerView(context).apply {
+                        onDateSelected = {
+                            monthDayState.value = it
+                        }
+                        datePickerViewRef.value = this
                     }
                 },
-                update = {}
+                update = {
+                    it.initDate()
+                }
             )
             Box(modifier = Modifier
                 .fillMaxWidth()

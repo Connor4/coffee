@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
+import android.icu.util.Calendar
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.ImageButton
@@ -12,17 +13,26 @@ import com.inno.coffee.R
 import com.inno.common.utils.Logger
 import java.lang.reflect.Constructor
 import java.lang.reflect.Field
+import java.lang.reflect.Proxy
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class CoffeeDatePickerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
+    var onDateSelected: ((String?) -> Unit)? = null,
 ) : LinearLayout(context, attrs, defStyleAttr) {
     private var prevButton: ImageButton? = null
     private var nextButton: ImageButton? = null
     private var observableSparseArray: ObservableSparseArray? = null
+    private var currentDate: Calendar? = null
+    private var dateFormat: SimpleDateFormat? = null
 
     init {
         orientation = VERTICAL
         addDayPickerView(context, attrs, defStyleAttr)
+        val locale = Locale.getDefault()
+        currentDate = Calendar.getInstance(locale)
+        dateFormat = SimpleDateFormat("MMM d, yyyy", locale)
     }
 
     fun performPrevClick() {
@@ -31,6 +41,11 @@ class CoffeeDatePickerView @JvmOverloads constructor(
 
     fun performNextClick() {
         nextButton?.performClick()
+    }
+
+    fun initDate() {
+        val currentDateStr = currentDate?.time?.let { dateFormat?.format(it) }
+        onDateSelected?.invoke(currentDateStr)
     }
 
     @SuppressLint("PrivateApi")
@@ -45,6 +60,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                 addView(dayPickerViewInstance)
                 disableButton(dayPickerViewInstance)
                 setTextStyle(dayPickerViewInstance, context, attrs, defStyleAttr)
+                setDaySelectedListener(dayPickerViewInstance)
             } else {
                 Logger.e("CoffeeDatePickerView", "Failed to cast to ViewGroup")
             }
@@ -124,6 +140,37 @@ class CoffeeDatePickerView @JvmOverloads constructor(
 
         observableSparseArray = ObservableSparseArray()
         itemsField.set(adapter, observableSparseArray)
+    }
+
+    @SuppressLint("PrivateApi")
+    private fun setDaySelectedListener(dayPickerViewInstance: Any) {
+        val dayPickerViewClass = Class.forName("android.widget.DayPickerView")
+        val onDaySelectedListenerClass =
+            Class.forName("android.widget.DayPickerView\$OnDaySelectedListener")
+        val setOnDaySelectedListenerMethod =
+            dayPickerViewClass.getDeclaredMethod("setOnDaySelectedListener",
+                onDaySelectedListenerClass)
+        setOnDaySelectedListenerMethod.isAccessible = true
+
+        val listener = Proxy.newProxyInstance(
+            onDaySelectedListenerClass.classLoader,
+            arrayOf(onDaySelectedListenerClass)
+        ) { _, method, args ->
+            if (method.name == "onDaySelected") {
+                val selectedDay = args[1] as Calendar
+                Logger.d("CustomDatePickerView", "Selected day: ${selectedDay.time}")
+                updateDate(selectedDay)
+            }
+            null
+        }
+        setOnDaySelectedListenerMethod.invoke(dayPickerViewInstance, listener)
+    }
+
+    private fun updateDate(selectedDay: Calendar) {
+        Logger.d("updateDate ${selectedDay.time}")
+        currentDate?.timeInMillis = selectedDay.timeInMillis
+        val monthDay = currentDate?.time?.let { dateFormat?.format(it) }
+        onDateSelected?.invoke(monthDay)
     }
 
 }
