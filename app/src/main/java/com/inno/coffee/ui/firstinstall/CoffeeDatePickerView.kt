@@ -21,18 +21,27 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
     var onDateSelected: ((String?) -> Unit)? = null,
 ) : LinearLayout(context, attrs, defStyleAttr) {
+    private val TAG = "CoffeeDatePickerView"
+    private val DEFAULT_START_YEAR = 1971
+    private val DEFAULT_END_YEAR = 2100
     private var prevButton: ImageButton? = null
     private var nextButton: ImageButton? = null
     private var observableSparseArray: ObservableSparseArray? = null
     private var currentDate: Calendar? = null
+    private var minDate: Calendar? = null
+    private var maxDate: Calendar? = null
     private var dateFormat: SimpleDateFormat? = null
 
     init {
         orientation = VERTICAL
-        addDayPickerView(context, attrs, defStyleAttr)
         val locale = Locale.getDefault()
         currentDate = Calendar.getInstance(locale)
+        minDate = Calendar.getInstance(locale)
+        maxDate = Calendar.getInstance(locale)
+        minDate!!.set(DEFAULT_START_YEAR, Calendar.JANUARY, 1)
+        maxDate!!.set(DEFAULT_END_YEAR, Calendar.DECEMBER, 31)
         dateFormat = SimpleDateFormat("MMM d, yyyy", locale)
+        addDayPickerView(context, attrs, defStyleAttr)
     }
 
     fun performPrevClick() {
@@ -60,13 +69,14 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                 addView(dayPickerViewInstance)
                 disableButton(dayPickerViewInstance)
                 setTextStyle(dayPickerViewInstance, context, attrs, defStyleAttr)
+                setViewParams(dayPickerViewInstance)
                 setDaySelectedListener(dayPickerViewInstance)
             } else {
-                Logger.e("CoffeeDatePickerView", "Failed to cast to ViewGroup")
+                Logger.e(TAG, "Failed to cast to ViewGroup")
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Logger.e("CoffeeDatePickerView", "exception $e")
+            Logger.e(TAG, "addDayPickerView Exception: $e")
         }
     }
 
@@ -85,7 +95,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
             nextButton!!.isEnabled = false
         } catch (e: Exception) {
             e.printStackTrace()
-            Logger.e("CustomDatePickerView", "Failed to disable: $e")
+            Logger.e(TAG, "Failed to disable: $e")
         }
     }
 
@@ -130,7 +140,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Logger.e("CustomDatePickerView", "Failed to setTextStyle: $e")
+            Logger.e(TAG, "Failed to setTextStyle: $e")
         }
     }
 
@@ -140,6 +150,31 @@ class CoffeeDatePickerView @JvmOverloads constructor(
 
         observableSparseArray = ObservableSparseArray()
         itemsField.set(adapter, observableSparseArray)
+    }
+
+    @SuppressLint("PrivateApi")
+    private fun setViewParams(dayPickerViewInstance: Any) {
+        try {
+            val dayPickerViewClass = Class.forName("android.widget.DayPickerView")
+
+            val methodSetFirstDayOfWeek =
+                dayPickerViewClass.getDeclaredMethod("setFirstDayOfWeek", Int::class.java)
+            methodSetFirstDayOfWeek.isAccessible = true
+            methodSetFirstDayOfWeek.invoke(dayPickerViewInstance, 0)
+
+            val methodSetMinDate =
+                dayPickerViewClass.getDeclaredMethod("setMinDate", Long::class.java)
+            methodSetMinDate.isAccessible = true
+            methodSetMinDate.invoke(dayPickerViewInstance, minDate?.timeInMillis)
+
+            val methodSetMaxDate =
+                dayPickerViewClass.getDeclaredMethod("setMaxDate", Long::class.java)
+            methodSetMaxDate.isAccessible = true
+            methodSetMaxDate.invoke(dayPickerViewInstance, maxDate?.timeInMillis)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Logger.e(TAG, "setViewParams: $e")
+        }
     }
 
     @SuppressLint("PrivateApi")
@@ -158,7 +193,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
         ) { _, method, args ->
             if (method.name == "onDaySelected") {
                 val selectedDay = args[1] as Calendar
-                Logger.d("CustomDatePickerView", "Selected day: ${selectedDay.time}")
+                Logger.d(TAG, "Selected day: ${selectedDay.time}")
                 updateDate(selectedDay)
             }
             null
@@ -167,7 +202,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     }
 
     private fun updateDate(selectedDay: Calendar) {
-        Logger.d("updateDate ${selectedDay.time}")
+        Logger.d(TAG, "updateDate ${selectedDay.time}")
         currentDate?.timeInMillis = selectedDay.timeInMillis
         val monthDay = currentDate?.time?.let { dateFormat?.format(it) }
         onDateSelected?.invoke(monthDay)
