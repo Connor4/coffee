@@ -43,6 +43,7 @@ import com.inno.coffee.R
 import com.inno.coffee.utilities.DEFAULT_SYSTEM_TIME
 import com.inno.coffee.utilities.NextStepButton
 import com.inno.coffee.utilities.composeClick
+import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.nsp
 
 
@@ -134,7 +135,9 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
             }
         }
         Row(
-            modifier = Modifier.padding(top = 294.dp, start = 54.dp)
+            modifier = Modifier
+                .padding(top = 294.dp, start = 54.dp)
+                .debouncedClickable({})
         ) {
             Text(text = "January 2024", fontSize = 6.nsp(), color = Color.White)
             Image(
