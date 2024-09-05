@@ -1,6 +1,9 @@
 package com.inno.coffee.ui.firstinstall
 
+import android.graphics.Color
+import android.text.TextPaint
 import android.util.SparseArray
+import java.lang.reflect.Field
 
 class ObservableSparseArray : SparseArray<Any?>() {
 
@@ -12,6 +15,12 @@ class ObservableSparseArray : SparseArray<Any?>() {
             calendarField.isAccessible = true
             val simpleMonthView = calendarField.get(value)
             modifySimpleMonthView(simpleMonthView)
+
+            val paintField: Field = simpleMonthView.javaClass.getDeclaredField("mMonthPaint")
+            paintField.isAccessible = true
+            val monthPaint = paintField.get(simpleMonthView) as? TextPaint
+            monthPaint?.setColor(Color.parseColor("#ff191a1d"))
+            paintField.set(simpleMonthView, monthPaint)
         }
     }
 
