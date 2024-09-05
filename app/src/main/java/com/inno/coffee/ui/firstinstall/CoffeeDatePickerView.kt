@@ -6,9 +6,12 @@ import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.icu.util.Calendar
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.LinearLayout
+import android.widget.ListView
+import androidx.core.view.updateLayoutParams
 import com.inno.coffee.R
 import com.inno.common.utils.Logger
 import java.lang.reflect.Constructor
@@ -20,12 +23,14 @@ import java.util.Locale
 class CoffeeDatePickerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
     var onDateSelected: ((String?) -> Unit)? = null,
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
     private val TAG = "CoffeeDatePickerView"
     private val DEFAULT_START_YEAR = 1970
     private val DEFAULT_END_YEAR = 2100
     private var prevButton: ImageButton? = null
     private var nextButton: ImageButton? = null
+    //    private var dayPickerView: View? = null
+    private var yearPickerView: View? = null
     private var observableSparseArray: ObservableSparseArray? = null
     private var currentDate: Calendar? = null
     private var minDate: Calendar? = null
@@ -33,7 +38,6 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     private var dateFormat: SimpleDateFormat? = null
 
     init {
-        orientation = VERTICAL
         val locale = Locale.getDefault()
         currentDate = Calendar.getInstance(locale)
         minDate = Calendar.getInstance(locale)
@@ -42,6 +46,8 @@ class CoffeeDatePickerView @JvmOverloads constructor(
         maxDate!!.set(DEFAULT_END_YEAR, Calendar.DECEMBER, 31)
         dateFormat = SimpleDateFormat("MMM d, yyyy", locale)
         addDayPickerView(context, attrs, defStyleAttr)
+        addYearPickerView(context, attrs)
+        showYearPickerView(false)
     }
 
     fun performPrevClick() {
@@ -52,9 +58,67 @@ class CoffeeDatePickerView @JvmOverloads constructor(
         nextButton?.performClick()
     }
 
+    fun showYearPickerView(show: Boolean) {
+        if (show) {
+            yearPickerView?.visibility = View.VISIBLE
+        } else {
+            yearPickerView?.visibility = View.GONE
+        }
+    }
+
     fun initDate() {
         val currentDateStr = currentDate?.time?.let { dateFormat?.format(it) }
         onDateSelected?.invoke(currentDateStr)
+    }
+
+    @SuppressLint("PrivateApi")
+    private fun addYearPickerView(context: Context, attrs: AttributeSet?) {
+        try {
+            val yearPickerViewClass = Class.forName("android.widget.YearPickerView")
+            val constructor: Constructor<*> =
+                yearPickerViewClass.getDeclaredConstructor(Context::class.java,
+                    AttributeSet::class.java)
+            constructor.isAccessible = true
+            val yearPickerViewInstance = constructor.newInstance(context, attrs)
+            if (yearPickerViewInstance is ListView) {
+                yearPickerView = yearPickerViewInstance
+                addView(yearPickerViewInstance)
+                setYearPickerMethodParams(yearPickerViewClass, yearPickerViewInstance)
+                setYearPickerSize()
+            } else {
+                Logger.e(TAG, "Failed to cast to ListView")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Logger.e(TAG, "addYearPickerView Exception: $e")
+        }
+    }
+
+    private fun setYearPickerMethodParams(yearPickerViewClass: Class<*>,
+        yearPickerViewInstance: Any) {
+        try {
+            val methodSetRange =
+                yearPickerViewClass.getDeclaredMethod("setRange", Calendar::class.java,
+                    Calendar::class.java)
+            methodSetRange.isAccessible = true
+            methodSetRange.invoke(yearPickerViewInstance, minDate, maxDate)
+
+            val methodSetYear =
+                yearPickerViewClass.getDeclaredMethod("setYear", Int::class.java)
+            methodSetYear.isAccessible = true
+            methodSetYear.invoke(yearPickerViewInstance, currentDate?.get(Calendar.YEAR))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Logger.e(TAG, "setYearPickerMethodParams $e")
+        }
+    }
+
+    private fun setYearPickerSize() {
+        yearPickerView?.setBackgroundColor(resources.getColor(R.color.white, null))
+        yearPickerView?.updateLayoutParams {
+            width = 400
+            height = 300
+        }
     }
 
     @SuppressLint("PrivateApi")
@@ -66,11 +130,12 @@ class CoffeeDatePickerView @JvmOverloads constructor(
             constructor.isAccessible = true
             val dayPickerViewInstance = constructor.newInstance(context)
             if (dayPickerViewInstance is ViewGroup) {
+//                dayPickerView = dayPickerViewInstance
                 addView(dayPickerViewInstance)
                 disableButton(dayPickerViewInstance)
                 setTextStyle(dayPickerViewInstance, context, attrs, defStyleAttr)
-                setViewParams(dayPickerViewInstance)
-                setDaySelectedListener(dayPickerViewInstance)
+                setDayPickerMethodParams(dayPickerViewClass, dayPickerViewInstance)
+                setDaySelectedListener(dayPickerViewClass, dayPickerViewInstance)
             } else {
                 Logger.e(TAG, "Failed to cast to ViewGroup")
             }
@@ -153,10 +218,8 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     }
 
     @SuppressLint("PrivateApi")
-    private fun setViewParams(dayPickerViewInstance: Any) {
+    private fun setDayPickerMethodParams(dayPickerViewClass: Class<*>, dayPickerViewInstance: Any) {
         try {
-            val dayPickerViewClass = Class.forName("android.widget.DayPickerView")
-
             val methodSetFirstDayOfWeek =
                 dayPickerViewClass.getDeclaredMethod("setFirstDayOfWeek", Int::class.java)
             methodSetFirstDayOfWeek.isAccessible = true
@@ -178,8 +241,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     }
 
     @SuppressLint("PrivateApi")
-    private fun setDaySelectedListener(dayPickerViewInstance: Any) {
-        val dayPickerViewClass = Class.forName("android.widget.DayPickerView")
+    private fun setDaySelectedListener(dayPickerViewClass: Class<*>, dayPickerViewInstance: Any) {
         val onDaySelectedListenerClass =
             Class.forName("android.widget.DayPickerView\$OnDaySelectedListener")
         val setOnDaySelectedListenerMethod =

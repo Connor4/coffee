@@ -1,7 +1,6 @@
 package com.inno.coffee.ui.firstinstall
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -142,6 +141,7 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
                 .padding(top = 294.dp, start = 54.dp)
                 .debouncedClickable({
                     openYear.value = !openYear.value
+                    datePickerViewRef.value?.showYearPickerView(openYear.value)
                 })
         ) {
             Text(text = "January 2024", fontSize = 6.nsp(), color = Color.White)
@@ -180,10 +180,10 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
                     it.initDate()
                 }
             )
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .height(30.dp)
-                .background(Color(0xFF191A1D)))
+//            Box(modifier = Modifier
+//                .fillMaxWidth()
+//                .height(30.dp)
+//                .background(Color(0xFF191A1D)))
         }
 
 //        if (openYear.value) {
