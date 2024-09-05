@@ -22,7 +22,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     var onDateSelected: ((String?) -> Unit)? = null,
 ) : LinearLayout(context, attrs, defStyleAttr) {
     private val TAG = "CoffeeDatePickerView"
-    private val DEFAULT_START_YEAR = 1971
+    private val DEFAULT_START_YEAR = 1970
     private val DEFAULT_END_YEAR = 2100
     private var prevButton: ImageButton? = null
     private var nextButton: ImageButton? = null

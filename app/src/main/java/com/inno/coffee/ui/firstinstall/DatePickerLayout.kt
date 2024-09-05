@@ -186,6 +186,14 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
                 .background(Color(0xFF191A1D)))
         }
 
+//        if (openYear.value) {
+//            Box(
+//                modifier = Modifier.align(Alignment.TopEnd)
+//            ) {
+//                CoffeeYearPicker()
+//            }
+//        }
+
         NextStepButton(modifier = Modifier.align(Alignment.BottomEnd)) {
 //            onDatePick(datePickerState.selectedDateMillis)
         }
