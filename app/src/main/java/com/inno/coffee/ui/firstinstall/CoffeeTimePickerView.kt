@@ -38,9 +38,45 @@ class CoffeeTimePickerView @JvmOverloads constructor(
                 setAttributes(timePickerViewInstance, context, attrs, defStyleAttr)
                 set24HourMode(timePickerViewInstance)
                 setTextSize(timePickerViewInstance)
+                setSelectRadius(timePickerViewInstance)
             } else {
                 Logger.e(tag, "Failed to cast to View")
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun setSelectRadius(timePickerViewInstance: Any) {
+        try {
+            val selectRadiusDimen =
+                resources.getDimension(R.dimen.timepicker_selector_radius).toInt()
+//            val selectDotRadiusDimen =
+//                resources.getDimension(R.dimen.timepicker_selector_dot_radius).toInt()
+            val selectStrokeDimen =
+                resources.getDimension(R.dimen.timepicker_selector_stroke).toInt()
+            val centerDotRadiusDimen =
+                resources.getDimension(R.dimen.timepicker_center_dot_radius).toInt()
+
+//            val selectDotRadiusField =
+//                timePickerViewInstance::class.java.getDeclaredField("mSelectorDotRadius")
+//            selectDotRadiusField.isAccessible = true
+//            selectDotRadiusField.set(timePickerViewInstance, selectDotRadiusDimen)
+
+            val centerDotRadiusField =
+                timePickerViewInstance::class.java.getDeclaredField("mCenterDotRadius")
+            centerDotRadiusField.isAccessible = true
+            centerDotRadiusField.set(timePickerViewInstance, centerDotRadiusDimen)
+
+            val selectRadiusField =
+                timePickerViewInstance::class.java.getDeclaredField("mSelectorRadius")
+            selectRadiusField.isAccessible = true
+            selectRadiusField.set(timePickerViewInstance, selectRadiusDimen)
+
+            val selectStrokeField =
+                timePickerViewInstance::class.java.getDeclaredField("mSelectorStroke")
+            selectStrokeField.isAccessible = true
+            selectStrokeField.set(timePickerViewInstance, selectStrokeDimen)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -108,6 +144,12 @@ class CoffeeTimePickerView @JvmOverloads constructor(
             val backgroundPaint = backgroundPaintField.get(timePickerViewInstance) as Paint
             backgroundPaint.setColor(backgroundColor)
 
+            val centerPaintField =
+                timePickerViewInstance::class.java.getDeclaredField("mPaintCenter")
+            centerPaintField.isAccessible = true
+            val centerPaint = centerPaintField.get(timePickerViewInstance) as Paint
+            centerPaint.setColor(selectColor)
+
             val textColorField: Field =
                 timePickerViewInstance::class.java.getDeclaredField("mTextColor")
             textColorField.isAccessible = true
@@ -121,6 +163,11 @@ class CoffeeTimePickerView @JvmOverloads constructor(
                 timePickerViewInstance::class.java.getDeclaredField("mSelectorColor")
             selectColorField.isAccessible = true
             selectColorField.set(timePickerViewInstance, selectColor)
+
+            val selectDotColorField =
+                timePickerViewInstance::class.java.getDeclaredField("mSelectorDotColor")
+            selectDotColorField.isAccessible = true
+            selectDotColorField.set(timePickerViewInstance, selectColor)
         } catch (e: Exception) {
             e.printStackTrace()
         }

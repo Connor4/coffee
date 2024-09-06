@@ -3,4 +3,8 @@
     <dimen name="timepicker_text_size_normal">26sp</dimen>
     <dimen name="timepicker_text_inset_normal">40dp</dimen>
     <dimen name="timepicker_text_inset_inner">90dp</dimen>
+    <dimen name="timepicker_selector_dot_radius">2dp</dimen>
+    <dimen name="timepicker_center_dot_radius">5dp</dimen>
+    <dimen name="timepicker_selector_radius">25dp</dimen>
+    <dimen name="timepicker_selector_stroke">3dp</dimen>
 </resources>
