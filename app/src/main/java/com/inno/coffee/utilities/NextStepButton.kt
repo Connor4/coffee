@@ -31,7 +31,7 @@ fun NextStepButton(
     val isPressed by interactionSource.collectIsPressedAsState()
 
     Box(
-        modifier = modifier
+        modifier = modifier.padding(end = 20.dp, bottom = 20.dp)
     ) {
         Button(
             onClick = {
