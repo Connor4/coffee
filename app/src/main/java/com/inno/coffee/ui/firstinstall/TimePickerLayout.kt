@@ -1,12 +1,10 @@
 package com.inno.coffee.ui.firstinstall
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -31,7 +29,6 @@ import com.inno.coffee.R
 import com.inno.coffee.utilities.NextStepButton
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.draw9Patch
-import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
 
 @Composable
@@ -129,35 +126,35 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit)
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
-            Spacer(modifier = Modifier.width(30.dp))
-            Column(
-                modifier = Modifier.align(Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = "AM", fontSize = 12.nsp(), fontWeight = FontWeight.Bold,
-                    color = if (selectAm.value) Color(0xFF00DE93) else Color.White,
-                    modifier = Modifier.fastclick { selectAm.value = true }
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = "FM", fontSize = 12.nsp(), fontWeight = FontWeight.Bold,
-                    color = if (!selectAm.value) Color(0xFF00DE93) else Color.White,
-                    modifier = Modifier.fastclick { selectAm.value = false }
-                )
-            }
+//            Spacer(modifier = Modifier.width(30.dp))
+//            Column(
+//                modifier = Modifier.align(Alignment.CenterVertically),
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//            ) {
+//                Text(
+//                    text = "AM", fontSize = 12.nsp(), fontWeight = FontWeight.Bold,
+//                    color = if (selectAm.value) Color(0xFF00DE93) else Color.White,
+//                    modifier = Modifier.fastclick { selectAm.value = true }
+//                )
+//                Spacer(modifier = Modifier.height(6.dp))
+//                Text(
+//                    text = "FM", fontSize = 12.nsp(), fontWeight = FontWeight.Bold,
+//                    color = if (!selectAm.value) Color(0xFF00DE93) else Color.White,
+//                    modifier = Modifier.fastclick { selectAm.value = false }
+//                )
+//            }
         }
 
         Box(
             modifier = Modifier
                 .padding(top = 260.dp, end = 212.dp)
-                .size(342.dp)
+                .size(372.dp)
                 .align(Alignment.TopEnd),
         ) {
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
                 factory = { context ->
-                    CoffeeTimePickView(context).apply {
+                    CoffeeTimePickerView(context).apply {
                     }
                 },
                 update = {

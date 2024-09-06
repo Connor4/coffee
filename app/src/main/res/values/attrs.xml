@@ -4,4 +4,11 @@
         <attr name="coffeeDateTextAppearance" format="reference" />
         <attr name="coffeeDaySelectorColor" format="color|reference" />
     </declare-styleable>
+
+    <declare-styleable name="CoffeeTimePickerView">
+        <attr name="coffeeTimePickerBackgroundColor" format="color|reference" />
+        <attr name="coffeeTimePickerTextSize" format="integer" />
+        <attr name="coffeeTimePickerStickColor" format="color|reference" />
+        <attr name="coffeeTimePickerSelectColor" format="color|reference" />
+    </declare-styleable>
 </resources>
