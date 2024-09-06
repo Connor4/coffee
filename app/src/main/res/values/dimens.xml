@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="timepicker_text_size_normal">26sp</dimen>
+    <dimen name="timepicker_text_inset_normal">40dp</dimen>
+    <dimen name="timepicker_text_inset_inner">90dp</dimen>
 </resources>

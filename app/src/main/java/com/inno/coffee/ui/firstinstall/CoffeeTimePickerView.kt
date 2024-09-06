@@ -56,6 +56,18 @@ class CoffeeTimePickerView @JvmOverloads constructor(
             textSize[1] = textSizeDimen
             textSize[2] = textSizeDimen
             textSizeField.set(timePickerViewInstance, textSize)
+
+            val textInsetDimen =
+                resources.getDimension(R.dimen.timepicker_text_inset_normal).toInt()
+            val textInsetInnerDimen = resources.getDimension(R.dimen.timepicker_text_inset_inner)
+                .toInt()
+            val textInsetField = timePickerViewInstance::class.java.getDeclaredField("mTextInset")
+            textInsetField.isAccessible = true
+            val textInset = textInsetField.get(timePickerViewInstance) as IntArray
+            textInset[0] = textInsetDimen
+            textInset[1] = textInsetDimen
+            textInset[2] = textInsetInnerDimen
+            textInsetField.set(timePickerViewInstance, textInset)
         } catch (e: Exception) {
             e.printStackTrace()
         }
