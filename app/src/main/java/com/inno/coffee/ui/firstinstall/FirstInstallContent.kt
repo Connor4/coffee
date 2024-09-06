@@ -98,12 +98,15 @@ fun InstallSetting(
             }
         }
         composable(TIME) {
-            TimePickerPage { hour, min ->
-                selectedHour = hour
-                selectedMin = min
-                viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_SYSTEM_TIME,
-                    selectedHour, selectedMin, selectedLanguage)
-                onSetComplete()
+//            TimePickerPage { hour, min ->
+//                selectedHour = hour
+//                selectedMin = min
+//                viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_SYSTEM_TIME,
+//                    selectedHour, selectedMin, selectedLanguage)
+//                onSetComplete()
+//            }
+            TimePickerLayout(modifier) {
+
             }
         }
     }
@@ -233,11 +236,11 @@ private fun SplashPage(navController: NavHostController, modifier: Modifier = Mo
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
 private fun PreviewInstallPage() {
-    LanguageLayout(modifier = Modifier
-        .fillMaxSize()
-        .background(color = Color(0xFF191A1D))
-    ) {}
-//    TimePickerPage {}
+//    LanguageLayout(modifier = Modifier
+//        .fillMaxSize()
+//        .background(color = Color(0xFF191A1D))
+//    ) {}
+    TimePickerPage { _, _ -> }
 //    DatePickerPage {}
 //    SplashPage(navController = rememberNavController(), modifier = Modifier
 //        .fillMaxSize()

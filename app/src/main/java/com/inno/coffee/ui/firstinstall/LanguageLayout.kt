@@ -3,7 +3,7 @@ package com.inno.coffee.ui.firstinstall
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -121,8 +121,7 @@ private fun LanguageRadioButton(
     ) {
         if (isSelected) {
             Box(modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+                .fillMaxSize()
                 .draw9Patch(LocalContext.current, R.drawable.common_item_select_bg))
         }
         Text(

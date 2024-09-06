@@ -186,10 +186,6 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
                     it.updateDate()
                 }
             )
-//            Box(modifier = Modifier
-//                .fillMaxWidth()
-//                .height(30.dp)
-//                .background(Color(0xFF191A1D)))
         }
 
         NextStepButton(modifier = Modifier.align(Alignment.BottomEnd)) {
