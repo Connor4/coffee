@@ -173,10 +173,10 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
                 modifier = Modifier.fillMaxSize(),
                 factory = { context ->
                     CoffeeDatePickerView(context).apply {
-                        onDateSelected = { arg1, arg2, arg3 ->
-                            monthDayYearState.value = arg1
-                            monthYearState.value = arg2
-                            currentTimeInMillsState.longValue = arg3
+                        onDateSelected = { monthDayYear, monthYear, timeInMillis ->
+                            monthDayYearState.value = monthDayYear
+                            monthYearState.value = monthYear
+                            currentTimeInMillsState.longValue = timeInMillis
                             openYear.value = false
                         }
                         datePickerViewRef.value = this

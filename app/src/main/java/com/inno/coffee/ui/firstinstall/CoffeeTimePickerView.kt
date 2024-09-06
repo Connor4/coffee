@@ -8,18 +8,19 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.IntRange
 import com.inno.coffee.R
 import com.inno.common.utils.Logger
 import java.lang.reflect.Constructor
 import java.lang.reflect.Field
+import java.lang.reflect.Proxy
 
 class CoffeeTimePickerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-    var onDateSelected: ((String?, String?, Long) -> Unit)? = null,
+    var onValueSelected: ((Int?, Int?, Boolean) -> Unit)? = null,
 ) : FrameLayout(context, attrs, defStyleAttr) {
     private val tag = "CoffeeTimePickView"
-    private val am = 0
-    private val fm = 1
+    private var holdingInstance: Any? = null
 
     init {
         addTimePickerView(context, attrs, defStyleAttr)
@@ -34,14 +35,58 @@ class CoffeeTimePickerView @JvmOverloads constructor(
             constructor.isAccessible = true
             val timePickerViewInstance = constructor.newInstance(context)
             if (timePickerViewInstance is View) {
+                holdingInstance = timePickerViewInstance
                 addView(timePickerViewInstance)
                 setAttributes(timePickerViewInstance, context, attrs, defStyleAttr)
                 set24HourMode(timePickerViewInstance)
                 setTextSize(timePickerViewInstance)
                 setSelectRadius(timePickerViewInstance)
+                setTimeValueSelectListener(timePickerViewClass, timePickerViewInstance)
             } else {
                 Logger.e(tag, "Failed to cast to View")
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun setShowType(@IntRange(from = 0, to = 1) type: Int) {
+        try {
+            val methodSetCurrentItemShowing =
+                holdingInstance!!::class.java.getDeclaredMethod("setCurrentItemShowing",
+                    Int::class.java, Boolean::class.java)
+            methodSetCurrentItemShowing.isAccessible = true
+            methodSetCurrentItemShowing.invoke(holdingInstance, type, true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    @SuppressLint("PrivateApi")
+    private fun setTimeValueSelectListener(timePickerViewClass: Class<*>, timePickerViewInstance:
+    Any) {
+        try {
+            val onValueSelectedListenerClass =
+                Class.forName("android.widget.RadialTimePickerView\$OnValueSelectedListener")
+            val setOnValueSelectedListenerMethod =
+                timePickerViewClass.getDeclaredMethod("setOnValueSelectedListener",
+                    onValueSelectedListenerClass)
+            setOnValueSelectedListenerMethod.isAccessible = true
+
+            val listener = Proxy.newProxyInstance(
+                onValueSelectedListenerClass.classLoader,
+                arrayOf(onValueSelectedListenerClass)
+            ) { _, method, args ->
+                if (method.name == "onValueSelected") {
+                    val pickerType = args[0] as Int
+                    val newValue = args[1] as Int
+                    val autoAdvance = args[2] as Boolean
+                    Logger.d(tag, "type $pickerType  value $newValue auto $autoAdvance")
+                    onValueSelected?.invoke(pickerType, newValue, autoAdvance)
+                }
+                null
+            }
+            setOnValueSelectedListenerMethod.invoke(timePickerViewInstance, listener)
         } catch (e: Exception) {
             e.printStackTrace()
         }

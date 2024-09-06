@@ -31,13 +31,25 @@ import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.draw9Patch
 import com.inno.coffee.utilities.nsp
 
+private const val HOUR = 0
+private const val MINUTES = 1
+
 @Composable
 fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit) {
+//    val selectAm = remember {
+//        mutableStateOf(true)
+//    }
     val selectHour = remember {
         mutableStateOf(true)
     }
-    val selectAm = remember {
-        mutableStateOf(true)
+    val timePickerViewRef = remember {
+        mutableStateOf<CoffeeTimePickerView?>(null)
+    }
+    val hour = remember {
+        mutableStateOf("00")
+    }
+    val minutes = remember {
+        mutableStateOf("00")
     }
 
     Box(
@@ -74,7 +86,10 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit)
             Box(
                 modifier = Modifier
                     .size(160.dp)
-                    .debouncedClickable({ selectHour.value = true })
+                    .debouncedClickable({
+                        selectHour.value = true
+                        timePickerViewRef.value?.setShowType(HOUR)
+                    })
             ) {
                 if (selectHour.value) {
                     Box(modifier = Modifier
@@ -87,7 +102,7 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit)
                         .draw9Patch(LocalContext.current, R.drawable.install_time_minus_bg))
                 }
                 Text(
-                    text = "00",
+                    text = hour.value,
                     fontSize = 20.nsp(),
                     color = if (selectHour.value) Color(0xFF00DE93) else Color.White,
                     fontWeight = FontWeight.Bold,
@@ -106,7 +121,10 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit)
             Box(
                 modifier = Modifier
                     .size(160.dp)
-                    .debouncedClickable({ selectHour.value = false })
+                    .debouncedClickable({
+                        selectHour.value = false
+                        timePickerViewRef.value?.setShowType(MINUTES)
+                    })
             ) {
                 if (!selectHour.value) {
                     Box(modifier = Modifier
@@ -119,7 +137,7 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit)
                         .draw9Patch(LocalContext.current, R.drawable.install_time_minus_bg))
                 }
                 Text(
-                    text = "00",
+                    text = minutes.value,
                     fontSize = 20.nsp(),
                     color = if (!selectHour.value) Color(0xFF00DE93) else Color.White,
                     fontWeight = FontWeight.Bold,
@@ -155,6 +173,21 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit)
                 modifier = Modifier.fillMaxSize(),
                 factory = { context ->
                     CoffeeTimePickerView(context).apply {
+                        onValueSelected = { pickerType, newValue, autoAdvance ->
+                            when (pickerType) {
+                                HOUR -> {
+                                    hour.value = "$newValue"
+                                    if (autoAdvance) {
+                                        selectHour.value = false
+                                        timePickerViewRef.value?.setShowType(MINUTES)
+                                    }
+                                }
+                                MINUTES -> {
+                                    minutes.value = "$newValue"
+                                }
+                            }
+                        }
+                        timePickerViewRef.value = this
                     }
                 },
                 update = {
