@@ -22,7 +22,7 @@ object SelfCheckManager {
         }.await()
     }
 
-    suspend fun operateRinse() {
+    fun operateRinse() {
         operateRinse = true
         step = 2
     }
