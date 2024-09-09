@@ -12,6 +12,8 @@ import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
+import com.inno.common.utils.CoffeeDataStore
+import com.inno.common.utils.TimeUtils
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.ReceivedData
@@ -30,6 +32,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: HomeRepository,
     @ApplicationContext private val context: Context,
+    private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
     private val _drinksTypes = MutableStateFlow<List<DrinksModel>>(emptyList())
     val drinksTypes: StateFlow<List<DrinksModel>> = _drinksTypes.asStateFlow()
@@ -50,6 +53,12 @@ class HomeViewModel @Inject constructor(
     private val _steamBoilerPressure = MutableStateFlow(0)
     val steamBoilerPressure = _steamBoilerPressure
     private var specialItem = mutableListOf<Int>()
+
+    private val _time = MutableStateFlow("")
+    val time: StateFlow<String> = _time.asStateFlow()
+    private val _date = MutableStateFlow("")
+    val date: StateFlow<String> = _date.asStateFlow()
+
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
@@ -65,6 +74,14 @@ class HomeViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
+    }
+
+    fun getCurrentDate() {
+        viewModelScope.launch {
+            val systemLanguage = dataStore.getSystemLanguage()
+            _time.value = TimeUtils.getNowTime()
+            _date.value = TimeUtils.getNowDate(systemLanguage)
+        }
     }
 
     fun updateUsername(username: String) {
