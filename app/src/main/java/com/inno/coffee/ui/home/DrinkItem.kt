@@ -29,13 +29,14 @@ import com.inno.common.enums.ProductType
 
 @Composable
 fun DrinkItem(
+    modifier: Modifier = Modifier,
     model: DrinksModel,
     enableMask: Boolean = false,
     selected: Boolean = false,
     onDrinkClick: (model: DrinksModel) -> Unit = {},
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(300.dp)
             .height(200.dp)
             .debouncedClickable({ onDrinkClick(model) }),

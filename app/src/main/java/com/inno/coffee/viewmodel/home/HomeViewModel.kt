@@ -8,6 +8,7 @@ import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
+import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
@@ -58,6 +59,8 @@ class HomeViewModel @Inject constructor(
     val time: StateFlow<String> = _time.asStateFlow()
     private val _date = MutableStateFlow("")
     val date: StateFlow<String> = _date.asStateFlow()
+    private val _selfCheck = MutableStateFlow(false)
+    val selfCheck = _selfCheck.asStateFlow()
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -74,6 +77,12 @@ class HomeViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
+    }
+
+    fun selfCheck() {
+        viewModelScope.launch {
+            _selfCheck.value = SelfCheckManager.ioStatusCheck()
+        }
     }
 
     fun getCurrentDate() {

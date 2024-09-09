@@ -150,6 +150,11 @@
     <string name="home_entrance_info_service_company">售后公司</string>
     <string name="home_entrance_info_machine_id">遥测机器ID</string>
     <string name="home_entrance_enter_standby">确认进入待机模式？</string>
+    <string name="home_self_check_in_progress">设备自检中…</string>
+    <string name="home_self_check_time_description">这个过程可能需要几分钟</string>
+    <string name="home_release_steam_description">蒸汽锅炉蒸汽需要释放。</string>
+    <string name="home_release_steam_attention">注意</string>
+    <string name="home_release_steam_activated">蒸汽将被释放！</string>
 
     <string name="permission_password_correct">密码正确</string>
     <string name="permission_password_error">密码错误</string>

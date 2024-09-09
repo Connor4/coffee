@@ -25,77 +25,85 @@ fun HomeContent(
     var showCleanDialog by remember { mutableStateOf(false) }
     var showInfoDialog by remember { mutableStateOf(false) }
     var showStandByModeDialog by remember { mutableStateOf(false) }
+    val selfCheck by viewModel.selfCheck.collectAsState()
 
-    Box {
-        Column {
-            HomeTopBar(showOverlay) {
-                if (it) {
-                    showOverlay = true
-                } else {
-                    hideOverlay = true
-                }
-            }
-            HomeDrinksLayout()
-            HomeBottomBar {
-
-            }
-        }
-        if (showOverlay) {
-            Box(
-                modifier = Modifier
-                    .padding(top = 60.dp)
-            ) {
-                HomeSettingEntrance(
-                    show = showOverlay xor hideOverlay,
-                    onMenuClick = {
-                        when (it) {
-                            0 -> {
-                                showLoginDialog = true
-                            }
-                            1 -> {
-                                showCleanDialog = true
-                            }
-                            2 -> {
-                                showStandByModeDialog = true
-                            }
-                            3 -> {
-                                showInfoDialog = true
-                            }
-                        }
-                    },
-                    onCloseFinished = {
-                        if (hideOverlay) {
-                            showOverlay = false
-                            hideOverlay = false
-                        } else {
-                            hideOverlay = true
-                        }
-                    }
-                )
-            }
-        }
-        if (showCleanDialog) {
-            val state = viewModel.countdown.collectAsState()
-            LaunchedEffect(Unit) {
-                if (showCleanDialog) {
-                    viewModel.startCountDown()
-                    showCleanDialog = false
-                }
-            }
-            CleanLockLayout(state.value)
-        }
-        if (showInfoDialog) {
-            MachineInfoLayout() {
-                showInfoDialog = false
-            }
-        }
-        if (showStandByModeDialog) {
-            StandbyModeLayout(onConfirmClick = {
-                showStandByModeDialog = false
-            }, onCloseClick = {
-                showStandByModeDialog = false
-            })
-        }
+    LaunchedEffect(Unit) {
+        viewModel.selfCheck()
     }
 
+    if (!selfCheck) {
+        SelfCheckLayout()
+    } else {
+        Box {
+            Column {
+                HomeTopBar(showOverlay) {
+                    if (it) {
+                        showOverlay = true
+                    } else {
+                        hideOverlay = true
+                    }
+                }
+                HomeDrinksLayout()
+                HomeBottomBar {
+
+                }
+            }
+            if (showOverlay) {
+                Box(
+                    modifier = Modifier
+                        .padding(top = 60.dp)
+                ) {
+                    HomeSettingEntrance(
+                        show = showOverlay xor hideOverlay,
+                        onMenuClick = {
+                            when (it) {
+                                0 -> {
+                                    showLoginDialog = true
+                                }
+                                1 -> {
+                                    showCleanDialog = true
+                                }
+                                2 -> {
+                                    showStandByModeDialog = true
+                                }
+                                3 -> {
+                                    showInfoDialog = true
+                                }
+                            }
+                        },
+                        onCloseFinished = {
+                            if (hideOverlay) {
+                                showOverlay = false
+                                hideOverlay = false
+                            } else {
+                                hideOverlay = true
+                            }
+                        }
+                    )
+                }
+            }
+            if (showCleanDialog) {
+                val state = viewModel.countdown.collectAsState()
+                LaunchedEffect(Unit) {
+                    if (showCleanDialog) {
+                        viewModel.startCountDown()
+                        showCleanDialog = false
+                    }
+                }
+                CleanLockLayout(state.value)
+            }
+            if (showInfoDialog) {
+                MachineInfoLayout() {
+                    showInfoDialog = false
+                }
+            }
+            if (showStandByModeDialog) {
+                StandbyModeLayout(onConfirmClick = {
+                    showStandByModeDialog = false
+                }, onCloseClick = {
+                    showStandByModeDialog = false
+                })
+            }
+        }
+    }
 }
