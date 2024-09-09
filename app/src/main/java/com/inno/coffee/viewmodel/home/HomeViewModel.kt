@@ -155,6 +155,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun enableMask(model: DrinksModel): Boolean {
+        if (!SelfCheckManager.operateRinse) {
+            return model.productId != 4
+        }
+        return !specialItem.contains(model.productId)
+    }
+
     fun isFunctionItem(model: DrinksModel): Boolean {
         return specialItem.contains(model.productId)
     }

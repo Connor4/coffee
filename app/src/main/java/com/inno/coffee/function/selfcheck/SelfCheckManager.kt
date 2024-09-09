@@ -11,12 +11,20 @@ import kotlinx.coroutines.delay
 // 3. 制作异常，需要取消并执行清除操作。清除操作可细分各个阶段，磨粉阶段丢弃粉即可，萃取阶段需要完成萃取。
 object SelfCheckManager {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    var operateRinse = false
+    private var step = 0
 
     suspend fun ioStatusCheck(): Boolean {
         return scope.async {
             delay(5000)
+            step = 1
             true
         }.await()
+    }
+
+    suspend fun operateRinse() {
+        operateRinse = true
+        step = 2
     }
 
 }

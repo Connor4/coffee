@@ -2,6 +2,7 @@ package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.formula.ProductProfileManager
+import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.utilities.HEAD_INDEX
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.common.utils.Logger
@@ -84,6 +85,8 @@ object MakeLeftDrinksHandler {
                 // stop operation need to discard current
                 if (model.productId == 1 && processingProductId != INVALID_INT) {
                     discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
+                } else if (model.productId == 4) { // set self check operate rinse
+                    SelfCheckManager.operateRinse()
                 }
             }
         }

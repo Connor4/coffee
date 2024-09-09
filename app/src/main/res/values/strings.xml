@@ -151,6 +151,10 @@
     <string name="home_entrance_enter_standby">Confirm to enter standby mode?</string>
     <string name="home_self_check_in_progress">SelfCheck In Progress…</string>
     <string name="home_self_check_time_description">This process may take several minutes</string>
+    <string name="home_self_check_rinse_first_text">Please press the</string>
+    <string name="home_self_check_rinse_second_text">Rinse</string>
+    <string name="home_self_check_rinse_third_text">button</string>
+    <string name="home_self_check_boiler_heating">Coffee boiler heating…</string>
     <string name="home_release_steam_description">Air in steam boiler has to be released.</string>
     <string name="home_release_steam_attention">ATTENTION</string>
     <string name="home_release_steam_activated">Steam will be activated!</string>

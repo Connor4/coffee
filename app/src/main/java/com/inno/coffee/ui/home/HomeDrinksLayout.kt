@@ -44,11 +44,10 @@ private const val PAGE_COUNT = 12
 fun HomeDrinksLayout(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
-    val mainScreen = ScreenDisplayManager.isMainDisplay(context)
-    val drinksList by viewModel.drinksTypes.collectAsState()
+    val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
     val pagerState = rememberPagerState(pageCount = { TOTAL_PAGE })
     val selected = remember { mutableIntStateOf(INVALID_INT) }
+    val drinksList by viewModel.drinksTypes.collectAsState()
     val size by if (mainScreen) {
         MakeLeftDrinksHandler.size.collectAsState()
     } else {
@@ -73,11 +72,7 @@ fun HomeDrinksLayout(
             ) {
                 repeat(currentList.size) {
                     val drinkModel = currentList[it]
-                    val enable = if (size > 0) {
-                        !viewModel.isFunctionItem(model = drinkModel)
-                    } else {
-                        false
-                    }
+                    val enable = viewModel.enableMask(drinkModel)
 
                     DrinkItem(model = drinkModel, enableMask = enable,
                         selected = (selected.intValue == drinkModel.productId)) { model ->
