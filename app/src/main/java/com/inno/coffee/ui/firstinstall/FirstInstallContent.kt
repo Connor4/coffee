@@ -98,15 +98,12 @@ fun InstallSetting(
             }
         }
         composable(TIME) {
-//            TimePickerPage { hour, min ->
-//                selectedHour = hour
-//                selectedMin = min
-//                viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_SYSTEM_TIME,
-//                    selectedHour, selectedMin, selectedLanguage)
-//                onSetComplete()
-//            }
-            TimePickerLayout(modifier) {
-
+            TimePickerLayout(modifier) { hour, min ->
+                selectedHour = hour
+                selectedMin = min
+                viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_SYSTEM_TIME,
+                    selectedHour, selectedMin, selectedLanguage)
+                onSetComplete()
             }
         }
     }

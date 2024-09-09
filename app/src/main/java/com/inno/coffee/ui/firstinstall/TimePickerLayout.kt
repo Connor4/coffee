@@ -30,12 +30,14 @@ import com.inno.coffee.utilities.NextStepButton
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.draw9Patch
 import com.inno.coffee.utilities.nsp
+import java.util.Calendar
+import java.util.Locale
 
 private const val HOUR = 0
 private const val MINUTES = 1
 
 @Composable
-fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit) {
+fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Int, Int) -> Unit) {
 //    val selectAm = remember {
 //        mutableStateOf(true)
 //    }
@@ -176,14 +178,16 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit)
                         onValueSelected = { pickerType, newValue, autoAdvance ->
                             when (pickerType) {
                                 HOUR -> {
-                                    hour.value = "$newValue"
+                                    hour.value = String.format(Locale.getDefault(), "%02d",
+                                        newValue)
                                     if (autoAdvance) {
                                         selectHour.value = false
                                         timePickerViewRef.value?.setShowType(MINUTES)
                                     }
                                 }
                                 MINUTES -> {
-                                    minutes.value = "$newValue"
+                                    minutes.value = String.format(Locale.getDefault(), "%02d",
+                                        newValue)
                                 }
                             }
                         }
@@ -191,11 +195,19 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit)
                     }
                 },
                 update = {
+                    val calendar = Calendar.getInstance(Locale.getDefault())
+                    val currentHour = calendar[Calendar.HOUR_OF_DAY]
+                    val currentMinute = calendar[Calendar.MINUTE]
+                    hour.value = String.format(Locale.getDefault(), "%02d",
+                        currentHour)
+                    minutes.value = String.format(Locale.getDefault(), "%02d",
+                        currentMinute)
                 }
             )
         }
 
         NextStepButton(modifier = Modifier.align(Alignment.BottomEnd)) {
+            onTimePick(hour.value.toInt(), minutes.value.toInt())
         }
     }
 }
@@ -204,5 +216,7 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Long?) -> Unit)
 @Preview(device = Devices.TABLET)
 @Composable
 private fun PreviewTimePicker() {
-    TimePickerLayout() {}
+    TimePickerLayout { _, _ ->
+
+    }
 }
