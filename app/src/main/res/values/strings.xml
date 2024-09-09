@@ -137,9 +137,9 @@
     <string name="home_item_double_latte_macchiato">2x Latte Macchiato</string>
     <string name="home_item_es_macchiato">Espresso Macch.</string>
     <string name="home_item_double_es_macchiato">2x Espresso Macch.</string>
-    <string name="home_left_boiler_temperature">Left Boiler Temperature: %d°C</string>
-    <string name="home_right_boiler_temperature">Right Boiler Temperature: %d°C</string>
-    <string name="home_steam_boiler_temperature">Steam Boiler Temperature: %d°C</string>
+    <string name="home_left_boiler_temperature">Left Boiler: %d°C</string>
+    <string name="home_right_boiler_temperature">Right Boiler: %d°C</string>
+    <string name="home_steam_boiler_temperature">Steam Boiler: %d°C</string>
     <string name="home_steam_boiler_pressure">Steam Boiler Pressure: %dbar</string>
     <string name="home_process_status_brewing">Brewing</string>
     <string name="home_process_status_brew_completed">Brew Completed</string>
