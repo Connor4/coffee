@@ -107,15 +107,28 @@ fun HomeBottomBar(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.home_left_boiler_temperature,
-                            leftTemp),
+                        text = stringResource(id = R.string.home_left_boiler_temperature),
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
-                        text = stringResource(id = R.string.home_right_boiler_temperature,
-                            rightTemp),
+                        text = stringResource(id = R.string.home_right_boiler_temperature),
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                }
+                Column(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = "$leftTemp°C",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = "$rightTemp°C",
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )
