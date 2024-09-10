@@ -155,8 +155,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun enableMask(making: Boolean, model: DrinksModel): Boolean {
-        if (!SelfCheckManager.operateRinse.value) {
+    fun enableMask(making: Boolean, operateRinse: Boolean, model: DrinksModel): Boolean {
+        if (!operateRinse) {
             return model.productId != 4
         }
         if (making) {

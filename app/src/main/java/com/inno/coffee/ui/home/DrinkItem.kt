@@ -33,13 +33,13 @@ fun DrinkItem(
     model: DrinksModel,
     enableMask: Boolean = false,
     selected: Boolean = false,
-    onDrinkClick: (model: DrinksModel) -> Unit = {},
+    onDrinkClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier
             .width(300.dp)
             .height(200.dp)
-            .debouncedClickable({ onDrinkClick(model) }, enabled = !enableMask),
+            .debouncedClickable({ onDrinkClick() }, enabled = !enableMask),
         contentAlignment = Alignment.Center,
     ) {
         if (selected) {

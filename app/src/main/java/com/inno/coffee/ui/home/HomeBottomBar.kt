@@ -122,13 +122,13 @@ fun HomeBottomBar(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Text(
-                        text = "$leftTemp°C",
+                        text = " $leftTemp°C",
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
-                        text = "$rightTemp°C",
+                        text = " $rightTemp°C",
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )

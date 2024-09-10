@@ -33,6 +33,7 @@ import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
+import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.viewmodel.home.HomeViewModel
 
@@ -45,6 +46,7 @@ fun HomeDrinksLayout(
 ) {
     val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
     val drinksList by viewModel.drinksTypes.collectAsState()
+    val operateRinse by SelfCheckManager.operateRinse.collectAsState()
     val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val selected = remember { mutableIntStateOf(INVALID_INT) }
@@ -70,14 +72,13 @@ fun HomeDrinksLayout(
                     .padding(start = 40.dp, top = 27.dp, end = 40.dp, bottom = 42.dp),
                 maxItemsInEachRow = 4,
             ) {
-                repeat(currentList.size) {
-                    val drinkModel = currentList[it]
-                    val enable = viewModel.enableMask(size > 0, drinkModel)
+                currentList.forEach { drinkModel ->
+                    val enable = viewModel.enableMask(size > 0, operateRinse, drinkModel)
                     val select = selected.intValue == drinkModel.productId
 
-                    DrinkItem(model = drinkModel, enableMask = enable, selected = select) { model ->
-                        selected.intValue = model.productId
-                        viewModel.startMakeDrink(model, mainScreen)
+                    DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
+                        selected.intValue = drinkModel.productId
+                        viewModel.startMakeDrink(drinkModel, mainScreen)
                     }
                 }
             }
