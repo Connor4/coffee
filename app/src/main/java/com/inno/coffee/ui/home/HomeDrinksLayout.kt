@@ -76,10 +76,8 @@ fun HomeDrinksLayout(
                     val select = selected.intValue == drinkModel.productId
 
                     DrinkItem(model = drinkModel, enableMask = enable, selected = select) { model ->
-                        if (!enable) {
-                            selected.intValue = model.productId
-                            viewModel.startMakeDrink(model, mainScreen)
-                        }
+                        selected.intValue = model.productId
+                        viewModel.startMakeDrink(model, mainScreen)
                     }
                 }
             }

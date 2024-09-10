@@ -39,7 +39,7 @@ fun DrinkItem(
         modifier = modifier
             .width(300.dp)
             .height(200.dp)
-            .debouncedClickable({ onDrinkClick(model) }),
+            .debouncedClickable({ onDrinkClick(model) }, enabled = !enableMask),
         contentAlignment = Alignment.Center,
     ) {
         if (selected) {
