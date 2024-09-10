@@ -28,7 +28,7 @@ fun HomeContent(
     val selfCheck by viewModel.selfCheck.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.selfCheck()
+        viewModel.selfCheckIoStatus()
     }
 
     if (!selfCheck) {

@@ -49,6 +49,7 @@ fun HomeDrinksLayout(
     val operateRinse by SelfCheckManager.operateRinse.collectAsState()
     val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
     val steamHeating by SelfCheckManager.steamHeating.collectAsState()
+    val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
     val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val selected = remember { mutableIntStateOf(INVALID_INT) }
@@ -57,6 +58,13 @@ fun HomeDrinksLayout(
     } else {
         MakeRightDrinksHandler.size.collectAsState()
     }
+    val selfCheck = operateRinse && !coffeeHeating && !steamHeating
+
+    if (releaseSteam == 1 || releaseSteam == 2) {
+        ReleaseSteamLayout {
+            viewModel.selfCheckReleaseSteam()
+        }
+    } else {
 
     Box(
         modifier = Modifier
@@ -75,8 +83,7 @@ fun HomeDrinksLayout(
                 maxItemsInEachRow = 4,
             ) {
                 currentList.forEach { drinkModel ->
-                    val enable = viewModel.enableMask(size > 0,
-                        operateRinse && !coffeeHeating && !steamHeating, drinkModel)
+                    val enable = viewModel.enableMask(size > 0, selfCheck, drinkModel)
                     val select = selected.intValue == drinkModel.productId
 
                     DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
@@ -94,6 +101,7 @@ fun HomeDrinksLayout(
         ) {
             HomePageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
         }
+    }
     }
 }
 

@@ -79,7 +79,13 @@ class HomeViewModel @Inject constructor(
         DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
-    fun selfCheck() {
+    fun selfCheckReleaseSteam() {
+        viewModelScope.launch {
+            SelfCheckManager.updateReleaseSteam()
+        }
+    }
+
+    fun selfCheckIoStatus() {
         viewModelScope.launch {
             _selfCheck.value = SelfCheckManager.ioStatusCheck()
         }

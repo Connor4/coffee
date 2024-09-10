@@ -19,6 +19,8 @@ object SelfCheckManager {
     var coffeeHeating = _coffeeHeating.asStateFlow()
     private val _steamHeating = MutableStateFlow(false)
     var steamHeating = _steamHeating.asStateFlow()
+    private val _releaseSteam = MutableStateFlow(0)
+    var releaseSteam = _releaseSteam.asStateFlow()
     private var step = 0
 
     suspend fun ioStatusCheck(): Boolean {
@@ -51,6 +53,17 @@ object SelfCheckManager {
         delay(3000)
         step = 4
         _steamHeating.value = false
+        releaseSteamNotice()
+    }
+
+    suspend fun releaseSteamNotice() {
+        _releaseSteam.value = 1
+    }
+
+    suspend fun updateReleaseSteam() {
+        _releaseSteam.value = 2
+        delay(3000)
+        _releaseSteam.value = 3
     }
 
 }

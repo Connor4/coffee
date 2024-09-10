@@ -159,6 +159,7 @@
     <string name="home_release_steam_description">Air in steam boiler has to be released.</string>
     <string name="home_release_steam_attention">ATTENTION</string>
     <string name="home_release_steam_activated">Steam will be activated!</string>
+    <string name="home_release_steam_wait">Releasing steam, please wait…</string>
 
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>
