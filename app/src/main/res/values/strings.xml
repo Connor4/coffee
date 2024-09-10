@@ -119,14 +119,14 @@
     <string name="home_item_espresso">Espresso</string>
     <string name="home_item_coffee">Coffee</string>
     <string name="home_item_americano">Americano</string>
-    <string name="home_item_auto_foam">Auto Foam</string>
+    <string name="home_item_auto_foam">Auto Steam</string>
     <string name="home_item_steam">Steam</string>
     <string name="home_item_milk">Milk</string>
     <string name="home_item_pod_coffee">Pod Coffee</string>
     <string name="home_item_double_espresso">2x Espresso</string>
     <string name="home_item_double_coffee">2x Coffee</string>
     <string name="home_item_double_americano">2x Americano</string>
-    <string name="home_item_manual_foam">Manual Foam</string>
+    <string name="home_item_manual_foam">Manual Steam</string>
     <string name="home_item_cappuccino">Cappuccino</string>
     <string name="home_item_double_cappuccino">2x Cappuccino</string>
     <string name="home_item_latte">Latte</string>

@@ -120,14 +120,14 @@
     <string name="home_item_espresso">意式咖啡</string>
     <string name="home_item_coffee">咖啡</string>
     <string name="home_item_americano">美式咖啡</string>
-    <string name="home_item_auto_foam">自动奶泡</string>
+    <string name="home_item_auto_foam">自动蒸汽</string>
     <string name="home_item_steam">蒸汽</string>
     <string name="home_item_milk">牛奶</string>
     <string name="home_item_pod_coffee">咖啡壶</string>
     <string name="home_item_double_espresso">2x 意式咖啡</string>
     <string name="home_item_double_coffee">2x 咖啡</string>
     <string name="home_item_double_americano">2x 美式咖啡</string>
-    <string name="home_item_manual_foam">手动奶泡</string>
+    <string name="home_item_manual_foam">手动蒸汽</string>
     <string name="home_item_cappuccino">卡布奇诺</string>
     <string name="home_item_double_cappuccino">2x 卡布奇诺</string>
     <string name="home_item_latte">拿铁</string>
