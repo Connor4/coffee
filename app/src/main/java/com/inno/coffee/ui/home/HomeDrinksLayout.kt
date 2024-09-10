@@ -47,6 +47,7 @@ fun HomeDrinksLayout(
     val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
     val drinksList by viewModel.drinksTypes.collectAsState()
     val operateRinse by SelfCheckManager.operateRinse.collectAsState()
+    val heating by SelfCheckManager.heating.collectAsState()
     val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val selected = remember { mutableIntStateOf(INVALID_INT) }
@@ -73,7 +74,8 @@ fun HomeDrinksLayout(
                 maxItemsInEachRow = 4,
             ) {
                 currentList.forEach { drinkModel ->
-                    val enable = viewModel.enableMask(size > 0, operateRinse, drinkModel)
+                    val enable = viewModel.enableMask(size > 0,
+                        operateRinse && !heating, drinkModel)
                     val select = selected.intValue == drinkModel.productId
 
                     DrinkItem(model = drinkModel, enableMask = enable, selected = select) {

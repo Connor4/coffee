@@ -46,6 +46,7 @@ fun HomeBottomBar(
     onReleaseSteam: () -> Unit,
 ) {
     val operateRinse by SelfCheckManager.operateRinse.collectAsState()
+    val heating by SelfCheckManager.heating.collectAsState()
 
     Box(
         modifier = Modifier
@@ -70,7 +71,7 @@ fun HomeBottomBar(
                     contentScale = ContentScale.Inside,
                     modifier = Modifier.size(44.dp)
                 )
-                if (operateRinse) {
+                if (operateRinse && !heating) {
                     Spacer(modifier = Modifier.width(20.dp))
                     Button(
                         modifier = Modifier
@@ -180,6 +181,14 @@ fun HomeBottomBar(
                         append(" " + stringResource(id = R.string.home_self_check_rinse_third_text))
                     }
                 },
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+        if (heating) {
+            Text(
+                text = stringResource(id = R.string.home_self_check_boiler_heating),
+                fontSize = 6.nsp(),
+                color = Color.White,
                 modifier = Modifier.align(Alignment.Center)
             )
         }
