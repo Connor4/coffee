@@ -63,6 +63,7 @@ object SelfCheckManager {
     suspend fun updateReleaseSteam() {
         _releaseSteam.value = 2
         delay(3000)
+        step = 4
         _releaseSteam.value = 3
     }
 
