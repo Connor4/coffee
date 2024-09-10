@@ -36,6 +36,7 @@ import com.inno.coffee.R
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 import com.inno.common.db.entity.Formula
+import com.inno.common.enums.ProductType
 
 @Composable
 fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hiltViewModel()) {
@@ -79,7 +80,7 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
                                 vat = true,
                                 coffeeWater = 20, powderDosage = 50, pressWeight = 20,
                                 preMakeTime = 29, postPreMakeWaitTime = 30, secPressWeight = 40,
-                                hotWater = 20, americanoSequence = 30, coffeeCycles = 1,
+                                hotWater = 20, waterSequence = 30, coffeeCycles = 1,
                                 bypassWater = 1
                             )
                             viewModel.insertFormula(formula)
@@ -176,91 +177,92 @@ private fun ItemList(formula: Formula, modifier: Modifier) {
         Row {
             Text(
                 text = stringResource(id = R.string.formula_product_type),
-                modifier = Modifier.width(150.dp) // Set a fixed width
+                modifier = Modifier.width(250.dp) // Set a fixed width
             )
             Text(text = formula.productType)
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_product_name),
-                modifier = Modifier.width(150.dp) // Set the same fixed width
+                modifier = Modifier.width(250.dp) // Set the same fixed width
             )
             Text(text = formula.productName)
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_vat_position),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
-            Text(text = "前方豆缸哦哦哦")
+            val vat = if (formula.vat) "font vat" else "back vat"
+            Text(text = vat)
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_water_dosage),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
             Text(text = "${formula.coffeeWater}")
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_powder_dosage),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
             Text(text = "${formula.powderDosage}")
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_press_weight),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
             Text(text = "${formula.pressWeight}")
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_pre_make_time),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
             Text(text = "${formula.preMakeTime}")
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_pre_make_wait_time),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
             Text(text = "${formula.postPreMakeWaitTime}")
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_second_press_weight),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
             Text(text = "${formula.secPressWeight}")
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_hot_water_dosage),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
             Text(text = "${formula.hotWater}")
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_americano_seq),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
-            Text(text = "${formula.americanoSequence}")
+            Text(text = "${formula.waterSequence}")
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_coffee_cycles),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
             Text(text = "${formula.coffeeCycles}")
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_bypass_dosage),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(250.dp)
             )
             Text(text = "${formula.bypassWater}")
         }
@@ -271,8 +273,8 @@ private fun ItemList(formula: Formula, modifier: Modifier) {
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
 private fun PreviewFormula() {
-    ItemList(formula = Formula(1, "coffee", "意式", true,
-        20, 50, 20, 29,
+    ItemList(formula = Formula(1, ProductType.COFFEE.value, "意式", false, false,
+        true, 20, 50, 20, 29,
         30, 40, 20, 30, 1, 1),
         modifier = Modifier)
 }

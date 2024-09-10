@@ -18,8 +18,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.nsp
@@ -44,9 +45,7 @@ fun HomeBottomBar(
     warningExist: Boolean = false,
     onReleaseSteam: () -> Unit,
 ) {
-    val operateRinse = remember {
-        mutableStateOf(false)
-    }
+    val operateRinse by SelfCheckManager.operateRinse.collectAsState()
 
     Box(
         modifier = Modifier
@@ -71,7 +70,7 @@ fun HomeBottomBar(
                     contentScale = ContentScale.Inside,
                     modifier = Modifier.size(44.dp)
                 )
-                if (operateRinse.value) {
+                if (operateRinse) {
                     Spacer(modifier = Modifier.width(20.dp))
                     Button(
                         modifier = Modifier
@@ -155,20 +154,22 @@ fun HomeBottomBar(
             }
         }
 
-        Text(
-            buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color.White, fontSize = 6.nsp())) {
-                    append(stringResource(id = R.string.home_self_check_rinse_first_text) + " ")
-                }
-                withStyle(style = SpanStyle(color = Color(0xFF01D88F), fontSize = 6.nsp())) {
-                    append(stringResource(id = R.string.home_self_check_rinse_second_text))
-                }
-                withStyle(style = SpanStyle(color = Color.White, fontSize = 6.nsp())) {
-                    append(" " + stringResource(id = R.string.home_self_check_rinse_third_text))
-                }
-            },
-            modifier = Modifier.align(Alignment.Center)
-        )
+        if (!operateRinse) {
+            Text(
+                buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = Color.White, fontSize = 6.nsp())) {
+                        append(stringResource(id = R.string.home_self_check_rinse_first_text) + " ")
+                    }
+                    withStyle(style = SpanStyle(color = Color(0xFF01D88F), fontSize = 6.nsp())) {
+                        append(stringResource(id = R.string.home_self_check_rinse_second_text))
+                    }
+                    withStyle(style = SpanStyle(color = Color.White, fontSize = 6.nsp())) {
+                        append(" " + stringResource(id = R.string.home_self_check_rinse_third_text))
+                    }
+                },
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
     }
 }
 
