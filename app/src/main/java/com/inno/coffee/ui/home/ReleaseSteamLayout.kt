@@ -2,6 +2,7 @@ package com.inno.coffee.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,6 +34,7 @@ fun ReleaseSteamLayout(
             .height(800.dp)
             .padding(top = 60.dp)
             .background(Color(0xE6000000))
+            .clickable(enabled = false) { },
     ) {
         Image(
             painter = painterResource(id = R.drawable.home_entrance_close_ic),

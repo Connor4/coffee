@@ -5,6 +5,7 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -56,7 +57,8 @@ fun CleanLockLayout(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xED000000)),
+            .background(Color(0xED000000))
+            .clickable(enabled = false) { },
         contentAlignment = Alignment.Center
     ) {
         Image(
