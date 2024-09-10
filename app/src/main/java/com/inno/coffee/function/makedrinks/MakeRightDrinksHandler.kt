@@ -151,10 +151,12 @@ object MakeRightDrinksHandler {
     }
 
     private fun minusQueueSize(model: DrinksModel) {
-        _queue.value = _queue.value.filter {
-            it.productId != model.productId
+        if (_queue.value.isNotEmpty()) {
+            _queue.value = _queue.value.filter {
+                it.productId != model.productId
+            }
+            _size.value = _queue.value.size
         }
-        _size.value = _queue.value.size
     }
 
     private fun waitForReplyConfirm() {
