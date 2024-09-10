@@ -155,6 +155,7 @@
     <string name="home_self_check_rinse_second_text">Rinse</string>
     <string name="home_self_check_rinse_third_text">button</string>
     <string name="home_self_check_boiler_heating">Coffee boiler heating…</string>
+    <string name="home_self_check_steam_heating">Steam boiler heating…</string>
     <string name="home_release_steam_description">Air in steam boiler has to be released.</string>
     <string name="home_release_steam_attention">ATTENTION</string>
     <string name="home_release_steam_activated">Steam will be activated!</string>

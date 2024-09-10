@@ -15,8 +15,10 @@ object SelfCheckManager {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val _operateRinse = MutableStateFlow(false)
     var operateRinse = _operateRinse.asStateFlow()
-    private val _heating = MutableStateFlow(false)
-    var heating = _heating.asStateFlow()
+    private val _coffeeHeating = MutableStateFlow(false)
+    var coffeeHeating = _coffeeHeating.asStateFlow()
+    private val _steamHeating = MutableStateFlow(false)
+    var steamHeating = _steamHeating.asStateFlow()
     private var step = 0
 
     suspend fun ioStatusCheck(): Boolean {
@@ -33,14 +35,22 @@ object SelfCheckManager {
         //  2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
         _operateRinse.value = true
         step = 2
-        waitBoilerHeating()
+        waitCoffeeBoilerHeating()
     }
 
-    suspend fun waitBoilerHeating() {
-        _heating.value = true
-        step = 3
+    suspend fun waitCoffeeBoilerHeating() {
+        _coffeeHeating.value = true
         delay(3000)
-        _heating.value = false
+        step = 3
+        _coffeeHeating.value = false
+        waitSteamBoilerHeating()
+    }
+
+    suspend fun waitSteamBoilerHeating() {
+        _steamHeating.value = true
+        delay(3000)
+        step = 4
+        _steamHeating.value = false
     }
 
 }
