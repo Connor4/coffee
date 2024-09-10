@@ -36,7 +36,6 @@ import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.viewmodel.home.HomeViewModel
 
-private const val TOTAL_PAGE = 2
 private const val PAGE_COUNT = 12
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
@@ -45,9 +44,10 @@ fun HomeDrinksLayout(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
-    val pagerState = rememberPagerState(pageCount = { TOTAL_PAGE })
-    val selected = remember { mutableIntStateOf(INVALID_INT) }
     val drinksList by viewModel.drinksTypes.collectAsState()
+    val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
+    val pagerState = rememberPagerState(pageCount = { totalCount })
+    val selected = remember { mutableIntStateOf(INVALID_INT) }
     val size by if (mainScreen) {
         MakeLeftDrinksHandler.size.collectAsState()
     } else {
@@ -72,12 +72,14 @@ fun HomeDrinksLayout(
             ) {
                 repeat(currentList.size) {
                     val drinkModel = currentList[it]
-                    val enable = viewModel.enableMask(drinkModel)
+                    val enable = viewModel.enableMask(size > 0, drinkModel)
+                    val select = selected.intValue == drinkModel.productId
 
-                    DrinkItem(model = drinkModel, enableMask = enable,
-                        selected = (selected.intValue == drinkModel.productId)) { model ->
-                        selected.intValue = model.productId
-                        viewModel.startMakeDrink(model, mainScreen)
+                    DrinkItem(model = drinkModel, enableMask = enable, selected = select) { model ->
+                        if (!enable) {
+                            selected.intValue = model.productId
+                            viewModel.startMakeDrink(model, mainScreen)
+                        }
                     }
                 }
             }
@@ -88,24 +90,25 @@ fun HomeDrinksLayout(
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 23.dp),
         ) {
-            HomePageIndicator(pagerState.currentPage)
+            HomePageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
         }
     }
 }
 
 @Composable
 private fun HomePageIndicator(
+    totalPage: Int,
     selectedPage: Int = 0,
 ) {
     Row {
-        repeat(TOTAL_PAGE) {
+        repeat(totalPage) {
             Image(
                 painter = if (it == selectedPage) painterResource(id = R.drawable
                     .home_page_indicator_selected_ic)
                 else painterResource(id = R.drawable.home_page_indicator_normal_ic),
                 contentDescription = null
             )
-            if (it in 0 until TOTAL_PAGE - 1) {
+            if (it in 0 until totalPage - 1) {
                 Spacer(modifier = Modifier.width(10.dp))
             }
         }
