@@ -34,10 +34,8 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
-import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.nsp
@@ -88,7 +86,7 @@ fun HomeBottomBar(
                             Color.Magenta),
                         shape = RoundedCornerShape(10.dp),
                         onClick = composeClick {
-                            ScreenDisplayManager.autoRoute(context, SerialPortActivity::class.java)
+
                         },
                     ) {
                         Text(text = "*Decaffeinated", fontSize = 5.nsp(), color = Color.White)
