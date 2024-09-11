@@ -10,7 +10,7 @@
 
     <style name="TransparentActivityTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent_90</item>
+        <item name="android:windowBackground">@color/transparent_93</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
