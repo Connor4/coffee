@@ -107,7 +107,7 @@ fun HomeBottomBar(
                             color = Color.White)
                     }
                     Spacer(modifier = Modifier.width(24.dp))
-                    Text(text = "*0.00s", fontSize = 6.nsp(), color = Color.White)
+                    Text(text = "0.00s", fontSize = 6.nsp(), color = Color.White)
                 }
             }
 
