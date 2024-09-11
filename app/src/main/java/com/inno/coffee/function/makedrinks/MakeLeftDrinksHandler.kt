@@ -2,7 +2,6 @@ package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.formula.ProductProfileManager
-import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.utilities.HEAD_INDEX
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.common.utils.Logger
@@ -58,6 +57,7 @@ object MakeLeftDrinksHandler {
     }
 
     fun discardAndClear(index: Int, model: DrinksModel) {
+        replyConfirmJob?.cancel()
         scope.launch {
             mutex.withLock {
                 Logger.d(TAG, "discard index $index, processingProductId: $processingProductId, " +
@@ -76,6 +76,7 @@ object MakeLeftDrinksHandler {
     }
 
     fun executeNow(model: DrinksModel) {
+        Logger.d(TAG, "executeNow() called")
         scope.launch {
             mutex.withLock {
                 val productProfile =
@@ -85,8 +86,6 @@ object MakeLeftDrinksHandler {
                 // stop operation need to discard current
                 if (model.productId == 1 && processingProductId != INVALID_INT) {
                     discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
-                } else if (model.productId == 4) { // set self check operate rinse
-                    SelfCheckManager.operateRinse()
                 }
             }
         }
@@ -169,11 +168,13 @@ object MakeLeftDrinksHandler {
     private fun waitForReplyConfirm() {
         // 1. after send start command, we have to start countdown
         // 2. if timeout, show notification, this command failed
+        replyConfirmJob?.cancel()
         replyConfirmJob = scope.launch {
             val result = withTimeoutOrNull(REPLY_WAIT_TIME) {
                 delay(REPLY_WAIT_TIME + 1)
             }
             if (result == null) {
+                Logger.d(TAG, "waitForReplyConfirm() called")
                 discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
                 // TODO show notification
             }

@@ -2,7 +2,6 @@ package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.formula.ProductProfileManager
-import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.utilities.HEAD_INDEX
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.common.utils.Logger
@@ -51,6 +50,7 @@ object MakeRightDrinksHandler {
     }
 
     fun discardAndClear(index: Int, model: DrinksModel) {
+        replyConfirmJob?.cancel()
         scope.launch {
             mutex.withLock {
                 Logger.d(TAG,
@@ -70,6 +70,7 @@ object MakeRightDrinksHandler {
     }
 
     fun executeNow(model: DrinksModel) {
+        Logger.d(TAG, "executeNow() called")
         scope.launch {
             mutex.withLock {
                 val productProfile =
@@ -78,8 +79,6 @@ object MakeRightDrinksHandler {
 
                 if (model.productId == 1 && processingProductId != INVALID_INT) {
                     discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
-                } else if (model.productId == 4) {
-                    SelfCheckManager.operateRinse()
                 }
             }
         }
@@ -160,6 +159,7 @@ object MakeRightDrinksHandler {
     }
 
     private fun waitForReplyConfirm() {
+        replyConfirmJob?.cancel()
         replyConfirmJob = scope.launch {
             val result = withTimeoutOrNull(REPLY_WAIT_TIME) {
                 delay(REPLY_WAIT_TIME + 1)
