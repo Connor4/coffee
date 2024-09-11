@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -33,7 +34,10 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager
+import com.inno.coffee.ui.notice.GlobalDialogManager
+import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.nsp
@@ -42,12 +46,14 @@ import com.inno.coffee.utilities.nsp
 fun HomeBottomBar(
     leftTemp: Int = 0,
     rightTemp: Int = 0,
-    warningExist: Boolean = false,
-    onReleaseSteam: () -> Unit,
+    onReleaseSteam: () -> Unit = {},
+    onClickWarning: () -> Unit = {},
 ) {
     val operateRinse by SelfCheckManager.operateRinse.collectAsState()
     val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
     val steamHeating by SelfCheckManager.steamHeating.collectAsState()
+    val warningList by GlobalDialogManager.getInstance().warningExist.collectAsState()
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -154,12 +160,12 @@ fun HomeBottomBar(
                     modifier = Modifier
                         .wrapContentWidth(Alignment.End)
                         .size(60.dp)
-                        .debouncedClickable({ onReleaseSteam() }),
+                        .debouncedClickable({ onClickWarning() }, enabled = warningList),
                     contentAlignment = Alignment.Center,
                 ) {
                     Image(
-                        painter = if (warningExist) painterResource(
-                            id = R.drawable.home_warning_normal_ic)
+                        painter = if (warningList) painterResource(
+                            id = R.drawable.home_warning_exist_ic)
                         else painterResource(id = R.drawable.home_warning_normal_ic),
                         contentDescription = null,
                         modifier = Modifier.size(40.dp)
@@ -207,5 +213,5 @@ fun HomeBottomBar(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun PreviewHomeBottomBar() {
-    HomeBottomBar() {}
+    HomeBottomBar()
 }

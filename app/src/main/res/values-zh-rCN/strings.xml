@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">coffee</string>
 
+    <string name="global_warning_title">警告</string>
+
     <string name="common_button_confirm">确认</string>
     <string name="common_button_cancel">取消</string>
     <string name="common_statistic">统计数据</string>

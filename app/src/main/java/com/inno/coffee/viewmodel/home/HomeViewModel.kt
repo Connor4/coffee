@@ -10,6 +10,7 @@ import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.statistic.StatisticManager
+import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
@@ -22,6 +23,7 @@ import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -77,6 +79,12 @@ class HomeViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
+    }
+
+    fun showWarningDialog() {
+        viewModelScope.launch(Dispatchers.Main) {
+            GlobalDialogManager.getInstance().showDialog()
+        }
     }
 
     fun selfCheckReleaseSteam() {

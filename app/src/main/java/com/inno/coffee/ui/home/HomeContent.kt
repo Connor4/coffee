@@ -45,7 +45,7 @@ fun HomeContent(
                 }
                 HomeDrinksLayout()
                 HomeBottomBar {
-
+                    viewModel.showWarningDialog()
                 }
             }
             if (showOverlay) {

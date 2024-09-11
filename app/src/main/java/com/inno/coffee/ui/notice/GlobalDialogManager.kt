@@ -7,7 +7,7 @@ import android.graphics.PixelFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inno.coffee.R
@@ -17,6 +17,8 @@ import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class GlobalDialogManager private constructor(private val application: Application) {
@@ -42,6 +44,8 @@ class GlobalDialogManager private constructor(private val application: Applicati
             parseReceivedData(data)
         }
     }
+    private val _warningExist = MutableStateFlow(false)
+    val warningExist = _warningExist.asStateFlow()
 
     init {
         DataCenter.subscribe(ReceivedDataType.SERIAL_PORT_ERROR, subscriber)
@@ -89,6 +93,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
         scope.launch {
             if (updateDialogFlag) {
                 updateDialogFlag = false
+                _warningExist.value = dialogDataList.isNotEmpty()
                 if (dialogShowing) {
                     updateDialogContent()
                 } else {
@@ -132,13 +137,10 @@ class GlobalDialogManager private constructor(private val application: Applicati
                         false)
                     adapter = errorAdapter
                 }
-                it.findViewById<Button>(R.id.dialog_next_bt).setOnClickListener {
-                    recyclerView?.smoothScrollToPosition(1)
-                }
-                it.findViewById<Button>(R.id.dialog_confirm_bt).setOnClickListener {
-                    dismissDialog()
-                }
-                it.findViewById<Button>(R.id.dialog_cancel_bt).setOnClickListener {
+//                it.findViewById<Button>(R.id.dialog_next_bt).setOnClickListener {
+//                    recyclerView?.smoothScrollToPosition(1)
+//                }
+                it.findViewById<ImageView>(R.id.global_warning_close_iv).setOnClickListener {
                     dismissDialog()
                 }
             }
