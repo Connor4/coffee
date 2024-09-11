@@ -136,8 +136,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun startMakeDrink(model: DrinksModel, main: Boolean) {
+    fun startMakeDrink(model: DrinksModel, main: Boolean, selfCheck: Boolean) {
         if (isFunctionItem(model)) {
+            if (selfCheck && model.productId == 4) {
+                viewModelScope.launch {
+                    SelfCheckManager.operateRinse()
+                }
+                return
+            }
             if (main) {
                 MakeLeftDrinksHandler.executeNow(model)
             } else {
@@ -161,8 +167,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun enableMask(making: Boolean, selfCheck: Boolean, model: DrinksModel): Boolean {
-        if (!selfCheck) {
+    fun enableMask(making: Boolean, checking: Boolean, model: DrinksModel): Boolean {
+        if (checking) {
             return model.productId != 4
         }
         if (making) {

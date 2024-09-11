@@ -46,9 +46,7 @@ fun HomeDrinksLayout(
 ) {
     val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
     val drinksList by viewModel.drinksTypes.collectAsState()
-    val operateRinse by SelfCheckManager.operateRinse.collectAsState()
-    val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
-    val steamHeating by SelfCheckManager.steamHeating.collectAsState()
+    val checking by SelfCheckManager.checking.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
     val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
@@ -58,50 +56,48 @@ fun HomeDrinksLayout(
     } else {
         MakeRightDrinksHandler.size.collectAsState()
     }
-    val selfCheck = operateRinse && !coffeeHeating && !steamHeating
 
     if (releaseSteam == 1 || releaseSteam == 2) {
         ReleaseSteamLayout {
             viewModel.selfCheckReleaseSteam()
         }
     } else {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(670.dp)
+                .background(color = Color(0xFF2C2C2C))
+        ) {
+            HorizontalPager(state = pagerState) { page ->
+                val fromIndex = page * PAGE_COUNT
+                val toIndex = minOf(fromIndex + PAGE_COUNT, drinksList.size)
+                val currentList = drinksList.subList(fromIndex, toIndex)
+                FlowRow(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 40.dp, top = 27.dp, end = 40.dp, bottom = 42.dp),
+                    maxItemsInEachRow = 4,
+                ) {
+                    currentList.forEach { drinkModel ->
+                        val enable = viewModel.enableMask(size > 0, checking, drinkModel)
+                        val select = selected.intValue == drinkModel.productId
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(670.dp)
-            .background(color = Color(0xFF2C2C2C))
-    ) {
-        HorizontalPager(state = pagerState) { page ->
-            val fromIndex = page * PAGE_COUNT
-            val toIndex = minOf(fromIndex + PAGE_COUNT, drinksList.size)
-            val currentList = drinksList.subList(fromIndex, toIndex)
-            FlowRow(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 40.dp, top = 27.dp, end = 40.dp, bottom = 42.dp),
-                maxItemsInEachRow = 4,
-            ) {
-                currentList.forEach { drinkModel ->
-                    val enable = viewModel.enableMask(size > 0, selfCheck, drinkModel)
-                    val select = selected.intValue == drinkModel.productId
-
-                    DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
-                        selected.intValue = drinkModel.productId
-                        viewModel.startMakeDrink(drinkModel, mainScreen)
+                        DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
+                            selected.intValue = drinkModel.productId
+                            viewModel.startMakeDrink(drinkModel, mainScreen, checking)
+                        }
                     }
                 }
             }
-        }
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 23.dp),
-        ) {
-            HomePageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 23.dp),
+            ) {
+                HomePageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
+            }
         }
-    }
     }
 }
 

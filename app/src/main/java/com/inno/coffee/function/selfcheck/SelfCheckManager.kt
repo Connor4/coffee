@@ -21,6 +21,8 @@ object SelfCheckManager {
     var steamHeating = _steamHeating.asStateFlow()
     private val _releaseSteam = MutableStateFlow(0)
     var releaseSteam = _releaseSteam.asStateFlow()
+    private val _checking = MutableStateFlow(true)
+    val checking = _checking.asStateFlow()
     private var step = 0
 
     suspend fun ioStatusCheck(): Boolean {
@@ -42,6 +44,9 @@ object SelfCheckManager {
 
     suspend fun waitCoffeeBoilerHeating() {
         _coffeeHeating.value = true
+        // TODO 1. 下发开始锅炉加热命令
+        //  2. 抓取pullinfo锅炉温度
+        //  3. 下发停止锅炉加热命令
         delay(3000)
         step = 3
         _coffeeHeating.value = false
@@ -50,10 +55,13 @@ object SelfCheckManager {
 
     suspend fun waitSteamBoilerHeating() {
         _steamHeating.value = true
+        // TODO 1. 下发开始锅炉加热命令
+        //  2. 抓取pullinfo锅炉温度
+        //  3. 下发停止锅炉加热命令
         delay(3000)
         step = 4
         _steamHeating.value = false
-        releaseSteamNotice()
+        _releaseSteam.value = 1
     }
 
     suspend fun releaseSteamNotice() {
@@ -62,9 +70,12 @@ object SelfCheckManager {
 
     suspend fun updateReleaseSteam() {
         _releaseSteam.value = 2
+        // TODO 1. 下发释放蒸汽命令
+        //  2.抓取释放结果
         delay(3000)
         step = 4
         _releaseSteam.value = 3
+        _checking.value = false
     }
 
 }

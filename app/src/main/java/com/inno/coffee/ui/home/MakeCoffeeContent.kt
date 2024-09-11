@@ -97,7 +97,7 @@ fun MakeCoffeeContent(
 //            DrinkList(modifier = modifier, drinksData = drinksData, enableMask = size > 0,
             DrinkList(modifier = modifier, drinksData = drinksData, enableMask = false,
                 viewModel = viewModel) {
-                viewModel.startMakeDrink(it, mainScreen)
+                viewModel.startMakeDrink(it, mainScreen, false)
             }
         }
         BottomInfo(modifier = Modifier.align(Alignment.BottomCenter), viewModel = viewModel)
