@@ -164,6 +164,8 @@
     <string name="home_release_steam_activated">Steam will be activated!</string>
     <string name="home_release_steam_wait">Releasing steam, please wait…</string>
 
+    <string name="settings_title">Machine Settings</string>
+
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>
     <string name="permission_login_user">login</string>

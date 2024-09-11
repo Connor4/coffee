@@ -165,6 +165,8 @@
     <string name="home_release_steam_activated">蒸汽将被释放！</string>
     <string name="home_release_steam_wait">蒸汽正在释放，请稍后…</string>
 
+    <string name="settings_title">机器设置</string>
+
     <string name="permission_password_correct">密码正确</string>
     <string name="permission_password_error">密码错误</string>
     <string name="permission_login_user">登录</string>

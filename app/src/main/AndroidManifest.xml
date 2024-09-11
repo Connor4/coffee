@@ -40,7 +40,9 @@
         <activity
             android:name=".ui.home.MakeCoffeeActivity"
             android:resizeableActivity="true" />
-        <activity android:name=".ui.settings.SettingActivity" />
+        <activity
+            android:name=".ui.settings.SettingActivity"
+            android:theme="@style/TransparentActivityTheme" />
         <activity android:name=".ui.settings.permissions.PermissionActivity" />
         <activity android:name=".ui.settings.statistics.StatisticActivity" />
         <activity android:name=".ui.settings.statistics.product.StatisticProductActivity" />

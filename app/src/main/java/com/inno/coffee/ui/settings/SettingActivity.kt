@@ -13,7 +13,10 @@ class SettingActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                SettingCardLayout()
+//                SettingCardLayout()
+                MachineSettingLayout() {
+                    this@SettingActivity.finish()
+                }
             }
         }
     }

@@ -11,14 +11,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.inno.coffee.function.display.ScreenDisplayManager
+import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.viewmodel.home.HomeViewModel
 
 @Composable
 fun HomeContent(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     var showOverlay by remember { mutableStateOf(false) }
     var hideOverlay by remember { mutableStateOf(false) }
     var showLoginDialog by remember { mutableStateOf(false) }
@@ -59,6 +63,8 @@ fun HomeContent(
                             when (it) {
                                 0 -> {
                                     showLoginDialog = true
+                                    ScreenDisplayManager.autoRoute(context,
+                                        SettingActivity::class.java)
                                 }
                                 1 -> {
                                     showCleanDialog = true
