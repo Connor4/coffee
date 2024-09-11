@@ -175,5 +175,4 @@ class GlobalDialogManager private constructor(private val application: Applicati
 data class DialogData(
     var errorCode: Int = 0,
     var message: String = "",
-//    @DrawableRes var image: Int,
 )
