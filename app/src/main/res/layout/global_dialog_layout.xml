@@ -24,8 +24,8 @@
                 android:layout_width="40dp"
                 android:layout_height="42dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="37dp"
-                android:layout_marginEnd="37dp"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="27dp"
                 android:src="@drawable/home_entrance_close_ic" />
 
             <LinearLayout
@@ -55,7 +55,7 @@
                 android:id="@+id/dialog_error_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="179dp"
+                android:layout_marginTop="189dp"
                 android:overScrollMode="never" />
 
         </RelativeLayout>

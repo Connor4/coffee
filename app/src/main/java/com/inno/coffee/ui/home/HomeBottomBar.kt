@@ -87,7 +87,9 @@ fun HomeBottomBar(
                         colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
                             Color.Magenta),
                         shape = RoundedCornerShape(10.dp),
-                        onClick = composeClick { /*TODO*/ },
+                        onClick = composeClick {
+                            ScreenDisplayManager.autoRoute(context, SerialPortActivity::class.java)
+                        },
                     ) {
                         Text(text = "*Decaffeinated", fontSize = 5.nsp(), color = Color.White)
                     }

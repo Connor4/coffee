@@ -123,6 +123,9 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private fun dismissDialog() {
         dialogView?.let {
             windowManager.removeView(it)
+            recyclerView?.adapter = null
+            dialogView = null
+            recyclerView = null
         }
         dialogShowing = false
     }
