@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +30,8 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.function.display.ScreenDisplayManager
+import com.inno.coffee.ui.settings.statistics.product.StatisticProductActivity
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
@@ -50,6 +53,7 @@ fun StatisticLayout(
         Pair(7, R.string.statistic_rinse_history),
         Pair(8, R.string.statistic_machine_service_history),
     )
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -89,7 +93,18 @@ fun StatisticLayout(
         ) {
             names.forEach { pair ->
                 Item(title = pair.second) {
+                    when (pair.first) {
+                        1 -> {
+                            ScreenDisplayManager.autoRoute(context,
+                                StatisticProductActivity::class.java)
+                        }
+                        2 -> {
 
+                        }
+                        3 -> {
+
+                        }
+                    }
                 }
             }
         }
