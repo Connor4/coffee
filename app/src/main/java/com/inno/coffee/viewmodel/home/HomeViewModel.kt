@@ -95,7 +95,7 @@ class HomeViewModel @Inject constructor(
 
     fun selfCheckIoStatus() {
         viewModelScope.launch {
-            _selfCheck.value = SelfCheckManager.ioStatusCheck()
+            SelfCheckManager.ioStatusCheck()
         }
     }
 

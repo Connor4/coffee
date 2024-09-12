@@ -1,9 +1,12 @@
 package com.inno.coffee.function.selfcheck
 
+import com.inno.serialport.function.data.DataCenter
+import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.ReceivedDataType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +15,14 @@ import kotlinx.coroutines.flow.asStateFlow
 // 2. 自检完成由应用触发冲水等流程。
 // 3. 制作异常，需要取消并执行清除操作。清除操作可细分各个阶段，磨粉阶段丢弃粉即可，萃取阶段需要完成萃取。
 object SelfCheckManager {
+    private const val STEP_IO_CHECK = 1
+    private const val STEP_RINSE = 2
+    private const val STEP_BOILER_HEATING = 3
+    private const val STEP_STEAM_HEATING = 4
+    private const val STEP_RELEASE_STEAM = 5
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val _ioCheck = MutableStateFlow(false)
+    var ioCheck = _ioCheck.asStateFlow()
     private val _operateRinse = MutableStateFlow(false)
     var operateRinse = _operateRinse.asStateFlow()
     private val _coffeeHeating = MutableStateFlow(false)
@@ -25,20 +35,28 @@ object SelfCheckManager {
     val checking = _checking.asStateFlow()
     private var step = 0
 
-    suspend fun ioStatusCheck(): Boolean {
-        return scope.async {
-            // TODO 使用pullinfo检查是否有异常
-            delay(3000)
-            step = 1
-            true
-        }.await()
+    private val subscriber = object : Subscriber {
+        override fun onDataReceived(data: Any) {
+            parseReceivedData(data)
+        }
+    }
+
+    init {
+        DataCenter.subscribe(ReceivedDataType.HEARTBEAT_LIST, subscriber)
+    }
+
+    suspend fun ioStatusCheck() {
+        // TODO 使用pullinfo检查是否有异常
+        delay(3000)
+        _ioCheck.value = true
+        step = STEP_IO_CHECK
     }
 
     suspend fun operateRinse() {
         // TODO 1. 操作出水
         //  2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
         _operateRinse.value = true
-        step = 2
+        step = STEP_RINSE
         waitCoffeeBoilerHeating()
     }
 
@@ -48,7 +66,7 @@ object SelfCheckManager {
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
         delay(3000)
-        step = 3
+        step = STEP_BOILER_HEATING
         _coffeeHeating.value = false
         waitSteamBoilerHeating()
     }
@@ -59,12 +77,8 @@ object SelfCheckManager {
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
         delay(3000)
-        step = 4
+        step = STEP_STEAM_HEATING
         _steamHeating.value = false
-        _releaseSteam.value = 1
-    }
-
-    suspend fun releaseSteamNotice() {
         _releaseSteam.value = 1
     }
 
@@ -73,9 +87,27 @@ object SelfCheckManager {
         // TODO 1. 下发释放蒸汽命令
         //  2.抓取释放结果
         delay(3000)
-        step = 4
+        step = STEP_RELEASE_STEAM
         _releaseSteam.value = 3
         _checking.value = false
+    }
+
+    private fun parseReceivedData(data: Any) {
+        when (step) {
+            STEP_IO_CHECK -> {
+                val error = data as ReceivedData.HeartBeat
+                if (error.error != null) {
+                    // TODO step 1 存在异常，
+                } else {
+                    _ioCheck.value = true
+                }
+            }
+            STEP_RINSE -> {}
+            STEP_BOILER_HEATING -> {}
+            STEP_STEAM_HEATING -> {}
+            STEP_RELEASE_STEAM -> {}
+        }
+
     }
 
 }

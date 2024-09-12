@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.function.display.ScreenDisplayManager
+import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.viewmodel.home.HomeViewModel
 
@@ -29,13 +30,13 @@ fun HomeContent(
     var showCleanDialog by remember { mutableStateOf(false) }
     var showInfoDialog by remember { mutableStateOf(false) }
     var showStandByModeDialog by remember { mutableStateOf(false) }
-    val selfCheck by viewModel.selfCheck.collectAsState()
+    val ioCheck by SelfCheckManager.ioCheck.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.selfCheckIoStatus()
     }
 
-    if (!selfCheck) {
+    if (!ioCheck) {
         SelfCheckLayout()
     } else {
         Box {
