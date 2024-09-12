@@ -4,12 +4,14 @@ import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
+import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 // 1. IO自动检测状态，通过pull返回结果，同时根据pull返回IO自检阶段。
 // 2. 自检完成由应用触发冲水等流程。
@@ -20,7 +22,9 @@ object SelfCheckManager {
     private const val STEP_BOILER_HEATING = 3
     private const val STEP_STEAM_HEATING = 4
     private const val STEP_RELEASE_STEAM = 5
+    private const val TRY_MAX_TIME = 3
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private var tryTimes = 0
     private val _ioCheck = MutableStateFlow(false)
     var ioCheck = _ioCheck.asStateFlow()
     private val _operateRinse = MutableStateFlow(false)
@@ -34,6 +38,8 @@ object SelfCheckManager {
     private val _checking = MutableStateFlow(true)
     val checking = _checking.asStateFlow()
     private var step = 0
+    private val _errorStep = MutableStateFlow(step)
+    val errorStep = _errorStep.asStateFlow()
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -93,19 +99,76 @@ object SelfCheckManager {
     }
 
     private fun parseReceivedData(data: Any) {
+        // TODO 全部请求三次心跳，保证不存在错过或者获取旧心跳
         when (step) {
             STEP_IO_CHECK -> {
-                val error = data as ReceivedData.HeartBeat
-                if (error.error != null) {
-                    // TODO step 1 存在异常，
-                } else {
-                    _ioCheck.value = true
+                if (tryTimes < TRY_MAX_TIME) {
+                    tryTimes++
+                    val heartBeat = data as ReceivedData.HeartBeat
+                    if (heartBeat.error != null) {
+                        // TODO
+                        //  1 存在异常，正常弹窗提示异常即可，无需干预。
+                        //  2 人工恢复后，需要手动触发再次io自检。所以需要有一个异常的提示，以及触发按钮
+                        _errorStep.value = STEP_IO_CHECK
+                    } else {
+                        step = STEP_RINSE
+                        _ioCheck.value = true
+                        tryTimes = 0
+                    }
                 }
             }
-            STEP_RINSE -> {}
-            STEP_BOILER_HEATING -> {}
-            STEP_STEAM_HEATING -> {}
-            STEP_RELEASE_STEAM -> {}
+            STEP_RINSE -> {
+                if (tryTimes < TRY_MAX_TIME) {
+                    tryTimes++
+                    val heartBeat = data as ReceivedData.HeartBeat
+                    if (heartBeat.error != null) {
+                        // TODO 1 冲水异常，已进入主页，有异常弹窗，不需要额外操作
+                        _errorStep.value = STEP_RINSE
+                    } else {
+                        step = STEP_BOILER_HEATING
+                        _operateRinse.value = true
+                        tryTimes = 0
+                        scope.launch {
+                            waitCoffeeBoilerHeating()
+                        }
+                    }
+                }
+            }
+            STEP_BOILER_HEATING -> {
+                // 干等，或者设置超时报异常
+                val boiler = data as ReceivedData.HeartBeat
+                boiler.temperature?.let { reply ->
+                    when (reply.status) {
+                        BoilerStatusEnum.BOILER_TEMPERATURE -> {
+                            val leftBoiler = ((reply.value[0].toInt() and 0xFF) shl 8) or
+                                    (reply.value[1].toInt() and 0xFF)
+                            val rightBoiler = ((reply.value[2].toInt() and 0xFF) shl 8) or
+                                    (reply.value[3].toInt() and 0xFF)
+                            if (leftBoiler >= 92 && rightBoiler >= 92) {
+                                _coffeeHeating.value = false
+                                scope.launch {
+                                    waitSteamBoilerHeating()
+                                }
+                            }
+                        }
+                        else -> {}
+                    }
+                }
+            }
+            STEP_STEAM_HEATING -> {
+                // TODO 待定
+            }
+            STEP_RELEASE_STEAM -> {
+                if (tryTimes < TRY_MAX_TIME) {
+                    val heartBeat = data as ReceivedData.HeartBeat
+                    if (heartBeat.error != null) {
+                        // TODO 1 释放蒸汽异常，已进入主页，有异常弹窗，不需要额外操作
+                        _errorStep.value = STEP_RELEASE_STEAM
+                    } else {
+                        _releaseSteam.value = 3
+                    }
+                }
+            }
         }
 
     }
