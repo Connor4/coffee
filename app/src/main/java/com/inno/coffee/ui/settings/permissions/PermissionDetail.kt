@@ -229,7 +229,7 @@ private fun ModuleCheckBox(defaultCheckedValue: Int, onValueChanged: (Int) -> Un
         stringResource(id = R.string.common_display),
         stringResource(id = R.string.common_machine_config),
         stringResource(id = R.string.common_machine_params),
-        stringResource(id = R.string.common_vat_and_grind),
+        stringResource(id = R.string.common_beans_and_grinder),
         stringResource(id = R.string.common_machine_clean),
         stringResource(id = R.string.common_permission),
         stringResource(id = R.string.common_maintenance),

@@ -6,12 +6,12 @@
 
     <string name="common_button_confirm">OK</string>
     <string name="common_button_cancel">Cancel</string>
-    <string name="common_statistic">Statistic</string>
-    <string name="common_formula">Formula</string>
+    <string name="common_statistic">Statistic/History</string>
+    <string name="common_formula">Products&amp;KeyBoard</string>
     <string name="common_display">Display</string>
     <string name="common_machine_config">Machine Config</string>
     <string name="common_machine_params">Machine Params</string>
-    <string name="common_vat_and_grind">Vat&amp;Grind</string>
+    <string name="common_beans_and_grinder">Beans&amp;Grinder</string>
     <string name="common_machine_clean">Clean</string>
     <string name="common_permission">Permission</string>
     <string name="common_maintenance">Maintenance</string>

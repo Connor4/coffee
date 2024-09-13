@@ -40,6 +40,7 @@ import com.inno.coffee.ui.settings.statistics.StatisticActivity
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.common.annotations.BEANS_AND_GRINDER
 import com.inno.common.annotations.DISPLAY
 import com.inno.common.annotations.FORMULA
 import com.inno.common.annotations.MACHINE_OPERATION
@@ -48,7 +49,6 @@ import com.inno.common.annotations.MAINTENANCE
 import com.inno.common.annotations.PERMISSION
 import com.inno.common.annotations.SERIAL_TEST
 import com.inno.common.annotations.STATISTIC
-import com.inno.common.annotations.VAT_AND_GRIND
 import com.inno.common.annotations.WASH_MACHINE
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -57,11 +57,12 @@ fun MachineSettingLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val names = arrayOf(
-        Pair(STATISTIC, R.string.common_statistic), Pair(FORMULA, R.string.common_formula),
+        Pair(STATISTIC, R.string.common_statistic),
+        Pair(FORMULA, R.string.common_formula),
         Pair(DISPLAY, R.string.common_display),
         Pair(MACHINE_SETTING, R.string.common_machine_config),
         Pair(MACHINE_OPERATION, R.string.common_machine_params),
-        Pair(VAT_AND_GRIND, R.string.common_vat_and_grind),
+        Pair(BEANS_AND_GRINDER, R.string.common_beans_and_grinder),
         Pair(WASH_MACHINE, R.string.common_machine_clean),
         Pair(PERMISSION, R.string.common_permission),
         Pair(MAINTENANCE, R.string.common_maintenance),
@@ -152,7 +153,7 @@ private fun jumpDetail(name: String, context: Context) {
         MACHINE_OPERATION -> {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
-        VAT_AND_GRIND -> {
+        BEANS_AND_GRINDER -> {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         WASH_MACHINE -> {
