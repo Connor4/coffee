@@ -34,12 +34,12 @@ class CoffeeApplication : Application() {
 
         applicationScope.launch {
             Logger.d(TAG, "CoffeeApplication init() launch call")
+            GlobalDialogManager.init(this@CoffeeApplication)
 //            SerialPortDataManager.instance.open()
 //            DataCenter.init()
 
             delay(3000)
             Logger.d(TAG, "CoffeeApplication delayInit start")
-            GlobalDialogManager.init(this@CoffeeApplication)
             ProductProfileManager.init(this@CoffeeApplication)
             DefaultSettingManager.init(this@CoffeeApplication)
             StatisticManager.init(this@CoffeeApplication)
