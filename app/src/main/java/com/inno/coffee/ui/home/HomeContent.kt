@@ -31,6 +31,8 @@ fun HomeContent(
     var showInfoDialog by remember { mutableStateOf(false) }
     var showStandByModeDialog by remember { mutableStateOf(false) }
     val ioCheck by SelfCheckManager.ioCheck.collectAsState()
+    val leftTemperature = viewModel.leftBoilerTemp.collectAsState()
+    val rightTemperature = viewModel.rightBoilerTemp.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.selfCheckIoStatus()
@@ -49,7 +51,8 @@ fun HomeContent(
                     }
                 }
                 HomeDrinksLayout()
-                HomeBottomBar {
+                HomeBottomBar(leftTemp = leftTemperature.value,
+                    rightTemp = rightTemperature.value) {
                     viewModel.showWarningDialog()
                 }
             }
