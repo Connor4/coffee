@@ -21,14 +21,13 @@ class HeartBeatChain : Chain() {
         val heartBeatList = ReceivedData.HeatBeatList()
         val data = pullBufInfo.pollBuf
         val length = pullBufInfo.length
-
-        if (length % VALUE_STEP != 0) {
+        if ((length - 2) % VALUE_STEP != 0) {
             return heartBeatList
         }
         for (i in data.indices step VALUE_STEP) {
             val info = ReceivedData.HeartBeat()
-            val id = ((data[i].toInt() and 0xFF) shl 8) or (data[i + 1].toInt() and 0xFF)
-            val value = ((data[i + 2].toInt() and 0xFF) shl 8) or (data[i + 3].toInt() and 0xFF)
+            val id = ((data[i + 1].toInt() and 0xFF) shl 8) or (data[i].toInt() and 0xFF)
+            val value = ((data[i + 3].toInt() and 0xFF) shl 8) or (data[i + 2].toInt() and 0xFF)
 
             if ((id >= MakeDrinkStatusEnum.LEFT_BREWING.value) and (id <= MakeDrinkStatusEnum
                     .RIGHT_BREW_COMPLETED.value)) { // 1000 - 1003

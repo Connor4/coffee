@@ -185,11 +185,11 @@ class RS485Driver : IDriver {
     }
 
     private fun parsePullBuffInfo(buffer: ByteArray): PullBufInfo {
-        val length = ((buffer[FRAME_LENGTH_INDEX_LOW].toInt() and 0xFF) shl 8) or
-                (buffer[FRAME_LENGTH_INDEX_HIGH].toInt() and 0xFF)
-        val command = ((buffer[FRAME_CMD_INDEX_LOW].toInt() and 0xFF) shl 8) or
-                (buffer[FRAME_CMD_INDEX_HIGH].toInt() and 0xFF)
-        val content = buffer.sliceArray(FRAME_CONTENT_START_INDEX until buffer.size - 2)
+        val length = ((buffer[FRAME_LENGTH_INDEX_HIGH].toInt() and 0xFF) shl 8) or
+                (buffer[FRAME_LENGTH_INDEX_LOW].toInt() and 0xFF)
+        val command = ((buffer[FRAME_CMD_INDEX_HIGH].toInt() and 0xFF) shl 8) or
+                (buffer[FRAME_CMD_INDEX_LOW].toInt() and 0xFF)
+        val content = buffer.sliceArray(FRAME_CONTENT_START_INDEX until buffer.size - 3)
         return PullBufInfo(length, command.toShort(), content)
     }
 

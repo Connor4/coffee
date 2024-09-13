@@ -87,7 +87,7 @@ object MakeRightDrinksHandler {
     fun enqueueMessage(model: DrinksModel) {
         scope.launch {
             mutex.withLock {
-                val message = DrinkMessage.obtainMessage(model.productId)
+                val message = DrinkMessage.obtainMessage(model.productId + 100)
                 if (messageHead == null) {
                     messageHead = message
                 } else {
