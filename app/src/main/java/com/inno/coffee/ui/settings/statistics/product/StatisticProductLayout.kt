@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -204,42 +207,86 @@ fun StatisticProductLayout(
                 .align(Alignment.TopEnd)
                 .padding(top = 198.dp, end = 90.dp)
         )
-        Column(
+
+        Box(
             modifier = Modifier
-                .align(Alignment.TopStart)
+                .fillMaxSize()
                 .padding(start = 805.dp, top = 275.dp)
         ) {
-            Text(text = stringResource(id = R.string.statistic_product_coffee_counter),
-                fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = stringResource(id = R.string.statistic_product_hotwater_counter),
-                fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = stringResource(id = R.string.statistic_product_milk_counter),
-                fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = stringResource(id = R.string.statistic_product_foam_counter),
-                fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = stringResource(id = R.string.statistic_product_steam_counter),
-                fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
-        }
-        Column(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 275.dp, end = 90.dp)
-        ) {
-            Text(text = "$coffee", fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "$hotWater", fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "$milk", fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "$foam", fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "$steam", fontSize = 5.nsp(), color = Color.White)
-            Spacer(modifier = Modifier.height(20.dp))
+            Box(
+                modifier = Modifier
+                    .width(385.dp)
+                    .wrapContentHeight()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = stringResource(id = R.string.statistic_product_coffee_counter),
+                            fontSize = 5.nsp(), color = Color.White)
+                        Text(text = "$coffee", fontSize = 5.nsp(), color = Color.White)
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.statistic_product_hotwater_counter),
+                            fontSize = 5.nsp(), color = Color.White)
+                        Text(text = "$hotWater", fontSize = 5.nsp(), color = Color.White)
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = stringResource(id = R.string.statistic_product_milk_counter),
+                            fontSize = 5.nsp(), color = Color.White)
+                        Text(text = "$milk", fontSize = 5.nsp(), color = Color.White)
+                    }
+
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = stringResource(id = R.string.statistic_product_foam_counter),
+                            fontSize = 5.nsp(), color = Color.White)
+                        Text(text = "$foam", fontSize = 5.nsp(), color = Color.White)
+                    }
+
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = stringResource(id = R.string.statistic_product_steam_counter),
+                            fontSize = 5.nsp(), color = Color.White)
+                        Text(text = "$steam", fontSize = 5.nsp(), color = Color.White)
+                    }
+                }
+            }
         }
     }
 }
