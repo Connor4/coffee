@@ -57,6 +57,10 @@ fun HomeDrinksLayout(
         MakeRightDrinksHandler.size.collectAsState()
     }
 
+    if (size < 1) {
+        selected.intValue = INVALID_INT
+    }
+
     if (releaseSteam == 1 || releaseSteam == 2) {
         ReleaseSteamLayout {
             viewModel.selfCheckReleaseSteam()
