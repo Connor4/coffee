@@ -58,7 +58,7 @@
     <string name="statistic_product_foam_counter">Foam Counter:</string>
     <string name="statistic_product_steam_counter">Steam Counter:</string>
     <string name="statistic_product_total_counter">Total Counter:</string>
-    <string name="statistic_product_single_counter">Single Counter:</string>
+    <string name="statistic_product_single_counter">Single Counter:    </string>
     <string name="statistic_error_top_event">Event</string>
     <string name="statistic_error_top_code">Code</string>
     <string name="statistic_wash_top_start">Started</string>

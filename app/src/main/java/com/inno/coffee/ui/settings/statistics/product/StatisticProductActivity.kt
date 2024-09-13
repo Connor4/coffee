@@ -13,7 +13,10 @@ class StatisticProductActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                ShowProductStatistic()
+//                ShowProductStatistic()
+                StatisticProductLayout() {
+                    this@StatisticProductActivity.finish()
+                }
             }
         }
     }

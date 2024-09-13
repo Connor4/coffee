@@ -59,7 +59,7 @@
     <string name="statistic_product_foam_counter">奶泡杯数:</string>
     <string name="statistic_product_steam_counter">蒸汽次数:</string>
     <string name="statistic_product_total_counter">总量:</string>
-    <string name="statistic_product_single_counter">产品杯数:</string>
+    <string name="statistic_product_single_counter">产品杯数:    </string>
     <string name="statistic_error_top_event">事件</string>
     <string name="statistic_error_top_code">代号</string>
     <string name="statistic_wash_top_start">开始</string>

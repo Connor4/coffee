@@ -80,8 +80,8 @@ fun HomeBottomBar(
                         modifier = Modifier
                             .width(200.dp)
                             .height(50.dp),
-                        colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
-                            Color.Magenta),
+                        colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C),
+                            Color(0xFF2C2C2C), Color(0xFF2C2C2C)),
                         shape = RoundedCornerShape(10.dp),
                         onClick = composeClick {
 
