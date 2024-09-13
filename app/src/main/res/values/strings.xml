@@ -183,6 +183,8 @@
     <string name="permission_hint_password">password</string>
     <string name="permission_hint_remark">remark</string>
 
+    <string name="formula_title">Products and Keyboard</string>
+    <string name="formula_assimilation_key">Assimilation Key</string>
     <string name="formula_product_type">Product Type</string>
     <string name="formula_product_name">Product Name</string>
     <string name="formula_vat_position">Vat Position</string>
