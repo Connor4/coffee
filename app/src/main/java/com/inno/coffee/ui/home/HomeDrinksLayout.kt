@@ -56,9 +56,6 @@ fun HomeDrinksLayout(
     } else {
         MakeRightDrinksHandler.size.collectAsState()
     }
-    if (size == 0) {
-        selected.intValue = INVALID_INT
-    }
 
     if (releaseSteam == 1 || releaseSteam == 2) {
         ReleaseSteamLayout {
