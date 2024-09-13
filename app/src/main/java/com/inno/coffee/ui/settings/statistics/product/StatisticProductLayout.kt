@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
@@ -74,7 +75,7 @@ fun StatisticProductLayout(
     val milk = lookForCount(typeCounts, ProductType.MILK)
     val foam = lookForCount(typeCounts, ProductType.FOAM)
     val steam = lookForCount(typeCounts, ProductType.STEAM)
-    val total = coffee + hotWater + milk + foam + steam
+//    val total = coffee + hotWater + milk + foam + steam
 
 
     Box(
@@ -156,8 +157,8 @@ fun StatisticProductLayout(
                 FlowRow(
                     modifier = Modifier
                         .fillMaxSize(),
-                    horizontalArrangement = Arrangement.spacedBy(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
+//                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+//                    verticalArrangement = Arrangement.spacedBy(20.dp),
                     maxItemsInEachRow = 5,
                 ) {
                     currentList.forEach {
@@ -297,18 +298,27 @@ private fun StatisticDrinkItem(
     selected: Boolean = false,
     onDrinkClick: () -> Unit = {},
 ) {
-    val borderColor = if (selected) Color(0xFF00DE93) else Color(0xFF484848)
 
     Box(
         modifier = Modifier
-            .width(100.dp)
-            .height(100.dp)
-            .border(1.dp, borderColor, RoundedCornerShape(18.dp))
-            .clip(RoundedCornerShape(18.dp))
-            .background(color = Color(0xFF191A1D))
+            .width(120.dp)
+            .height(120.dp)
             .debouncedClickable({ onDrinkClick() }),
         contentAlignment = Alignment.Center,
     ) {
+
+        if (selected) {
+            Image(
+                painter = painterResource(id = R.drawable.common_drink_item_selected_bg),
+                contentDescription = null,
+            )
+        } else {
+            Image(
+                painter = painterResource(id = R.drawable.common_drink_item_normal_bg),
+                contentDescription = null,
+                modifier = Modifier.size(101.dp)
+            )
+        }
         Image(
             painter = painterResource(id = model.imageRes),
             contentDescription = null,
@@ -329,5 +339,7 @@ private fun lookForCount(list: List<ProductTypeCount>, type: ProductType): Int {
 @Preview(device = Devices.TABLET)
 @Composable
 private fun PreviewStatisticProduct() {
-    StatisticProductLayout()
+//    StatisticProductLayout()
+    StatisticDrinkItem(model = DrinksModel(1, ProductType.COFFEE, R.string.home_item_espresso,
+        R.drawable.drink_espresso_ic))
 }
