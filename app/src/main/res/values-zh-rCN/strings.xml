@@ -186,6 +186,8 @@
 
     <string name="formula_title">产品 / 按键</string>
     <string name="formula_assimilation_key">同化键</string>
+    <string name="formula_product_test">产品测试</string>
+    <string name="formula_learn_quantity">学习水量</string>
     <string name="formula_product_type">产品类型</string>
     <string name="formula_product_name">产品名称</string>
     <string name="formula_vat_position">豆缸</string>

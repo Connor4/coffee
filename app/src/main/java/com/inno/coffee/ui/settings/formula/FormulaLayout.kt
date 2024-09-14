@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -173,9 +174,59 @@ fun FormulaLayout(
 
 
         // ==============================right=======================================
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .align(Alignment.TopEnd)
+                .padding(top = 132.dp, end = 90.dp)
+        ) {
+            Row {
+                Button(
+                    modifier = Modifier
+                        .width(220.dp)
+                        .height(50.dp),
+                    colors = ButtonColors(
+                        Color(0xFF191A1D), Color(0xFF191A1D),
+                        Color(0xFF191A1D), Color(0xFF191A1D),
+                    ),
+                    border = BorderStroke(1.dp, Color(0xFF484848)),
+                    shape = RoundedCornerShape(10.dp),
+                    onClick = composeClick {
+
+                    },
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.formula_product_test),
+                        fontSize = 5.nsp(),
+                        color = Color.White
+                    )
+                }
+                Button(
+                    modifier = Modifier
+                        .width(220.dp)
+                        .height(50.dp),
+                    colors = ButtonColors(
+                        Color(0xFF191A1D), Color(0xFF191A1D),
+                        Color(0xFF191A1D), Color(0xFF191A1D),
+                    ),
+                    border = BorderStroke(1.dp, Color(0xFF484848)),
+                    shape = RoundedCornerShape(10.dp),
+                    onClick = composeClick {
+
+                    },
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.formula_learn_quantity),
+                        fontSize = 5.nsp(),
+                        color = Color.White
+                    )
+                }
+            }
+        }
 
 
     }
+
 }
 
 @Composable
