@@ -28,6 +28,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 object MakeRightDrinksHandler {
     private const val TAG = "MakeRightDrinksHandler"
     private const val REPLY_WAIT_TIME = 2000L
+    private const val RIGHT_OFFSET = 100
     private var messageHead: DrinkMessage? = null
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
@@ -56,7 +57,7 @@ object MakeRightDrinksHandler {
                 Logger.d(TAG,
                     "discard index $index, processingProductId: $processingProductId, model:" +
                             "${model.productId}")
-                if (processingProductId == model.productId) {
+                if (processingProductId == model.productId + RIGHT_OFFSET) {
                     recycleMessage(index)
                     minusQueueSize(model)
                     processingProductId = INVALID_INT
@@ -74,7 +75,8 @@ object MakeRightDrinksHandler {
         scope.launch {
             mutex.withLock {
                 val productProfile =
-                    ProductProfileManager.convertProductProfile(model.productId, true)
+                    ProductProfileManager.convertProductProfile(model.productId + RIGHT_OFFSET,
+                        false)
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
 
                 if (model.productId == 1 && processingProductId != INVALID_INT) {
@@ -87,7 +89,7 @@ object MakeRightDrinksHandler {
     fun enqueueMessage(model: DrinksModel) {
         scope.launch {
             mutex.withLock {
-                val message = DrinkMessage.obtainMessage(model.productId + 100)
+                val message = DrinkMessage.obtainMessage(model.productId + RIGHT_OFFSET)
                 if (messageHead == null) {
                     messageHead = message
                 } else {
@@ -113,9 +115,9 @@ object MakeRightDrinksHandler {
     // id parse to command, send command
     private suspend fun handleMessage() {
         if (messageHead != null && processingProductId == INVALID_INT) {
-            processingProductId = messageHead!!.productId
+            processingProductId = messageHead!!.productId + RIGHT_OFFSET
             val productProfile =
-                ProductProfileManager.convertProductProfile(processingProductId, true)
+                ProductProfileManager.convertProductProfile(processingProductId, false)
             SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
             waitForReplyConfirm()
         }
@@ -152,7 +154,7 @@ object MakeRightDrinksHandler {
     private fun minusQueueSize(model: DrinksModel) {
         if (_queue.value.isNotEmpty()) {
             _queue.value = _queue.value.filter {
-                it.productId != model.productId
+                it.productId != model.productId + RIGHT_OFFSET
             }
             _size.value = _queue.value.size
         }
@@ -174,7 +176,7 @@ object MakeRightDrinksHandler {
         val drinkData = data as ReceivedData.HeartBeat
         drinkData.makeDrink?.let { reply ->
             val status = reply.status
-            val productId = reply.value
+            val productId = reply.value + RIGHT_OFFSET
             val params = reply.params
             when (status) {
                 MakeDrinkStatusEnum.RIGHT_BREWING -> {
