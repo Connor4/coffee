@@ -94,12 +94,14 @@ fun HomeDrinksLayout(
                 }
             }
 
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 23.dp),
-            ) {
-                HomePageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
+            if (totalCount > 1) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 23.dp),
+                ) {
+                    HomePageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
+                }
             }
         }
     }
