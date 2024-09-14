@@ -16,7 +16,7 @@ data class Formula(
     var coffeeWater: Short, // Boiler
     var powderDosage: Short, // Grinder
     var pressWeight: Short, // Brewer
-    var preMakeTime: Short, // Brewerf
+    var preMakeTime: Short, // Brewer
     var postPreMakeWaitTime: Short, // Brewer
     var secPressWeight: Short, // Brewer
     var hotWater: Short = -1, // Boiler
