@@ -25,9 +25,9 @@ object SelfCheckManager {
     private const val TRY_MAX_TIME = 3
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var tryTimes = 0
-    private val _ioCheck = MutableStateFlow(true)
+    private val _ioCheck = MutableStateFlow(false)
     var ioCheck = _ioCheck.asStateFlow()
-    private val _operateRinse = MutableStateFlow(true)
+    private val _operateRinse = MutableStateFlow(false)
     var operateRinse = _operateRinse.asStateFlow()
     private val _coffeeHeating = MutableStateFlow(false)
     var coffeeHeating = _coffeeHeating.asStateFlow()
@@ -35,7 +35,7 @@ object SelfCheckManager {
     var steamHeating = _steamHeating.asStateFlow()
     private val _releaseSteam = MutableStateFlow(0)
     var releaseSteam = _releaseSteam.asStateFlow()
-    private val _checking = MutableStateFlow(false)
+    private val _checking = MutableStateFlow(true)
     val checking = _checking.asStateFlow()
     private var step = 0
     private val _errorStep = MutableStateFlow(step)
