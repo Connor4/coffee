@@ -2,27 +2,44 @@ package com.inno.coffee.utilities
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.common.db.entity.Formula
+import com.inno.common.utils.DimenUtils
+import com.inno.common.utils.Logger
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @Composable
 fun VerticalScrollList(
@@ -38,82 +55,135 @@ fun VerticalScrollList(
         hotWater = 20, waterSequence = 30, coffeeCycles = 1,
         bypassWater = 1
     )
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val lazyListState = rememberLazyListState()
+    var dragOffset by remember {
+        mutableFloatStateOf(0f)
+    }
+    val itemCount = 13
+    val scrollBarHeight = 190f
 
-    LazyColumn(
+    Box(
         modifier = modifier
-            .width(492.dp)
-            .height(286.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
+            .width(543.dp)
+            .height(293.dp),
     ) {
-        item {
-            FormulaItem(backgroundColor = singularItemColor,
-                description = R.string.formula_product_type, valueString = formula.productType)
+        LazyColumn(
+            modifier = modifier
+                .width(492.dp)
+                .height(286.dp)
+                .align(Alignment.CenterStart),
+            state = lazyListState,
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            item {
+                FormulaItem(backgroundColor = singularItemColor,
+                    description = R.string.formula_product_type, valueString = formula.productType)
+            }
+            item {
+                FormulaItem(backgroundColor = evenItemColor,
+                    description = R.string.formula_product_name, valueString = formula.productName)
+            }
+            item {
+                val vat = if (formula.vat) stringResource(id = R.string.formula_font_vat)
+                else stringResource(id = R.string.formula_back_vat)
+                FormulaItem(backgroundColor = singularItemColor,
+                    description = R.string.formula_vat_position, valueString = vat)
+            }
+            item {
+                FormulaItem(backgroundColor = evenItemColor,
+                    description = R.string.formula_water_dosage,
+                    value = formula.coffeeWater.toFloat(),
+                    unit = "[tick]")
+            }
+            item {
+                FormulaItem(backgroundColor = singularItemColor,
+                    description = R.string.formula_powder_dosage,
+                    value = formula.coffeeWater.toFloat(),
+                    unit = "[mm]")
+            }
+            item {
+                FormulaItem(backgroundColor = evenItemColor,
+                    description = R.string.formula_press_weight,
+                    value = formula.pressWeight.toFloat(),
+                    unit = "[kg]")
+            }
+            item {
+                FormulaItem(backgroundColor = singularItemColor,
+                    description = R.string.formula_pre_make_time,
+                    value = formula.preMakeTime.toFloat(),
+                    unit = "[s]")
+            }
+            item {
+                FormulaItem(backgroundColor = evenItemColor,
+                    description = R.string.formula_pre_make_wait_time,
+                    value = formula.postPreMakeWaitTime.toFloat(),
+                    unit = "[s]")
+            }
+            item {
+                FormulaItem(backgroundColor = singularItemColor,
+                    description = R.string.formula_second_press_weight,
+                    value = formula.secPressWeight.toFloat(),
+                    unit = "[kg]")
+            }
+            item {
+                FormulaItem(backgroundColor = evenItemColor,
+                    description = R.string.formula_hot_water_dosage,
+                    value = formula.hotWater.toFloat(),
+                    unit = "[tick]")
+            }
+            item {
+                FormulaItem(backgroundColor = singularItemColor,
+                    description = R.string.formula_americano_seq,
+                    valueString = "${formula.waterSequence}")
+            }
+            item {
+                FormulaItem(backgroundColor = evenItemColor,
+                    description = R.string.formula_coffee_cycles,
+                    valueString = "${formula.coffeeCycles}")
+            }
+            item {
+                FormulaItem(backgroundColor = singularItemColor,
+                    description = R.string.formula_bypass_dosage,
+                    valueString = "${formula.bypassWater}")
+            }
         }
-        item {
-            FormulaItem(backgroundColor = evenItemColor,
-                description = R.string.formula_product_name, valueString = formula.productName)
-        }
-        item {
-            val vat = if (formula.vat) stringResource(id = R.string.formula_font_vat)
-            else stringResource(id = R.string.formula_back_vat)
-            FormulaItem(backgroundColor = singularItemColor,
-                description = R.string.formula_vat_position, valueString = vat)
-        }
-        item {
-            FormulaItem(backgroundColor = evenItemColor,
-                description = R.string.formula_water_dosage, value = formula.coffeeWater.toFloat(),
-                unit = "[tick]")
-        }
-        item {
-            FormulaItem(backgroundColor = singularItemColor,
-                description = R.string.formula_powder_dosage, value = formula.coffeeWater.toFloat(),
-                unit = "[mm]")
-        }
-        item {
-            FormulaItem(backgroundColor = evenItemColor,
-                description = R.string.formula_press_weight, value = formula.pressWeight.toFloat(),
-                unit = "[kg]")
-        }
-        item {
-            FormulaItem(backgroundColor = singularItemColor,
-                description = R.string.formula_pre_make_time, value = formula.preMakeTime.toFloat(),
-                unit = "[s]")
-        }
-        item {
-            FormulaItem(backgroundColor = evenItemColor,
-                description = R.string.formula_pre_make_wait_time,
-                value = formula.postPreMakeWaitTime.toFloat(),
-                unit = "[s]")
-        }
-        item {
-            FormulaItem(backgroundColor = singularItemColor,
-                description = R.string.formula_second_press_weight,
-                value = formula.secPressWeight.toFloat(),
-                unit = "[kg]")
-        }
-        item {
-            FormulaItem(backgroundColor = evenItemColor,
-                description = R.string.formula_hot_water_dosage,
-                value = formula.hotWater.toFloat(),
-                unit = "[tick]")
-        }
-        item {
-            FormulaItem(backgroundColor = singularItemColor,
-                description = R.string.formula_americano_seq,
-                valueString = "${formula.waterSequence}")
-        }
-        item {
-            FormulaItem(backgroundColor = evenItemColor,
-                description = R.string.formula_coffee_cycles,
-                valueString = "${formula.coffeeCycles}")
-        }
-        item {
-            FormulaItem(backgroundColor = singularItemColor,
-                description = R.string.formula_bypass_dosage,
-                valueString = "${formula.bypassWater}")
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .width(10.dp)
+                .fillMaxHeight()
+                .pointerInput(Unit) {
+                    detectVerticalDragGestures { _, dragAmount ->
+                        dragOffset += dragAmount
+                        val scrollOffset = (dragOffset / size.height * lazyListState.layoutInfo
+                            .totalItemsCount).roundToInt()
+                        coroutineScope.launch {
+                            lazyListState.scrollToItem(scrollOffset.coerceIn(0, lazyListState
+                                .layoutInfo.totalItemsCount - 1))
+                        }
+                    }
+                }
+                .background(Color(0xFF191A1D), RoundedCornerShape(20.dp))
+        ) {
+            val scrollProgress = lazyListState.firstVisibleItemIndex.toFloat() / (itemCount - 1)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(scrollBarHeight.dp)
+                    .offset {
+                        val den = DimenUtils.dp2px(context, 293f)
+                        Logger.d("den $den")
+                        IntOffset(0, (scrollProgress * den).toInt())
+                    }
+                    .background(Color(0xFF00DE93), RoundedCornerShape(10.dp))
+            )
         }
     }
 }
+
 
 @Composable
 private fun FormulaItem(

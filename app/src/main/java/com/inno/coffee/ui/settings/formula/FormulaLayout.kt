@@ -230,7 +230,7 @@ fun FormulaLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.TopEnd)
-                .padding(top = 271.dp, end = 90.dp)
+                .padding(top = 271.dp, end = 38.dp)
         ) {
             VerticalScrollList()
         }
