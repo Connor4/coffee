@@ -67,6 +67,8 @@ fun HomeContent(
                             when (it) {
                                 0 -> {
                                     showLoginDialog = true
+                                    ScreenDisplayManager.autoRoute(context,
+                                        SettingActivity::class.java)
                                 }
                                 1 -> {
                                     showCleanDialog = true
@@ -91,8 +93,6 @@ fun HomeContent(
                 }
             }
             if (showLoginDialog) {
-                ScreenDisplayManager.autoRoute(context,
-                    SettingActivity::class.java)
             }
             if (showCleanDialog) {
                 val state = viewModel.countdown.collectAsState()
