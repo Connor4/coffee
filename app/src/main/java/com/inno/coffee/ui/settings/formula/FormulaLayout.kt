@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -32,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.utilities.VerticalScrollList
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.fastclick
@@ -53,7 +55,7 @@ fun FormulaLayout(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF191A1D))
+            .background(Color(0xED000000))
     ) {
         // ==============================left========================================
         Text(
@@ -201,6 +203,7 @@ fun FormulaLayout(
                         color = Color.White
                     )
                 }
+                Spacer(modifier = Modifier.width(20.dp))
                 Button(
                     modifier = Modifier
                         .width(220.dp)
@@ -223,7 +226,14 @@ fun FormulaLayout(
                 }
             }
         }
-
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .align(Alignment.TopEnd)
+                .padding(top = 271.dp, end = 90.dp)
+        ) {
+            VerticalScrollList()
+        }
 
     }
 

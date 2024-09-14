@@ -200,6 +200,8 @@
     <string name="formula_americano_seq">Americano Seq.</string>
     <string name="formula_coffee_cycles">Coffee Cycles</string>
     <string name="formula_bypass_dosage">Bypass Dosage</string>
+    <string name="formula_font_vat">Font</string>
+    <string name="formula_back_vat">Back</string>
 
 
 </resources>

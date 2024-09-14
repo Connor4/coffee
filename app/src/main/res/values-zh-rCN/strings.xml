@@ -201,5 +201,7 @@
     <string name="formula_americano_seq">美式咖啡出料顺序</string>
     <string name="formula_coffee_cycles">Coffee Cycles</string>
     <string name="formula_bypass_dosage">旁路水路出水量</string>
+    <string name="formula_font_vat">前方</string>
+    <string name="formula_back_vat">后方</string>
 
 </resources>
