@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -85,6 +88,20 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    applicationVariants.all {
+        val variant = this
+        val date = SimpleDateFormat("MMdd_HHmm").format(Date())
+        val versionName = variant.versionName
+//        val versionCode = variant.versionCode
+//        val flavorName = variant.flavorName.takeIf { it.isNotEmpty() } ?: "default"
+        variant.outputs
+            .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
+            .forEach { output ->
+                val outputFileName = "coffee_v${versionName}_${date}.apk"
+                println("OutputFileName: $outputFileName")
+                output.outputFileName = outputFileName
+            }
     }
 }
 
