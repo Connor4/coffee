@@ -51,9 +51,10 @@ object SerialPortManager {
 //                        retry(port, onFailure)
 //                    }
 
-//                    else -> {
+                    else -> {
 //                        retry(port, onFailure)
-//                    }
+                        onFailure(SerialErrorTypeEnum.READ_FAIL)
+                    }
                 }
             } catch (e: IOException) {
                 Logger.e(TAG, "readFromSerialPort Exception $e")
