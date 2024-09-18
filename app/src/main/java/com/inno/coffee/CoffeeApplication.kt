@@ -8,6 +8,8 @@ import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
+import com.inno.serialport.function.SerialPortDataManager
+import com.inno.serialport.function.data.DataCenter
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,8 +37,8 @@ class CoffeeApplication : Application() {
         applicationScope.launch {
             Logger.d(TAG, "CoffeeApplication init() launch call")
             GlobalDialogManager.init(this@CoffeeApplication)
-//            SerialPortDataManager.instance.open()
-//            DataCenter.init()
+            SerialPortDataManager.instance.open()
+            DataCenter.init()
 
             delay(3000)
             Logger.d(TAG, "CoffeeApplication delayInit start")

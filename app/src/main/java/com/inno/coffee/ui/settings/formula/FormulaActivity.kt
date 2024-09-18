@@ -13,10 +13,10 @@ class FormulaActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-//                FormulaMain()
-                FormulaLayout() {
-                    this@FormulaActivity.finish()
-                }
+                FormulaMain()
+//                FormulaLayout() {
+//                    this@FormulaActivity.finish()
+//                }
             }
         }
     }

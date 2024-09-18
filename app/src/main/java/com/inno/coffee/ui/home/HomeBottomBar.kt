@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -33,8 +34,11 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
+import com.inno.coffee.ui.settings.formula.FormulaActivity
+import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.nsp
@@ -46,6 +50,7 @@ fun HomeBottomBar(
     onReleaseSteam: () -> Unit = {},
     onClickWarning: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     val operateRinse by SelfCheckManager.operateRinse.collectAsState()
     val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
     val steamHeating by SelfCheckManager.steamHeating.collectAsState()
@@ -84,7 +89,7 @@ fun HomeBottomBar(
                             Color(0xFF2C2C2C), Color(0xFF2C2C2C)),
                         shape = RoundedCornerShape(10.dp),
                         onClick = composeClick {
-
+                            ScreenDisplayManager.autoRoute(context, FormulaActivity::class.java)
                         },
                     ) {
                         Text(text = "*Decaffeinated", fontSize = 5.nsp(), color = Color.White)
@@ -97,7 +102,9 @@ fun HomeBottomBar(
                         colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
                             Color.Magenta),
                         shape = RoundedCornerShape(10.dp),
-                        onClick = composeClick { /*TODO*/ },
+                        onClick = composeClick {
+                            ScreenDisplayManager.autoRoute(context, SerialPortActivity::class.java)
+                        },
                     ) {
                         Text(text = "*Press first for Second Milk", fontSize = 5.nsp(),
                             color = Color.White)

@@ -16,6 +16,7 @@ import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.coffee.utilities.PRODUCT_RINSE
 import com.inno.common.utils.CoffeeDataStore
+import com.inno.common.utils.Logger
 import com.inno.common.utils.TimeUtils
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -177,6 +178,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun enableMask(making: Boolean, checking: Boolean, model: DrinksModel): Boolean {
+        Logger.d(
+            "enableMask() called with: making = $making, checking = $checking, model = $model")
         if (checking) {
             return model.productId != PRODUCT_RINSE
         }
