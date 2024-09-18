@@ -8,19 +8,27 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,25 +40,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.utilities.VerticalScrollList
 import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.statistics.StatisticProductViewModel
 
 private const val PAGE_COUNT = 10
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun FormulaLayout(
-//    viewModel: StatisticProductViewModel = hiltViewModel(),
+    viewModel: StatisticProductViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
-//    val drinksTypeList by viewModel.drinksType.collectAsState()
-//    val selectedModel = remember { mutableStateOf<DrinksModel?>(null) }
-//    val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
-//    val pagerState = rememberPagerState(pageCount = { totalCount })
+    val drinksTypeList by viewModel.drinksType.collectAsState()
+    val selectedModel = remember { mutableStateOf<DrinksModel?>(null) }
+    val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
+    val pagerState = rememberPagerState(pageCount = { totalCount })
 
     Box(
         modifier = Modifier
@@ -94,10 +105,10 @@ fun FormulaLayout(
                     .clip(RoundedCornerShape(20.dp))
                     .background(color = Color(0xFF191A1D)),
             ) {
-//                val drawableRes = selectedModel.value?.imageRes ?: R.drawable.drink_espresso_ic
-//                val stringRes = selectedModel.value?.name ?: R.string.home_item_espresso
+                val drawableRes = selectedModel.value?.imageRes ?: R.drawable.drink_espresso_ic
+                val stringRes = selectedModel.value?.name ?: R.string.home_item_espresso
                 Image(
-                    painter = painterResource(id = R.drawable.drink_espresso_ic),
+                    painter = painterResource(id = drawableRes),
                     contentDescription = null,
                     contentScale = ContentScale.Inside,
                     modifier = Modifier
@@ -107,7 +118,7 @@ fun FormulaLayout(
                         .offset(y = 40.dp),
                 )
                 Text(
-                    text = stringResource(id = R.string.home_item_espresso),
+                    text = stringResource(id = stringRes),
                     fontSize = 6.nsp(),
                     color = Color.White,
                     modifier = Modifier
@@ -143,36 +154,36 @@ fun FormulaLayout(
             }
         }
 
-//        Box(
-//            modifier = Modifier
-//                .wrapContentSize()
-//                .align(Alignment.TopStart)
-//                .padding(top = 420.dp, start = 90.dp)
-//        ) {
-//            HorizontalPager(
-//                modifier = Modifier
-//                    .width(620.dp)
-//                    .height(260.dp),
-//                state = pagerState
-//            ) { page ->
-//                val fromIndex = page * PAGE_COUNT
-//                val toIndex = minOf(fromIndex + PAGE_COUNT, drinksTypeList.size)
-//                val currentList = drinksTypeList.subList(fromIndex, toIndex)
-//                FlowRow(
-//                    modifier = Modifier
-//                        .fillMaxSize(),
-//                    maxItemsInEachRow = 5,
-//                ) {
-//                    currentList.forEach {
-//                        val select = selectedModel.value?.productId == it.productId
-////                        StatisticDrinkItem(model = it, selected = select) {
-////                            selectedModel.value = it
-////                            viewModel.getProductCount(it.productId)
-////                        }
-//                    }
-//                }
-//            }
-//        }
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .align(Alignment.TopStart)
+                .padding(top = 420.dp, start = 90.dp)
+        ) {
+            HorizontalPager(
+                modifier = Modifier
+                    .width(620.dp)
+                    .height(260.dp),
+                state = pagerState
+            ) { page ->
+                val fromIndex = page * PAGE_COUNT
+                val toIndex = minOf(fromIndex + PAGE_COUNT, drinksTypeList.size)
+                val currentList = drinksTypeList.subList(fromIndex, toIndex)
+                FlowRow(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    maxItemsInEachRow = 5,
+                ) {
+                    currentList.forEach {
+                        val select = selectedModel.value?.productId == it.productId
+                        FormulaDrinkItem(model = it, selected = select) {
+                            selectedModel.value = it
+                            viewModel.getProductCount(it.productId)
+                        }
+                    }
+                }
+            }
+        }
 
 
         // ==============================right=======================================
@@ -269,6 +280,45 @@ private fun TimesItem(
             )
         }
         Text(text = text, fontSize = 10.nsp(), color = Color.White)
+    }
+}
+
+@Composable
+private fun FormulaDrinkItem(
+    model: DrinksModel,
+    selected: Boolean = false,
+    onDrinkClick: () -> Unit = {},
+) {
+
+    Box(
+        modifier = Modifier
+            .width(120.dp)
+            .height(120.dp)
+            .debouncedClickable({ onDrinkClick() }),
+        contentAlignment = Alignment.Center,
+    ) {
+
+        if (selected) {
+            Image(
+                painter = painterResource(id = R.drawable.common_drink_item_selected_bg),
+                contentDescription = null,
+            )
+        } else {
+            Image(
+                painter = painterResource(id = R.drawable.common_drink_item_normal_bg),
+                contentDescription = null,
+                modifier = Modifier.size(101.dp)
+            )
+        }
+        Image(
+            painter = painterResource(id = model.imageRes),
+            contentDescription = null,
+            contentScale = ContentScale.Inside,
+            modifier = Modifier
+                .width(40.dp)
+                .height(40.dp)
+                .align(Alignment.Center)
+        )
     }
 }
 
