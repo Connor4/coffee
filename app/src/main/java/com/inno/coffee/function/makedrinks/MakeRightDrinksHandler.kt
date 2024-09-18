@@ -4,6 +4,7 @@ import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.utilities.HEAD_INDEX
 import com.inno.coffee.utilities.INVALID_INT
+import com.inno.coffee.utilities.PRODUCT_STOP
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
@@ -79,7 +80,7 @@ object MakeRightDrinksHandler {
                         false)
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
 
-                if (model.productId == 1 && processingProductId != INVALID_INT) {
+                if (model.productId == PRODUCT_STOP && processingProductId != INVALID_INT) {
                     discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
                 }
             }

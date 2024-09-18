@@ -14,6 +14,7 @@ import com.inno.coffee.ui.notice.GlobalDialogManager
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
+import com.inno.coffee.utilities.PRODUCT_RINSE
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.TimeUtils
 import com.inno.serialport.function.data.DataCenter
@@ -146,7 +147,7 @@ class HomeViewModel @Inject constructor(
 
     fun startMakeDrink(model: DrinksModel, main: Boolean, selfCheck: Boolean) {
         if (isFunctionItem(model)) {
-            if (selfCheck && model.productId == 4) {
+            if (selfCheck && model.productId == PRODUCT_RINSE) {
                 viewModelScope.launch {
                     SelfCheckManager.operateRinse()
                 }
@@ -177,7 +178,7 @@ class HomeViewModel @Inject constructor(
 
     fun enableMask(making: Boolean, checking: Boolean, model: DrinksModel): Boolean {
         if (checking) {
-            return model.productId != 4
+            return model.productId != PRODUCT_RINSE
         }
         if (making) {
             return !specialItem.contains(model.productId)
