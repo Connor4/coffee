@@ -94,13 +94,13 @@ fun MachineInfoLayout(
             Column(
                 modifier = Modifier.padding(top = 115.dp, start = 444.dp)
             ) {
-                Text(text = sn, fontSize = 5.nsp(), color = Color(0xFF00AD72))
+                Text(text = "22263 E0002", fontSize = 5.nsp(), color = Color(0xFF00AD72))
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(text = version, fontSize = 5.nsp(), color = Color(0xFF00AD72))
+                Text(text = "V1.0", fontSize = 5.nsp(), color = Color(0xFF00AD72))
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(text = company, fontSize = 5.nsp(), color = Color(0xFF00AD72))
+                Text(text = "<Service Company>", fontSize = 5.nsp(), color = Color(0xFF00AD72))
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(text = id, fontSize = 5.nsp(), color = Color(0xFF00AD72))
+                Text(text = "255895", fontSize = 5.nsp(), color = Color(0xFF00AD72))
             }
         }
     }
