@@ -36,7 +36,6 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private val dialogDataList = mutableListOf<DialogData>()
     private val errorAdapter = ErrorViewPagerAdapter(dialogDataList)
     private var recyclerView: RecyclerView? = null
-    private var updateDialogFlag = false
     private var windowLayoutParams = WindowManager.LayoutParams(
         WindowManager.LayoutParams.MATCH_PARENT,
         WindowManager.LayoutParams.MATCH_PARENT,
@@ -70,7 +69,9 @@ class GlobalDialogManager private constructor(private val application: Applicati
                     }
                     dialogDataList.clear()
                     dialogDataList.add(dialogData)
-                    updateDialogFlag = true
+                    updateDialog()
+                } else {
+                    activeSelfClean()
                 }
             }
             is ReceivedData.HeatBeatList -> {
@@ -87,26 +88,18 @@ class GlobalDialogManager private constructor(private val application: Applicati
                             }
                         }
                     }
+                    dialogDataList.clear()
+                    dialogDataList.addAll(tempList)
                     if (tempList.isNotEmpty()) {
+                        updateDialog()
+                    } else {
+                        dismissDialog()
                         dialogDataList.clear()
-                        dialogDataList.addAll(tempList)
-                        updateDialogFlag = true
+                        _warningExist.value = false
                     }
                 }
             }
             else -> {}
-        }
-        scope.launch {
-            if (updateDialogFlag) {
-                updateDialogFlag = false
-                _warningExist.value = dialogDataList.isNotEmpty()
-                if (dialogShowing) {
-                    updateDialogContent()
-                } else {
-                    showDialog()
-                }
-                activeSelfClean()
-            }
         }
     }
 
@@ -121,8 +114,21 @@ class GlobalDialogManager private constructor(private val application: Applicati
                 delay(selfCleanWaitTime + 1)
             }
             if (result == null) {
-                Logger.d(TAG, "activeSelfClean result == null")
+                Logger.d(TAG, "activeSelfClean")
+                dismissDialog()
                 dialogDataList.clear()
+                _warningExist.value = false
+            }
+        }
+    }
+
+    private fun updateDialog() {
+        scope.launch {
+            _warningExist.value = true
+            if (dialogShowing) {
+                updateDialogContent()
+            } else {
+                showDialog()
             }
         }
     }
