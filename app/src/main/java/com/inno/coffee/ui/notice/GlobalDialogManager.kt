@@ -59,8 +59,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
                 if (validDialogData(receivedData.code)) {
                     val dialogData = DialogData().apply {
                         errorCode = receivedData.code
-                        message =
-                            "ErrorData: ${receivedData.info}, need reboot ${receivedData.reboot}"
+                        message = "ErrorCode:${errorCode}, ErrorData: ${receivedData.info}"
                     }
                     dialogDataList.clear()
                     dialogDataList.add(dialogData)
