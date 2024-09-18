@@ -1,10 +1,9 @@
 package com.inno.common.utils
 
 import android.util.Log
-import com.inno.common.BuildConfig
 
 object Logger {
-    private var debuggable = BuildConfig.DEBUG
+    private var debuggable = true
 
     fun isDebuggable(debuggable: Boolean) {
         Logger.debuggable = debuggable
