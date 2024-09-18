@@ -25,8 +25,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -62,6 +64,13 @@ fun FormulaLayout(
     val selectedModel = remember { mutableStateOf<DrinksModel?>(null) }
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
+    val selectTimes = remember { mutableIntStateOf(1) }
+
+    LaunchedEffect(Unit) {
+        if (drinksTypeList.isNotEmpty()) {
+            selectedModel.value = drinksTypeList.first()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -91,7 +100,10 @@ fun FormulaLayout(
                 .padding(start = 89.dp, top = 128.dp)
         ) {
             repeat(2) {
-                TimesItem(text = "${it + 1}" + "x")
+                val value = it + 1
+                TimesItem(text = "$value" + "x", selected = selectTimes.intValue == value) {
+                    selectTimes.intValue = value
+                }
             }
         }
         Box(
@@ -253,7 +265,7 @@ fun FormulaLayout(
 @Composable
 private fun TimesItem(
     text: String,
-    selected: Boolean = true,
+    selected: Boolean,
     onTimeClick: () -> Unit = {},
 ) {
     Box(

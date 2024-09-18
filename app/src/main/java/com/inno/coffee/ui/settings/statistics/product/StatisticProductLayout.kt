@@ -28,6 +28,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -77,6 +78,13 @@ fun StatisticProductLayout(
     val steam = lookForCount(typeCounts, ProductType.STEAM)
 //    val total = coffee + hotWater + milk + foam + steam
 
+    LaunchedEffect(Unit) {
+        if (drinksTypeList.isNotEmpty()) {
+            val productId = drinksTypeList.first().productId
+            viewModel.getProductCount(productId)
+            selectedModel.value = drinksTypeList.first()
+        }
+    }
 
     Box(
         modifier = Modifier
