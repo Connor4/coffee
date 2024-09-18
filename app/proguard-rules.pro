@@ -82,10 +82,29 @@
 #6.避免资源混淆
 -keep class **.R$* {*;}
 
+#9.避免混淆枚举类
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
 
 #10.Natvie 方法不混淆
 -keepclasseswithmembernames class * {
     native <methods>;
+}
+
+#11.避免Parcelable/Serializable 混淆
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    !static !transient <fields>;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
 }
 
 -dontwarn com.inno.common.db.**
@@ -115,3 +134,4 @@
 -dontwarn com.inno.common.enums.ProductType
 -dontwarn hilt_aggregated_deps._com_inno_common_di_CommonModule
 -dontwarn hilt_aggregated_deps._com_inno_common_di_DatabaseModule
+
