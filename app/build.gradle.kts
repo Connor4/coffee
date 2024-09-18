@@ -95,10 +95,11 @@ android {
         val versionName = variant.versionName
 //        val versionCode = variant.versionCode
 //        val flavorName = variant.flavorName.takeIf { it.isNotEmpty() } ?: "default"
+        val buildType = variant.buildType.name.takeIf { it.isNotEmpty() } ?: ""
         variant.outputs
             .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
             .forEach { output ->
-                val outputFileName = "coffee_v${versionName}_${date}.apk"
+                val outputFileName = "coffee_v${versionName}_${buildType}_${date}.apk"
                 println("OutputFileName: $outputFileName")
                 output.outputFileName = outputFileName
             }
