@@ -19,8 +19,4 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
--keep class com.inno.serialport.utilities.** {*;}
--keep class com.inno.serialport.annotation.** {*;}
--keep class com.inno.serialport.function.data.*
--keep class com.inno.serialport.function.SerialPortDataManager {*;}
+-keep class com.inno.serialport.** {*;}
