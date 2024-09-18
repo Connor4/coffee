@@ -99,3 +99,19 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
+
+-dontwarn com.inno.common.di.CommonModule
+-dontwarn com.inno.common.di.CommonModule_ProvideCoffeeDataStoreFactory
+-dontwarn com.inno.common.di.DatabaseModule
+-dontwarn com.inno.common.di.DatabaseModule_ProvideCleanHistoryDaoFactory
+-dontwarn com.inno.common.di.DatabaseModule_ProvideDatabaseFactory
+-dontwarn com.inno.common.di.DatabaseModule_ProvideDrinksHistoryDaoFactory
+-dontwarn com.inno.common.di.DatabaseModule_ProvideErrorHistoryDaoFactory
+-dontwarn com.inno.common.di.DatabaseModule_ProvideFormulaDaoFactory
+-dontwarn com.inno.common.di.DatabaseModule_ProvideMaintenanceHistoryDaoFactory
+-dontwarn com.inno.common.di.DatabaseModule_ProvideProductCountDaoFactory
+-dontwarn com.inno.common.di.DatabaseModule_ProvideRinseHistoryDaoFactory
+-dontwarn com.inno.common.di.DatabaseModule_ProvideUserDaoFactory
+-dontwarn com.inno.common.enums.ProductType
+-dontwarn hilt_aggregated_deps._com_inno_common_di_CommonModule
+-dontwarn hilt_aggregated_deps._com_inno_common_di_DatabaseModule
