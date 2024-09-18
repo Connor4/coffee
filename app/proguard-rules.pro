@@ -107,6 +107,32 @@
     java.lang.Object readResolve();
 }
 
+-keep class com.inno.coffee.** {*;}
+-keepclassmembers class com.inno.serialport.core.SerialPort {
+    java.io.FileDescriptor mFd;
+}
+
+-dontwarn com.inno.serialport.core.SerialPortFinder
+-dontwarn com.inno.serialport.function.SerialPortDataManager$Companion
+-dontwarn com.inno.serialport.function.SerialPortDataManager
+-dontwarn com.inno.serialport.function.data.DataCenter
+-dontwarn com.inno.serialport.function.data.Subscriber
+-dontwarn com.inno.serialport.function.driver.UnitTestKt
+-dontwarn com.inno.serialport.utilities.HeartBeatReply$BoilerTemperature
+-dontwarn com.inno.serialport.utilities.HeartBeatReply$Error
+-dontwarn com.inno.serialport.utilities.HeartBeatReply$MakeDrink
+-dontwarn com.inno.serialport.utilities.ReceivedData$HeartBeat
+-dontwarn com.inno.serialport.utilities.ReceivedData$HeatBeatList
+-dontwarn com.inno.serialport.utilities.ReceivedData$SerialErrorData
+-dontwarn com.inno.serialport.utilities.ReceivedData
+-dontwarn com.inno.serialport.utilities.ReceivedDataType
+-dontwarn com.inno.serialport.utilities.profile.ComponentProfile
+-dontwarn com.inno.serialport.utilities.profile.ComponentProfileList
+-dontwarn com.inno.serialport.utilities.profile.ProductProfile
+-dontwarn com.inno.serialport.utilities.statusenum.BoilerStatusEnum
+-dontwarn com.inno.serialport.utilities.statusenum.ErrorStatusEnum
+-dontwarn com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
+
 -dontwarn com.inno.common.db.**
 -dontwarn com.inno.common.utils.**
 -dontwarn org.bouncycastle.jsse.BCSSLParameters

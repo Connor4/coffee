@@ -11,21 +11,26 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inno.coffee.R
+import com.inno.common.utils.Logger
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class GlobalDialogManager private constructor(private val application: Application) {
 
     private val windowManager =
         application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var dialogView: View? = null
     private var dialogShowing = false
     private val dialogDataList = mutableListOf<DialogData>()
@@ -44,6 +49,8 @@ class GlobalDialogManager private constructor(private val application: Applicati
             parseReceivedData(data)
         }
     }
+    private var selfCleanJob: Job? = null
+    private val selfCleanWaitTime = 5_000L
     private val _warningExist = MutableStateFlow(false)
     val warningExist = _warningExist.asStateFlow()
 
@@ -98,12 +105,26 @@ class GlobalDialogManager private constructor(private val application: Applicati
                 } else {
                     showDialog()
                 }
+                activeSelfClean()
             }
         }
     }
 
     private fun validDialogData(code: Int): Boolean {
         return dialogDataList.none { it.errorCode == code }
+    }
+
+    private fun activeSelfClean() {
+        selfCleanJob?.cancel()
+        selfCleanJob = scope.launch {
+            val result = withTimeoutOrNull(selfCleanWaitTime) {
+                delay(selfCleanWaitTime + 1)
+            }
+            if (result == null) {
+                Logger.d(TAG, "activeSelfClean result == null")
+                dialogDataList.clear()
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
