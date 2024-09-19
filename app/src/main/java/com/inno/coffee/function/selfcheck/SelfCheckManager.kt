@@ -17,6 +17,9 @@ import kotlinx.coroutines.launch
 // 2. 自检完成由应用触发冲水等流程。
 // 3. 制作异常，需要取消并执行清除操作。清除操作可细分各个阶段，磨粉阶段丢弃粉即可，萃取阶段需要完成萃取。
 object SelfCheckManager {
+    const val RELEASE_STEAM_READY = 1
+    const val RELEASE_STEAM_START = 2
+    const val RELEASE_STEAM_FINISHED = 3
     private const val STEP_IO_CHECK = 1
     private const val STEP_RINSE = 2
     private const val STEP_BOILER_HEATING = 3
@@ -37,9 +40,8 @@ object SelfCheckManager {
     var releaseSteam = _releaseSteam.asStateFlow()
     private val _checking = MutableStateFlow(true)
     val checking = _checking.asStateFlow()
-    private var step = 0
-    private val _errorStep = MutableStateFlow(step)
-    val errorStep = _errorStep.asStateFlow()
+    private val _step = MutableStateFlow(0)
+    val step = _step.asStateFlow()
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -55,14 +57,14 @@ object SelfCheckManager {
         // TODO 使用pullinfo检查是否有异常
         delay(3000)
         _ioCheck.value = true
-        step = STEP_IO_CHECK
+        _step.value = STEP_IO_CHECK
     }
 
     suspend fun operateRinse() {
         // TODO 1. 操作出水
         //  2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
         _operateRinse.value = true
-        step = STEP_RINSE
+        _step.value = STEP_RINSE
         waitCoffeeBoilerHeating()
     }
 
@@ -72,7 +74,7 @@ object SelfCheckManager {
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
         delay(3000)
-        step = STEP_BOILER_HEATING
+        _step.value = STEP_BOILER_HEATING
         _coffeeHeating.value = false
         waitSteamBoilerHeating()
     }
@@ -83,24 +85,24 @@ object SelfCheckManager {
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
         delay(3000)
-        step = STEP_STEAM_HEATING
+        _step.value = STEP_STEAM_HEATING
         _steamHeating.value = false
-        _releaseSteam.value = 1
+        _releaseSteam.value = RELEASE_STEAM_READY
     }
 
     suspend fun updateReleaseSteam() {
-        _releaseSteam.value = 2
+        _releaseSteam.value = RELEASE_STEAM_START
         // TODO 1. 下发释放蒸汽命令
         //  2.抓取释放结果
         delay(3000)
-        step = STEP_RELEASE_STEAM
-        _releaseSteam.value = 3
+        _step.value = STEP_RELEASE_STEAM
+        _releaseSteam.value = RELEASE_STEAM_FINISHED
         _checking.value = false
     }
 
     private fun parseReceivedData(data: Any) {
         // TODO 全部请求三次心跳，保证不存在错过或者获取旧心跳
-        when (step) {
+        when (_step.value) {
             STEP_IO_CHECK -> {
                 if (tryTimes < TRY_MAX_TIME) {
                     tryTimes++
@@ -109,9 +111,9 @@ object SelfCheckManager {
                         // TODO
                         //  1 存在异常，正常弹窗提示异常即可，无需干预。
                         //  2 人工恢复后，需要手动触发再次io自检。所以需要有一个异常的提示，以及触发按钮
-                        _errorStep.value = STEP_IO_CHECK
+                        _step.value = STEP_IO_CHECK
                     } else {
-                        step = STEP_RINSE
+                        _step.value = STEP_RINSE
                         _ioCheck.value = true
                         tryTimes = 0
                     }
@@ -123,9 +125,9 @@ object SelfCheckManager {
                     val heartBeat = data as ReceivedData.HeartBeat
                     if (heartBeat.error != null) {
                         // TODO 1 冲水异常，已进入主页，有异常弹窗，不需要额外操作
-                        _errorStep.value = STEP_RINSE
+                        _step.value = STEP_RINSE
                     } else {
-                        step = STEP_BOILER_HEATING
+                        _step.value = STEP_BOILER_HEATING
                         _operateRinse.value = true
                         tryTimes = 0
                         scope.launch {
@@ -163,9 +165,9 @@ object SelfCheckManager {
                     val heartBeat = data as ReceivedData.HeartBeat
                     if (heartBeat.error != null) {
                         // TODO 1 释放蒸汽异常，已进入主页，有异常弹窗，不需要额外操作
-                        _errorStep.value = STEP_RELEASE_STEAM
+                        _step.value = STEP_RELEASE_STEAM
                     } else {
-                        _releaseSteam.value = 3
+                        _releaseSteam.value = RELEASE_STEAM_FINISHED
                     }
                 }
             }

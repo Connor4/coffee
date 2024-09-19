@@ -35,6 +35,8 @@ import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.selfcheck.SelfCheckManager
+import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_READY
+import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_START
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import kotlinx.coroutines.flow.combine
@@ -63,7 +65,7 @@ fun HomeDrinksLayout(
         selected.intValue = INVALID_INT
     }
 
-    if (combinedState.releaseSteam == 1 || combinedState.releaseSteam == 2) {
+    if (combinedState.releaseSteam == RELEASE_STEAM_READY || combinedState.releaseSteam == RELEASE_STEAM_START) {
         ReleaseSteamLayout {
             viewModel.selfCheckReleaseSteam()
         }

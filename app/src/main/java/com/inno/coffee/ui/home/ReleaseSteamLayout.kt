@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.selfcheck.SelfCheckManager
+import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_READY
 import com.inno.coffee.utilities.nsp
 import com.inno.common.enums.ProductType
 
@@ -46,7 +47,7 @@ fun ReleaseSteamLayout(
 //                .height(42.dp)
 //                .fastclick { onCloseClick() },
 //        )
-        if (releaseSteam == 1) {
+        if (releaseSteam == RELEASE_STEAM_READY) {
             DrinkItem(model = DrinksModel(productId = 12,
                 type = ProductType.OPERATION,
                 name = R.string.home_item_manual_foam,
@@ -104,5 +105,5 @@ fun ReleaseSteamLayout(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun PreviewReleaseSteam() {
-    ReleaseSteamLayout() {}
+    ReleaseSteamLayout {}
 }
