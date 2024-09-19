@@ -257,6 +257,93 @@ fun FormulaLayout(
         ) {
             VerticalScrollList()
         }
+        //=============================values=========================================
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .align(Alignment.TopStart)
+                .padding(top = 597.dp, start = 719.dp)
+        ) {
+            Row {
+                Column(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.home_left_boiler_temperature),
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = stringResource(id = R.string.home_right_boiler_temperature),
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                }
+                Column(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = " 22°C",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = " 33°C",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                }
+                Spacer(modifier = Modifier.width(15.dp))
+                Column(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.formula_steam_wand),
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = stringResource(id = R.string.formula_steam_boiler),
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                }
+                Column(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = " 33°C",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = " 44°C",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                }
+                Spacer(modifier = Modifier.width(15.dp))
+                Column(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = "0.0 ticks",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "0.0 s",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                }
+            }
+        }
 
     }
 
