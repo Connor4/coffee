@@ -30,7 +30,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -61,10 +61,10 @@ fun FormulaLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val drinksTypeList by viewModel.drinksType.collectAsState()
-    val selectedModel = remember { mutableStateOf<DrinksModel?>(null) }
+    val selectedModel = rememberSaveable { mutableStateOf<DrinksModel?>(null) }
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
-    val selectTimes = remember { mutableIntStateOf(1) }
+    val selectTimes = rememberSaveable { mutableIntStateOf(1) }
 
     LaunchedEffect(Unit) {
         if (drinksTypeList.isNotEmpty()) {

@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,7 +50,7 @@ fun HomeDrinksLayout(
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
     val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
-    val selected = remember { mutableIntStateOf(INVALID_INT) }
+    val selected = rememberSaveable { mutableIntStateOf(INVALID_INT) }
     val size by if (mainScreen) {
         MakeLeftDrinksHandler.size.collectAsState()
     } else {
@@ -65,6 +65,7 @@ fun HomeDrinksLayout(
         ReleaseSteamLayout {
             viewModel.selfCheckReleaseSteam()
         }
+        return
     } else {
         Box(
             modifier = Modifier

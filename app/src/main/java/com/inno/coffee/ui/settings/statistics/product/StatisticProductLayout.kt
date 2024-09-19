@@ -32,7 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -69,7 +69,7 @@ fun StatisticProductLayout(
     val time by viewModel.time.collectAsState()
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
-    val selectedModel = remember { mutableStateOf<DrinksModel?>(null) }
+    val selectedModel = rememberSaveable { mutableStateOf<DrinksModel?>(null) }
 
     val coffee = lookForCount(typeCounts, ProductType.COFFEE)
     val hotWater = lookForCount(typeCounts, ProductType.HOT_WATER)
