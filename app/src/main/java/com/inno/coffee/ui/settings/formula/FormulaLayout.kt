@@ -1,6 +1,5 @@
 package com.inno.coffee.ui.settings.formula
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,8 +20,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,8 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
+import com.inno.coffee.utilities.ChangeColorButton
 import com.inno.coffee.utilities.VerticalScrollList
-import com.inno.coffee.utilities.composeClick
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
@@ -145,25 +142,12 @@ fun FormulaLayout(
                 .align(Alignment.TopStart)
                 .padding(start = 450.dp, top = 270.dp)
         ) {
-            Button(
+            ChangeColorButton(
                 modifier = Modifier
                     .width(220.dp)
                     .height(50.dp),
-                colors = ButtonColors(
-                    Color(0xFF191A1D), Color(0xFF191A1D),
-                    Color(0xFF191A1D), Color(0xFF191A1D),
-                ),
-                border = BorderStroke(1.dp, Color(0xFF484848)),
-                shape = RoundedCornerShape(10.dp),
-                onClick = composeClick {
-                },
-            ) {
-                Text(
-                    text = stringResource(id = R.string.formula_assimilation_key),
-                    fontSize = 5.nsp(),
-                    color = Color.White
-                )
-            }
+                text = stringResource(id = R.string.formula_assimilation_key),
+            )
         }
 
         Box(
@@ -206,47 +190,19 @@ fun FormulaLayout(
                 .padding(top = 132.dp, end = 90.dp)
         ) {
             Row {
-                Button(
+                ChangeColorButton(
                     modifier = Modifier
                         .width(220.dp)
                         .height(50.dp),
-                    colors = ButtonColors(
-                        Color(0xFF191A1D), Color(0xFF191A1D),
-                        Color(0xFF191A1D), Color(0xFF191A1D),
-                    ),
-                    border = BorderStroke(1.dp, Color(0xFF484848)),
-                    shape = RoundedCornerShape(10.dp),
-                    onClick = composeClick {
-
-                    },
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.formula_product_test),
-                        fontSize = 5.nsp(),
-                        color = Color.White
-                    )
-                }
+                    text = stringResource(id = R.string.formula_product_test),
+                )
                 Spacer(modifier = Modifier.width(20.dp))
-                Button(
+                ChangeColorButton(
                     modifier = Modifier
                         .width(220.dp)
                         .height(50.dp),
-                    colors = ButtonColors(
-                        Color(0xFF191A1D), Color(0xFF191A1D),
-                        Color(0xFF191A1D), Color(0xFF191A1D),
-                    ),
-                    border = BorderStroke(1.dp, Color(0xFF484848)),
-                    shape = RoundedCornerShape(10.dp),
-                    onClick = composeClick {
-
-                    },
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.formula_learn_quantity),
-                        fontSize = 5.nsp(),
-                        color = Color.White
-                    )
-                }
+                    text = stringResource(id = R.string.formula_learn_quantity),
+                )
             }
         }
         Box(
