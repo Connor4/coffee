@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 fun ChangeColorButton(
     modifier: Modifier = Modifier,
     text: String = "",
+    onClick: () -> Unit = {},
 ) {
     val interactionSource = remember {
         MutableInteractionSource()
@@ -44,7 +45,7 @@ fun ChangeColorButton(
         border = BorderStroke(1.dp, boarderColor),
         shape = RoundedCornerShape(10.dp),
         onClick = composeClick {
-
+            onClick()
         },
     ) {
         Text(
