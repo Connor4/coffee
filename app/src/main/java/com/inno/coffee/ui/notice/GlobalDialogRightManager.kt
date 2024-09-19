@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.inno.coffee.R
 import com.inno.coffee.data.DialogData
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -27,7 +28,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 
-class GlobalDialogManager private constructor(private val application: Application) {
+class GlobalDialogRightManager private constructor(private val application: Application) {
 
     private val windowManager =
         application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -53,10 +54,13 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private val selfCleanWaitTime = 5_000L
     private val _warningExist = MutableStateFlow(false)
     val warningExist = _warningExist.asStateFlow()
+    private var secondDisplayContext: Context? = null
 
     init {
         DataCenter.subscribe(ReceivedDataType.SERIAL_PORT_ERROR, subscriber)
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT_LIST, subscriber)
+        secondDisplayContext = application.createDisplayContext(ScreenDisplayManager
+            .getSecondDisplay()!!)
     }
 
     private fun parseReceivedData(data: Any) {
@@ -160,7 +164,8 @@ class GlobalDialogManager private constructor(private val application: Applicati
     private fun showDialogView() {
         if (dialogView == null) {
             dialogView =
-                LayoutInflater.from(application).inflate(R.layout.global_dialog_layout, null)
+                LayoutInflater.from(secondDisplayContext)
+                    .inflate(R.layout.global_dialog_layout, null)
             dialogView?.let {
                 recyclerView = it.findViewById<RecyclerView>(R.id.dialog_error_rv).apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
@@ -181,7 +186,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
     companion object {
         @SuppressLint("StaticFieldLeak")
         @Volatile
-        private var INSTANCE: GlobalDialogManager? = null
+        private var INSTANCE: GlobalDialogRightManager? = null
         private var application: Application? = null
         private const val TAG = "GlobalDialogManager"
 
@@ -190,9 +195,9 @@ class GlobalDialogManager private constructor(private val application: Applicati
             getInstance()
         }
 
-        fun getInstance(): GlobalDialogManager {
+        fun getInstance(): GlobalDialogRightManager {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: GlobalDialogManager(application!!).also { INSTANCE = it }
+                INSTANCE ?: GlobalDialogRightManager(application!!).also { INSTANCE = it }
             }
         }
     }

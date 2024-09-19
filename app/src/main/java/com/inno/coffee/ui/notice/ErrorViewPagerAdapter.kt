@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.inno.coffee.R
+import com.inno.coffee.data.DialogData
 
 class ErrorViewPagerAdapter(private val list: MutableList<DialogData>) :
     RecyclerView.Adapter<ErrorViewPagerAdapter.ErrorViewHolder>() {

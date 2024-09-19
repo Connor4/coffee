@@ -6,6 +6,7 @@ import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
+import com.inno.coffee.ui.notice.GlobalDialogRightManager
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
 import dagger.hilt.android.HiltAndroidApp
@@ -35,6 +36,7 @@ class CoffeeApplication : Application() {
         applicationScope.launch {
             Logger.d(TAG, "CoffeeApplication init() launch call")
             GlobalDialogManager.init(this@CoffeeApplication)
+            GlobalDialogRightManager.init(this@CoffeeApplication)
 //            SerialPortDataManager.instance.open()
 //            DataCenter.init()
 
