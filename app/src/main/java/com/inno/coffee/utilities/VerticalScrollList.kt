@@ -2,6 +2,7 @@ package com.inno.coffee.utilities
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -79,7 +81,9 @@ fun VerticalScrollList(
         ) {
             item {
                 FormulaItem(backgroundColor = singularItemColor,
-                    description = R.string.formula_product_type, valueString = formula.productType)
+                    description = R.string.formula_product_type,
+                    valueString = formula.productType) {
+                }
             }
             item {
                 FormulaItem(backgroundColor = evenItemColor,
@@ -193,7 +197,21 @@ private fun FormulaItem(
     valueString: String = "",
     value: Float = 0f,
     unit: String = "",
+    onClick: () -> Unit = {},
 ) {
+    var isPressed by remember {
+        mutableStateOf(false)
+    }
+    val bgColor: Color?
+    val textColor: Color?
+    if (isPressed) {
+        bgColor = Color(0xFF00DE93)
+        textColor = Color.Black
+    } else {
+        bgColor = backgroundColor
+        textColor = Color.White
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -203,29 +221,37 @@ private fun FormulaItem(
             modifier = modifier
                 .fillMaxWidth()
                 .height(30.dp)
-                .background(color = backgroundColor),
+                .background(color = bgColor)
+                .pointerInput(Unit) {
+                    detectTapGestures(onPress = {
+                        isPressed = true
+                        tryAwaitRelease()
+                        isPressed = false
+                        onClick()
+                    })
+                },
             contentAlignment = Alignment.CenterStart
         ) {
             Text(
-                text = stringResource(id = description), fontSize = 5.nsp(), color = Color.White,
+                text = stringResource(id = description), fontSize = 5.nsp(), color = textColor,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(start = 19.dp)
             )
             if (valueString.isNotEmpty()) {
                 Text(
-                    text = valueString, fontSize = 5.nsp(), color = Color.White,
+                    text = valueString, fontSize = 5.nsp(), color = textColor,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 255.dp)
                 )
             } else {
                 Text(
-                    text = "$value", fontSize = 5.nsp(), color = Color.White,
+                    text = "$value", fontSize = 5.nsp(), color = textColor,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 255.dp)
                 )
                 if (unit.isNotEmpty()) {
                     Text(
-                        text = unit, fontSize = 5.nsp(), color = Color.White,
+                        text = unit, fontSize = 5.nsp(), color = textColor,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(start = 385.dp)
                     )
