@@ -30,12 +30,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.viewmodel.home.HomeViewModel
+import kotlinx.coroutines.flow.combine
 
 private const val PAGE_COUNT = 12
 
@@ -45,23 +47,23 @@ fun HomeDrinksLayout(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
-    val drinksList by viewModel.drinksTypes.collectAsState()
-    val checking by SelfCheckManager.checking.collectAsState()
-    val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
-    val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
+    val combinedState by combine(
+        viewModel.drinksTypes,
+        SelfCheckManager.checking,
+        SelfCheckManager.releaseSteam,
+        if (mainScreen) MakeLeftDrinksHandler.size else MakeRightDrinksHandler.size,
+    ) { drinksList, checking, releaseSteam, size ->
+        CombinedState(drinksList, checking, releaseSteam, size)
+    }.collectAsState(initial = CombinedState(emptyList(), false, 0, 0))
+    val totalCount = (combinedState.drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val selected = rememberSaveable { mutableIntStateOf(INVALID_INT) }
-    val size by if (mainScreen) {
-        MakeLeftDrinksHandler.size.collectAsState()
-    } else {
-        MakeRightDrinksHandler.size.collectAsState()
-    }
 
-    if (size < 1) {
+    if (combinedState.size < 1) {
         selected.intValue = INVALID_INT
     }
 
-    if (releaseSteam == 1 || releaseSteam == 2) {
+    if (combinedState.releaseSteam == 1 || combinedState.releaseSteam == 2) {
         ReleaseSteamLayout {
             viewModel.selfCheckReleaseSteam()
         }
@@ -75,8 +77,8 @@ fun HomeDrinksLayout(
         ) {
             HorizontalPager(state = pagerState) { page ->
                 val fromIndex = page * PAGE_COUNT
-                val toIndex = minOf(fromIndex + PAGE_COUNT, drinksList.size)
-                val currentList = drinksList.subList(fromIndex, toIndex)
+                val toIndex = minOf(fromIndex + PAGE_COUNT, combinedState.drinksList.size)
+                val currentList = combinedState.drinksList.subList(fromIndex, toIndex)
                 FlowRow(
                     modifier = Modifier
                         .fillMaxSize()
@@ -84,12 +86,14 @@ fun HomeDrinksLayout(
                     maxItemsInEachRow = 4,
                 ) {
                     currentList.forEach { drinkModel ->
-                        val enable = viewModel.enableMask(size > 0, checking, drinkModel)
+                        val enable =
+                            viewModel.enableMask(combinedState.size > 0, combinedState.checking,
+                                drinkModel)
                         val select = selected.intValue == drinkModel.productId
 
                         DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
                             selected.intValue = drinkModel.productId
-                            viewModel.startMakeDrink(drinkModel, mainScreen, checking)
+                            viewModel.startMakeDrink(drinkModel, mainScreen, combinedState.checking)
                         }
                     }
                 }
@@ -127,6 +131,13 @@ private fun HomePageIndicator(
         }
     }
 }
+
+data class CombinedState(
+    val drinksList: List<DrinksModel>,
+    val checking: Boolean,
+    val releaseSteam: Int,
+    val size: Int
+)
 
 @Preview(device = Devices.TABLET)
 @Composable
