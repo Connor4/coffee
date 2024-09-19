@@ -65,7 +65,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
                 if (validDialogData(receivedData.code)) {
                     val dialogData = DialogData().apply {
                         errorCode = receivedData.code
-                        message = "ErrorCode:${errorCode}, ErrorData: ${receivedData.info}"
+                        message = "ErrorCode:${errorCode}, Message: ${receivedData.info}"
                     }
                     dialogDataList.clear()
                     dialogDataList.add(dialogData)
@@ -82,7 +82,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
                             if (validDialogData(error.status.value)) {
                                 val dialogData = DialogData().apply {
                                     errorCode = error.status.value
-                                    message = "${error.value}"
+                                    message = "ErrorCode:${error.value}"
                                 }
                                 tempList.add(dialogData)
                             }
