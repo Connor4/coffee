@@ -56,6 +56,8 @@ fun HomeDrinksLayout(
     } else {
         MakeRightDrinksHandler.size.collectAsState()
     }
+    val leftSize by MakeLeftDrinksHandler.size.collectAsState()
+    val rightSize by MakeRightDrinksHandler.size.collectAsState()
 
     if (size < 1) {
         selected.intValue = INVALID_INT
@@ -83,7 +85,8 @@ fun HomeDrinksLayout(
                     maxItemsInEachRow = 4,
                 ) {
                     currentList.forEach { drinkModel ->
-                        val enable = viewModel.enableMask(size > 0, checking, drinkModel)
+                        val enable = viewModel.enableMask(leftSize > 0 || rightSize > 0, checking,
+                            drinkModel)
                         val select = selected.intValue == drinkModel.productId
 
                         DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
