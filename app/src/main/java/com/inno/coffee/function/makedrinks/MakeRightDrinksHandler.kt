@@ -116,7 +116,7 @@ object MakeRightDrinksHandler {
     // id parse to command, send command
     private suspend fun handleMessage() {
         if (messageHead != null && processingProductId == INVALID_INT) {
-            processingProductId = messageHead!!.productId + RIGHT_OFFSET
+            processingProductId = messageHead!!.productId
             val productProfile =
                 ProductProfileManager.convertProductProfile(processingProductId, false)
             SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
@@ -155,7 +155,7 @@ object MakeRightDrinksHandler {
     private fun minusQueueSize(model: DrinksModel) {
         if (_queue.value.isNotEmpty()) {
             _queue.value = _queue.value.filter {
-                it.productId != model.productId + RIGHT_OFFSET
+                it.productId != model.productId
             }
             _size.value = _queue.value.size
         }
@@ -177,7 +177,7 @@ object MakeRightDrinksHandler {
         val drinkData = data as ReceivedData.HeartBeat
         drinkData.makeDrink?.let { reply ->
             val status = reply.status
-            val productId = reply.value + RIGHT_OFFSET
+            val productId = reply.value
             val params = reply.params
             when (status) {
                 MakeDrinkStatusEnum.RIGHT_BREWING -> {
