@@ -39,24 +39,19 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.common.db.entity.Formula
 import com.inno.common.utils.DimenUtils
-import com.inno.common.utils.Logger
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
 fun VerticalScrollList(
     modifier: Modifier = Modifier,
+    formula: Formula?,
     singularItemColor: Color = Color(0xFF191A1D),
     evenItemColor: Color = Color(0xFF2A2B2D),
 ) {
-    val formula = Formula(
-        productId = 3, productType = "coffee", productName = "意式",
-        vat = true,
-        coffeeWater = 20, powderDosage = 50, pressWeight = 20,
-        preMakeTime = 29, postPreMakeWaitTime = 30, secPressWeight = 40,
-        hotWater = 20, waterSequence = 30, coffeeCycles = 1,
-        bypassWater = 1
-    )
+    if (formula == null) {
+        return
+    }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
@@ -157,7 +152,7 @@ fun VerticalScrollList(
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .width(10.dp)
+                .width(14.dp)
                 .fillMaxHeight()
                 .pointerInput(Unit) {
                     detectVerticalDragGestures { _, dragAmount ->
@@ -179,7 +174,6 @@ fun VerticalScrollList(
                     .height(scrollBarHeight.dp)
                     .offset {
                         val den = DimenUtils.dp2px(context, 293f)
-                        Logger.d("den $den")
                         IntOffset(0, (scrollProgress * den).toInt())
                     }
                     .background(Color(0xFF00DE93), RoundedCornerShape(10.dp))
@@ -265,5 +259,13 @@ private fun FormulaItem(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun PreviewVerticalScrollList() {
-    VerticalScrollList()
+    val formula = Formula(
+        productId = 3, productType = "coffee", productName = "意式",
+        vat = true,
+        coffeeWater = 20, powderDosage = 50, pressWeight = 20,
+        preMakeTime = 29, postPreMakeWaitTime = 30, secPressWeight = 40,
+        hotWater = 20, waterSequence = 30, coffeeCycles = 1,
+        bypassWater = 1
+    )
+    VerticalScrollList(formula = formula)
 }

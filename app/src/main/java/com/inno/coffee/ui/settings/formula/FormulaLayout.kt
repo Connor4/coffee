@@ -47,17 +47,18 @@ import com.inno.coffee.utilities.VerticalScrollList
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
-import com.inno.coffee.viewmodel.settings.statistics.StatisticProductViewModel
+import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 
 private const val PAGE_COUNT = 10
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun FormulaLayout(
-    viewModel: StatisticProductViewModel = hiltViewModel(),
+    viewModel: FormulaViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val drinksTypeList by viewModel.drinksType.collectAsState()
+    val selectFormula by viewModel.formula.collectAsState()
     val selectedModel = rememberSaveable { mutableStateOf<DrinksModel?>(null) }
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
@@ -66,6 +67,8 @@ fun FormulaLayout(
     LaunchedEffect(Unit) {
         if (drinksTypeList.isNotEmpty()) {
             selectedModel.value = drinksTypeList.first()
+            val productId = selectedModel.value?.productId
+            viewModel.getFormula(productId ?: -1)
         }
     }
 
@@ -174,7 +177,6 @@ fun FormulaLayout(
                         val select = selectedModel.value?.productId == it.productId
                         FormulaDrinkItem(model = it, selected = select) {
                             selectedModel.value = it
-                            viewModel.getProductCount(it.productId)
                         }
                     }
                 }
@@ -211,7 +213,7 @@ fun FormulaLayout(
                 .align(Alignment.TopEnd)
                 .padding(top = 271.dp, end = 38.dp)
         ) {
-            VerticalScrollList()
+            VerticalScrollList(formula = selectFormula)
         }
         //=============================values=========================================
         Box(
