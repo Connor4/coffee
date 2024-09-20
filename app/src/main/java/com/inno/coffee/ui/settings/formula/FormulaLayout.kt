@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -58,6 +59,7 @@ fun FormulaLayout(
     viewModel: FormulaViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     val drinksTypeList by viewModel.drinksType.collectAsState()
     val selectFormula by viewModel.formula.collectAsState()
     val selectedModel = rememberSaveable { mutableStateOf<DrinksModel?>(null) }
@@ -179,6 +181,7 @@ fun FormulaLayout(
                         val select = selectedModel.value?.productId == it.productId
                         FormulaDrinkItem(model = it, selected = select) {
                             selectedModel.value = it
+                            viewModel.getFormula(it.productId)
                         }
                     }
                 }
@@ -199,7 +202,9 @@ fun FormulaLayout(
                         .width(220.dp)
                         .height(50.dp),
                     text = stringResource(id = R.string.formula_product_test),
-                )
+                ) {
+                    viewModel.loadFromSdCard(context)
+                }
                 Spacer(modifier = Modifier.width(20.dp))
                 ChangeColorButton(
                     modifier = Modifier
@@ -244,13 +249,13 @@ fun FormulaLayout(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Text(
-                        text = " 22°C",
+                        text = " 0°C",
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = " 33°C",
+                        text = " 0°C",
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )
@@ -275,13 +280,13 @@ fun FormulaLayout(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Text(
-                        text = " 33°C",
+                        text = " 0°C",
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = " 44°C",
+                        text = " 0°C",
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )

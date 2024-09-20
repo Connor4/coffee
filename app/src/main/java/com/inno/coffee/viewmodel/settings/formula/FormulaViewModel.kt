@@ -47,7 +47,7 @@ class FormulaViewModel @Inject constructor(
     init {
         viewModelScope.launch(defaultDispatcher) {
             _drinksType.value = repository.drinkType.filter {
-                it.type != ProductType.OPERATION
+                it.type == ProductType.COFFEE
             }
         }
     }
