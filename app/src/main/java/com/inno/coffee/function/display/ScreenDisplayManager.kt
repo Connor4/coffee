@@ -25,35 +25,45 @@ object ScreenDisplayManager {
         return (packageContext as Activity).windowManager.defaultDisplay.displayId == Display.DEFAULT_DISPLAY
     }
 
-    fun manualRoute(packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = false) {
+    fun manualRoute(packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean =
+        false, key: String = "", extra: String = "") {
         if (defaultScreen) {
-            route(packageContext, targetCls)
+            route(packageContext, targetCls, key, extra)
         } else {
             val displayId = secondDisplay?.displayId ?: Display.DEFAULT_DISPLAY
-            route(packageContext, targetCls, displayId)
+            route(packageContext, targetCls, displayId, key, extra)
         }
     }
 
-    fun autoRoute(packageContext: Context, targetCls: Class<*>?) {
+    fun autoRoute(packageContext: Context, targetCls: Class<*>?, key: String = "",
+        extra: String = "") {
         val display = (packageContext as Activity).windowManager.defaultDisplay
         if (display == secondDisplay) {
-            route(packageContext, targetCls, display.displayId)
+            route(packageContext, targetCls, display.displayId, key, extra)
         } else {
-            route(packageContext, targetCls)
+            route(packageContext, targetCls, key, extra)
         }
     }
 
-    private fun route(packageContext: Context, targetCls: Class<*>?, displayId: Int) {
+    private fun route(packageContext: Context, targetCls: Class<*>?, displayId: Int, key: String,
+        extra: String) {
         val options = ActivityOptions.makeBasic().apply {
             launchDisplayId = displayId
         }
         val intent = Intent(packageContext, targetCls)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        if (key.isNotEmpty() and extra.isNotEmpty()) {
+            intent.putExtra(key, extra)
+        }
         packageContext.startActivity(intent, options.toBundle())
     }
 
-    private fun route(packageContext: Context, targetCls: Class<*>?) {
-        packageContext.startActivity(Intent(packageContext, targetCls))
+    private fun route(packageContext: Context, targetCls: Class<*>?, key: String, extra: String) {
+        val intent = Intent(packageContext, targetCls)
+        if (key.isNotEmpty() and extra.isNotEmpty()) {
+            intent.putExtra(key, extra)
+        }
+        packageContext.startActivity(intent)
     }
 
 }

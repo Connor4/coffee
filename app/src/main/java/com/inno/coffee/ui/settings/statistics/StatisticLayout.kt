@@ -31,7 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
+import com.inno.coffee.ui.settings.statistics.history.StatisticHistoryActivity
 import com.inno.coffee.ui.settings.statistics.product.StatisticProductActivity
+import com.inno.coffee.utilities.HISTORY_VALUE_CLEAN
+import com.inno.coffee.utilities.KEY_HISTORY
 import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
@@ -126,7 +129,27 @@ fun StatisticLayout(
         ) {
             historyNames.forEach { pair ->
                 Item(title = pair.second) {
+                    when (pair.first) {
+                        4 -> {
 
+                        }
+                        5 -> {
+
+                        }
+                        6 -> {
+                            ScreenDisplayManager.autoRoute(
+                                context,
+                                StatisticHistoryActivity::class.java, key = KEY_HISTORY,
+                                extra = HISTORY_VALUE_CLEAN,
+                            )
+                        }
+                        7 -> {
+
+                        }
+                        8 -> {
+
+                        }
+                    }
                 }
             }
         }

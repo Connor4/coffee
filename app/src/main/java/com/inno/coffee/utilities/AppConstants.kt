@@ -11,3 +11,10 @@ const val DEFAULT_SYSTEM_TIME = 1704038400000
 const val HEAD_INDEX = 0
 const val PRODUCT_STOP = 1
 const val PRODUCT_RINSE = 4
+
+const val KEY_HISTORY = "history"
+const val HISTORY_VALUE_PRODUCT = "product"
+const val HISTORY_VALUE_CLEAN = "clean"
+const val HISTORY_VALUE_RINSE = "rinse"
+const val HISTORY_VALUE_ERROR = "error"
+const val HISTORY_VALUE_SERVICE = "service"
