@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -50,21 +50,25 @@ import kotlin.math.roundToInt
 fun CleanMachineHistoryLayout(
     onCloseClick: () -> Unit = {},
 ) {
-    val minimumSize = 15
-    val singularColor = Color(0xFF191A1D)
-    val evenColor = Color(0xFF2A2B2D)
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
     var dragOffset by remember {
         mutableFloatStateOf(0f)
     }
+    val minimumSize = 15
     val list = mutableListOf<CleanMachineHistory>()
     if (list.size < minimumSize) {
         for (i in 0 until (minimumSize - list.size)) {
             list.add(CleanMachineHistory())
         }
+        for (j in 0 until 5) {
+            list.add(CleanMachineHistory())
+        }
     }
+    val scrollBarWidth = 14
+    val scrollTrackHeight = 500
+    val scrollBarHeight = (minimumSize.toFloat() / list.size.toFloat()) * scrollTrackHeight
 
     Box(
         modifier = Modifier
@@ -129,12 +133,13 @@ fun CleanMachineHistoryLayout(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(top = 166.dp),
+                .padding(top = 148.dp),
         ) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 78.dp, end = 95.dp),
+                    .fillMaxWidth()
+                    .height(478.dp)
+                    .padding(start = 78.dp, top = 14.dp, end = 95.dp),
                 state = lazyListState,
             ) {
                 itemsIndexed(list) { index, item ->
@@ -142,37 +147,38 @@ fun CleanMachineHistoryLayout(
                     HistoryItem(history = item, backgroundColor = color)
                 }
             }
-        }
 
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .align(Alignment.TopEnd)
-                .padding(top = 152.dp, end = 38.dp)
-                .pointerInput(Unit) {
-                    detectVerticalDragGestures { _, dragAmount ->
-                        dragOffset += dragAmount
-                        val scrollOffset = (dragOffset / size.height * lazyListState.layoutInfo
-                            .totalItemsCount).roundToInt()
-                        coroutineScope.launch {
-                            lazyListState.scrollToItem(scrollOffset.coerceIn(0, lazyListState
-                                .layoutInfo.totalItemsCount - 1))
-                        }
-                    }
-                }
-                .background(Color(0xFF191A1D), RoundedCornerShape(20.dp))
-        ) {
-            val scrollProgress = lazyListState.firstVisibleItemIndex.toFloat() / (list.size - 1)
             Box(
                 modifier = Modifier
-                    .width(20.dp)
+                    .wrapContentWidth()
                     .height(500.dp)
-                    .offset {
-                        val den = DimenUtils.dp2px(context, 293f)
-                        IntOffset(0, (scrollProgress * den).toInt())
+                    .align(Alignment.TopEnd)
+                    .padding(end = 40.dp)
+                    .pointerInput(Unit) {
+                        detectVerticalDragGestures { _, dragAmount ->
+                            dragOffset += dragAmount
+                            val scrollOffset = (dragOffset / size.height * lazyListState.layoutInfo
+                                .totalItemsCount).roundToInt()
+                            coroutineScope.launch {
+                                lazyListState.scrollToItem(scrollOffset.coerceIn(0, lazyListState
+                                    .layoutInfo.totalItemsCount - 1))
+                            }
+                        }
                     }
-                    .background(Color(0xFF00DE93), RoundedCornerShape(10.dp))
-            )
+                    .background(Color(0xFF191A1D), RoundedCornerShape(20.dp))
+            ) {
+                val scrollProgress = lazyListState.firstVisibleItemIndex.toFloat() / (list.size - 1)
+                Box(
+                    modifier = Modifier
+                        .width(scrollBarWidth.dp)
+                        .height(scrollBarHeight.dp)
+                        .offset {
+                            val den = DimenUtils.dp2px(context, scrollTrackHeight.toFloat())
+                            IntOffset(0, (scrollProgress * den).toInt())
+                        }
+                        .background(Color(0xFF00DE93), RoundedCornerShape(10.dp))
+                )
+            }
         }
     }
 }
