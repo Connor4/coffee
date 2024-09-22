@@ -104,20 +104,24 @@ class RS485Driver : IDriver {
         SerialPortManager.writeToSerialPort(serialPort, HEART_BEAT_COMMAND)
     }
 
-    override suspend fun receive(): PullBufInfo {
-        var receivedData: PullBufInfo? = null
+    override suspend fun receive(): List<PullBufInfo> {
+        val receivedData = mutableListOf<PullBufInfo>()
         SerialPortManager.readFromSerialPort(serialPort, onSuccess = { buffer, _ ->
             val multiInfo = slicePullInfo(buffer)
             if (multiInfo.isEmpty()) {
-                receivedData = PullBufInfo(command = SerialErrorTypeEnum.FRAME_FORMAT_ILLEGAL.value)
-            }
-            for (info in multiInfo) {
-                receivedData = validPullInfo(info) ?: parsePullBuffInfo(info)
+                receivedData.add(PullBufInfo(command = SerialErrorTypeEnum.FRAME_FORMAT_ILLEGAL
+                    .value))
+            } else {
+                for (info in multiInfo) {
+                    val bufInfo = validPullInfo(info) ?: parsePullBuffInfo(info)
+                    receivedData.add(bufInfo)
+                }
             }
         }, onFailure = {
-            receivedData = PullBufInfo(command = it.value)
+            receivedData.add(PullBufInfo(command = it.value))
         })
-        return receivedData!!
+
+        return receivedData
     }
 
     override fun open() {
