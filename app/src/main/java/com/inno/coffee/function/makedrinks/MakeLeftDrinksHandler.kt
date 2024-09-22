@@ -4,6 +4,8 @@ import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.utilities.HEAD_INDEX
 import com.inno.coffee.utilities.INVALID_INT
+import com.inno.coffee.utilities.MAKE_DRINK_COMMAND
+import com.inno.coffee.utilities.MAKE_DRINK_REPLY_VALUE
 import com.inno.coffee.utilities.PRODUCT_STOP
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.SerialPortDataManager
@@ -184,15 +186,18 @@ object MakeLeftDrinksHandler {
 
     private fun parseReceivedData(data: Any) {
         val drinkData = data as ReceivedData.HeartBeat
+        drinkData.makeDrinkReply?.let { reply ->
+            if (reply.command == MAKE_DRINK_COMMAND && reply.value == MAKE_DRINK_REPLY_VALUE) {
+                replyConfirmJob?.cancel()
+            }
+        }
         drinkData.makeDrink?.let { reply ->
             val status = reply.status
             val productId = reply.value
             val params = reply.params
             when (status) {
                 MakeDrinkStatusEnum.LEFT_BREWING -> {
-                    if (processingProductId == productId) {
-                        replyConfirmJob?.cancel()
-                    }
+
                 }
                 MakeDrinkStatusEnum.LEFT_BREW_COMPLETED -> {}
                 MakeDrinkStatusEnum.LEFT_FINISHED -> {
