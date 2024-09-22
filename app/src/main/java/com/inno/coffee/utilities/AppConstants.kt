@@ -12,6 +12,9 @@ const val HEAD_INDEX = 0
 const val PRODUCT_STOP = 1
 const val PRODUCT_RINSE = 4
 
+const val MAKE_DRINK_COMMAND = 100
+const val MAKE_DRINK_REPLY_VALUE = 0
+
 const val KEY_HISTORY = "history"
 const val HISTORY_VALUE_PRODUCT = "product"
 const val HISTORY_VALUE_CLEAN = "clean"
