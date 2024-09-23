@@ -16,6 +16,7 @@ import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.coffee.utilities.PRODUCT_RINSE
 import com.inno.common.utils.CoffeeDataStore
+import com.inno.common.utils.Logger
 import com.inno.common.utils.TimeUtils
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -38,6 +39,7 @@ class HomeViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
+    private val TAG = "HomeViewModel"
     private val _drinksTypes = MutableStateFlow<List<DrinksModel>>(emptyList())
     val drinksTypes: StateFlow<List<DrinksModel>> = _drinksTypes.asStateFlow()
     private val _username = MutableStateFlow("")
@@ -146,6 +148,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun startMakeDrink(model: DrinksModel, main: Boolean, selfCheck: Boolean) {
+        Logger.d(TAG,
+            "startMakeDrink() called with: model = $model, main = $main, selfCheck = $selfCheck")
         if (isFunctionItem(model)) {
             if (selfCheck && model.productId == PRODUCT_RINSE) {
                 viewModelScope.launch {
@@ -177,6 +181,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun enableMask(making: Boolean, checking: Boolean, model: DrinksModel): Boolean {
+        Logger.d(TAG,
+            "enableMask() called with: making = $making, checking = $checking, model = $model")
         if (checking) {
             return model.productId != PRODUCT_RINSE
         }
