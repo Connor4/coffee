@@ -13,7 +13,9 @@ class SerialPortActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                SerialTest()
+                SerialTest() {
+                    this@SerialPortActivity.finish()
+                }
             }
         }
     }

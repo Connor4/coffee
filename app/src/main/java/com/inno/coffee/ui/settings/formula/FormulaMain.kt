@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings.formula
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,12 +36,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
 import com.inno.coffee.utilities.debouncedClickable
+import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
 
 @Composable
-fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hiltViewModel()) {
+fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hiltViewModel(),
+    onCloseClick: () -> Unit) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
 
@@ -58,62 +62,72 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
     if (showDialog) {
         FileNotFoundDialog(onDismiss = { viewModel.dismissFileNotFoundDialog() })
     }
-
-    Row(modifier = modifier.fillMaxSize()) {
-        Surface(
+    Column {
+        Image(
+            painter = painterResource(id = R.drawable.home_entrance_close_ic),
+            contentDescription = null,
             modifier = Modifier
-                .width(screenWidthDp / 2)
-                .padding(16.dp)
-        ) {
-            Column {
-                Row {
-                    val context = LocalContext.current
-                    Button(onClick = { viewModel.loadFromSdCard(context) }) {
-                        Text(text = "Load from SD Card")
-                    }
-
-                    Button(
-                        modifier = Modifier.padding(start = 20.dp),
-                        onClick = {
-                            val formula = Formula(
-                                productId = 3, productType = "coffee", productName = "意式",
-                                vat = true,
-                                coffeeWater = 20, powderDosage = 50, pressWeight = 20,
-                                preMakeTime = 29, postPreMakeWaitTime = 30, secPressWeight = 40,
-                                hotWater = 20, waterSequence = 30, coffeeCycles = 1,
-                                bypassWater = 1
-                            )
-                            viewModel.insertFormula(formula)
+                .padding(top = 37.dp, end = 37.dp)
+                .width(40.dp)
+                .height(42.dp)
+                .fastclick { onCloseClick() },
+        )
+        Row(modifier = modifier.fillMaxSize()) {
+            Surface(
+                modifier = Modifier
+                    .width(screenWidthDp / 2)
+                    .padding(16.dp)
+            ) {
+                Column {
+                    Row {
+                        val context = LocalContext.current
+                        Button(onClick = { viewModel.loadFromSdCard(context) }) {
+                            Text(text = "Load from SD Card")
                         }
-                    ) {
-                        Text(text = "Add Formula")
-                    }
-                }
 
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(vertical = 8.dp),
-                ) {
-                    items(items = formulaList) { itemData ->
-                        FormulaItem(formula = itemData) {
-                            selectedFormula = it // Update the selected formula
+                        Button(
+                            modifier = Modifier.padding(start = 20.dp),
+                            onClick = {
+                                val formula = Formula(
+                                    productId = 3, productType = "coffee", productName = "意式",
+                                    vat = true,
+                                    coffeeWater = 20, powderDosage = 50, pressWeight = 20,
+                                    preMakeTime = 29, postPreMakeWaitTime = 30, secPressWeight = 40,
+                                    hotWater = 20, waterSequence = 30, coffeeCycles = 1,
+                                    bypassWater = 1
+                                )
+                                viewModel.insertFormula(formula)
+                            }
+                        ) {
+                            Text(text = "Add Formula")
+                        }
+                    }
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(vertical = 8.dp),
+                    ) {
+                        items(items = formulaList) { itemData ->
+                            FormulaItem(formula = itemData) {
+                                selectedFormula = it // Update the selected formula
+                            }
                         }
                     }
                 }
             }
-        }
 
-        Surface(
-            modifier = Modifier
-                .width(screenWidthDp / 2)
-                .padding(16.dp)
-        ) {
-            selectedFormula?.let {
-                ItemList(formula = it, modifier = Modifier.fillMaxSize())
-            } ?: Text(
-                text = "Select a formula to see details",
-                modifier = Modifier.padding(16.dp)
-            )
+            Surface(
+                modifier = Modifier
+                    .width(screenWidthDp / 2)
+                    .padding(16.dp)
+            ) {
+                selectedFormula?.let {
+                    ItemList(formula = it, modifier = Modifier.fillMaxSize())
+                } ?: Text(
+                    text = "Select a formula to see details",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         }
     }
 }
