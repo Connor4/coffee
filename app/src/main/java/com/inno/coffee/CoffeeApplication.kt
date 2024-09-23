@@ -12,7 +12,6 @@ import com.inno.common.utils.Logger
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @HiltAndroidApp
@@ -40,7 +39,7 @@ class CoffeeApplication : Application() {
 //            SerialPortDataManager.instance.open()
 //            DataCenter.init()
 
-            delay(3000)
+//            delay(3000)
             Logger.d(TAG, "CoffeeApplication delayInit start")
             ProductProfileManager.init(this@CoffeeApplication)
             DefaultSettingManager.init(this@CoffeeApplication)
