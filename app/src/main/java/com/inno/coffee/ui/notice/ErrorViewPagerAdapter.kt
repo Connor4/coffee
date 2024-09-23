@@ -27,7 +27,7 @@ class ErrorViewPagerAdapter(private val list: MutableList<DialogData>) :
 
     override fun onBindViewHolder(holder: ErrorViewHolder, position: Int) {
         val item = list[position]
-        holder.titleTv.text = "${item.errorCode} ${item.message}"
+        holder.titleTv.text = item.message
 //        holder.descriptionTv.text = "Please follow the instructions for regular maintenance."
     }
 

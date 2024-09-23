@@ -17,6 +17,31 @@
     <string name="common_maintenance">Maintenance</string>
     <string name="common_serial_test">Serial Test</string>
 
+    <string name="error_no_resource">error</string>
+    <string name="error_serial_read_fail">Serial Port Read Failed</string>
+    <string name="error_max_read_retry">Reach Max Read Retry</string>
+    <string name="error_max_open_retry">Reach Max Reopen Retry</string>
+    <string name="error_serial_io_exception">Serial Port Exception</string>
+    <string name="error_serial_format_invalid">Serial Format Invalid</string>
+    <string name="error_crc_check_failed">CRC Check Failed</string>
+    <string name="error_read_no_data">Serial Port No Data</string>
+    <string name="error_heart_beat_miss">Heart Beat Miss</string>
+    <string name="error_frame_size_error">Data Size Error</string>
+    <string name="error_serial_no_reply">Serial Port No Reply</string>
+    <string name="error_command_no_reply">Common No Reply</string>
+
+    <string name="error_front_bean_container_empty">Front Bean Container Empty</string>
+    <string name="error_back_bean_container_empty">Back Bean Container Empty</string>
+    <string name="error_bean_container_empty">Bean Container Empty</string>
+    <string name="error_left_grinder_error">Left Grinder Error</string>
+    <string name="error_right_grinder_error">Right Grinder Error</string>
+    <string name="error_left_boiler_error">Left Coffee Boiler Error</string>
+    <string name="error_right_boiler_error">Right Coffee Boiler Error</string>
+    <string name="error_left_brewer_error">Left Brewer Error</string>
+    <string name="error_right_brewer_error">Right Brewer Error</string>
+    <string name="error_steam_boiler_error">Steam Boiler Error</string>
+    <string name="error_no_water">No Water</string>
+
     <string name="first_install_language_title">Language Settings</string>
     <string name="first_install_language_Chinese_simplified">中文(简体)</string>
     <string name="first_install_language_English">English</string>

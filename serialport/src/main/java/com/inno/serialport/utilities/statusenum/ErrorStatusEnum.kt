@@ -4,6 +4,7 @@ enum class ErrorStatusEnum(val value: Int) {
     FAIL(-1),
     FRONT_VAT_EMPTY(2000),
     BACK_VAT_EMPTY(2001),
+    VAT_EMPTY(2002),
     LEFT_GRINDER_ERROR(3000),
     RIGHT_GRINDER_ERROR(3001),
     LEFT_BOILER_ERROR(3002),
