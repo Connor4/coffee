@@ -34,6 +34,45 @@ fun KeyboardLayout(
     onDelete: () -> Unit,
     onEnter: () -> Unit,
 ) {
+    val numberMaps = mapOf("1" to "!",
+        "2" to "@",
+        "3" to "#",
+        "4" to "$",
+        "5" to "%",
+        "6" to "^",
+        "7" to "&",
+        "8" to ":",
+        "9" to "-",
+        "0" to "_"
+    )
+    val letterMaps = mapOf(
+        "q1" to "Q",
+        "w1" to "W",
+        "e1" to "E",
+        "r1" to "R",
+        "t1" to "T",
+        "y1" to "Y",
+        "u1" to "U",
+        "i1" to "I",
+        "o1" to "O",
+        "p1" to "P",
+        "a1" to "A",
+        "s1" to "S",
+        "d1" to "D",
+        "f1" to "F",
+        "g1" to "G",
+        "h1" to "H",
+        "j1" to "J",
+        "k1" to "K",
+        "l1" to "L",
+        "z1" to "Z",
+        "x1" to "X",
+        "c1" to "C",
+        "v1" to "V",
+        "b1" to "B",
+        "n1" to "N",
+        "m1" to "M"
+    )
     var capsLock by remember {
         mutableStateOf(false)
     }
@@ -47,12 +86,16 @@ fun KeyboardLayout(
             .padding(16.dp)
     ) {
         KeyboardRow1(listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "0")) {
-            onKeyClick(it)
+            if (shift) {
+                onKeyClick(numberMaps[it] ?: it)
+            } else {
+                onKeyClick(it)
+            }
         }
         Spacer(modifier = Modifier.height(8.dp))
         if (capsLock) {
             KeyboardRow1(listOf("q1", "w1", "e1", "r1", "t1", "y1", "u1", "i1", "o1", "p1")) {
-                onKeyClick(it)
+                onKeyClick(letterMaps[it] ?: it)
             }
         } else {
             KeyboardRow1(listOf("q", "w", "e", "r", "t", "y", "u", "i", "o", "p")) {
@@ -62,7 +105,7 @@ fun KeyboardLayout(
         Spacer(modifier = Modifier.height(8.dp))
         if (capsLock) {
             KeyboardRow2(listOf("a1", "s1", "d1", "f1", "g1", "h1", "j1", "k1", "l1")) {
-                onKeyClick(it)
+                onKeyClick(letterMaps[it] ?: it)
             }
         } else {
             KeyboardRow2(listOf("a", "s", "d", "f", "g", "h", "j", "k", "l")) {
@@ -73,15 +116,15 @@ fun KeyboardLayout(
         if (capsLock) {
             KeyboardRow3(listOf("capslock", "z1", "x1", "c1", "v1", "b1", "n1", "m1", "delete"),
                 capsLock = true,
-                onKeyClick = { onKeyClick(it) }, onCapsLock = { capsLock = it }, onDelete = {
-                    onDelete()
-                })
+                onKeyClick = { onKeyClick(letterMaps[it] ?: it) },
+                onCapsLock = { capsLock = it },
+                onDelete = { onDelete() })
         } else {
             KeyboardRow3(listOf("capslock", "z", "x", "c", "v", "b", "n", "m", "delete"),
                 capsLock = false,
-                onKeyClick = { onKeyClick(it) }, onCapsLock = { capsLock = it }, onDelete = {
-                    onDelete()
-                })
+                onKeyClick = { onKeyClick(it) },
+                onCapsLock = { capsLock = it },
+                onDelete = { onDelete() })
         }
         Spacer(modifier = Modifier.height(8.dp))
         KeyboardRow4(listOf("shift", "space", "enter"), shift = shift, onKeyClick = {

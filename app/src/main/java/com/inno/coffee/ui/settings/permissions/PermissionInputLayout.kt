@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.utilities.KeyboardLayout
 import com.inno.coffee.utilities.fastclick
+import com.inno.common.utils.Logger
 
 @Composable
 fun PermissionInputLayout(
@@ -61,7 +62,9 @@ fun PermissionInputLayout(
             Box(
                 modifier = Modifier.padding(top = 220.dp)
             ) {
-                KeyboardLayout({}, {}, {})
+                KeyboardLayout(onKeyClick = {
+                    Logger.d("key $it")
+                }, onDelete = {}, onEnter = {})
             }
         }
     }
