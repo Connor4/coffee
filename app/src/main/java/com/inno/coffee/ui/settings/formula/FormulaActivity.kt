@@ -13,7 +13,9 @@ class FormulaActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                FormulaMain()
+                FormulaMain() {
+                    this@FormulaActivity.finish()
+                }
 //                FormulaLayout() {
 //                    this@FormulaActivity.finish()
 //                }
