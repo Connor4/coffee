@@ -13,7 +13,10 @@ class PermissionActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                PermissionEntrance()
+//                PermissionEntrance()
+                PermissionInputLayout {
+                    this@PermissionActivity.finish()
+                }
             }
         }
     }

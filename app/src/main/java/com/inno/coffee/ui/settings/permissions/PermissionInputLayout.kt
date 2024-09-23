@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.utilities.KeyboardLayout
 import com.inno.coffee.utilities.fastclick
 
 @Composable
@@ -57,6 +58,11 @@ fun PermissionInputLayout(
                     .height(42.dp)
                     .fastclick { onCloseClick() },
             )
+            Box(
+                modifier = Modifier.padding(top = 220.dp)
+            ) {
+                KeyboardLayout({}, {}, {})
+            }
         }
     }
 }
