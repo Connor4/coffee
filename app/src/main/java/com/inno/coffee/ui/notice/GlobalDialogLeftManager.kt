@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class GlobalDialogManager private constructor(private val application: Application) {
+class GlobalDialogLeftManager private constructor(private val application: Application) {
 
     private val windowManager =
         application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -157,7 +157,7 @@ class GlobalDialogManager private constructor(private val application: Applicati
     companion object {
         @SuppressLint("StaticFieldLeak")
         @Volatile
-        private var INSTANCE: GlobalDialogManager? = null
+        private var INSTANCE: GlobalDialogLeftManager? = null
         private var application: Application? = null
         private const val TAG = "GlobalDialogManager"
         private val serialErrorMap = mapOf(
@@ -192,9 +192,9 @@ class GlobalDialogManager private constructor(private val application: Applicati
             getInstance()
         }
 
-        fun getInstance(): GlobalDialogManager {
+        fun getInstance(): GlobalDialogLeftManager {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: GlobalDialogManager(application!!).also { INSTANCE = it }
+                INSTANCE ?: GlobalDialogLeftManager(application!!).also { INSTANCE = it }
             }
         }
     }

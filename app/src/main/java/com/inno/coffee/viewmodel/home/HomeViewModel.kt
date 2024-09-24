@@ -10,7 +10,7 @@ import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.statistic.StatisticManager
-import com.inno.coffee.ui.notice.GlobalDialogManager
+import com.inno.coffee.ui.notice.GlobalDialogLeftManager
 import com.inno.coffee.ui.notice.GlobalDialogRightManager
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
@@ -88,7 +88,7 @@ class HomeViewModel @Inject constructor(
     fun showWarningDialog(main: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
             if (main) {
-                GlobalDialogManager.getInstance().showDialog()
+                GlobalDialogLeftManager.getInstance().showDialog()
             } else {
                 GlobalDialogRightManager.getInstance().showDialog()
             }
