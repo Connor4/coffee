@@ -86,12 +86,12 @@ fun FormulaLayout(
             fontSize = 7.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 55.dp)
+            modifier = Modifier.padding(start = 54.dp, top = 115.dp)
         )
         Image(
             painter = painterResource(id = R.drawable.common_back_ic),
             modifier = Modifier
-                .padding(top = 47.dp, end = 50.dp)
+                .padding(top = 107.dp, end = 50.dp)
                 .align(Alignment.TopEnd)
                 .fastclick { onCloseClick() },
             contentDescription = null
@@ -100,7 +100,7 @@ fun FormulaLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.TopStart)
-                .padding(start = 89.dp, top = 128.dp)
+                .padding(start = 89.dp, top = 188.dp)
         ) {
             repeat(2) {
                 val value = it + 1
@@ -110,7 +110,7 @@ fun FormulaLayout(
             }
         }
         Box(
-            modifier = Modifier.padding(start = 219.dp, top = 138.dp)
+            modifier = Modifier.padding(start = 219.dp, top = 198.dp)
         ) {
             Box(
                 modifier = Modifier
@@ -147,7 +147,7 @@ fun FormulaLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.TopStart)
-                .padding(start = 450.dp, top = 270.dp)
+                .padding(start = 450.dp, top = 330.dp)
         ) {
             ChangeColorButton(
                 modifier = Modifier
@@ -161,7 +161,7 @@ fun FormulaLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.TopStart)
-                .padding(top = 420.dp, start = 90.dp)
+                .padding(top = 480.dp, start = 90.dp)
         ) {
             HorizontalPager(
                 modifier = Modifier
@@ -194,7 +194,7 @@ fun FormulaLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.TopEnd)
-                .padding(top = 132.dp, end = 90.dp)
+                .padding(top = 192.dp, end = 90.dp)
         ) {
             Row {
                 ChangeColorButton(
@@ -218,7 +218,7 @@ fun FormulaLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.TopEnd)
-                .padding(top = 271.dp, end = 38.dp)
+                .padding(top = 331.dp, end = 38.dp)
         ) {
             VerticalScrollList(formula = selectFormula)
         }
@@ -227,7 +227,7 @@ fun FormulaLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.TopStart)
-                .padding(top = 597.dp, start = 719.dp)
+                .padding(top = 657.dp, start = 719.dp)
         ) {
             Row {
                 Column(
