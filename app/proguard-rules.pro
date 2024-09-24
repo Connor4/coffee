@@ -107,11 +107,6 @@
     java.lang.Object readResolve();
 }
 
--keep class com.inno.coffee.** {*;}
--keepclassmembers class com.inno.serialport.core.SerialPort {
-    java.io.FileDescriptor mFd;
-}
-
 -dontwarn com.inno.serialport.core.SerialPortFinder
 -dontwarn com.inno.serialport.function.SerialPortDataManager$Companion
 -dontwarn com.inno.serialport.function.SerialPortDataManager
