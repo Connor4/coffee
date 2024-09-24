@@ -11,6 +11,7 @@ import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogManager
+import com.inno.coffee.ui.notice.GlobalDialogRightManager
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
@@ -84,9 +85,13 @@ class HomeViewModel @Inject constructor(
         DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
-    fun showWarningDialog() {
+    fun showWarningDialog(main: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
-            GlobalDialogManager.getInstance().showDialog()
+            if (main) {
+                GlobalDialogManager.getInstance().showDialog()
+            } else {
+                GlobalDialogRightManager.getInstance().showDialog()
+            }
         }
     }
 
