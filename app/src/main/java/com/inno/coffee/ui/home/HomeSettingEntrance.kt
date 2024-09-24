@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.utilities.debouncedClickable
+import com.inno.coffee.utilities.debouncedClickableWithoutRipple
 import com.inno.coffee.utilities.nsp
 import kotlinx.coroutines.launch
 
@@ -88,52 +90,64 @@ fun HomeSettingEntrance(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(LAYOUT_HEIGHT.dp)
-            .offset(y = offsetY.value.dp)
-            .clickable(enabled = false) {}
+    Column(
+        modifier = Modifier.fillMaxSize()
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .height(LAYOUT_HEIGHT.dp)
+                .offset(y = offsetY.value.dp)
+                .clickable(enabled = false) {}
         ) {
-            Image(
-                painterResource(id = R.drawable.home_entrance_bg),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Image(
+                    painterResource(id = R.drawable.home_entrance_bg),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(418.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(start = 40.dp, top = 109.dp, end = 40.dp)
+                ) {
+                    entrance.entries.forEachIndexed { index, entry ->
+                        EntranceItem(imageRes = entry.key, title = entry.value) {
+                            onMenuClick(index)
+                        }
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 27.dp)
+                        .rotate(-rotation.value)
+                        .debouncedClickable({ onCloseFinished() }),
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.home_entrance_arraw_ic),
+                        contentDescription = null,
+                    )
+                }
+            }
         }
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(418.dp)
-        ) {
-            Row(
-                modifier = Modifier.padding(start = 40.dp, top = 109.dp, end = 40.dp)
-            ) {
-                entrance.entries.forEachIndexed { index, entry ->
-                    EntranceItem(imageRes = entry.key, title = entry.value) {
-                        onMenuClick(index)
-                    }
-                }
-            }
-
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 27.dp)
-                    .rotate(-rotation.value)
-                    .debouncedClickable({ onCloseFinished() }),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.home_entrance_arraw_ic),
-                    contentDescription = null,
-                )
-            }
-        }
+                .height(352.dp)
+                .background(Color.Transparent)
+                .debouncedClickableWithoutRipple({ onCloseFinished() })
+        )
     }
 }
 

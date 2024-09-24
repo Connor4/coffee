@@ -48,6 +48,29 @@ fun Modifier.debouncedClickable(onClick: () -> Unit, enabled: Boolean = true, de
         }
     }
 
+@SuppressLint("ModifierFactoryUnreferencedReceiver")
+fun Modifier.debouncedClickableWithoutRipple(onClick: () -> Unit, enabled: Boolean = true,
+    delay: Long = 300) =
+    composed {
+        var clicked by remember {
+            mutableStateOf(!enabled)
+        }
+        LaunchedEffect(key1 = clicked) {
+            if (clicked) {
+                delay(delay)
+                clicked = !clicked
+            }
+        }
+        Modifier.clickable(indication = null, enabled = if (enabled) !clicked else false,
+            interactionSource = remember {
+                MutableInteractionSource()
+            }) {
+            clicked = !clicked
+            onClick()
+        }
+    }
+
+
 /**
  * usage:
  * Text(text = "", modifier = Modifier.fastclick{ // do what you want to do here })
