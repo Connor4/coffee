@@ -35,6 +35,7 @@ fun HomeContent(
     val ioCheck by SelfCheckManager.ioCheck.collectAsState()
     val leftTemperature = viewModel.leftBoilerTemp.collectAsState()
     val rightTemperature = viewModel.rightBoilerTemp.collectAsState()
+    val mainScreen = ScreenDisplayManager.isMainDisplay(context)
 
     LaunchedEffect(Unit) {
         viewModel.selfCheckIoStatus()
@@ -61,7 +62,7 @@ fun HomeContent(
             ) {
                 HomeBottomBar(leftTemp = leftTemperature.value,
                     rightTemp = rightTemperature.value) {
-                    viewModel.showWarningDialog()
+                    viewModel.showWarningDialog(mainScreen)
                 }
             }
             if (showOverlay) {

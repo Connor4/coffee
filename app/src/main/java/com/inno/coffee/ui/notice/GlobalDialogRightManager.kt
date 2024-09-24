@@ -30,8 +30,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 
 class GlobalDialogRightManager private constructor(private val application: Application) {
 
-    private val windowManager =
-        application.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private var windowManager: WindowManager? = null
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var dialogView: View? = null
     private var dialogShowing = false
@@ -54,13 +53,18 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     private val selfCleanWaitTime = 5_000L
     private val _warningExist = MutableStateFlow(false)
     val warningExist = _warningExist.asStateFlow()
-    private var secondDisplayContext: Context? = null
+    private var windowContext: Context? = null
 
     init {
         DataCenter.subscribe(ReceivedDataType.SERIAL_PORT_ERROR, subscriber)
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT_LIST, subscriber)
-        secondDisplayContext = application.createDisplayContext(ScreenDisplayManager
-            .getSecondDisplay()!!)
+        val display = ScreenDisplayManager.getSecondDisplay()
+        display?.let {
+            windowContext =
+                application.createDisplayContext(it)
+                    .createWindowContext(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY, null)
+            windowManager = windowContext?.getSystemService(WindowManager::class.java)
+        }
     }
 
     private fun parseReceivedData(data: Any) {
@@ -70,7 +74,9 @@ class GlobalDialogRightManager private constructor(private val application: Appl
                 if (validDialogData(receivedData.code)) {
                     val dialogData = DialogData().apply {
                         errorCode = receivedData.code
-                        message = "ErrorCode:${errorCode}, Message: ${receivedData.info}"
+                        val detail = application.resources.getString(
+                            serialErrorMap[errorCode] ?: R.string.error_no_resource)
+                        message = "E $errorCode: $detail"
                     }
                     dialogDataList.clear()
                     dialogDataList.add(dialogData)
@@ -87,7 +93,9 @@ class GlobalDialogRightManager private constructor(private val application: Appl
                             if (validDialogData(error.status.value)) {
                                 val dialogData = DialogData().apply {
                                     errorCode = error.status.value
-                                    message = "ErrorCode:${error.value}"
+                                    val detail = application.resources.getString(
+                                        machineErrorMap[errorCode] ?: R.string.error_no_resource)
+                                    message = "E $errorCode: $detail"
                                 }
                                 tempList.add(dialogData)
                             }
@@ -153,7 +161,7 @@ class GlobalDialogRightManager private constructor(private val application: Appl
 
     private fun dismissDialog() {
         dialogView?.let {
-            windowManager.removeView(it)
+            windowManager?.removeView(it)
             recyclerView?.adapter = null
             dialogView = null
             recyclerView = null
@@ -164,8 +172,7 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     private fun showDialogView() {
         if (dialogView == null) {
             dialogView =
-                LayoutInflater.from(secondDisplayContext)
-                    .inflate(R.layout.global_dialog_layout, null)
+                LayoutInflater.from(windowContext).inflate(R.layout.global_dialog_layout, null)
             dialogView?.let {
                 recyclerView = it.findViewById<RecyclerView>(R.id.dialog_error_rv).apply {
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
@@ -180,7 +187,7 @@ class GlobalDialogRightManager private constructor(private val application: Appl
                 }
             }
         }
-        windowManager.addView(dialogView, windowLayoutParams)
+        windowManager?.addView(dialogView, windowLayoutParams)
     }
 
     companion object {
@@ -189,6 +196,32 @@ class GlobalDialogRightManager private constructor(private val application: Appl
         private var INSTANCE: GlobalDialogRightManager? = null
         private var application: Application? = null
         private const val TAG = "GlobalDialogManager"
+        private val serialErrorMap = mapOf(
+            -1 to R.string.error_serial_read_fail,
+            -2 to R.string.error_max_read_retry,
+            -3 to R.string.error_max_open_retry,
+            -4 to R.string.error_serial_io_exception,
+            -5 to R.string.error_serial_format_invalid,
+            -6 to R.string.error_crc_check_failed,
+            -7 to R.string.error_read_no_data,
+            -8 to R.string.error_heart_beat_miss,
+            -9 to R.string.error_frame_size_error,
+            -10 to R.string.error_serial_no_reply,
+            -11 to R.string.error_command_no_reply,
+        )
+        private val machineErrorMap = mapOf(
+            2000 to R.string.error_front_bean_container_empty,
+            2001 to R.string.error_back_bean_container_empty,
+            2002 to R.string.error_bean_container_empty,
+            3000 to R.string.error_left_grinder_error,
+            3001 to R.string.error_right_grinder_error,
+            3002 to R.string.error_left_boiler_error,
+            3003 to R.string.error_right_boiler_error,
+            3004 to R.string.error_left_brewer_error,
+            3005 to R.string.error_right_brewer_error,
+            3006 to R.string.error_steam_boiler_error,
+            4000 to R.string.error_no_water,
+        )
 
         fun init(context: Application) {
             application = context
