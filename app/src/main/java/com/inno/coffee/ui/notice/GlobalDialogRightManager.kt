@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.inno.coffee.R
 import com.inno.coffee.data.DialogData
 import com.inno.coffee.function.display.ScreenDisplayManager
+import com.inno.coffee.utilities.IndicatorView
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -36,7 +36,8 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     private var dialogShowing = false
     private val dialogDataList = mutableListOf<DialogData>()
     private val errorAdapter = ErrorViewPagerAdapter(dialogDataList)
-    private var recyclerView: RecyclerView? = null
+    private var viewPager2: ViewPager2? = null
+    private var indicatorView: IndicatorView? = null
     private var windowLayoutParams = WindowManager.LayoutParams(
         WindowManager.LayoutParams.MATCH_PARENT,
         WindowManager.LayoutParams.MATCH_PARENT,
@@ -47,6 +48,13 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
+        }
+    }
+    private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrolled(position: Int, positionOffset: Float,
+            positionOffsetPixels: Int) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            indicatorView?.setIndicatorMove(position, positionOffset)
         }
     }
     private var selfCleanJob: Job? = null
@@ -143,6 +151,7 @@ class GlobalDialogRightManager private constructor(private val application: Appl
             } else {
                 showDialog()
             }
+            indicatorView?.setIndicatorCount(dialogDataList.size)
         }
     }
 
@@ -162,9 +171,11 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     private fun dismissDialog() {
         dialogView?.let {
             windowManager?.removeView(it)
-            recyclerView?.adapter = null
+            viewPager2?.adapter = null
+            viewPager2?.unregisterOnPageChangeCallback(pageChangeCallback)
             dialogView = null
-            recyclerView = null
+            indicatorView = null
+            viewPager2 = null
         }
         dialogShowing = false
     }
@@ -174,14 +185,11 @@ class GlobalDialogRightManager private constructor(private val application: Appl
             dialogView =
                 LayoutInflater.from(windowContext).inflate(R.layout.global_dialog_layout, null)
             dialogView?.let {
-                recyclerView = it.findViewById<RecyclerView>(R.id.dialog_error_rv).apply {
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,
-                        false)
+                viewPager2 = it.findViewById<ViewPager2>(R.id.dialog_error_vp).apply {
                     adapter = errorAdapter
+                    registerOnPageChangeCallback(pageChangeCallback)
                 }
-//                it.findViewById<Button>(R.id.dialog_next_bt).setOnClickListener {
-//                    recyclerView?.smoothScrollToPosition(1)
-//                }
+                indicatorView = it.findViewById(R.id.dialog_indicator)
                 it.findViewById<ImageView>(R.id.global_warning_close_iv).setOnClickListener {
                     dismissDialog()
                 }
