@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.viewmodel.home.HomeViewModel
 

@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager
-import com.inno.coffee.ui.notice.GlobalDialogManager
+import com.inno.coffee.ui.notice.GlobalDialogLeftManager
 import com.inno.coffee.ui.settings.formula.FormulaActivity
 import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
 import com.inno.coffee.utilities.composeClick
@@ -54,7 +54,7 @@ fun HomeBottomBar(
     val operateRinse by SelfCheckManager.operateRinse.collectAsState()
     val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
     val steamHeating by SelfCheckManager.steamHeating.collectAsState()
-    val warningList by GlobalDialogManager.getInstance().warningExist.collectAsState()
+    val warningList by GlobalDialogLeftManager.getInstance().warningExist.collectAsState()
 
     Box(
         modifier = Modifier
