@@ -80,7 +80,7 @@ fun PermissionInputLayout(
                 .clip(RoundedCornerShape(20.dp))
         ) {
             Text(
-                text = stringResource(id = R.string.permission_title_login),
+                text = stringResource(id = R.string.permission_input_layout_title),
                 fontWeight = FontWeight.Bold, fontSize = 7.nsp(), color = Color.White,
                 modifier = Modifier.padding(start = 42.dp, top = 40.dp)
             )
