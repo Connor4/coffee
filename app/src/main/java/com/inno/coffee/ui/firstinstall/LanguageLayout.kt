@@ -52,7 +52,6 @@ fun LanguageLayout(modifier: Modifier = Modifier, onLanguagePick: (String) -> Un
     val (selectedValue, setSelectedValue) = remember {
         mutableStateOf(radioOptions[english]!!)
     }
-    val scrollState = rememberScrollState()
 
     Box(
         modifier = modifier,
@@ -85,7 +84,7 @@ fun LanguageLayout(modifier: Modifier = Modifier, onLanguagePick: (String) -> Un
                 modifier = Modifier
                     .width(450.dp)
                     .height(450.dp)
-                    .verticalScroll(scrollState)
+                    .verticalScroll(rememberScrollState())
                     .selectableGroup()
             ) {
                 radioOptions.forEach {
