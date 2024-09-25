@@ -14,9 +14,16 @@ class PermissionActivity : CoffeeActivity() {
         setContent {
             CoffeeTheme {
 //                PermissionEntrance()
-                PermissionInputLayout {
-                    this@PermissionActivity.finish()
-                }
+                PermissionInputLayout(
+                    onCloseClick = {
+                        this@PermissionActivity.finish()
+                    },
+                    onEnterClick = {
+
+                    }
+                )
+
+
             }
         }
     }
