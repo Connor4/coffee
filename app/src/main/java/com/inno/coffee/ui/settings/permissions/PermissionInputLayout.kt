@@ -3,6 +3,7 @@ package com.inno.coffee.ui.settings.permissions
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.ui.common.KeyboardLayout
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.PERMISSION_MAX_INPUT_SIZE
 import com.inno.coffee.utilities.PERMISSION_PASSWORD
@@ -131,16 +133,23 @@ fun PermissionInputLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(top = 136.dp),
+                    .padding(top = 136.dp)
+                    .debouncedClickable({ select = PERMISSION_USERNAME }),
                 contentAlignment = Alignment.Center
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.permission_text_input_bg),
-                    contentDescription = null,
+                if (select == PERMISSION_USERNAME) {
+                    Box(
+                        modifier = Modifier
+                            .width(696.dp)
+                            .height(52.dp)
+                            .border(2.dp, Color(0xFF00DE93), RoundedCornerShape(4.dp))
+                    )
+                }
+                Box(
                     modifier = Modifier
-                        .width(694.dp)
-                        .height(50.dp)
-                        .fastclick { select = PERMISSION_USERNAME }
+                        .width(692.dp)
+                        .height(48.dp)
+                        .background(Color(0xFF2C2C2C), RoundedCornerShape(4.dp))
                 )
                 Text(text = username,
                     style = TextStyle(
@@ -161,16 +170,23 @@ fun PermissionInputLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(top = 246.dp),
+                    .padding(top = 246.dp)
+                    .debouncedClickable({ select = PERMISSION_PASSWORD }),
                 contentAlignment = Alignment.Center
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.permission_text_input_bg),
-                    contentDescription = null,
+                if (select == PERMISSION_PASSWORD) {
+                    Box(
+                        modifier = Modifier
+                            .width(696.dp)
+                            .height(52.dp)
+                            .border(2.dp, Color(0xFF00DE93), RoundedCornerShape(4.dp))
+                    )
+                }
+                Box(
                     modifier = Modifier
-                        .width(694.dp)
-                        .height(50.dp)
-                        .fastclick { select = PERMISSION_PASSWORD }
+                        .width(692.dp)
+                        .height(48.dp)
+                        .background(Color(0xFF2C2C2C), RoundedCornerShape(4.dp))
                 )
                 Text(
                     text = passwordStar,
