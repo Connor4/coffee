@@ -195,6 +195,9 @@
 
     <string name="settings_title">Machine Settings</string>
 
+    <string name="permission_title_login">Login</string>
+    <string name="permission_enter_username">Enter UserName</string>
+    <string name="permission_enter_password">Enter Password</string>
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>
     <string name="permission_login_user">login</string>

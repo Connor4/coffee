@@ -21,3 +21,8 @@ const val HISTORY_VALUE_CLEAN = "clean"
 const val HISTORY_VALUE_RINSE = "rinse"
 const val HISTORY_VALUE_ERROR = "error"
 const val HISTORY_VALUE_SERVICE = "service"
+
+const val PERMISSION_USERNAME = 1
+const val PERMISSION_PASSWORD = 2
+const val PERMISSION_MAX_INPUT_SIZE = 15
+
