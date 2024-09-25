@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -58,6 +59,7 @@ fun PermissionInputLayout(
 ) {
     val context = LocalContext.current
     val loginState by viewModel.loginState.collectAsState()
+//    val loginState by remember { mutableStateOf<LoginState>(LoginState.Idle) }
     var select by rememberSaveable {
         mutableIntStateOf(PERMISSION_USERNAME)
     }
@@ -69,6 +71,9 @@ fun PermissionInputLayout(
     }
     var passwordStar by rememberSaveable {
         mutableStateOf("")
+    }
+    var pswVisible by rememberSaveable {
+        mutableStateOf(false)
     }
 
     LaunchedEffect(key1 = loginState) {
@@ -188,8 +193,20 @@ fun PermissionInputLayout(
                         .height(48.dp)
                         .background(Color(0xFF2C2C2C), RoundedCornerShape(4.dp))
                 )
+                Image(
+                    painter = if (pswVisible) painterResource(id = R.drawable
+                        .permission_invisible_password_ic)
+                    else painterResource(id = R.drawable.permission_visible_password_ic),
+                    contentDescription = null,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .padding(end = 60.dp)
+                        .size(36.dp)
+                        .align(Alignment.CenterEnd)
+                        .fastclick { pswVisible = !pswVisible }
+                )
                 Text(
-                    text = passwordStar,
+                    text = if (pswVisible) password else passwordStar,
                     style = TextStyle(
                         platformStyle = PlatformTextStyle(
                             includeFontPadding = false
