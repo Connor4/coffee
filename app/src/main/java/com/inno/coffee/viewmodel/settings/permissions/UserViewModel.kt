@@ -22,6 +22,7 @@ class UserViewModel @Inject constructor(
     private val repository: UserRepository,
     @ApplicationContext private val context: Context,
 ) : ViewModel() {
+    private val TAG = "UserViewModel"
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState: StateFlow<LoginState> = _loginState
     private val _username = MutableStateFlow("")
@@ -77,6 +78,24 @@ class UserViewModel @Inject constructor(
 //                return@launch
 //            }
             val isAuthenticated = repository.authenticateUser(_username.value, _password.value)
+            if (!isAuthenticated) {
+                _loginState.value =
+                    LoginState.Error(context.getString(R.string.home_login_authenticate_fail))
+                return@launch
+            }
+            _loginState.value = LoginState.Success
+        }
+    }
+
+    fun authenticateUser(username: String, password: String) {
+        Logger.d(TAG, "username $username password $password")
+        viewModelScope.launch {
+            if (username.isEmpty() || password.isEmpty()) {
+                _loginState.value =
+                    LoginState.Error(context.getString(R.string.home_login_input_empty))
+                return@launch
+            }
+            val isAuthenticated = repository.authenticateUser(username, password)
             if (!isAuthenticated) {
                 _loginState.value =
                     LoginState.Error(context.getString(R.string.home_login_authenticate_fail))

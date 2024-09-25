@@ -30,11 +30,8 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
-import com.inno.coffee.ui.settings.formula.FormulaActivity
-import com.inno.coffee.ui.settings.statistics.StatisticActivity
 import com.inno.coffee.utilities.PERMISSION_ENTRANCE_ACCOUNT_MANAGE
 import com.inno.coffee.utilities.PERMISSION_ENTRANCE_REGISTER
 import com.inno.coffee.utilities.nsp
@@ -112,10 +109,10 @@ private fun MenuItem(
 private fun jumpDetail(name: Int, context: Context) {
     when (name) {
         PERMISSION_ENTRANCE_REGISTER -> {
-            ScreenDisplayManager.autoRoute(context, StatisticActivity::class.java)
+//            ScreenDisplayManager.autoRoute(context, StatisticActivity::class.java)
         }
         PERMISSION_ENTRANCE_ACCOUNT_MANAGE -> {
-            ScreenDisplayManager.autoRoute(context, FormulaActivity::class.java)
+//            ScreenDisplayManager.autoRoute(context, FormulaActivity::class.java)
         }
         else -> {}
     }

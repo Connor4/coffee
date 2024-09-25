@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings.permissions
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
@@ -32,19 +36,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.data.LoginState
 import com.inno.coffee.ui.common.KeyboardLayout
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.PERMISSION_MAX_INPUT_SIZE
 import com.inno.coffee.utilities.PERMISSION_PASSWORD
 import com.inno.coffee.utilities.PERMISSION_USERNAME
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.permissions.UserViewModel
+import com.inno.common.utils.Logger
 
 @Composable
 fun PermissionInputLayout(
     onCloseClick: () -> Unit,
-    onEnterClick: () -> Unit,
+    onLoginSuccess: () -> Unit,
+    viewModel: UserViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val loginState by viewModel.loginState.collectAsState()
     var select by rememberSaveable {
         mutableIntStateOf(PERMISSION_USERNAME)
     }
@@ -56,6 +67,22 @@ fun PermissionInputLayout(
     }
     var passwordStar by rememberSaveable {
         mutableStateOf("")
+    }
+
+    LaunchedEffect(key1 = loginState) {
+        when (loginState) {
+            is LoginState.Success -> {
+                onLoginSuccess()
+            }
+            is LoginState.Error -> {
+                Toast.makeText(context, (loginState as LoginState.Error).message, Toast
+                    .LENGTH_SHORT).show()
+            }
+            else -> {
+                Logger.d("Navigating to else")
+            }
+        }
+        viewModel.resetLoginState()
     }
 
     Box(
@@ -190,7 +217,7 @@ fun PermissionInputLayout(
                             }
                         }
                     }, onEnter = {
-
+                        viewModel.authenticateUser(username, password)
                     }
                 )
             }
