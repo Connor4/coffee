@@ -36,8 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.utilities.DEFAULT_PERMISSION_MODULE
-import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.viewmodel.settings.permissions.UserViewModel
 import com.inno.common.annotations.MANAGER
 import com.inno.common.db.entity.User

@@ -33,11 +33,11 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.utilities.KeyboardLayout
+import com.inno.coffee.ui.common.KeyboardLayout
+import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.PERMISSION_MAX_INPUT_SIZE
 import com.inno.coffee.utilities.PERMISSION_PASSWORD
 import com.inno.coffee.utilities.PERMISSION_USERNAME
-import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
 
 @Composable

@@ -35,8 +35,8 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.utilities.debouncedClickable
-import com.inno.coffee.utilities.debouncedClickableWithoutRipple
+import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.common.debouncedClickableWithoutRipple
 import com.inno.coffee.utilities.nsp
 import kotlinx.coroutines.launch
 

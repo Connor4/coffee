@@ -1,4 +1,4 @@
-package com.inno.coffee.utilities
+package com.inno.coffee.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.utilities.nsp
 
 @Composable
 fun NextStepButton(

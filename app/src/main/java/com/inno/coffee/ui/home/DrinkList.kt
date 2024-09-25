@@ -37,8 +37,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
-import com.inno.coffee.utilities.MaskBoxWithContent
-import com.inno.coffee.utilities.debouncedClickable
+import com.inno.coffee.ui.common.MaskBoxWithContent
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.common.enums.ProductType
 import kotlinx.coroutines.delay

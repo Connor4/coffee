@@ -12,7 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.inno.coffee.R
 import com.inno.coffee.data.DialogData
 import com.inno.coffee.function.display.ScreenDisplayManager
-import com.inno.coffee.utilities.IndicatorView
+import com.inno.coffee.ui.common.IndicatorView
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber

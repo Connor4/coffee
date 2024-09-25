@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.inno.coffee.R
-import com.inno.coffee.utilities.debouncedClickable
-import com.inno.coffee.utilities.fastclick
+import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType

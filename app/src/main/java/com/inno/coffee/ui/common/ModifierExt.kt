@@ -1,4 +1,4 @@
-package com.inno.coffee.utilities
+package com.inno.coffee.ui.common
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
 import androidx.core.content.ContextCompat
+import com.inno.coffee.utilities.VIEW_FAST_CLICK_INTERVAL_TIME
 import kotlinx.coroutines.delay
 
 /**

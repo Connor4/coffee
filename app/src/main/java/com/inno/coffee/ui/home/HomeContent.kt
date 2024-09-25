@@ -14,10 +14,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager
+import com.inno.coffee.ui.common.ConfirmDialogLayout
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.viewmodel.home.HomeViewModel
 
@@ -119,11 +122,13 @@ fun HomeContent(
                 }
             }
             if (showStandByModeDialog) {
-                StandbyModeLayout(onConfirmClick = {
-                    showStandByModeDialog = false
-                }, onCloseClick = {
-                    showStandByModeDialog = false
-                })
+                ConfirmDialogLayout(title = stringResource(id = R.string.home_standby_mode),
+                    description = stringResource(id = R.string.home_entrance_enter_standby),
+                    onConfirmClick = {
+                        showStandByModeDialog = false
+                    }, onCloseClick = {
+                        showStandByModeDialog = false
+                    })
             }
         }
     }

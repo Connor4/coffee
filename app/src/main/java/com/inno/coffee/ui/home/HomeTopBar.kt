@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
-import com.inno.coffee.utilities.debouncedClickable
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import kotlinx.coroutines.delay

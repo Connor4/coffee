@@ -30,11 +30,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
+import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.formula.FormulaActivity
 import com.inno.coffee.ui.settings.permissions.PermissionActivity
 import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
 import com.inno.coffee.ui.settings.statistics.StatisticActivity
-import com.inno.coffee.utilities.fastclick
 import com.inno.common.annotations.BEANS_AND_GRINDER
 import com.inno.common.annotations.DISPLAY
 import com.inno.common.annotations.FORMULA

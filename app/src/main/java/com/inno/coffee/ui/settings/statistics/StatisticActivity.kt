@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.base.CoffeeActivity
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.settings.statistics.history.StatisticHistoryActivity
 import com.inno.coffee.ui.settings.statistics.machine.StatisticMachineActivity
 import com.inno.coffee.ui.settings.statistics.product.StatisticProductActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
-import com.inno.coffee.utilities.debouncedClickable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

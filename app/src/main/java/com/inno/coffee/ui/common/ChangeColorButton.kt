@@ -1,4 +1,4 @@
-package com.inno.coffee.utilities
+package com.inno.coffee.ui.common
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.inno.coffee.utilities.nsp
 
 @Composable
 fun ChangeColorButton(

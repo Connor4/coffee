@@ -50,11 +50,11 @@ import com.inno.coffee.data.LoginState
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
+import com.inno.coffee.ui.common.composeClick
+import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.ui.common.fastclickWithoutRipple
 import com.inno.coffee.ui.notice.GlobalDialogLeftManager
 import com.inno.coffee.ui.settings.SettingActivity
-import com.inno.coffee.utilities.composeClick
-import com.inno.coffee.utilities.fastclick
-import com.inno.coffee.utilities.fastclickWithoutRipple
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 

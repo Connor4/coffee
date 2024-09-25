@@ -1,4 +1,4 @@
-package com.inno.coffee.utilities
+package com.inno.coffee.ui.common
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.Formula
 import com.inno.common.utils.DimenUtils
 import kotlinx.coroutines.launch

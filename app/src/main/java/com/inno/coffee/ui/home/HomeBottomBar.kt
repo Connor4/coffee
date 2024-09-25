@@ -34,9 +34,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.selfcheck.SelfCheckManager
+import com.inno.coffee.ui.common.composeClick
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.notice.GlobalDialogLeftManager
-import com.inno.coffee.utilities.composeClick
-import com.inno.coffee.utilities.debouncedClickable
 import com.inno.coffee.utilities.nsp
 
 @Composable

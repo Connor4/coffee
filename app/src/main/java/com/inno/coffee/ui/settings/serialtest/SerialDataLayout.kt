@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
-import com.inno.coffee.utilities.fastclick
+import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.viewmodel.serialport.SerialPortViewModel
 import com.inno.serialport.utilities.ReceivedData
 

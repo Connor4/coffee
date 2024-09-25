@@ -1,4 +1,4 @@
-package com.inno.coffee.utilities
+package com.inno.coffee.ui.common
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

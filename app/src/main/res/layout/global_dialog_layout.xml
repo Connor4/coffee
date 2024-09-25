@@ -60,7 +60,7 @@
                 android:layout_marginBottom="80dp"
                 android:overScrollMode="never" />
 
-            <com.inno.coffee.utilities.IndicatorView
+            <com.inno.coffee.ui.common.IndicatorView
                 android:id="@+id/dialog_indicator"
                 android:layout_width="400dp"
                 android:layout_height="20dp"

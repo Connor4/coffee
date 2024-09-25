@@ -44,10 +44,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
-import com.inno.coffee.utilities.ChangeColorButton
-import com.inno.coffee.utilities.VerticalScrollList
-import com.inno.coffee.utilities.debouncedClickable
-import com.inno.coffee.utilities.fastclick
+import com.inno.coffee.ui.common.ChangeColorButton
+import com.inno.coffee.ui.common.VerticalScrollList
+import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 

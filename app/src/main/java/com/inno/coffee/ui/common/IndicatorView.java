@@ -1,4 +1,4 @@
-package com.inno.coffee.utilities;
+package com.inno.coffee.ui.common;
 
 import android.content.Context;
 import android.content.res.TypedArray;

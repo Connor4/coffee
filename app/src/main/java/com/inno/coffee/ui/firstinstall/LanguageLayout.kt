@@ -25,9 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.utilities.NextStepButton
-import com.inno.coffee.utilities.debouncedClickable
-import com.inno.coffee.utilities.draw9Patch
+import com.inno.coffee.ui.common.NextStepButton
+import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.common.draw9Patch
 import com.inno.coffee.utilities.nsp
 import java.util.Locale
 

@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.home
+package com.inno.coffee.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,12 +27,12 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.utilities.composeClick
-import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
 
 @Composable
-fun StandbyModeLayout(
+fun ConfirmDialogLayout(
+    title: String = "",
+    description: String = "",
     onConfirmClick: () -> Unit,
     onCloseClick: () -> Unit,
 ) {
@@ -62,7 +62,7 @@ fun StandbyModeLayout(
                 .background(Color(0xFF191A1D))
         ) {
             Text(
-                text = stringResource(id = R.string.home_standby_mode),
+                text = title,
                 fontSize = 7.nsp(), color = Color.White, fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = 47.dp, top = 37.dp)
             )
@@ -77,7 +77,7 @@ fun StandbyModeLayout(
                     .fastclick { onCloseClick() },
             )
             Text(
-                text = stringResource(id = R.string.home_entrance_enter_standby),
+                text = description,
                 fontSize = 6.nsp(), color = Color.White,
                 modifier = Modifier.align(Alignment.Center)
             )
@@ -118,6 +118,7 @@ fun StandbyModeLayout(
 
 @Preview(device = Devices.TABLET)
 @Composable
-private fun PreviewStandbyMode() {
-    StandbyModeLayout({}, {})
+private fun PreviewConfirmDialog() {
+    ConfirmDialogLayout(title = stringResource(id = R.string.home_standby_mode),
+        description = stringResource(id = R.string.home_entrance_enter_standby), {}, {})
 }

@@ -34,9 +34,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.inno.coffee.R
-import com.inno.coffee.utilities.NextStepButton
-import com.inno.coffee.utilities.composeClick
-import com.inno.coffee.utilities.debouncedClickable
+import com.inno.coffee.ui.common.NextStepButton
+import com.inno.coffee.ui.common.composeClick
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.utilities.nsp
 
 

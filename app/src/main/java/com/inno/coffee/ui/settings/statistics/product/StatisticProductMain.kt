@@ -35,7 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
-import com.inno.coffee.utilities.debouncedClickable
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.viewmodel.settings.statistics.StatisticProductViewModel
 import com.inno.common.db.entity.ProductTypeCount
 import com.inno.common.enums.ProductType

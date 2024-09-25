@@ -31,12 +31,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
+import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.statistics.history.StatisticHistoryActivity
 import com.inno.coffee.ui.settings.statistics.product.StatisticProductActivity
 import com.inno.coffee.utilities.HISTORY_VALUE_CLEAN
 import com.inno.coffee.utilities.KEY_HISTORY
-import com.inno.coffee.utilities.debouncedClickable
-import com.inno.coffee.utilities.fastclick
 import com.inno.coffee.utilities.nsp
 
 @OptIn(ExperimentalLayoutApi::class)
