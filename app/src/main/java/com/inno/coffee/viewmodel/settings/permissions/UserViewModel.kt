@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
+import com.inno.coffee.data.RegisterState
 import com.inno.common.db.entity.User
 import com.inno.common.utils.Logger
 import com.inno.common.utils.UserSessionManager
@@ -29,13 +30,13 @@ class UserViewModel @Inject constructor(
     val username: StateFlow<String> = _username
     private val _password = MutableStateFlow("")
     val password: StateFlow<String> = _password
-    private val _registerResult = MutableStateFlow<Boolean?>(false)
-    val registerResult: StateFlow<Boolean?> = _registerResult
-    private val _authenticateResult = MutableStateFlow<Boolean?>(false)
+    private val _registerResult = MutableStateFlow<RegisterState>(RegisterState.Idle)
+    val registerResult: StateFlow<RegisterState> = _registerResult
+    private val _authenticateResult = MutableStateFlow(false)
     val authenticateResult = _authenticateResult
-    private val _updateResult = MutableStateFlow<Boolean?>(false)
+    private val _updateResult = MutableStateFlow(false)
     val updateResult = _updateResult
-    private val _deleteResult = MutableStateFlow<Boolean?>(false)
+    private val _deleteResult = MutableStateFlow(false)
     val deleteResult = _deleteResult
 
     val userList: StateFlow<List<User>> = repository.getAllUser().stateIn(
@@ -45,10 +46,16 @@ class UserViewModel @Inject constructor(
     )
 
     fun registerUser(username: String, password: String, role: Int, permission: Int,
-        remark: String = "-") {
+        remark: String) {
+        Logger.d(TAG, "registerUser() called with: username = $username, " +
+                "password = $password, role = $role, permission = $permission, remark = $remark")
+        if (username.isEmpty() || password.isEmpty()) {
+            _registerResult.value = RegisterState.Error
+            return
+        }
         viewModelScope.launch {
             val register = repository.registerUser(username, password, role, permission, remark)
-            _registerResult.value = register
+            _registerResult.value = if (register) RegisterState.Success else RegisterState.Error
         }
     }
 

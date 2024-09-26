@@ -206,6 +206,9 @@
     <string name="permission_main_remarks_title">Remarks</string>
     <string name="permission_main_role_title">Role</string>
     <string name="permission_main_jurisdiction_title">Jurisdiction</string>
+    <string name="permission_edit_register_success">Register Success</string>
+    <string name="permission_edit_register_failed">Register Failed</string>
+
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>
     <string name="permission_login_user">login</string>

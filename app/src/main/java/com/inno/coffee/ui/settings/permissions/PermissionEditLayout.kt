@@ -2,6 +2,7 @@
 
 package com.inno.coffee.ui.settings.permissions
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,7 +32,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -45,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -56,7 +60,9 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.data.RegisterState
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.KeyboardLayout
 import com.inno.coffee.ui.common.debouncedClickable
@@ -66,22 +72,41 @@ import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.PERMISSION_EDIT_PASSWORD
 import com.inno.coffee.utilities.PERMISSION_EDIT_REMARKS
 import com.inno.coffee.utilities.PERMISSION_EDIT_USERNAME
-import com.inno.coffee.utilities.PERMISSION_ROLE_MANAGER
+import com.inno.coffee.utilities.PERMISSION_MAX_INPUT_SIZE
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.permissions.UserViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun PermissionEditLayout(
+    viewModel: UserViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val registerResult by viewModel.registerResult.collectAsState()
     var isKeyboardVisible by remember {
         mutableStateOf(false)
+    }
+    var roleValue by rememberSaveable {
+        mutableIntStateOf(0)
     }
     var permissionValue by remember {
         mutableIntStateOf(DEFAULT_PERMISSION_MODULE)
     }
     var keyboardSelectIndex by remember {
         mutableIntStateOf(INVALID_INT)
+    }
+    var username by rememberSaveable {
+        mutableStateOf("")
+    }
+    var password by rememberSaveable {
+        mutableStateOf("")
+    }
+    var passwordStar by rememberSaveable {
+        mutableStateOf("")
+    }
+    var remarks by rememberSaveable {
+        mutableStateOf("")
     }
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
@@ -93,6 +118,20 @@ fun PermissionEditLayout(
     // 不可见比例150/650= 0.22, 可见比例0.78*500 = 390
     val scrollBarHeight = 390
     val scrollTrackHeight = 500
+    val registerSuccess = stringResource(id = R.string.permission_edit_register_success)
+    val registerFailed = stringResource(id = R.string.permission_edit_register_failed)
+
+    LaunchedEffect(key1 = registerResult) {
+        when (registerResult) {
+            RegisterState.Success -> {
+                Toast.makeText(context, registerSuccess, Toast.LENGTH_SHORT).show()
+            }
+            RegisterState.Error -> {
+                Toast.makeText(context, registerFailed, Toast.LENGTH_SHORT).show()
+            }
+            else -> {}
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -136,12 +175,21 @@ fun PermissionEditLayout(
                     .height(520.dp)
                     .verticalScroll(scrollState)
             ) {
-                InputLayout(selectIndex = keyboardSelectIndex, onSelectInput = {
-                    isKeyboardVisible = true
-                    keyboardSelectIndex = it
-                })
+                InputLayout(
+                    username = username,
+                    password = password,
+                    passwordStar = passwordStar,
+                    remarks = remarks,
+                    selectIndex = keyboardSelectIndex,
+                    onSelectInput = {
+                        isKeyboardVisible = true
+                        keyboardSelectIndex = it
+                    }
+                )
                 Spacer(modifier = Modifier.height(40.dp))
-                RoleLayout() {}
+                RoleLayout {
+                    roleValue = it + 1
+                }
                 Spacer(modifier = Modifier.height(40.dp))
                 ModuleCheckBox(permissionValue) {
                     permissionValue = it
@@ -153,7 +201,9 @@ fun PermissionEditLayout(
                         .height(50.dp)
                         .align(Alignment.CenterHorizontally),
                     text = stringResource(id = R.string.permission_main_register_account),
-                )
+                ) {
+                    viewModel.registerUser(username, password, roleValue, permissionValue, remarks)
+                }
             }
 
             Box(
@@ -200,11 +250,46 @@ fun PermissionEditLayout(
             ) {
                 KeyboardLayout(
                     onKeyClick = {
-
+                        when (keyboardSelectIndex) {
+                            PERMISSION_EDIT_USERNAME -> {
+                                if (username.length < PERMISSION_MAX_INPUT_SIZE) {
+                                    username += it
+                                }
+                            }
+                            PERMISSION_EDIT_PASSWORD -> {
+                                if (password.length < PERMISSION_MAX_INPUT_SIZE) {
+                                    password += it
+                                    passwordStar += "*"
+                                }
+                            }
+                            PERMISSION_EDIT_REMARKS -> {
+                                if (remarks.length < PERMISSION_MAX_INPUT_SIZE) {
+                                    remarks += it
+                                }
+                            }
+                        }
                     }, onDelete = {
-
+                        when (keyboardSelectIndex) {
+                            PERMISSION_EDIT_USERNAME -> {
+                                if (username.isNotEmpty()) {
+                                    username = username.dropLast(1)
+                                }
+                            }
+                            PERMISSION_EDIT_PASSWORD -> {
+                                if (password.isNotEmpty()) {
+                                    password = password.dropLast(1)
+                                    passwordStar = passwordStar.dropLast(1)
+                                }
+                            }
+                            PERMISSION_EDIT_REMARKS -> {
+                                if (remarks.isNotEmpty()) {
+                                    remarks = remarks.dropLast(1)
+                                }
+                            }
+                        }
                     }, onEnter = {
-
+                        isKeyboardVisible = false
+                        keyboardSelectIndex = INVALID_INT
                     }
                 )
             }
@@ -214,21 +299,13 @@ fun PermissionEditLayout(
 
 @Composable
 private fun InputLayout(
+    username: String = "",
+    password: String = "",
+    passwordStar: String = "",
+    remarks: String = "",
     selectIndex: Int,
     onSelectInput: (index: Int) -> Unit,
 ) {
-    var username by rememberSaveable {
-        mutableStateOf("")
-    }
-    var password by rememberSaveable {
-        mutableStateOf("")
-    }
-    var passwordStar by rememberSaveable {
-        mutableStateOf("")
-    }
-    var remarks by rememberSaveable {
-        mutableStateOf("")
-    }
     var pswVisible by rememberSaveable {
         mutableStateOf(false)
     }
@@ -385,7 +462,7 @@ private fun RoleLayout(onValueChanged: (Int) -> Unit) {
         stringResource(id = R.string.permission_role_employee),
     )
     var selectedOptionIndex by remember {
-        mutableIntStateOf(PERMISSION_ROLE_MANAGER)
+        mutableIntStateOf(0)
     }
 
     Column {
@@ -405,11 +482,7 @@ private fun RoleLayout(onValueChanged: (Int) -> Unit) {
                                 onValueChanged(selectedOptionIndex)
                             },
                             role = Role.RadioButton,
-                        )
-                        .debouncedClickable(onClick = {
-                            selectedOptionIndex = index
-                            onValueChanged(selectedOptionIndex)
-                        }),
+                        ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
