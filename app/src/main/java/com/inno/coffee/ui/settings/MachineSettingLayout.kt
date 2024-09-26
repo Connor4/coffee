@@ -136,10 +136,10 @@ private fun MenuItem(
             .background(Color(0xFF191A1D))
             .pointerInput(Unit) {
                 detectTapGestures(onPress = {
+                    onClick()
                     isPressed = true
                     tryAwaitRelease()
                     isPressed = false
-                    onClick()
                 })
             },
     ) {

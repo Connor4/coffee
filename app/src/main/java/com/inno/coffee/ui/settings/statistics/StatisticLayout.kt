@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -17,10 +18,15 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
-import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.statistics.history.StatisticHistoryActivity
 import com.inno.coffee.ui.settings.statistics.product.StatisticProductActivity
@@ -68,14 +73,14 @@ fun StatisticLayout(
             fontSize = 7.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 55.dp)
+            modifier = Modifier.padding(start = 54.dp, top = 115.dp)
         )
         Image(
             painter = painterResource(id = R.drawable.common_back_ic),
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(top = 47.dp, end = 50.dp)
+                .padding(top = 107.dp, end = 50.dp)
                 .fastclick { onCloseClick() }
         )
         Text(
@@ -83,13 +88,13 @@ fun StatisticLayout(
             fontSize = 6.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 130.dp)
+            modifier = Modifier.padding(start = 54.dp, top = 180.dp)
         )
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = 50.dp, top = 184.dp, end = 50.dp),
+                .padding(start = 50.dp, top = 234.dp, end = 50.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
             maxItemsInEachRow = 4,
@@ -116,13 +121,13 @@ fun StatisticLayout(
             fontSize = 6.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 287.dp)
+            modifier = Modifier.padding(start = 54.dp, top = 337.dp)
         )
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = 50.dp, top = 341.dp, end = 50.dp),
+                .padding(start = 50.dp, top = 371.dp, end = 50.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
             maxItemsInEachRow = 4,
@@ -158,10 +163,10 @@ fun StatisticLayout(
             fontSize = 6.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 537.dp)
+            modifier = Modifier.padding(start = 54.dp, top = 587.dp)
         )
         Item(title = R.string.statistic_main_machine_counter,
-            modifier = Modifier.padding(start = 50.dp, top = 591.dp, end = 50.dp)) {
+            modifier = Modifier.padding(start = 50.dp, top = 641.dp, end = 50.dp)) {
 
         }
     }
@@ -173,14 +178,26 @@ private fun Item(
     @StringRes title: Int,
     onClick: () -> Unit,
 ) {
+    var isPressed by remember {
+        mutableStateOf(false)
+    }
+    val boarderColor = if (isPressed) Color(0xFF00DE93) else Color(0xFF484848)
+
     Box(
         modifier = modifier
             .width(280.dp)
             .height(73.dp)
-            .border(1.dp, Color(0xFF484848), RoundedCornerShape(10.dp))
+            .border(2.dp, boarderColor, RoundedCornerShape(10.dp))
             .clip(RoundedCornerShape(10.dp))
             .background(Color(0xFF191A1D))
-            .debouncedClickable({ onClick() })
+            .pointerInput(Unit) {
+                detectTapGestures(onPress = {
+                    onClick()
+                    isPressed = true
+                    tryAwaitRelease()
+                    isPressed = false
+                })
+            },
     ) {
         Text(
             text = stringResource(id = title),

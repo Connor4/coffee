@@ -172,10 +172,10 @@ private fun EntranceItem(
             .height(200.dp)
             .pointerInput(Unit) {
                 detectTapGestures(onPress = {
+                    onItemClick()
                     isPressed = true
                     tryAwaitRelease()
                     isPressed = false
-                    onItemClick()
                 })
             },
         contentAlignment = Alignment.Center,
