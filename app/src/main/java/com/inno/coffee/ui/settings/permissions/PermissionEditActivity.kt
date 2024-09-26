@@ -7,18 +7,15 @@ import com.inno.coffee.ui.theme.CoffeeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PermissionActivity : CoffeeActivity() {
+class PermissionEditActivity : CoffeeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-//                PermissionLayout() {
-//                    this@PermissionActivity.finish()
-//                }
-                PermissionEditLayout() {
-                    this@PermissionActivity.finish()
-                }
+                PermissionEditLayout(onCloseClick = {
+                    this@PermissionEditActivity.finish()
+                })
             }
         }
     }

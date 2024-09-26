@@ -201,6 +201,11 @@
     <string name="permission_main_title">Account Management</string>
     <string name="permission_main_register_account">Register</string>
     <string name="permission_main_account_manage">Account Manage</string>
+    <string name="permission_main_username_title">UserName</string>
+    <string name="permission_main_password_title">Password</string>
+    <string name="permission_main_remarks_title">Remarks</string>
+    <string name="permission_main_role_title">Role</string>
+    <string name="permission_main_jurisdiction_title">Jurisdiction</string>
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>
     <string name="permission_login_user">login</string>

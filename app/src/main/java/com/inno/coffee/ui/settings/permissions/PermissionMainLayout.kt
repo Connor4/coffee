@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.PERMISSION_ENTRANCE_ACCOUNT_MANAGE
@@ -109,7 +110,7 @@ private fun MenuItem(
 private fun jumpDetail(name: Int, context: Context) {
     when (name) {
         PERMISSION_ENTRANCE_REGISTER -> {
-//            ScreenDisplayManager.autoRoute(context, StatisticActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, PermissionEditActivity::class.java)
         }
         PERMISSION_ENTRANCE_ACCOUNT_MANAGE -> {
 //            ScreenDisplayManager.autoRoute(context, FormulaActivity::class.java)
