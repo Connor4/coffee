@@ -32,16 +32,8 @@ import com.inno.common.db.entity.CleanMachineHistory
 fun CleanMachineHistoryLayout(
     onCloseClick: () -> Unit = {},
 ) {
-    val minimumSize = 15
     val list = mutableListOf<CleanMachineHistory>()
-    if (list.size < minimumSize) {
-        for (i in 0 until (minimumSize - list.size)) {
-            list.add(CleanMachineHistory())
-        }
-//        for (j in 0 until 5) {
-//            list.add(CleanMachineHistory())
-//        }
-    }
+    val placeHolder = CleanMachineHistory()
     val scrollBarWidth = 14
     val scrollTrackHeight = 500
 
@@ -55,12 +47,12 @@ fun CleanMachineHistoryLayout(
             fontSize = 7.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 55.dp)
+            modifier = Modifier.padding(start = 54.dp, top = 115.dp)
         )
         Image(
             painter = painterResource(id = R.drawable.common_back_ic),
             modifier = Modifier
-                .padding(top = 47.dp, end = 50.dp)
+                .padding(top = 107.dp, end = 50.dp)
                 .align(Alignment.TopEnd)
                 .fastclick { onCloseClick() },
             contentDescription = null
@@ -69,7 +61,7 @@ fun CleanMachineHistoryLayout(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = 50.dp, top = 120.dp),
+                .padding(start = 50.dp, top = 170.dp),
             contentAlignment = Alignment.CenterStart,
         ) {
             Text(
@@ -105,11 +97,12 @@ fun CleanMachineHistoryLayout(
         }
 
         Box(
-            modifier = Modifier.padding(top = 152.dp)
+            modifier = Modifier.padding(top = 202.dp)
         ) {
-            VerticalScrollList2(list = list, scrollBarWidth = scrollBarWidth,
-                scrollTrackHeight = scrollTrackHeight, listPaddingStart = 50, listPaddingTop = 14,
-                listPaddingEnd = 95, listItemHeight = 32f) { index, item ->
+            VerticalScrollList2(list = list, placeHolder = placeHolder,
+                scrollBarWidth = scrollBarWidth, scrollTrackHeight = scrollTrackHeight,
+                listPaddingStart = 50, listPaddingTop = 14, listPaddingEnd = 95,
+                listItemHeight = 32f) { index, item ->
                 val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
                 HistoryItem(history = item as CleanMachineHistory, backgroundColor = color)
             }

@@ -40,6 +40,7 @@ import kotlin.math.roundToInt
 fun VerticalScrollList2(
     list: List<Any> = mutableListOf(),
     minimumSize: Int = 15,
+    placeHolder: Any = Any(),
     scrollBarWidth: Int,
     scrollTrackHeight: Int,
     listItemHeight: Float,
@@ -61,7 +62,15 @@ fun VerticalScrollList2(
     var dragOffset by remember {
         mutableFloatStateOf(0f)
     }
-    val scrollBarHeight = (minimumSize.toFloat() / list.size.toFloat()) * scrollTrackHeight
+    val adjustedList = remember {
+        if (list.size < minimumSize) {
+            List(minimumSize - list.size) { placeHolder } + list
+        } else {
+            list
+        }
+    }
+//    val adjustedList = list
+    val scrollBarHeight = (minimumSize.toFloat() / adjustedList.size.toFloat()) * scrollTrackHeight
 
     Box(
         modifier = Modifier
@@ -75,12 +84,12 @@ fun VerticalScrollList2(
                     end = listPaddingEnd.dp, bottom = listPaddingBottom.dp),
             state = lazyListState,
         ) {
-            itemsIndexed(list) { index, item ->
+            itemsIndexed(adjustedList) { index, item ->
                 content(index, item)
             }
         }
 
-        if (list.size > minimumSize) {
+        if (adjustedList.size > minimumSize) {
             Box(
                 modifier = Modifier
                     .wrapContentWidth()
@@ -111,7 +120,7 @@ fun VerticalScrollList2(
                             val itemHeight = DimenUtils.dp2px(context, listItemHeight)
                             val scrollHeight = itemHeight * firstVisibleItemIndex.value +
                                     firstVisibleItemScrollOffset.value
-                            val rate = scrollHeight / (list.size * itemHeight)
+                            val rate = scrollHeight / (adjustedList.size * itemHeight)
                             val offset = scrollTrackHeight * rate
                             IntOffset(0, offset.toInt())
                         }
