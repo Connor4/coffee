@@ -18,7 +18,7 @@ class StatisticHistoryActivity : CoffeeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val index = intent.getStringExtra(KEY_HISTORY) ?: HISTORY_VALUE_PRODUCT
+        val index = intent.extras?.getString(KEY_HISTORY) ?: HISTORY_VALUE_PRODUCT
         Logger.d("index $index")
         setContent {
             CoffeeTheme {

@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings.statistics
 
+import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -144,8 +145,10 @@ fun StatisticLayout(
                         6 -> {
                             ScreenDisplayManager.autoRoute(
                                 context,
-                                StatisticHistoryActivity::class.java, key = KEY_HISTORY,
-                                extra = HISTORY_VALUE_CLEAN,
+                                StatisticHistoryActivity::class.java,
+                                Bundle().apply {
+                                    putString(KEY_HISTORY, HISTORY_VALUE_CLEAN)
+                                }
                             )
                         }
                         7 -> {
