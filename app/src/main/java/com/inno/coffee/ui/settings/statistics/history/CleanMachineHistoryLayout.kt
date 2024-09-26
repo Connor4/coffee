@@ -69,38 +69,38 @@ fun CleanMachineHistoryLayout(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = 78.dp, top = 120.dp),
+                .padding(start = 50.dp, top = 120.dp),
             contentAlignment = Alignment.CenterStart,
         ) {
             Text(
                 text = stringResource(R.string.statistic_product_top_time), color = Color.White,
                 fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 78.dp)
+                modifier = Modifier.padding(start = 29.dp)
             )
             Text(
                 text = stringResource(R.string.statistic_wash_top_start), color = Color.White,
                 fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 263.dp)
+                modifier = Modifier.padding(start = 215.dp)
             )
             Text(
                 text = stringResource(R.string.statistic_wash_top_duration), color = Color.White,
                 fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 457.dp)
+                modifier = Modifier.padding(start = 410.dp)
             )
             Text(
                 text = stringResource(R.string.statistic_wash_top_stop), color = Color.White,
                 fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 587.dp)
+                modifier = Modifier.padding(start = 537.dp)
             )
             Text(
                 text = stringResource(R.string.statistic_wash_top_left), color = Color.White,
                 fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 751.dp)
+                modifier = Modifier.padding(start = 703.dp)
             )
             Text(
                 text = stringResource(R.string.statistic_wash_top_right), color = Color.White,
                 fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 920.dp)
+                modifier = Modifier.padding(start = 877.dp)
             )
         }
 
@@ -108,7 +108,7 @@ fun CleanMachineHistoryLayout(
             modifier = Modifier.padding(top = 152.dp)
         ) {
             VerticalScrollList2(list = list, scrollBarWidth = scrollBarWidth,
-                scrollTrackHeight = scrollTrackHeight, listPaddingStart = 78, listPaddingTop = 14,
+                scrollTrackHeight = scrollTrackHeight, listPaddingStart = 50, listPaddingTop = 14,
                 listPaddingEnd = 95, listItemHeight = 32f) { index, item ->
                 val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
                 HistoryItem(history = item as CleanMachineHistory, backgroundColor = color)
@@ -162,32 +162,32 @@ private fun HistoryItem(
                 Text(
                     text = history.time, color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 78.dp)
+                    modifier = Modifier.padding(start = 29.dp)
                 )
                 Text(
                     text = history.startTime, color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 263.dp)
+                    modifier = Modifier.padding(start = 251.dp)
                 )
                 Text(
                     text = history.duration, color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 457.dp)
+                    modifier = Modifier.padding(start = 410.dp)
                 )
                 Text(
                     text = stop, color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 587.dp)
+                    modifier = Modifier.padding(start = 537.dp)
                 )
                 Text(
                     text = left, color = leftTextColor,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 751.dp)
+                    modifier = Modifier.padding(start = 703.dp)
                 )
                 Text(
                     text = right, color = rightTextColor,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 920.dp)
+                    modifier = Modifier.padding(start = 877.dp)
                 )
             }
             Spacer(modifier = Modifier.height(2.dp))
