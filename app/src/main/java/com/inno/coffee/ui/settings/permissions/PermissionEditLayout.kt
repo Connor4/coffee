@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -85,7 +84,6 @@ fun PermissionEditLayout(
         mutableIntStateOf(INVALID_INT)
     }
     val coroutineScope = rememberCoroutineScope()
-    val lazyListState = rememberLazyListState()
     val scrollState = rememberScrollState()
     var dragOffset by remember {
         mutableFloatStateOf(0f)
@@ -166,6 +164,7 @@ fun PermissionEditLayout(
                     .padding(end = 40.dp)
                     .pointerInput(Unit) {
                         detectVerticalDragGestures { _, dragAmount ->
+                            // 162为列表可滑动距离
                             dragOffset = (dragOffset + dragAmount).coerceIn(0f, 162f)
                             coroutineScope.launch {
                                 scrollState.scrollTo(dragOffset.toInt())
@@ -180,6 +179,7 @@ fun PermissionEditLayout(
                         .width(scrollBarWidth.dp)
                         .height(scrollBarHeight.dp)
                         .offset {
+                            // 650为列表整个高度
                             val offset = scrollTrackHeight * scrollState.value / 650f
                             IntOffset(0, offset.toInt())
                         }
