@@ -80,42 +80,44 @@ fun VerticalScrollList2(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .wrapContentWidth()
-                .height(scrollTrackHeight.dp)
-                .align(Alignment.TopEnd)
-                .padding(end = 40.dp)
-                .pointerInput(Unit) {
-                    detectVerticalDragGestures { _, dragAmount ->
-                        dragOffset += dragAmount
-                        val scrollOffset =
-                            (dragOffset / size.height * lazyListState.layoutInfo
-                                .totalItemsCount).roundToInt()
-                        coroutineScope.launch {
-                            lazyListState.scrollToItem(
-                                scrollOffset.coerceIn(0, lazyListState
-                                    .layoutInfo.totalItemsCount - 1))
-                        }
-                    }
-                }
-                .background(Color(0xFF191A1D), RoundedCornerShape(20.dp))
-        ) {
-
+        if (list.size > minimumSize) {
             Box(
                 modifier = Modifier
-                    .width(scrollBarWidth.dp)
-                    .height(scrollBarHeight.dp)
-                    .offset {
-                        val itemHeight = DimenUtils.dp2px(context, listItemHeight)
-                        val scrollHeight = itemHeight * firstVisibleItemIndex.value +
-                                firstVisibleItemScrollOffset.value
-                        val rate = scrollHeight / (list.size * itemHeight)
-                        val offset = scrollTrackHeight * rate
-                        IntOffset(0, offset.toInt())
+                    .wrapContentWidth()
+                    .height(scrollTrackHeight.dp)
+                    .align(Alignment.TopEnd)
+                    .padding(end = 40.dp)
+                    .pointerInput(Unit) {
+                        detectVerticalDragGestures { _, dragAmount ->
+                            dragOffset += dragAmount
+                            val scrollOffset =
+                                (dragOffset / size.height * lazyListState.layoutInfo
+                                    .totalItemsCount).roundToInt()
+                            coroutineScope.launch {
+                                lazyListState.scrollToItem(
+                                    scrollOffset.coerceIn(0, lazyListState
+                                        .layoutInfo.totalItemsCount - 1))
+                            }
+                        }
                     }
-                    .background(Color(0xFF00DE93), RoundedCornerShape(10.dp))
-            )
+                    .background(Color(0xFF191A1D), RoundedCornerShape(20.dp))
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .width(scrollBarWidth.dp)
+                        .height(scrollBarHeight.dp)
+                        .offset {
+                            val itemHeight = DimenUtils.dp2px(context, listItemHeight)
+                            val scrollHeight = itemHeight * firstVisibleItemIndex.value +
+                                    firstVisibleItemScrollOffset.value
+                            val rate = scrollHeight / (list.size * itemHeight)
+                            val offset = scrollTrackHeight * rate
+                            IntOffset(0, offset.toInt())
+                        }
+                        .background(Color(0xFF00DE93), RoundedCornerShape(10.dp))
+                )
+            }
         }
     }
 }
