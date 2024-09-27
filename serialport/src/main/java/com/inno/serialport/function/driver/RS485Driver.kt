@@ -36,15 +36,15 @@ class RS485Driver : IDriver {
         private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
         // pull info12(flag1 + addr1 + control1 + len2 + cmd2 + data2 + crc2 + flag1)
         private const val MINIMUM_FRAME_PACK_SIZE = 12
-        private const val MAX_COMPONENT: Short = 3
-        // ProductProfile = id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + MAX_COMPONENT * (comid2 + 2*para6)
-        private const val COMMAND_BUFFER_CAPACITY = 8 + 14 * MAX_COMPONENT
-        // 6 = addr1 + control1 + len2 + cmd2
-        private const val CONTENT_BUFFER_CAPACITY = COMMAND_BUFFER_CAPACITY + 6
-        // 8 = addr1 + control1 + len2 + cmd2 + crc2
-        private const val TOTAL_BUFFER_SIZE = COMMAND_BUFFER_CAPACITY + 8
-        // why there is 16?
-        private const val PACK_BUFFER_SIZE = TOTAL_BUFFER_SIZE + 16
+        //        private const val MAX_COMPONENT: Short = 3
+//        // ProductProfile = id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + MAX_COMPONENT * (comid2 + 2*para6)
+//        private const val COMMAND_BUFFER_CAPACITY = 8 + 14 * MAX_COMPONENT
+//        // 6 = addr1 + control1 + len2 + cmd2
+//        private const val CONTENT_BUFFER_CAPACITY = COMMAND_BUFFER_CAPACITY + 6
+//        // 8 = addr1 + control1 + len2 + cmd2 + crc2
+//        private const val TOTAL_BUFFER_SIZE = COMMAND_BUFFER_CAPACITY + 8
+//        // 10 = frame head1 + addr1 + control1 + len2 + cmd2 + crc2 + frame end1
+//        private const val PACK_BUFFER_SIZE = TOTAL_BUFFER_SIZE + 10
         private const val FRAME_FLAG = 0x7E.toByte()
         private const val FRAME_ADDRESS = 0x2.toByte()
         private const val FRAME_CONTROL = 0X1.toByte()
@@ -59,43 +59,65 @@ class RS485Driver : IDriver {
         .flag(FLAGS)
         .build()
     private val lock = ReentrantLock()
-    private val serializeBuffer = ByteBuffer.allocate(COMMAND_BUFFER_CAPACITY)
-    private val contentBuffer = ByteBuffer.allocate(CONTENT_BUFFER_CAPACITY)
-    private val commandBuffer = ByteBuffer.allocate(TOTAL_BUFFER_SIZE)
-    private val packBuffer = ByteBuffer.allocate(PACK_BUFFER_SIZE)
-
-    init {
-        contentBuffer.order(ByteOrder.LITTLE_ENDIAN)
-        commandBuffer.order(ByteOrder.LITTLE_ENDIAN)
-        packBuffer.order(ByteOrder.LITTLE_ENDIAN)
-        serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
-    }
 
     override fun send(command: Short, productProfile: ProductProfile) {
         lock.withLock {
-            val serializeProductInfo = serializeProductInfo(productProfile)
-            contentBuffer.clear()
+            val componentSize = productProfile.componentProfileList.componentList.size
+            // id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + MAX_COMPONENT * (comid2 + 2*para6)
+            val productFileSize = 8 + 14 * componentSize
+            val serializeBuffer = ByteBuffer.allocate(productFileSize)
+            serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
+            serializeBuffer.putShort(productProfile.productId)
+            serializeBuffer.putShort(productProfile.preFlush)
+            serializeBuffer.putShort(productProfile.postFlush)
+            serializeBuffer.putShort(productProfile.componentProfileList.componentNum)
+
+            for (i in 0 until componentSize) {
+                val componentProfile = productProfile.componentProfileList.componentList[i]
+                serializeBuffer.putShort(componentProfile.componentId)
+                for (para in componentProfile.para) {
+                    serializeBuffer.putShort(para)
+                }
+            }
+            serializeBuffer.flip()
+            val serializeProductInfo = ByteArray(serializeBuffer.limit())
+            serializeBuffer.get(serializeProductInfo)
+
+            // 6 = addr1 + control1 + len2 + cmd2
+            val contentSize = productFileSize + 6
+            val contentBuffer = ByteBuffer.allocate(contentSize)
+            contentBuffer.order(ByteOrder.LITTLE_ENDIAN)
             contentBuffer.put(FRAME_ADDRESS)
             contentBuffer.put(FRAME_CONTROL)
             // length
-            contentBuffer.putShort((COMMAND_BUFFER_CAPACITY + 2).toShort())
+            contentBuffer.putShort((contentSize + 2).toShort())
             // cmd
             contentBuffer.putShort(command)
             contentBuffer.put(serializeProductInfo)
             // crc
             val crc = calculateCRC(contentBuffer)
+
+            // 2 = crc2
+            val commandSize = contentSize + 2
+            val commandBuffer = ByteBuffer.allocate(commandSize)
+            commandBuffer.order(ByteOrder.LITTLE_ENDIAN)
             commandBuffer.clear()
             commandBuffer.put(contentBuffer.array())
             commandBuffer.putShort(crc)
+            val escapeData = escapeData(commandBuffer.array())
+            val escapeSize = escapeData.size
 
+            val packSize = escapeSize + 2
+            val packBuffer = ByteBuffer.allocate(packSize)
+            packBuffer.order(ByteOrder.LITTLE_ENDIAN)
             packBuffer.clear()
             packBuffer.put(FRAME_FLAG)
-            val escapeData = escapeData(commandBuffer.array())
             packBuffer.put(escapeData)
             packBuffer.put(FRAME_FLAG)
             packBuffer.flip()
             val packFrame = ByteArray(packBuffer.limit())
             packBuffer.get(packFrame)
+
             SerialPortManager.writeToSerialPort(serialPort, packFrame)
         }
     }
@@ -130,31 +152,6 @@ class RS485Driver : IDriver {
 
     override fun close() {
         SerialPortManager.close(serialPort)
-    }
-
-    private fun serializeProductInfo(productProfile: ProductProfile): ByteArray {
-        serializeBuffer.clear()
-        serializeBuffer.putShort(productProfile.productId)
-        serializeBuffer.putShort(productProfile.preFlush)
-        serializeBuffer.putShort(productProfile.postFlush)
-        serializeBuffer.putShort(productProfile.componentProfileList.componentNum)
-
-        val componentSize = productProfile.componentProfileList.componentList.size
-        for (i in 0 until MAX_COMPONENT) {
-            if (i < componentSize) {
-                val componentProfile = productProfile.componentProfileList.componentList[i]
-                serializeBuffer.putShort(componentProfile.componentId)
-                for (para in componentProfile.para) {
-                    serializeBuffer.putShort(para)
-                }
-            } else {
-                serializeBuffer.putShort(0)
-            }
-        }
-        serializeBuffer.flip()
-        val result = ByteArray(serializeBuffer.limit())
-        serializeBuffer.get(result)
-        return result
     }
 
     private fun calculateCRC(buffer: ByteBuffer): Short {
