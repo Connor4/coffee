@@ -1,6 +1,5 @@
 package com.inno.serialport.function.driver
 
-import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
 import com.inno.serialport.utilities.FRAME_CMD_INDEX_HIGH
 import com.inno.serialport.utilities.FRAME_CMD_INDEX_LOW
@@ -54,17 +53,17 @@ private fun slicePullInfo(buffer: ByteArray): List<ByteArray> {
 private fun validPullInfo(buffer: ByteArray): PullBufInfo? {
     val size = buffer.size
     if (size < MINIMUM_FRAME_PACK_SIZE) {
-        Logger.e(TAG, "frame size error")
+        println("frame size error")
         return PullBufInfo(command = SerialErrorTypeEnum.FRAME_SIZE_ERROR.value)
     }
     if (buffer[FRAME_FLAG_INDEX] != FRAME_FLAG || buffer[size - 1] != FRAME_FLAG) {
-        Logger.e(TAG, "Invalid packet header or footer")
+        println("Invalid packet header or footer")
         return PullBufInfo(command = SerialErrorTypeEnum.FRAME_FORMAT_ILLEGAL.value)
     }
 
     val receivedCRC = ((buffer[size - 2].toUByte().toInt() shl 8) or (buffer[size - 3].toUByte()
         .toInt())).toShort()
-    Logger.lengthy(TAG,
+    println(
         "buffer: ${buffer.toHexString()}, Received CRC: ${receivedCRC.toHexString()}")
 
     // exclude frame flag and crc
@@ -72,12 +71,12 @@ private fun validPullInfo(buffer: ByteArray): PullBufInfo? {
     val payloadBuffer = ByteBuffer.allocate(payload.size)
     payloadBuffer.put(payload)
     payloadBuffer.flip()
-    Logger.lengthy(TAG,
+    println(
         "payload: ${payload.toHexString()}， payloadBuffer: ${payloadBuffer.toHexString()}")
 
     val calculatedCRC = calculateCRC(payloadBuffer)
     if (receivedCRC != calculatedCRC) {
-        Logger.e(TAG, "CRC check failed: received ${receivedCRC.toHexString()}," +
+        println("CRC check failed: received ${receivedCRC.toHexString()}," +
                 " calculated ${calculatedCRC.toHexString()}")
         return PullBufInfo(command = SerialErrorTypeEnum.CRC_CHECK_FAILED.value)
     }
