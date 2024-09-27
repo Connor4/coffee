@@ -51,6 +51,12 @@ class UserRepository @Inject constructor(
         }
     }
 
+    suspend fun getUserByUsername(username: String): User? {
+        return withContext(defaultDispatcher) {
+            userDao.getUserByUserName(username)
+        }
+    }
+
     suspend fun deleteUser(user: User): Boolean {
         return withContext(defaultDispatcher) {
             try {

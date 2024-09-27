@@ -38,6 +38,8 @@ class UserViewModel @Inject constructor(
     val updateResult = _updateResult
     private val _deleteResult = MutableStateFlow(false)
     val deleteResult = _deleteResult
+    private val _modifyUser = MutableStateFlow<User?>(null)
+    val modifyUser: StateFlow<User?> get() = _modifyUser
 
     val userList: StateFlow<List<User>> = repository.getAllUser().stateIn(
         scope = viewModelScope,
@@ -119,6 +121,23 @@ class UserViewModel @Inject constructor(
                 val update = repository.updateUser(it)
                 _updateResult.value = update
             }
+        }
+    }
+
+    fun getUserByUsername(username: String?) {
+        if (username.isNullOrEmpty()) {
+            return
+        }
+        viewModelScope.launch {
+            val fetchedUser = repository.getUserByUsername(username)
+            _modifyUser.value = fetchedUser
+        }
+    }
+
+    fun deleteSelectUser(user: User) {
+        viewModelScope.launch {
+            val deleteUser = repository.deleteUser(user)
+            _deleteResult.value = deleteUser
         }
     }
 

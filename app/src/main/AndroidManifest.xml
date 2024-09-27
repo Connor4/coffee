@@ -46,6 +46,7 @@
             android:theme="@style/TransparentActivityTheme" />
         <activity android:name=".ui.settings.permissions.PermissionActivity" />
         <activity android:name=".ui.settings.permissions.PermissionEditActivity" />
+        <activity android:name=".ui.settings.permissions.PermissionUserListActivity" />
         <activity android:name=".ui.settings.statistics.StatisticActivity" />
         <activity android:name=".ui.settings.statistics.product.StatisticProductActivity" />
         <activity android:name=".ui.settings.statistics.machine.StatisticMachineActivity" />

@@ -79,11 +79,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PermissionEditLayout(
+    modifyUsername: String = "",
     viewModel: UserViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val registerResult by viewModel.registerResult.collectAsState()
+    val modifyUser by viewModel.modifyUser.collectAsState()
     var isKeyboardVisible by remember {
         mutableStateOf(false)
     }
@@ -132,6 +134,16 @@ fun PermissionEditLayout(
             else -> {}
         }
     }
+    LaunchedEffect(Unit) {
+        viewModel.getUserByUsername(modifyUsername)
+    }
+    LaunchedEffect(key1 = modifyUser) {
+        modifyUser?.let {
+            username = it.username
+            roleValue = it.role
+            remarks = it.remark
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -149,7 +161,9 @@ fun PermissionEditLayout(
             )
     ) {
         Text(
-            text = stringResource(id = R.string.permission_main_register_account),
+            text = if (modifyUser == null) stringResource(
+                id = R.string.permission_main_register_account)
+            else stringResource(id = R.string.permission_user_list_operate_modify),
             fontSize = 7.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
@@ -200,7 +214,9 @@ fun PermissionEditLayout(
                         .width(300.dp)
                         .height(50.dp)
                         .align(Alignment.CenterHorizontally),
-                    text = stringResource(id = R.string.permission_main_register_account),
+                    text = if (modifyUser == null) stringResource(
+                        id = R.string.permission_main_register_account)
+                    else stringResource(id = R.string.permission_user_list_operate_modify),
                 ) {
                     viewModel.registerUser(username, password, roleValue, permissionValue, remarks)
                 }

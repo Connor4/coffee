@@ -103,7 +103,8 @@ fun CleanMachineHistoryLayout(
                 scrollBarWidth = scrollBarWidth, scrollTrackHeight = scrollTrackHeight,
                 listPaddingStart = 50, listPaddingTop = 14, listPaddingEnd = 95,
                 listItemHeight = 32f) { index, item ->
-                val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
+
+            val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
                 HistoryItem(history = item as CleanMachineHistory, backgroundColor = color)
             }
         }

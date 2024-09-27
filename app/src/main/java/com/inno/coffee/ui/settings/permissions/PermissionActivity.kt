@@ -16,7 +16,10 @@ class PermissionActivity : CoffeeActivity() {
 //                PermissionLayout() {
 //                    this@PermissionActivity.finish()
 //                }
-                PermissionEditLayout() {
+//                PermissionEditLayout() {
+//                    this@PermissionActivity.finish()
+//                }
+                PermissionUserListLayout() {
                     this@PermissionActivity.finish()
                 }
             }

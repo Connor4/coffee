@@ -32,4 +32,5 @@ const val PERMISSION_EDIT_PASSWORD = 2
 const val PERMISSION_EDIT_REMARKS = 3
 const val PERMISSION_ROLE_MANAGER = 1
 const val PERMISSION_ROLE_EMPLOYEE = 2
+const val PERMISSION_KEY_USERNAME = "permission_key_username"
 

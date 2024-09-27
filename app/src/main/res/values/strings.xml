@@ -208,6 +208,10 @@
     <string name="permission_main_jurisdiction_title">Jurisdiction</string>
     <string name="permission_edit_register_success">Register Success</string>
     <string name="permission_edit_register_failed">Register Failed</string>
+    <string name="permission_user_list_title">User List</string>
+    <string name="permission_user_list_operate_title">Operation</string>
+    <string name="permission_user_list_operate_modify">Modify</string>
+    <string name="permission_user_list_operate_delete">Delete</string>
 
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>
