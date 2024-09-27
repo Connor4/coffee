@@ -129,6 +129,7 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     }
 
     private fun activeSelfClean() {
+        Logger.d(TAG, "activeSelfClean() called")
         selfCleanJob?.cancel()
         selfCleanJob = scope.launch {
             val result = withTimeoutOrNull(selfCleanWaitTime) {
@@ -144,6 +145,7 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     }
 
     private fun updateDialog() {
+        Logger.d(TAG, "updateDialog() called")
         scope.launch {
             _warningExist.value = true
             if (dialogShowing) {
@@ -164,11 +166,13 @@ class GlobalDialogRightManager private constructor(private val application: Appl
         if (dialogShowing || dialogDataList.isEmpty()) {
             return
         }
+        Logger.d(TAG, "showDialog() called")
         dialogShowing = true
         showDialogView()
     }
 
     private fun dismissDialog() {
+        Logger.d(TAG, "dismissDialog() called")
         dialogView?.let {
             windowManager?.removeView(it)
             viewPager2?.adapter = null
@@ -203,7 +207,7 @@ class GlobalDialogRightManager private constructor(private val application: Appl
         @Volatile
         private var INSTANCE: GlobalDialogRightManager? = null
         private var application: Application? = null
-        private const val TAG = "GlobalDialogManager"
+        private const val TAG = "GlobalDialogRightManager"
         private val serialErrorMap = mapOf(
             -1 to R.string.error_serial_read_fail,
             -2 to R.string.error_max_read_retry,
