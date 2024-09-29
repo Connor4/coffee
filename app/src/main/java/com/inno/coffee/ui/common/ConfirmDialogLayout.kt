@@ -64,14 +64,14 @@ fun ConfirmDialogLayout(
             Text(
                 text = title,
                 fontSize = 7.nsp(), color = Color.White, fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 47.dp, top = 37.dp)
+                modifier = Modifier.padding(start = 41.dp, top = 30.dp)
             )
             Image(
                 painter = painterResource(id = R.drawable.home_entrance_close_ic),
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(top = 37.dp, end = 37.dp)
+                    .padding(top = 25.dp, end = 22.dp)
                     .width(40.dp)
                     .height(42.dp)
                     .fastclick { onCloseClick() },
