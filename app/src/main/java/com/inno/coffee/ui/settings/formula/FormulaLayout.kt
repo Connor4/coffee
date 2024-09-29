@@ -318,6 +318,28 @@ fun FormulaLayout(
                         color = Color.White,
                     )
                 }
+                Spacer(modifier = Modifier.width(15.dp))
+                Column(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = "0,0 bar",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "- mm",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "-°C/°F",
+                        fontSize = 4.nsp(),
+                        color = Color.White,
+                    )
+                }
             }
         }
 
