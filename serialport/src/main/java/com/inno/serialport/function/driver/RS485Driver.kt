@@ -48,6 +48,10 @@ class RS485Driver : IDriver {
         private const val FRAME_FLAG = 0x7E.toByte()
         private const val FRAME_ADDRESS = 0x2.toByte()
         private const val FRAME_CONTROL = 0X1.toByte()
+        private const val FD = 0x5D.toByte()
+        private const val FE = 0x5E.toByte()
+        private const val SE = 0X7E.toByte()
+        private const val SD = 0x7D.toByte()
     }
 
     private val serialPort: SerialPort = SerialPort.Builder()
@@ -169,20 +173,53 @@ class RS485Driver : IDriver {
         val buffer = mutableListOf<Byte>()
         for (b in data) {
             when (b) {
-                0x7E.toByte() -> {
-                    buffer.add(0x7D)
-                    buffer.add(0x5E)
+                SE -> {
+                    buffer.add(SD)
+                    buffer.add(FE)
                 }
 
-                0x7D.toByte() -> {
-                    buffer.add(0x7D)
-                    buffer.add(0x5D)
+                SD -> {
+                    buffer.add(SD)
+                    buffer.add(FD)
                 }
 
                 else -> buffer.add(b)
             }
         }
         return buffer.toByteArray()
+    }
+
+    private fun escapeReceivedData(data: ByteArray): ByteArray {
+        val transformedData = mutableListOf<Byte>()
+        var i = 1
+        val end = data.size - 1
+        transformedData.add(data[0])
+
+        while (i < end) {
+            when (data[i]) {
+                SD -> {
+                    if (i + 1 < end) {
+                        when (data[i + 1]) {
+                            FD -> {
+                                transformedData.add(SD)
+                                i++
+                            }
+                            FE -> {
+                                transformedData.add(SE)
+                                i++
+                            }
+                            else -> transformedData.add(data[i])
+                        }
+                    } else {
+                        transformedData.add(data[i])
+                    }
+                }
+                else -> transformedData.add(data[i])
+            }
+            i++
+        }
+        transformedData.add(data[i])
+        return transformedData.toByteArray()
     }
 
     private fun parsePullBuffInfo(buffer: ByteArray): PullBufInfo {
@@ -237,8 +274,9 @@ class RS485Driver : IDriver {
                     start = i
                 } else {
                     val info = buffer.sliceArray(start until i + 1)
-                    multiPullInfo.add(info)
-                    Logger.lengthy(TAG, "slicePullInfo: ${info.toHexString()}")
+                    val escapeReceivedData = escapeReceivedData(info)
+                    multiPullInfo.add(escapeReceivedData)
+                    Logger.lengthy(TAG, "slicePullInfo: ${escapeReceivedData.toHexString()}")
                     start = -1
                 }
             }

@@ -16,10 +16,25 @@ import java.nio.ByteBuffer
 private const val TAG = "RS485DriverTest"
 private const val FRAME_FLAG = 0x7E.toByte()
 private const val MINIMUM_FRAME_PACK_SIZE = 12
+private const val FD = 0x5D.toByte()
+private const val FE = 0x5E.toByte()
+private const val SE = 0X7E.toByte()
+private const val SD = 0x7D.toByte()
 
 fun main() {
+//    testReceivedEscape()
+    testReceivedData()
+}
+
+private fun testReceivedData() {
     var receivedData: PullBufInfo? = null
-    val buffer = ByteArray(128) { 0x00.toByte() }
+    val buffer = byteArrayOf(
+        0x7e.toByte(), 0x02.toByte(), 0x02.toByte(), 0x14.toByte(), 0x00.toByte(), 0x01.toByte(),
+        0x00.toByte(), 0xee.toByte(), 0x03.toByte(), 0x5d.toByte(), 0x00.toByte(), 0x5b.toByte(),
+        0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(),
+        0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(),
+        0x00.toByte(), 0x7d.toByte(), 0x5e.toByte(), 0x0d.toByte(), 0x7e.toByte(),
+    )
 
     val multiInfo = slicePullInfo(buffer)
     if (multiInfo.isEmpty()) {
@@ -29,6 +44,59 @@ fun main() {
         receivedData = validPullInfo(info) ?: parsePullBuffInfo(info)
     }
     println("receivedData $receivedData")
+}
+
+private fun testReceivedEscape() {
+    val buffer = byteArrayOf(
+        0x7e.toByte(), 0x02.toByte(), 0x02.toByte(), 0x14.toByte(), 0x00.toByte(), 0x01.toByte(),
+        0x00.toByte(), 0xee.toByte(), 0x03.toByte(), 0x5d.toByte(), 0x00.toByte(), 0x5b.toByte(),
+        0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(),
+        0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(), 0x00.toByte(),
+        0x00.toByte(), 0x7d.toByte(), 0x5e.toByte(), 0x0d.toByte(), 0x7e.toByte(),
+    )
+    println("buffer ${buffer.toHexString()}  size ${buffer.size}")
+    val escape = escapeReceivedData(buffer)
+    println("new ${escape.toHexString()}")
+    val data = escape.sliceArray(FRAME_DATA_START_INDEX until escape.size - 3)
+    println("data ${data.toHexString()}")
+    val newBuffer = ByteBuffer.allocate(data.size)
+    newBuffer.put(data)
+    newBuffer.flip()
+    val calculateCRC = calculateCRC(newBuffer)
+    println("crc: ${calculateCRC.toHexString()}")
+}
+
+private fun escapeReceivedData(data: ByteArray): ByteArray {
+    val transformedData = mutableListOf<Byte>()
+    var i = 1
+    val end = data.size - 1
+    transformedData.add(data[0])
+
+    while (i < end) {
+        when (data[i]) {
+            SD -> {
+                if (i + 1 < end) {
+                    when (data[i + 1]) {
+                        FD -> {
+                            transformedData.add(SD)
+                            i++
+                        }
+                        FE -> {
+                            transformedData.add(SE)
+                            i++
+                        }
+                        else -> transformedData.add(data[i])
+                    }
+                } else {
+                    transformedData.add(data[i])
+                }
+            }
+            else -> transformedData.add(data[i])
+        }
+        i++
+    }
+    transformedData.add(data[i])
+    return transformedData.toByteArray()
 }
 
 private fun slicePullInfo(buffer: ByteArray): List<ByteArray> {
@@ -41,8 +109,9 @@ private fun slicePullInfo(buffer: ByteArray): List<ByteArray> {
                 start = i
             } else {
                 val info = buffer.sliceArray(start until i + 1)
-                multiPullInfo.add(info)
-                println("slicePullInfo: ${info.toHexString()}")
+                val escapeReceivedData = escapeReceivedData(info)
+                multiPullInfo.add(escapeReceivedData)
+                println("slicePullInfo: ${escapeReceivedData.toHexString()}")
                 start = -1
             }
         }
