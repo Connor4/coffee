@@ -1,8 +1,11 @@
 package com.inno.coffee.ui.home
 
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +19,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,17 +45,15 @@ fun MachineInfoLayout(
     onCloseClick: () -> Unit,
 ) {
     val context = LocalContext.current
-//    val versionName = remember {
-//        try {
-//            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-//            packageInfo.versionName
-//        } catch (e: PackageManager.NameNotFoundException) {
-//            e.printStackTrace()
-//        }
-//    }
-//    val snNumber = Build.getSerial()
-    val versionName = "asdfasdfsaf"
-    val snNumber = "asdfasdfsdf"
+    val versionName = remember {
+        try {
+            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+            packageInfo.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+    }
+    val snNumber = Build.getSerial()
 
     Box(
         modifier = Modifier
@@ -97,13 +99,14 @@ fun MachineInfoLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .padding(top = 109.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .width(515.dp)
-                        .wrapContentHeight()
-                        .align(Alignment.TopCenter)
-                        .padding(top = 109.dp),
+                        .height(160.dp)
+                        .align(Alignment.TopCenter),
+                    verticalArrangement = Arrangement.SpaceAround
                 ) {
                     Row {
                         Text(
