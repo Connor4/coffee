@@ -123,9 +123,6 @@ object ProductProfileManager {
             val json = bufferedReader.use { it.readText() }
             val list: List<Formula> = Json.decodeFromString(json)
             Logger.d(TAG, "readFormulaFromAssets() called with: json $json")
-            list.forEach {
-                Logger.d(TAG, "FORMULA $it")
-            }
             repository.insertFormulaList(list)
         } catch (e: Exception) {
             e.printStackTrace()
