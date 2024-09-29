@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
+import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.common.composeClick
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
@@ -178,6 +179,16 @@ fun StatisticProductLayout(
                             viewModel.getProductCount(it.productId)
                         }
                     }
+                }
+            }
+
+            if (totalCount > 1) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(top = 230.dp),
+                ) {
+                    PageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
                 }
             }
         }

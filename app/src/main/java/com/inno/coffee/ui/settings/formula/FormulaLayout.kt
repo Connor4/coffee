@@ -45,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.ChangeColorButton
+import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.common.VerticalScrollList
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
@@ -161,7 +162,7 @@ fun FormulaLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.TopStart)
-                .padding(top = 480.dp, start = 90.dp)
+                .padding(top = 450.dp, start = 90.dp)
         ) {
             HorizontalPager(
                 modifier = Modifier
@@ -184,6 +185,16 @@ fun FormulaLayout(
                             viewModel.getFormula(it.productId)
                         }
                     }
+                }
+            }
+
+            if (totalCount > 1) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(top = 230.dp),
+                ) {
+                    PageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
                 }
             }
         }
