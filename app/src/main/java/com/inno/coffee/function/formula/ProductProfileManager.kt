@@ -1,6 +1,7 @@
 package com.inno.coffee.function.formula
 
 import android.app.Application
+import android.content.Context
 import com.inno.coffee.di.FormulaRepositoryEntryPoint
 import com.inno.coffee.viewmodel.settings.formula.FormulaRepository
 import com.inno.common.db.entity.Formula
@@ -23,6 +24,9 @@ import com.inno.serialport.utilities.profile.RIGHT_VALVE_RIGHT_BOILER_ID
 import com.inno.serialport.utilities.profile.WATER_INPUT_PUMP_ID
 import com.inno.serialport.utilities.profile.WATER_INPUT_VALVE_ID
 import dagger.hilt.android.EntryPointAccessors
+import kotlinx.serialization.json.Json
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 object ProductProfileManager {
     private const val TAG = "ProductProfileManager"
@@ -110,6 +114,22 @@ object ProductProfileManager {
         val componentProfileList =
             ComponentProfileList(componentList.size.toShort(), componentList)
         return ProductProfile(formula.productId, preFlush, postFlush, componentProfileList)
+    }
+
+    suspend fun readFormulaFromAssets(context: Context) {
+        try {
+            val inputStream = context.assets.open("formula.json")
+            val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+            val json = bufferedReader.use { it.readText() }
+            val list: List<Formula> = Json.decodeFromString(json)
+            Logger.d(TAG, "readFormulaFromAssets() called with: json $json")
+            list.forEach {
+                Logger.d(TAG, "FORMULA $it")
+            }
+            repository.insertFormulaList(list)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

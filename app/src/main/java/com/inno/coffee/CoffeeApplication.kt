@@ -44,6 +44,8 @@ class CoffeeApplication : Application() {
             ProductProfileManager.init(this@CoffeeApplication)
             DefaultSettingManager.init(this@CoffeeApplication)
             StatisticManager.init(this@CoffeeApplication)
+
+            ProductProfileManager.readFormulaFromAssets(this@CoffeeApplication)
         }
     }
 
