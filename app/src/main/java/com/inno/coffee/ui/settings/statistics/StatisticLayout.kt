@@ -89,13 +89,13 @@ fun StatisticLayout(
             fontSize = 6.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 180.dp)
+            modifier = Modifier.padding(start = 54.dp, top = 190.dp)
         )
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = 50.dp, top = 234.dp, end = 50.dp),
+                .padding(start = 50.dp, top = 244.dp, end = 50.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
             maxItemsInEachRow = 4,
@@ -122,13 +122,13 @@ fun StatisticLayout(
             fontSize = 6.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 337.dp)
+            modifier = Modifier.padding(start = 54.dp, top = 347.dp)
         )
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = 50.dp, top = 371.dp, end = 50.dp),
+                .padding(start = 50.dp, top = 401.dp, end = 50.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
             maxItemsInEachRow = 4,
@@ -166,10 +166,10 @@ fun StatisticLayout(
             fontSize = 6.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 587.dp)
+            modifier = Modifier.padding(start = 54.dp, top = 594.dp)
         )
         Item(title = R.string.statistic_main_machine_counter,
-            modifier = Modifier.padding(start = 50.dp, top = 641.dp, end = 50.dp)) {
+            modifier = Modifier.padding(start = 50.dp, top = 648.dp, end = 50.dp)) {
 
         }
     }

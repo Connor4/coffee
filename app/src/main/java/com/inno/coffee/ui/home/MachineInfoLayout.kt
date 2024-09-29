@@ -1,7 +1,5 @@
 package com.inno.coffee.ui.home
 
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,15 +41,17 @@ fun MachineInfoLayout(
     onCloseClick: () -> Unit,
 ) {
     val context = LocalContext.current
-    val versionName = remember {
-        try {
-            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            packageInfo.versionName
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        }
-    }
-    val snNumber = Build.getSerial()
+//    val versionName = remember {
+//        try {
+//            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+//            packageInfo.versionName
+//        } catch (e: PackageManager.NameNotFoundException) {
+//            e.printStackTrace()
+//        }
+//    }
+//    val snNumber = Build.getSerial()
+    val versionName = "asdfasdfsaf"
+    val snNumber = "asdfasdfsdf"
 
     Box(
         modifier = Modifier
@@ -81,69 +81,76 @@ fun MachineInfoLayout(
             Text(
                 text = stringResource(id = R.string.home_machine_info),
                 fontSize = 7.nsp(), color = Color.White, fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 47.dp, top = 37.dp)
+                modifier = Modifier.padding(start = 41.dp, top = 30.dp)
             )
             Image(
                 painter = painterResource(id = R.drawable.home_entrance_close_ic),
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(top = 37.dp, end = 37.dp)
+                    .padding(top = 25.dp, end = 22.dp)
                     .width(40.dp)
                     .height(42.dp)
                     .fastclick { onCloseClick() },
             )
-            Column(
+            Box(
                 modifier = Modifier
-                    .width(515.dp)
+                    .fillMaxWidth()
                     .wrapContentHeight()
-                    .align(Alignment.Center),
             ) {
-                Row {
-                    Text(
-                        text = stringResource(id = R.string.home_entrance_info_sn),
-                        fontSize = 5.nsp(),
-                        color = Color.White,
-                        modifier = Modifier.weight(6f)
-                    )
-                    Text(
-                        text = snNumber, fontSize = 5.nsp(), color = Color(0xFF00AD72),
-                        modifier = Modifier.weight(4f)
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Row {
-                    Text(
-                        text = stringResource(id = R.string.home_entrance_info_version),
-                        fontSize = 5.nsp(), color = Color.White,
-                        modifier = Modifier.weight(6f)
-                    )
-                    Text(
-                        text = "V$versionName", fontSize = 5.nsp(), color = Color(0xFF00AD72),
-                        modifier = Modifier.weight(4f)
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Row {
-                    Text(
-                        text = stringResource(id = R.string.home_entrance_info_service_company),
-                        fontSize = 5.nsp(), color = Color.White, modifier = Modifier.weight(6f)
-                    )
-                    Text(
-                        text = "<INNO Future>", fontSize = 5.nsp(), color = Color(0xFF00AD72),
-                        modifier = Modifier.weight(4f)
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Row {
-                    Text(
-                        text = stringResource(id = R.string.home_entrance_info_machine_id),
-                        fontSize = 5.nsp(), color = Color.White, modifier = Modifier.weight(6f)
-                    )
-                    Text(
-                        text = "255895", fontSize = 5.nsp(), color = Color(0xFF00AD72),
-                        modifier = Modifier.weight(4f)
-                    )
+                Column(
+                    modifier = Modifier
+                        .width(515.dp)
+                        .wrapContentHeight()
+                        .align(Alignment.TopCenter)
+                        .padding(top = 109.dp),
+                ) {
+                    Row {
+                        Text(
+                            text = stringResource(id = R.string.home_entrance_info_sn),
+                            fontSize = 5.nsp(),
+                            color = Color.White,
+                            modifier = Modifier.weight(6f)
+                        )
+                        Text(
+                            text = snNumber, fontSize = 5.nsp(), color = Color(0xFF00AD72),
+                            modifier = Modifier.weight(4f)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Row {
+                        Text(
+                            text = stringResource(id = R.string.home_entrance_info_version),
+                            fontSize = 5.nsp(), color = Color.White,
+                            modifier = Modifier.weight(6f)
+                        )
+                        Text(
+                            text = "V$versionName", fontSize = 5.nsp(), color = Color(0xFF00AD72),
+                            modifier = Modifier.weight(4f)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Row {
+                        Text(
+                            text = stringResource(id = R.string.home_entrance_info_service_company),
+                            fontSize = 5.nsp(), color = Color.White, modifier = Modifier.weight(6f)
+                        )
+                        Text(
+                            text = "<INNO Future>", fontSize = 5.nsp(), color = Color(0xFF00AD72),
+                            modifier = Modifier.weight(4f)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Row {
+                        Text(
+                            text = stringResource(id = R.string.home_entrance_info_machine_id),
+                            fontSize = 5.nsp(), color = Color.White, modifier = Modifier.weight(6f)
+                        )
+                        Text(
+                            text = "255895", fontSize = 5.nsp(), color = Color(0xFF00AD72),
+                            modifier = Modifier.weight(4f)
+                        )
+                    }
                 }
             }
         }
