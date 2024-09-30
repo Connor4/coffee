@@ -6,13 +6,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -28,13 +63,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 210,
-    "coffeeWater": 80,
-    "pressWeight": 20,
-    "preMakeTime": 0,
-    "postPreMakeWaitTime": 0,
-    "secPressWeight": 0,
-    "hotWater": 320,
+    "powderDosage": {
+      "value": 210,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 80,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 320,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -50,13 +120,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 0,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 0,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -72,13 +177,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 210,
-    "coffeeWater": 80,
-    "pressWeight": 20,
-    "preMakeTime": 0,
-    "postPreMakeWaitTime": 0,
-    "secPressWeight": 0,
-    "hotWater": 0,
+    "powderDosage": {
+      "value": 210,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 80,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 0,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -94,13 +234,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -116,13 +291,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -138,13 +348,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -160,13 +405,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -182,13 +462,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -204,13 +519,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -226,13 +576,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -248,13 +633,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,
@@ -270,13 +690,48 @@
     "preFlush": false,
     "postFlush": false,
     "vat": true,
-    "powderDosage": 140,
-    "coffeeWater": 50,
-    "pressWeight": 20,
-    "preMakeTime": 800,
-    "postPreMakeWaitTime": 2000,
-    "secPressWeight": 0,
-    "hotWater": 150,
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
     "waterSequence": 1,
     "coffeeCycles": 0,
     "bypassWater": 0,

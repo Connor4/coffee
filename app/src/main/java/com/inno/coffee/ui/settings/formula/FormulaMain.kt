@@ -39,7 +39,7 @@ import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 import com.inno.common.db.entity.Formula
-import com.inno.common.enums.ProductType
+import com.inno.common.db.entity.FormulaUnitValue
 
 @Composable
 fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hiltViewModel(),
@@ -91,9 +91,33 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
                                 val formula = Formula(
                                     productId = 3, productType = "coffee", productName = "意式",
                                     vat = true,
-                                    coffeeWater = 20, powderDosage = 50, pressWeight = 20,
-                                    preMakeTime = 29, postPreMakeWaitTime = 30, secPressWeight = 40,
-                                    hotWater = 20, waterSequence = 30, coffeeCycles = 1,
+                                    coffeeWater = FormulaUnitValue(20,
+                                        0f,
+                                        100f,
+                                        "[mm]"),
+                                    powderDosage = FormulaUnitValue(50,
+                                        0f,
+                                        1000f,
+                                        "[tick]"), pressWeight = FormulaUnitValue(20,
+                                        0f,
+                                        50f,
+                                        "[kg]"),
+                                    preMakeTime = FormulaUnitValue(800,
+                                        0f,
+                                        1000f,
+                                        "[s]"),
+                                    postPreMakeWaitTime = FormulaUnitValue(2000,
+                                        0f,
+                                        1000f,
+                                        "[s]"),
+                                    secPressWeight = FormulaUnitValue(0,
+                                        0f,
+                                        1000f,
+                                        "[mm]"),
+                                    hotWater = FormulaUnitValue(150,
+                                        0f,
+                                        1000f,
+                                        "[tick]"), waterSequence = 30, coffeeCycles = 1,
                                     bypassWater = 1
                                 )
                                 viewModel.insertFormula(formula)
@@ -287,8 +311,37 @@ private fun ItemList(formula: Formula, modifier: Modifier) {
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
 private fun PreviewFormula() {
-    ItemList(formula = Formula(1, ProductType.COFFEE.value, "意式", false, false,
-        true, 20, 50, 20, 29,
-        30, 40, 20, 30, 1, 1),
-        modifier = Modifier)
+    val formula = Formula(
+        productId = 3, productType = "coffee", productName = "意式",
+        vat = true,
+        coffeeWater = FormulaUnitValue(20,
+            0f,
+            100f,
+            "[mm]"),
+        powderDosage = FormulaUnitValue(50,
+            0f,
+            1000f,
+            "[tick]"), pressWeight = FormulaUnitValue(20,
+            0f,
+            50f,
+            "[kg]"),
+        preMakeTime = FormulaUnitValue(800,
+            0f,
+            1000f,
+            "[s]"),
+        postPreMakeWaitTime = FormulaUnitValue(2000,
+            0f,
+            1000f,
+            "[s]"),
+        secPressWeight = FormulaUnitValue(0,
+            0f,
+            1000f,
+            "[mm]"),
+        hotWater = FormulaUnitValue(150,
+            0f,
+            1000f,
+            "[tick]"), waterSequence = 30, coffeeCycles = 1,
+        bypassWater = 1
+    )
+    ItemList(formula = formula, modifier = Modifier)
 }

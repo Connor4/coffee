@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.FormulaUnitValue
 import com.inno.common.utils.DimenUtils
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -78,75 +79,82 @@ fun VerticalScrollList(
             item {
                 FormulaItem(backgroundColor = singularItemColor,
                     description = R.string.formula_product_type,
-                    valueString = formula.productType) {
+                    value = formula.productType) {
                 }
             }
             item {
                 FormulaItem(backgroundColor = evenItemColor,
-                    description = R.string.formula_product_name, valueString = formula.productName)
+                    description = R.string.formula_product_name, value = formula.productName)
             }
             item {
                 val vat = if (formula.vat) stringResource(id = R.string.formula_font_vat)
                 else stringResource(id = R.string.formula_back_vat)
                 FormulaItem(backgroundColor = singularItemColor,
-                    description = R.string.formula_vat_position, valueString = vat)
+                    description = R.string.formula_vat_position, value = vat)
             }
             item {
-                FormulaItem(backgroundColor = evenItemColor,
+                FormulaItem(
+                    backgroundColor = evenItemColor,
                     description = R.string.formula_water_dosage,
-                    value = formula.coffeeWater.toFloat(),
-                    unit = "[tick]")
+                    value = formula.coffeeWater,
+                )
             }
             item {
-                FormulaItem(backgroundColor = singularItemColor,
+                FormulaItem(
+                    backgroundColor = singularItemColor,
                     description = R.string.formula_powder_dosage,
-                    value = formula.coffeeWater.toFloat(),
-                    unit = "[mm]")
+                    value = formula.coffeeWater,
+                )
             }
             item {
-                FormulaItem(backgroundColor = evenItemColor,
+                FormulaItem(
+                    backgroundColor = evenItemColor,
                     description = R.string.formula_press_weight,
-                    value = formula.pressWeight.toFloat(),
-                    unit = "[kg]")
+                    value = formula.pressWeight,
+                )
             }
             item {
-                FormulaItem(backgroundColor = singularItemColor,
+                FormulaItem(
+                    backgroundColor = singularItemColor,
                     description = R.string.formula_pre_make_time,
-                    value = formula.preMakeTime.toFloat(),
-                    unit = "[s]")
+                    value = formula.preMakeTime,
+                )
             }
             item {
-                FormulaItem(backgroundColor = evenItemColor,
+                FormulaItem(
+                    backgroundColor = evenItemColor,
                     description = R.string.formula_pre_make_wait_time,
-                    value = formula.postPreMakeWaitTime.toFloat(),
-                    unit = "[s]")
+                    value = formula.postPreMakeWaitTime,
+                )
             }
             item {
-                FormulaItem(backgroundColor = singularItemColor,
+                FormulaItem(
+                    backgroundColor = singularItemColor,
                     description = R.string.formula_second_press_weight,
-                    value = formula.secPressWeight.toFloat(),
-                    unit = "[kg]")
+                    value = formula.secPressWeight,
+                )
             }
             item {
-                FormulaItem(backgroundColor = evenItemColor,
+                FormulaItem(
+                    backgroundColor = evenItemColor,
                     description = R.string.formula_hot_water_dosage,
-                    value = formula.hotWater.toFloat(),
-                    unit = "[tick]")
+                    value = formula.hotWater,
+                )
             }
             item {
                 FormulaItem(backgroundColor = singularItemColor,
                     description = R.string.formula_americano_seq,
-                    valueString = "${formula.waterSequence}")
+                    value = "${formula.waterSequence}")
             }
             item {
                 FormulaItem(backgroundColor = evenItemColor,
                     description = R.string.formula_coffee_cycles,
-                    valueString = "${formula.coffeeCycles}")
+                    value = "${formula.coffeeCycles}")
             }
             item {
                 FormulaItem(backgroundColor = singularItemColor,
                     description = R.string.formula_bypass_dosage,
-                    valueString = "${formula.bypassWater}")
+                    value = "${formula.bypassWater}")
             }
         }
 
@@ -187,11 +195,9 @@ fun VerticalScrollList(
 @Composable
 private fun FormulaItem(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Color(0xFF191A1D),
+    backgroundColor: Color,
     @StringRes description: Int,
-    valueString: String = "",
-    value: Float = 0f,
-    unit: String = "",
+    value: Any,
     onClick: () -> Unit = {},
 ) {
     var isPressed by remember {
@@ -232,11 +238,16 @@ private fun FormulaItem(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(start = 19.dp)
             )
-            if (valueString.isNotEmpty()) {
+            if (value is FormulaUnitValue) {
                 Text(
-                    text = valueString, fontSize = 5.nsp(), color = textColor,
+                    text = "${value.value}", fontSize = 5.nsp(), color = textColor,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 255.dp)
+                )
+                Text(
+                    text = value.unit, fontSize = 5.nsp(), color = textColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 385.dp)
                 )
             } else {
                 Text(
@@ -244,13 +255,6 @@ private fun FormulaItem(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 255.dp)
                 )
-                if (unit.isNotEmpty()) {
-                    Text(
-                        text = unit, fontSize = 5.nsp(), color = textColor,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(start = 385.dp)
-                    )
-                }
             }
         }
         Spacer(modifier = Modifier.height(2.dp))
@@ -263,9 +267,33 @@ private fun PreviewVerticalScrollList() {
     val formula = Formula(
         productId = 3, productType = "coffee", productName = "意式",
         vat = true,
-        coffeeWater = 20, powderDosage = 50, pressWeight = 20,
-        preMakeTime = 29, postPreMakeWaitTime = 30, secPressWeight = 40,
-        hotWater = 20, waterSequence = 30, coffeeCycles = 1,
+        coffeeWater = FormulaUnitValue(20,
+            0f,
+            100f,
+            "[mm]"),
+        powderDosage = FormulaUnitValue(50,
+            0f,
+            1000f,
+            "[tick]"), pressWeight = FormulaUnitValue(20,
+            0f,
+            50f,
+            "[kg]"),
+        preMakeTime = FormulaUnitValue(800,
+            0f,
+            1000f,
+            "[s]"),
+        postPreMakeWaitTime = FormulaUnitValue(2000,
+            0f,
+            1000f,
+            "[s]"),
+        secPressWeight = FormulaUnitValue(0,
+            0f,
+            1000f,
+            "[mm]"),
+        hotWater = FormulaUnitValue(150,
+            0f,
+            1000f,
+            "[tick]"), waterSequence = 30, coffeeCycles = 1,
         bypassWater = 1
     )
     VerticalScrollList(formula = formula)

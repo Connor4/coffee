@@ -13,15 +13,15 @@ data class Formula(
     var preFlush: Boolean = false,
     var postFlush: Boolean = false,
     var vat: Boolean,
-    var coffeeWater: Short, // Boiler
-    var powderDosage: Short, // Grinder
-    var pressWeight: Short, // Brewer
-    var preMakeTime: Short, // Brewer
-    var postPreMakeWaitTime: Short, // Brewer
-    var secPressWeight: Short, // Brewer
-    var hotWater: Short = -1, // Boiler
+    var coffeeWater: FormulaUnitValue, // Boiler
+    var powderDosage: FormulaUnitValue, // Grinder
+    var pressWeight: FormulaUnitValue, // Brewer
+    var preMakeTime: FormulaUnitValue, // Brewer
+    var postPreMakeWaitTime: FormulaUnitValue, // Brewer
+    var secPressWeight: FormulaUnitValue, // Brewer
+    var hotWater: FormulaUnitValue, // Boiler
     var waterSequence: Short = -1, // Boiler
-    var coffeeCycles: Short, // i don't know what it's
+    var coffeeCycles: Short = -1, // i don't know what it's
     var bypassWater: Short = -1, // Boiler
     //================to be determined, but i hava to have it==================
     var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
@@ -35,3 +35,11 @@ data class Formula(
     @PrimaryKey(autoGenerate = true) val id: Short = 0
 )
 // 美式没有bypassWater，只有hotWater+americanoSequence。
+
+@Serializable
+data class FormulaUnitValue(
+    var value: Short,
+    var rangeStart: Float,
+    var rangeEnd: Float,
+    var unit: String,
+)
