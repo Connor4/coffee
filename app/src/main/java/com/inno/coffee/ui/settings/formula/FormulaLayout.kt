@@ -46,11 +46,13 @@ import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.PageIndicator
+import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
+import com.inno.common.db.entity.FormulaUnitValue
 
 private const val PAGE_COUNT = 10
 
@@ -205,7 +207,7 @@ fun FormulaLayout(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.TopEnd)
-                .padding(top = 192.dp, end = 90.dp)
+                .padding(top = 172.dp, end = 90.dp)
         ) {
             Row {
                 ChangeColorButton(
@@ -225,6 +227,16 @@ fun FormulaLayout(
                 )
             }
         }
+
+        UnitValueScrollBar(
+            modifier = Modifier
+                .wrapContentSize()
+                .align(Alignment.TopEnd)
+                .padding(top = 250.dp, end = 90.dp),
+            unitValue = FormulaUnitValue(50, 0f, 1000f, "[tick]")) {
+
+        }
+
         Box(
             modifier = Modifier
                 .wrapContentSize()
