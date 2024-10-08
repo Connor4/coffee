@@ -10,6 +10,7 @@ class CoffeeSharedPreferences private constructor(context: Context) {
     companion object {
         private const val PREFS_NAME = "coffee_prefs"
         private const val KEY_FIRST_INSTALL = "first_install"
+        private const val KEY_LOAD_FORMULA = "load_formula"
 
         @Volatile
         private var instance: CoffeeSharedPreferences? = null
@@ -41,5 +42,8 @@ class CoffeeSharedPreferences private constructor(context: Context) {
         get() = mSharedPreferences.getBoolean(KEY_FIRST_INSTALL, true)
         set(value) = mSharedPreferences.edit().putBoolean(KEY_FIRST_INSTALL, value).apply()
 
+    var loadFormula: Boolean
+        get() = mSharedPreferences.getBoolean(KEY_LOAD_FORMULA, false)
+        set(value) = mSharedPreferences.edit().putBoolean(KEY_LOAD_FORMULA, value).apply()
 
 }

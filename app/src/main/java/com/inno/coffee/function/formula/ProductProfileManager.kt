@@ -5,6 +5,7 @@ import android.content.Context
 import com.inno.coffee.di.FormulaRepositoryEntryPoint
 import com.inno.coffee.viewmodel.settings.formula.FormulaRepository
 import com.inno.common.db.entity.Formula
+import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
 import com.inno.serialport.utilities.profile.BACK_GRINDER_ID
 import com.inno.serialport.utilities.profile.ComponentProfile
@@ -118,6 +119,9 @@ object ProductProfileManager {
     }
 
     suspend fun readFormulaFromAssets(context: Context) {
+        if (CoffeeSharedPreferences.getInstance().loadFormula) {
+            return
+        }
         try {
             val inputStream = context.assets.open("formula.json")
             val bufferedReader = BufferedReader(InputStreamReader(inputStream))
@@ -125,6 +129,7 @@ object ProductProfileManager {
             val list: List<Formula> = Json.decodeFromString(json)
             Logger.d(TAG, "readFormulaFromAssets() called with: json $json")
             repository.insertFormulaList(list)
+            CoffeeSharedPreferences.getInstance().loadFormula = true
         } catch (e: Exception) {
             e.printStackTrace()
         }
