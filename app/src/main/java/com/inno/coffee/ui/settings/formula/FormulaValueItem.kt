@@ -34,7 +34,6 @@ import kotlin.reflect.KProperty1
 
 @Composable
 fun FormulaValueItem(
-    placeHolder: Any,
     keys: List<Int>,
     selectFormula: Formula?,
     formulaProperties: Collection<KProperty1<Formula, *>>,
@@ -71,7 +70,7 @@ fun FormulaValueItem(
                     }
                 }
                 VerticalScrollList2(list = valueList, minimumSize = 9,
-                    placeHolder = placeHolder, scrollBarWidth = 14,
+                    placeHolder = "", scrollBarWidth = 14,
                     scrollTrackHeight = 300, listPaddingEnd = 48,
                     scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
 
