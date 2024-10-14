@@ -161,4 +161,5 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.coil.compose)
     debugImplementation(libs.square.leakcanary)
+    implementation(libs.kotlin.reflect)
 }

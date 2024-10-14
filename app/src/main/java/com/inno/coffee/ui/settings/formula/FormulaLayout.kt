@@ -1,9 +1,11 @@
 package com.inno.coffee.ui.settings.formula
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -27,18 +30,20 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,12 +52,14 @@ import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.common.UnitValueScrollBar
-import com.inno.coffee.ui.common.VerticalScrollList
+import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
+import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaUnitValue
+import kotlin.reflect.full.memberProperties
 
 private const val PAGE_COUNT = 10
 
@@ -69,6 +76,34 @@ fun FormulaLayout(
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val selectTimes = rememberSaveable { mutableIntStateOf(1) }
+    val placeHolder = Formula(
+        productId = -1, productType = "", productName = "", vat = false,
+        coffeeWater = FormulaUnitValue(0, 0f, 0f, ""),
+        powderDosage = FormulaUnitValue(0, 0f, 0f, ""),
+        pressWeight = FormulaUnitValue(0, 0f, 0f, ""),
+        preMakeTime = FormulaUnitValue(0, 0f, 0f, ""),
+        postPreMakeWaitTime = FormulaUnitValue(0, 0f, 0f, ""),
+        secPressWeight = FormulaUnitValue(0, 0f, 0f, ""),
+        hotWater = FormulaUnitValue(0, 0f, 0f, ""),
+    )
+    val scrollBarWidth = 14
+    val scrollTrackHeight = 300
+
+    val keys = listOf(
+        R.string.formula_product_type,
+        R.string.formula_product_name,
+        R.string.formula_water_dosage,
+        R.string.formula_powder_dosage,
+        R.string.formula_press_weight,
+        R.string.formula_pre_make_time,
+        R.string.formula_pre_make_wait_time,
+        R.string.formula_second_press_weight,
+        R.string.formula_hot_water_dosage,
+        R.string.formula_americano_seq,
+        R.string.formula_coffee_cycles,
+        R.string.formula_bypass_dosage,
+    )
+    val formulaProperties = Formula::class.memberProperties
 
     LaunchedEffect(Unit) {
         if (drinksTypeList.isNotEmpty()) {
@@ -243,7 +278,29 @@ fun FormulaLayout(
                 .align(Alignment.TopEnd)
                 .padding(top = 331.dp, end = 38.dp)
         ) {
-            VerticalScrollList(formula = selectFormula)
+            Box(
+                modifier = Modifier
+                    .width(543.dp)
+                    .height(293.dp),
+            ) {
+                val valueList = mutableListOf<Any>()
+                selectFormula?.let { formula ->
+                    keys.forEachIndexed { index, i ->
+                        val property = formulaProperties.elementAt(index).get(formula)
+                        valueList.add(property ?: "")
+                    }
+                }
+                VerticalScrollList2(list = valueList, minimumSize = 9,
+                    placeHolder = placeHolder, scrollBarWidth = scrollBarWidth,
+                    scrollTrackHeight = scrollTrackHeight, listPaddingEnd = 48,
+                    scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
+
+                    val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
+                    FormulaItem(backgroundColor = color, description = keys[index], value = item) {
+
+                    }
+                }
+            }
         }
         //=============================values=========================================
         Box(
@@ -431,7 +488,76 @@ private fun FormulaDrinkItem(
     }
 }
 
-@Preview(device = Devices.TABLET)
+
+@Composable
+private fun FormulaItem(
+    backgroundColor: Color,
+    @StringRes description: Int,
+    value: Any,
+    onClick: () -> Unit = {},
+) {
+    var isPressed by remember {
+        mutableStateOf(false)
+    }
+    val bgColor: Color?
+    val textColor: Color?
+    if (isPressed) {
+        bgColor = Color(0xFF00DE93)
+        textColor = Color.Black
+    } else {
+        bgColor = backgroundColor
+        textColor = Color.White
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(32.dp),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .background(color = bgColor)
+                .pointerInput(Unit) {
+                    detectTapGestures(onPress = {
+                        isPressed = true
+                        tryAwaitRelease()
+                        isPressed = false
+                        onClick()
+                    })
+                },
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Text(
+                text = stringResource(id = description), fontSize = 5.nsp(), color = textColor,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 19.dp)
+            )
+            if (value is FormulaUnitValue) {
+                Text(
+                    text = "${value.value}", fontSize = 5.nsp(), color = textColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 255.dp)
+                )
+                Text(
+                    text = value.unit, fontSize = 5.nsp(), color = textColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 385.dp)
+                )
+            } else {
+                Text(
+                    text = "$value", fontSize = 5.nsp(), color = textColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 255.dp)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(2.dp))
+    }
+}
+
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewFormula() {
     FormulaLayout()

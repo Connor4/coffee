@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -43,6 +42,7 @@ fun VerticalScrollList2(
     placeHolder: Any = Any(),
     scrollBarWidth: Int,
     scrollTrackHeight: Int,
+    scrollBarPaddingEnd: Int = 40,
     listItemHeight: Float,
     listPaddingStart: Int = 0,
     listPaddingTop: Int = 0,
@@ -92,7 +92,7 @@ fun VerticalScrollList2(
                     .wrapContentWidth()
                     .height(scrollTrackHeight.dp)
                     .align(Alignment.TopEnd)
-                    .padding(end = 40.dp)
+                    .padding(end = scrollBarPaddingEnd.dp)
                     .pointerInput(Unit) {
                         detectVerticalDragGestures { _, dragAmount ->
                             dragOffset += dragAmount
@@ -128,7 +128,7 @@ fun VerticalScrollList2(
     }
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewVerticalScrollList() {
     val list = mutableListOf<CleanMachineHistory>()

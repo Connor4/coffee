@@ -31,7 +31,6 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.theme.mainColor
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.FormulaUnitValue
-import com.inno.common.utils.Logger
 
 
 @Composable
@@ -69,8 +68,6 @@ fun UnitValueScrollBar(
             val newValue = (currentValue - 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
             currentValue = newValue
             progress = currentValue / unitValue.rangeEnd
-            Logger.d(
-                "new $newValue, progress $progress")
         }
         Spacer(modifier = Modifier.width(20.dp))
         Column(
@@ -90,8 +87,6 @@ fun UnitValueScrollBar(
                             currentValue = Math.round(unitValue.rangeEnd * newProgress) * 10 / 10f
                             progress = newProgress
                             onValueChange(progress)
-                            Logger.d(
-                                "new $newProgress, current $currentValue")
                         }
                     },
                 contentAlignment = Alignment.CenterStart
@@ -124,8 +119,6 @@ fun UnitValueScrollBar(
             val newValue = (currentValue + 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
             currentValue = newValue
             progress = currentValue / unitValue.rangeEnd
-            Logger.d(
-                "new $newValue, progress $progress")
         }
     }
 }
