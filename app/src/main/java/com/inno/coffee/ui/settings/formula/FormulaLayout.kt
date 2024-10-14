@@ -100,7 +100,7 @@ fun FormulaLayout(
             viewModel.getFormula(it.productId)
         }
         FormulaValuesDisplay()
-        FormulaValueItem(placeHolder, keys, selectFormula, formulaProperties)
+        FormulaValueItem("", keys, selectFormula, formulaProperties)
         Box(
             modifier = Modifier
                 .wrapContentSize()
