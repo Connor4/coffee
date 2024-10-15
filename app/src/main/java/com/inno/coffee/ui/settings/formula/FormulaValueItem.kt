@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -76,18 +78,25 @@ fun FormulaValueItem(
         mutableStateOf<Any?>(null)
     }
 
+    LaunchedEffect(selectFormula) {
+        selectedIndex.value = -1
+        selectedValue.value = null
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         selectFormula?.let {
-            when (selectedValue.value) {
+            when (val value = selectedValue.value) {
                 is FormulaUnitValue -> {
-                    UnitValueScrollBar(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .align(Alignment.TopEnd)
-                            .padding(top = 250.dp, end = 90.dp),
-                        unitValue = selectedValue.value as FormulaUnitValue) {
+                    key(value) {
+                        UnitValueScrollBar(
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .align(Alignment.TopEnd)
+                                .padding(top = 250.dp, end = 90.dp),
+                            unitValue = selectedValue.value as FormulaUnitValue) {
+                        }
                     }
                 }
                 is FormulaProductType -> {
