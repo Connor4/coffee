@@ -36,7 +36,7 @@ import com.inno.common.db.entity.FormulaUnitValue
 fun UnitValueScrollBar(
     modifier: Modifier = Modifier,
     unitValue: FormulaUnitValue,
-    onValueChange: (value: Float) -> Unit,
+    onValueChange: (newValue: FormulaUnitValue) -> Unit,
 ) {
     val progressBarWidth = 230.dp
     val progressBarHeight = 30.dp
@@ -67,6 +67,8 @@ fun UnitValueScrollBar(
             val newValue = (currentValue - 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
             currentValue = newValue
             progress = currentValue / unitValue.rangeEnd
+            unitValue.value = currentValue.toInt().toShort()
+            onValueChange(unitValue)
         }
         Spacer(modifier = Modifier.width(20.dp))
         Column(
@@ -85,7 +87,10 @@ fun UnitValueScrollBar(
                                 .toPx()).coerceIn(0f, 1f)
                             currentValue = Math.round(unitValue.rangeEnd * newProgress) * 10 / 10f
                             progress = newProgress
-                            onValueChange(progress)
+                            unitValue.value = currentValue
+                                .toInt()
+                                .toShort()
+                            onValueChange(unitValue)
                         }
                     },
                 contentAlignment = Alignment.CenterStart
@@ -118,6 +123,8 @@ fun UnitValueScrollBar(
             val newValue = (currentValue + 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
             currentValue = newValue
             progress = currentValue / unitValue.rangeEnd
+            unitValue.value = currentValue.toInt().toShort()
+            onValueChange(unitValue)
         }
     }
 }

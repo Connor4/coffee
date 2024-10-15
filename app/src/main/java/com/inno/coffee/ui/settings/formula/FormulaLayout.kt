@@ -71,7 +71,11 @@ fun FormulaLayout(
             viewModel.getFormula(it.productId)
         }
         FormulaValuesDisplay()
-        FormulaValueItem(selectFormula)
+        FormulaValueItem(selectFormula) {
+            selectFormula?.let {
+                viewModel.updateFormula(it)
+            }
+        }
         Box(
             modifier = Modifier
                 .wrapContentSize()

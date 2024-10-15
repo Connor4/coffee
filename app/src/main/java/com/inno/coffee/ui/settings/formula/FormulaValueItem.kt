@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +35,8 @@ import com.inno.common.db.entity.FormulaProductName
 import com.inno.common.db.entity.FormulaProductType
 import com.inno.common.db.entity.FormulaUnitValue
 import com.inno.common.db.entity.FormulaVatPosition
+import kotlin.reflect.KMutableProperty1
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
 private val formulaPropertyNames = listOf(
@@ -70,24 +74,29 @@ private val formulaProperties = Formula::class.memberProperties
 @Composable
 fun FormulaValueItem(
     selectFormula: Formula?,
+    onValueChange: () -> Unit,
 ) {
-    val selectedIndex = remember {
+    var selectedIndex by remember {
         mutableStateOf(-1)
     }
-    val selectedValue = remember {
+    var selectedValue by remember {
         mutableStateOf<Any?>(null)
+    }
+    var selectedName by remember {
+        mutableStateOf("")
     }
 
     LaunchedEffect(selectFormula) {
-        selectedIndex.value = -1
-        selectedValue.value = null
+        selectedIndex = -1
+        selectedValue = null
+        selectedName = ""
     }
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         selectFormula?.let {
-            when (val value = selectedValue.value) {
+            when (val value = selectedValue) {
                 is FormulaUnitValue -> {
                     key(value) {
                         UnitValueScrollBar(
@@ -95,7 +104,12 @@ fun FormulaValueItem(
                                 .wrapContentSize()
                                 .align(Alignment.TopEnd)
                                 .padding(top = 250.dp, end = 90.dp),
-                            unitValue = selectedValue.value as FormulaUnitValue) {
+                            unitValue = value) { changeValue ->
+                            val property = formulaProperties.find {
+                                it.name == selectedName
+                            }
+                            updateFormulaValue(selectFormula, property, changeValue)
+                            onValueChange()
                         }
                     }
                 }
@@ -136,10 +150,11 @@ fun FormulaValueItem(
                         val label = stringResource(labelResId)
 
                         FormulaItem(backgroundColor = color,
-                            selected = selectedIndex.value == index,
+                            selected = selectedIndex == index,
                             description = label, value = propertyValue) {
-                            selectedIndex.value = index
-                            selectedValue.value = propertyValue
+                            selectedIndex = index
+                            selectedValue = propertyValue
+                            selectedName = item.toString()
                         }
                     }
                 }
@@ -223,5 +238,17 @@ private fun FormulaItem(
             )
         }
         Spacer(modifier = Modifier.height(2.dp))
+    }
+}
+
+private fun <T : Any, V> updateFormulaValue(
+    formula: T,
+    property: KProperty1<T, V>?,
+    newValue: V
+) {
+    if (property is KMutableProperty1<T, V>) {
+        property.set(formula, newValue)  // Update the property value
+    } else {
+        println("The property is not mutable!")
     }
 }
