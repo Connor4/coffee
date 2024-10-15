@@ -242,6 +242,8 @@
     <string name="formula_second_press_weight">二次压粉重量</string>
     <string name="formula_hot_water_dosage">热水用量</string>
     <string name="formula_americano_seq">美式咖啡出料顺序</string>
+    <string name="formula_americano_seq_c_w">先咖啡后水</string>
+    <string name="formula_americano_seq_w_c">先水后咖啡</string>
     <string name="formula_coffee_cycles">Coffee Cycles</string>
     <string name="formula_bypass_dosage">旁路水路出水量</string>
     <string name="formula_font_vat">前方</string>

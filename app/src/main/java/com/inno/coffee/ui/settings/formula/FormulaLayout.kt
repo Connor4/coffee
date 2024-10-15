@@ -30,9 +30,6 @@ import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
-import com.inno.common.db.entity.Formula
-import com.inno.common.db.entity.FormulaUnitValue
-import kotlin.reflect.full.memberProperties
 
 private const val PAGE_COUNT = 10
 
@@ -49,31 +46,6 @@ fun FormulaLayout(
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val selectTimes = rememberSaveable { mutableIntStateOf(1) }
-    val placeHolder = Formula(
-        productId = -1, productType = "", productName = "", vat = false,
-        coffeeWater = FormulaUnitValue(0, 0f, 0f, ""),
-        powderDosage = FormulaUnitValue(0, 0f, 0f, ""),
-        pressWeight = FormulaUnitValue(0, 0f, 0f, ""),
-        preMakeTime = FormulaUnitValue(0, 0f, 0f, ""),
-        postPreMakeWaitTime = FormulaUnitValue(0, 0f, 0f, ""),
-        secPressWeight = FormulaUnitValue(0, 0f, 0f, ""),
-        hotWater = FormulaUnitValue(0, 0f, 0f, ""),
-    )
-    val keys = listOf(
-        R.string.formula_product_type,
-        R.string.formula_product_name,
-        R.string.formula_water_dosage,
-        R.string.formula_powder_dosage,
-        R.string.formula_press_weight,
-        R.string.formula_pre_make_time,
-        R.string.formula_pre_make_wait_time,
-        R.string.formula_second_press_weight,
-        R.string.formula_hot_water_dosage,
-        R.string.formula_americano_seq,
-        R.string.formula_coffee_cycles,
-        R.string.formula_bypass_dosage,
-    )
-    val formulaProperties = Formula::class.memberProperties
 
     LaunchedEffect(Unit) {
         if (drinksTypeList.isNotEmpty()) {
@@ -88,7 +60,6 @@ fun FormulaLayout(
             .fillMaxSize()
             .background(Color(0xED000000))
     ) {
-        // ==============================left========================================
         FunctionHeader(text = stringResource(id = R.string.formula_title)) {
             onCloseClick()
         }
@@ -100,7 +71,7 @@ fun FormulaLayout(
             viewModel.getFormula(it.productId)
         }
         FormulaValuesDisplay()
-        FormulaValueItem("", keys, selectFormula, formulaProperties)
+        FormulaValueItem(selectFormula)
         Box(
             modifier = Modifier
                 .wrapContentSize()

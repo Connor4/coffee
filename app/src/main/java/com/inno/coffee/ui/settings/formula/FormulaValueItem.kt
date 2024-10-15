@@ -1,8 +1,6 @@
 package com.inno.coffee.ui.settings.formula
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,41 +12,93 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.inno.coffee.R
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.FormulaAmericanoSeq
+import com.inno.common.db.entity.FormulaProductName
+import com.inno.common.db.entity.FormulaProductType
 import com.inno.common.db.entity.FormulaUnitValue
-import kotlin.reflect.KProperty1
+import com.inno.common.db.entity.FormulaVatPosition
+import kotlin.reflect.full.memberProperties
+
+private val formulaPropertyNames = listOf(
+    "productType",
+    "productName",
+    "vat",
+    "coffeeWater",
+    "powderDosage",
+    "pressWeight",
+    "preMakeTime",
+    "postPreMakeWaitTime",
+    "secPressWeight",
+    "hotWater",
+    "waterSequence",
+    "coffeeCycles",
+    "bypassWater",
+)
+private val formulaStringKeys = mapOf(
+    "productType" to R.string.formula_product_type,
+    "productName" to R.string.formula_product_name,
+    "vat" to R.string.formula_vat_position,
+    "coffeeWater" to R.string.formula_water_dosage,
+    "powderDosage" to R.string.formula_powder_dosage,
+    "pressWeight" to R.string.formula_press_weight,
+    "preMakeTime" to R.string.formula_pre_make_time,
+    "postPreMakeWaitTime" to R.string.formula_pre_make_wait_time,
+    "secPressWeight" to R.string.formula_second_press_weight,
+    "hotWater" to R.string.formula_hot_water_dosage,
+    "waterSequence" to R.string.formula_americano_seq,
+    "coffeeCycles" to R.string.formula_coffee_cycles,
+    "bypassWater" to R.string.formula_bypass_dosage,
+)
+private val formulaProperties = Formula::class.memberProperties
 
 @Composable
 fun FormulaValueItem(
-    keys: List<Int>,
     selectFormula: Formula?,
-    formulaProperties: Collection<KProperty1<Formula, *>>,
 ) {
+    val selectedIndex = remember {
+        mutableStateOf(-1)
+    }
+    val selectedValue = remember {
+        mutableStateOf<Any?>(null)
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        UnitValueScrollBar(
-            modifier = Modifier
-                .wrapContentSize()
-                .align(Alignment.TopEnd)
-                .padding(top = 250.dp, end = 90.dp),
-            unitValue = FormulaUnitValue(50, 0f, 1000f, "[tick]")) {
-
+        selectFormula?.let {
+            when (selectedValue.value) {
+                is FormulaUnitValue -> {
+                    UnitValueScrollBar(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .align(Alignment.TopEnd)
+                            .padding(top = 250.dp, end = 90.dp),
+                        unitValue = selectedValue.value as FormulaUnitValue) {
+                    }
+                }
+                is FormulaProductType -> {
+                }
+                is FormulaProductName -> {
+                }
+                is FormulaVatPosition -> {
+                }
+                is FormulaAmericanoSeq -> {
+                }
+            }
         }
 
         Box(
@@ -62,21 +112,26 @@ fun FormulaValueItem(
                     .width(543.dp)
                     .height(293.dp),
             ) {
-                val valueList = mutableListOf<Any>()
-                selectFormula?.let { formula ->
-                    keys.forEachIndexed { index, _ ->
-                        val property = formulaProperties.elementAt(index).get(formula)
-                        valueList.add(property ?: "")
-                    }
-                }
-                VerticalScrollList2(list = valueList, minimumSize = 9,
-                    placeHolder = "", scrollBarWidth = 14,
-                    scrollTrackHeight = 300, listPaddingEnd = 48,
+                VerticalScrollList2(list = formulaPropertyNames, minimumSize = 9, placeHolder = "",
+                    scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
                     scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
 
-                    val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
-                    FormulaItem(backgroundColor = color, description = keys[index], value = item) {
+                    selectFormula?.let { formula ->
+                        val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
+                        val property = formulaProperties.find {
+                            it.name == item
+                        }
+                        val propertyValue = property?.get(formula) ?: ""
 
+                        val labelResId = formulaStringKeys[item] ?: -1
+                        val label = stringResource(labelResId)
+
+                        FormulaItem(backgroundColor = color,
+                            selected = selectedIndex.value == index,
+                            description = label, value = propertyValue) {
+                            selectedIndex.value = index
+                            selectedValue.value = propertyValue
+                        }
                     }
                 }
             }
@@ -88,16 +143,14 @@ fun FormulaValueItem(
 @Composable
 private fun FormulaItem(
     backgroundColor: Color,
-    @StringRes description: Int,
+    selected: Boolean,
+    description: String,
     value: Any,
     onClick: () -> Unit = {},
 ) {
-    var isPressed by remember {
-        mutableStateOf(false)
-    }
     val bgColor: Color?
     val textColor: Color?
-    if (isPressed) {
+    if (selected) {
         bgColor = Color(0xFF00DE93)
         textColor = Color.Black
     } else {
@@ -115,39 +168,50 @@ private fun FormulaItem(
                 .fillMaxWidth()
                 .height(30.dp)
                 .background(color = bgColor)
-                .pointerInput(Unit) {
-                    detectTapGestures(onPress = {
-                        isPressed = true
-                        tryAwaitRelease()
-                        isPressed = false
-                        onClick()
-                    })
-                },
+                .debouncedClickable({
+                    onClick()
+                }),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(
-                text = stringResource(id = description), fontSize = 5.nsp(), color = textColor,
+                text = description, fontSize = 5.nsp(), color = textColor,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(start = 19.dp)
             )
-            if (value is FormulaUnitValue) {
-                Text(
-                    text = "${value.value}", fontSize = 5.nsp(), color = textColor,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(start = 255.dp)
-                )
-                Text(
-                    text = value.unit, fontSize = 5.nsp(), color = textColor,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(start = 385.dp)
-                )
-            } else {
-                Text(
-                    text = "$value", fontSize = 5.nsp(), color = textColor,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(start = 255.dp)
-                )
+            val textValue: String
+            when (value) {
+                is FormulaUnitValue -> {
+                    textValue = value.value.toString()
+                    Text(
+                        text = value.unit, fontSize = 5.nsp(), color = textColor,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(start = 385.dp)
+                    )
+                }
+                is FormulaProductType -> {
+                    textValue = value.type
+                }
+                is FormulaProductName -> {
+                    textValue = value.name
+                }
+                is FormulaVatPosition -> {
+                    textValue = if (value.position) stringResource(R.string.formula_font_vat)
+                    else stringResource(R.string.formula_back_vat)
+                }
+                is FormulaAmericanoSeq -> {
+                    textValue =
+                        if (value.sequence) stringResource(R.string.formula_americano_seq_c_w)
+                        else stringResource(R.string.formula_americano_seq_w_c)
+                }
+                else -> {
+                    textValue = value.toString()
+                }
             }
+            Text(
+                text = textValue, fontSize = 5.nsp(), color = textColor,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 255.dp)
+            )
         }
         Spacer(modifier = Modifier.height(2.dp))
     }

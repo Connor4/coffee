@@ -29,7 +29,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,7 +38,12 @@ import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.FormulaAmericanoSeq
+import com.inno.common.db.entity.FormulaProductName
+import com.inno.common.db.entity.FormulaProductType
 import com.inno.common.db.entity.FormulaUnitValue
+import com.inno.common.db.entity.FormulaVatPosition
+import com.inno.common.enums.ProductType
 
 @Composable
 fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hiltViewModel(),
@@ -89,8 +93,10 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
                             modifier = Modifier.padding(start = 20.dp),
                             onClick = {
                                 val formula = Formula(
-                                    productId = 3, productType = "coffee", productName = "意式",
-                                    vat = true,
+                                    productId = 3, productType = FormulaProductType(ProductType
+                                        .COFFEE.value),
+                                    productName = FormulaProductName("意式"),
+                                    vat = FormulaVatPosition(true),
                                     coffeeWater = FormulaUnitValue(20,
                                         0f,
                                         100f,
@@ -117,8 +123,22 @@ fun FormulaMain(modifier: Modifier = Modifier, viewModel: FormulaViewModel = hil
                                     hotWater = FormulaUnitValue(150,
                                         0f,
                                         1000f,
-                                        "[tick]"), waterSequence = 30, coffeeCycles = 1,
-                                    bypassWater = 1
+                                        "[tick]"),
+                                    waterSequence = FormulaAmericanoSeq(
+                                        true
+                                    ),
+                                    coffeeCycles = FormulaUnitValue(
+                                        value = 1,
+                                        rangeStart = 0f,
+                                        rangeEnd = 10f,
+                                        unit = "[-]"
+                                    ),
+                                    bypassWater = FormulaUnitValue(
+                                        value = 0,
+                                        rangeStart = 0f,
+                                        rangeEnd = 10f,
+                                        unit = "[%]"
+                                    )
                                 )
                                 viewModel.insertFormula(formula)
                             }
@@ -187,9 +207,9 @@ private fun FormulaItem(
     ) {
         Text(text = "${formula.productId}")
         Spacer(modifier = Modifier.width(5.dp))
-        Text(text = formula.productType)
+        Text(text = formula.productType.type)
         Spacer(modifier = Modifier.width(5.dp))
-        Text(text = formula.productName)
+        Text(text = formula.productName.name)
         Spacer(modifier = Modifier.width(5.dp))
         Text(text = "前方豆缸噢噢噢噢")
         Spacer(modifier = Modifier.width(5.dp))
@@ -217,21 +237,21 @@ private fun ItemList(formula: Formula, modifier: Modifier) {
                 text = stringResource(id = R.string.formula_product_type),
                 modifier = Modifier.width(250.dp) // Set a fixed width
             )
-            Text(text = formula.productType)
+            Text(text = formula.productType.type)
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_product_name),
                 modifier = Modifier.width(250.dp) // Set the same fixed width
             )
-            Text(text = formula.productName)
+            Text(text = formula.productName.name)
         }
         Row {
             Text(
                 text = stringResource(id = R.string.formula_vat_position),
                 modifier = Modifier.width(250.dp)
             )
-            val vat = if (formula.vat) "font vat" else "back vat"
+            val vat = if (formula.vat.position) "font vat" else "back vat"
             Text(text = vat)
         }
         Row {
@@ -308,12 +328,14 @@ private fun ItemList(formula: Formula, modifier: Modifier) {
 }
 
 
-@Preview(device = Devices.TABLET, showBackground = true)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240", showBackground = true)
 @Composable
 private fun PreviewFormula() {
     val formula = Formula(
-        productId = 3, productType = "coffee", productName = "意式",
-        vat = true,
+        productId = 3, productType = FormulaProductType(ProductType
+            .COFFEE.value),
+        productName = FormulaProductName("意式"),
+        vat = FormulaVatPosition(true),
         coffeeWater = FormulaUnitValue(20,
             0f,
             100f,
@@ -340,8 +362,20 @@ private fun PreviewFormula() {
         hotWater = FormulaUnitValue(150,
             0f,
             1000f,
-            "[tick]"), waterSequence = 30, coffeeCycles = 1,
-        bypassWater = 1
+            "[tick]"),
+        waterSequence = FormulaAmericanoSeq(true),
+        coffeeCycles = FormulaUnitValue(
+            value = 1,
+            rangeStart = 0f,
+            rangeEnd = 10f,
+            unit = "[-]"
+        ),
+        bypassWater = FormulaUnitValue(
+            value = 0,
+            rangeStart = 0f,
+            rangeEnd = 10f,
+            unit = "[%]"
+        )
     )
     ItemList(formula = formula, modifier = Modifier)
 }

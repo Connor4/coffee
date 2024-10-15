@@ -8,11 +8,11 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "formula_table")
 data class Formula(
     var productId: Short,
-    var productType: String,
-    var productName: String,
+    var productType: FormulaProductType,
+    var productName: FormulaProductName,
     var preFlush: Boolean = false,
     var postFlush: Boolean = false,
-    var vat: Boolean,
+    var vat: FormulaVatPosition,
     var coffeeWater: FormulaUnitValue, // Boiler
     var powderDosage: FormulaUnitValue, // Grinder
     var pressWeight: FormulaUnitValue, // Brewer
@@ -20,9 +20,9 @@ data class Formula(
     var postPreMakeWaitTime: FormulaUnitValue, // Brewer
     var secPressWeight: FormulaUnitValue, // Brewer
     var hotWater: FormulaUnitValue, // Boiler
-    var waterSequence: Short = -1, // Boiler
-    var coffeeCycles: Short = -1, // i don't know what it's
-    var bypassWater: Short = -1, // Boiler
+    var waterSequence: FormulaAmericanoSeq, // Boiler
+    var coffeeCycles: FormulaUnitValue, // i don't know what it's
+    var bypassWater: FormulaUnitValue, // Boiler
     //================to be determined, but i hava to have it==================
     var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
     var waterInputValue: Short = -1, // WATER_INPUT_VALVE_ID
@@ -42,4 +42,24 @@ data class FormulaUnitValue(
     var rangeStart: Float,
     var rangeEnd: Float,
     var unit: String,
+)
+
+@Serializable
+data class FormulaProductType(
+    var type: String,
+)
+
+@Serializable
+data class FormulaProductName(
+    var name: String,
+)
+
+@Serializable
+data class FormulaVatPosition(
+    var position: Boolean,
+)
+
+@Serializable
+data class FormulaAmericanoSeq(
+    var sequence: Boolean,
 )

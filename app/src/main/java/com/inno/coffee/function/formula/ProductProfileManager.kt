@@ -51,7 +51,7 @@ object ProductProfileManager {
     private fun createProductProfile(formula: Formula, leftSize: Boolean): ProductProfile {
         val preFlush: Short = if (formula.preFlush) 1 else 0
         val postFlush: Short = if (formula.postFlush) 1 else 0
-        val grinderId = if (formula.vat) FRONT_GRINDER_ID else BACK_GRINDER_ID
+        val grinderId = if (formula.vat.position) FRONT_GRINDER_ID else BACK_GRINDER_ID
         val grinderProfile = ComponentProfile(grinderId, shortArrayOf(formula.powderDosage.value,
             0, 0, 0, 0, 0))
 
@@ -64,11 +64,16 @@ object ProductProfileManager {
             brewerId = RIGHT_BREWER_ID
             boilerId = RIGHT_BOILER_ID
         }
+        val sequence: Short = if (formula.waterSequence.sequence) {
+            0
+        } else {
+            1
+        }
         val brewerProfile = ComponentProfile(brewerId, shortArrayOf(formula.pressWeight.value,
             formula.preMakeTime.value, formula.postPreMakeWaitTime.value, formula.secPressWeight
                 .value, 0, 0))
         val boilerProfile = ComponentProfile(boilerId, shortArrayOf(formula.coffeeWater.value,
-            formula.hotWater.value, formula.bypassWater, formula.waterSequence))
+            formula.hotWater.value, formula.bypassWater.value, sequence))
 
         val componentList = mutableListOf(grinderProfile, brewerProfile, boilerProfile)
 

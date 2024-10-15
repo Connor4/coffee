@@ -38,7 +38,12 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.FormulaAmericanoSeq
+import com.inno.common.db.entity.FormulaProductName
+import com.inno.common.db.entity.FormulaProductType
 import com.inno.common.db.entity.FormulaUnitValue
+import com.inno.common.db.entity.FormulaVatPosition
+import com.inno.common.enums.ProductType
 import com.inno.common.utils.DimenUtils
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -86,7 +91,7 @@ fun VerticalScrollList(
                     description = R.string.formula_product_name, value = formula.productName)
             }
             item {
-                val vat = if (formula.vat) stringResource(id = R.string.formula_font_vat)
+                val vat = if (formula.vat.position) stringResource(id = R.string.formula_font_vat)
                 else stringResource(id = R.string.formula_back_vat)
                 FormulaItem(backgroundColor = singularItemColor,
                     description = R.string.formula_vat_position, value = vat)
@@ -264,8 +269,10 @@ private fun FormulaItem(
 @Composable
 private fun PreviewVerticalScrollList() {
     val formula = Formula(
-        productId = 3, productType = "coffee", productName = "意式",
-        vat = true,
+        productId = 3, productType = FormulaProductType(ProductType
+            .COFFEE.value),
+        productName = FormulaProductName("意式"),
+        vat = FormulaVatPosition(true),
         coffeeWater = FormulaUnitValue(20,
             0f,
             100f,
@@ -292,8 +299,20 @@ private fun PreviewVerticalScrollList() {
         hotWater = FormulaUnitValue(150,
             0f,
             1000f,
-            "[tick]"), waterSequence = 30, coffeeCycles = 1,
-        bypassWater = 1
+            "[tick]"),
+        waterSequence = FormulaAmericanoSeq(true),
+        coffeeCycles = FormulaUnitValue(
+            value = 1,
+            rangeStart = 0f,
+            rangeEnd = 10f,
+            unit = "[-]"
+        ),
+        bypassWater = FormulaUnitValue(
+            value = 0,
+            rangeStart = 0f,
+            rangeEnd = 10f,
+            unit = "[%]"
+        )
     )
     VerticalScrollList(formula = formula)
 }

@@ -1,11 +1,17 @@
 [
   {
     "productId": 7,
-    "productType": "Coffee",
-    "productName": "美式咖啡",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "美式咖啡"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -48,9 +54,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -58,11 +76,17 @@
   },
   {
     "productId": 8,
-    "productType": "Coffee",
-    "productName": "2x美式咖啡",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "2x美式咖啡"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 210,
       "rangeStart": 0,
@@ -105,9 +129,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -115,11 +151,17 @@
   },
   {
     "productId": 5,
-    "productType": "Coffee",
-    "productName": "特浓咖啡",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "特浓咖啡"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -162,9 +204,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 0,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -172,11 +226,17 @@
   },
   {
     "productId": 6,
-    "productType": "Coffee",
-    "productName": "2x特浓咖啡",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "2x特浓咖啡"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 210,
       "rangeStart": 0,
@@ -219,9 +279,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 0,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -229,11 +301,17 @@
   },
   {
     "productId": 10,
-    "productType": "Coffee",
-    "productName": "一壶咖啡",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "一壶咖啡"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -276,9 +354,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -286,11 +376,17 @@
   },
   {
     "productId": 13,
-    "productType": "Coffee",
-    "productName": "拿铁咖啡",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "拿铁咖啡"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -333,9 +429,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -343,11 +451,17 @@
   },
   {
     "productId": 14,
-    "productType": "Coffee",
-    "productName": "2x拿铁咖啡",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "2x拿铁咖啡"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -390,9 +504,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -400,11 +526,17 @@
   },
   {
     "productId": 15,
-    "productType": "Coffee",
-    "productName": "卡布奇诺",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "卡布奇诺"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -447,9 +579,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -457,11 +601,17 @@
   },
   {
     "productId": 16,
-    "productType": "Coffee",
-    "productName": "2x卡布奇诺",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "2x卡布奇诺"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -504,9 +654,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -514,11 +676,17 @@
   },
   {
     "productId": 17,
-    "productType": "Coffee",
-    "productName": "拿铁卡布奇诺",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "拿铁卡布奇诺"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -561,9 +729,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -571,11 +751,17 @@
   },
   {
     "productId": 18,
-    "productType": "Coffee",
-    "productName": "2x拿铁卡布奇诺",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "2x拿铁卡布奇诺"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -618,9 +804,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -628,11 +826,17 @@
   },
   {
     "productId": 19,
-    "productType": "Coffee",
-    "productName": "浓缩玛奇朵",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "浓缩玛奇朵"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -675,9 +879,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -685,11 +901,17 @@
   },
   {
     "productId": 20,
-    "productType": "Coffee",
-    "productName": "2x浓缩玛奇朵",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "2x浓缩玛奇朵"
+    },
     "preFlush": false,
     "postFlush": false,
-    "vat": true,
+    "vat": {
+      "position": true
+    },
     "powderDosage": {
       "value": 140,
       "rangeStart": 0,
@@ -732,9 +954,21 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": 1,
-    "coffeeCycles": 0,
-    "bypassWater": 0,
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
