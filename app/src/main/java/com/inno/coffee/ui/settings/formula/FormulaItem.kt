@@ -26,9 +26,12 @@ fun FormulaItem(
     backgroundColor: Color,
     selected: Boolean,
     description: String,
-    value: Any,
+    value: Any?,
     onClick: () -> Unit = {},
 ) {
+    if (value == "") {
+        return
+    }
     val bgColor: Color?
     val textColor: Color?
     if (selected) {

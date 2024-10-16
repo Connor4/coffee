@@ -198,15 +198,6 @@
       "rangeEnd": 50.0,
       "unit": "[mm]"
     },
-    "hotWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "waterSequence": {
-      "sequence": true
-    },
     "coffeeCycles": {
       "value": 1,
       "rangeStart": 1,
@@ -272,15 +263,6 @@
       "rangeStart": 0.0,
       "rangeEnd": 50.0,
       "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "waterSequence": {
-      "sequence": true
     },
     "coffeeCycles": {
       "value": 1,

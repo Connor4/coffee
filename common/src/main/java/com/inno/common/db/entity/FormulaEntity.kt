@@ -12,17 +12,17 @@ data class Formula(
     var productName: FormulaItem.FormulaProductName,
     var preFlush: Boolean = false,
     var postFlush: Boolean = false,
-    var vat: FormulaItem.FormulaVatPosition,
-    var coffeeWater: FormulaItem.FormulaUnitValue, // Boiler
-    var powderDosage: FormulaItem.FormulaUnitValue, // Grinder
-    var pressWeight: FormulaItem.FormulaUnitValue, // Brewer
-    var preMakeTime: FormulaItem.FormulaUnitValue, // Brewer
-    var postPreMakeWaitTime: FormulaItem.FormulaUnitValue, // Brewer
-    var secPressWeight: FormulaItem.FormulaUnitValue, // Brewer
-    var hotWater: FormulaItem.FormulaUnitValue, // Boiler
-    var waterSequence: FormulaItem.FormulaAmericanoSeq, // Boiler
-    var coffeeCycles: FormulaItem.FormulaUnitValue, // i don't know what it's
-    var bypassWater: FormulaItem.FormulaUnitValue, // Boiler
+    var vat: FormulaItem.FormulaVatPosition? = null,
+    var coffeeWater: FormulaItem.FormulaUnitValue? = null, // Boiler
+    var powderDosage: FormulaItem.FormulaUnitValue? = null, // Grinder
+    var pressWeight: FormulaItem.FormulaUnitValue? = null, // Brewer
+    var preMakeTime: FormulaItem.FormulaUnitValue? = null, // Brewer
+    var postPreMakeWaitTime: FormulaItem.FormulaUnitValue? = null, // Brewer
+    var secPressWeight: FormulaItem.FormulaUnitValue? = null, // Brewer
+    var hotWater: FormulaItem.FormulaUnitValue? = null, // Boiler
+    var waterSequence: FormulaItem.FormulaAmericanoSeq? = null, // Boiler
+    var coffeeCycles: FormulaItem.FormulaUnitValue? = null, // how many cups we need to make
+    var bypassWater: FormulaItem.FormulaUnitValue? = null, // Boiler
     //================to be determined, but i hava to have it==================
     var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
     var waterInputValue: Short = -1, // WATER_INPUT_VALVE_ID

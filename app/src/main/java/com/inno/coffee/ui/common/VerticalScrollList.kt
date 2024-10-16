@@ -87,7 +87,8 @@ fun VerticalScrollList(
                     description = R.string.formula_product_name, value = formula.productName)
             }
             item {
-                val vat = if (formula.vat.position) stringResource(id = R.string.formula_font_vat)
+                val vat = if (formula.vat?.position != false) stringResource(id = R.string
+                    .formula_font_vat)
                 else stringResource(id = R.string.formula_back_vat)
                 FormulaItem(backgroundColor = singularItemColor,
                     description = R.string.formula_vat_position, value = vat)
@@ -96,49 +97,49 @@ fun VerticalScrollList(
                 FormulaItem(
                     backgroundColor = evenItemColor,
                     description = R.string.formula_water_dosage,
-                    value = formula.coffeeWater,
+                    value = formula.coffeeWater ?: 0,
                 )
             }
             item {
                 FormulaItem(
                     backgroundColor = singularItemColor,
                     description = R.string.formula_powder_dosage,
-                    value = formula.coffeeWater,
+                    value = formula.coffeeWater ?: 0
                 )
             }
             item {
                 FormulaItem(
                     backgroundColor = evenItemColor,
                     description = R.string.formula_press_weight,
-                    value = formula.pressWeight,
+                    value = formula.pressWeight ?: 0,
                 )
             }
             item {
                 FormulaItem(
                     backgroundColor = singularItemColor,
                     description = R.string.formula_pre_make_time,
-                    value = formula.preMakeTime,
+                    value = formula.preMakeTime ?: 0,
                 )
             }
             item {
                 FormulaItem(
                     backgroundColor = evenItemColor,
                     description = R.string.formula_pre_make_wait_time,
-                    value = formula.postPreMakeWaitTime,
+                    value = formula.postPreMakeWaitTime ?: 0,
                 )
             }
             item {
                 FormulaItem(
                     backgroundColor = singularItemColor,
                     description = R.string.formula_second_press_weight,
-                    value = formula.secPressWeight,
+                    value = formula.secPressWeight ?: 0,
                 )
             }
             item {
                 FormulaItem(
                     backgroundColor = evenItemColor,
                     description = R.string.formula_hot_water_dosage,
-                    value = formula.hotWater,
+                    value = formula.hotWater ?: 0,
                 )
             }
             item {

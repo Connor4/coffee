@@ -248,7 +248,7 @@ private fun ItemList(formula: Formula, modifier: Modifier) {
                 text = stringResource(id = R.string.formula_vat_position),
                 modifier = Modifier.width(250.dp)
             )
-            val vat = if (formula.vat.position) "font vat" else "back vat"
+            val vat = if (formula.vat?.position != false) "font vat" else "back vat"
             Text(text = vat)
         }
         Row {
