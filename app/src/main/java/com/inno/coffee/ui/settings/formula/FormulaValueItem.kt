@@ -24,6 +24,7 @@ import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
+import com.inno.common.utils.Logger
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
@@ -65,9 +66,6 @@ fun FormulaValueItem(
     selectFormula: Formula?,
     onValueChange: () -> Unit,
 ) {
-    if (selectFormula == null) {
-        return
-    }
     var selectedIndex by remember {
         mutableStateOf(-1)
     }
@@ -93,34 +91,36 @@ fun FormulaValueItem(
         modifier = Modifier.fillMaxSize()
     ) {
         FormulaFunctionButton(1, {}, {})
-        when (val value = selectedValue) {
-            is FormulaItem.FormulaUnitValue -> {
-                key(value) {
-                    UnitValueScrollBar(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .align(Alignment.TopEnd)
-                            .padding(top = 250.dp, end = 90.dp),
-                        unitValue = value) { changeValue ->
-                        val property = formulaProperties.find {
-                            it.name == selectedName
+        selectFormula?.let {
+            when (val value = selectedValue) {
+                is FormulaItem.FormulaUnitValue -> {
+                    key(value) {
+                        UnitValueScrollBar(
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .align(Alignment.TopEnd)
+                                .padding(top = 250.dp, end = 90.dp),
+                            unitValue = value) { changeValue ->
+                            val property = formulaProperties.find {
+                                it.name == selectedName
+                            }
+                            updateFormulaValue(selectFormula, property, changeValue)
+
+                            onValueChange()
+
+                            formulaItemValue.clear()
+                            formulaItemValue.addAll(getFormulaValue(selectFormula))
                         }
-                        updateFormulaValue(selectFormula, property, changeValue)
-
-                        onValueChange()
-
-                        formulaItemValue.clear()
-                        formulaItemValue.addAll(getFormulaValue(selectFormula))
                     }
                 }
-            }
-            is FormulaItem.FormulaProductType -> {
-            }
-            is FormulaItem.FormulaProductName -> {
-            }
-            is FormulaItem.FormulaVatPosition -> {
-            }
-            is FormulaItem.FormulaAmericanoSeq -> {
+                is FormulaItem.FormulaProductType -> {
+                }
+                is FormulaItem.FormulaProductName -> {
+                }
+                is FormulaItem.FormulaVatPosition -> {
+                }
+                is FormulaItem.FormulaAmericanoSeq -> {
+                }
             }
         }
 
@@ -176,6 +176,7 @@ private fun getFormulaValue(formula: Formula?): MutableList<Any> {
             }
             val propertyValue = property?.get(formula) ?: ""
             list.add(propertyValue)
+            Logger.d("name $propertyName property $propertyValue")
         }
     }
     return list
