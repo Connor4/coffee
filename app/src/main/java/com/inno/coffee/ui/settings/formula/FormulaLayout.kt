@@ -3,8 +3,6 @@ package com.inno.coffee.ui.settings.formula
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,7 +19,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,7 +36,6 @@ fun FormulaLayout(
     viewModel: FormulaViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
-    val context = LocalContext.current
     val drinksTypeList by viewModel.drinksType.collectAsState()
     val selectFormula by viewModel.formula.collectAsState()
     val selectedModel = rememberSaveable { mutableStateOf<DrinksModel?>(null) }
@@ -89,32 +85,6 @@ fun FormulaLayout(
                 text = stringResource(id = R.string.formula_assimilation_key),
             )
         }
-
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .align(Alignment.TopEnd)
-                .padding(top = 172.dp, end = 90.dp)
-        ) {
-            Row {
-                ChangeColorButton(
-                    modifier = Modifier
-                        .width(220.dp)
-                        .height(50.dp),
-                    text = stringResource(id = R.string.formula_product_test),
-                ) {
-                    viewModel.loadFromSdCard(context)
-                }
-                Spacer(modifier = Modifier.width(20.dp))
-                ChangeColorButton(
-                    modifier = Modifier
-                        .width(220.dp)
-                        .height(50.dp),
-                    text = stringResource(id = R.string.formula_learn_quantity),
-                )
-            }
-        }
-
     }
 
 }
