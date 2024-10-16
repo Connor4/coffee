@@ -29,14 +29,14 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.theme.mainColor
 import com.inno.coffee.utilities.nsp
-import com.inno.common.db.entity.FormulaUnitValue
+import com.inno.common.db.entity.FormulaItem
 
 
 @Composable
 fun UnitValueScrollBar(
     modifier: Modifier = Modifier,
-    unitValue: FormulaUnitValue,
-    onValueChange: (newValue: FormulaUnitValue) -> Unit,
+    unitValue: FormulaItem.FormulaUnitValue,
+    onValueChange: (newValue: FormulaItem.FormulaUnitValue) -> Unit,
 ) {
     val progressBarWidth = 230.dp
     val progressBarHeight = 30.dp
@@ -132,5 +132,5 @@ fun UnitValueScrollBar(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewUnitValueScrollBar() {
-    UnitValueScrollBar(unitValue = FormulaUnitValue(20, 0f, 1000f, "[tick]")) {}
+    UnitValueScrollBar(unitValue = FormulaItem.FormulaUnitValue(20, 0f, 1000f, "[tick]")) {}
 }

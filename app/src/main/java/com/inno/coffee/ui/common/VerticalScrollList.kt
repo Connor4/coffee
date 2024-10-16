@@ -38,11 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.Formula
-import com.inno.common.db.entity.FormulaAmericanoSeq
-import com.inno.common.db.entity.FormulaProductName
-import com.inno.common.db.entity.FormulaProductType
-import com.inno.common.db.entity.FormulaUnitValue
-import com.inno.common.db.entity.FormulaVatPosition
+import com.inno.common.db.entity.FormulaItem
 import com.inno.common.enums.ProductType
 import com.inno.common.utils.DimenUtils
 import kotlinx.coroutines.launch
@@ -242,7 +238,7 @@ private fun FormulaItem(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(start = 19.dp)
             )
-            if (value is FormulaUnitValue) {
+            if (value is FormulaItem.FormulaUnitValue) {
                 Text(
                     text = "${value.value}", fontSize = 5.nsp(), color = textColor,
                     textAlign = TextAlign.Center,
@@ -269,45 +265,45 @@ private fun FormulaItem(
 @Composable
 private fun PreviewVerticalScrollList() {
     val formula = Formula(
-        productId = 3, productType = FormulaProductType(ProductType
+        productId = 3, productType = FormulaItem.FormulaProductType(ProductType
             .COFFEE.value),
-        productName = FormulaProductName("意式"),
-        vat = FormulaVatPosition(true),
-        coffeeWater = FormulaUnitValue(20,
+        productName = FormulaItem.FormulaProductName("意式"),
+        vat = FormulaItem.FormulaVatPosition(true),
+        coffeeWater = FormulaItem.FormulaUnitValue(20,
             0f,
             100f,
             "[mm]"),
-        powderDosage = FormulaUnitValue(50,
+        powderDosage = FormulaItem.FormulaUnitValue(50,
             0f,
             1000f,
-            "[tick]"), pressWeight = FormulaUnitValue(20,
+            "[tick]"), pressWeight = FormulaItem.FormulaUnitValue(20,
             0f,
             50f,
             "[kg]"),
-        preMakeTime = FormulaUnitValue(800,
+        preMakeTime = FormulaItem.FormulaUnitValue(800,
             0f,
             1000f,
             "[s]"),
-        postPreMakeWaitTime = FormulaUnitValue(2000,
+        postPreMakeWaitTime = FormulaItem.FormulaUnitValue(2000,
             0f,
             1000f,
             "[s]"),
-        secPressWeight = FormulaUnitValue(0,
+        secPressWeight = FormulaItem.FormulaUnitValue(0,
             0f,
             1000f,
             "[mm]"),
-        hotWater = FormulaUnitValue(150,
+        hotWater = FormulaItem.FormulaUnitValue(150,
             0f,
             1000f,
             "[tick]"),
-        waterSequence = FormulaAmericanoSeq(true),
-        coffeeCycles = FormulaUnitValue(
+        waterSequence = FormulaItem.FormulaAmericanoSeq(true),
+        coffeeCycles = FormulaItem.FormulaUnitValue(
             value = 1,
             rangeStart = 0f,
             rangeEnd = 10f,
             unit = "[-]"
         ),
-        bypassWater = FormulaUnitValue(
+        bypassWater = FormulaItem.FormulaUnitValue(
             value = 0,
             rangeStart = 0f,
             rangeEnd = 10f,

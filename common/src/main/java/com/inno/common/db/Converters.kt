@@ -1,63 +1,59 @@
 package com.inno.common.db
 
 import androidx.room.TypeConverter
-import com.inno.common.db.entity.FormulaAmericanoSeq
-import com.inno.common.db.entity.FormulaProductName
-import com.inno.common.db.entity.FormulaProductType
-import com.inno.common.db.entity.FormulaUnitValue
-import com.inno.common.db.entity.FormulaVatPosition
+import com.inno.common.db.entity.FormulaItem
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class Converters {
 
     @TypeConverter
-    fun fromFormulaUnitValue(value: FormulaUnitValue): String {
+    fun fromFormulaUnitValue(value: FormulaItem.FormulaUnitValue): String {
         return Json.encodeToString(value)
     }
 
     @TypeConverter
-    fun toFormulaUnitValue(value: String): FormulaUnitValue {
+    fun toFormulaUnitValue(value: String): FormulaItem.FormulaUnitValue {
         return Json.decodeFromString(value)
     }
 
     @TypeConverter
-    fun fromFormulaProductType(value: FormulaProductType): String {
+    fun fromFormulaProductType(value: FormulaItem.FormulaProductType): String {
         return Json.encodeToString(value)
     }
 
     @TypeConverter
-    fun toFormulaProductType(value: String): FormulaProductType {
+    fun toFormulaProductType(value: String): FormulaItem.FormulaProductType {
         return Json.decodeFromString(value)
     }
 
     @TypeConverter
-    fun fromFormulaProductName(value: FormulaProductName): String {
+    fun fromFormulaProductName(value: FormulaItem.FormulaProductName): String {
         return Json.encodeToString(value)
     }
 
     @TypeConverter
-    fun toFormulaProductName(value: String): FormulaProductName {
+    fun toFormulaProductName(value: String): FormulaItem.FormulaProductName {
         return Json.decodeFromString(value)
     }
 
     @TypeConverter
-    fun fromFormulaVatPosition(value: FormulaVatPosition): String {
+    fun fromFormulaVatPosition(value: FormulaItem.FormulaVatPosition): String {
         return Json.encodeToString(value)
     }
 
     @TypeConverter
-    fun toFormulaVatPosition(value: String): FormulaVatPosition {
+    fun toFormulaVatPosition(value: String): FormulaItem.FormulaVatPosition {
         return Json.decodeFromString(value)
     }
 
     @TypeConverter
-    fun fromFormulaAmericanoSeq(value: FormulaAmericanoSeq): String {
+    fun fromFormulaAmericanoSeq(value: FormulaItem.FormulaAmericanoSeq): String {
         return Json.encodeToString(value)
     }
 
     @TypeConverter
-    fun toFormulaAmericanoSeq(value: String): FormulaAmericanoSeq {
+    fun toFormulaAmericanoSeq(value: String): FormulaItem.FormulaAmericanoSeq {
         return Json.decodeFromString(value)
     }
 

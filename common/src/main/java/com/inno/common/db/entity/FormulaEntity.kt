@@ -8,21 +8,21 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "formula_table")
 data class Formula(
     var productId: Short,
-    var productType: FormulaProductType,
-    var productName: FormulaProductName,
+    var productType: FormulaItem.FormulaProductType,
+    var productName: FormulaItem.FormulaProductName,
     var preFlush: Boolean = false,
     var postFlush: Boolean = false,
-    var vat: FormulaVatPosition,
-    var coffeeWater: FormulaUnitValue, // Boiler
-    var powderDosage: FormulaUnitValue, // Grinder
-    var pressWeight: FormulaUnitValue, // Brewer
-    var preMakeTime: FormulaUnitValue, // Brewer
-    var postPreMakeWaitTime: FormulaUnitValue, // Brewer
-    var secPressWeight: FormulaUnitValue, // Brewer
-    var hotWater: FormulaUnitValue, // Boiler
-    var waterSequence: FormulaAmericanoSeq, // Boiler
-    var coffeeCycles: FormulaUnitValue, // i don't know what it's
-    var bypassWater: FormulaUnitValue, // Boiler
+    var vat: FormulaItem.FormulaVatPosition,
+    var coffeeWater: FormulaItem.FormulaUnitValue, // Boiler
+    var powderDosage: FormulaItem.FormulaUnitValue, // Grinder
+    var pressWeight: FormulaItem.FormulaUnitValue, // Brewer
+    var preMakeTime: FormulaItem.FormulaUnitValue, // Brewer
+    var postPreMakeWaitTime: FormulaItem.FormulaUnitValue, // Brewer
+    var secPressWeight: FormulaItem.FormulaUnitValue, // Brewer
+    var hotWater: FormulaItem.FormulaUnitValue, // Boiler
+    var waterSequence: FormulaItem.FormulaAmericanoSeq, // Boiler
+    var coffeeCycles: FormulaItem.FormulaUnitValue, // i don't know what it's
+    var bypassWater: FormulaItem.FormulaUnitValue, // Boiler
     //================to be determined, but i hava to have it==================
     var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
     var waterInputValue: Short = -1, // WATER_INPUT_VALVE_ID
@@ -36,30 +36,32 @@ data class Formula(
 )
 // 美式没有bypassWater，只有hotWater+americanoSequence。
 
-@Serializable
-data class FormulaUnitValue(
-    var value: Short,
-    var rangeStart: Float,
-    var rangeEnd: Float,
-    var unit: String,
-)
+sealed class FormulaItem {
+    @Serializable
+    data class FormulaUnitValue(
+        var value: Short,
+        var rangeStart: Float,
+        var rangeEnd: Float,
+        var unit: String,
+    )
 
-@Serializable
-data class FormulaProductType(
-    var type: String,
-)
+    @Serializable
+    data class FormulaProductType(
+        var type: String,
+    )
 
-@Serializable
-data class FormulaProductName(
-    var name: String,
-)
+    @Serializable
+    data class FormulaProductName(
+        var name: String,
+    )
 
-@Serializable
-data class FormulaVatPosition(
-    var position: Boolean,
-)
+    @Serializable
+    data class FormulaVatPosition(
+        var position: Boolean,
+    )
 
-@Serializable
-data class FormulaAmericanoSeq(
-    var sequence: Boolean,
-)
+    @Serializable
+    data class FormulaAmericanoSeq(
+        var sequence: Boolean,
+    )
+}

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,11 +31,7 @@ import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.Formula
-import com.inno.common.db.entity.FormulaAmericanoSeq
-import com.inno.common.db.entity.FormulaProductName
-import com.inno.common.db.entity.FormulaProductType
-import com.inno.common.db.entity.FormulaUnitValue
-import com.inno.common.db.entity.FormulaVatPosition
+import com.inno.common.db.entity.FormulaItem
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
@@ -54,20 +51,20 @@ private val formulaPropertyNames = listOf(
     "coffeeCycles",
     "bypassWater",
 )
-private val formulaStringKeys = mapOf(
-    "productType" to R.string.formula_product_type,
-    "productName" to R.string.formula_product_name,
-    "vat" to R.string.formula_vat_position,
-    "coffeeWater" to R.string.formula_water_dosage,
-    "powderDosage" to R.string.formula_powder_dosage,
-    "pressWeight" to R.string.formula_press_weight,
-    "preMakeTime" to R.string.formula_pre_make_time,
-    "postPreMakeWaitTime" to R.string.formula_pre_make_wait_time,
-    "secPressWeight" to R.string.formula_second_press_weight,
-    "hotWater" to R.string.formula_hot_water_dosage,
-    "waterSequence" to R.string.formula_americano_seq,
-    "coffeeCycles" to R.string.formula_coffee_cycles,
-    "bypassWater" to R.string.formula_bypass_dosage,
+private val formulaStringKeys = listOf(
+    R.string.formula_product_type,
+    R.string.formula_product_name,
+    R.string.formula_vat_position,
+    R.string.formula_water_dosage,
+    R.string.formula_powder_dosage,
+    R.string.formula_press_weight,
+    R.string.formula_pre_make_time,
+    R.string.formula_pre_make_wait_time,
+    R.string.formula_second_press_weight,
+    R.string.formula_hot_water_dosage,
+    R.string.formula_americano_seq,
+    R.string.formula_coffee_cycles,
+    R.string.formula_bypass_dosage,
 )
 private val formulaProperties = Formula::class.memberProperties
 
@@ -85,11 +82,16 @@ fun FormulaValueItem(
     var selectedName by remember {
         mutableStateOf("")
     }
+    val formulaItemValue = remember {
+        mutableStateListOf<Any>()
+    }
 
     LaunchedEffect(selectFormula) {
         selectedIndex = -1
         selectedValue = null
         selectedName = ""
+        formulaItemValue.clear()
+        formulaItemValue.addAll(getFormulaValue(selectFormula))
     }
 
     Box(
@@ -97,7 +99,7 @@ fun FormulaValueItem(
     ) {
         selectFormula?.let {
             when (val value = selectedValue) {
-                is FormulaUnitValue -> {
+                is FormulaItem.FormulaUnitValue -> {
                     key(value) {
                         UnitValueScrollBar(
                             modifier = Modifier
@@ -109,17 +111,21 @@ fun FormulaValueItem(
                                 it.name == selectedName
                             }
                             updateFormulaValue(selectFormula, property, changeValue)
+
                             onValueChange()
+
+                            formulaItemValue.clear()
+                            formulaItemValue.addAll(getFormulaValue(selectFormula))
                         }
                     }
                 }
-                is FormulaProductType -> {
+                is FormulaItem.FormulaProductType -> {
                 }
-                is FormulaProductName -> {
+                is FormulaItem.FormulaProductName -> {
                 }
-                is FormulaVatPosition -> {
+                is FormulaItem.FormulaVatPosition -> {
                 }
-                is FormulaAmericanoSeq -> {
+                is FormulaItem.FormulaAmericanoSeq -> {
                 }
             }
         }
@@ -135,27 +141,19 @@ fun FormulaValueItem(
                     .width(543.dp)
                     .height(293.dp),
             ) {
-                VerticalScrollList2(list = formulaPropertyNames, minimumSize = 9, placeHolder = "",
+                VerticalScrollList2(list = formulaItemValue, minimumSize = 9, placeHolder = "",
                     scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
                     scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
+                    val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
+                    val labelResId = formulaStringKeys[index]
+                    val label = stringResource(labelResId)
 
-                    selectFormula?.let { formula ->
-                        val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
-                        val property = formulaProperties.find {
-                            it.name == item
-                        }
-                        val propertyValue = property?.get(formula) ?: ""
-
-                        val labelResId = formulaStringKeys[item] ?: -1
-                        val label = stringResource(labelResId)
-
-                        FormulaItem(backgroundColor = color,
-                            selected = selectedIndex == index,
-                            description = label, value = propertyValue) {
-                            selectedIndex = index
-                            selectedValue = propertyValue
-                            selectedName = item.toString()
-                        }
+                    FormulaItem(backgroundColor = color,
+                        selected = selectedIndex == index,
+                        description = label, value = item) {
+                        selectedIndex = index
+                        selectedValue = item
+                        selectedName = label
                     }
                 }
             }
@@ -204,7 +202,7 @@ private fun FormulaItem(
             )
             val textValue: String
             when (value) {
-                is FormulaUnitValue -> {
+                is FormulaItem.FormulaUnitValue -> {
                     textValue = value.value.toString()
                     Text(
                         text = value.unit, fontSize = 5.nsp(), color = textColor,
@@ -212,17 +210,17 @@ private fun FormulaItem(
                         modifier = Modifier.padding(start = 385.dp)
                     )
                 }
-                is FormulaProductType -> {
+                is FormulaItem.FormulaProductType -> {
                     textValue = value.type
                 }
-                is FormulaProductName -> {
+                is FormulaItem.FormulaProductName -> {
                     textValue = value.name
                 }
-                is FormulaVatPosition -> {
+                is FormulaItem.FormulaVatPosition -> {
                     textValue = if (value.position) stringResource(R.string.formula_font_vat)
                     else stringResource(R.string.formula_back_vat)
                 }
-                is FormulaAmericanoSeq -> {
+                is FormulaItem.FormulaAmericanoSeq -> {
                     textValue =
                         if (value.sequence) stringResource(R.string.formula_americano_seq_c_w)
                         else stringResource(R.string.formula_americano_seq_w_c)
@@ -251,4 +249,18 @@ private fun <T : Any, V> updateFormulaValue(
     } else {
         println("The property is not mutable!")
     }
+}
+
+private fun getFormulaValue(formula: Formula?): MutableList<Any> {
+    val list = mutableListOf<Any>()
+    formula?.let {
+        formulaPropertyNames.forEach { propertyName ->
+            val property = formulaProperties.find { property ->
+                property.name == propertyName
+            }
+            val propertyValue = property?.get(formula) ?: ""
+            list.add(propertyValue)
+        }
+    }
+    return list
 }
