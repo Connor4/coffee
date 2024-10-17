@@ -80,11 +80,13 @@ fun FormulaLayout(
             viewModel.getFormula(it.productId)
         }
         FormulaValuesDisplay()
-        FormulaValueItem(selectFormula) {
+        FormulaValueItem(selectFormula, {
             selectFormula?.let {
                 viewModel.updateFormula(it)
             }
-        }
+        }, {
+
+        })
     }
 
 }

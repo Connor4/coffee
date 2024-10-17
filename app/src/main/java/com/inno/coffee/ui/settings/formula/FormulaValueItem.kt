@@ -65,24 +65,17 @@ private val formulaProperties = Formula::class.memberProperties
 fun FormulaValueItem(
     selectFormula: Formula?,
     onValueChange: () -> Unit,
+    onProductTest: () -> Unit,
 ) {
-    var selectedIndex by remember {
-        mutableStateOf(-1)
-    }
     var selectedValue by remember {
         mutableStateOf<Any?>(null)
-    }
-    var selectedName by remember {
-        mutableStateOf("")
     }
     val formulaItemValue = remember {
         mutableStateListOf<Any>()
     }
 
     LaunchedEffect(selectFormula) {
-        selectedIndex = -1
         selectedValue = null
-        selectedName = ""
         formulaItemValue.clear()
         formulaItemValue.addAll(getFormulaValue(selectFormula))
     }
@@ -90,7 +83,11 @@ fun FormulaValueItem(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        FormulaFunctionButton(1, {}, {})
+        FormulaFunctionButton("", { index ->
+
+        }, {
+            onProductTest()
+        })
         Box(
             modifier = Modifier
                 .wrapContentSize()
@@ -110,11 +107,9 @@ fun FormulaValueItem(
                     val label = stringResource(labelResId)
 
                     FormulaItem(backgroundColor = color,
-                        selected = selectedIndex == index,
+                        selected = selectedValue == item,
                         description = label, value = item) {
-                        selectedIndex = index
                         selectedValue = item
-                        selectedName = label
                     }
                 }
             }
@@ -130,13 +125,7 @@ fun FormulaValueItem(
                                 .align(Alignment.TopEnd)
                                 .padding(top = 250.dp, end = 90.dp),
                             unitValue = value) { changeValue ->
-                            val property = formulaProperties.find {
-                                it.name == selectedName
-                            }
-                            updateFormulaValue(selectFormula, property, changeValue)
-
                             onValueChange()
-
                             formulaItemValue.clear()
                             formulaItemValue.addAll(getFormulaValue(selectFormula))
                         }
@@ -144,82 +133,42 @@ fun FormulaValueItem(
                 }
                 is FormulaItem.FormulaProductType -> {
                     FormulaProductTypeLayout(value, { changeValue ->
-                        val property = formulaProperties.find {
-                            it.name == selectedName
-                        }
-                        updateFormulaValue(selectFormula, property, changeValue)
-
                         onValueChange()
-
                         formulaItemValue.clear()
                         formulaItemValue.addAll(getFormulaValue(selectFormula))
-                        selectedIndex = -1
                         selectedValue = null
-                        selectedName = ""
                     }, {
-                        selectedIndex = -1
                         selectedValue = null
-                        selectedName = ""
                     })
                 }
                 is FormulaItem.FormulaProductName -> {
                     FormulaChangeNameLayout(value, { changeValue ->
-                        val property = formulaProperties.find {
-                            it.name == selectedName
-                        }
-                        updateFormulaValue(selectFormula, property, changeValue)
-
                         onValueChange()
-
                         formulaItemValue.clear()
                         formulaItemValue.addAll(getFormulaValue(selectFormula))
-                        selectedIndex = -1
                         selectedValue = null
-                        selectedName = ""
                     }, {
-                        selectedIndex = -1
                         selectedValue = null
-                        selectedName = ""
                     })
                 }
                 is FormulaItem.FormulaVatPosition -> {
                     FormulaBeanPositionLayout(value, { changeValue ->
-                        val property = formulaProperties.find {
-                            it.name == selectedName
-                        }
-                        updateFormulaValue(selectFormula, property, changeValue)
-
                         onValueChange()
-
                         formulaItemValue.clear()
                         formulaItemValue.addAll(getFormulaValue(selectFormula))
-                        selectedIndex = -1
                         selectedValue = null
-                        selectedName = ""
                     }, {
-                        selectedIndex = -1
                         selectedValue = null
-                        selectedName = ""
                     })
                 }
                 is FormulaItem.FormulaAmericanoSeq -> {
                     FormulaAmericanoSeqLayout(value, { changeValue ->
-                        val property = formulaProperties.find {
-                            it.name == selectedName
-                        }
-                        updateFormulaValue(selectFormula, property, changeValue)
-
                         onValueChange()
-
                         formulaItemValue.clear()
                         formulaItemValue.addAll(getFormulaValue(selectFormula))
-                        selectedIndex = -1
                         selectedValue = null
-                        selectedName = ""
                     }, {
-                        selectedIndex = -1
                         selectedValue = null
-                        selectedName = ""
                     })
                 }
             }

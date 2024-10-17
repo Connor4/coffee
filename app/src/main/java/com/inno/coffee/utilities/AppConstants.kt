@@ -35,4 +35,6 @@ const val PERMISSION_ROLE_EMPLOYEE = 2
 const val PERMISSION_KEY_USERNAME = "permission_key_username"
 
 const val FORMULA_PRODUCT_NAME_MAX_SIZE = 20
+const val FORMULA_SHOW_LEARN_WATER = 1
+const val FORMULA_SHOW_POWDER_TEST = 2
 

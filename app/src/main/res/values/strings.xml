@@ -230,6 +230,7 @@
     <string name="formula_assimilation_key">Assimilation Key</string>
     <string name="formula_product_test">Product Test</string>
     <string name="formula_learn_quantity">Learn Quantity</string>
+    <string name="formula_powder_test">Powder Test</string>
     <string name="formula_product_type">Product Type</string>
     <string name="formula_product_name">Product Name</string>
     <string name="formula_vat_position">Vat Position</string>
