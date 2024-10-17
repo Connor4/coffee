@@ -249,6 +249,7 @@
     <string name="formula_back_vat">Back</string>
     <string name="formula_steam_wand">Steam Wand:</string>
     <string name="formula_steam_boiler">Steam Boiler:</string>
+    <string name="formula_change_product_name">Enter Product Name</string>
 
 
 </resources>

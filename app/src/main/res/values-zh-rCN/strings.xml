@@ -250,5 +250,6 @@
     <string name="formula_back_vat">后方</string>
     <string name="formula_steam_wand">蒸汽棒:</string>
     <string name="formula_steam_boiler">蒸汽锅炉:</string>
+    <string name="formula_change_product_name">输入产品名</string>
 
 </resources>

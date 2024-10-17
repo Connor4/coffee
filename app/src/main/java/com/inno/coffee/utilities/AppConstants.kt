@@ -34,3 +34,5 @@ const val PERMISSION_ROLE_MANAGER = 1
 const val PERMISSION_ROLE_EMPLOYEE = 2
 const val PERMISSION_KEY_USERNAME = "permission_key_username"
 
+const val FORMULA_PRODUCT_NAME_MAX_SIZE = 20
+

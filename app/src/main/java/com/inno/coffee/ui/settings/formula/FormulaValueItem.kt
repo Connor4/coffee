@@ -163,6 +163,24 @@ fun FormulaValueItem(
                     })
                 }
                 is FormulaItem.FormulaProductName -> {
+                    FormulaChangeNameLayout(value, { changeValue ->
+                        val property = formulaProperties.find {
+                            it.name == selectedName
+                        }
+                        updateFormulaValue(selectFormula, property, changeValue)
+
+                        onValueChange()
+
+                        formulaItemValue.clear()
+                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        selectedIndex = -1
+                        selectedValue = null
+                        selectedName = ""
+                    }, {
+                        selectedIndex = -1
+                        selectedValue = null
+                        selectedName = ""
+                    })
                 }
                 is FormulaItem.FormulaVatPosition -> {
                     FormulaBeanPositionLayout(value, { changeValue ->
