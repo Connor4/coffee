@@ -105,6 +105,8 @@ fun FormulaValueItem(
                     val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
                     val labelResId = formulaStringKeys[index]
                     val label = stringResource(labelResId)
+                    Logger.d("FormulaValueItem() called with: index = $index, label = $label " +
+                            "item = $item ")
 
                     FormulaItem(backgroundColor = color,
                         selected = selectedValue == item,
@@ -197,7 +199,9 @@ private fun getFormulaValue(formula: Formula?): MutableList<Any> {
                 property.name == propertyName
             }
             val propertyValue = property?.get(formula) ?: ""
-            list.add(propertyValue)
+            if (propertyValue != "") {
+                list.add(propertyValue)
+            }
         }
     }
     return list
