@@ -21,6 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.ChangeColorButton
+import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
+import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.coffee.utilities.FORMULA_SHOW_LEARN_WATER
 import com.inno.coffee.utilities.FORMULA_SHOW_POWDER_TEST
 
@@ -32,11 +34,11 @@ fun FormulaFunctionButton(
 ) {
     var index = -1
     val showText = when (selectedName) {
-        "coffeeWater" -> {
+        FORMULA_PROPERTY_COFFEE_WATER -> {
             index = FORMULA_SHOW_LEARN_WATER
             stringResource(id = R.string.formula_learn_quantity)
         }
-        "powderDosage" -> {
+        FORMULA_PROPERTY_POWDER_DOSAGE -> {
             index = FORMULA_SHOW_POWDER_TEST
             stringResource(id = R.string.formula_powder_test)
         }

@@ -26,6 +26,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.ChangeColorButton
+import com.inno.coffee.utilities.FORMULA_SHOW_LEARN_WATER
+import com.inno.coffee.utilities.FORMULA_SHOW_POWDER_TEST
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 
 private const val PAGE_COUNT = 10
@@ -86,6 +88,15 @@ fun FormulaLayout(
             }
         }, {
 
+        }, { index ->
+            when (index) {
+                FORMULA_SHOW_LEARN_WATER -> {
+//                    viewModel.learnWater()
+                }
+                FORMULA_SHOW_POWDER_TEST -> {
+//                    viewModel.productTest()
+                }
+            }
         })
     }
 

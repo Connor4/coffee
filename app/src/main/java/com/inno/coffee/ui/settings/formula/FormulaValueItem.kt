@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
+import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
+import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.utils.Logger
@@ -33,8 +35,8 @@ private val formulaPropertyNames = listOf(
     "productType",
     "productName",
     "vat",
-    "coffeeWater",
-    "powderDosage",
+    FORMULA_PROPERTY_COFFEE_WATER,
+    FORMULA_PROPERTY_POWDER_DOSAGE,
     "pressWeight",
     "preMakeTime",
     "postPreMakeWaitTime",
@@ -66,9 +68,13 @@ fun FormulaValueItem(
     selectFormula: Formula?,
     onValueChange: () -> Unit,
     onProductTest: () -> Unit,
+    onLearn: (Int) -> Unit,
 ) {
     var selectedValue by remember {
         mutableStateOf<Any?>(null)
+    }
+    var selectedName by remember {
+        mutableStateOf("")
     }
     val formulaItemValue = remember {
         mutableStateListOf<Any>()
@@ -83,8 +89,8 @@ fun FormulaValueItem(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        FormulaFunctionButton("", { index ->
-
+        FormulaFunctionButton(selectedName, { index ->
+            onLearn(index)
         }, {
             onProductTest()
         })
@@ -112,6 +118,7 @@ fun FormulaValueItem(
                         selected = selectedValue == item,
                         description = label, value = item) {
                         selectedValue = item
+                        selectedName = formulaPropertyNames[index]
                     }
                 }
             }
