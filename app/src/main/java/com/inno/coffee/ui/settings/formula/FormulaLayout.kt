@@ -62,16 +62,6 @@ fun FormulaLayout(
         FormulaTimesSelector(selectTimes.value) {
             selectTimes.value = it
         }
-        FormulaDrinkPage(selectedModel.value, totalCount, pagerState, drinksTypeList) {
-            selectedModel.value = it
-            viewModel.getFormula(it.productId)
-        }
-        FormulaValuesDisplay()
-        FormulaValueItem(selectFormula) {
-            selectFormula?.let {
-                viewModel.updateFormula(it)
-            }
-        }
         Box(
             modifier = Modifier
                 .wrapContentSize()
@@ -84,6 +74,16 @@ fun FormulaLayout(
                     .height(50.dp),
                 text = stringResource(id = R.string.formula_assimilation_key),
             )
+        }
+        FormulaDrinkPage(selectedModel.value, totalCount, pagerState, drinksTypeList) {
+            selectedModel.value = it
+            viewModel.getFormula(it.productId)
+        }
+        FormulaValuesDisplay()
+        FormulaValueItem(selectFormula) {
+            selectFormula?.let {
+                viewModel.updateFormula(it)
+            }
         }
     }
 

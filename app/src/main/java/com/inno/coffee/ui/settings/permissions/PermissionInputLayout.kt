@@ -17,10 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,10 +35,8 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.ui.common.KeyboardLayout
@@ -48,18 +46,17 @@ import com.inno.coffee.utilities.PERMISSION_MAX_INPUT_SIZE
 import com.inno.coffee.utilities.PERMISSION_PASSWORD
 import com.inno.coffee.utilities.PERMISSION_USERNAME
 import com.inno.coffee.utilities.nsp
-import com.inno.coffee.viewmodel.settings.permissions.UserViewModel
 import com.inno.common.utils.Logger
 
 @Composable
 fun PermissionInputLayout(
     onCloseClick: () -> Unit,
     onLoginSuccess: () -> Unit,
-    viewModel: UserViewModel = hiltViewModel()
+//    viewModel: UserViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val loginState by viewModel.loginState.collectAsState()
-//    val loginState by remember { mutableStateOf<LoginState>(LoginState.Idle) }
+//    val loginState by viewModel.loginState.collectAsState()
+    val loginState by remember { mutableStateOf<LoginState>(LoginState.Idle) }
     var select by rememberSaveable {
         mutableIntStateOf(PERMISSION_USERNAME)
     }
@@ -89,7 +86,7 @@ fun PermissionInputLayout(
                 Logger.d("Navigating to else")
             }
         }
-        viewModel.resetLoginState()
+//        viewModel.resetLoginState()
     }
 
     Box(
@@ -250,7 +247,7 @@ fun PermissionInputLayout(
                             }
                         }
                     }, onEnter = {
-                        viewModel.authenticateUser(username, password)
+//                        viewModel.authenticateUser(username, password)
                     }
                 )
             }
@@ -258,7 +255,7 @@ fun PermissionInputLayout(
     }
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewPermissionInput() {
     PermissionInputLayout({}, {})

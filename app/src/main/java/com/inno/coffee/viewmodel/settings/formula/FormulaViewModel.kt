@@ -29,6 +29,7 @@ class FormulaViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
+        private const val TAG = "FormulaViewModel"
         private const val FORMULA_JSON_FILE = "/formula.txt"
     }
 
@@ -97,6 +98,7 @@ class FormulaViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(defaultDispatcher) {
                 _formula.value = repository.getFormulaByProductId(productId)
+                Logger.d(TAG, "getFormula() ${_formula.value}")
             }
         }
     }

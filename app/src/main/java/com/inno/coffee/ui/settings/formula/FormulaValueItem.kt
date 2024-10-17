@@ -91,39 +91,6 @@ fun FormulaValueItem(
         modifier = Modifier.fillMaxSize()
     ) {
         FormulaFunctionButton(1, {}, {})
-        selectFormula?.let {
-            when (val value = selectedValue) {
-                is FormulaItem.FormulaUnitValue -> {
-                    key(value) {
-                        UnitValueScrollBar(
-                            modifier = Modifier
-                                .wrapContentSize()
-                                .align(Alignment.TopEnd)
-                                .padding(top = 250.dp, end = 90.dp),
-                            unitValue = value) { changeValue ->
-                            val property = formulaProperties.find {
-                                it.name == selectedName
-                            }
-                            updateFormulaValue(selectFormula, property, changeValue)
-
-                            onValueChange()
-
-                            formulaItemValue.clear()
-                            formulaItemValue.addAll(getFormulaValue(selectFormula))
-                        }
-                    }
-                }
-                is FormulaItem.FormulaProductType -> {
-                }
-                is FormulaItem.FormulaProductName -> {
-                }
-                is FormulaItem.FormulaVatPosition -> {
-                }
-                is FormulaItem.FormulaAmericanoSeq -> {
-                }
-            }
-        }
-
         Box(
             modifier = Modifier
                 .wrapContentSize()
@@ -152,6 +119,93 @@ fun FormulaValueItem(
                 }
             }
         }
+
+        selectFormula?.let {
+            when (val value = selectedValue) {
+                is FormulaItem.FormulaUnitValue -> {
+                    key(value) {
+                        UnitValueScrollBar(
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .align(Alignment.TopEnd)
+                                .padding(top = 250.dp, end = 90.dp),
+                            unitValue = value) { changeValue ->
+                            val property = formulaProperties.find {
+                                it.name == selectedName
+                            }
+                            updateFormulaValue(selectFormula, property, changeValue)
+
+                            onValueChange()
+
+                            formulaItemValue.clear()
+                            formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        }
+                    }
+                }
+                is FormulaItem.FormulaProductType -> {
+                    FormulaProductTypeLayout(value, { changeValue ->
+                        val property = formulaProperties.find {
+                            it.name == selectedName
+                        }
+                        updateFormulaValue(selectFormula, property, changeValue)
+
+                        onValueChange()
+
+                        formulaItemValue.clear()
+                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        selectedIndex = -1
+                        selectedValue = null
+                        selectedName = ""
+                    }, {
+                        selectedIndex = -1
+                        selectedValue = null
+                        selectedName = ""
+                    })
+                }
+                is FormulaItem.FormulaProductName -> {
+                }
+                is FormulaItem.FormulaVatPosition -> {
+                    FormulaBeanPositionLayout(value, { changeValue ->
+                        val property = formulaProperties.find {
+                            it.name == selectedName
+                        }
+                        updateFormulaValue(selectFormula, property, changeValue)
+
+                        onValueChange()
+
+                        formulaItemValue.clear()
+                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        selectedIndex = -1
+                        selectedValue = null
+                        selectedName = ""
+                    }, {
+                        selectedIndex = -1
+                        selectedValue = null
+                        selectedName = ""
+                    })
+                }
+                is FormulaItem.FormulaAmericanoSeq -> {
+                    FormulaAmericanoSeqLayout(value, { changeValue ->
+                        val property = formulaProperties.find {
+                            it.name == selectedName
+                        }
+                        updateFormulaValue(selectFormula, property, changeValue)
+
+                        onValueChange()
+
+                        formulaItemValue.clear()
+                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        selectedIndex = -1
+                        selectedValue = null
+                        selectedName = ""
+                    }, {
+                        selectedIndex = -1
+                        selectedValue = null
+                        selectedName = ""
+                    })
+                }
+            }
+        }
     }
 }
 
@@ -160,6 +214,7 @@ private fun <T : Any, V> updateFormulaValue(
     property: KProperty1<T, V>?,
     newValue: V
 ) {
+    Logger.d("FormulaViewModel", "updateFormulaValue() property: $property new Value: $newValue")
     if (property is KMutableProperty1<T, V>) {
         property.set(formula, newValue)  // Update the property value
     } else {
@@ -176,7 +231,6 @@ private fun getFormulaValue(formula: Formula?): MutableList<Any> {
             }
             val propertyValue = property?.get(formula) ?: ""
             list.add(propertyValue)
-            Logger.d("name $propertyName property $propertyValue")
         }
     }
     return list
