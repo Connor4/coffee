@@ -25,9 +25,9 @@ fun PermissionLayout(
             }
         )
     } else {
-        PermissionMainLayout() {
+        PermissionMainLayout({
             onCloseClick()
-        }
+        })
     }
 }
 

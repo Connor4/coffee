@@ -29,6 +29,9 @@ interface UserDao {
     @Query("UPDATE users_table SET permission = :permissionId WHERE id = :id")
     suspend fun updateUserPermissionId(id: Int, permissionId: Int)
 
+    @Query("UPDATE users_table SET passwordHash = :password WHERE username = :username")
+    suspend fun updateUserPassword(username: String, password: String)
+
     @Query("SELECT * FROM users_table ORDER BY id ASC")
     fun getAllUserFlow(): Flow<List<User>>
 

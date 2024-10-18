@@ -13,9 +13,9 @@ class PermissionActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                PermissionMainLayout {
+                PermissionMainLayout({
                     this@PermissionActivity.finish()
-                }
+                })
             }
         }
     }

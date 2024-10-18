@@ -3,6 +3,7 @@ package com.inno.coffee.viewmodel.home
 import com.inno.coffee.data.DrinksModel
 import com.inno.common.db.dao.UserDao
 import com.inno.common.utils.BcryptUtils
+import com.inno.common.utils.Logger
 import com.inno.common.utils.UserSessionManager
 import javax.inject.Inject
 
@@ -10,6 +11,7 @@ class HomeRepository @Inject constructor(
     private val homeLocalDataSource: HomeLocalDataSource,
     private val userDao: UserDao
 ) {
+    private val tag = "HomeRepository"
     val drinksType: List<DrinksModel> = homeLocalDataSource.drinksTypes
     val specialItem = homeLocalDataSource.specialItem
 
@@ -24,9 +26,11 @@ class HomeRepository @Inject constructor(
         } ?: false
     }
 
-    suspend fun authenticateUserByPassword(password: String): Boolean {
+    fun authenticateUserByPassword(password: String): Boolean {
         userDao.getAllUser().forEach {
             val valid = BcryptUtils.checkPassword(password, it.passwordHash)
+            Logger.d(tag, "authenticateUserByPassword() called: password = $password, it = $it" +
+                    "valid = $valid")
             if (valid) {
                 UserSessionManager.setUser(it)
                 return true

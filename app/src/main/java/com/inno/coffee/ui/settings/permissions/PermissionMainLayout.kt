@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,10 +28,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.permissions.UserViewModel
 import com.inno.common.annotations.MANAGER
 import com.inno.common.annotations.OPERATOR
 import com.inno.common.annotations.TECHNICIAN
@@ -38,6 +43,7 @@ import com.inno.common.utils.UserSessionManager
 @Composable
 fun PermissionMainLayout(
     onCloseClick: () -> Unit = {},
+    viewModel: UserViewModel = hiltViewModel(),
 ) {
     val names = arrayOf(
         Pair(OPERATOR, R.string.permission_role_operator),
@@ -47,6 +53,9 @@ fun PermissionMainLayout(
     val user = UserSessionManager.getUser()
     val roleLevel = user?.role ?: TECHNICIAN
     val displayNames = names.take(roleLevel)
+    val selectedIndex = remember {
+        mutableStateOf(INVALID_INT)
+    }
 
     Box(
         modifier = Modifier
@@ -76,10 +85,19 @@ fun PermissionMainLayout(
         ) {
             displayNames.forEach { name ->
                 MenuItem(title = name.second) {
-                    changePsw(name.first)
+                    selectedIndex.value = name.first
                 }
                 Spacer(modifier = Modifier.width(20.dp))
             }
+        }
+
+        if (selectedIndex.value != INVALID_INT) {
+            PermissionChangePswLayout({
+                selectedIndex.value = INVALID_INT
+            }, { password ->
+                viewModel.updateUserPassword(password, selectedIndex.value)
+                selectedIndex.value = INVALID_INT
+            })
         }
     }
 }
@@ -105,18 +123,6 @@ private fun MenuItem(
             textAlign = TextAlign.Center,
             modifier = Modifier.align(Alignment.Center)
         )
-    }
-}
-
-private fun changePsw(name: Int) {
-    when (name) {
-        OPERATOR -> {
-        }
-        MANAGER -> {
-        }
-        TECHNICIAN -> {
-        }
-        else -> {}
     }
 }
 

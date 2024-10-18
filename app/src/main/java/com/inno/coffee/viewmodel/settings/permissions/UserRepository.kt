@@ -51,6 +51,18 @@ class UserRepository @Inject constructor(
         }
     }
 
+    suspend fun updateUserPassword(username: String, password: String): Boolean {
+        return withContext(defaultDispatcher) {
+            try {
+                val hashedPassword = BcryptUtils.hashPassword(password)
+                userDao.updateUserPassword(username, hashedPassword)
+                true
+            } catch (e: Exception) {
+                false
+            }
+        }
+    }
+
     suspend fun getUserByUsername(username: String): User? {
         return withContext(defaultDispatcher) {
             userDao.getUserByUserName(username)

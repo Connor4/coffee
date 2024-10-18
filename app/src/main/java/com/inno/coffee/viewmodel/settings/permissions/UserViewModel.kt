@@ -5,6 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.data.RegisterState
+import com.inno.common.annotations.MANAGER
+import com.inno.common.annotations.MANAGER_NAME
+import com.inno.common.annotations.OPERATOR
+import com.inno.common.annotations.OPERATOR_NAME
+import com.inno.common.annotations.TECHNICIAN
+import com.inno.common.annotations.TECHNICIAN_NAME
 import com.inno.common.db.entity.User
 import com.inno.common.utils.Logger
 import com.inno.common.utils.UserSessionManager
@@ -145,6 +151,25 @@ class UserViewModel @Inject constructor(
                 val deleteUser = repository.deleteUser(user)
                 _deleteResult.value = deleteUser
             }
+        }
+    }
+
+    fun updateUserPassword(password: String, index: Int) {
+        var username = ""
+        when (index) {
+            OPERATOR -> {
+                username = OPERATOR_NAME
+            }
+            MANAGER -> {
+                username = MANAGER_NAME
+            }
+            TECHNICIAN -> {
+                username = TECHNICIAN_NAME
+            }
+        }
+        Logger.d(TAG, "updateUserPassword() called with: index $index username $username")
+        viewModelScope.launch {
+            repository.updateUserPassword(username, password)
         }
     }
 
