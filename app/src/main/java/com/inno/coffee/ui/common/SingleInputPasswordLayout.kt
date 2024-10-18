@@ -152,11 +152,6 @@ fun SingleInputPasswordLayout(
                             passwordStar = passwordStar.dropLast(1)
                         }
                     }, onEnter = {
-//                        if (password.isEmpty()) {
-//                            val empty = context.resources.getString(R.string.permission_valid_empty)
-//                            Toast.makeText(context, empty, Toast.LENGTH_SHORT).show()
-//                            return@KeyboardLayout
-//                        }
                         onEnterClick(password)
                     }
                 )
