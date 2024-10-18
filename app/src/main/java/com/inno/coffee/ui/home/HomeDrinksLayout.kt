@@ -31,6 +31,7 @@ import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_READY
 import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_START
 import com.inno.coffee.ui.common.PageIndicator
+import com.inno.coffee.ui.home.selfcheck.ReleaseSteamLayout
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.viewmodel.home.HomeViewModel
 

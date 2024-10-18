@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.home
+package com.inno.coffee.ui.home.selfcheck
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,6 +21,7 @@ import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_READY
+import com.inno.coffee.ui.home.DrinkItem
 import com.inno.coffee.utilities.nsp
 import com.inno.common.enums.ProductType
 

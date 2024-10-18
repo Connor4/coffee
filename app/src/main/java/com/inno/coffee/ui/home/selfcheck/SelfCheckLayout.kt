@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.home
+package com.inno.coffee.ui.home.selfcheck
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing

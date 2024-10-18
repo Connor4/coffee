@@ -25,6 +25,7 @@ import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.ui.common.ConfirmDialogLayout
 import com.inno.coffee.ui.common.SingleInputPasswordLayout
+import com.inno.coffee.ui.home.selfcheck.SelfCheckLayout
 import com.inno.coffee.ui.home.setting.CleanLockLayout
 import com.inno.coffee.ui.home.setting.HomeSettingEntrance
 import com.inno.coffee.ui.home.setting.MachineInfoLayout

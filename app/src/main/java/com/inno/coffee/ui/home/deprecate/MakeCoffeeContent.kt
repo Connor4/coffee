@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.home
+package com.inno.coffee.ui.home.deprecate
 
 import android.content.Context
 import androidx.compose.foundation.Image

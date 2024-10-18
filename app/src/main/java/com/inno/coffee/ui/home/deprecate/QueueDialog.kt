@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.home
+package com.inno.coffee.ui.home.deprecate
 
 import android.view.Gravity
 import androidx.compose.foundation.layout.PaddingValues
