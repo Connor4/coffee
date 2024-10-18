@@ -137,6 +137,7 @@
     <string name="home_clean_screen">Lock and Clean</string>
     <string name="home_machine_info">Machine Info</string>
     <string name="home_standby_mode">StandBy Mode</string>
+    <string name="home_login_title">Password</string>
     <string name="home_login_input_empty">Username or Password empty</string>
     <string name="home_login_input_invalid">Username or Password length not match</string>
     <string name="home_login_authenticate_fail">verification failed</string>

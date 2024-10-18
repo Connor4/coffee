@@ -18,11 +18,11 @@ data class User(
 )
 
 val defaultUsers = listOf(
-    User(id = 1, username = "manager", passwordHash = "1234", role = MANAGER, permission = 762,
-        remark = "Manager"),
-    User(id = 2, username = "operator", passwordHash = "1234", role = OPERATOR, permission = 746,
+    User(id = 1, username = "operator", passwordHash = "1", role = OPERATOR, permission = 746,
         remark = "Operator"),
-    User(id = 3, username = "technician", passwordHash = "1234", role = TECHNICIAN,
+    User(id = 2, username = "manager", passwordHash = "2", role = MANAGER, permission = 762,
+        remark = "Manager"),
+    User(id = 3, username = "technician", passwordHash = "3", role = TECHNICIAN,
         permission = 762, remark = "Technician")
 )
 

@@ -334,7 +334,7 @@ private fun LoginContent(
                         }
                         is LoginState.Error -> {
                             val errorMessage = (loginState as LoginState.Error).message
-                            Text(text = errorMessage)
+                            Text(text = stringResource(errorMessage))
                         }
                         else -> {}
                     }

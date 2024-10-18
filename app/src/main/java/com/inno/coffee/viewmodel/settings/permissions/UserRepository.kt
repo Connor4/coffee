@@ -67,8 +67,8 @@ class UserRepository @Inject constructor(
         }
     }
 
-    fun getAllUser(): Flow<List<User>> {
-        return userDao.getAllUser()
+    fun getAllUserFlow(): Flow<List<User>> {
+        return userDao.getAllUserFlow()
     }
 
 }

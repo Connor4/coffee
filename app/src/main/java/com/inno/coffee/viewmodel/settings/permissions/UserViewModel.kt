@@ -1,6 +1,5 @@
 package com.inno.coffee.viewmodel.settings.permissions
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
@@ -10,7 +9,6 @@ import com.inno.common.db.entity.User
 import com.inno.common.utils.Logger
 import com.inno.common.utils.UserSessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val repository: UserRepository,
-    @ApplicationContext private val context: Context,
 ) : ViewModel() {
     private val TAG = "UserViewModel"
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
@@ -41,7 +38,7 @@ class UserViewModel @Inject constructor(
     private val _modifyUser = MutableStateFlow<User?>(null)
     val modifyUser: StateFlow<User?> get() = _modifyUser
 
-    val userList: StateFlow<List<User>> = repository.getAllUser().stateIn(
+    val userList: StateFlow<List<User>> = repository.getAllUserFlow().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()
@@ -78,18 +75,18 @@ class UserViewModel @Inject constructor(
             Logger.d("name ${_username.value}, password ${_password.value}")
             if (_username.value.isBlank() || _password.value.isBlank()) {
                 _loginState.value =
-                    LoginState.Error(context.getString(R.string.home_login_input_empty))
+                    LoginState.Error(R.string.home_login_input_empty)
                 return@launch
             }
 //            if (_username.value.length < 3 || _password.value.length < 6) {
 //                _loginState.value =
-//                    LoginState.Error(context.getString(R.string.home_login_input_invalid))
+//                    LoginState.Error(R.string.home_login_input_invalid)
 //                return@launch
 //            }
             val isAuthenticated = repository.authenticateUser(_username.value, _password.value)
             if (!isAuthenticated) {
                 _loginState.value =
-                    LoginState.Error(context.getString(R.string.home_login_authenticate_fail))
+                    LoginState.Error(R.string.home_login_authenticate_fail)
                 return@launch
             }
             _loginState.value = LoginState.Success
@@ -101,13 +98,13 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             if (username.isEmpty() || password.isEmpty()) {
                 _loginState.value =
-                    LoginState.Error(context.getString(R.string.home_login_input_empty))
+                    LoginState.Error(R.string.home_login_input_empty)
                 return@launch
             }
             val isAuthenticated = repository.authenticateUser(username, password)
             if (!isAuthenticated) {
                 _loginState.value =
-                    LoginState.Error(context.getString(R.string.home_login_authenticate_fail))
+                    LoginState.Error(R.string.home_login_authenticate_fail)
                 return@launch
             }
             _loginState.value = LoginState.Success

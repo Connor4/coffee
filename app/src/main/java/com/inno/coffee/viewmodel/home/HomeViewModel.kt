@@ -1,11 +1,11 @@
 package com.inno.coffee.viewmodel.home
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.data.LoginState
+import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.selfcheck.SelfCheckManager
@@ -25,19 +25,20 @@ import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: HomeRepository,
-    @ApplicationContext private val context: Context,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
     private val TAG = "HomeViewModel"
@@ -133,7 +134,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             if (_username.value.isBlank() || _password.value.isBlank()) {
                 _loginState.value =
-                    LoginState.Error(context.getString(R.string.home_login_input_empty))
+                    LoginState.Error(R.string.home_login_input_empty)
                 return@launch
             }
 //            if (_username.value.length < 3 || _password.value.length < 6) {
@@ -144,11 +145,31 @@ class HomeViewModel @Inject constructor(
             val isAuthenticated = repository.authenticateUser(_username.value, _password.value)
             if (!isAuthenticated) {
                 _loginState.value =
-                    LoginState.Error(context.getString(R.string.home_login_authenticate_fail))
+                    LoginState.Error(R.string.home_login_authenticate_fail)
                 return@launch
             }
 
             _loginState.value = LoginState.Success
+        }
+    }
+
+    fun authenticateUser(password: String) {
+        Logger.d(TAG, "authenticateUser() called with: password = $password")
+        viewModelScope.launch {
+            withContext(defaultDispatcher) {
+                if (password.isBlank()) {
+                    _loginState.value = LoginState.Error(R.string.permission_valid_empty)
+                    return@withContext
+                }
+                val isAuthenticated = repository.authenticateUserByPassword(password)
+                if (!isAuthenticated) {
+                    _loginState.value =
+                        LoginState.Error(R.string.home_login_authenticate_fail)
+                    return@withContext
+                }
+
+                _loginState.value = LoginState.Success
+            }
         }
     }
 

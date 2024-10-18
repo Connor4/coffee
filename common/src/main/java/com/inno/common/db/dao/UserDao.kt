@@ -30,6 +30,9 @@ interface UserDao {
     suspend fun updateUserPermissionId(id: Int, permissionId: Int)
 
     @Query("SELECT * FROM users_table ORDER BY id ASC")
-    fun getAllUser(): Flow<List<User>>
+    fun getAllUserFlow(): Flow<List<User>>
+
+    @Query("SELECT * FROM users_table ORDER BY id ASC")
+    fun getAllUser(): List<User>
 
 }

@@ -24,4 +24,15 @@ class HomeRepository @Inject constructor(
         } ?: false
     }
 
+    suspend fun authenticateUserByPassword(password: String): Boolean {
+        userDao.getAllUser().forEach {
+            val valid = BcryptUtils.checkPassword(password, it.passwordHash)
+            if (valid) {
+                UserSessionManager.setUser(it)
+                return true
+            }
+        }
+        return false
+    }
+
 }
