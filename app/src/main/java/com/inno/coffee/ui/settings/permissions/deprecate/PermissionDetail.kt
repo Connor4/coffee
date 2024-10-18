@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.permissions
+package com.inno.coffee.ui.settings.permissions.deprecate
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues

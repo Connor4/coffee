@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.permissions
+package com.inno.coffee.ui.settings.permissions.deprecate
 
 import android.os.Bundle
 import androidx.compose.foundation.Image
