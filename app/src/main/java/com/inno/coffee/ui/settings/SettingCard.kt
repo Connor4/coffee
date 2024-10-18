@@ -58,7 +58,7 @@ fun SettingCardLayout(
         Pair(MACHINE_OPERATION, R.string.common_machine_params),
         Pair(BEANS_AND_GRINDER, R.string.common_beans_and_grinder),
         Pair(WASH_MACHINE, R.string.common_machine_clean),
-        Pair(PERMISSION, R.string.common_permission),
+        Pair(PERMISSION, R.string.common_password),
         Pair(MAINTENANCE, R.string.common_maintenance),
         Pair(SERIAL_TEST, R.string.common_serial_test)
     )

@@ -1,6 +1,5 @@
 package com.inno.coffee.ui.settings.permissions
 
-import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,20 +20,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
-import com.inno.coffee.utilities.PERMISSION_ENTRANCE_ACCOUNT_MANAGE
-import com.inno.coffee.utilities.PERMISSION_ENTRANCE_REGISTER
+import com.inno.coffee.utilities.PERMISSION_ROLE_MANAGER
+import com.inno.coffee.utilities.PERMISSION_ROLE_OPERATOR
+import com.inno.coffee.utilities.PERMISSION_ROLE_TECHNICIAN
 import com.inno.coffee.utilities.nsp
 
 @Composable
@@ -42,10 +39,10 @@ fun PermissionMainLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val names = arrayOf(
-        Pair(PERMISSION_ENTRANCE_REGISTER, R.string.permission_main_register_account),
-        Pair(PERMISSION_ENTRANCE_ACCOUNT_MANAGE, R.string.permission_main_account_manage),
+        Pair(PERMISSION_ROLE_OPERATOR, R.string.permission_role_operator),
+        Pair(PERMISSION_ROLE_MANAGER, R.string.permission_role_manager),
+        Pair(PERMISSION_ROLE_TECHNICIAN, R.string.permission_role_technician),
     )
-    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -53,7 +50,7 @@ fun PermissionMainLayout(
             .background(Color(0xED000000))
     ) {
         Text(
-            text = stringResource(id = R.string.permission_main_title),
+            text = stringResource(id = R.string.permission_password_title),
             fontSize = 7.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
@@ -75,7 +72,7 @@ fun PermissionMainLayout(
         ) {
             names.forEach { name ->
                 MenuItem(title = name.second) {
-                    jumpDetail(name.first, context)
+                    changePsw(name.first)
                 }
                 Spacer(modifier = Modifier.width(20.dp))
             }
@@ -107,20 +104,20 @@ private fun MenuItem(
     }
 }
 
-private fun jumpDetail(name: Int, context: Context) {
+private fun changePsw(name: Int) {
     when (name) {
-        PERMISSION_ENTRANCE_REGISTER -> {
-            ScreenDisplayManager.autoRoute(context, PermissionEditActivity::class.java)
+        PERMISSION_ROLE_OPERATOR -> {
         }
-        PERMISSION_ENTRANCE_ACCOUNT_MANAGE -> {
-//            ScreenDisplayManager.autoRoute(context, FormulaActivity::class.java)
+        PERMISSION_ROLE_MANAGER -> {
+        }
+        PERMISSION_ROLE_TECHNICIAN -> {
         }
         else -> {}
     }
 }
 
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewPermissionMain() {
     PermissionMainLayout()

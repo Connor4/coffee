@@ -13,7 +13,7 @@
     <string name="common_machine_params">Machine Params</string>
     <string name="common_beans_and_grinder">Beans&amp;Grinder</string>
     <string name="common_machine_clean">Clean</string>
-    <string name="common_permission">Permission</string>
+    <string name="common_password">Password</string>
     <string name="common_maintenance">Maintenance</string>
     <string name="common_serial_test">Serial Test</string>
 
@@ -212,6 +212,11 @@
     <string name="permission_user_list_operate_title">Operation</string>
     <string name="permission_user_list_operate_modify">Modify</string>
     <string name="permission_user_list_operate_delete">Delete</string>
+    <string name="permission_password_title">Password Management</string>
+    <string name="permission_change_psw_title">Change Password</string>"
+    <string name="permission_enter_password_again">Enter Password Again</string>
+    <string name="permission_valid_empty">Password cannot be empty</string>
+    <string name="permission_valid_not_same">Two inputs are inconsistent</string>
 
     <string name="permission_password_correct">password correct</string>
     <string name="permission_password_error">password error</string>
@@ -219,9 +224,9 @@
     <string name="permission_update_user">update</string>
     <string name="permission_insert_user">register</string>
     <string name="permission_delete_user">delete account</string>
-    <string name="permission_role_employee">Employee</string>
+    <string name="permission_role_operator">Operator</string>
     <string name="permission_role_manager">Manager</string>
-    <string name="permission_role_support">After-Sales Support</string>
+    <string name="permission_role_technician">Technician</string>
     <string name="permission_hint_username">username</string>
     <string name="permission_hint_password">password</string>
     <string name="permission_hint_remark">remark</string>

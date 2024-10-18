@@ -171,7 +171,7 @@ private fun UserItem(
                     MANAGER -> stringResource(
                         id = R.string.permission_role_manager)
                     OPERATOR -> stringResource(
-                        id = R.string.permission_role_employee)
+                        id = R.string.permission_role_operator)
                     else -> {
                         ""
                     }

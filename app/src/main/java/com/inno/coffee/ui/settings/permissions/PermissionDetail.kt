@@ -191,7 +191,7 @@ private fun UserInfoItem(user: User) {
 @Composable
 private fun RoleCheckBox(onValueChanged: (Int) -> Unit) {
     val options = listOf(
-        stringResource(id = R.string.permission_role_employee),
+        stringResource(id = R.string.permission_role_operator),
         stringResource(id = R.string.permission_role_manager),
     )
     var selectedOptionIndex by remember {
@@ -231,7 +231,7 @@ private fun ModuleCheckBox(defaultCheckedValue: Int, onValueChanged: (Int) -> Un
         stringResource(id = R.string.common_machine_params),
         stringResource(id = R.string.common_beans_and_grinder),
         stringResource(id = R.string.common_machine_clean),
-        stringResource(id = R.string.common_permission),
+        stringResource(id = R.string.common_password),
         stringResource(id = R.string.common_maintenance),
         stringResource(id = R.string.common_serial_test),
     )

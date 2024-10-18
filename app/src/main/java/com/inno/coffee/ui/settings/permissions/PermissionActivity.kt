@@ -13,13 +13,7 @@ class PermissionActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-//                PermissionLayout() {
-//                    this@PermissionActivity.finish()
-//                }
-//                PermissionEditLayout() {
-//                    this@PermissionActivity.finish()
-//                }
-                PermissionUserListLayout() {
+                PermissionMainLayout {
                     this@PermissionActivity.finish()
                 }
             }
