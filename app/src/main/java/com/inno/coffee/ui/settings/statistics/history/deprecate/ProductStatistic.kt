@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.statistics.history
+package com.inno.coffee.ui.settings.statistics.history.deprecate
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
