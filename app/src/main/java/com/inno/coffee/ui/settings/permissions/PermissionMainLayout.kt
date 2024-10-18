@@ -29,20 +29,24 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
-import com.inno.coffee.utilities.PERMISSION_ROLE_MANAGER
-import com.inno.coffee.utilities.PERMISSION_ROLE_OPERATOR
-import com.inno.coffee.utilities.PERMISSION_ROLE_TECHNICIAN
 import com.inno.coffee.utilities.nsp
+import com.inno.common.annotations.MANAGER
+import com.inno.common.annotations.OPERATOR
+import com.inno.common.annotations.TECHNICIAN
+import com.inno.common.utils.UserSessionManager
 
 @Composable
 fun PermissionMainLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val names = arrayOf(
-        Pair(PERMISSION_ROLE_OPERATOR, R.string.permission_role_operator),
-        Pair(PERMISSION_ROLE_MANAGER, R.string.permission_role_manager),
-        Pair(PERMISSION_ROLE_TECHNICIAN, R.string.permission_role_technician),
+        Pair(OPERATOR, R.string.permission_role_operator),
+        Pair(MANAGER, R.string.permission_role_manager),
+        Pair(TECHNICIAN, R.string.permission_role_technician),
     )
+    val user = UserSessionManager.getUser()
+    val roleLevel = user?.role ?: TECHNICIAN
+    val displayNames = names.take(roleLevel)
 
     Box(
         modifier = Modifier
@@ -70,7 +74,7 @@ fun PermissionMainLayout(
                 .wrapContentHeight()
                 .padding(start = 50.dp, top = 221.dp)
         ) {
-            names.forEach { name ->
+            displayNames.forEach { name ->
                 MenuItem(title = name.second) {
                     changePsw(name.first)
                 }
@@ -106,11 +110,11 @@ private fun MenuItem(
 
 private fun changePsw(name: Int) {
     when (name) {
-        PERMISSION_ROLE_OPERATOR -> {
+        OPERATOR -> {
         }
-        PERMISSION_ROLE_MANAGER -> {
+        MANAGER -> {
         }
-        PERMISSION_ROLE_TECHNICIAN -> {
+        TECHNICIAN -> {
         }
         else -> {}
     }
