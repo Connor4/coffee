@@ -45,6 +45,7 @@ import com.inno.coffee.utilities.nsp
 import kotlinx.coroutines.launch
 
 private const val LAYOUT_HEIGHT = 448F
+private const val ANIMATION_TIME = 375
 
 @Composable
 fun HomeSettingEntrance(
@@ -69,26 +70,26 @@ fun HomeSettingEntrance(
             launch {
                 rotation.animateTo(
                     targetValue = 180f,
-                    animationSpec = tween(durationMillis = 400, easing = LinearEasing)
+                    animationSpec = tween(durationMillis = ANIMATION_TIME, easing = LinearEasing)
                 )
             }
             launch {
                 offsetY.animateTo(
                     targetValue = 0f,
-                    animationSpec = tween(durationMillis = 400, easing = LinearEasing)
+                    animationSpec = tween(durationMillis = ANIMATION_TIME, easing = LinearEasing)
                 )
             }
         } else {
             launch {
                 rotation.animateTo(
                     targetValue = 0f,
-                    animationSpec = tween(durationMillis = 400, easing = LinearEasing)
+                    animationSpec = tween(durationMillis = ANIMATION_TIME, easing = LinearEasing)
                 )
             }
             launch {
                 offsetY.animateTo(
                     targetValue = -LAYOUT_HEIGHT,
-                    animationSpec = tween(durationMillis = 400, easing = LinearEasing)
+                    animationSpec = tween(durationMillis = ANIMATION_TIME, easing = LinearEasing)
                 ).also { onCloseFinished() }
             }
         }
