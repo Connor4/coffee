@@ -28,7 +28,7 @@ fun ProductHistoryLayout(
     val placeHolder = ProductHistory()
 
     CommonHistoryListLayout(
-        listPaddingTop = 226,
+        listPaddingTop = 236,
         title = stringResource(R.string.statistic_product_history),
         placeHolder = placeHolder,
         list = list,
