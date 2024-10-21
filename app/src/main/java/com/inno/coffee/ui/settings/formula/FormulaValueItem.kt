@@ -25,6 +25,7 @@ import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaAmericanoSeqLayout
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaBeanPositionLayout
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaChangeNameLayout
+import com.inno.coffee.ui.settings.formula.formulatype.FormulaPressWeightLayout
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaProductTypeLayout
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
@@ -176,6 +177,16 @@ fun FormulaValueItem(
                 }
                 is FormulaItem.FormulaAmericanoSeq -> {
                     FormulaAmericanoSeqLayout(value, { changeValue ->
+                        onValueChange()
+                        formulaItemValue.clear()
+                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        selectedValue = null
+                    }, {
+                        selectedValue = null
+                    })
+                }
+                is FormulaItem.FormulaPressWeight -> {
+                    FormulaPressWeightLayout(value, {
                         onValueChange()
                         formulaItemValue.clear()
                         formulaItemValue.addAll(getFormulaValue(selectFormula))

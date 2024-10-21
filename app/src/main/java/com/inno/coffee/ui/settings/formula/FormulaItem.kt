@@ -69,6 +69,14 @@ fun FormulaItem(
                         modifier = Modifier.padding(start = 385.dp)
                     )
                 }
+                is FormulaItem.FormulaPressWeight -> {
+                    textValue = value.weight.toString()
+                    Text(
+                        text = value.unit, fontSize = 5.nsp(), color = textColor,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(start = 385.dp)
+                    )
+                }
                 is FormulaItem.FormulaProductType -> {
                     textValue = value.type
                 }

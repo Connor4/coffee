@@ -15,7 +15,7 @@ data class Formula(
     var vat: FormulaItem.FormulaVatPosition? = null,
     var coffeeWater: FormulaItem.FormulaUnitValue? = null, // Boiler
     var powderDosage: FormulaItem.FormulaUnitValue? = null, // Grinder
-    var pressWeight: FormulaItem.FormulaUnitValue? = null, // Brewer
+    var pressWeight: FormulaItem.FormulaPressWeight? = null, // Brewer
     var preMakeTime: FormulaItem.FormulaUnitValue? = null, // Brewer
     var postPreMakeWaitTime: FormulaItem.FormulaUnitValue? = null, // Brewer
     var secPressWeight: FormulaItem.FormulaUnitValue? = null, // Brewer
@@ -63,5 +63,13 @@ sealed class FormulaItem {
     @Serializable
     data class FormulaAmericanoSeq(
         var sequence: Boolean,
+    )
+
+    @Serializable
+    data class FormulaPressWeight(
+        var weight: Short,
+        var rangeStart: Float,
+        var rangeEnd: Float,
+        var unit: String,
     )
 }

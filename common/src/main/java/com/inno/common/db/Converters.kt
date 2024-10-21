@@ -57,4 +57,14 @@ class Converters {
         return Json.decodeFromString(value)
     }
 
+    @TypeConverter
+    fun fromFormulaPressWeight(value: FormulaItem.FormulaPressWeight): String {
+        return Json.encodeToString(value)
+    }
+
+    @TypeConverter
+    fun toFormulaPressWeight(value: String): FormulaItem.FormulaPressWeight {
+        return Json.decodeFromString(value)
+    }
+
 }

@@ -277,7 +277,7 @@ private fun PreviewVerticalScrollList() {
         powderDosage = FormulaItem.FormulaUnitValue(50,
             0f,
             1000f,
-            "[tick]"), pressWeight = FormulaItem.FormulaUnitValue(20,
+            "[tick]"), pressWeight = FormulaItem.FormulaPressWeight(20,
             0f,
             50f,
             "[kg]"),

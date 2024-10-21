@@ -69,7 +69,8 @@ object ProductProfileManager {
         } else {
             1
         }
-        val brewerProfile = ComponentProfile(brewerId, shortArrayOf(formula.pressWeight?.value ?: 0,
+        val brewerProfile =
+            ComponentProfile(brewerId, shortArrayOf(formula.pressWeight?.weight ?: 0,
             formula.preMakeTime?.value ?: 0, formula.postPreMakeWaitTime?.value ?: 0,
             formula.secPressWeight?.value ?: 0, 0, 0))
         val boilerProfile = ComponentProfile(boilerId, shortArrayOf(formula.coffeeWater?.value ?: 0,
