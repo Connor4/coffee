@@ -22,6 +22,10 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
+import com.inno.coffee.ui.settings.formula.formulatype.FormulaAmericanoSeqLayout
+import com.inno.coffee.ui.settings.formula.formulatype.FormulaBeanPositionLayout
+import com.inno.coffee.ui.settings.formula.formulatype.FormulaChangeNameLayout
+import com.inno.coffee.ui.settings.formula.formulatype.FormulaProductTypeLayout
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.common.db.entity.Formula

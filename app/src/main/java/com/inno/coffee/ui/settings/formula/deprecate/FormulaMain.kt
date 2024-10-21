@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.formula
+package com.inno.coffee.ui.settings.formula.deprecate
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll

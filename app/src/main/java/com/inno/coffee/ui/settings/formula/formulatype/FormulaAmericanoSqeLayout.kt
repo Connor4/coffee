@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.formula
+package com.inno.coffee.ui.settings.formula.formulatype
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.debouncedClickable
@@ -37,9 +36,9 @@ import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.FormulaItem
 
 @Composable
-fun FormulaBeanPositionLayout(
-    value: FormulaItem.FormulaVatPosition,
-    onTypeChange: (FormulaItem.FormulaVatPosition) -> Unit,
+fun FormulaAmericanoSeqLayout(
+    value: FormulaItem.FormulaAmericanoSeq,
+    onTypeChange: (FormulaItem.FormulaAmericanoSeq) -> Unit,
     onCloseClick: () -> Unit,
 ) {
     val radioOptions = mapOf(
@@ -48,7 +47,7 @@ fun FormulaBeanPositionLayout(
     )
 
     val selectedKey = remember {
-        val position = if (value.position) 1 else 2
+        val position = if (value.sequence) 1 else 2
         mutableStateOf(position)
     }
 
@@ -100,11 +99,12 @@ fun FormulaBeanPositionLayout(
                         .selectableGroup()
                 ) {
                     radioOptions.forEach {
-                        val text = if (it.key == 1) stringResource(R.string.formula_font_vat)
-                        else stringResource(R.string.formula_back_vat)
-                        PositionRadioButton(text = text, isSelected = (it.key == selectedKey.value),
+                        val text =
+                            if (it.key == 1) stringResource(R.string.formula_americano_seq_c_w)
+                            else stringResource(R.string.formula_americano_seq_w_c)
+                        SequenceRadioButton(text = text, isSelected = (it.key == selectedKey.value),
                             onClick = {
-                                value.position = it.value == 1
+                                value.sequence = it.value == 1
                                 onTypeChange(value)
                             })
                     }
@@ -116,7 +116,7 @@ fun FormulaBeanPositionLayout(
 
 
 @Composable
-private fun PositionRadioButton(
+private fun SequenceRadioButton(
     text: String,
     isSelected: Boolean,
     onClick: () -> Unit,
@@ -141,10 +141,4 @@ private fun PositionRadioButton(
             color = Color.White,
         )
     }
-}
-
-@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
-@Composable
-private fun PreviewFormulaBeanPosition() {
-    FormulaBeanPositionLayout(FormulaItem.FormulaVatPosition(true), {}, {})
 }
