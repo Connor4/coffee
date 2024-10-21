@@ -22,6 +22,7 @@ import com.inno.coffee.utilities.nsp
 
 @Composable
 fun CommonHistoryListLayout(
+    minimumSize: Int = 15,
     listPaddingTop: Int,
     title: String = "",
     placeHolder: Any = Any(),
@@ -56,7 +57,7 @@ fun CommonHistoryListLayout(
         Box(
             modifier = Modifier.padding(top = listPaddingTop.dp)
         ) {
-            VerticalScrollList2(list = list, placeHolder = placeHolder,
+            VerticalScrollList2(list = list, placeHolder = placeHolder, minimumSize = minimumSize,
                 scrollBarWidth = 14, scrollTrackHeight = 500,
                 listPaddingStart = 50, listPaddingTop = 14, listPaddingEnd = 95,
                 listItemHeight = 32f) { index, item ->

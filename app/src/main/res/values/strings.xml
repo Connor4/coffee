@@ -93,9 +93,9 @@
     <string name="statistic_wash_top_right">Tabs R</string>
     <string name="statistic_maintenance_top_description">Description</string>
     <string name="statistic_rinse_top_type">Rinse Type</string>
-    <string name="statistic_rinse_top_system_flow_rate">System Flow Rate\n[tick/s]</string>
-    <string name="statistic_rinse_top_water_pressure">Water Pressure\n[bar]</string>
-    <string name="statistic_rinse_top_limit_flow_rate">NOZZLE Limit Flow Rate\n[tick/s]</string>
+    <string name="statistic_rinse_top_system_flow_rate">System\nFlow Rate\n[tick/s]</string>
+    <string name="statistic_rinse_top_water_pressure">Water\nPressure\n[bar]</string>
+    <string name="statistic_rinse_top_limit_flow_rate">Nozzle Limit\nFlow Rate\n[tick/s]</string>
     <string name="statistic_reset_all">Reset All</string>
     <string name="statistic_last_reset">Last Reset: %s</string>
     <string name="statistic_left">L</string>
