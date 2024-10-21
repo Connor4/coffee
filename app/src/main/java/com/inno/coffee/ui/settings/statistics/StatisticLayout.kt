@@ -41,7 +41,14 @@ import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.statistics.history.StatisticHistoryActivity
 import com.inno.coffee.ui.settings.statistics.product.StatisticProductActivity
 import com.inno.coffee.utilities.HISTORY_VALUE_CLEAN
+import com.inno.coffee.utilities.HISTORY_VALUE_ERROR
+import com.inno.coffee.utilities.HISTORY_VALUE_MAINTENANCE
+import com.inno.coffee.utilities.HISTORY_VALUE_PRODUCT
+import com.inno.coffee.utilities.HISTORY_VALUE_RINSE
+import com.inno.coffee.utilities.KEY_DAY_COUNTER
 import com.inno.coffee.utilities.KEY_HISTORY
+import com.inno.coffee.utilities.KEY_PERIOD_COUNTER
+import com.inno.coffee.utilities.KEY_TOTAL_COUNTER
 import com.inno.coffee.utilities.nsp
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -50,16 +57,16 @@ fun StatisticLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val names = arrayOf(
-        Pair(1, R.string.statistic_day_counter),
-        Pair(2, R.string.statistic_period_counter),
-        Pair(3, R.string.statistic_total_counter),
+        Pair(KEY_DAY_COUNTER, R.string.statistic_day_counter),
+        Pair(KEY_PERIOD_COUNTER, R.string.statistic_period_counter),
+        Pair(KEY_TOTAL_COUNTER, R.string.statistic_total_counter),
     )
     val historyNames = arrayOf(
-        Pair(4, R.string.statistic_product_history),
-        Pair(5, R.string.statistic_error_history),
-        Pair(6, R.string.statistic_clean_history),
-        Pair(7, R.string.statistic_rinse_history),
-        Pair(8, R.string.statistic_maintenance_history),
+        Pair(HISTORY_VALUE_PRODUCT, R.string.statistic_product_history),
+        Pair(HISTORY_VALUE_ERROR, R.string.statistic_error_history),
+        Pair(HISTORY_VALUE_CLEAN, R.string.statistic_clean_history),
+        Pair(HISTORY_VALUE_RINSE, R.string.statistic_rinse_history),
+        Pair(HISTORY_VALUE_MAINTENANCE, R.string.statistic_maintenance_history),
     )
     val context = LocalContext.current
 
@@ -102,14 +109,14 @@ fun StatisticLayout(
             names.forEach { pair ->
                 Item(title = pair.second) {
                     when (pair.first) {
-                        1 -> {
+                        KEY_DAY_COUNTER -> {
                             ScreenDisplayManager.autoRoute(context,
                                 StatisticProductActivity::class.java)
                         }
-                        2 -> {
+                        KEY_PERIOD_COUNTER -> {
 
                         }
-                        3 -> {
+                        KEY_TOTAL_COUNTER -> {
 
                         }
                     }
@@ -134,29 +141,31 @@ fun StatisticLayout(
         ) {
             historyNames.forEach { pair ->
                 Item(title = pair.second) {
+                    var value = ""
                     when (pair.first) {
-                        4 -> {
-
+                        HISTORY_VALUE_PRODUCT -> {
+                            value = HISTORY_VALUE_PRODUCT
                         }
-                        5 -> {
-
+                        HISTORY_VALUE_ERROR -> {
+                            value = HISTORY_VALUE_ERROR
                         }
-                        6 -> {
-                            ScreenDisplayManager.autoRoute(
-                                context,
-                                StatisticHistoryActivity::class.java,
-                                Bundle().apply {
-                                    putString(KEY_HISTORY, HISTORY_VALUE_CLEAN)
-                                }
-                            )
+                        HISTORY_VALUE_CLEAN -> {
+                            value = HISTORY_VALUE_CLEAN
                         }
-                        7 -> {
-
+                        HISTORY_VALUE_RINSE -> {
+                            value = HISTORY_VALUE_RINSE
                         }
-                        8 -> {
-
+                        HISTORY_VALUE_MAINTENANCE -> {
+                            value = HISTORY_VALUE_MAINTENANCE
                         }
                     }
+                    ScreenDisplayManager.autoRoute(
+                        context,
+                        StatisticHistoryActivity::class.java,
+                        Bundle().apply {
+                            putString(KEY_HISTORY, value)
+                        }
+                    )
                 }
             }
         }

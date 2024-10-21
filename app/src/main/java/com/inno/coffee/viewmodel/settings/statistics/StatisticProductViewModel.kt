@@ -41,7 +41,7 @@ class StatisticProductViewModel @Inject constructor(
             _typeCounts.value = repository.getTypeCounts()
             val resetTime = dataStore.getLastResetProductTime()
             val language = dataStore.getSystemLanguage()
-            _time.value = TimeUtils.getNowTime(resetTime, language)
+            _time.value = TimeUtils.getNowTimeInYearAndHour(resetTime, language)
         }
     }
 
@@ -51,7 +51,7 @@ class StatisticProductViewModel @Inject constructor(
 
             val nowTime = System.currentTimeMillis()
             val language = dataStore.getSystemLanguage()
-            val nowTimeFormat = TimeUtils.getNowTime(nowTime, language)
+            val nowTimeFormat = TimeUtils.getNowTimeInYearAndHour(nowTime, language)
             _time.value = nowTimeFormat
             dataStore.saveLastResetProductTime(nowTime)
         }

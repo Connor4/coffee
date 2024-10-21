@@ -15,6 +15,9 @@ const val PRODUCT_RINSE = 4
 const val MAKE_DRINK_COMMAND = 100
 const val MAKE_DRINK_REPLY_VALUE = 0
 
+const val KEY_DAY_COUNTER = "daycounter"
+const val KEY_PERIOD_COUNTER = "periodcounter"
+const val KEY_TOTAL_COUNTER = "totalcounter"
 const val KEY_HISTORY = "history"
 const val HISTORY_VALUE_PRODUCT = "product"
 const val HISTORY_VALUE_CLEAN = "clean"

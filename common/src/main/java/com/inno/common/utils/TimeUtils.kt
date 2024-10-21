@@ -171,7 +171,8 @@ class TimeUtils {
             }
         }
 
-        fun getNowTime(time: Long = System.currentTimeMillis(), language: String): String {
+        fun getNowTimeInYearAndHour(time: Long = System.currentTimeMillis(),
+            language: String): String {
             val dateFormat = when (language) {
                 Locale.ENGLISH.language -> SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
                 Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
@@ -192,7 +193,7 @@ class TimeUtils {
             return dateFormat.format(Date())
         }
 
-        fun getNowTime(): String {
+        fun getNowTimeInHour(): String {
             val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
             return sdf.format(Date())
         }

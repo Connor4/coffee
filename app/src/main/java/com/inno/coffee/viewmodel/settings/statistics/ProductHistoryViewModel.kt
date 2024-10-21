@@ -8,6 +8,7 @@ import com.inno.common.db.entity.ErrorHistory
 import com.inno.common.db.entity.MaintenanceHistory
 import com.inno.common.db.entity.ProductHistory
 import com.inno.common.db.entity.RinseHistory
+import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductHistoryViewModel @Inject constructor(
     private val repository: ProductHistoryRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
 
     val productHistory: StateFlow<List<ProductHistory>> =
@@ -76,10 +78,13 @@ class ProductHistoryViewModel @Inject constructor(
     }
 
     fun addMaintenanceHistory(description: String) {
-        val time = TimeUtils.getNowTime()
-        val maintenanceHistory = MaintenanceHistory(time = time, description = description)
         viewModelScope.launch {
             withContext(defaultDispatcher) {
+                val nowTime = System.currentTimeMillis()
+                val language = dataStore.getSystemLanguage()
+                val nowTimeFormat = TimeUtils.getNowTimeInYearAndHour(nowTime, language)
+                val maintenanceHistory =
+                    MaintenanceHistory(time = nowTimeFormat, description = description)
                 repository.addMaintenanceHistory(maintenanceHistory)
             }
         }
