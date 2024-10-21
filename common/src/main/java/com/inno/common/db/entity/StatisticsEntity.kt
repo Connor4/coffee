@@ -31,7 +31,7 @@ data class ProductHistory(
     var waterTemp: Int = 0,
     var milkTemp: Int = 0,
     var steamPressure: Int = 0,
-    var productType: ProductType,
+    var productType: ProductType = ProductType.COFFEE,
     var cups: Int = 1,
     var discard: Boolean = false,
     var account: String = "",

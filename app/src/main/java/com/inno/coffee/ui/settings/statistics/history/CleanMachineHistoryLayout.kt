@@ -1,11 +1,9 @@
 package com.inno.coffee.ui.settings.statistics.history
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,15 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.ui.common.VerticalScrollList2
-import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.CleanMachineHistory
 
@@ -34,89 +27,66 @@ fun CleanMachineHistoryLayout(
 ) {
     val list = mutableListOf<CleanMachineHistory>()
     val placeHolder = CleanMachineHistory()
-    val scrollBarWidth = 14
-    val scrollTrackHeight = 500
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xED000000))
-    ) {
-        Text(
-            text = stringResource(id = R.string.statistic_clean_history),
-            fontSize = 7.nsp(),
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.padding(start = 54.dp, top = 115.dp)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.common_back_ic),
-            modifier = Modifier
-                .padding(top = 107.dp, end = 50.dp)
-                .align(Alignment.TopEnd)
-                .fastclick { onCloseClick() },
-            contentDescription = null
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(start = 50.dp, top = 170.dp),
-            contentAlignment = Alignment.CenterStart,
-        ) {
-            Text(
-                text = stringResource(R.string.statistic_product_top_time), color = Color.White,
-                fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 29.dp)
-            )
-            Text(
-                text = stringResource(R.string.statistic_wash_top_start), color = Color.White,
-                fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 215.dp)
-            )
-            Text(
-                text = stringResource(R.string.statistic_wash_top_duration), color = Color.White,
-                fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 410.dp)
-            )
-            Text(
-                text = stringResource(R.string.statistic_wash_top_stop), color = Color.White,
-                fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 537.dp)
-            )
-            Text(
-                text = stringResource(R.string.statistic_wash_top_left), color = Color.White,
-                fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 703.dp)
-            )
-            Text(
-                text = stringResource(R.string.statistic_wash_top_right), color = Color.White,
-                fontSize = 5.nsp(),
-                modifier = Modifier.padding(start = 877.dp)
-            )
-        }
-
-        Box(
-            modifier = Modifier.padding(top = 202.dp)
-        ) {
-            VerticalScrollList2(list = list, placeHolder = placeHolder,
-                scrollBarWidth = scrollBarWidth, scrollTrackHeight = scrollTrackHeight,
-                listPaddingStart = 50, listPaddingTop = 14, listPaddingEnd = 95,
-                listItemHeight = 32f) { index, item ->
-
-            val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
-                HistoryItem(history = item as CleanMachineHistory, backgroundColor = color)
+    CommonHistoryListLayout(
+        listPaddingTop = 202,
+        title = stringResource(R.string.statistic_clean_history),
+        placeHolder = placeHolder,
+        list = list,
+        onCloseClick = { onCloseClick() },
+        header = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(start = 50.dp, top = 170.dp),
+                contentAlignment = Alignment.CenterStart,
+            ) {
+                Text(
+                    text = stringResource(R.string.statistic_product_top_time), color = Color.White,
+                    fontSize = 5.nsp(),
+                    modifier = Modifier.padding(start = 29.dp)
+                )
+                Text(
+                    text = stringResource(R.string.statistic_wash_top_start), color = Color.White,
+                    fontSize = 5.nsp(),
+                    modifier = Modifier.padding(start = 215.dp)
+                )
+                Text(
+                    text = stringResource(R.string.statistic_wash_top_duration),
+                    color = Color.White,
+                    fontSize = 5.nsp(),
+                    modifier = Modifier.padding(start = 410.dp)
+                )
+                Text(
+                    text = stringResource(R.string.statistic_wash_top_stop), color = Color.White,
+                    fontSize = 5.nsp(),
+                    modifier = Modifier.padding(start = 537.dp)
+                )
+                Text(
+                    text = stringResource(R.string.statistic_wash_top_left), color = Color.White,
+                    fontSize = 5.nsp(),
+                    modifier = Modifier.padding(start = 703.dp)
+                )
+                Text(
+                    text = stringResource(R.string.statistic_wash_top_right), color = Color.White,
+                    fontSize = 5.nsp(),
+                    modifier = Modifier.padding(start = 877.dp)
+                )
             }
+        },
+        listItem = { color, item ->
+            HistoryItem(color, item as CleanMachineHistory)
         }
-    }
+    )
+
 }
 
 
 @Composable
 private fun HistoryItem(
-    modifier: Modifier = Modifier,
-    history: CleanMachineHistory,
     backgroundColor: Color = Color(0xFF191A1D),
+    history: CleanMachineHistory,
 ) {
     val left: String
     val right: String
@@ -141,12 +111,12 @@ private fun HistoryItem(
     }
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(32.dp),
     ) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(30.dp)
                 .background(color = backgroundColor),
@@ -189,7 +159,7 @@ private fun HistoryItem(
     }
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewCleanMachineHistory() {
     CleanMachineHistoryLayout()

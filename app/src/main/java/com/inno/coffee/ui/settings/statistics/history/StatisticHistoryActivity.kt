@@ -6,9 +6,9 @@ import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
 import com.inno.coffee.utilities.HISTORY_VALUE_CLEAN
 import com.inno.coffee.utilities.HISTORY_VALUE_ERROR
+import com.inno.coffee.utilities.HISTORY_VALUE_MAINTENANCE
 import com.inno.coffee.utilities.HISTORY_VALUE_PRODUCT
 import com.inno.coffee.utilities.HISTORY_VALUE_RINSE
-import com.inno.coffee.utilities.HISTORY_VALUE_SERVICE
 import com.inno.coffee.utilities.KEY_HISTORY
 import com.inno.common.utils.Logger
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,15 +23,31 @@ class StatisticHistoryActivity : CoffeeActivity() {
         setContent {
             CoffeeTheme {
                 when (index) {
-                    HISTORY_VALUE_PRODUCT -> {}
-                    HISTORY_VALUE_RINSE -> {}
+                    HISTORY_VALUE_PRODUCT -> {
+                        ProductHistoryLayout {
+                            this@StatisticHistoryActivity.finish()
+                        }
+                    }
+                    HISTORY_VALUE_RINSE -> {
+                        RinseHistoryLayout {
+                            this@StatisticHistoryActivity.finish()
+                        }
+                    }
                     HISTORY_VALUE_CLEAN -> {
                         CleanMachineHistoryLayout() {
                             this@StatisticHistoryActivity.finish()
                         }
                     }
-                    HISTORY_VALUE_ERROR -> {}
-                    HISTORY_VALUE_SERVICE -> {}
+                    HISTORY_VALUE_ERROR -> {
+                        ErrorHistoryLayout {
+                            this@StatisticHistoryActivity.finish()
+                        }
+                    }
+                    HISTORY_VALUE_MAINTENANCE -> {
+                        MaintenanceHistoryLayout {
+                            this@StatisticHistoryActivity.finish()
+                        }
+                    }
                 }
             }
         }

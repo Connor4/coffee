@@ -20,7 +20,7 @@ const val HISTORY_VALUE_PRODUCT = "product"
 const val HISTORY_VALUE_CLEAN = "clean"
 const val HISTORY_VALUE_RINSE = "rinse"
 const val HISTORY_VALUE_ERROR = "error"
-const val HISTORY_VALUE_SERVICE = "service"
+const val HISTORY_VALUE_MAINTENANCE = "maintenance"
 
 const val PERMISSION_USERNAME = 1
 const val PERMISSION_PASSWORD = 2
