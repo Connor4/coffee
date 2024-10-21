@@ -28,6 +28,7 @@ import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -37,7 +38,7 @@ import com.inno.coffee.utilities.nsp
 fun SingleInputLayout(
     title: String = "",
     tips: String = "",
-    maxInputLimitSize: Int = 100,
+    maxInputLimitSize: Int = 70,
     onEnterClick: (String) -> Unit = {},
     onCloseClick: () -> Unit,
 ) {
@@ -114,7 +115,10 @@ fun SingleInputLayout(
                         )
                     ),
                     fontSize = 5.nsp(), color = Color(0xFF00DE93),
-                    textAlign = TextAlign.Center, maxLines = 1)
+                    textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .width(692.dp)
+                        .wrapContentHeight())
             }
 
 
