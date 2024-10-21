@@ -8,28 +8,34 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.statistics.ProductHistoryViewModel
 import com.inno.common.db.entity.ErrorHistory
 
 @Composable
 fun ErrorHistoryLayout(
+    viewModel: ProductHistoryViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
-    val list = mutableListOf<ErrorHistory>()
+    val historyList by viewModel.errorHistory.collectAsState()
+//    val list = mutableListOf<ErrorHistory>()
     val placeHolder = ErrorHistory()
 
     CommonHistoryListLayout(
         listPaddingTop = 180,
         title = stringResource(R.string.statistic_error_history),
         placeHolder = placeHolder,
-        list = list,
+        list = historyList,
         onCloseClick = { onCloseClick() },
         header = {
         },
