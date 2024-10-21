@@ -8,6 +8,7 @@ import com.inno.common.db.entity.ErrorHistory
 import com.inno.common.db.entity.MaintenanceHistory
 import com.inno.common.db.entity.ProductHistory
 import com.inno.common.db.entity.RinseHistory
+import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.SharingStarted
@@ -70,6 +71,16 @@ class ProductHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(defaultDispatcher) {
                 repository.deleteAllProductHistory()
+            }
+        }
+    }
+
+    fun addMaintenanceHistory(description: String) {
+        val time = TimeUtils.getNowTime()
+        val maintenanceHistory = MaintenanceHistory(time = time, description = description)
+        viewModelScope.launch {
+            withContext(defaultDispatcher) {
+                repository.addMaintenanceHistory(maintenanceHistory)
             }
         }
     }

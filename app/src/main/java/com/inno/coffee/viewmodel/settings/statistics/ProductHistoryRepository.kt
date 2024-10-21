@@ -25,6 +25,14 @@ class ProductHistoryRepository @Inject constructor(
         return drinksHistoryDao.getAllProductHistory()
     }
 
+    suspend fun insertProductHistory(drinksHistory: ProductHistory) {
+        drinksHistoryDao.insertProductHistory(drinksHistory)
+    }
+
+    suspend fun deleteAllProductHistory() {
+        drinksHistoryDao.deleteAllProductHistory()
+    }
+
     fun getAllRinseHistory(): Flow<List<RinseHistory>> {
         return rinseHistoryDao.getAllRinseHistory()
     }
@@ -41,13 +49,8 @@ class ProductHistoryRepository @Inject constructor(
         return maintenanceHistoryDao.getAllMaintenanceHistory()
     }
 
-    suspend fun insertProductHistory(drinksHistory: ProductHistory) {
-        drinksHistoryDao.insertProductHistory(drinksHistory)
+    suspend fun addMaintenanceHistory(maintenanceHistory: MaintenanceHistory) {
+        maintenanceHistoryDao.insertMaintenanceHistory(maintenanceHistory)
     }
-
-    suspend fun deleteAllProductHistory() {
-        drinksHistoryDao.deleteAllProductHistory()
-    }
-
 
 }

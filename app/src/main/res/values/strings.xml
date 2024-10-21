@@ -132,6 +132,8 @@
     <string name="statistic_time_air_pump">Time Air Pump:</string>
     <string name="statistic_time_milk_steam_left">Time Milk Steam Left:</string>
     <string name="statistic_time_milk_steam_right">Time Milk Steam Right:</string>
+    <string name="statistic_add">Add</string>
+    <string name="statistic_maintenance_enter_description">Enter Description</string>
 
     <string name="home_open_setting">Open Settings</string>
     <string name="home_clean_screen">Lock and Clean</string>

@@ -133,6 +133,8 @@
     <string name="statistic_time_air_pump">空气泵时长:</string>
     <string name="statistic_time_milk_steam_left">左蒸汽奶棒时长:</string>
     <string name="statistic_time_milk_steam_right">右蒸汽奶棒时长:</string>
+    <string name="statistic_add">添加</string>
+    <string name="statistic_maintenance_enter_description">输入描述</string>
 
     <string name="home_login_input_empty">用户名或密码未输入</string>
     <string name="home_login_input_invalid">用户名或密码长度不符</string>
