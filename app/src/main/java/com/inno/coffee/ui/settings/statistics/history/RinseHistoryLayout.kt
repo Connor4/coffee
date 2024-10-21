@@ -30,7 +30,7 @@ fun RinseHistoryLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val historyList by viewModel.rinseHistory.collectAsState()
-//    val list = mutableListOf<RinseHistory>()
+//    val historyList = mutableListOf<RinseHistory>()
     val placeHolder = RinseHistory()
 
     CommonHistoryListLayout(
@@ -96,6 +96,11 @@ fun RinseHistoryLayout(
         },
         listItem = { color, item ->
             HistoryItem(color, item as RinseHistory)
+//            HistoryItem(
+//                history = RinseHistory(time = "04.08.2023 11:00:00", rinseType = "Cold Water",
+//                    systemFlowRateL = 6.9f, systemFlowRateR = 6.9f, systemWaterPressureL = 1.0f,
+//                    systemWaterPressureR = 1.0f, nozzleFlowRateL = 6.9f, nozzleFlowRateR = 6.9f,
+//                    nozzleWaterPressureL = 1.0f, nozzleWaterPressureR = 1.0f))
         }
     )
 }
@@ -122,7 +127,7 @@ private fun HistoryItem(
                     text = history.time,
                     color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 1.dp)
+                    modifier = Modifier.padding(start = 25.dp)
                 )
                 Text(
                     text = history.rinseType,

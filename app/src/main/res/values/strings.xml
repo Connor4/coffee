@@ -56,7 +56,7 @@
     <string name="statistic_period_counter">Period Counter</string>
     <string name="statistic_total_counter">Total Counter</string>
     <string name="statistic_product_history">Product History</string>
-    <string name="statistic_machine_service_history">Service History</string>
+    <string name="statistic_maintenance_history">Maintenance History</string>
     <string name="statistic_clean_history">Clean History</string>
     <string name="statistic_rinse_history">Rinse History</string>
     <string name="statistic_error_history">Error History</string>

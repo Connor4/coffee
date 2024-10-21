@@ -60,7 +60,7 @@ fun StatisticLayout(
         Pair(5, R.string.statistic_error_history),
         Pair(6, R.string.statistic_clean_history),
         Pair(7, R.string.statistic_rinse_history),
-        Pair(8, R.string.statistic_machine_service_history),
+        Pair(8, R.string.statistic_maintenance_history),
     )
     val context = LocalContext.current
 

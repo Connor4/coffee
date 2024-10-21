@@ -31,6 +31,7 @@ fun CleanMachineHistoryLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val historyList by viewModel.cleanHistory.collectAsState()
+//    val historyList = mutableListOf<CleanMachineHistory>()
     val placeHolder = CleanMachineHistory()
 
     CommonHistoryListLayout(
@@ -53,20 +54,15 @@ fun CleanMachineHistoryLayout(
                     modifier = Modifier.padding(start = 29.dp)
                 )
                 Text(
-                    text = stringResource(R.string.statistic_wash_top_start), color = Color.White,
-                    fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 215.dp)
-                )
-                Text(
                     text = stringResource(R.string.statistic_wash_top_duration),
                     color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 410.dp)
+                    modifier = Modifier.padding(start = 310.dp)
                 )
                 Text(
                     text = stringResource(R.string.statistic_wash_top_stop), color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 537.dp)
+                    modifier = Modifier.padding(start = 500.dp)
                 )
                 Text(
                     text = stringResource(R.string.statistic_wash_top_left), color = Color.White,
@@ -82,6 +78,10 @@ fun CleanMachineHistoryLayout(
         },
         listItem = { color, item ->
             HistoryItem(color, item as CleanMachineHistory)
+//            HistoryItem(history = CleanMachineHistory(
+//                time = "21.10.2024 11:50:06", startTime = "12:00",
+//                duration = "12:00", stopped = true, tabsL = true, tabsR = true,
+//            ))
         }
     )
 
@@ -131,22 +131,17 @@ private fun HistoryItem(
                 Text(
                     text = history.time, color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 29.dp)
-                )
-                Text(
-                    text = history.startTime, color = Color.White,
-                    fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 251.dp)
+                    modifier = Modifier.padding(start = 25.dp)
                 )
                 Text(
                     text = history.duration, color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 410.dp)
+                    modifier = Modifier.padding(start = 310.dp)
                 )
                 Text(
                     text = stop, color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 537.dp)
+                    modifier = Modifier.padding(start = 500.dp)
                 )
                 Text(
                     text = left, color = leftTextColor,

@@ -30,6 +30,7 @@ fun ProductHistoryLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val drinksHistoryList by viewModel.productHistory.collectAsState()
+//    val drinksHistoryList = mutableListOf<ProductHistory>()
     val placeHolder = ProductHistory()
 
     CommonHistoryListLayout(
@@ -126,6 +127,10 @@ fun ProductHistoryLayout(
         },
         listItem = { color, item ->
             HistoryItem(color, item as ProductHistory)
+//            HistoryItem(color, ProductHistory(time = "04.08.2025 20:34:01", pressFinal = 24.0f,
+//                brewSide = true, grindTime = 11.4f, pqc = true, grindAdjust = 2, extTime = 18.6f,
+//                waterQuantity = 100, waterTemp = 80, milkTemp = 90, steamPressure = 19,
+//                productType = ProductType.COFFEE, cups = 2))
         }
     )
 }
@@ -157,7 +162,7 @@ private fun HistoryItem(
                 Text(
                     text = history.time, color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 1.dp)
+                    modifier = Modifier.padding(start = 25.dp)
                 )
                 Text(
                     text = history.pressFinal.toString(), color = Color.White,

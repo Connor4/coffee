@@ -57,7 +57,7 @@
     <string name="statistic_period_counter">周期统计</string>
     <string name="statistic_total_counter">总量统计</string>
     <string name="statistic_product_history">产品统计</string>
-    <string name="statistic_machine_service_history">维修历史</string>
+    <string name="statistic_maintenance_history">维修历史</string>
     <string name="statistic_clean_history">洗机历史</string>
     <string name="statistic_rinse_history">冲水历史</string>
     <string name="statistic_error_history">故障历史</string>

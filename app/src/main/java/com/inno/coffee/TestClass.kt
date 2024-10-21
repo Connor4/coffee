@@ -1,8 +1,12 @@
 package com.inno.coffee
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 fun main() {
-    val list1 = mutableListOf(2, 3)
-    val list2 = mutableListOf(2, 3, 5, 6)
-    val result = list2.none { 1 == it }
-    print("result $result")
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+    val dateTime = LocalDateTime.now()
+    val formattedDateTime = dateTime.format(formatter)
+    println(formattedDateTime)
+
 }

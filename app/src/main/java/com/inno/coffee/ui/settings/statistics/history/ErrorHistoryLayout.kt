@@ -28,7 +28,7 @@ fun ErrorHistoryLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val historyList by viewModel.errorHistory.collectAsState()
-//    val list = mutableListOf<ErrorHistory>()
+//    val historyList = mutableListOf<ErrorHistory>()
     val placeHolder = ErrorHistory()
 
     CommonHistoryListLayout(
@@ -41,6 +41,8 @@ fun ErrorHistoryLayout(
         },
         listItem = { color, item ->
             HistoryItem(color, item as ErrorHistory)
+//            HistoryItem(color, ErrorHistory(time = "04.08.2025 20:34:01", detail = "test", code =
+//            "W-204"))
         }
     )
 }
@@ -67,7 +69,7 @@ private fun HistoryItem(
                     text = history.time,
                     color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 1.dp)
+                    modifier = Modifier.padding(start = 25.dp)
                 )
                 Text(
                     text = history.code,
