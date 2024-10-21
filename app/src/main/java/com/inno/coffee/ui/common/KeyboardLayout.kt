@@ -199,7 +199,7 @@ private fun KeyboardRow4(keys: List<String>, shift: Boolean, onKeyClick: (keyNam
         }
         Spacer(modifier = Modifier.width(8.dp))
         KeyboardKey(keys[1], width = 340) {
-            onKeyClick(it)
+            onKeyClick(" ")
         }
         Spacer(modifier = Modifier.width(8.dp))
         KeyboardKey(keys[2], width = 165) {
