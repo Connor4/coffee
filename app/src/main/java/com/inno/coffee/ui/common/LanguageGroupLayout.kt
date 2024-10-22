@@ -14,6 +14,7 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,27 +24,35 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_ENGLISH
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_FRENCH
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_JAPANESE
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_KOREAN
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_TRADITIONAL_CHINESE
 import com.inno.coffee.utilities.nsp
 import java.util.Locale
 
 @Composable
 fun LanguageGroupLayout(
-    onLanguagePick: (String) -> Unit,
+    defaultLocale: Locale,
+    onLanguagePick: (Locale) -> Unit,
 ) {
-    val context = LocalContext.current
-    val english = context.getString(R.string.first_install_language_English)
-    val simplifiedChinese = context.getString(R.string.first_install_language_Chinese_simplified)
-    val radioOptions = mapOf<String, String>(
-        Pair(english, Locale.ENGLISH.language),
-        Pair(simplifiedChinese, Locale.SIMPLIFIED_CHINESE.language),
-//        Pair("中文(繁體)", Locale.TRADITIONAL_CHINESE.language),
-//        Pair("日本語", Locale.JAPAN.language),
-//        Pair("한국어", Locale.KOREA.language),
-//        Pair("Français", Locale.FRANCE.language)
+    val radioOptions = mapOf<Locale, String>(
+        Pair(Locale.ENGLISH, FIRST_INSTALL_KEY_ENGLISH),
+        Pair(Locale.SIMPLIFIED_CHINESE, FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE),
+        Pair(Locale.TRADITIONAL_CHINESE, FIRST_INSTALL_KEY_TRADITIONAL_CHINESE),
+        Pair(Locale.JAPAN, FIRST_INSTALL_KEY_JAPANESE),
+        Pair(Locale.KOREA, FIRST_INSTALL_KEY_KOREAN),
+        Pair(Locale.FRANCE, FIRST_INSTALL_KEY_FRENCH)
     )
 
     val (selectedKey, setSelectedKey) = remember {
-        mutableStateOf(english)
+        mutableStateOf(defaultLocale)
+    }
+
+    LaunchedEffect(defaultLocale) {
+        setSelectedKey(defaultLocale)
     }
 
     Box(
@@ -62,10 +71,10 @@ fun LanguageGroupLayout(
                 .selectableGroup()
         ) {
             radioOptions.forEach {
-                LanguageRadioButton(text = it.key, isSelected = (it.key == selectedKey),
+                LanguageRadioButton(text = it.value, isSelected = (it.key == selectedKey),
                     onClick = {
                         setSelectedKey(it.key)
-                        onLanguagePick(it.value)
+                        onLanguagePick(it.key)
                     })
             }
         }
@@ -104,5 +113,5 @@ private fun LanguageRadioButton(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewDisplayLanguageGroup() {
-    LanguageGroupLayout() {}
+    LanguageGroupLayout(Locale.ENGLISH) {}
 }

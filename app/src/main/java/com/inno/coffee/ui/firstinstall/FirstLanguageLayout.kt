@@ -26,10 +26,10 @@ import java.util.Locale
 @Composable
 fun FirstLanguageLayout(
     modifier: Modifier = Modifier,
-    onLanguagePick: (String) -> Unit,
+    onLanguagePick: (Locale) -> Unit,
 ) {
     val selectedLanguage = remember {
-        mutableStateOf(Locale.ENGLISH.language)
+        mutableStateOf(Locale.ENGLISH)
     }
 
     Box(
@@ -51,8 +51,8 @@ fun FirstLanguageLayout(
             )
         }
 
-        LanguageGroupLayout { language ->
-            selectedLanguage.value = language
+        LanguageGroupLayout(Locale.ENGLISH) { locale ->
+            selectedLanguage.value = locale
         }
 
         NextStepButton(modifier = Modifier.align(Alignment.BottomEnd)) {

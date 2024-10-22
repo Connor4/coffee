@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.common.utils.CoffeeDataStore
+import com.inno.common.utils.Logger
 import com.inno.common.utils.SystemLocaleHelper
 import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,15 +30,24 @@ class DisplayViewModel @Inject constructor(
     fun initGroupOne() {
         viewModelScope.launch {
             val systemLanguage = dataStore.getSystemLanguage()
-            _language.value = Locale(systemLanguage).getDisplayName(Locale.US)
+            _language.value = Locale.forLanguageTag(systemLanguage).language
+            Logger.d(tag, "systemLanguage = $systemLanguage language = ${_language.value}")
             _time.value = TimeUtils.getNowTimeInYearAndHour(language = _language.value)
         }
     }
 
-    fun selectLanguage(context: Context, language: String) {
+    suspend fun getLanguage(): String {
+        val language = dataStore.getSystemLanguage()
+        Logger.d(tag, "getLanguage() language = $language")
+        return language
+    }
+
+    fun selectLanguage(context: Context, locale: Locale) {
         viewModelScope.launch(defaultDispatcher) {
-            SystemLocaleHelper.changeSystemLocale(context, language)
-            dataStore.saveSystemLanguage(language)
+            SystemLocaleHelper.changeSystemLocale(context, locale.language)
+            dataStore.saveSystemLanguage(locale.toLanguageTag())
+            _language.value = locale.language
+            Logger.d(tag, "language = ${_language.value}")
         }
     }
 

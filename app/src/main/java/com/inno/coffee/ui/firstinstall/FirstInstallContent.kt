@@ -67,9 +67,9 @@ fun InstallSetting(
             SplashPage(navController, modifier)
         }
         composable(LANGUAGE) {
-            FirstLanguageLayout(modifier) { language ->
+            FirstLanguageLayout(modifier) { locale ->
                 navController.navigate(DATE)
-                viewModel.selectLanguage(context, language)
+                viewModel.selectLanguage(context, locale)
             }
         }
         composable(DATE) {

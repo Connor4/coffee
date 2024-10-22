@@ -21,15 +21,16 @@ class DisplaySettingActivity : CoffeeActivity() {
             CoffeeTheme {
                 when (index) {
                     DISPLAY_SETTING_LANGUAGE -> {
-
+                        DisplayLanguageSettingLayout({
+                            this@DisplaySettingActivity.finish()
+                        })
                     }
                     DISPLAY_SETTING_TIME -> {
-
+                        DisplaySettingDateLayout() {
+                            this@DisplaySettingActivity.finish()
+                        }
                     }
                 }
-//                DisplayLanguageMainLayout() {
-//                    this@DisplayLanguageActivity.finish()
-//                }
             }
         }
     }

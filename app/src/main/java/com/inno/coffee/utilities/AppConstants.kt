@@ -12,6 +12,13 @@ const val HEAD_INDEX = 0
 const val PRODUCT_STOP = 1
 const val PRODUCT_RINSE = 4
 
+const val FIRST_INSTALL_KEY_ENGLISH = "English"
+const val FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE = "中文(简体)"
+const val FIRST_INSTALL_KEY_TRADITIONAL_CHINESE = "中文(繁體)"
+const val FIRST_INSTALL_KEY_JAPANESE = "日本語"
+const val FIRST_INSTALL_KEY_KOREAN = "한국어"
+const val FIRST_INSTALL_KEY_FRENCH = "Français"
+
 const val MAKE_DRINK_COMMAND = 100
 const val MAKE_DRINK_REPLY_VALUE = 0
 

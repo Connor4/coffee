@@ -12,6 +12,7 @@ import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,10 +21,10 @@ class InstallViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    fun selectLanguage(context: Context, language: String) {
+    fun selectLanguage(context: Context, locale: Locale) {
         viewModelScope.launch(defaultDispatcher) {
-            SystemLocaleHelper.changeSystemLocale(context, language)
-            dataStore.saveSystemLanguage(language)
+            SystemLocaleHelper.changeSystemLocale(context, locale.language)
+            dataStore.saveSystemLanguage(locale.toLanguageTag())
         }
     }
 

@@ -266,4 +266,5 @@
     <string name="display_language">语言</string>
     <string name="display_date_and_time">日期和时间</string>
     <string name="display_screen_style">屏幕风格</string>
+    <string name="display_setting_language">选择语言</string>
 </resources>
