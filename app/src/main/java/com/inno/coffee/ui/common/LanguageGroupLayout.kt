@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.firstinstall
+package com.inno.coffee.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,20 +20,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.ui.common.NextStepButton
-import com.inno.coffee.ui.common.debouncedClickable
-import com.inno.coffee.ui.common.draw9Patch
 import com.inno.coffee.utilities.nsp
 import java.util.Locale
 
-
 @Composable
-fun LanguageLayout(modifier: Modifier = Modifier, onLanguagePick: (String) -> Unit) {
+fun LanguageGroupLayout(
+    onLanguagePick: (String) -> Unit,
+) {
     val context = LocalContext.current
     val english = context.getString(R.string.first_install_language_English)
     val simplifiedChinese = context.getString(R.string.first_install_language_Chinese_simplified)
@@ -49,59 +45,33 @@ fun LanguageLayout(modifier: Modifier = Modifier, onLanguagePick: (String) -> Un
     val (selectedKey, setSelectedKey) = remember {
         mutableStateOf(english)
     }
-    val (selectedValue, setSelectedValue) = remember {
-        mutableStateOf(radioOptions[english]!!)
-    }
 
     Box(
-        modifier = modifier,
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(top = 217.dp)
+            .background(color = Color.Transparent),
+        contentAlignment = Alignment.Center,
     ) {
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 66.dp),
-            contentAlignment = Alignment.Center,
+                .width(450.dp)
+                .height(450.dp)
+                .verticalScroll(rememberScrollState())
+                .selectableGroup()
         ) {
-            Text(
-                text = stringResource(id = R.string.first_install_language_title),
-                fontSize = 15.nsp(),
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 217.dp)
-                .background(color = Color.Transparent),
-            contentAlignment = Alignment.Center,
-        ) {
-            Column(
-                modifier = Modifier
-                    .width(450.dp)
-                    .height(450.dp)
-                    .verticalScroll(rememberScrollState())
-                    .selectableGroup()
-            ) {
-                radioOptions.forEach {
-                    LanguageRadioButton(text = it.key, isSelected = (it.key == selectedKey),
-                        onClick = {
-                            setSelectedKey(it.key)
-                            setSelectedValue(it.value)
-                        })
-                }
+            radioOptions.forEach {
+                LanguageRadioButton(text = it.key, isSelected = (it.key == selectedKey),
+                    onClick = {
+                        setSelectedKey(it.key)
+                        onLanguagePick(it.value)
+                    })
             }
-        }
-
-        NextStepButton(modifier = Modifier.align(Alignment.BottomEnd)) {
-            onLanguagePick(selectedValue)
         }
     }
 }
+
 
 @Composable
 private fun LanguageRadioButton(
@@ -129,4 +99,10 @@ private fun LanguageRadioButton(
             color = Color.White,
         )
     }
+}
+
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
+@Composable
+private fun PreviewDisplayLanguageGroup() {
+    LanguageGroupLayout() {}
 }
