@@ -228,6 +228,7 @@ private fun HistoryItem(
                 Spacer(modifier = Modifier.height(2.dp))
             }
         }
+        Spacer(modifier = Modifier.height(2.dp))
     }
 }
 
