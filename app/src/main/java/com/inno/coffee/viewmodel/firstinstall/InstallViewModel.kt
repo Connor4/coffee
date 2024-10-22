@@ -27,7 +27,7 @@ class InstallViewModel @Inject constructor(
         }
     }
 
-    fun finishSetting(context: Context, date: Long, hour: Int, min: Int, language: String) {
+    fun finishSetting(context: Context, date: Long, hour: Int, min: Int) {
         TimeUtils.setDateAndTime(context, date, hour, min)
         viewModelScope.launch(defaultDispatcher) {
             CoffeeSharedPreferences.getInstance().isFirstInstall = false

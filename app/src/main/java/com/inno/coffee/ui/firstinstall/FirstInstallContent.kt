@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,10 +53,6 @@ fun InstallSetting(
     val modifier = Modifier
         .fillMaxSize()
         .background(color = Color(0xFF191A1D))
-    val defaultLanguage = stringResource(id = R.string.first_install_language_English)
-    var selectedLanguage by remember {
-        mutableStateOf(defaultLanguage)
-    }
     var selectedDateMillis by remember {
         mutableStateOf<Long?>(DEFAULT_SYSTEM_TIME)
     }
@@ -73,7 +68,6 @@ fun InstallSetting(
         }
         composable(LANGUAGE) {
             FirstLanguageLayout(modifier) { language ->
-                selectedLanguage = language
                 navController.navigate(DATE)
                 viewModel.selectLanguage(context, language)
             }
@@ -89,7 +83,7 @@ fun InstallSetting(
                 selectedHour = hour
                 selectedMin = min
                 viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_SYSTEM_TIME,
-                    selectedHour, selectedMin, selectedLanguage)
+                    selectedHour, selectedMin)
                 onSetComplete()
             }
         }

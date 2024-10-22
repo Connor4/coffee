@@ -20,6 +20,7 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.LanguageGroupLayout
 import com.inno.coffee.ui.common.NextStepButton
 import com.inno.coffee.utilities.nsp
+import java.util.Locale
 
 
 @Composable
@@ -28,7 +29,7 @@ fun FirstLanguageLayout(
     onLanguagePick: (String) -> Unit,
 ) {
     val selectedLanguage = remember {
-        mutableStateOf("")
+        mutableStateOf(Locale.ENGLISH.language)
     }
 
     Box(
