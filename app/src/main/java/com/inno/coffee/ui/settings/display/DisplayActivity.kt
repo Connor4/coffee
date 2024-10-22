@@ -11,7 +11,9 @@ class DisplayActivity : CoffeeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DisplayMain()
+            DisplayMainLayout() {
+                this@DisplayActivity.finish()
+            }
         }
     }
 

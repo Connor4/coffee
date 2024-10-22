@@ -9,7 +9,10 @@ import com.inno.common.utils.SystemLocaleHelper
 import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,6 +20,19 @@ class DisplayViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
+    private val tag = "DisplayViewModel"
+    private val _language = MutableStateFlow("")
+    val language: StateFlow<String> = _language
+    private val _time = MutableStateFlow("")
+    val time: StateFlow<String> = _time
+
+    fun initGroupOne() {
+        viewModelScope.launch {
+            val systemLanguage = dataStore.getSystemLanguage()
+            _language.value = Locale(systemLanguage).getDisplayName(Locale.US)
+            _time.value = TimeUtils.getNowTimeInYearAndHour(language = _language.value)
+        }
+    }
 
     fun selectLanguage(context: Context, language: String) {
         viewModelScope.launch(defaultDispatcher) {

@@ -1,12 +1,8 @@
 package com.inno.coffee
 
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 fun main() {
-    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-    val dateTime = LocalDateTime.now()
-    val formattedDateTime = dateTime.format(formatter)
-    println(formattedDateTime)
-
+    val name = Locale("zh").getDisplayName(Locale.US)
+    println(name)
 }

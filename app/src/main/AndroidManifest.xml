@@ -54,6 +54,7 @@
         <activity android:name=".ui.settings.formula.FormulaActivity" />
         <activity android:name=".ui.settings.serialtest.SerialPortActivity" />
         <activity android:name=".ui.settings.display.DisplayActivity" />
+        <activity android:name=".ui.settings.display.groupone.DisplaySettingActivity" />
     </application>
 
 </manifest>

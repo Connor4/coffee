@@ -260,5 +260,10 @@
     <string name="formula_steam_boiler">Steam Boiler:</string>
     <string name="formula_change_product_name">Enter Product Name</string>
 
+    <string name="display_import_screen">Import Screen</string>
+    <string name="display_import_language">Import Language</string>
+    <string name="display_language">Language</string>
+    <string name="display_date_and_time">Date And Time</string>
+    <string name="display_screen_style">Screen Style</string>
 
 </resources>

@@ -261,4 +261,9 @@
     <string name="formula_steam_boiler">蒸汽锅炉:</string>
     <string name="formula_change_product_name">输入产品名</string>
 
+    <string name="display_import_screen">导入图片</string>
+    <string name="display_import_language">导入语言</string>
+    <string name="display_language">语言</string>
+    <string name="display_date_and_time">日期和时间</string>
+    <string name="display_screen_style">屏幕风格</string>
 </resources>

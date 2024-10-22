@@ -45,4 +45,8 @@ const val FORMULA_SHOW_POWDER_TEST = 2
 const val FORMULA_PROPERTY_COFFEE_WATER = "coffeeWater"
 const val FORMULA_PROPERTY_POWDER_DOSAGE = "powderDosage"
 
+const val DISPLAY_SETTING_KEY = "display_setting_key"
+const val DISPLAY_SETTING_LANGUAGE = "display_setting_language"
+const val DISPLAY_SETTING_TIME = "display_setting_time"
+
 
