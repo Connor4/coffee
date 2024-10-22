@@ -9,20 +9,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TimePicker
-import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,10 +26,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -109,83 +96,6 @@ fun InstallSetting(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DatePickerPage(onDatePick: (Long?) -> Unit) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(modifier = Modifier
-            .width(1100.dp)
-            .fillMaxHeight()) {
-            val datePickerState =
-                rememberDatePickerState(
-                    initialSelectedDateMillis = (DEFAULT_SYSTEM_TIME + 86400000))
-            DatePicker(
-                state = datePickerState,
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
-            )
-            Button(
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(end = 60.dp),
-                onClick = {
-                    onDatePick(datePickerState.selectedDateMillis)
-                }
-            ) {
-                Text(text = stringResource(id = R.string.common_button_confirm))
-            }
-        }
-    }
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TimePickerPage(onSetComplete: (Int, Int) -> Unit) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        ConstraintLayout(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(16.dp)
-        ) {
-            val (timePicker, cancelButton, confirmButton) = createRefs()
-
-            val state = rememberTimePickerState()
-
-            TimePicker(
-                state = state,
-                modifier = Modifier.constrainAs(timePicker) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-            )
-
-            Button(
-                onClick = {
-
-                },
-                modifier = Modifier.constrainAs(cancelButton) {
-                    top.linkTo(timePicker.bottom, margin = 16.dp)
-                    end.linkTo(confirmButton.start, margin = 8.dp)
-                }
-            ) {
-                Text(text = stringResource(id = R.string.common_button_cancel))
-            }
-
-            Button(
-                onClick = {
-                    onSetComplete(state.hour, state.minute)
-                },
-                modifier = Modifier.constrainAs(confirmButton) {
-                    top.linkTo(timePicker.bottom, margin = 16.dp)
-                    end.linkTo(timePicker.end)
-                }
-            ) {
-                Text(text = stringResource(id = R.string.common_button_confirm))
-            }
-        }
-    }
-}
 
 @Composable
 private fun SplashPage(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -230,15 +140,9 @@ private fun SplashPage(navController: NavHostController, modifier: Modifier = Mo
     }
 }
 
-@Preview(device = Devices.TABLET, showBackground = true)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewInstallPage() {
-//    LanguageLayout(modifier = Modifier
-//        .fillMaxSize()
-//        .background(color = Color(0xFF191A1D))
-//    ) {}
-    TimePickerPage { _, _ -> }
-//    DatePickerPage {}
 //    SplashPage(navController = rememberNavController(), modifier = Modifier
 //        .fillMaxSize()
 //        .background(color = Color(0xFF191A1D))
