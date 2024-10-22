@@ -30,9 +30,10 @@ class DisplayViewModel @Inject constructor(
     fun initGroupOne() {
         viewModelScope.launch {
             val systemLanguage = dataStore.getSystemLanguage()
-            _language.value = Locale.forLanguageTag(systemLanguage).language
-            Logger.d(tag, "systemLanguage = $systemLanguage language = ${_language.value}")
-            _time.value = TimeUtils.getNowTimeInYearAndHour(language = _language.value)
+            _language.value = systemLanguage
+            Logger.d(tag, "initGroupOne() systemLanguage = $systemLanguage")
+            val language = Locale.forLanguageTag(systemLanguage).language
+            _time.value = TimeUtils.getNowTimeInYearAndHour(language = language)
         }
     }
 
@@ -45,9 +46,10 @@ class DisplayViewModel @Inject constructor(
     fun selectLanguage(context: Context, locale: Locale) {
         viewModelScope.launch(defaultDispatcher) {
             SystemLocaleHelper.changeSystemLocale(context, locale.language)
-            dataStore.saveSystemLanguage(locale.toLanguageTag())
-            _language.value = locale.language
-            Logger.d(tag, "language = ${_language.value}")
+            val languageTag = locale.toLanguageTag()
+            dataStore.saveSystemLanguage(languageTag)
+            _language.value = languageTag
+            Logger.d(tag, "selectLanguage() language = ${_language.value}")
         }
     }
 

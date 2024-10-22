@@ -16,6 +16,18 @@ import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.utilities.DISPLAY_SETTING_KEY
 import com.inno.coffee.utilities.DISPLAY_SETTING_LANGUAGE
 import com.inno.coffee.utilities.DISPLAY_SETTING_TIME
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_ENGLISH
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_FRENCH
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_JAPANESE
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_KOREAN
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_TRADITIONAL_CHINESE
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_ENGLISH
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_FRENCH
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_JAPANESE
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_KOREAN
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_SIMPLIFIED_CHINESE
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_TRADITIONAL_CHINESE
 import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
 
 @Composable
@@ -26,12 +38,22 @@ fun DisplayGroupOneLayout(
     val language = viewModel.language.collectAsState()
     val time = viewModel.time.collectAsState()
 
+    val radioOptions = mapOf(
+        Pair(FIRST_INSTALL_KEY_ENGLISH, FIRST_INSTALL_VALUE_ENGLISH),
+        Pair(FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE, FIRST_INSTALL_VALUE_SIMPLIFIED_CHINESE),
+        Pair(FIRST_INSTALL_KEY_TRADITIONAL_CHINESE, FIRST_INSTALL_VALUE_TRADITIONAL_CHINESE),
+        Pair(FIRST_INSTALL_KEY_JAPANESE, FIRST_INSTALL_VALUE_JAPANESE),
+        Pair(FIRST_INSTALL_KEY_KOREAN, FIRST_INSTALL_VALUE_KOREAN),
+        Pair(FIRST_INSTALL_KEY_FRENCH, FIRST_INSTALL_VALUE_FRENCH)
+    )
+
     LaunchedEffect(Unit) {
         viewModel.initGroupOne()
     }
 
     Column {
-        DisplayItemLayout(stringResource(R.string.display_language), language.value,
+        DisplayItemLayout(stringResource(R.string.display_language),
+            radioOptions[language.value] ?: FIRST_INSTALL_VALUE_ENGLISH,
             Color(0xFF191A1D)) {
             ScreenDisplayManager.autoRoute(context, DisplaySettingActivity::class.java,
                 Bundle().apply {

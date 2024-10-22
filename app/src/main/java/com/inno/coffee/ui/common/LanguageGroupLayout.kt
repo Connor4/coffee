@@ -24,12 +24,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.utilities.FIRST_INSTALL_KEY_ENGLISH
-import com.inno.coffee.utilities.FIRST_INSTALL_KEY_FRENCH
-import com.inno.coffee.utilities.FIRST_INSTALL_KEY_JAPANESE
-import com.inno.coffee.utilities.FIRST_INSTALL_KEY_KOREAN
-import com.inno.coffee.utilities.FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE
-import com.inno.coffee.utilities.FIRST_INSTALL_KEY_TRADITIONAL_CHINESE
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_ENGLISH
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_FRENCH
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_JAPANESE
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_KOREAN
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_SIMPLIFIED_CHINESE
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_TRADITIONAL_CHINESE
 import com.inno.coffee.utilities.nsp
 import java.util.Locale
 
@@ -39,12 +39,12 @@ fun LanguageGroupLayout(
     onLanguagePick: (Locale) -> Unit,
 ) {
     val radioOptions = mapOf<Locale, String>(
-        Pair(Locale.ENGLISH, FIRST_INSTALL_KEY_ENGLISH),
-        Pair(Locale.SIMPLIFIED_CHINESE, FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE),
-        Pair(Locale.TRADITIONAL_CHINESE, FIRST_INSTALL_KEY_TRADITIONAL_CHINESE),
-        Pair(Locale.JAPAN, FIRST_INSTALL_KEY_JAPANESE),
-        Pair(Locale.KOREA, FIRST_INSTALL_KEY_KOREAN),
-        Pair(Locale.FRANCE, FIRST_INSTALL_KEY_FRENCH)
+        Pair(Locale.ENGLISH, FIRST_INSTALL_VALUE_ENGLISH),
+        Pair(Locale.SIMPLIFIED_CHINESE, FIRST_INSTALL_VALUE_SIMPLIFIED_CHINESE),
+        Pair(Locale.TRADITIONAL_CHINESE, FIRST_INSTALL_VALUE_TRADITIONAL_CHINESE),
+        Pair(Locale.JAPAN, FIRST_INSTALL_VALUE_JAPANESE),
+        Pair(Locale.KOREA, FIRST_INSTALL_VALUE_KOREAN),
+        Pair(Locale.FRANCE, FIRST_INSTALL_VALUE_FRENCH)
     )
 
     val (selectedKey, setSelectedKey) = remember {

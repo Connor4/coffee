@@ -43,8 +43,12 @@
     <string name="error_no_water">No Water</string>
 
     <string name="first_install_language_title">Language Settings</string>
-    <string name="first_install_language_Chinese_simplified">中文(简体)</string>
     <string name="first_install_language_English">English</string>
+    <string name="first_install_language_Chinese_simplified">中文(简体)</string>
+    <string name="first_install_language_Chinese_traditional">"中文(繁體)"</string>
+    <string name="first_install_language_Japanese">日本語</string>
+    <string name="first_install_language_Korean">한국어</string>
+    <string name="first_install_language_French">Français</string>
     <string name="first_install_next">Next Step</string>
     <string name="first_install_date_title">Date Settings</string>
     <string name="first_install_select_date">Select Date</string>
