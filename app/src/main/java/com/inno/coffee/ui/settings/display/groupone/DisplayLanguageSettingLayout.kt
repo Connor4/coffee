@@ -20,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.LanguageGroupLayout
 import com.inno.coffee.ui.common.fastclick
@@ -31,8 +30,8 @@ import java.util.Locale
 
 @Composable
 fun DisplayLanguageSettingLayout(
+    viewModel: DisplayViewModel,
     onCloseClick: () -> Unit = {},
-    viewModel: DisplayViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -76,5 +75,5 @@ fun DisplayLanguageSettingLayout(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewDisplayLanguageSetting() {
-    DisplayLanguageSettingLayout({})
+//    DisplayLanguageSettingLayout({})
 }

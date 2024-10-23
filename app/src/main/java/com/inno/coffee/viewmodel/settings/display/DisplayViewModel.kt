@@ -21,7 +21,7 @@ class DisplayViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-    private val tag = "DisplayViewModel"
+    private val TAG = "DisplayViewModel"
     private val _language = MutableStateFlow("")
     val language: StateFlow<String> = _language
     private val _time = MutableStateFlow("")
@@ -31,7 +31,7 @@ class DisplayViewModel @Inject constructor(
         viewModelScope.launch {
             val systemLanguage = dataStore.getSystemLanguage()
             _language.value = systemLanguage
-            Logger.d(tag, "initGroupOne() systemLanguage = $systemLanguage")
+            Logger.d(TAG, "initGroupOne() systemLanguage = $systemLanguage")
             val language = Locale.forLanguageTag(systemLanguage).language
             _time.value = TimeUtils.getNowTimeInYearAndHour(language = language)
         }
@@ -39,7 +39,7 @@ class DisplayViewModel @Inject constructor(
 
     suspend fun getLanguage(): String {
         val language = dataStore.getSystemLanguage()
-        Logger.d(tag, "getLanguage() language = $language")
+        Logger.d(TAG, "getLanguage() language = $language")
         return language
     }
 
@@ -49,12 +49,17 @@ class DisplayViewModel @Inject constructor(
             val languageTag = locale.toLanguageTag()
             dataStore.saveSystemLanguage(languageTag)
             _language.value = languageTag
-            Logger.d(tag, "selectLanguage() language = ${_language.value}")
+            Logger.d(TAG, "selectLanguage() language = ${_language.value}")
         }
     }
 
     fun setSystemTime(context: Context, date: Long, hour: Int, min: Int) {
-        TimeUtils.setDateAndTime(context, date, hour, min)
+        viewModelScope.launch {
+            TimeUtils.setDateAndTime(context, date, hour, min)
+            _time.value = TimeUtils.getNowTimeInYearAndHour(language = dataStore
+                .getSystemLanguage())
+            Logger.d(TAG, "setSystemTime() called time ${_time.value}")
+        }
     }
 
 }
