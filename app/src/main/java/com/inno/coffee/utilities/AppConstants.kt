@@ -11,6 +11,10 @@ const val DEFAULT_SYSTEM_TIME = 1704038400000
 const val HEAD_INDEX = 0
 const val PRODUCT_STOP = 1
 const val PRODUCT_RINSE = 4
+const val HOUR = 0
+const val MINUTES = 1
+const val DATE = "date"
+const val TIME = "time"
 
 const val FIRST_INSTALL_KEY_ENGLISH = "en"
 const val FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE = "zh-CN"

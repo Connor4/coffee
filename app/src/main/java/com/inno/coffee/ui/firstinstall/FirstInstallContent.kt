@@ -33,14 +33,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
+import com.inno.coffee.utilities.DATE
 import com.inno.coffee.utilities.DEFAULT_SYSTEM_TIME
+import com.inno.coffee.utilities.TIME
 import com.inno.coffee.viewmodel.firstinstall.InstallViewModel
 import kotlinx.coroutines.delay
 
 private const val SPLASH = "splash"
 private const val LANGUAGE = "language"
-private const val DATE = "date"
-private const val TIME = "time"
 private const val SPLASH_TIME = 3000L
 
 @Composable

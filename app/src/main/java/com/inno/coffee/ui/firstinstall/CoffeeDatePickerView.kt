@@ -25,7 +25,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     var onDateSelected: ((String?, String?, Long) -> Unit)? = null,
 ) : FrameLayout(context, attrs, defStyleAttr) {
     private val TAG = "CoffeeDatePickerView"
-    private val DEFAULT_START_YEAR = 1970
+    private val DEFAULT_START_YEAR = 2024
     private val DEFAULT_END_YEAR = 2100
     private var prevButton: ImageButton? = null
     private var nextButton: ImageButton? = null

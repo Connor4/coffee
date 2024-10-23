@@ -26,7 +26,7 @@ class DisplaySettingActivity : CoffeeActivity() {
                         })
                     }
                     DISPLAY_SETTING_TIME -> {
-                        DisplaySettingDateLayout() {
+                        DisplaySettingDateAndTimeLayout {
                             this@DisplaySettingActivity.finish()
                         }
                     }
