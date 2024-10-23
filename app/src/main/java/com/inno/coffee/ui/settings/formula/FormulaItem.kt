@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.utilities.formulaProductTypeMultilingual
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.FormulaItem
 
@@ -78,7 +79,8 @@ fun FormulaItem(
                     )
                 }
                 is FormulaItem.FormulaProductType -> {
-                    textValue = value.type
+                    val stringRes = formulaProductTypeMultilingual[value.type]
+                    textValue = stringResource(stringRes ?: R.string.formula_product_type_none)
                 }
                 is FormulaItem.FormulaProductName -> {
                     textValue = value.name

@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.inno.coffee.R
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaAmericanoSeqLayout
@@ -27,46 +26,14 @@ import com.inno.coffee.ui.settings.formula.formulatype.FormulaBeanPositionLayout
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaChangeNameLayout
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaPressWeightLayout
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaProductTypeLayout
-import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
-import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
+import com.inno.coffee.utilities.formulaProperties
+import com.inno.coffee.utilities.formulaPropertyNames
+import com.inno.coffee.utilities.formulaStringKeys
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.utils.Logger
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
-import kotlin.reflect.full.memberProperties
-
-private val formulaPropertyNames = listOf(
-    "productType",
-    "productName",
-    "vat",
-    FORMULA_PROPERTY_COFFEE_WATER,
-    FORMULA_PROPERTY_POWDER_DOSAGE,
-    "pressWeight",
-    "preMakeTime",
-    "postPreMakeWaitTime",
-    "secPressWeight",
-    "hotWater",
-    "waterSequence",
-    "coffeeCycles",
-    "bypassWater",
-)
-private val formulaStringKeys = listOf(
-    R.string.formula_product_type,
-    R.string.formula_product_name,
-    R.string.formula_vat_position,
-    R.string.formula_water_dosage,
-    R.string.formula_powder_dosage,
-    R.string.formula_press_weight,
-    R.string.formula_pre_make_time,
-    R.string.formula_pre_make_wait_time,
-    R.string.formula_second_press_weight,
-    R.string.formula_hot_water_dosage,
-    R.string.formula_americano_seq,
-    R.string.formula_coffee_cycles,
-    R.string.formula_bypass_dosage,
-)
-private val formulaProperties = Formula::class.memberProperties
 
 @Composable
 fun FormulaValueItem(

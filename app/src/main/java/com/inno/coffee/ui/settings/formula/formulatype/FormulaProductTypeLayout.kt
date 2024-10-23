@@ -33,6 +33,7 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.draw9Patch
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.utilities.formulaProductTypeMultilingual
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.enums.ProductType
@@ -43,26 +44,6 @@ fun FormulaProductTypeLayout(
     onTypeChange: (FormulaItem.FormulaProductType) -> Unit,
     onCloseClick: () -> Unit,
 ) {
-    val radioOptions = mapOf(
-        Pair(ProductType.NONE.value, R.string.formula_product_type_none),
-        Pair(ProductType.ESPRESSO.value, R.string.formula_product_type_espresso),
-        Pair(ProductType.COFFEE.value, R.string.formula_product_type_coffee),
-        Pair(ProductType.AMERICANO.value, R.string.formula_product_type_americano),
-        Pair(ProductType.DRIP_COFFEE.value, R.string.formula_product_type_drip_coffee),
-        Pair(ProductType.POD_COFFEE.value, R.string.formula_product_type_pod_coffee),
-        Pair(ProductType.DRIP_POD_COFFEE.value, R.string.formula_product_type_drip_pod_coffee),
-        Pair(ProductType.HOT_WATER.value, R.string.formula_product_type_hot_water),
-        Pair(ProductType.MILK.value, R.string.formula_product_type_milk),
-        Pair(ProductType.FOAM.value, R.string.formula_product_type_foam),
-        Pair(ProductType.STEAM.value, R.string.formula_product_type_steam),
-//        Pair(ProductType.COFFEE.value, ProductType.COFFEE.value),
-//        Pair(ProductType.HOT_WATER.value, ProductType.HOT_WATER.value),
-//        Pair(ProductType.MILK.value, ProductType.MILK.value),
-//        Pair(ProductType.FOAM.value, ProductType.FOAM.value),
-//        Pair(ProductType.STEAM.value, ProductType.STEAM.value),
-//        Pair(ProductType.OPERATION.value, ProductType.OPERATION.value),
-    )
-
     val (selectedKey, setSelectedKey) = remember {
         mutableStateOf(value.type)
     }
@@ -114,10 +95,11 @@ fun FormulaProductTypeLayout(
                         .verticalScroll(rememberScrollState())
                         .selectableGroup()
                 ) {
-                    radioOptions.forEach {
+                    formulaProductTypeMultilingual.forEach {
                         TypeRadioButton(text = stringResource(it.value),
                             isSelected = (it.key == selectedKey),
                             onClick = {
+                                setSelectedKey(it.key)
                                 value.type = it.key
                                 onTypeChange(value)
                             })
