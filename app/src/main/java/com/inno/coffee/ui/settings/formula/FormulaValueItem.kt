@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.inno.coffee.R
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaAmericanoSeqLayout
@@ -26,14 +27,48 @@ import com.inno.coffee.ui.settings.formula.formulatype.FormulaBeanPositionLayout
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaChangeNameLayout
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaPressWeightLayout
 import com.inno.coffee.ui.settings.formula.formulatype.FormulaProductTypeLayout
-import com.inno.coffee.utilities.formulaProperties
-import com.inno.coffee.utilities.formulaPropertyNames
-import com.inno.coffee.utilities.formulaStringKeys
+import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
+import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.utils.Logger
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
+import kotlin.reflect.full.memberProperties
+
+private val formulaProperties = Formula::class.memberProperties
+
+private val formulaPropertyNames = listOf(
+    "productType",
+    "productName",
+    "vat",
+    FORMULA_PROPERTY_COFFEE_WATER,
+    FORMULA_PROPERTY_POWDER_DOSAGE,
+    "pressWeight",
+    "preMakeTime",
+    "postPreMakeWaitTime",
+    "secPressWeight",
+    "hotWater",
+    "waterSequence",
+    "coffeeCycles",
+    "bypassWater",
+)
+
+private val formulaPropertyStringMapping = mapOf(
+    "productType" to R.string.formula_product_type,
+    "productName" to R.string.formula_product_name,
+    "vat" to R.string.formula_vat_position,
+    FORMULA_PROPERTY_COFFEE_WATER to R.string.formula_water_dosage,
+    FORMULA_PROPERTY_POWDER_DOSAGE to R.string.formula_powder_dosage,
+    "pressWeight" to R.string.formula_press_weight,
+    "preMakeTime" to R.string.formula_pre_make_time,
+    "postPreMakeWaitTime" to R.string.formula_pre_make_wait_time,
+    "secPressWeight" to R.string.formula_second_press_weight,
+    "hotWater" to R.string.formula_hot_water_dosage,
+    "waterSequence" to R.string.formula_americano_seq,
+    "coffeeCycles" to R.string.formula_coffee_cycles,
+    "bypassWater" to R.string.formula_bypass_dosage,
+)
 
 @Composable
 fun FormulaValueItem(
@@ -48,14 +83,16 @@ fun FormulaValueItem(
     var selectedName by remember {
         mutableStateOf("")
     }
-    val formulaItemValue = remember {
+    val formulaItemNames = remember {
+        mutableStateListOf<String>()
+    }
+    val formulaItemValues = remember {
         mutableStateListOf<Any>()
     }
 
     LaunchedEffect(selectFormula) {
         selectedValue = null
-        formulaItemValue.clear()
-        formulaItemValue.addAll(getFormulaValue(selectFormula))
+        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
     }
 
     Box(
@@ -77,17 +114,20 @@ fun FormulaValueItem(
                     .width(543.dp)
                     .height(293.dp),
             ) {
-                VerticalScrollList2(list = formulaItemValue, minimumSize = 9, placeHolder = "",
+                VerticalScrollList2(list = formulaItemValues, minimumSize = 9, placeHolder = "",
                     scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
                     scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
+                    // IS THIS A GOOD WAY TO PREVENT EMPTY LIST?
+                    if (formulaItemValues.size < 1) {
+                        return@VerticalScrollList2
+                    }
                     val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
-                    val labelResId = formulaStringKeys[index]
-                    val label = stringResource(labelResId)
-                    Logger.d("FormulaValueItem() called with: index = $index, label = $label " +
+                    val labelResId = formulaPropertyStringMapping[formulaItemNames[index]]
+                    val label = stringResource(labelResId!!)
+                    Logger.d("FormulaValueItem() called with: index = $index, label = $label" +
                             "item = $item ")
 
-                    FormulaItem(backgroundColor = color,
-                        selected = selectedValue == item,
+                    FormulaItem(backgroundColor = color, selected = selectedValue == item,
                         description = label, value = item) {
                         selectedValue = item
                         selectedName = formulaPropertyNames[index]
@@ -107,16 +147,14 @@ fun FormulaValueItem(
                                 .padding(top = 250.dp, end = 90.dp),
                             unitValue = value) { changeValue ->
                             onValueChange()
-                            formulaItemValue.clear()
-                            formulaItemValue.addAll(getFormulaValue(selectFormula))
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         }
                     }
                 }
                 is FormulaItem.FormulaProductType -> {
                     FormulaProductTypeLayout(value, { changeValue ->
                         onValueChange()
-                        formulaItemValue.clear()
-                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -125,8 +163,7 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaProductName -> {
                     FormulaChangeNameLayout(value, { changeValue ->
                         onValueChange()
-                        formulaItemValue.clear()
-                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -135,8 +172,7 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaVatPosition -> {
                     FormulaBeanPositionLayout(value, { changeValue ->
                         onValueChange()
-                        formulaItemValue.clear()
-                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -145,8 +181,7 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaAmericanoSeq -> {
                     FormulaAmericanoSeqLayout(value, { changeValue ->
                         onValueChange()
-                        formulaItemValue.clear()
-                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -155,8 +190,7 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaPressWeight -> {
                     FormulaPressWeightLayout(value, {
                         onValueChange()
-                        formulaItemValue.clear()
-                        formulaItemValue.addAll(getFormulaValue(selectFormula))
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -172,7 +206,6 @@ private fun <T : Any, V> updateFormulaValue(
     property: KProperty1<T, V>?,
     newValue: V
 ) {
-    Logger.d("FormulaViewModel", "updateFormulaValue() property: $property new Value: $newValue")
     if (property is KMutableProperty1<T, V>) {
         property.set(formula, newValue)  // Update the property value
     } else {
@@ -180,18 +213,20 @@ private fun <T : Any, V> updateFormulaValue(
     }
 }
 
-private fun getFormulaValue(formula: Formula?): MutableList<Any> {
-    val list = mutableListOf<Any>()
+private fun getFormulaValue(formula: Formula?, nameList: MutableList<String>,
+    valueList: MutableList<Any>) {
     formula?.let {
+        nameList.clear()
+        valueList.clear()
         formulaPropertyNames.forEach { propertyName ->
             val property = formulaProperties.find { property ->
                 property.name == propertyName
             }
             val propertyValue = property?.get(formula) ?: ""
             if (propertyValue != "") {
-                list.add(propertyValue)
+                nameList.add(propertyName)
+                valueList.add(propertyValue)
             }
         }
     }
-    return list
 }
