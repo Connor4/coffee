@@ -263,6 +263,18 @@
     <string name="formula_steam_wand">Steam Wand:</string>
     <string name="formula_steam_boiler">Steam Boiler:</string>
     <string name="formula_change_product_name">Enter Product Name</string>
+    <string name="formula_product_type_none">None</string>
+    <string name="formula_product_type_espresso">Espresso</string>
+    <string name="formula_product_type_coffee">Coffee</string>
+    <string name="formula_product_type_americano">Americano</string>
+    <string name="formula_product_type_drip_coffee">Drip Coffee</string>
+    <string name="formula_product_type_pod_coffee">Pod Coffee</string>
+    <string name="formula_product_type_drip_pod_coffee">Drip Pod Coffee</string>
+    <string name="formula_product_type_hot_water">Hot Water</string>
+    <string name="formula_product_type_milk">Milk</string>
+    <string name="formula_product_type_foam">Foam</string>
+    <string name="formula_product_type_steam">Steam</string>
+    <string name="formula_product_type_operation">Operation</string>
 
     <string name="display_import_screen">Import Screen</string>
     <string name="display_import_language">Import Language</string>

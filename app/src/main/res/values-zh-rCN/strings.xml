@@ -260,6 +260,18 @@
     <string name="formula_steam_wand">蒸汽棒:</string>
     <string name="formula_steam_boiler">蒸汽锅炉:</string>
     <string name="formula_change_product_name">输入产品名</string>
+    <string name="formula_product_type_none">不分类</string>
+    <string name="formula_product_type_espresso">浓缩咖啡</string>
+    <string name="formula_product_type_coffee">咖啡</string>
+    <string name="formula_product_type_americano">美式咖啡</string>
+    <string name="formula_product_type_drip_coffee">滴漏咖啡</string>
+    <string name="formula_product_type_pod_coffee">咖啡壶</string>
+    <string name="formula_product_type_drip_pod_coffee">滴漏咖啡壶</string>
+    <string name="formula_product_type_hot_water">热水</string>
+    <string name="formula_product_type_milk">牛奶</string>
+    <string name="formula_product_type_foam">奶泡</string>
+    <string name="formula_product_type_steam">蒸汽</string>
+    <string name="formula_product_type_operation">操作</string>
 
     <string name="display_import_screen">导入图片</string>
     <string name="display_import_language">导入语言</string>

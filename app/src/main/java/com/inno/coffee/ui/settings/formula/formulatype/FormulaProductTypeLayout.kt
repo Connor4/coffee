@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -43,12 +44,23 @@ fun FormulaProductTypeLayout(
     onCloseClick: () -> Unit,
 ) {
     val radioOptions = mapOf(
-        Pair(ProductType.COFFEE.value, ProductType.COFFEE.value),
-        Pair(ProductType.HOT_WATER.value, ProductType.HOT_WATER.value),
-        Pair(ProductType.MILK.value, ProductType.MILK.value),
-        Pair(ProductType.FOAM.value, ProductType.FOAM.value),
-        Pair(ProductType.STEAM.value, ProductType.STEAM.value),
-        Pair(ProductType.OPERATION.value, ProductType.OPERATION.value),
+        Pair(ProductType.NONE.value, R.string.formula_product_type_none),
+        Pair(ProductType.ESPRESSO.value, R.string.formula_product_type_espresso),
+        Pair(ProductType.COFFEE.value, R.string.formula_product_type_coffee),
+        Pair(ProductType.AMERICANO.value, R.string.formula_product_type_americano),
+        Pair(ProductType.DRIP_COFFEE.value, R.string.formula_product_type_drip_coffee),
+        Pair(ProductType.POD_COFFEE.value, R.string.formula_product_type_pod_coffee),
+        Pair(ProductType.DRIP_POD_COFFEE.value, R.string.formula_product_type_drip_pod_coffee),
+        Pair(ProductType.HOT_WATER.value, R.string.formula_product_type_hot_water),
+        Pair(ProductType.MILK.value, R.string.formula_product_type_milk),
+        Pair(ProductType.FOAM.value, R.string.formula_product_type_foam),
+        Pair(ProductType.STEAM.value, R.string.formula_product_type_steam),
+//        Pair(ProductType.COFFEE.value, ProductType.COFFEE.value),
+//        Pair(ProductType.HOT_WATER.value, ProductType.HOT_WATER.value),
+//        Pair(ProductType.MILK.value, ProductType.MILK.value),
+//        Pair(ProductType.FOAM.value, ProductType.FOAM.value),
+//        Pair(ProductType.STEAM.value, ProductType.STEAM.value),
+//        Pair(ProductType.OPERATION.value, ProductType.OPERATION.value),
     )
 
     val (selectedKey, setSelectedKey) = remember {
@@ -98,14 +110,15 @@ fun FormulaProductTypeLayout(
                 Column(
                     modifier = Modifier
                         .width(450.dp)
-                        .height(450.dp)
+                        .height(495.dp)
                         .verticalScroll(rememberScrollState())
                         .selectableGroup()
                 ) {
                     radioOptions.forEach {
-                        TypeRadioButton(text = it.key, isSelected = (it.key == selectedKey),
+                        TypeRadioButton(text = stringResource(it.value),
+                            isSelected = (it.key == selectedKey),
                             onClick = {
-                                value.type = it.value
+                                value.type = it.key
                                 onTypeChange(value)
                             })
                     }
