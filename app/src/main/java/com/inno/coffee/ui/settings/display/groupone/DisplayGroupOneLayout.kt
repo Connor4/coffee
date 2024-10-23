@@ -3,13 +3,17 @@ package com.inno.coffee.ui.settings.display.groupone
 import android.os.Bundle
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
@@ -35,6 +39,7 @@ fun DisplayGroupOneLayout(
     viewModel: DisplayViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val language = viewModel.language.collectAsState()
     val time = viewModel.time.collectAsState()
 
@@ -49,6 +54,17 @@ fun DisplayGroupOneLayout(
 
     LaunchedEffect(Unit) {
         viewModel.initGroupOne()
+    }
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.initGroupOne()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     Column {
