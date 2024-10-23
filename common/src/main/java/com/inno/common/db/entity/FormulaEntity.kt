@@ -23,6 +23,7 @@ data class Formula(
     var waterSequence: FormulaItem.FormulaAmericanoSeq? = null, // Boiler
     var coffeeCycles: FormulaItem.FormulaUnitValue? = null, // how many cups we need to make
     var bypassWater: FormulaItem.FormulaUnitValue? = null, // Boiler
+    var cups: FormulaItem.FormulaCups? = null,
     //================to be determined, but i hava to have it==================
     var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
     var waterInputValue: Short = -1, // WATER_INPUT_VALVE_ID
@@ -71,5 +72,11 @@ sealed class FormulaItem {
         var rangeStart: Float,
         var rangeEnd: Float,
         var unit: String,
+    )
+
+    @Serializable
+    data class FormulaCups(
+        var target: Int,
+        var cup: Int,
     )
 }
