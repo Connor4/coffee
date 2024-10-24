@@ -117,21 +117,38 @@ class FormulaViewModel @Inject constructor(
                 }
                 val targetFormula = repository.getFormulaByProductId(targetProductId ?: INVALID_INT)
                 targetFormula?.let {
-                    formula.productType = it.productType
-                    formula.vat = it.vat
-                    formula.coffeeWater = it.coffeeWater
-                    formula.powderDosage = it.powderDosage
-                    formula.pressWeight = it.pressWeight
-                    formula.preMakeTime = it.preMakeTime
-                    formula.postPreMakeWaitTime = it.postPreMakeWaitTime
-                    formula.secPressWeight = it.secPressWeight
-                    formula.hotWater = it.hotWater
-                    formula.waterSequence = it.waterSequence
-                    formula.coffeeCycles = it.coffeeCycles
-                    formula.bypassWater = it.bypassWater
-                    formula.cups?.current = targetCup
-                    repository.updateFormula(formula)
-                    getFormula(formula.productId.toInt())
+                    val newFormula = Formula(
+                        productId = formula.productId,
+                        productType = it.productType,
+                        productName = formula.productName,
+                        preFlush = it.preFlush,
+                        postFlush = it.postFlush,
+                        vat = it.vat,
+                        coffeeWater = it.coffeeWater,
+                        powderDosage = it.powderDosage,
+                        pressWeight = it.pressWeight,
+                        preMakeTime = it.preMakeTime,
+                        postPreMakeWaitTime = it.postPreMakeWaitTime,
+                        secPressWeight = it.secPressWeight,
+                        hotWater = it.hotWater,
+                        waterSequence = it.waterSequence,
+                        coffeeCycles = it.coffeeCycles,
+                        bypassWater = it.bypassWater,
+                        cups = formula.cups,
+                        waterPump = it.waterPump,
+                        waterInputValue = it.waterInputValue,
+                        leftValueLeftBoiler = it.leftValueLeftBoiler,
+                        middleValueLeftBoiler = it.middleValueLeftBoiler,
+                        rightValueLeftBoiler = it.rightValueLeftBoiler,
+                        leftValueRightBoiler = it.leftValueRightBoiler,
+                        middleValueRightBoiler = it.middleValueRightBoiler,
+                        rightValueRightBoiler = it.rightValueRightBoiler,
+                    ).apply {
+                        cups?.current = targetCup
+                    }
+                    repository.updateFormula(newFormula)
+                    _formula.value = newFormula
+                    Logger.d(TAG, "setFormulaCups: newFormula = $newFormula")
                 }
             }
         }

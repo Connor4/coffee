@@ -20,7 +20,6 @@ import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.utilities.previewFormula
 import com.inno.common.db.entity.Formula
-import com.inno.common.utils.Logger
 
 
 @Composable
@@ -35,8 +34,6 @@ fun FormulaCupSelectorLayout(
         if (selectedFormula.cups == null) 1 else if (selectedFormula.cups?.double != -1) 2 else 1
     val selectedIndex =
         if (selectedFormula.cups == null) 1 else selectedFormula.cups?.current
-    Logger.d("FormulaCupSelectorLayout() called with: selectedFormula = $selectedFormula " +
-            "repeatTimes = $repeatTimes selectedIndex = $selectedIndex")
 
     Box {
         Column(
