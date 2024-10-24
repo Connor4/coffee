@@ -122,19 +122,23 @@ fun FormulaValueItem(
                     scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
                     scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
                     // IS THIS A GOOD WAY TO PREVENT EMPTY LIST?
-                    if (formulaItemValues.size < 1 || formulaItemValues.size <= index) {
+                    if (formulaItemValues.size < 1) {
                         return@VerticalScrollList2
                     }
                     val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
-                    val labelResId = formulaPropertyStringMapping[formulaItemNames[index]]
-                    val label = stringResource(labelResId!!)
-//                    Logger.d("FormulaValueItem() called with: index = $index, label = $label" +
-//                            "item = $item ")
 
-                    FormulaItem(backgroundColor = color, selected = selectedValue == item,
-                        description = label, value = item) {
-                        selectedValue = item
-                        selectedName = formulaPropertyNames[index]
+                    if (formulaItemValues.size <= index) {
+                        FormulaItem(backgroundColor = color, selected = false,
+                            description = "", value = "")
+                    } else {
+                        val labelResId = formulaPropertyStringMapping[formulaItemNames[index]]
+                        val label = stringResource(labelResId!!)
+
+                        FormulaItem(backgroundColor = color, selected = selectedValue == item,
+                            description = label, value = item) {
+                            selectedValue = item
+                            selectedName = formulaPropertyNames[index]
+                        }
                     }
                 }
             }
