@@ -25,7 +25,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -33,11 +32,13 @@ import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.utilities.nsp
+import com.inno.common.db.entity.Formula
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun FormulaDrinkPage(
     selectedModel: DrinksModel?,
+    selectedFormula: Formula?,
     totalCount: Int,
     pagerState: PagerState,
     drinksTypeList: List<DrinksModel>,
@@ -58,7 +59,8 @@ fun FormulaDrinkPage(
                     .background(color = Color(0xFF191A1D)),
             ) {
                 val drawableRes = selectedModel?.imageRes ?: R.drawable.drink_espresso_ic
-                val stringRes = selectedModel?.name ?: R.string.home_item_espresso
+//                val stringRes = selectedFormula?.productName ?: R.string.home_item_espresso
+                val name = selectedFormula?.productName?.name ?: ""
                 Image(
                     painter = painterResource(id = drawableRes),
                     contentDescription = null,
@@ -70,7 +72,7 @@ fun FormulaDrinkPage(
                         .offset(y = 40.dp),
                 )
                 Text(
-                    text = stringResource(id = stringRes),
+                    text = name,
                     fontSize = 6.nsp(),
                     color = Color.White,
                     textAlign = TextAlign.Center,

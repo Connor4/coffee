@@ -80,7 +80,8 @@ fun FormulaLayout(
                 text = stringResource(id = R.string.formula_assimilation_key),
             )
         }
-        FormulaDrinkPage(selectedModel.value, totalCount, pagerState, drinksTypeList) {
+        FormulaDrinkPage(selectedModel.value, selectFormula, totalCount, pagerState,
+            drinksTypeList) {
             selectedModel.value = it
             viewModel.getFormula(it.productId)
         }

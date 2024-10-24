@@ -143,6 +143,7 @@ class FormulaViewModel @Inject constructor(
                         leftValueRightBoiler = it.leftValueRightBoiler,
                         middleValueRightBoiler = it.middleValueRightBoiler,
                         rightValueRightBoiler = it.rightValueRightBoiler,
+                        id = formula.id
                     ).apply {
                         cups?.current = targetCup
                     }
