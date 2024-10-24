@@ -31,6 +31,7 @@ import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
+import com.inno.common.utils.Logger
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
@@ -51,6 +52,8 @@ private val formulaPropertyNames = listOf(
     "waterSequence",
     "coffeeCycles",
     "bypassWater",
+    "foam",
+    "milk",
 )
 
 private val formulaPropertyStringMapping = mapOf(
@@ -67,6 +70,8 @@ private val formulaPropertyStringMapping = mapOf(
     "waterSequence" to R.string.formula_americano_seq,
     "coffeeCycles" to R.string.formula_coffee_cycles,
     "bypassWater" to R.string.formula_bypass_dosage,
+    "foam" to R.string.formula_foam,
+    "milk" to R.string.formula_milk,
 )
 
 @Composable
@@ -117,7 +122,7 @@ fun FormulaValueItem(
                     scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
                     scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
                     // IS THIS A GOOD WAY TO PREVENT EMPTY LIST?
-                    if (formulaItemValues.size < 1) {
+                    if (formulaItemValues.size < 1 || formulaItemValues.size <= index) {
                         return@VerticalScrollList2
                     }
                     val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
@@ -223,6 +228,8 @@ private fun getFormulaValue(formula: Formula?, nameList: MutableList<String>,
             }
             val propertyValue = property?.get(formula) ?: ""
             if (propertyValue != "") {
+                Logger.d("getFormulaValue() called with: propertyName = $propertyName value " +
+                        "$propertyValue")
                 nameList.add(propertyName)
                 valueList.add(propertyValue)
             }

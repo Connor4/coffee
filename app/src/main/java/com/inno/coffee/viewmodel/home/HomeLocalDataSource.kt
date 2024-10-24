@@ -19,7 +19,7 @@ class HomeLocalDataSource @Inject constructor() {
         ),
         DrinksModel(
             productId = 2,
-            type = ProductType.OPERATION,
+            type = ProductType.HOT_WATER,
             name = R.string.home_item_hot_water,
             imageRes = R.drawable.drink_hot_water_ic
         ),

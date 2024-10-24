@@ -258,6 +258,8 @@
     <string name="formula_americano_seq_w_c">first water then coffee</string>
     <string name="formula_coffee_cycles">Coffee Cycles</string>
     <string name="formula_bypass_dosage">Bypass Dosage</string>
+    <string name="formula_foam">Foam</string>
+    <string name="formula_milk">Milk</string>
     <string name="formula_font_vat">Font</string>
     <string name="formula_back_vat">Back</string>
     <string name="formula_steam_wand">Steam Wand:</string>

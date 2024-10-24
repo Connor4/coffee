@@ -10,8 +10,6 @@ data class Formula(
     var productId: Short,
     var productType: FormulaItem.FormulaProductType,
     var productName: FormulaItem.FormulaProductName,
-    var preFlush: Boolean = false,
-    var postFlush: Boolean = false,
     var vat: FormulaItem.FormulaVatPosition? = null,
     var coffeeWater: FormulaItem.FormulaUnitValue? = null, // Boiler
     var powderDosage: FormulaItem.FormulaUnitValue? = null, // Grinder
@@ -23,7 +21,12 @@ data class Formula(
     var waterSequence: FormulaItem.FormulaAmericanoSeq? = null, // Boiler
     var coffeeCycles: FormulaItem.FormulaUnitValue? = null, // how many cups we need to make
     var bypassWater: FormulaItem.FormulaUnitValue? = null, // Boiler
+    var foam: FormulaItem.FormulaUnitValue? = null,
+    var milk: FormulaItem.FormulaUnitValue? = null,
+    //=======================================================================
     var cups: FormulaItem.FormulaCups? = null,
+    var preFlush: Boolean = false,
+    var postFlush: Boolean = false,
     //================to be determined, but i hava to have it==================
     var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
     var waterInputValue: Short = -1, // WATER_INPUT_VALVE_ID

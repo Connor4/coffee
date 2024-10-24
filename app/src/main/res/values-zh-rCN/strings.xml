@@ -255,6 +255,8 @@
     <string name="formula_americano_seq_w_c">先水后咖啡</string>
     <string name="formula_coffee_cycles">连续制作数</string>
     <string name="formula_bypass_dosage">旁路水路出水量</string>
+    <string name="formula_foam">奶泡</string>
+    <string name="formula_milk">牛奶</string>
     <string name="formula_font_vat">前方</string>
     <string name="formula_back_vat">后方</string>
     <string name="formula_steam_wand">蒸汽棒:</string>
