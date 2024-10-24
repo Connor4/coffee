@@ -58,7 +58,7 @@ fun FormulaDrinkPage(
                     .clip(RoundedCornerShape(20.dp))
                     .background(color = Color(0xFF191A1D)),
             ) {
-                val drawableRes = selectedModel?.imageRes ?: R.drawable.drink_espresso_ic
+                val drawableRes = selectedModel?.imageRes ?: R.drawable.drink_item_empty_ic
 //                val stringRes = selectedFormula?.productName ?: R.string.home_item_espresso
                 val name = selectedFormula?.productName?.name ?: ""
                 Image(
