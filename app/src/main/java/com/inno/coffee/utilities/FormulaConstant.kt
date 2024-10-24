@@ -1,6 +1,8 @@
 package com.inno.coffee.utilities
 
 import com.inno.coffee.R
+import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.FormulaItem
 import com.inno.common.enums.ProductType
 
 val formulaProductTypeMultilingual = mapOf(
@@ -17,3 +19,54 @@ val formulaProductTypeMultilingual = mapOf(
     Pair(ProductType.STEAM.value, R.string.formula_product_type_steam),
 )
 
+val previewFormula = Formula(
+    productId = 3, productType = FormulaItem.FormulaProductType(ProductType
+        .COFFEE.value),
+    productName = FormulaItem.FormulaProductName("意式"),
+    vat = FormulaItem.FormulaVatPosition(true),
+    coffeeWater = FormulaItem.FormulaUnitValue(20,
+        0f,
+        100f,
+        "[mm]"),
+    powderDosage = FormulaItem.FormulaUnitValue(50,
+        0f,
+        1000f,
+        "[tick]"), pressWeight = FormulaItem.FormulaPressWeight(20,
+        0f,
+        50f,
+        "[kg]"),
+    preMakeTime = FormulaItem.FormulaUnitValue(800,
+        0f,
+        1000f,
+        "[s]"),
+    postPreMakeWaitTime = FormulaItem.FormulaUnitValue(2000,
+        0f,
+        1000f,
+        "[s]"),
+    secPressWeight = FormulaItem.FormulaUnitValue(0,
+        0f,
+        1000f,
+        "[mm]"),
+    hotWater = FormulaItem.FormulaUnitValue(150,
+        0f,
+        1000f,
+        "[tick]"),
+    waterSequence = FormulaItem.FormulaAmericanoSeq(true),
+    coffeeCycles = FormulaItem.FormulaUnitValue(
+        value = 1,
+        rangeStart = 0f,
+        rangeEnd = 10f,
+        unit = "[-]"
+    ),
+    bypassWater = FormulaItem.FormulaUnitValue(
+        value = 0,
+        rangeStart = 0f,
+        rangeEnd = 10f,
+        unit = "[%]"
+    ),
+    cups = FormulaItem.FormulaCups(
+        single = 1000,
+        double = 1000,
+        current = 2,
+    )
+)

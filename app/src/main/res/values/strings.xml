@@ -275,6 +275,8 @@
     <string name="formula_product_type_foam">Foam</string>
     <string name="formula_product_type_steam">Steam</string>
     <string name="formula_product_type_operation">Operation</string>
+    <string name="formula_product_cups_title">Warning</string>
+    <string name="formula_product_cups_change_tips">If you change the product category, the parameters previously set for the product key will be canceled and replaced by the default parameters of the newly selected product category.</string>
 
     <string name="display_import_screen">Import Screen</string>
     <string name="display_import_language">Import Language</string>

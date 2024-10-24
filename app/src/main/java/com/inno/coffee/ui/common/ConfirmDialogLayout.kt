@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,7 +24,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -39,9 +41,6 @@ fun ConfirmDialogLayout(
     Box(
         modifier = Modifier
             .fillMaxSize()
-//            .fillMaxWidth()
-//            .height(800.dp)
-//            .padding(top = 60.dp, bottom = 70.dp)
             .background(Color(0xED000000))
             .clickable(enabled = false) { },
         contentAlignment = Alignment.Center
@@ -79,7 +78,11 @@ fun ConfirmDialogLayout(
             Text(
                 text = description,
                 fontSize = 6.nsp(), color = Color.White,
-                modifier = Modifier.align(Alignment.Center)
+                textAlign = TextAlign.Center,
+                maxLines = 4, overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .fillMaxWidth(0.8f)
+                    .align(Alignment.Center)
             )
             Row(
                 modifier = Modifier
@@ -116,7 +119,7 @@ fun ConfirmDialogLayout(
     }
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewConfirmDialog() {
     ConfirmDialogLayout(title = stringResource(id = R.string.home_standby_mode),

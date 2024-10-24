@@ -76,7 +76,8 @@ sealed class FormulaItem {
 
     @Serializable
     data class FormulaCups(
-        var target: Int,
-        var cup: Int,
+        var single: Int = -1,
+        var double: Int = -1,
+        var current: Int = -1,
     )
 }

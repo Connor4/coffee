@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.ChangeColorButton
+import com.inno.coffee.ui.common.ConfirmDialogLayout
 import com.inno.coffee.utilities.FORMULA_SHOW_LEARN_WATER
 import com.inno.coffee.utilities.FORMULA_SHOW_POWDER_TEST
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
@@ -43,7 +44,8 @@ fun FormulaLayout(
     val selectedModel = rememberSaveable { mutableStateOf<DrinksModel?>(null) }
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
-    val selectTimes = rememberSaveable { mutableIntStateOf(1) }
+    val openConfirmDialog = remember { mutableStateOf(false) }
+    val selectedCups = remember { mutableStateOf(1) }
 
     LaunchedEffect(Unit) {
         if (drinksTypeList.isNotEmpty()) {
@@ -61,8 +63,9 @@ fun FormulaLayout(
         FunctionHeader(text = stringResource(id = R.string.formula_title)) {
             onCloseClick()
         }
-        FormulaTimesSelector(selectTimes.value) {
-            selectTimes.value = it
+        FormulaCupSelectorLayout(selectFormula) { cups ->
+            openConfirmDialog.value = true
+            selectedCups.value = cups
         }
         Box(
             modifier = Modifier
@@ -98,6 +101,17 @@ fun FormulaLayout(
                 }
             }
         })
+        if (openConfirmDialog.value) {
+            ConfirmDialogLayout(
+                stringResource(R.string.formula_product_cups_title),
+                stringResource(R.string.formula_product_cups_change_tips), {
+                    openConfirmDialog.value = false
+                    viewModel.setFormulaCups(selectedCups.value, selectFormula)
+                }, {
+                    openConfirmDialog.value = false
+                }
+            )
+        }
     }
 
 }

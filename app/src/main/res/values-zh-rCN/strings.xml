@@ -272,6 +272,9 @@
     <string name="formula_product_type_foam">奶泡</string>
     <string name="formula_product_type_steam">蒸汽</string>
     <string name="formula_product_type_operation">操作</string>
+    <string name="formula_product_cups_title">警告</string>
+    <string name="formula_product_cups_change_tips">如果改变产品类别，该产品键之前所设置的参数将会取消，并由新选择产品类别的默认参数替代。</string>
+
 
     <string name="display_import_screen">导入图片</string>
     <string name="display_import_language">导入语言</string>

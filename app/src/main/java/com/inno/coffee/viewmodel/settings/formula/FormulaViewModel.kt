@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
 import com.inno.common.utils.Logger
@@ -99,6 +100,39 @@ class FormulaViewModel @Inject constructor(
             withContext(defaultDispatcher) {
                 _formula.value = repository.getFormulaByProductId(productId)
                 Logger.d(TAG, "getFormula() ${_formula.value}")
+            }
+        }
+    }
+
+    fun setFormulaCups(targetCup: Int, formula: Formula?) {
+        if (formula == null) {
+            return
+        }
+        viewModelScope.launch {
+            withContext(defaultDispatcher) {
+                val targetProductId = if (targetCup == 1) {
+                    formula.cups?.single
+                } else {
+                    formula.cups?.double
+                }
+                val targetFormula = repository.getFormulaByProductId(targetProductId ?: INVALID_INT)
+                targetFormula?.let {
+                    formula.productType = it.productType
+                    formula.vat = it.vat
+                    formula.coffeeWater = it.coffeeWater
+                    formula.powderDosage = it.powderDosage
+                    formula.pressWeight = it.pressWeight
+                    formula.preMakeTime = it.preMakeTime
+                    formula.postPreMakeWaitTime = it.postPreMakeWaitTime
+                    formula.secPressWeight = it.secPressWeight
+                    formula.hotWater = it.hotWater
+                    formula.waterSequence = it.waterSequence
+                    formula.coffeeCycles = it.coffeeCycles
+                    formula.bypassWater = it.bypassWater
+                    formula.cups?.current = targetCup
+                    repository.updateFormula(formula)
+                    getFormula(formula.productId.toInt())
+                }
             }
         }
     }

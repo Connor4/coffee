@@ -31,7 +31,6 @@ import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
-import com.inno.common.utils.Logger
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
@@ -124,8 +123,8 @@ fun FormulaValueItem(
                     val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
                     val labelResId = formulaPropertyStringMapping[formulaItemNames[index]]
                     val label = stringResource(labelResId!!)
-                    Logger.d("FormulaValueItem() called with: index = $index, label = $label" +
-                            "item = $item ")
+//                    Logger.d("FormulaValueItem() called with: index = $index, label = $label" +
+//                            "item = $item ")
 
                     FormulaItem(backgroundColor = color, selected = selectedValue == item,
                         description = label, value = item) {
