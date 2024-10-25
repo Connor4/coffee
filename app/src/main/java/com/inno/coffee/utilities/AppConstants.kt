@@ -15,9 +15,6 @@ const val HOUR = 0
 const val MINUTES = 1
 const val DATE = "date"
 const val TIME = "time"
-const val MAIN_SCREEN_MAX_PRODUCT_ID = 99
-const val SECOND_SCREEN_MIN_PRODUCT_ID = 100
-const val SECOND_SCREEN_MAX_PRODUCT_ID = 999
 
 const val FIRST_INSTALL_KEY_ENGLISH = "en"
 const val FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE = "zh-CN"
@@ -64,6 +61,8 @@ const val FORMULA_SHOW_LEARN_WATER = 1
 const val FORMULA_SHOW_POWDER_TEST = 2
 const val FORMULA_PROPERTY_COFFEE_WATER = "coffeeWater"
 const val FORMULA_PROPERTY_POWDER_DOSAGE = "powderDosage"
+const val MAIN_SCREEN_PRODUCT_ID_LIMIT = 100
+const val SECOND_SCREEN_PRODUCT_ID_LIMIT = 1000
 
 const val DISPLAY_SETTING_KEY = "display_setting_key"
 const val DISPLAY_SETTING_LANGUAGE = "display_setting_language"

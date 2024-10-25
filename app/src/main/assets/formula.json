@@ -1,287 +1,5 @@
 [
   {
-    "productId": 1007,
-    "productType": {
-      "type": "Coffee"
-    },
-    "productName": {
-      "name": "美式咖啡"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "vat": {
-      "position": true
-    },
-    "powderDosage": {
-      "value": 140,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 50,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 20,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 800,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 2000,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
-      "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 150,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "waterSequence": {
-      "sequence": true
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
-  },
-  {
-    "productId": 1008,
-    "productType": {
-      "type": "Coffee"
-    },
-    "productName": {
-      "name": "2x美式咖啡"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "vat": {
-      "position": true
-    },
-    "powderDosage": {
-      "value": 210,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 80,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 20,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
-      "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 320,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "waterSequence": {
-      "sequence": true
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
-  },
-  {
-    "productId": 1005,
-    "productType": {
-      "type": "Coffee"
-    },
-    "productName": {
-      "name": "特浓咖啡"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "vat": {
-      "position": true
-    },
-    "powderDosage": {
-      "value": 140,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 50,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 20,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 800,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 2000,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
-      "unit": "[mm]"
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
-  },
-  {
-    "productId": 1006,
-    "productType": {
-      "type": "Coffee"
-    },
-    "productName": {
-      "name": "2x特浓咖啡"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "vat": {
-      "position": true
-    },
-    "powderDosage": {
-      "value": 210,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 80,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 20,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
-      "unit": "[mm]"
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
-  },
-  {
     "productId": 2,
     "productType": {
       "type": "HotWater"
@@ -2280,6 +1998,288 @@
     },
     "waterSequence": {
       "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "productId": 1007,
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "美式咖啡"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "vat": {
+      "position": true
+    },
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "productId": 1008,
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "2x美式咖啡"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "vat": {
+      "position": true
+    },
+    "powderDosage": {
+      "value": 210,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 80,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 320,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "productId": 1005,
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "特浓咖啡"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "vat": {
+      "position": true
+    },
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 800,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2000,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "productId": 1006,
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "2x特浓咖啡"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "vat": {
+      "position": true
+    },
+    "powderDosage": {
+      "value": 210,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 80,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2000.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": 0.0,
+      "rangeEnd": 50.0,
+      "unit": "[mm]"
     },
     "coffeeCycles": {
       "value": 1,
