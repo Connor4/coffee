@@ -9,10 +9,8 @@ object UserSessionManager {
     private val loginCount: AtomicInteger = AtomicInteger(0)
 
     fun setUser(user: User) {
-        if (loginCount.get() == 0) {
+        if (loginCount.getAndIncrement() == 0) {
             this.user = user
-        } else {
-            loginCount.incrementAndGet()
         }
     }
 
@@ -21,7 +19,7 @@ object UserSessionManager {
     }
 
     fun clearUser() {
-        if (loginCount.decrementAndGet() == 0) {
+        if (loginCount.getAndDecrement() == 0) {
             user = null
         }
     }
