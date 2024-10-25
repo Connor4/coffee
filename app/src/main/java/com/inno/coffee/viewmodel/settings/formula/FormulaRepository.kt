@@ -13,10 +13,6 @@ class FormulaRepository @Inject constructor(
 ) {
     val drinkType: List<DrinksModel> = localDataSource.drinksTypes
 
-    fun getSynchronizedFormula(productId: Int): Flow<Formula?> {
-        return formulaDao.getFormulaByProductIdFlow(productId)
-    }
-
     fun getAllFormula(): Flow<List<Formula>> {
         return formulaDao.getAllFormula()
     }
