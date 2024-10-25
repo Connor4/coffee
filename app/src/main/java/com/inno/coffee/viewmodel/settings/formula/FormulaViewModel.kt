@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.utilities.INVALID_INT
+import com.inno.coffee.utilities.MAIN_SCREEN_MAX_PRODUCT_ID
+import com.inno.coffee.utilities.SECOND_SCREEN_MAX_PRODUCT_ID
+import com.inno.coffee.utilities.SECOND_SCREEN_MIN_PRODUCT_ID
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
 import com.inno.common.utils.Logger
@@ -46,11 +49,20 @@ class FormulaViewModel @Inject constructor(
     private val _formula = MutableStateFlow<Formula?>(null)
     val formula = _formula.asStateFlow()
 
-    init {
+    fun loadDrinkTypeList(mainScreen: Boolean) {
         viewModelScope.launch(defaultDispatcher) {
-            _drinksType.value = repository.drinkType.filter {
-                it.type != ProductType.OPERATION
+            if (mainScreen) {
+                _drinksType.value = repository.drinkType.filter {
+                    it.type != ProductType.OPERATION && it.productId <= MAIN_SCREEN_MAX_PRODUCT_ID
+                }
+            } else {
+                _drinksType.value = repository.drinkType.filter {
+                    it.type != ProductType.OPERATION && it.productId > SECOND_SCREEN_MIN_PRODUCT_ID
+                            && it.productId <= SECOND_SCREEN_MAX_PRODUCT_ID
+                }
             }
+            val first = _drinksType.value.first()
+            _formula.value = repository.getFormulaByProductId(first.productId)
         }
     }
 
@@ -151,6 +163,47 @@ class FormulaViewModel @Inject constructor(
                     _formula.value = newFormula
                     Logger.d(TAG, "setFormulaCups: newFormula = $newFormula")
                 }
+            }
+        }
+    }
+
+    fun assimilationProduct(formula: Formula?) {
+        if (formula == null) {
+            return
+        }
+        viewModelScope.launch(defaultDispatcher) {
+            val productId = formula.productId
+            val targetProductId = if (productId < SECOND_SCREEN_MIN_PRODUCT_ID) {
+                productId + 100
+            } else {
+                productId - 100
+            }
+            val targetFormula = repository.getFormulaByProductId(targetProductId)
+            targetFormula?.let {
+                it.productType = formula.productType
+                it.preFlush = formula.preFlush
+                it.postFlush = formula.postFlush
+                it.vat = formula.vat
+                it.coffeeWater = formula.coffeeWater
+                it.powderDosage = formula.powderDosage
+                it.pressWeight = formula.pressWeight
+                it.preMakeTime = formula.preMakeTime
+                it.postPreMakeWaitTime = formula.postPreMakeWaitTime
+                it.secPressWeight = formula.secPressWeight
+                it.hotWater = formula.hotWater
+                it.waterSequence = formula.waterSequence
+                it.coffeeCycles = formula.coffeeCycles
+                it.bypassWater = formula.bypassWater
+                it.cups = formula.cups
+                it.waterPump = formula.waterPump
+                it.waterInputValue = formula.waterInputValue
+                it.leftValueLeftBoiler = formula.leftValueLeftBoiler
+                it.middleValueLeftBoiler = formula.middleValueLeftBoiler
+                it.rightValueLeftBoiler = formula.rightValueLeftBoiler
+                it.leftValueRightBoiler = formula.leftValueRightBoiler
+                it.middleValueRightBoiler = formula.middleValueRightBoiler
+                it.rightValueRightBoiler = formula.rightValueRightBoiler
+                repository.updateFormula(it)
             }
         }
     }

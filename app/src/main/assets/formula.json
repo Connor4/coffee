@@ -1335,7 +1335,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 150,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -1406,7 +1406,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 210,
+      "value": 260,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -1477,7 +1477,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 170,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -1557,7 +1557,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 210,
+      "value": 280,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"

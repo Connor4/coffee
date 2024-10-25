@@ -19,12 +19,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.DrinksModel
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.ConfirmDialogLayout
 import com.inno.coffee.utilities.FORMULA_SHOW_LEARN_WATER
@@ -39,6 +41,7 @@ fun FormulaLayout(
     viewModel: FormulaViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
     val drinksTypeList by viewModel.drinksType.collectAsState()
     val selectFormula by viewModel.formula.collectAsState()
     val selectedModel = rememberSaveable { mutableStateOf<DrinksModel?>(null) }
@@ -48,10 +51,13 @@ fun FormulaLayout(
     val selectedCups = remember { mutableStateOf(1) }
 
     LaunchedEffect(Unit) {
+        viewModel.loadDrinkTypeList(mainScreen)
+    }
+
+    // TODO after remove HomeLocalSource, replace by formula.json, remove selectModel
+    LaunchedEffect(drinksTypeList) {
         if (drinksTypeList.isNotEmpty()) {
             selectedModel.value = drinksTypeList.first()
-            val productId = selectedModel.value?.productId
-            viewModel.getFormula(productId ?: -1)
         }
     }
 
@@ -78,7 +84,9 @@ fun FormulaLayout(
                     .width(220.dp)
                     .height(50.dp),
                 text = stringResource(id = R.string.formula_assimilation_key),
-            )
+            ) {
+                viewModel.assimilationProduct(selectFormula)
+            }
         }
         FormulaDrinkPage(selectedModel.value, selectFormula, totalCount, pagerState,
             drinksTypeList) {

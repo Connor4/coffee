@@ -15,6 +15,9 @@ const val HOUR = 0
 const val MINUTES = 1
 const val DATE = "date"
 const val TIME = "time"
+const val MAIN_SCREEN_MAX_PRODUCT_ID = 99
+const val SECOND_SCREEN_MIN_PRODUCT_ID = 100
+const val SECOND_SCREEN_MAX_PRODUCT_ID = 999
 
 const val FIRST_INSTALL_KEY_ENGLISH = "en"
 const val FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE = "zh-CN"
