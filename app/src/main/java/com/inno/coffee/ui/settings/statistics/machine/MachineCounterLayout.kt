@@ -101,7 +101,8 @@ fun MachineCounterLayout(
             CounterItem(R.string.statistic_time_steam_boiler_purge, value = 0f, unit = "h",
                 color = Color(0xFF191A1D))
 
-            CounterItem2("Last reset date / Time:         30.09.2022, 05:30:41")
+            CounterItem2(stringResource(R.string.statistic_last_reset, ""),
+                value = "30.09.2022, 05:30:41")
             CounterItem2(color = Color(0xFF191A1D))
             CounterItem2()
 
@@ -177,6 +178,7 @@ private fun CounterItem(
 
 @Composable
 private fun CounterItem2(
+    key: String = "",
     value: String = "",
     color: Color = Color(0xFF2A2B2D),
 ) {
@@ -191,10 +193,15 @@ private fun CounterItem2(
             contentAlignment = Alignment.CenterStart
         ) {
             Text(
-                text = value, color = Color.White,
+                text = key, color = Color.White,
                 maxLines = 1, overflow = TextOverflow.Ellipsis,
                 fontSize = 5.nsp(),
                 modifier = Modifier.padding(start = 29.dp)
+            )
+            Text(
+                text = value, color = Color.White,
+                fontSize = 5.nsp(),
+                modifier = Modifier.padding(start = 280.dp)
             )
         }
         Spacer(modifier = Modifier.height(2.dp))

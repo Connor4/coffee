@@ -102,7 +102,7 @@
     <string name="statistic_rinse_top_water_pressure">Water\nPressure\n[bar]</string>
     <string name="statistic_rinse_top_limit_flow_rate">Nozzle Limit\nFlow Rate\n[tick/s]</string>
     <string name="statistic_reset_all">Reset All</string>
-    <string name="statistic_last_reset">Last Reset: %s</string>
+    <string name="statistic_last_reset">Last Reset Time: %s</string>
     <string name="statistic_left">L</string>
     <string name="statistic_right">R</string>
     <string name="statistic_on">On</string>
