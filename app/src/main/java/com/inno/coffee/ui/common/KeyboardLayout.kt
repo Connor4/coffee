@@ -202,7 +202,7 @@ private fun KeyboardRow4(keys: List<String>, shift: Boolean, onKeyClick: (keyNam
             onKeyClick(" ")
         }
         Spacer(modifier = Modifier.width(8.dp))
-        KeyboardKey(keys[2], width = 165) {
+        KeyboardKeyPressWithDelay(keys[2], width = 165) {
             onEnter()
         }
     }
@@ -227,6 +227,43 @@ private fun KeyboardKey(keyName: String, width: Int = 60, height: Int = 55,
                     tryAwaitRelease()
                     isPressed = false
                     onClick(keyName)
+                })
+            },
+    ) {
+        val resId = getImageResId(imageResId)
+        Image(
+            painter = painterResource(id = resId),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
+private fun KeyboardKeyPressWithDelay(keyName: String, width: Int = 60, height: Int = 55,
+    onClick: (keyName: String) -> Unit) {
+    var isPressed by remember {
+        mutableStateOf(false)
+    }
+    var lastClickTime by mutableStateOf(0L)
+    val imageResId = if (isPressed) "keyboard_${keyName}_press_ic"
+    else "keyboard_${keyName}_normal_ic"
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .width(width.dp)
+            .height(height.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(onPress = {
+                    isPressed = true
+                    tryAwaitRelease()
+                    isPressed = false
+                    val currentTime = System.currentTimeMillis()
+                    if (currentTime - lastClickTime > 3000) {
+                        lastClickTime = currentTime
+                        onClick(keyName)
+                    }
                 })
             },
     ) {
