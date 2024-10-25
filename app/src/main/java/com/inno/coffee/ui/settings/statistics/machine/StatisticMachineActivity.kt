@@ -13,7 +13,9 @@ class StatisticMachineActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                MachineCounterStatistic()
+                MachineCounterLayout {
+                    this@StatisticMachineActivity.finish()
+                }
             }
         }
     }

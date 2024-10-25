@@ -39,6 +39,7 @@ import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.statistics.history.StatisticHistoryActivity
+import com.inno.coffee.ui.settings.statistics.machine.StatisticMachineActivity
 import com.inno.coffee.ui.settings.statistics.product.StatisticProductActivity
 import com.inno.coffee.utilities.HISTORY_VALUE_CLEAN
 import com.inno.coffee.utilities.HISTORY_VALUE_ERROR
@@ -178,7 +179,7 @@ fun StatisticLayout(
         )
         Item(title = R.string.statistic_main_machine_counter,
             modifier = Modifier.padding(start = 50.dp, top = 648.dp, end = 50.dp)) {
-
+            ScreenDisplayManager.autoRoute(context, StatisticMachineActivity::class.java)
         }
     }
 }
