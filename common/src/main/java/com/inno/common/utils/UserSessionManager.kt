@@ -1,13 +1,19 @@
 package com.inno.common.utils
 
 import com.inno.common.db.entity.User
+import java.util.concurrent.atomic.AtomicInteger
 
 object UserSessionManager {
 
     private var user: User? = null
+    private val loginCount: AtomicInteger = AtomicInteger(0)
 
     fun setUser(user: User) {
-        this.user = user
+        if (loginCount.get() == 0) {
+            this.user = user
+        } else {
+            loginCount.incrementAndGet()
+        }
     }
 
     fun getUser(): User? {
@@ -15,7 +21,9 @@ object UserSessionManager {
     }
 
     fun clearUser() {
-        user = null
+        if (loginCount.decrementAndGet() == 0) {
+            user = null
+        }
     }
 
     fun isLoggedIn(): Boolean {

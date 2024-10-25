@@ -31,6 +31,7 @@ import com.inno.coffee.ui.home.setting.HomeSettingEntrance
 import com.inno.coffee.ui.home.setting.MachineInfoLayout
 import com.inno.coffee.ui.settings.SettingActivity
 import com.inno.coffee.viewmodel.home.HomeViewModel
+import com.inno.common.utils.UserSessionManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -109,9 +110,12 @@ fun HomeContent(
                         onMenuClick = {
                             when (it) {
                                 0 -> {
-                                    showLoginDialog = true
-//                                    ScreenDisplayManager.autoRoute(context,
-//                                        SettingActivity::class.java)
+                                    if (UserSessionManager.isLoggedIn()) {
+                                        ScreenDisplayManager.autoRoute(context,
+                                            SettingActivity::class.java)
+                                    } else {
+                                        showLoginDialog = true
+                                    }
                                 }
                                 1 -> {
                                     showCleanDialog = true
