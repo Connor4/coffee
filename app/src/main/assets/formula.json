@@ -1,6 +1,19 @@
 [
   {
+    "productId": 1,
+    "nameRes": "home_item_stop",
+    "imageRes": "home_stop_normal_ic",
+    "productType": {
+      "type": "Operation"
+    },
+    "productName": {
+      "name": "停止"
+    }
+  },
+  {
     "productId": 2,
+    "nameRes": "home_item_hot_water",
+    "imageRes": "drink_hot_water_ic",
     "productType": {
       "type": "HotWater"
     },
@@ -22,6 +35,8 @@
   },
   {
     "productId": 3,
+    "nameRes": "home_item_foam",
+    "imageRes": "operate_milk_foam_ic",
     "productType": {
       "type": "Foam"
     },
@@ -42,7 +57,20 @@
     "rightValueLeftBoiler": 0
   },
   {
+    "productId": 4,
+    "nameRes": "home_item_rinse",
+    "imageRes": "operate_rinse_ic",
+    "productType": {
+      "type": "Operation"
+    },
+    "productName": {
+      "name": "冲水"
+    }
+  },
+  {
     "productId": 5,
+    "nameRes": "home_item_espresso",
+    "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -114,6 +142,8 @@
   },
   {
     "productId": 6,
+    "nameRes": "home_item_double_espresso",
+    "imageRes": "drink_double_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -185,8 +215,10 @@
   },
   {
     "productId": 7,
+    "nameRes": "home_item_americano",
+    "imageRes": "drink_americano_ic",
     "productType": {
-      "type": "Coffee"
+      "type": "Americano"
     },
     "productName": {
       "name": "美式咖啡"
@@ -265,8 +297,10 @@
   },
   {
     "productId": 8,
+    "nameRes": "home_item_double_americano",
+    "imageRes": "drink_double_americano_ic",
     "productType": {
-      "type": "Coffee"
+      "type": "Americano"
     },
     "productName": {
       "name": "2x美式咖啡"
@@ -345,6 +379,8 @@
   },
   {
     "productId": 9,
+    "nameRes": "home_item_milk",
+    "imageRes": "drink_milk_ic",
     "productType": {
       "type": "Milk"
     },
@@ -366,8 +402,10 @@
   },
   {
     "productId": 10,
+    "nameRes": "home_item_pod_coffee",
+    "imageRes": "drink_pot_coffee_ic",
     "productType": {
-      "type": "Coffee"
+      "type": "DripCoffee"
     },
     "productName": {
       "name": "滴壶咖啡"
@@ -440,7 +478,31 @@
     "rightValueLeftBoiler": 0
   },
   {
+    "productId": 11,
+    "nameRes": "home_item_auto_foam",
+    "imageRes": "operate_auto_milk_ic",
+    "productType": {
+      "type": "Steam"
+    },
+    "productName": {
+      "name": "停止"
+    }
+  },
+  {
+    "productId": 12,
+    "nameRes": "home_item_manual_foam",
+    "imageRes": "operate_manual_milk_ic",
+    "productType": {
+      "type": "Steam"
+    },
+    "productName": {
+      "name": "停止"
+    }
+  },
+  {
     "productId": 13,
+    "nameRes": "home_item_latte",
+    "imageRes": "drink_latte_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -516,6 +578,8 @@
   },
   {
     "productId": 14,
+    "nameRes": "home_item_double_latte",
+    "imageRes": "drink_double_latte_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -591,6 +655,8 @@
   },
   {
     "productId": 15,
+    "nameRes": "home_item_cappuccino",
+    "imageRes": "drink_cappuccino_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -666,6 +732,8 @@
   },
   {
     "productId": 16,
+    "nameRes": "home_item_double_cappuccino",
+    "imageRes": "drink_double_cappuccino_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -741,6 +809,8 @@
   },
   {
     "productId": 17,
+    "nameRes": "home_item_latte_macchiato",
+    "imageRes": "drink_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -816,6 +886,8 @@
   },
   {
     "productId": 18,
+    "nameRes": "home_item_double_latte_macchiato",
+    "imageRes": "drink_double_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -891,6 +963,8 @@
   },
   {
     "productId": 19,
+    "nameRes": "home_item_es_macchiato",
+    "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -966,6 +1040,8 @@
   },
   {
     "productId": 20,
+    "nameRes": "home_item_double_es_macchiato",
+    "imageRes": "drink_double_es_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1041,6 +1117,8 @@
   },
   {
     "productId": 105,
+    "nameRes": "home_item_espresso",
+    "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1112,6 +1190,8 @@
   },
   {
     "productId": 106,
+    "nameRes": "home_item_double_espresso",
+    "imageRes": "drink_double_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1183,8 +1263,10 @@
   },
   {
     "productId": 107,
+    "nameRes": "home_item_americano",
+    "imageRes": "drink_americano_ic",
     "productType": {
-      "type": "Coffee"
+      "type": "Americano"
     },
     "productName": {
       "name": "美式咖啡"
@@ -1263,8 +1345,10 @@
   },
   {
     "productId": 108,
+    "nameRes": "home_item_double_americano",
+    "imageRes": "drink_double_americano_ic",
     "productType": {
-      "type": "Coffee"
+      "type": "Americano"
     },
     "productName": {
       "name": "2x美式咖啡"
@@ -1342,9 +1426,11 @@
     "rightValueLeftBoiler": 0
   },
   {
-    "productId": 109,
+    "productId": 110,
+    "nameRes": "home_item_pod_coffee",
+    "imageRes": "drink_pot_coffee_ic",
     "productType": {
-      "type": "Coffee"
+      "type": "DripCoffee"
     },
     "productName": {
       "name": "滴壶咖啡"
@@ -1418,6 +1504,8 @@
   },
   {
     "productId": 113,
+    "nameRes": "home_item_latte",
+    "imageRes": "drink_latte_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1493,6 +1581,8 @@
   },
   {
     "productId": 114,
+    "nameRes": "home_item_double_latte",
+    "imageRes": "drink_double_latte_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1568,6 +1658,8 @@
   },
   {
     "productId": 115,
+    "nameRes": "home_item_cappuccino",
+    "imageRes": "drink_cappuccino_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1643,6 +1735,8 @@
   },
   {
     "productId": 116,
+    "nameRes": "home_item_double_cappuccino",
+    "imageRes": "drink_double_cappuccino_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1718,6 +1812,8 @@
   },
   {
     "productId": 117,
+    "nameRes": "home_item_latte_macchiato",
+    "imageRes": "drink_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1793,6 +1889,8 @@
   },
   {
     "productId": 118,
+    "nameRes": "home_item_double_latte_macchiato",
+    "imageRes": "drink_double_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1868,6 +1966,8 @@
   },
   {
     "productId": 119,
+    "nameRes": "home_item_es_macchiato",
+    "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -1943,6 +2043,8 @@
   },
   {
     "productId": 120,
+    "nameRes": "home_item_double_es_macchiato",
+    "imageRes": "drink_double_es_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -2018,6 +2120,8 @@
   },
   {
     "productId": 1005,
+    "nameRes": "home_item_espresso",
+    "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -2084,6 +2188,8 @@
   },
   {
     "productId": 1006,
+    "nameRes": "home_item_double_espresso",
+    "imageRes": "drink_double_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -2150,6 +2256,8 @@
   },
   {
     "productId": 1007,
+    "nameRes": "home_item_americano",
+    "imageRes": "drink_americano_ic",
     "productType": {
       "type": "Coffee"
     },
@@ -2225,6 +2333,8 @@
   },
   {
     "productId": 1008,
+    "nameRes": "home_item_double_americano",
+    "imageRes": "drink_double_americano_ic",
     "productType": {
       "type": "Coffee"
     },

@@ -8,6 +8,8 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "formula_table")
 data class Formula(
     var productId: Short,
+    var preFlush: Boolean = false,
+    var postFlush: Boolean = false,
     var productType: FormulaItem.FormulaProductType,
     var productName: FormulaItem.FormulaProductName,
     var vat: FormulaItem.FormulaVatPosition? = null,
@@ -25,8 +27,8 @@ data class Formula(
     var milk: FormulaItem.FormulaUnitValue? = null,
     //=======================================================================
     var cups: FormulaItem.FormulaCups? = null,
-    var preFlush: Boolean = false,
-    var postFlush: Boolean = false,
+    var nameRes: String = "",
+    var imageRes: String = "",
     //================to be determined, but i hava to have it==================
     var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
     var waterInputValue: Short = -1, // WATER_INPUT_VALVE_ID
