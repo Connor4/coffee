@@ -486,6 +486,12 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_auto_foam"
+    },
+    "foam": {
+      "value": 5,
+      "rangeStart": 0.0,
+      "rangeEnd": 10.0,
+      "unit": "[s]"
     }
   },
   {
@@ -497,6 +503,12 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_manual_foam"
+    },
+    "foam": {
+      "value": 5,
+      "rangeStart": 0.0,
+      "rangeEnd": 10.0,
+      "unit": "[s]"
     }
   },
   {
@@ -1602,6 +1614,12 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_auto_foam"
+    },
+    "foam": {
+      "value": 5,
+      "rangeStart": 0.0,
+      "rangeEnd": 10.0,
+      "unit": "[s]"
     }
   },
   {
@@ -1613,6 +1631,12 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_manual_foam"
+    },
+    "foam": {
+      "value": 5,
+      "rangeStart": 0.0,
+      "rangeEnd": 10.0,
+      "unit": "[s]"
     }
   },
   {
