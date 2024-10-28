@@ -1,7 +1,6 @@
 package com.inno.coffee.viewmodel.settings.statistics
 
-import com.inno.coffee.data.DrinksModel
-import com.inno.coffee.viewmodel.home.HomeLocalDataSource
+import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.dao.ProductCountDao
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.ProductCount
@@ -10,11 +9,9 @@ import com.inno.common.enums.ProductType
 import javax.inject.Inject
 
 class StatisticProductRepository @Inject constructor(
-    private val localDataSource: HomeLocalDataSource,
     private val productCountDao: ProductCountDao,
+    private val formulaDao: FormulaDao
 ) {
-    val drinkType: List<DrinksModel> = localDataSource.drinksTypes
-
     suspend fun deleteAllProductCount() {
         productCountDao.deleteAll()
     }
@@ -45,6 +42,14 @@ class StatisticProductRepository @Inject constructor(
 
     suspend fun getTypeCounts(): List<ProductTypeCount> {
         return productCountDao.getTypeCounts()
+    }
+
+    suspend fun getAllFormula(): List<Formula> {
+        return formulaDao.getAllFormula()
+    }
+
+    suspend fun getFormulaByProductId(productId: Int): Formula? {
+        return formulaDao.getFormulaByProductId(productId)
     }
 
 }

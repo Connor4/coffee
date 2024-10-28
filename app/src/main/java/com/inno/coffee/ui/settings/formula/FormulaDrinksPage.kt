@@ -158,8 +158,9 @@ private fun FormulaDrinkItem(
                 modifier = Modifier.size(101.dp)
             )
         }
+        val drawableRes = model.imageRes ?: "drink_item_empty_ic"
         Image(
-            painter = painterResource(id = getImageResId(model.imageRes)),
+            painter = painterResource(id = getImageResId(drawableRes)),
             contentDescription = null,
             contentScale = ContentScale.Inside,
             modifier = Modifier

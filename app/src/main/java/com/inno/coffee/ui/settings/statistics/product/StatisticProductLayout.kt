@@ -31,8 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,18 +40,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.common.composeClick
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.ui.common.getImageResId
+import com.inno.coffee.ui.common.getStringResId
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.statistics.StatisticProductViewModel
+import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.ProductTypeCount
 import com.inno.common.enums.ProductType
 
@@ -65,13 +64,13 @@ fun StatisticProductLayout(
     viewModel: StatisticProductViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
-    val drinksTypeList by viewModel.drinksType.collectAsState()
+    val drinksTypeList by viewModel.drinksList.collectAsState()
     val typeCounts by viewModel.typeCounts.collectAsState()
     val selectedProductCount by viewModel.productCount.collectAsState()
     val time by viewModel.time.collectAsState()
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
-    val selectedModel = rememberSaveable { mutableStateOf<DrinksModel?>(null) }
+    val selectFormula by viewModel.formula.collectAsState()
 
     val coffee = lookForCount(typeCounts, ProductType.COFFEE)
     val hotWater = lookForCount(typeCounts, ProductType.HOT_WATER)
@@ -81,11 +80,7 @@ fun StatisticProductLayout(
 //    val total = coffee + hotWater + milk + foam + steam
 
     LaunchedEffect(Unit) {
-        if (drinksTypeList.isNotEmpty()) {
-            val productId = drinksTypeList.first().productId
-            viewModel.getProductCount(productId)
-            selectedModel.value = drinksTypeList.first()
-        }
+        viewModel.loadDrinkTypeList()
     }
 
     Box(
@@ -120,10 +115,9 @@ fun StatisticProductLayout(
                     .clip(RoundedCornerShape(20.dp))
                     .background(color = Color(0xFF191A1D)),
             ) {
-                val drawableRes = selectedModel.value?.imageRes ?: R.drawable.drink_espresso_ic
-                val stringRes = selectedModel.value?.name ?: R.string.home_item_espresso
+                val drawableRes = selectFormula?.imageRes ?: "drink_item_empty_ic"
                 Image(
-                    painter = painterResource(id = drawableRes),
+                    painter = painterResource(id = getImageResId(drawableRes)),
                     contentDescription = null,
                     contentScale = ContentScale.Inside,
                     modifier = Modifier
@@ -132,8 +126,15 @@ fun StatisticProductLayout(
                         .align(Alignment.TopCenter)
                         .offset(y = 40.dp),
                 )
+                val name = if (!selectFormula?.productName?.name.isNullOrBlank()) {
+                    selectFormula?.productName?.name
+                } else if (!selectFormula?.productName?.nameRes.isNullOrBlank()) {
+                    stringResource(getStringResId(selectFormula?.productName?.nameRes!!))
+                } else {
+                    stringResource(R.string.common_empty_string)
+                }
                 Text(
-                    text = stringResource(id = stringRes),
+                    text = name!!,
                     fontSize = 6.nsp(),
                     color = Color.White,
                     textAlign = TextAlign.Center,
@@ -166,16 +167,12 @@ fun StatisticProductLayout(
                 val toIndex = minOf(fromIndex + PAGE_COUNT, drinksTypeList.size)
                 val currentList = drinksTypeList.subList(fromIndex, toIndex)
                 FlowRow(
-                    modifier = Modifier
-                        .fillMaxSize(),
-//                    horizontalArrangement = Arrangement.spacedBy(20.dp),
-//                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    modifier = Modifier.fillMaxSize(),
                     maxItemsInEachRow = 5,
                 ) {
                     currentList.forEach {
-                        val select = selectedModel.value?.productId == it.productId
+                        val select = selectFormula?.productId == it.productId
                         StatisticDrinkItem(model = it, selected = select) {
-                            selectedModel.value = it
                             viewModel.getProductCount(it.productId)
                         }
                     }
@@ -315,7 +312,7 @@ fun StatisticProductLayout(
 
 @Composable
 private fun StatisticDrinkItem(
-    model: DrinksModel,
+    model: Formula,
     selected: Boolean = false,
     onDrinkClick: () -> Unit = {},
 ) {
@@ -340,8 +337,9 @@ private fun StatisticDrinkItem(
                 modifier = Modifier.size(101.dp)
             )
         }
+        val drawableRes = model.imageRes ?: "drink_item_empty_ic"
         Image(
-            painter = painterResource(id = model.imageRes),
+            painter = painterResource(id = getImageResId(drawableRes)),
             contentDescription = null,
             contentScale = ContentScale.Inside,
             modifier = Modifier
@@ -357,10 +355,8 @@ private fun lookForCount(list: List<ProductTypeCount>, type: ProductType): Int {
     return typeCount?.totalCount ?: 0
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewStatisticProduct() {
 //    StatisticProductLayout()
-    StatisticDrinkItem(model = DrinksModel(1, ProductType.COFFEE, R.string.home_item_espresso,
-        R.drawable.drink_espresso_ic))
 }
