@@ -20,6 +20,7 @@ import com.inno.common.enums.ProductType
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.common.utils.TimeUtils
+import com.inno.common.utils.UserSessionManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.ReceivedData
@@ -158,17 +159,18 @@ class HomeViewModel @Inject constructor(
         Logger.d(TAG, "authenticateUser() called with: password = $password")
         viewModelScope.launch {
             withContext(defaultDispatcher) {
-                if (password.isBlank()) {
-                    _loginState.value = LoginState.Error(R.string.permission_valid_empty)
-                    return@withContext
+                if (!UserSessionManager.isLoggedIn()) {
+                    if (password.isBlank()) {
+                        _loginState.value = LoginState.Error(R.string.permission_valid_empty)
+                        return@withContext
+                    }
+                    val isAuthenticated = repository.authenticateUserByPassword(password)
+                    if (!isAuthenticated) {
+                        _loginState.value =
+                            LoginState.Error(R.string.home_login_authenticate_fail)
+                        return@withContext
+                    }
                 }
-                val isAuthenticated = repository.authenticateUserByPassword(password)
-                if (!isAuthenticated) {
-                    _loginState.value =
-                        LoginState.Error(R.string.home_login_authenticate_fail)
-                    return@withContext
-                }
-
                 _loginState.value = LoginState.Success
             }
         }

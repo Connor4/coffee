@@ -5,31 +5,37 @@ import java.util.concurrent.atomic.AtomicInteger
 
 object UserSessionManager {
     private const val TAG = "UserSessionManager"
-    private var user: User? = null
+    private var loginUser: User? = null
     private val loginCount: AtomicInteger = AtomicInteger(0)
 
     fun setUser(user: User) {
         val count = loginCount.incrementAndGet()
-        Logger.d(TAG, "setUser() called count = $count")
-        if (count == 0) {
-            this.user = user
+        Logger.d(TAG, "setUser() called count = $count user = $user")
+        if (count == 1) {
+            loginUser = user
         }
     }
 
     fun getUser(): User? {
-        return user
+        return loginUser
     }
 
     fun clearUser() {
         val count = loginCount.decrementAndGet()
         Logger.d(TAG, "clearUser() called count = $count")
         if (count == 0) {
-            user = null
+            Logger.d(TAG, "clearUser() called clear user = $loginUser")
+            loginUser = null
         }
     }
 
     fun isLoggedIn(): Boolean {
-        Logger.d(TAG, "isLoggedIn() called count = ${loginCount.get()}")
-        return user != null
+        Logger.d(TAG, "isLoggedIn() called count = ${loginCount.get()}, user = $loginUser")
+        return loginUser != null
+    }
+
+    fun increaseLoginCount() {
+        Logger.d(TAG, "increaseLoginCount() called count = ${loginCount.get()}")
+        loginCount.incrementAndGet()
     }
 }

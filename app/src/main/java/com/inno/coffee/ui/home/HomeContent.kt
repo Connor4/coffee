@@ -111,6 +111,7 @@ fun HomeContent(
                             when (it) {
                                 0 -> {
                                     if (UserSessionManager.isLoggedIn()) {
+                                        UserSessionManager.increaseLoginCount()
                                         ScreenDisplayManager.autoRoute(context,
                                             SettingActivity::class.java)
                                     } else {
