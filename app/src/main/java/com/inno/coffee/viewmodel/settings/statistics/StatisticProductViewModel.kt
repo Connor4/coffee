@@ -25,6 +25,7 @@ class StatisticProductViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
+
     private val TAG = "StatisticProductViewModel"
     private val _typeCounts = MutableStateFlow<List<ProductTypeCount>>(emptyList())
     val typeCounts: StateFlow<List<ProductTypeCount>> = _typeCounts
@@ -37,23 +38,19 @@ class StatisticProductViewModel @Inject constructor(
     private val _formula = MutableStateFlow<Formula?>(null)
     val formula = _formula.asStateFlow()
 
-    init {
-        viewModelScope.launch(defaultDispatcher) {
-            _typeCounts.value = repository.getTypeCounts()
-            val resetTime = dataStore.getLastResetProductTime()
-            val language = dataStore.getSystemLanguage()
-            _time.value = TimeUtils.getNowTimeInYearAndHour(resetTime, language)
-        }
-    }
-
     fun loadDrinkTypeList() {
         viewModelScope.launch(defaultDispatcher) {
             _drinksList.value = repository.getAllFormula().filter {
                 it.productType?.type != ProductType.OPERATION.value
                         && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
             }
-            val first = _drinksList.value.first()
-            _formula.value = repository.getFormulaByProductId(first.productId)
+            getProductCount(_drinksList.value.first().productId)
+
+            _typeCounts.value = repository.getTypeCounts()
+
+            val resetTime = dataStore.getLastResetProductTime()
+            val language = dataStore.getSystemLanguage()
+            _time.value = TimeUtils.getNowTimeInYearAndHour(resetTime, language)
         }
     }
 
@@ -66,6 +63,10 @@ class StatisticProductViewModel @Inject constructor(
             val language = dataStore.getSystemLanguage()
             val nowTimeFormat = TimeUtils.getNowTimeInYearAndHour(nowTime, language)
             _time.value = nowTimeFormat
+
+            _typeCounts.value = repository.getTypeCounts()
+            getProductCount(_drinksList.value.first().productId)
+
             dataStore.saveLastResetProductTime(nowTime)
         }
     }
