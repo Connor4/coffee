@@ -19,9 +19,11 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_READY
+import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_START
 import com.inno.coffee.ui.home.DrinkItem
 import com.inno.coffee.utilities.nsp
-import com.inno.coffee.utilities.previewFormula
+import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.FormulaItem
 
 @Composable
 fun ReleaseSteamLayout(
@@ -47,7 +49,11 @@ fun ReleaseSteamLayout(
 //                .fastclick { onCloseClick() },
 //        )
         if (releaseSteam == RELEASE_STEAM_READY) {
-            DrinkItem(model = previewFormula,
+            DrinkItem(model = Formula(
+                productId = 4, imageRes = "operate_manual_milk_ic",
+                productName = FormulaItem.FormulaProductName(name = "",
+                    nameRes = "home_item_manual_foam"),
+            ),
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(top = 165.dp)
@@ -78,7 +84,7 @@ fun ReleaseSteamLayout(
                 fontSize = 5.nsp(),
                 color = Color.White,
             )
-        } else if (releaseSteam == 2) {
+        } else if (releaseSteam == RELEASE_STEAM_START) {
             Text(
                 modifier = Modifier
                     .align(Alignment.Center),

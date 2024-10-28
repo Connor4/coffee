@@ -57,8 +57,9 @@ fun DrinkItem(
                 .background(color = Color(0xFF191A1D)),
         ) {
             MaskBoxWithContent(enableMask = enableMask) {
+                val drawableRes = model.imageRes ?: "drink_item_empty_ic"
                 Image(
-                    painter = painterResource(id = getImageResId(model.imageRes)),
+                    painter = painterResource(id = getImageResId(drawableRes)),
                     contentDescription = null,
                     contentScale = ContentScale.Inside,
                     modifier = Modifier
