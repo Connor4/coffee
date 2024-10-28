@@ -26,17 +26,6 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
 
-val groupOne = listOf(
-    R.string.statistic_total_water_quantity,
-    R.string.statistic_total_water_products,
-    R.string.statistic_total_water_rinse,
-    R.string.statistic_total_water_cleaning,
-    R.string.statistic_total_coffee_bean_quantity,
-    R.string.statistic_total_coffee_beans_rear,
-    R.string.statistic_total_coffee_beans_front,
-    R.string.statistic_total_coffee_powder_chute,
-)
-
 @Composable
 fun MachineCounterLayout(
     onCloseClick: () -> Unit = {},
