@@ -34,7 +34,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -49,20 +48,39 @@ import com.inno.coffee.utilities.nsp
 import com.inno.common.annotations.BEANS_AND_GRINDER
 import com.inno.common.annotations.DISPLAY
 import com.inno.common.annotations.FORMULA
+import com.inno.common.annotations.INTERFACE
+import com.inno.common.annotations.MACHINE_INFO
 import com.inno.common.annotations.MACHINE_OPERATION
 import com.inno.common.annotations.MACHINE_SETTING
+import com.inno.common.annotations.MACHINE_TEST
 import com.inno.common.annotations.MAINTENANCE
+import com.inno.common.annotations.MANAGER
+import com.inno.common.annotations.OPERATOR
 import com.inno.common.annotations.PERMISSION
-import com.inno.common.annotations.SERIAL_TEST
 import com.inno.common.annotations.STATISTIC
+import com.inno.common.annotations.TECHNICIAN
 import com.inno.common.annotations.WASH_MACHINE
+import com.inno.common.utils.UserSessionManager
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MachineSettingLayout(
     onCloseClick: () -> Unit = {},
 ) {
-    val names = arrayOf(
+    val context = LocalContext.current
+    val level1 = arrayOf(
+        Pair(STATISTIC, R.string.common_statistic),
+        Pair(MAINTENANCE, R.string.common_maintenance),
+    )
+    val level2 = arrayOf(
+        Pair(STATISTIC, R.string.common_statistic),
+        Pair(FORMULA, R.string.common_formula),
+        Pair(DISPLAY, R.string.common_display),
+        Pair(BEANS_AND_GRINDER, R.string.common_beans_and_grinder),
+        Pair(WASH_MACHINE, R.string.common_machine_clean),
+        Pair(PERMISSION, R.string.common_password),
+    )
+    val level3 = arrayOf(
         Pair(STATISTIC, R.string.common_statistic),
         Pair(FORMULA, R.string.common_formula),
         Pair(DISPLAY, R.string.common_display),
@@ -71,10 +89,17 @@ fun MachineSettingLayout(
         Pair(BEANS_AND_GRINDER, R.string.common_beans_and_grinder),
         Pair(WASH_MACHINE, R.string.common_machine_clean),
         Pair(PERMISSION, R.string.common_password),
+        Pair(INTERFACE, R.string.common_interface),
         Pair(MAINTENANCE, R.string.common_maintenance),
-        Pair(SERIAL_TEST, R.string.common_serial_test)
+        Pair(MACHINE_INFO, R.string.common_machine_info),
+        Pair(MACHINE_TEST, R.string.common_machine_test),
     )
-    val context = LocalContext.current
+    val modules = when (UserSessionManager.getUser()?.role) {
+        OPERATOR -> level1
+        MANAGER -> level2
+        TECHNICIAN -> level3
+        else -> level3
+    }
 
     Box(
         modifier = Modifier
@@ -109,9 +134,9 @@ fun MachineSettingLayout(
             verticalArrangement = Arrangement.spacedBy(20.dp),
             maxItemsInEachRow = 4,
         ) {
-            names.forEach { name ->
-                MenuItem(title = name.second) {
-                    jumpDetail(name.first, context)
+            modules.forEach { module ->
+                MenuItem(title = module.second) {
+                    jumpDetail(module.first, context)
                 }
             }
         }
@@ -180,17 +205,23 @@ private fun jumpDetail(name: String, context: Context) {
         PERMISSION -> {
             ScreenDisplayManager.autoRoute(context, PermissionActivity::class.java)
         }
+        INTERFACE -> {
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+        }
         MAINTENANCE -> {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
-        SERIAL_TEST -> {
+        MACHINE_INFO -> {
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+        }
+        MACHINE_TEST -> {
             ScreenDisplayManager.autoRoute(context, SerialPortActivity::class.java)
         }
         else -> {}
     }
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewMachineSetting() {
     MachineSettingLayout()

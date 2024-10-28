@@ -14,7 +14,6 @@ class SettingActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-//                SettingCardLayout()
                 MachineSettingLayout() {
                     this@SettingActivity.finish()
                 }

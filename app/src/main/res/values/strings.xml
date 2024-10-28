@@ -15,7 +15,10 @@
     <string name="common_beans_and_grinder">Beans&amp;Grinder</string>
     <string name="common_machine_clean">Clean</string>
     <string name="common_password">Password</string>
+    <string name="common_interface">Interface</string>
     <string name="common_maintenance">Maintenance</string>
+    <string name="common_machine_info">Machine Info</string>
+    <string name="common_machine_test">Machine Test</string>
     <string name="common_serial_test">Serial Test</string>
 
     <string name="error_no_resource">error</string>

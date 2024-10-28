@@ -15,7 +15,10 @@
     <string name="common_beans_and_grinder">豆缸&amp;磨刀</string>
     <string name="common_machine_clean">洗机</string>
     <string name="common_password">密码管理</string>
+    <string name="common_interface">连接</string>
     <string name="common_maintenance">维修保养</string>
+    <string name="common_machine_info">机器信息</string>
+    <string name="common_machine_test">机器测试</string>
     <string name="common_serial_test">串口测试</string>
 
     <string name="error_no_resource">异常</string>
