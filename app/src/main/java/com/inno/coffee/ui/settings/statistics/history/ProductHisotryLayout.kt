@@ -45,7 +45,6 @@ fun ProductHistoryLayout(
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(start = 50.dp, top = 170.dp),
-                contentAlignment = Alignment.CenterStart,
             ) {
                 Text(
                     text = stringResource(R.string.statistic_product_top_time), color = Color.White,
