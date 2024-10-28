@@ -12,5 +12,17 @@ enum class ProductType(val value: String) {
     MILK("Milk"),
     FOAM("Foam"),
     STEAM("Steam"),
-    OPERATION("Operation"),
+    OPERATION("Operation");
+
+    companion object {
+        fun fromValue(value: String): ProductType {
+            for (productType in entries) {
+                if (productType.value == value) {
+                    return productType
+                }
+            }
+            return NONE
+        }
+    }
+
 }

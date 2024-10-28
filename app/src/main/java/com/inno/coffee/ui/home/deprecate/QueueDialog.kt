@@ -31,11 +31,13 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogWindowProvider
 import coil.compose.AsyncImage
 import com.inno.coffee.R
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
+import com.inno.coffee.ui.common.getImageResId
+import com.inno.coffee.ui.common.getStringResId
+import com.inno.coffee.utilities.previewFormula
 import com.inno.coffee.viewmodel.home.HomeViewModel
-import com.inno.common.enums.ProductType
+import com.inno.common.db.entity.Formula
 
 @Composable
 fun QueueDialog(
@@ -94,7 +96,7 @@ fun QueueDialog(
 }
 
 @Composable
-private fun QueueItem(index: Int, model: DrinksModel, onCancelItemClick: () -> Unit) {
+private fun QueueItem(index: Int, model: Formula, onCancelItemClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -104,10 +106,12 @@ private fun QueueItem(index: Int, model: DrinksModel, onCancelItemClick: () -> U
     ) {
         Text(text = "${index + 1}", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.width(20.dp))
-        AsyncImage(model = model.imageRes, modifier = Modifier.size(100.dp),
+        val res = getImageResId(model.imageRes)
+        AsyncImage(model = res, modifier = Modifier.size(100.dp),
             contentDescription = null)
         Spacer(modifier = Modifier.width(50.dp))
-        Text(text = stringResource(id = model.name),
+        val name = getStringResId(model.nameRes)
+        Text(text = stringResource(id = name),
             style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.weight(1f)) // 占据剩余的空间
         Button(onClick = { onCancelItemClick() }) {
@@ -119,10 +123,7 @@ private fun QueueItem(index: Int, model: DrinksModel, onCancelItemClick: () -> U
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
 private fun PreviewItem() {
-    QueueItem(1, model = DrinksModel(productId = 2,
-        type = ProductType.COFFEE,
-        name = R.string.home_item_hot_water,
-        imageRes = R.drawable.hotwater)) {
+    QueueItem(1, model = previewFormula) {
 
     }
 }

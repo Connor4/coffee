@@ -1,12 +1,12 @@
 package com.inno.coffee.function.makedrinks
 
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.utilities.HEAD_INDEX
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MAKE_DRINK_COMMAND
 import com.inno.coffee.utilities.MAKE_DRINK_REPLY_VALUE
 import com.inno.coffee.utilities.PRODUCT_STOP
+import com.inno.common.db.entity.Formula
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
@@ -48,8 +48,8 @@ object MakeLeftDrinksHandler {
             parseReceivedData(data)
         }
     }
-    private val _queue = MutableStateFlow<List<DrinksModel>>(emptyList())
-    val queue: StateFlow<List<DrinksModel>> = _queue.asStateFlow()
+    private val _queue = MutableStateFlow<List<Formula>>(emptyList())
+    val queue: StateFlow<List<Formula>> = _queue.asStateFlow()
     private val _size = MutableStateFlow(0)
     val size: StateFlow<Int> = _size.asStateFlow()
     private val _status = MutableStateFlow(MakeDrinkStatusEnum.LEFT_BREWING)
@@ -59,7 +59,7 @@ object MakeLeftDrinksHandler {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
-    fun discardAndClear(index: Int, model: DrinksModel) {
+    fun discardAndClear(index: Int, model: Formula) {
         replyConfirmJob?.cancel()
         scope.launch {
             mutex.withLock {
@@ -78,7 +78,7 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    fun executeNow(model: DrinksModel) {
+    fun executeNow(model: Formula) {
         Logger.d(TAG, "executeNow() called")
         scope.launch {
             mutex.withLock {
@@ -94,7 +94,7 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    fun enqueueMessage(model: DrinksModel) {
+    fun enqueueMessage(model: Formula) {
         scope.launch {
             mutex.withLock {
                 val message = DrinkMessage.obtainMessage(model.productId)
@@ -154,12 +154,12 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    private fun addQueueSize(model: DrinksModel) {
+    private fun addQueueSize(model: Formula) {
         _queue.value += model
         _size.value = _queue.value.size
     }
 
-    private fun minusQueueSize(model: DrinksModel) {
+    private fun minusQueueSize(model: Formula) {
         if (_queue.value.isNotEmpty()) {
             _queue.value = _queue.value.filter {
                 it.productId != model.productId

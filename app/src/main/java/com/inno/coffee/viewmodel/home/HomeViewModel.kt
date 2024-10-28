@@ -16,6 +16,8 @@ import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.coffee.utilities.PRODUCT_RINSE
+import com.inno.common.db.entity.Formula
+import com.inno.common.enums.ProductType
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.common.utils.TimeUtils
@@ -29,8 +31,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -42,8 +46,8 @@ class HomeViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
     private val TAG = "HomeViewModel"
-    private val _drinksTypes = MutableStateFlow<List<DrinksModel>>(emptyList())
-    val drinksTypes: StateFlow<List<DrinksModel>> = _drinksTypes.asStateFlow()
+    val formulaList: StateFlow<List<Formula>> = repository.getAllFormulas()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     private val _username = MutableStateFlow("")
     val username: StateFlow<String> = _username
     private val _password = MutableStateFlow("")
@@ -76,8 +80,6 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
-        _drinksTypes.value = repository.drinksType
-        specialItem.addAll(repository.specialItem)
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
@@ -173,11 +175,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun startMakeDrink(model: DrinksModel, main: Boolean, selfCheck: Boolean) {
+    fun startMakeDrink(model: Formula, main: Boolean, selfCheck: Boolean) {
         Logger.d(TAG,
             "startMakeDrink() called with: model = $model, main = $main, selfCheck = $selfCheck")
-        if (isFunctionItem(model)) {
-            if (selfCheck && model.productId == PRODUCT_RINSE) {
+        if (model.productType.type == ProductType.OPERATION.value
+            || model.productType.type == ProductType.FOAM.value) {
+            if (selfCheck && model.productId.toInt() == PRODUCT_RINSE) {
                 viewModelScope.launch {
                     SelfCheckManager.operateRinse()
                 }
@@ -198,7 +201,7 @@ class HomeViewModel @Inject constructor(
         StatisticManager.countProductType(model)
     }
 
-    fun removeQueueDrink(index: Int, model: DrinksModel, second: Boolean) {
+    fun removeQueueDrink(index: Int, model: Formula, second: Boolean) {
         if (second) {
             MakeRightDrinksHandler.discardAndClear(index, model)
         } else {
@@ -206,14 +209,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun enableMask(making: Boolean, checking: Boolean, model: DrinksModel): Boolean {
+    fun enableMask(making: Boolean, checking: Boolean, productId: Int): Boolean {
         Logger.d(TAG,
-            "enableMask() called with: making = $making, checking = $checking, model = $model")
+            "enableMask() called with: making = $making, checking = $checking, productId = $productId")
         if (checking) {
-            return model.productId != PRODUCT_RINSE
+            return productId != PRODUCT_RINSE
         }
         if (making) {
-            return !specialItem.contains(model.productId)
+            return !specialItem.contains(productId)
         }
         return false
     }

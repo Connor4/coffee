@@ -121,7 +121,8 @@ object ProductProfileManager {
 
         val componentProfileList =
             ComponentProfileList(componentList.size.toShort(), componentList)
-        return ProductProfile(formula.productId, preFlush, postFlush, componentProfileList)
+        return ProductProfile(formula.productId.toShort(), preFlush, postFlush,
+            componentProfileList)
     }
 
     suspend fun readFormulaFromAssets(context: Context) {

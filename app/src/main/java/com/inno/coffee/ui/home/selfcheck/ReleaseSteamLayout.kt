@@ -14,16 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_READY
 import com.inno.coffee.ui.home.DrinkItem
 import com.inno.coffee.utilities.nsp
-import com.inno.common.enums.ProductType
+import com.inno.coffee.utilities.previewFormula
 
 @Composable
 fun ReleaseSteamLayout(
@@ -49,10 +47,7 @@ fun ReleaseSteamLayout(
 //                .fastclick { onCloseClick() },
 //        )
         if (releaseSteam == RELEASE_STEAM_READY) {
-            DrinkItem(model = DrinksModel(productId = 12,
-                type = ProductType.OPERATION,
-                name = R.string.home_item_manual_foam,
-                imageRes = R.drawable.operate_manual_milk_ic),
+            DrinkItem(model = previewFormula,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(top = 165.dp)
@@ -103,7 +98,7 @@ fun ReleaseSteamLayout(
     }
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewReleaseSteam() {
     ReleaseSteamLayout {}

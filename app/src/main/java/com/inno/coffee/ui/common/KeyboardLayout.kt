@@ -22,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -301,11 +300,6 @@ private fun KeyboardKeyWithClick(keyName: String, click: Boolean, width: Int = 6
     }
 }
 
-@Composable
-private fun getImageResId(imageName: String): Int {
-    val context = LocalContext.current
-    return context.resources.getIdentifier(imageName, "drawable", context.packageName)
-}
 
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable

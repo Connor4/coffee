@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,7 +47,7 @@ fun HomeDrinksLayout(
     } else {
         MakeRightDrinksHandler.size.collectAsState()
     }
-    val drinksList by viewModel.drinksTypes.collectAsState()
+    val drinksList by viewModel.formulaList.collectAsState()
     val checking by SelfCheckManager.checking.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
     val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
@@ -83,12 +82,11 @@ fun HomeDrinksLayout(
                 ) {
                     currentList.forEach { drinkModel ->
                         val enable =
-                            viewModel.enableMask(size > 0, checking,
-                                drinkModel)
-                        val select = selected.intValue == drinkModel.productId
+                            viewModel.enableMask(size > 0, checking, drinkModel.productId.toInt())
+                        val select = selected.intValue == drinkModel.productId.toInt()
 
                         DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
-                            selected.intValue = drinkModel.productId
+                            selected.intValue = drinkModel.productId.toInt()
                             viewModel.startMakeDrink(drinkModel, mainScreen, checking)
                         }
                     }
@@ -108,7 +106,7 @@ fun HomeDrinksLayout(
     }
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewHomeDrinks() {
     HomeDrinksLayout()

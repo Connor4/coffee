@@ -17,20 +17,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.MaskBoxWithContent
 import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.common.getImageResId
+import com.inno.coffee.ui.common.getStringResId
 import com.inno.coffee.utilities.nsp
-import com.inno.common.enums.ProductType
+import com.inno.coffee.utilities.previewFormula
+import com.inno.common.db.entity.Formula
 
 @Composable
 fun DrinkItem(
     modifier: Modifier = Modifier,
-    model: DrinksModel,
+    model: Formula,
     enableMask: Boolean = false,
     selected: Boolean = false,
     onDrinkClick: () -> Unit = {},
@@ -57,7 +58,7 @@ fun DrinkItem(
         ) {
             MaskBoxWithContent(enableMask = enableMask) {
                 Image(
-                    painter = painterResource(id = model.imageRes),
+                    painter = painterResource(id = getImageResId(model.imageRes)),
                     contentDescription = null,
                     contentScale = ContentScale.Inside,
                     modifier = Modifier
@@ -67,7 +68,7 @@ fun DrinkItem(
                         .offset(y = 41.dp),
                 )
                 Text(
-                    text = stringResource(id = model.name),
+                    text = stringResource(id = getStringResId(model.nameRes)),
                     fontSize = 6.nsp(),
                     color = Color.White,
                     modifier = Modifier
@@ -79,9 +80,8 @@ fun DrinkItem(
     }
 }
 
-@Preview(device = Devices.TABLET, showBackground = true)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240", showBackground = true)
 @Composable
 private fun PreviewDrink() {
-    DrinkItem(model = DrinksModel(1, ProductType.COFFEE, R.string.home_item_foam,
-        R.drawable.drink_latte_ic))
+    DrinkItem(model = previewFormula)
 }

@@ -3,8 +3,10 @@ package com.inno.coffee.viewmodel.settings.statistics
 import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.viewmodel.home.HomeLocalDataSource
 import com.inno.common.db.dao.ProductCountDao
+import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.ProductCount
 import com.inno.common.db.entity.ProductTypeCount
+import com.inno.common.enums.ProductType
 import javax.inject.Inject
 
 class StatisticProductRepository @Inject constructor(
@@ -17,13 +19,14 @@ class StatisticProductRepository @Inject constructor(
         productCountDao.deleteAll()
     }
 
-    suspend fun incrementProductCount(model: DrinksModel) {
+    suspend fun incrementProductCount(model: Formula) {
         val productCount = productCountDao.getProductCountByProductId(model.productId)
         if (productCount != null) {
             productCount.count += 1
             productCountDao.updateProductCount(productCount)
         } else {
-            val p = ProductCount(productId = model.productId, type = model.type, count = 1)
+            val type = ProductType.fromValue(model.productType.type)
+            val p = ProductCount(productId = model.productId, type = type, count = 1)
             productCountDao.insert(p)
         }
     }
