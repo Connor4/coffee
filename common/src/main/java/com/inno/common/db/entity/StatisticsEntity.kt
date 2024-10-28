@@ -9,6 +9,7 @@ data class ProductCount(
     var productId: Int,
     var type: ProductType,
     var count: Int = 0,
+    var time: String = "",
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 )
 

@@ -17,15 +17,12 @@ class StatisticProductRepository @Inject constructor(
     }
 
     suspend fun incrementProductCount(model: Formula) {
-        val productCount = productCountDao.getProductCountByProductId(model.productId)
-        if (productCount != null) {
-            productCount.count += 1
-            productCountDao.updateProductCount(productCount)
-        } else {
-            val type = ProductType.fromValue(model.productType?.type ?: "")
-            val p = ProductCount(productId = model.productId, type = type, count = 1)
-            productCountDao.insert(p)
-        }
+        val redirect = ProductType.redirectToCoffee(model.productType?.type)
+        val type = ProductType.fromValue(redirect ?: "")
+        val time = System.currentTimeMillis()
+        val p = ProductCount(productId = model.productId, type = type, count = 1,
+            time = time.toString())
+        productCountDao.insert(p)
     }
 
 //    suspend fun getAllProductCounts(): List<ProductCount> {
@@ -36,7 +33,7 @@ class StatisticProductRepository @Inject constructor(
 //        return productCountDao.getProductCountsByType(type)
 //    }
 
-    suspend fun getProductCountByProductId(productId: Int): ProductCount? {
+    suspend fun getProductCountByProductId(productId: Int): Int {
         return productCountDao.getProductCountByProductId(productId)
     }
 

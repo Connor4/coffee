@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
 import com.inno.common.db.entity.Formula
-import com.inno.common.db.entity.ProductCount
 import com.inno.common.db.entity.ProductTypeCount
 import com.inno.common.enums.ProductType
 import com.inno.common.utils.CoffeeDataStore
@@ -29,8 +28,8 @@ class StatisticProductViewModel @Inject constructor(
     private val TAG = "StatisticProductViewModel"
     private val _typeCounts = MutableStateFlow<List<ProductTypeCount>>(emptyList())
     val typeCounts: StateFlow<List<ProductTypeCount>> = _typeCounts
-    private val _productCount = MutableStateFlow<ProductCount?>(null)
-    val productCount: StateFlow<ProductCount?> = _productCount.asStateFlow()
+    private val _productCount = MutableStateFlow(0)
+    val productCount: StateFlow<Int> = _productCount.asStateFlow()
     private val _time = MutableStateFlow("")
     val time: StateFlow<String> = _time.asStateFlow()
     private val _drinksList = MutableStateFlow<List<Formula>>(emptyList())

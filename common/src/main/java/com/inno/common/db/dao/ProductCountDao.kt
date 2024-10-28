@@ -29,8 +29,8 @@ interface ProductCountDao {
 //    @Query("SELECT * FROM product_count_table")
 //    suspend fun getAllProductCounts(): List<ProductCount>
 
-    @Query("SELECT * FROM product_count_table WHERE productId = :productId LIMIT 1")
-    suspend fun getProductCountByProductId(productId: Int): ProductCount?
+    @Query("SELECT COUNT(*) FROM product_count_table WHERE productId = :productId")
+    suspend fun getProductCountByProductId(productId: Int): Int
 
     @Query("SELECT type, SUM(count) as totalCount FROM product_count_table GROUP BY type")
     suspend fun getTypeCounts(): List<ProductTypeCount>

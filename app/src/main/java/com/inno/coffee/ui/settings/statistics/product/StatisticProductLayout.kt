@@ -144,9 +144,9 @@ fun StatisticProductLayout(
                 )
             }
         }
-        val count = selectedProductCount?.count ?: 0
         Text(
-            text = stringResource(id = R.string.statistic_product_single_counter) + "     $count",
+            text = stringResource(
+                id = R.string.statistic_product_single_counter) + "     $selectedProductCount",
             fontSize = 6.nsp(),
             color = Color.White,
             modifier = Modifier.padding(start = 90.dp, top = 355.dp)

@@ -23,6 +23,15 @@ enum class ProductType(val value: String) {
             }
             return NONE
         }
+
+        fun redirectToCoffee(value: String?): String? {
+            if (value == ESPRESSO.value || value == AMERICANO.value || value == DRIP_COFFEE.value
+                || POD_COFFEE.value == value || DRIP_POD_COFFEE.value == value || value == COFFEE
+                    .value) {
+                return COFFEE.value
+            }
+            return value
+        }
     }
 
 }
