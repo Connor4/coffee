@@ -35,6 +35,7 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.KeyboardLayout
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.ui.common.getStringResId
 import com.inno.coffee.utilities.FORMULA_PRODUCT_NAME_MAX_SIZE
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.FormulaItem
@@ -45,8 +46,15 @@ fun FormulaChangeNameLayout(
     onNameChange: (FormulaItem.FormulaProductName) -> Unit,
     onCloseClick: () -> Unit,
 ) {
+    val newName = if (!value.name.isNullOrBlank()) {
+        value.name
+    } else if (!value.nameRes.isNullOrBlank()) {
+        stringResource(getStringResId(value.nameRes!!))
+    } else {
+        ""
+    }
     var productName by rememberSaveable {
-        mutableStateOf(value.name)
+        mutableStateOf(newName)
     }
 
     Box(
@@ -112,7 +120,7 @@ fun FormulaChangeNameLayout(
                         .height(48.dp)
                         .background(Color(0xFF2C2C2C), RoundedCornerShape(4.dp))
                 )
-                Text(text = productName,
+                Text(text = productName ?: "",
                     style = TextStyle(
                         platformStyle = PlatformTextStyle(
                             includeFontPadding = false
@@ -127,12 +135,12 @@ fun FormulaChangeNameLayout(
             ) {
                 KeyboardLayout(
                     onKeyClick = {
-                        if (productName.length < FORMULA_PRODUCT_NAME_MAX_SIZE) {
+                        if (productName!!.length < FORMULA_PRODUCT_NAME_MAX_SIZE) {
                             productName += it
                         }
                     }, onDelete = {
-                        if (productName.isNotEmpty()) {
-                            productName = productName.dropLast(1)
+                        if (productName!!.isNotEmpty()) {
+                            productName = productName!!.dropLast(1)
                         }
                     }, onEnter = {
                         value.name = productName
@@ -147,5 +155,5 @@ fun FormulaChangeNameLayout(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewFormulaChangeName() {
-    FormulaChangeNameLayout(FormulaItem.FormulaProductName("test"), {}, {})
+    FormulaChangeNameLayout(FormulaItem.FormulaProductName("test", "home_item_espresso"), {}, {})
 }

@@ -25,7 +25,7 @@ class StatisticProductRepository @Inject constructor(
             productCount.count += 1
             productCountDao.updateProductCount(productCount)
         } else {
-            val type = ProductType.fromValue(model.productType.type)
+            val type = ProductType.fromValue(model.productType?.type ?: "")
             val p = ProductCount(productId = model.productId, type = type, count = 1)
             productCountDao.insert(p)
         }

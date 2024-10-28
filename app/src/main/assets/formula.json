@@ -1,24 +1,24 @@
 [
   {
     "productId": 1,
-    "nameRes": "home_item_stop",
     "imageRes": "home_stop_normal_ic",
     "productType": {
       "type": "Operation"
     },
     "productName": {
-      "name": "停止"
+      "name": "",
+      "nameRes": "home_item_stop"
     }
   },
   {
     "productId": 2,
-    "nameRes": "home_item_hot_water",
     "imageRes": "drink_hot_water_ic",
     "productType": {
       "type": "HotWater"
     },
     "productName": {
-      "name": "热水"
+      "name": "",
+      "nameRes": "home_item_hot_water"
     },
     "preFlush": false,
     "postFlush": false,
@@ -35,13 +35,13 @@
   },
   {
     "productId": 3,
-    "nameRes": "home_item_foam",
     "imageRes": "operate_milk_foam_ic",
     "productType": {
       "type": "Foam"
     },
     "productName": {
-      "name": "奶泡"
+      "name": "",
+      "nameRes": "home_item_foam"
     },
     "preFlush": false,
     "postFlush": false,
@@ -58,24 +58,24 @@
   },
   {
     "productId": 4,
-    "nameRes": "home_item_rinse",
     "imageRes": "operate_rinse_ic",
     "productType": {
       "type": "Operation"
     },
     "productName": {
-      "name": "冲水"
+      "name": "",
+      "nameRes": "home_item_rinse"
     }
   },
   {
     "productId": 5,
-    "nameRes": "home_item_espresso",
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "特浓咖啡"
+      "name": "",
+      "nameRes": "home_item_espresso"
     },
     "preFlush": false,
     "postFlush": false,
@@ -142,13 +142,13 @@
   },
   {
     "productId": 6,
-    "nameRes": "home_item_double_espresso",
     "imageRes": "drink_double_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x特浓咖啡"
+      "name": "",
+      "nameRes": "home_item_double_espresso"
     },
     "preFlush": false,
     "postFlush": false,
@@ -215,13 +215,13 @@
   },
   {
     "productId": 7,
-    "nameRes": "home_item_americano",
     "imageRes": "drink_americano_ic",
     "productType": {
       "type": "Americano"
     },
     "productName": {
-      "name": "美式咖啡"
+      "name": "",
+      "nameRes": "home_item_americano"
     },
     "preFlush": false,
     "postFlush": false,
@@ -297,13 +297,13 @@
   },
   {
     "productId": 8,
-    "nameRes": "home_item_double_americano",
     "imageRes": "drink_double_americano_ic",
     "productType": {
       "type": "Americano"
     },
     "productName": {
-      "name": "2x美式咖啡"
+      "name": "",
+      "nameRes": "home_item_double_americano"
     },
     "preFlush": false,
     "postFlush": false,
@@ -379,13 +379,13 @@
   },
   {
     "productId": 9,
-    "nameRes": "home_item_milk",
     "imageRes": "drink_milk_ic",
     "productType": {
       "type": "Milk"
     },
     "productName": {
-      "name": "牛奶"
+      "name": "",
+      "nameRes": "home_item_milk"
     },
     "preFlush": false,
     "postFlush": false,
@@ -402,13 +402,13 @@
   },
   {
     "productId": 10,
-    "nameRes": "home_item_pod_coffee",
     "imageRes": "drink_pot_coffee_ic",
     "productType": {
       "type": "DripCoffee"
     },
     "productName": {
-      "name": "滴壶咖啡"
+      "name": "",
+      "nameRes": "home_item_pod_coffee"
     },
     "preFlush": false,
     "postFlush": false,
@@ -479,35 +479,35 @@
   },
   {
     "productId": 11,
-    "nameRes": "home_item_auto_foam",
     "imageRes": "operate_auto_milk_ic",
     "productType": {
       "type": "Steam"
     },
     "productName": {
-      "name": "停止"
+      "name": "",
+      "nameRes": "home_item_auto_foam"
     }
   },
   {
     "productId": 12,
-    "nameRes": "home_item_manual_foam",
     "imageRes": "operate_manual_milk_ic",
     "productType": {
       "type": "Steam"
     },
     "productName": {
-      "name": "停止"
+      "name": "",
+      "nameRes": "home_item_manual_foam"
     }
   },
   {
     "productId": 13,
-    "nameRes": "home_item_latte",
     "imageRes": "drink_latte_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "拿铁咖啡"
+      "name": "",
+      "nameRes": "home_item_latte"
     },
     "preFlush": false,
     "postFlush": false,
@@ -578,13 +578,13 @@
   },
   {
     "productId": 14,
-    "nameRes": "home_item_double_latte",
     "imageRes": "drink_double_latte_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x拿铁咖啡"
+      "name": "",
+      "nameRes": "home_item_double_latte"
     },
     "preFlush": false,
     "postFlush": false,
@@ -655,13 +655,13 @@
   },
   {
     "productId": 15,
-    "nameRes": "home_item_cappuccino",
     "imageRes": "drink_cappuccino_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "卡布奇诺"
+      "name": "",
+      "nameRes": "home_item_cappuccino"
     },
     "preFlush": false,
     "postFlush": false,
@@ -732,13 +732,13 @@
   },
   {
     "productId": 16,
-    "nameRes": "home_item_double_cappuccino",
     "imageRes": "drink_double_cappuccino_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x卡布奇诺"
+      "name": "",
+      "nameRes": "home_item_double_cappuccino"
     },
     "preFlush": false,
     "postFlush": false,
@@ -809,13 +809,13 @@
   },
   {
     "productId": 17,
-    "nameRes": "home_item_latte_macchiato",
     "imageRes": "drink_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "拿铁卡布奇诺"
+      "name": "",
+      "nameRes": "home_item_latte_macchiato"
     },
     "preFlush": false,
     "postFlush": false,
@@ -886,13 +886,13 @@
   },
   {
     "productId": 18,
-    "nameRes": "home_item_double_latte_macchiato",
     "imageRes": "drink_double_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x拿铁卡布奇诺"
+      "name": "",
+      "nameRes": "home_item_double_latte_macchiato"
     },
     "preFlush": false,
     "postFlush": false,
@@ -963,13 +963,13 @@
   },
   {
     "productId": 19,
-    "nameRes": "home_item_es_macchiato",
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "浓缩玛奇朵"
+      "name": "",
+      "nameRes": "home_item_es_macchiato"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1040,13 +1040,13 @@
   },
   {
     "productId": 20,
-    "nameRes": "home_item_double_es_macchiato",
     "imageRes": "drink_double_es_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x浓缩玛奇朵"
+      "name": "",
+      "nameRes": "home_item_double_es_macchiato"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1116,14 +1116,82 @@
     "rightValueLeftBoiler": 0
   },
   {
+    "productId": 101,
+    "imageRes": "home_stop_normal_ic",
+    "productType": {
+      "type": "Operation"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_stop"
+    }
+  },
+  {
+    "productId": 102,
+    "imageRes": "drink_hot_water_ic",
+    "productType": {
+      "type": "HotWater"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_hot_water"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "productId": 103,
+    "imageRes": "operate_milk_foam_ic",
+    "productType": {
+      "type": "Foam"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "foam": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[s]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "productId": 104,
+    "imageRes": "operate_rinse_ic",
+    "productType": {
+      "type": "Operation"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_rinse"
+    }
+  },
+  {
     "productId": 105,
-    "nameRes": "home_item_espresso",
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "特浓咖啡"
+      "name": "",
+      "nameRes": "home_item_espresso"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1190,13 +1258,13 @@
   },
   {
     "productId": 106,
-    "nameRes": "home_item_double_espresso",
     "imageRes": "drink_double_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x特浓咖啡"
+      "name": "",
+      "nameRes": "home_item_double_espresso"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1263,13 +1331,13 @@
   },
   {
     "productId": 107,
-    "nameRes": "home_item_americano",
     "imageRes": "drink_americano_ic",
     "productType": {
       "type": "Americano"
     },
     "productName": {
-      "name": "美式咖啡"
+      "name": "",
+      "nameRes": "home_item_americano"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1345,13 +1413,13 @@
   },
   {
     "productId": 108,
-    "nameRes": "home_item_double_americano",
     "imageRes": "drink_double_americano_ic",
     "productType": {
       "type": "Americano"
     },
     "productName": {
-      "name": "2x美式咖啡"
+      "name": "",
+      "nameRes": "home_item_double_americano"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1426,14 +1494,37 @@
     "rightValueLeftBoiler": 0
   },
   {
+    "productId": 109,
+    "imageRes": "drink_milk_ic",
+    "productType": {
+      "type": "Milk"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_milk"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "milk": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 200,
+      "unit": "[ml]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
     "productId": 110,
-    "nameRes": "home_item_pod_coffee",
     "imageRes": "drink_pot_coffee_ic",
     "productType": {
       "type": "DripCoffee"
     },
     "productName": {
-      "name": "滴壶咖啡"
+      "name": "",
+      "nameRes": "home_item_pod_coffee"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1503,14 +1594,36 @@
     "rightValueLeftBoiler": 0
   },
   {
+    "productId": 111,
+    "imageRes": "operate_auto_milk_ic",
+    "productType": {
+      "type": "Steam"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_auto_foam"
+    }
+  },
+  {
+    "productId": 112,
+    "imageRes": "operate_manual_milk_ic",
+    "productType": {
+      "type": "Steam"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_manual_foam"
+    }
+  },
+  {
     "productId": 113,
-    "nameRes": "home_item_latte",
     "imageRes": "drink_latte_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "拿铁咖啡"
+      "name": "",
+      "nameRes": "home_item_latte"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1581,13 +1694,13 @@
   },
   {
     "productId": 114,
-    "nameRes": "home_item_double_latte",
     "imageRes": "drink_double_latte_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x拿铁咖啡"
+      "name": "",
+      "nameRes": "home_item_double_latte"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1658,13 +1771,13 @@
   },
   {
     "productId": 115,
-    "nameRes": "home_item_cappuccino",
     "imageRes": "drink_cappuccino_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "卡布奇诺"
+      "name": "",
+      "nameRes": "home_item_cappuccino"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1735,13 +1848,13 @@
   },
   {
     "productId": 116,
-    "nameRes": "home_item_double_cappuccino",
     "imageRes": "drink_double_cappuccino_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x卡布奇诺"
+      "name": "",
+      "nameRes": "home_item_double_cappuccino"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1812,13 +1925,13 @@
   },
   {
     "productId": 117,
-    "nameRes": "home_item_latte_macchiato",
     "imageRes": "drink_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "拿铁卡布奇诺"
+      "name": "",
+      "nameRes": "home_item_latte_macchiato"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1889,13 +2002,13 @@
   },
   {
     "productId": 118,
-    "nameRes": "home_item_double_latte_macchiato",
     "imageRes": "drink_double_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x拿铁卡布奇诺"
+      "name": "",
+      "nameRes": "home_item_double_latte_macchiato"
     },
     "preFlush": false,
     "postFlush": false,
@@ -1966,13 +2079,13 @@
   },
   {
     "productId": 119,
-    "nameRes": "home_item_es_macchiato",
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "浓缩玛奇朵"
+      "name": "",
+      "nameRes": "home_item_es_macchiato"
     },
     "preFlush": false,
     "postFlush": false,
@@ -2043,13 +2156,13 @@
   },
   {
     "productId": 120,
-    "nameRes": "home_item_double_es_macchiato",
     "imageRes": "drink_double_es_macchiato_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x浓缩玛奇朵"
+      "name": "",
+      "nameRes": "home_item_double_es_macchiato"
     },
     "preFlush": false,
     "postFlush": false,
@@ -2118,15 +2231,16 @@
     "middleValueLeftBoiler": 0,
     "rightValueLeftBoiler": 0
   },
+
   {
     "productId": 1005,
-    "nameRes": "home_item_espresso",
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "特浓咖啡"
+      "name": "",
+      "nameRes": "home_item_espresso"
     },
     "preFlush": false,
     "postFlush": false,
@@ -2188,13 +2302,13 @@
   },
   {
     "productId": 1006,
-    "nameRes": "home_item_double_espresso",
     "imageRes": "drink_double_espresso_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x特浓咖啡"
+      "name": "",
+      "nameRes": "home_item_double_espresso"
     },
     "preFlush": false,
     "postFlush": false,
@@ -2256,13 +2370,13 @@
   },
   {
     "productId": 1007,
-    "nameRes": "home_item_americano",
     "imageRes": "drink_americano_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "美式咖啡"
+      "name": "",
+      "nameRes": "home_item_americano"
     },
     "preFlush": false,
     "postFlush": false,
@@ -2333,13 +2447,13 @@
   },
   {
     "productId": 1008,
-    "nameRes": "home_item_double_americano",
     "imageRes": "drink_double_americano_ic",
     "productType": {
       "type": "Coffee"
     },
     "productName": {
-      "name": "2x美式咖啡"
+      "name": "",
+      "nameRes": "home_item_double_americano"
     },
     "preFlush": false,
     "postFlush": false,

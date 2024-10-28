@@ -34,7 +34,6 @@ import com.inno.coffee.R
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.ui.common.getImageResId
-import com.inno.coffee.ui.common.getStringResId
 import com.inno.coffee.utilities.previewFormula
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.common.db.entity.Formula
@@ -110,8 +109,14 @@ private fun QueueItem(index: Int, model: Formula, onCancelItemClick: () -> Unit)
         AsyncImage(model = res, modifier = Modifier.size(100.dp),
             contentDescription = null)
         Spacer(modifier = Modifier.width(50.dp))
-        val name = getStringResId(model.nameRes)
-        Text(text = stringResource(id = name),
+        val name = if (!model.productName?.name.isNullOrBlank()) {
+            model.productName?.name
+        } else if (!model.productName?.nameRes.isNullOrBlank()) {
+            stringResource(getImageResId(model.productName?.nameRes!!))
+        } else {
+            stringResource(R.string.common_empty_string)
+        }
+        Text(text = name!!,
             style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.weight(1f)) // 占据剩余的空间
         Button(onClick = { onCancelItemClick() }) {

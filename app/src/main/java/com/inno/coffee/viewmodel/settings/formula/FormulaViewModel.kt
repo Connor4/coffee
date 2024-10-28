@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
@@ -36,31 +35,32 @@ class FormulaViewModel @Inject constructor(
         private const val FORMULA_JSON_FILE = "/formula.txt"
     }
 
-    val formulaList: StateFlow<List<Formula>> = repository.getAllFormula()
+    val formulaList: StateFlow<List<Formula>> = repository.getAllFormulaFlow()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = emptyList()
         )
     val loadFileErrorDialogFlag = mutableStateOf(false)
-    private val _drinksType = MutableStateFlow<List<DrinksModel>>(emptyList())
-    val drinksType: StateFlow<List<DrinksModel>> = _drinksType.asStateFlow()
+    private val _drinksList = MutableStateFlow<List<Formula>>(emptyList())
+    val drinksList: StateFlow<List<Formula>> = _drinksList.asStateFlow()
     private val _formula = MutableStateFlow<Formula?>(null)
     val formula = _formula.asStateFlow()
 
     fun loadDrinkTypeList(mainScreen: Boolean) {
         viewModelScope.launch(defaultDispatcher) {
             if (mainScreen) {
-                _drinksType.value = repository.drinkType.filter {
-                    it.type != ProductType.OPERATION && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
+                _drinksList.value = repository.getAllFormula().filter {
+                    it.productType?.type != ProductType.OPERATION.value
+                            && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
                 }
             } else {
-                _drinksType.value = repository.drinkType.filter {
-                    it.type != ProductType.OPERATION && (it.productId in
-                            (MAIN_SCREEN_PRODUCT_ID_LIMIT + 1)..<SECOND_SCREEN_PRODUCT_ID_LIMIT)
+                _drinksList.value = repository.getAllFormula().filter {
+                    it.productType?.type != ProductType.OPERATION.value
+                            && (it.productId in (MAIN_SCREEN_PRODUCT_ID_LIMIT + 1)..<SECOND_SCREEN_PRODUCT_ID_LIMIT)
                 }
             }
-            val first = _drinksType.value.first()
+            val first = _drinksList.value.first()
             _formula.value = repository.getFormulaByProductId(first.productId)
         }
     }

@@ -10,8 +10,8 @@ data class Formula(
     var productId: Int,
     var preFlush: Boolean = false,
     var postFlush: Boolean = false,
-    var productType: FormulaItem.FormulaProductType,
-    var productName: FormulaItem.FormulaProductName,
+    var productType: FormulaItem.FormulaProductType? = null,
+    var productName: FormulaItem.FormulaProductName? = null,
     var vat: FormulaItem.FormulaVatPosition? = null,
     var coffeeWater: FormulaItem.FormulaUnitValue? = null, // Boiler
     var powderDosage: FormulaItem.FormulaUnitValue? = null, // Grinder
@@ -27,7 +27,6 @@ data class Formula(
     var milk: FormulaItem.FormulaUnitValue? = null,
     //=======================================================================
     var cups: FormulaItem.FormulaCups? = null,
-    var nameRes: String = "",
     var imageRes: String = "",
     //================to be determined, but i hava to have it==================
     var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
@@ -58,7 +57,8 @@ sealed class FormulaItem {
 
     @Serializable
     data class FormulaProductName(
-        var name: String,
+        var name: String?,
+        var nameRes: String?,
     )
 
     @Serializable

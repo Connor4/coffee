@@ -15,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.ConfirmDialogLayout
@@ -42,10 +40,9 @@ fun FormulaLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
-    val drinksTypeList by viewModel.drinksType.collectAsState()
+    val drinksTypeList by viewModel.drinksList.collectAsState()
     val selectFormula by viewModel.formula.collectAsState()
     val allFormula by viewModel.formulaList.collectAsState()
-    val selectedModel = rememberSaveable { mutableStateOf<DrinksModel?>(null) }
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val openConfirmDialog = remember { mutableStateOf(false) }
@@ -55,16 +52,9 @@ fun FormulaLayout(
         viewModel.loadDrinkTypeList(mainScreen)
     }
 
-    // TODO after remove HomeLocalSource, replace by formula.json, remove selectModel
-    LaunchedEffect(drinksTypeList) {
-        if (drinksTypeList.isNotEmpty()) {
-            selectedModel.value = drinksTypeList.first()
-        }
-    }
-
     LaunchedEffect(allFormula) {
         if (allFormula.isNotEmpty() && selectFormula != null) {
-            viewModel.getFormula(selectFormula!!.productId.toInt())
+            viewModel.getFormula(selectFormula!!.productId)
         }
     }
 
@@ -95,9 +85,7 @@ fun FormulaLayout(
                 viewModel.assimilationProduct(selectFormula)
             }
         }
-        FormulaDrinkPage(selectedModel.value, selectFormula, totalCount, pagerState,
-            drinksTypeList) {
-            selectedModel.value = it
+        FormulaDrinkPage(selectFormula, totalCount, pagerState, drinksTypeList) {
             viewModel.getFormula(it.productId)
         }
         FormulaValuesDisplay()

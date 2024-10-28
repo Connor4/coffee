@@ -12,7 +12,10 @@ import kotlinx.coroutines.flow.Flow
 interface FormulaDao {
 
     @Query("SELECT * FROM formula_table ORDER BY id ASC")
-    fun getAllFormula(): Flow<List<Formula>>
+    fun getAllFormulaFlow(): Flow<List<Formula>>
+
+    @Query("SELECT * FROM formula_table ORDER BY id ASC")
+    fun getAllFormula(): List<Formula>
 
     @Query("SELECT * FROM formula_table WHERE productId =:productId LIMIT 1")
     suspend fun getFormulaByProductId(productId: Int): Formula?

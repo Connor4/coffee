@@ -25,24 +25,25 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.common.getImageResId
+import com.inno.coffee.ui.common.getStringResId
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.Formula
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun FormulaDrinkPage(
-    selectedModel: DrinksModel?,
     selectedFormula: Formula?,
     totalCount: Int,
     pagerState: PagerState,
-    drinksTypeList: List<DrinksModel>,
-    onDrinkItemClick: (model: DrinksModel) -> Unit,
+    drinksTypeList: List<Formula>,
+    onDrinkItemClick: (model: Formula) -> Unit,
 ) {
     val PAGE_COUNT = 10
 
@@ -58,11 +59,9 @@ fun FormulaDrinkPage(
                     .clip(RoundedCornerShape(20.dp))
                     .background(color = Color(0xFF191A1D)),
             ) {
-                val drawableRes = selectedModel?.imageRes ?: R.drawable.drink_item_empty_ic
-//                val stringRes = selectedFormula?.productName ?: R.string.home_item_espresso
-                val name = selectedFormula?.productName?.name ?: ""
+                val drawableRes = selectedFormula?.imageRes ?: "drink_item_empty_ic"
                 Image(
-                    painter = painterResource(id = drawableRes),
+                    painter = painterResource(id = getImageResId(drawableRes)),
                     contentDescription = null,
                     contentScale = ContentScale.Inside,
                     modifier = Modifier
@@ -71,8 +70,15 @@ fun FormulaDrinkPage(
                         .align(Alignment.TopCenter)
                         .offset(y = 40.dp),
                 )
+                val name = if (!selectedFormula?.productName?.name.isNullOrBlank()) {
+                    selectedFormula?.productName?.name
+                } else if (!selectedFormula?.productName?.nameRes.isNullOrBlank()) {
+                    stringResource(getStringResId(selectedFormula?.productName?.nameRes!!))
+                } else {
+                    stringResource(R.string.common_empty_string)
+                }
                 Text(
-                    text = name,
+                    text = name!!,
                     fontSize = 6.nsp(),
                     color = Color.White,
                     textAlign = TextAlign.Center,
@@ -104,10 +110,8 @@ fun FormulaDrinkPage(
                     maxItemsInEachRow = 5,
                 ) {
                     currentList.forEach {
-                        val select = selectedModel?.productId == it.productId
+                        val select = selectedFormula?.productId == it.productId
                         FormulaDrinkItem(model = it, selected = select) {
-//                            selectedModel = it
-//                            viewModel.getFormula(it.productId)
                             onDrinkItemClick(it)
                         }
                     }
@@ -129,7 +133,7 @@ fun FormulaDrinkPage(
 
 @Composable
 private fun FormulaDrinkItem(
-    model: DrinksModel,
+    model: Formula,
     selected: Boolean = false,
     onDrinkClick: () -> Unit = {},
 ) {
@@ -155,7 +159,7 @@ private fun FormulaDrinkItem(
             )
         }
         Image(
-            painter = painterResource(id = model.imageRes),
+            painter = painterResource(id = getImageResId(model.imageRes)),
             contentDescription = null,
             contentScale = ContentScale.Inside,
             modifier = Modifier

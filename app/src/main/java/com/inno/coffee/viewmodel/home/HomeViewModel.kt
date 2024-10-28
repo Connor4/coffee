@@ -3,7 +3,6 @@ package com.inno.coffee.viewmodel.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
-import com.inno.coffee.data.DrinksModel
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
@@ -178,9 +177,9 @@ class HomeViewModel @Inject constructor(
     fun startMakeDrink(model: Formula, main: Boolean, selfCheck: Boolean) {
         Logger.d(TAG,
             "startMakeDrink() called with: model = $model, main = $main, selfCheck = $selfCheck")
-        if (model.productType.type == ProductType.OPERATION.value
-            || model.productType.type == ProductType.FOAM.value) {
-            if (selfCheck && model.productId.toInt() == PRODUCT_RINSE) {
+        if (model.productType?.type == ProductType.OPERATION.value
+            || model.productType?.type == ProductType.FOAM.value) {
+            if (selfCheck && model.productId == PRODUCT_RINSE) {
                 viewModelScope.launch {
                     SelfCheckManager.operateRinse()
                 }
@@ -219,10 +218,6 @@ class HomeViewModel @Inject constructor(
             return !specialItem.contains(productId)
         }
         return false
-    }
-
-    fun isFunctionItem(model: DrinksModel): Boolean {
-        return specialItem.contains(model.productId)
     }
 
     suspend fun startCountDown() {

@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.common.getStringResId
 import com.inno.coffee.utilities.formulaProductTypeMultilingual
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.FormulaItem
@@ -83,7 +84,14 @@ fun FormulaItem(
                     textValue = stringResource(stringRes ?: R.string.formula_product_type_none)
                 }
                 is FormulaItem.FormulaProductName -> {
-                    textValue = value.name
+                    val name = if (!value.name.isNullOrBlank()) {
+                        value.name
+                    } else if (!value.nameRes.isNullOrBlank()) {
+                        stringResource(getStringResId(value.nameRes!!))
+                    } else {
+                        stringResource(R.string.common_empty_string)
+                    }
+                    textValue = name!!
                 }
                 is FormulaItem.FormulaVatPosition -> {
                     textValue = if (value.position) stringResource(R.string.formula_font_vat)
