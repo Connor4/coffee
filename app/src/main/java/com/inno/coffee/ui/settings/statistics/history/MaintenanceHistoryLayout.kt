@@ -56,16 +56,22 @@ fun MaintenanceHistoryLayout(
                     contentAlignment = Alignment.CenterStart,
                 ) {
                     Text(
+                        text = stringResource(R.string.statistic_product_top_date),
+                        color = Color.White,
+                        fontSize = 5.nsp(),
+                        modifier = Modifier.padding(start = 28.dp)
+                    )
+                    Text(
                         text = stringResource(R.string.statistic_product_top_time),
                         color = Color.White,
                         fontSize = 5.nsp(),
-                        modifier = Modifier.padding(start = 126.dp)
+                        modifier = Modifier.padding(start = 145.dp)
                     )
                     Text(
                         text = stringResource(R.string.statistic_maintenance_top_description),
                         color = Color.White,
                         fontSize = 5.nsp(),
-                        modifier = Modifier.padding(start = 236.dp)
+                        modifier = Modifier.padding(start = 250.dp)
                     )
                 }
             },
@@ -124,13 +130,13 @@ private fun HistoryItem(
                     text = history.time,
                     color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 25.dp)
+                    modifier = Modifier.padding(start = 28.dp)
                 )
                 Text(
                     text = history.description,
                     color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 236.dp)
+                    modifier = Modifier.padding(start = 250.dp)
                 )
             }
         }

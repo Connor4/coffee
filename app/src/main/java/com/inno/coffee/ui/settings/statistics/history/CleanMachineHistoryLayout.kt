@@ -49,7 +49,7 @@ fun CleanMachineHistoryLayout(
                 contentAlignment = Alignment.CenterStart,
             ) {
                 Text(
-                    text = stringResource(R.string.statistic_product_top_time), color = Color.White,
+                    text = stringResource(R.string.statistic_product_top_date), color = Color.White,
                     fontSize = 5.nsp(),
                     modifier = Modifier.padding(start = 29.dp)
                 )

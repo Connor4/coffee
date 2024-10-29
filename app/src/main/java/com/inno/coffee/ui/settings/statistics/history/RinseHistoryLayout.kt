@@ -49,10 +49,16 @@ fun RinseHistoryLayout(
             ) {
                 Box {
                     Text(
+                        text = stringResource(R.string.statistic_product_top_date),
+                        color = Color.White,
+                        fontSize = 5.nsp(),
+                        modifier = Modifier.padding(start = 28.dp)
+                    )
+                    Text(
                         text = stringResource(R.string.statistic_product_top_time),
                         color = Color.White,
                         fontSize = 5.nsp(),
-                        modifier = Modifier.padding(start = 126.dp)
+                        modifier = Modifier.padding(start = 145.dp)
                     )
                     Text(
                         text = stringResource(R.string.statistic_rinse_top_type),

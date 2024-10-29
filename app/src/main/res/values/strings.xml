@@ -71,6 +71,7 @@
     <string name="statistic_main_product_counter">Product Counter</string>
     <string name="statistic_main_machine_counter">Machine Counter</string>
     <string name="statistic_main_history_data">History</string>
+    <string name="statistic_product_top_date">Date</string>
     <string name="statistic_product_top_time">Time</string>
     <string name="statistic_product_top_press_final">Press\nFinal\n[mm]</string>
     <string name="statistic_product_top_brew_side">Brew\nSide</string>

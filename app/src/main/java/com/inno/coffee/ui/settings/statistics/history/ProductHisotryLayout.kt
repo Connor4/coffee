@@ -47,9 +47,15 @@ fun ProductHistoryLayout(
                     .padding(start = 50.dp, top = 170.dp),
             ) {
                 Text(
+                    text = stringResource(R.string.statistic_product_top_date),
+                    color = Color.White,
+                    fontSize = 5.nsp(),
+                    modifier = Modifier.padding(start = 28.dp)
+                )
+                Text(
                     text = stringResource(R.string.statistic_product_top_time), color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 126.dp)
+                    modifier = Modifier.padding(start = 145.dp)
                 )
                 Text(
                     text = stringResource(R.string.statistic_product_top_press_final),
