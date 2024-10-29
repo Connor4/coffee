@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,14 +23,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.statistics.MachineCounterViewModel
 
 @Composable
 fun MachineCounterLayout(
+    viewModel: MachineCounterViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val time = viewModel.time.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -91,7 +97,7 @@ fun MachineCounterLayout(
                 color = Color(0xFF191A1D))
 
             CounterItem2(stringResource(R.string.statistic_last_reset, ""),
-                value = "30.09.2022, 05:30:41")
+                value = time.value)
             CounterItem2(color = Color(0xFF191A1D))
             CounterItem2()
 
