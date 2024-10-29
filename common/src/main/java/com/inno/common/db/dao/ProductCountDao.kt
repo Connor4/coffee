@@ -38,4 +38,13 @@ interface ProductCountDao {
 //    @Query("SELECT * FROM product_count_table WHERE type = :type")
 //    suspend fun getProductCountsByType(type: ProductType): List<ProductCount>
 
+    @Query(
+        "SELECT COUNT(*) FROM product_count_table WHERE time >= :startTime AND time <= :endTime " +
+                "AND productId = :productId")
+    suspend fun getProductCountsForDate(startTime: Long, endTime: Long, productId: Int): Int
+
+    @Query(
+        "SELECT type, SUM(count) as totalCount FROM product_count_table WHERE time >= :startTime AND time <= :endTime GROUP BY type")
+    suspend fun getDayTypeCounts(startTime: Long, endTime: Long): List<ProductTypeCount>
+
 }

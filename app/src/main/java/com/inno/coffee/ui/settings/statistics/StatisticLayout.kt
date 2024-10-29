@@ -46,6 +46,7 @@ import com.inno.coffee.utilities.HISTORY_VALUE_ERROR
 import com.inno.coffee.utilities.HISTORY_VALUE_MAINTENANCE
 import com.inno.coffee.utilities.HISTORY_VALUE_PRODUCT
 import com.inno.coffee.utilities.HISTORY_VALUE_RINSE
+import com.inno.coffee.utilities.KEY_COUNTER
 import com.inno.coffee.utilities.KEY_DAY_COUNTER
 import com.inno.coffee.utilities.KEY_HISTORY
 import com.inno.coffee.utilities.KEY_PERIOD_COUNTER
@@ -59,7 +60,7 @@ fun StatisticLayout(
 ) {
     val names = arrayOf(
         Pair(KEY_DAY_COUNTER, R.string.statistic_day_counter),
-        Pair(KEY_PERIOD_COUNTER, R.string.statistic_period_counter),
+//        Pair(KEY_PERIOD_COUNTER, R.string.statistic_period_counter),
         Pair(KEY_TOTAL_COUNTER, R.string.statistic_total_counter),
     )
     val historyNames = arrayOf(
@@ -109,18 +110,23 @@ fun StatisticLayout(
         ) {
             names.forEach { pair ->
                 Item(title = pair.second) {
+                    var value = ""
                     when (pair.first) {
                         KEY_DAY_COUNTER -> {
-                            ScreenDisplayManager.autoRoute(context,
-                                StatisticProductActivity::class.java)
+                            value = KEY_DAY_COUNTER
                         }
                         KEY_PERIOD_COUNTER -> {
 
                         }
                         KEY_TOTAL_COUNTER -> {
-
+                            value = KEY_TOTAL_COUNTER
                         }
                     }
+                    ScreenDisplayManager.autoRoute(context,
+                        StatisticProductActivity::class.java,
+                        Bundle().apply {
+                            putString(KEY_COUNTER, value)
+                        })
                 }
             }
         }

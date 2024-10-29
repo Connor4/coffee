@@ -60,7 +60,7 @@ private const val PAGE_COUNT = 10
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun StatisticProductLayout(
+fun StatisticTotalProductLayout(
     viewModel: StatisticProductViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
@@ -90,7 +90,7 @@ fun StatisticProductLayout(
     ) {
         // ==============================left========================================
         Text(
-            text = stringResource(id = R.string.statistic_day_counter),
+            text = stringResource(id = R.string.statistic_total_counter),
             fontSize = 7.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,

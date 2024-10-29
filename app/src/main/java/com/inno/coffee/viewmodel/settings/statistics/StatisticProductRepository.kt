@@ -20,8 +20,7 @@ class StatisticProductRepository @Inject constructor(
         val redirect = ProductType.redirectToCoffee(model.productType?.type)
         val type = ProductType.fromValue(redirect ?: "")
         val time = System.currentTimeMillis()
-        val p = ProductCount(productId = model.productId, type = type, count = 1,
-            time = time.toString())
+        val p = ProductCount(productId = model.productId, type = type, count = 1, time = time)
         productCountDao.insert(p)
     }
 
@@ -47,6 +46,16 @@ class StatisticProductRepository @Inject constructor(
 
     suspend fun getFormulaByProductId(productId: Int): Formula? {
         return formulaDao.getFormulaByProductId(productId)
+    }
+
+    suspend fun getProductCountsForDate(startTime: Long, endTime: Long,
+        productId: Int): Int {
+        return productCountDao.getProductCountsForDate(startTime, endTime, productId)
+    }
+
+    suspend fun getDayTypeCounts(startTime: Long, endTime: Long): List<ProductTypeCount> {
+        return productCountDao.getDayTypeCounts(startTime, endTime)
+
     }
 
 }
