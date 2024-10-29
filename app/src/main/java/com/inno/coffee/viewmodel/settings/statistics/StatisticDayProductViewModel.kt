@@ -31,6 +31,8 @@ class StatisticDayProductViewModel @Inject constructor(
     val drinksList: StateFlow<List<Formula>> = _drinksList.asStateFlow()
     private val _formula = MutableStateFlow<Formula?>(null)
     val formula = _formula.asStateFlow()
+    private val _time = MutableStateFlow("")
+    val time: StateFlow<String> = _time.asStateFlow()
 
     private var currentYear = 0
     private var currentMonth = 0
@@ -51,6 +53,7 @@ class StatisticDayProductViewModel @Inject constructor(
         currentYear = calendar.get(Calendar.YEAR)
         currentMonth = calendar.get(Calendar.MONTH) + 1
         currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+        _time.value = "$currentYear/$currentMonth/$currentDay"
         getDayProductCount(formula)
     }
 

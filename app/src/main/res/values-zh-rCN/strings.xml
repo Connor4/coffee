@@ -102,6 +102,8 @@
     <string name="statistic_rinse_top_limit_flow_rate">限流孔水流\n[tick/s]</string>
     <string name="statistic_reset_all">重置数据</string>
     <string name="statistic_last_reset">上次重置时间: %s</string>
+    <string name="statistic_select_day">选择日期</string>
+    <string name="statistic_current_day">当前时间: %s</string>
     <string name="statistic_left">左</string>
     <string name="statistic_right">右</string>
     <string name="statistic_on">开</string>

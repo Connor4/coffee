@@ -66,6 +66,7 @@ fun StatisticDayProductLayout(
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val selectFormula by viewModel.formula.collectAsState()
+    val time by viewModel.time.collectAsState()
 
     val coffee = lookForCount(typeCounts, ProductType.COFFEE)
     val hotWater = lookForCount(typeCounts, ProductType.HOT_WATER)
@@ -185,6 +186,42 @@ fun StatisticDayProductLayout(
         }
 
         // ============================right=======================================
+//        Box(
+//            modifier = Modifier
+//                .wrapContentSize()
+//                .align(Alignment.TopEnd)
+//                .padding(top = 132.dp, end = 90.dp)
+//        ) {
+//            Button(
+//                modifier = Modifier
+//                    .width(200.dp)
+//                    .height(50.dp),
+//                colors = ButtonColors(
+//                    Color(0xFF191A1D), Color(0xFF191A1D), Color(0xFF191A1D),
+//                    Color(0xFF191A1D),
+//                ),
+//                border = BorderStroke(1.dp, Color(0xFF484848)),
+//                shape = RoundedCornerShape(10.dp),
+//                onClick = composeClick {
+////                    viewModel.resetData()
+//                },
+//            ) {
+//                Text(
+//                    text = stringResource(id = R.string.statistic_reset_all),
+//                    fontSize = 5.nsp(),
+//                    color = Color.White
+//                )
+//            }
+//        }
+        Text(
+            text = stringResource(id = R.string.statistic_current_day, time),
+            fontSize = 6.nsp(),
+            color = Color.White,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 218.dp, end = 90.dp)
+        )
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
