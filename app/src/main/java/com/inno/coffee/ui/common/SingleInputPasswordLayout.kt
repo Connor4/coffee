@@ -64,8 +64,8 @@ fun SingleInputPasswordLayout(
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
-                .width(824.dp)
-                .height(638.dp)
+                .width(834.dp)
+                .height(629.dp)
         )
         Box(
             modifier = Modifier
@@ -76,7 +76,7 @@ fun SingleInputPasswordLayout(
             Text(
                 text = title,
                 fontWeight = FontWeight.Bold, fontSize = 7.nsp(), color = Color.White,
-                modifier = Modifier.padding(start = 42.dp, top = 40.dp)
+                modifier = Modifier.padding(start = 33.dp, top = 30.dp)
             )
             Image(
                 painter = painterResource(id = R.drawable.home_entrance_close_ic),
@@ -92,7 +92,7 @@ fun SingleInputPasswordLayout(
             Text(
                 text = tips,
                 fontSize = 5.nsp(), color = Color.White,
-                modifier = Modifier.padding(start = 42.dp, top = 100.dp)
+                modifier = Modifier.padding(start = 33.dp, top = 92.dp)
             )
             Box(
                 modifier = Modifier
@@ -105,13 +105,13 @@ fun SingleInputPasswordLayout(
                 Box(
                     modifier = Modifier
                         .width(696.dp)
-                        .height(52.dp)
+                        .height(60.dp)
                         .border(2.dp, Color(0xFF00DE93), RoundedCornerShape(4.dp))
                 )
                 Box(
                     modifier = Modifier
                         .width(692.dp)
-                        .height(48.dp)
+                        .height(54.dp)
                         .background(Color(0xFF2C2C2C), RoundedCornerShape(4.dp))
                 )
                 Image(
@@ -138,7 +138,7 @@ fun SingleInputPasswordLayout(
 
 
             Box(
-                modifier = Modifier.padding(top = 226.dp)
+                modifier = Modifier.padding(top = 210.dp)
             ) {
                 KeyboardLayout(
                     onKeyClick = {
