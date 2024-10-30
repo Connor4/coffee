@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,15 +23,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.groupone.DisplayGroupOneLayout
+import com.inno.coffee.ui.settings.display.grouptwo.DisplayGroupTwoLayout
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
 
 @Composable
 fun DisplayMainLayout(
-//    viewModel: DisplayViewModel = hiltViewModel(),
+    viewModel: DisplayViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     Box(
@@ -56,17 +60,17 @@ fun DisplayMainLayout(
 
         FunctionButton({}, {})
 
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = 50.dp, top = 254.dp, end = 38.dp)
+                .padding(start = 50.dp, top = 254.dp, end = 95.dp)
         ) {
-            DisplayGroupOneLayout()
+            DisplayGroupOneLayout(viewModel)
             Spacer(modifier = Modifier.height(40.dp))
-            DisplayGroupTwoLayout()
+            DisplayGroupTwoLayout(viewModel)
             Spacer(modifier = Modifier.height(40.dp))
-            DisplayGroupThreeLayout()
+            DisplayGroupThreeLayout(viewModel)
         }
     }
 }

@@ -22,10 +22,27 @@ class DisplayViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     private val TAG = "DisplayViewModel"
+
     private val _language = MutableStateFlow("")
     val language: StateFlow<String> = _language
     private val _time = MutableStateFlow("")
     val time: StateFlow<String> = _time
+
+    private val _backToFirstPage = MutableStateFlow(false)
+    val backToFirstPage: StateFlow<Boolean> = _backToFirstPage
+    private val _numberOfProductPerPage = MutableStateFlow(0)
+    val numberOfProductPerPage: StateFlow<Int> = _numberOfProductPerPage
+    private val _frontLightColor = MutableStateFlow("")
+    val frontLightColor: StateFlow<String> = _frontLightColor
+    private val _frontLightBrightness = MutableStateFlow(0)
+    val frontLightBrightness: StateFlow<Int> = _frontLightBrightness
+    private val _screenBrightness = MutableStateFlow(0)
+    val screenBrightness: StateFlow<Int> = _screenBrightness
+
+    private val _showExtractionTime = MutableStateFlow(false)
+    val showExtractionTime: StateFlow<Boolean> = _showExtractionTime
+    private val _showProductName = MutableStateFlow(false)
+    val showProductName: StateFlow<Boolean> = _showProductName
 
     fun initGroupOne() {
         viewModelScope.launch {
@@ -34,6 +51,30 @@ class DisplayViewModel @Inject constructor(
             Logger.d(TAG, "initGroupOne() systemLanguage = $systemLanguage")
             val language = Locale.forLanguageTag(systemLanguage).language
             _time.value = TimeUtils.getNowTimeInYearAndHour(language = language)
+        }
+    }
+
+    fun initGroupTwo() {
+        viewModelScope.launch {
+            val autoBackToFirstPage = dataStore.getBackToFirstPage()
+            val numberOfProductPerPage = dataStore.getNumberOfProductPerPage()
+            val frontLightColor = dataStore.getFrontLightColor()
+            val frontLightBrightness = dataStore.getFrontLightBrightness()
+            val screenBrightness = dataStore.getScreenBrightness()
+            _backToFirstPage.value = autoBackToFirstPage
+            _numberOfProductPerPage.value = numberOfProductPerPage
+            _frontLightColor.value = frontLightColor
+            _frontLightBrightness.value = frontLightBrightness
+            _screenBrightness.value = screenBrightness
+        }
+    }
+
+    fun initGroupThree() {
+        viewModelScope.launch {
+            val showExtractionTime = dataStore.getShowExtractionTime()
+            val showProductName = dataStore.getShowProductName()
+            _showExtractionTime.value = showExtractionTime
+            _showProductName.value = showProductName
         }
     }
 

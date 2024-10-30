@@ -21,11 +21,74 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val DEFAULT_LANGUAGE_VALUE = "en"
         private const val LAST_RESET_PRODUCT_TIME = "last_reset_product_time"
         private const val DEFAULT_LAST_RESET_PRODUCT_TIME = 1704038400000 // 2024/01/01
+        private const val BACK_TO_FIRST_PAGE = "back_to_first_page"
+        private const val NUMBER_OF_PRODUCT_PER_PAGE = "number_of_product_per_page"
+        private const val FRONT_LIGHT_COLOR = "front_light_color"
+        private const val FRONT_LIGHT_BRIGHTNESS = "front_light_brightness"
+        private const val SCREEN_BRIGHTNESS = "screen_brightness"
+        private const val SHOW_EXTRACTION_TIME = "show_extraction_time"
+        private const val SHOW_PRODUCT_NAME = "show_product_name"
     }
 
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
+
+    suspend fun getScreenBrightness(): Int {
+        return getCoffeePreference(SCREEN_BRIGHTNESS, 90)
+    }
+
+    suspend fun saveScreenBrightness(screenBrightness: Int) {
+        saveCoffeePreference(SCREEN_BRIGHTNESS, screenBrightness)
+    }
+
+    suspend fun getFrontLightBrightness(): Int {
+        return getCoffeePreference(FRONT_LIGHT_BRIGHTNESS, 90)
+    }
+
+    suspend fun saveFrontLightBrightness(frontLightBrightness: Int) {
+        saveCoffeePreference(FRONT_LIGHT_BRIGHTNESS, frontLightBrightness)
+    }
+
+    suspend fun getFrontLightColor(): String {
+        return getCoffeePreference(FRONT_LIGHT_COLOR, "AUTO")
+    }
+
+    suspend fun saveFrontLightColor(frontLightColor: String) {
+        saveCoffeePreference(FRONT_LIGHT_COLOR, frontLightColor)
+    }
+
+    suspend fun getNumberOfProductPerPage(): Int {
+        return getCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, 12)
+    }
+
+    suspend fun saveNumberOfProductPerPage(numberOfProductPerPage: Int) {
+        saveCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, numberOfProductPerPage)
+    }
+
+    suspend fun getShowProductName(): Boolean {
+        return getCoffeePreference(SHOW_PRODUCT_NAME, true)
+    }
+
+    suspend fun saveShowProductName(showProductName: Boolean) {
+        saveCoffeePreference(SHOW_PRODUCT_NAME, showProductName)
+    }
+
+    suspend fun getShowExtractionTime(): Boolean {
+        return getCoffeePreference(SHOW_EXTRACTION_TIME, true)
+    }
+
+    suspend fun saveShowExtractionTime(showExtractionTime: Boolean) {
+        saveCoffeePreference(SHOW_EXTRACTION_TIME, showExtractionTime)
+    }
+
+    suspend fun getBackToFirstPage(): Boolean {
+        return getCoffeePreference(BACK_TO_FIRST_PAGE, false)
+    }
+
+    suspend fun saveBackToFirstPage(backToFirstPage: Boolean) {
+        saveCoffeePreference(BACK_TO_FIRST_PAGE, backToFirstPage)
+    }
 
     suspend fun getLastResetProductTime(): Long {
         return getCoffeePreference(LAST_RESET_PRODUCT_TIME, DEFAULT_LAST_RESET_PRODUCT_TIME)
