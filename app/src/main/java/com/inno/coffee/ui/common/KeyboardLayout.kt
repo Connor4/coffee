@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
@@ -81,7 +80,6 @@ fun KeyboardLayout(
     Column(
         modifier = Modifier
             .wrapContentSize()
-            .padding(16.dp)
     ) {
         KeyboardRow1(listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "0")) {
             if (shift) {

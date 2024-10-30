@@ -69,7 +69,7 @@ fun SingleInputLayout(
             Text(
                 text = title,
                 fontWeight = FontWeight.Bold, fontSize = 7.nsp(), color = Color.White,
-                modifier = Modifier.padding(start = 33.dp, top = 30.dp)
+                modifier = Modifier.padding(start = 43.dp, top = 30.dp)
             )
             Image(
                 painter = painterResource(id = R.drawable.home_entrance_close_ic),
@@ -85,7 +85,7 @@ fun SingleInputLayout(
             Text(
                 text = tips,
                 fontSize = 5.nsp(), color = Color.White,
-                modifier = Modifier.padding(start = 33.dp, top = 92.dp)
+                modifier = Modifier.padding(start = 43.dp, top = 92.dp)
             )
             Box(
                 modifier = Modifier
@@ -116,7 +116,7 @@ fun SingleInputLayout(
 
 
             Box(
-                modifier = Modifier.padding(top = 220.dp)
+                modifier = Modifier.padding(top = 226.dp)
             ) {
                 KeyboardLayout(
                     onKeyClick = {
