@@ -2,7 +2,6 @@ package com.inno.coffee.ui.settings.formula.formulatype
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -110,14 +109,8 @@ fun FormulaChangeNameLayout(
             ) {
                 Box(
                     modifier = Modifier
-                        .width(696.dp)
-                        .height(60.dp)
-                        .border(2.dp, Color(0xFF00DE93), RoundedCornerShape(4.dp))
-                )
-                Box(
-                    modifier = Modifier
                         .width(692.dp)
-                        .height(54.dp)
+                        .height(60.dp)
                         .background(Color(0xFF2C2C2C), RoundedCornerShape(4.dp))
                 )
                 Text(text = productName ?: "",
