@@ -124,7 +124,7 @@ fun FormulaChangeNameLayout(
             }
 
             Box(
-                modifier = Modifier.padding(top = 210.dp)
+                modifier = Modifier.padding(top = 220.dp)
             ) {
                 KeyboardLayout(
                     onKeyClick = {
