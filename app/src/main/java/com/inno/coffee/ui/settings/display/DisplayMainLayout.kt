@@ -63,7 +63,10 @@ fun DisplayMainLayout(
                 .padding(start = 50.dp, top = 254.dp, end = 38.dp)
         ) {
             DisplayGroupOneLayout()
-
+            Spacer(modifier = Modifier.height(40.dp))
+            DisplayGroupTwoLayout()
+            Spacer(modifier = Modifier.height(40.dp))
+            DisplayGroupThreeLayout()
         }
     }
 }

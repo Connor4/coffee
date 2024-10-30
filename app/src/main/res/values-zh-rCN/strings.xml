@@ -290,4 +290,13 @@
     <string name="display_date_and_time">日期和时间</string>
     <string name="display_screen_style">屏幕风格</string>
     <string name="display_setting_language">选择语言</string>
+    <string name="display_auto_back_to_first_page">自动返回第1页</string>
+    <string name="display_number_of_product_per_page">每页展示产品个数</string>
+    <string name="display_front_light_color">氛围灯颜色</string>
+    <string name="display_front_light_brightness">氛围灯亮度</string>
+    <string name="display_screen_brightness">屏幕亮度</string>
+    <string name="display_show_extract_time">显示萃取时间</string>
+    <string name="display_show_product_name">显示产品名</string>
+    <string name="display_value_on">开</string>
+    <string name="display_value_off">关</string>
 </resources>

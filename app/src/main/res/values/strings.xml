@@ -293,5 +293,14 @@
     <string name="display_date_and_time">Date And Time</string>
     <string name="display_screen_style">Screen Style</string>
     <string name="display_setting_language">Select Language</string>
+    <string name="display_auto_back_to_first_page">Automatic Back To First Page</string>
+    <string name="display_number_of_product_per_page">Number of Products Per Page</string>
+    <string name="display_front_light_color">Front Light Color</string>
+    <string name="display_front_light_brightness">Front Light Brightness</string>
+    <string name="display_screen_brightness">Screen Brightness</string>
+    <string name="display_show_extract_time">Display Extraction Time</string>
+    <string name="display_show_product_name">Display Product Name</string>
+    <string name="display_value_on">On</string>
+    <string name="display_value_off">Off</string>
 
 </resources>
