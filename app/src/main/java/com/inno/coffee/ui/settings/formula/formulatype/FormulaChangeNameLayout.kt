@@ -70,19 +70,19 @@ fun FormulaChangeNameLayout(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .width(834.dp)
-                .height(660.dp)
+                .height(629.dp)
         )
         Box(
             modifier = Modifier
                 .width(770.dp)
-                .height(571.dp)
+                .height(575.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color(0xFF191A1D))
         ) {
             Text(
                 text = stringResource(id = R.string.formula_product_name),
                 fontWeight = FontWeight.Bold, fontSize = 7.nsp(), color = Color.White,
-                modifier = Modifier.padding(start = 42.dp, top = 40.dp)
+                modifier = Modifier.padding(start = 33.dp, top = 40.dp)
             )
             Image(
                 painter = painterResource(id = R.drawable.home_entrance_close_ic),
@@ -98,7 +98,7 @@ fun FormulaChangeNameLayout(
             Text(
                 text = stringResource(id = R.string.formula_change_product_name),
                 fontSize = 5.nsp(), color = Color.White,
-                modifier = Modifier.padding(start = 42.dp, top = 100.dp)
+                modifier = Modifier.padding(start = 33.dp, top = 92.dp)
             )
             Box(
                 modifier = Modifier
@@ -111,13 +111,13 @@ fun FormulaChangeNameLayout(
                 Box(
                     modifier = Modifier
                         .width(696.dp)
-                        .height(52.dp)
+                        .height(60.dp)
                         .border(2.dp, Color(0xFF00DE93), RoundedCornerShape(4.dp))
                 )
                 Box(
                     modifier = Modifier
                         .width(692.dp)
-                        .height(48.dp)
+                        .height(54.dp)
                         .background(Color(0xFF2C2C2C), RoundedCornerShape(4.dp))
                 )
                 Text(text = productName ?: "",
@@ -131,7 +131,7 @@ fun FormulaChangeNameLayout(
             }
 
             Box(
-                modifier = Modifier.padding(top = 226.dp)
+                modifier = Modifier.padding(top = 210.dp)
             ) {
                 KeyboardLayout(
                     onKeyClick = {

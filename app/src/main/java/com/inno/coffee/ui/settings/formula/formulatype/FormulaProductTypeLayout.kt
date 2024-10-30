@@ -61,12 +61,12 @@ fun FormulaProductTypeLayout(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .width(834.dp)
-                .height(660.dp)
+                .height(629.dp)
         )
         Box(
             modifier = Modifier
                 .width(770.dp)
-                .height(571.dp)
+                .height(575.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color(0xFF191A1D))
         ) {
@@ -75,7 +75,7 @@ fun FormulaProductTypeLayout(
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(top = 25.dp, end = 22.dp)
+                    .padding(top = 20.dp, end = 22.dp)
                     .width(40.dp)
                     .height(42.dp)
                     .fastclick { onCloseClick() },
@@ -84,7 +84,7 @@ fun FormulaProductTypeLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(top = 50.dp)
+                    .padding(top = 40.dp)
                     .background(color = Color.Transparent),
                 contentAlignment = Alignment.Center,
             ) {

@@ -70,7 +70,7 @@ fun FormulaBeanPositionLayout(
         Box(
             modifier = Modifier
                 .width(770.dp)
-                .height(571.dp)
+                .height(600.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color(0xFF191A1D))
         ) {
@@ -88,7 +88,7 @@ fun FormulaBeanPositionLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(top = 50.dp)
+                    .padding(top = 40.dp)
                     .background(color = Color.Transparent),
                 contentAlignment = Alignment.Center,
             ) {
