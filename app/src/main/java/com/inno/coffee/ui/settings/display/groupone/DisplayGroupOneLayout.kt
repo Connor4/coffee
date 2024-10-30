@@ -83,10 +83,10 @@ fun DisplayGroupOneLayout(
                     putString(DISPLAY_SETTING_KEY, DISPLAY_SETTING_TIME)
                 })
         }
-        DisplayItemLayout(stringResource(R.string.display_screen_style), "Monochrome",
-            Color(0xFF191A1D)) {
-
-        }
+//        DisplayItemLayout(stringResource(R.string.display_screen_style), "Monochrome",
+//            Color(0xFF191A1D)) {
+//
+//        }
     }
 }
 
