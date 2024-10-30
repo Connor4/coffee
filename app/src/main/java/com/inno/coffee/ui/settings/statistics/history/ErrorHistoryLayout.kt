@@ -42,8 +42,8 @@ fun ErrorHistoryLayout(
         },
         listItem = { color, item ->
             HistoryItem(color, item as ErrorHistory)
-//            HistoryItem(color, ErrorHistory(time = "04.08.2025 20:34:01", detail = "test", code =
-//            "W-204"))
+//            HistoryItem(color, ErrorHistory(time = "04.08.2025 20:34:01",
+            //            detail = "Regular maintenance and upkeep are required", code = "W-204"))
         }
     )
 }

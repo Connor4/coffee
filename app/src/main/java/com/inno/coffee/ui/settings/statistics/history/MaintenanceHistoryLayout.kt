@@ -100,6 +100,7 @@ fun MaintenanceHistoryLayout(
                 onEnterClick = { description ->
                     showInput = false
                     viewModel.addMaintenanceHistory(description)
+                    viewModel.addFakeHistoryDataForTest()
                 },
                 onCloseClick = {
                     showInput = false

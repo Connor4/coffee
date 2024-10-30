@@ -53,4 +53,16 @@ class ProductHistoryRepository @Inject constructor(
         maintenanceHistoryDao.insertMaintenanceHistory(maintenanceHistory)
     }
 
+    suspend fun insertErrorHistory(errorHistory: ErrorHistory) {
+        errorHistoryDao.insertErrorHistory(errorHistory)
+    }
+
+    suspend fun insertCleanHistory(cleanHistory: CleanMachineHistory) {
+        cleanHistoryDao.insertCleanHistory(cleanHistory)
+    }
+
+    suspend fun insertRinseHistory(rinseHistory: RinseHistory) {
+        rinseHistoryDao.insertRinseHistory(rinseHistory)
+    }
+
 }
