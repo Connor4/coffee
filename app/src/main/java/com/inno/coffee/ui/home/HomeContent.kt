@@ -83,14 +83,14 @@ fun HomeContent(
             modifier = Modifier.fillMaxSize()
         ) {
             Column {
-                HomeTopBar(showOverlay) {
+                HomeTopBar(open = showOverlay, viewModel = viewModel) {
                     if (it) {
                         showOverlay = true
                     } else {
                         hideOverlay = true
                     }
                 }
-                HomeDrinksLayout()
+                HomeDrinksLayout(viewModel = viewModel)
             }
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter)

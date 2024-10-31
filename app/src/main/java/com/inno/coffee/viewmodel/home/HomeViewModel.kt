@@ -30,6 +30,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -72,6 +73,8 @@ class HomeViewModel @Inject constructor(
     val date: StateFlow<String> = _date.asStateFlow()
     private val _selfCheck = MutableStateFlow(false)
     val selfCheck = _selfCheck.asStateFlow()
+
+    val autoReturnEnabled: Flow<Boolean> = dataStore.getBackToFirstPageFlow()
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {

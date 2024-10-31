@@ -9,7 +9,9 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CoffeeDataStore @Inject constructor(@ApplicationContext private val context: Context) {
@@ -80,6 +82,12 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
 
     suspend fun saveShowExtractionTime(showExtractionTime: Boolean) {
         saveCoffeePreference(SHOW_EXTRACTION_TIME, showExtractionTime)
+    }
+
+    fun getBackToFirstPageFlow(): Flow<Boolean> {
+        return context.dataStore.data.map {
+            it[booleanPreferencesKey(BACK_TO_FIRST_PAGE)] ?: false
+        }
     }
 
     suspend fun getBackToFirstPage(): Boolean {

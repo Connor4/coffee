@@ -13,7 +13,6 @@ class MakeCoffeeActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-//                MakeCoffeeContent()
                 HomeContent()
             }
         }

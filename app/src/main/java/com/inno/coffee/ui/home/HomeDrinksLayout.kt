@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -33,8 +34,10 @@ import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.home.selfcheck.ReleaseSteamLayout
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.viewmodel.home.HomeViewModel
+import kotlinx.coroutines.delay
 
 private const val PAGE_COUNT = 12
+private const val PAGE_WAIT_TIME = 10000L
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
@@ -47,12 +50,21 @@ fun HomeDrinksLayout(
     } else {
         MakeRightDrinksHandler.size.collectAsState()
     }
+    val autoBack = viewModel.autoReturnEnabled.collectAsState(initial = false)
     val drinksList by viewModel.formulaList.collectAsState()
     val checking by SelfCheckManager.checking.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
     val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val selected = rememberSaveable { mutableIntStateOf(INVALID_INT) }
+
+    LaunchedEffect(pagerState.currentPage, autoBack.value) {
+        if (size <= 0 && autoBack.value && releaseSteam != RELEASE_STEAM_READY
+                && releaseSteam != RELEASE_STEAM_START) {
+            delay(PAGE_WAIT_TIME)
+            pagerState.scrollToPage(0)
+        }
+    }
 
     if (size < 1) {
         selected.intValue = INVALID_INT
@@ -81,8 +93,7 @@ fun HomeDrinksLayout(
                     maxItemsInEachRow = 4,
                 ) {
                     currentList.forEach { drinkModel ->
-                        val enable =
-                            viewModel.enableMask(size > 0, checking, drinkModel.productId)
+                        val enable = viewModel.enableMask(size > 0, checking, drinkModel.productId)
                         val select = selected.intValue == drinkModel.productId
 
                         DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
