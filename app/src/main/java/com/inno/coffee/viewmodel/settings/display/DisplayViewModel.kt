@@ -43,9 +43,9 @@ class DisplayViewModel @Inject constructor(
     val numberOfProductPerPage: StateFlow<Int> = _numberOfProductPerPage
     private val _frontLightColor = MutableStateFlow(DISPLAY_COLOR_MIX)
     val frontLightColor: StateFlow<Int> = _frontLightColor
-    private val _frontLightBrightness = MutableStateFlow(90)
+    private val _frontLightBrightness = MutableStateFlow(0)
     val frontLightBrightness: StateFlow<Int> = _frontLightBrightness
-    private val _screenBrightness = MutableStateFlow(90)
+    private val _screenBrightness = MutableStateFlow(0)
     val screenBrightness: StateFlow<Int> = _screenBrightness
 
     private val _showExtractionTime = MutableStateFlow(true)
