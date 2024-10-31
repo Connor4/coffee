@@ -32,11 +32,6 @@ import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.groupone.DisplayGroupOneLayout
-import com.inno.coffee.utilities.INDEX_AUTO_BACK_TO_FIRST_PAGE
-import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_BRIGHTNESS
-import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_COLOR
-import com.inno.coffee.utilities.INDEX_NUMBER_OF_PRODUCT_PER_PAGE
-import com.inno.coffee.utilities.INDEX_SCREEN_BRIGHTNESS
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
@@ -91,55 +86,22 @@ fun DisplayMainLayout(
             })
             Spacer(modifier = Modifier.height(40.dp))
             DisplayGroupThreeLayout(viewModel) { index, default, map ->
-
+                groupTwoSelectIndex.value = index
+                defaultValue.value = default
+                dataMap.clear()
+                map.forEach {
+                    dataMap[it.key] = it.value
+                }
             }
         }
 
         if (groupTwoSelectIndex.value != INVALID_INT) {
-            when (groupTwoSelectIndex.value) {
-                INDEX_AUTO_BACK_TO_FIRST_PAGE -> {
-                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
-                        viewModel.saveDisplayGroupTwoValue(INDEX_AUTO_BACK_TO_FIRST_PAGE, value)
-                        groupTwoSelectIndex.value = INVALID_INT
-                    }, {
-                        groupTwoSelectIndex.value = INVALID_INT
-                    })
-                }
-                INDEX_NUMBER_OF_PRODUCT_PER_PAGE -> {
-                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
-                        viewModel.saveDisplayGroupTwoValue(INDEX_NUMBER_OF_PRODUCT_PER_PAGE, value)
-                        groupTwoSelectIndex.value = INVALID_INT
-                    }, {
-                        groupTwoSelectIndex.value = INVALID_INT
-                    })
-                }
-                INDEX_FRONT_LIGHT_COLOR -> {
-                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
-                        viewModel.saveDisplayGroupTwoValue(INDEX_FRONT_LIGHT_COLOR, value)
-                        groupTwoSelectIndex.value = INVALID_INT
-                    }, {
-                        groupTwoSelectIndex.value = INVALID_INT
-                    })
-                }
-                INDEX_FRONT_LIGHT_BRIGHTNESS -> {
-                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
-                        viewModel.saveDisplayGroupTwoValue(INDEX_FRONT_LIGHT_BRIGHTNESS, value)
-                        groupTwoSelectIndex.value = INVALID_INT
-                    }, {
-                        groupTwoSelectIndex.value = INVALID_INT
-                    })
-                }
-                INDEX_SCREEN_BRIGHTNESS -> {
-                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
-                        viewModel.saveDisplayGroupTwoValue(INDEX_SCREEN_BRIGHTNESS, value)
-                        groupTwoSelectIndex.value = INVALID_INT
-                    }, {
-                        groupTwoSelectIndex.value = INVALID_INT
-                    })
-                }
-                else -> {
-                }
-            }
+            ListSelectLayout(defaultValue.value, dataMap.toMap(), { _, value ->
+                viewModel.saveDisplayGroupTwoValue(groupTwoSelectIndex.value, value)
+                groupTwoSelectIndex.value = INVALID_INT
+            }, {
+                groupTwoSelectIndex.value = INVALID_INT
+            })
         }
     }
 }

@@ -11,6 +11,8 @@ import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_BRIGHTNESS
 import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_COLOR
 import com.inno.coffee.utilities.INDEX_NUMBER_OF_PRODUCT_PER_PAGE
 import com.inno.coffee.utilities.INDEX_SCREEN_BRIGHTNESS
+import com.inno.coffee.utilities.INDEX_SHOW_EXTRACTION_TIME
+import com.inno.coffee.utilities.INDEX_SHOW_PRODUCT_NAME
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.common.utils.SystemLocaleHelper
@@ -46,9 +48,9 @@ class DisplayViewModel @Inject constructor(
     private val _screenBrightness = MutableStateFlow(90)
     val screenBrightness: StateFlow<Int> = _screenBrightness
 
-    private val _showExtractionTime = MutableStateFlow(false)
+    private val _showExtractionTime = MutableStateFlow(true)
     val showExtractionTime: StateFlow<Boolean> = _showExtractionTime
-    private val _showProductName = MutableStateFlow(false)
+    private val _showProductName = MutableStateFlow(true)
     val showProductName: StateFlow<Boolean> = _showProductName
 
     fun initGroupOne() {
@@ -133,7 +135,14 @@ class DisplayViewModel @Inject constructor(
                     dataStore.saveScreenBrightness(value as Int)
                     _screenBrightness.value = value
                 }
-                else -> {}
+                INDEX_SHOW_EXTRACTION_TIME -> {
+                    dataStore.saveShowExtractionTime(value as Boolean)
+                    _showExtractionTime.value = value
+                }
+                INDEX_SHOW_PRODUCT_NAME -> {
+                    dataStore.saveShowProductName(value as Boolean)
+                    _showProductName.value = value
+                }
             }
         }
     }
