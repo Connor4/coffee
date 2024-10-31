@@ -34,6 +34,7 @@ fun DrinkItem(
     model: Formula,
     enableMask: Boolean = false,
     selected: Boolean = false,
+    showProductName: Boolean = true,
     onDrinkClick: () -> Unit = {},
 ) {
     Box(
@@ -68,21 +69,23 @@ fun DrinkItem(
                         .align(Alignment.TopCenter)
                         .offset(y = 41.dp),
                 )
-                val name = if (!model.productName?.nameRes.isNullOrBlank()) {
-                    stringResource(getStringResId(model.productName?.nameRes!!))
-                } else if (!model.productName?.name.isNullOrBlank()) {
-                    model.productName?.name
-                } else {
-                    stringResource(R.string.common_empty_string)
+                if (showProductName) {
+                    val name = if (!model.productName?.nameRes.isNullOrBlank()) {
+                        stringResource(getStringResId(model.productName?.nameRes!!))
+                    } else if (!model.productName?.name.isNullOrBlank()) {
+                        model.productName?.name
+                    } else {
+                        stringResource(R.string.common_empty_string)
+                    }
+                    Text(
+                        text = name!!,
+                        fontSize = 6.nsp(),
+                        color = Color.White,
+                        modifier = Modifier
+                            .align(alignment = Alignment.TopCenter)
+                            .offset(y = 124.dp)
+                    )
                 }
-                Text(
-                    text = name!!,
-                    fontSize = 6.nsp(),
-                    color = Color.White,
-                    modifier = Modifier
-                        .align(alignment = Alignment.TopCenter)
-                        .offset(y = 124.dp)
-                )
             }
         }
     }

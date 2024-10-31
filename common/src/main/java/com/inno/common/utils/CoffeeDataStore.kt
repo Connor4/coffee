@@ -68,12 +68,20 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         saveCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, numberOfProductPerPage)
     }
 
+    fun getShowProductNameFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(SHOW_PRODUCT_NAME, true)
+    }
+
     suspend fun getShowProductName(): Boolean {
         return getCoffeePreference(SHOW_PRODUCT_NAME, true)
     }
 
     suspend fun saveShowProductName(showProductName: Boolean) {
         saveCoffeePreference(SHOW_PRODUCT_NAME, showProductName)
+    }
+
+    fun getShowExtractionTimeFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(SHOW_EXTRACTION_TIME, true)
     }
 
     suspend fun getShowExtractionTime(): Boolean {
@@ -85,9 +93,7 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
     }
 
     fun getBackToFirstPageFlow(): Flow<Boolean> {
-        return context.dataStore.data.map {
-            it[booleanPreferencesKey(BACK_TO_FIRST_PAGE)] ?: false
-        }
+        return getCoffeePreferenceFlow(BACK_TO_FIRST_PAGE, false)
     }
 
     suspend fun getBackToFirstPage(): Boolean {
@@ -112,6 +118,20 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
 
     suspend fun saveSystemLanguage(language: String) {
         saveCoffeePreference(SYSTEM_LANGUAGE, language)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> getCoffeePreferenceFlow(key: String, defaultValue: T): Flow<T> {
+        return context.dataStore.data.map { preferences ->
+            when (defaultValue) {
+                is Boolean -> preferences[booleanPreferencesKey(key)] as T? ?: defaultValue
+                is Int -> preferences[intPreferencesKey(key)] as T? ?: defaultValue
+                is Long -> preferences[longPreferencesKey(key)] as T? ?: defaultValue
+                is Float -> preferences[floatPreferencesKey(key)] as T? ?: defaultValue
+                is String -> preferences[stringPreferencesKey(key)] as T? ?: defaultValue
+                else -> throw IllegalArgumentException("Unsupported type")
+            }
+        }
     }
 
     @Suppress("UNCHECKED_CAST")
