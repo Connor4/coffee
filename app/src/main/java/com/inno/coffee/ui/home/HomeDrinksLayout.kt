@@ -51,7 +51,6 @@ fun HomeDrinksLayout(
         MakeRightDrinksHandler.size.collectAsState()
     }
     val autoBack = viewModel.autoReturnEnabled.collectAsState(initial = false)
-    val showProductName = viewModel.showProductName.collectAsState(initial = false)
     val drinksList by viewModel.formulaList.collectAsState()
     val checking by SelfCheckManager.checking.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
@@ -97,9 +96,7 @@ fun HomeDrinksLayout(
                         val enable = viewModel.enableMask(size > 0, checking, drinkModel.productId)
                         val select = selected.intValue == drinkModel.productId
 
-                        DrinkItem(model = drinkModel, enableMask = enable, selected = select,
-                            showProductName = showProductName.value
-                        ) {
+                        DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
                             selected.intValue = drinkModel.productId
                             viewModel.startMakeDrink(drinkModel, mainScreen, checking)
                         }

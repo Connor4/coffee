@@ -75,7 +75,6 @@ class HomeViewModel @Inject constructor(
     val selfCheck = _selfCheck.asStateFlow()
 
     val autoReturnEnabled: Flow<Boolean> = dataStore.getBackToFirstPageFlow()
-    val showProductName: Flow<Boolean> = dataStore.getShowProductNameFlow()
     val showExtractionTime: Flow<Boolean> = dataStore.getShowExtractionTimeFlow()
 
     private val subscriber = object : Subscriber {

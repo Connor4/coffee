@@ -29,7 +29,6 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val FRONT_LIGHT_BRIGHTNESS = "front_light_brightness"
         private const val SCREEN_BRIGHTNESS = "screen_brightness"
         private const val SHOW_EXTRACTION_TIME = "show_extraction_time"
-        private const val SHOW_PRODUCT_NAME = "show_product_name"
     }
 
     private val Context.dataStore by preferencesDataStore(
@@ -66,18 +65,6 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
 
     suspend fun saveNumberOfProductPerPage(numberOfProductPerPage: Int) {
         saveCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, numberOfProductPerPage)
-    }
-
-    fun getShowProductNameFlow(): Flow<Boolean> {
-        return getCoffeePreferenceFlow(SHOW_PRODUCT_NAME, true)
-    }
-
-    suspend fun getShowProductName(): Boolean {
-        return getCoffeePreference(SHOW_PRODUCT_NAME, true)
-    }
-
-    suspend fun saveShowProductName(showProductName: Boolean) {
-        saveCoffeePreference(SHOW_PRODUCT_NAME, showProductName)
     }
 
     fun getShowExtractionTimeFlow(): Flow<Boolean> {

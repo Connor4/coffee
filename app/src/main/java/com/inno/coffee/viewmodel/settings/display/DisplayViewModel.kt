@@ -12,7 +12,6 @@ import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_COLOR
 import com.inno.coffee.utilities.INDEX_NUMBER_OF_PRODUCT_PER_PAGE
 import com.inno.coffee.utilities.INDEX_SCREEN_BRIGHTNESS
 import com.inno.coffee.utilities.INDEX_SHOW_EXTRACTION_TIME
-import com.inno.coffee.utilities.INDEX_SHOW_PRODUCT_NAME
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.common.utils.SystemLocaleHelper
@@ -50,8 +49,6 @@ class DisplayViewModel @Inject constructor(
 
     private val _showExtractionTime = MutableStateFlow(true)
     val showExtractionTime: StateFlow<Boolean> = _showExtractionTime
-    private val _showProductName = MutableStateFlow(true)
-    val showProductName: StateFlow<Boolean> = _showProductName
 
     fun initGroup() {
         viewModelScope.launch {
@@ -63,7 +60,6 @@ class DisplayViewModel @Inject constructor(
             val frontLightBrightness = dataStore.getFrontLightBrightness()
             val screenBrightness = dataStore.getScreenBrightness()
             val showExtractionTime = dataStore.getShowExtractionTime()
-            val showProductName = dataStore.getShowProductName()
 
             _language.value = systemLanguage
             _time.value = TimeUtils.getNowTimeInYearAndHour(language = language)
@@ -73,7 +69,6 @@ class DisplayViewModel @Inject constructor(
             _frontLightBrightness.value = frontLightBrightness
             _screenBrightness.value = screenBrightness
             _showExtractionTime.value = showExtractionTime
-            _showProductName.value = showProductName
         }
     }
 
@@ -129,10 +124,6 @@ class DisplayViewModel @Inject constructor(
                 INDEX_SHOW_EXTRACTION_TIME -> {
                     dataStore.saveShowExtractionTime(value as Boolean)
                     _showExtractionTime.value = value
-                }
-                INDEX_SHOW_PRODUCT_NAME -> {
-                    dataStore.saveShowProductName(value as Boolean)
-                    _showProductName.value = value
                 }
             }
         }
