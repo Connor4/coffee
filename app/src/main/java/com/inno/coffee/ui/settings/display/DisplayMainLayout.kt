@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings.display
 
+import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,12 +16,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,10 +32,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.groupone.DisplayGroupOneLayout
+import com.inno.coffee.ui.settings.display.groupone.DisplaySettingActivity
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
@@ -41,9 +47,17 @@ fun DisplayMainLayout(
     viewModel: DisplayViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     val groupTwoSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
     val defaultValue = remember { mutableStateOf("") }
     val dataMap = remember { mutableMapOf<String, Any>() }
+
+    val language = viewModel.language.collectAsState()
+    val time = viewModel.time.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.initGroupOne()
+    }
 
     Box(
         modifier = Modifier
@@ -74,7 +88,12 @@ fun DisplayMainLayout(
                 .wrapContentHeight()
                 .padding(start = 50.dp, top = 254.dp, end = 95.dp)
         ) {
-            DisplayGroupOneLayout(viewModel)
+            DisplayGroupOneLayout(language.value, time.value) { key, value ->
+                ScreenDisplayManager.autoRoute(context, DisplaySettingActivity::class.java,
+                    Bundle().apply {
+                        putString(key, value)
+                    })
+            }
             Spacer(modifier = Modifier.height(40.dp))
             DisplayGroupTwoLayout(viewModel, { index, default, map ->
                 groupTwoSelectIndex.value = index

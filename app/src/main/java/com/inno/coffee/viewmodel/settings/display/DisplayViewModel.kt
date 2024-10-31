@@ -106,9 +106,10 @@ class DisplayViewModel @Inject constructor(
     fun setSystemTime(context: Context, date: Long, hour: Int, min: Int) {
         viewModelScope.launch(defaultDispatcher) {
             TimeUtils.setDateAndTime(context, date, hour, min)
-//            _time.value = TimeUtils.getNowTimeInYearAndHour(language = dataStore
-//                .getSystemLanguage())
-//            Logger.d(TAG, "setSystemTime() called time ${_time.value}")
+            _time.value = TimeUtils.getNowTimeInYearAndHour(language = dataStore
+                .getSystemLanguage()
+            )
+            Logger.d(TAG, "setSystemTime() called time ${_time.value}")
         }
     }
 
