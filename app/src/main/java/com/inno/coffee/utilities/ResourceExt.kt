@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.common
+package com.inno.coffee.utilities
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext

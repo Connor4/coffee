@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.debouncedClickable
-import com.inno.coffee.ui.common.getStringResId
 import com.inno.coffee.utilities.formulaProductTypeMultilingual
+import com.inno.coffee.utilities.getStringResId
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.FormulaItem
 

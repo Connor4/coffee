@@ -33,7 +33,7 @@ import coil.compose.AsyncImage
 import com.inno.coffee.R
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
-import com.inno.coffee.ui.common.getImageResId
+import com.inno.coffee.utilities.getImageResId
 import com.inno.coffee.utilities.previewFormula
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.common.db.entity.Formula

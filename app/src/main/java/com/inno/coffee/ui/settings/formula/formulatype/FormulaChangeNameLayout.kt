@@ -34,8 +34,8 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.KeyboardLayout
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
-import com.inno.coffee.ui.common.getStringResId
 import com.inno.coffee.utilities.FORMULA_PRODUCT_NAME_MAX_SIZE
+import com.inno.coffee.utilities.getStringResId
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.FormulaItem
 

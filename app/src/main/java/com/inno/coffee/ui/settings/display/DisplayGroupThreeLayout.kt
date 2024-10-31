@@ -13,6 +13,7 @@ import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
 @Composable
 fun DisplayGroupThreeLayout(
     viewModel: DisplayViewModel = hiltViewModel(),
+    onClickListSelect: (Int, String, Map<String, Any>) -> Unit,
 ) {
     val showExtractionTime = viewModel.showExtractionTime.collectAsState()
     val showProductName = viewModel.showProductName.collectAsState()

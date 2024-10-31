@@ -125,8 +125,14 @@ class DisplayViewModel @Inject constructor(
                     dataStore.saveFrontLightColor(value as Int)
                     _frontLightColor.value = value
                 }
-                INDEX_FRONT_LIGHT_BRIGHTNESS -> {}
-                INDEX_SCREEN_BRIGHTNESS -> {}
+                INDEX_FRONT_LIGHT_BRIGHTNESS -> {
+                    dataStore.saveFrontLightBrightness(value as Int)
+                    _frontLightBrightness.value = value
+                }
+                INDEX_SCREEN_BRIGHTNESS -> {
+                    dataStore.saveScreenBrightness(value as Int)
+                    _screenBrightness.value = value
+                }
                 else -> {}
             }
         }

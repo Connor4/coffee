@@ -44,8 +44,8 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
-import com.inno.coffee.ui.common.getImageResId
-import com.inno.coffee.ui.common.getStringResId
+import com.inno.coffee.utilities.getImageResId
+import com.inno.coffee.utilities.getStringResId
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.statistics.StatisticDayProductViewModel
 import com.inno.common.db.entity.Formula

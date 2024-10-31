@@ -32,10 +32,11 @@ import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.groupone.DisplayGroupOneLayout
-import com.inno.coffee.ui.settings.display.grouptwo.DisplayGroupTwoLayout
 import com.inno.coffee.utilities.INDEX_AUTO_BACK_TO_FIRST_PAGE
+import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_BRIGHTNESS
 import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_COLOR
 import com.inno.coffee.utilities.INDEX_NUMBER_OF_PRODUCT_PER_PAGE
+import com.inno.coffee.utilities.INDEX_SCREEN_BRIGHTNESS
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
@@ -87,11 +88,11 @@ fun DisplayMainLayout(
                 map.forEach {
                     dataMap[it.key] = it.value
                 }
-            }, { index ->
-                groupTwoSelectIndex.value = index
             })
             Spacer(modifier = Modifier.height(40.dp))
-            DisplayGroupThreeLayout(viewModel)
+            DisplayGroupThreeLayout(viewModel) { index, default, map ->
+
+            }
         }
 
         if (groupTwoSelectIndex.value != INVALID_INT) {
@@ -120,10 +121,22 @@ fun DisplayMainLayout(
                         groupTwoSelectIndex.value = INVALID_INT
                     })
                 }
-//                INDEX_FRONT_LIGHT_BRIGHTNESS -> {
-//                }
-//                INDEX_SCREEN_BRIGHTNESS -> {
-//                }
+                INDEX_FRONT_LIGHT_BRIGHTNESS -> {
+                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
+                        viewModel.saveDisplayGroupTwoValue(INDEX_FRONT_LIGHT_BRIGHTNESS, value)
+                        groupTwoSelectIndex.value = INVALID_INT
+                    }, {
+                        groupTwoSelectIndex.value = INVALID_INT
+                    })
+                }
+                INDEX_SCREEN_BRIGHTNESS -> {
+                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
+                        viewModel.saveDisplayGroupTwoValue(INDEX_SCREEN_BRIGHTNESS, value)
+                        groupTwoSelectIndex.value = INVALID_INT
+                    }, {
+                        groupTwoSelectIndex.value = INVALID_INT
+                    })
+                }
                 else -> {
                 }
             }
