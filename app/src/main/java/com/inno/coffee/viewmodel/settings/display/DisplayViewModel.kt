@@ -53,35 +53,25 @@ class DisplayViewModel @Inject constructor(
     private val _showProductName = MutableStateFlow(true)
     val showProductName: StateFlow<Boolean> = _showProductName
 
-    fun initGroupOne() {
+    fun initGroup() {
         viewModelScope.launch {
             val systemLanguage = dataStore.getSystemLanguage()
-            _language.value = systemLanguage
-            Logger.d(TAG, "initGroupOne() systemLanguage = $systemLanguage")
             val language = Locale.forLanguageTag(systemLanguage).language
-            _time.value = TimeUtils.getNowTimeInYearAndHour(language = language)
-        }
-    }
-
-    fun initGroupTwo() {
-        viewModelScope.launch {
             val autoBackToFirstPage = dataStore.getBackToFirstPage()
             val numberOfProductPerPage = dataStore.getNumberOfProductPerPage()
             val frontLightColor = dataStore.getFrontLightColor()
             val frontLightBrightness = dataStore.getFrontLightBrightness()
             val screenBrightness = dataStore.getScreenBrightness()
+            val showExtractionTime = dataStore.getShowExtractionTime()
+            val showProductName = dataStore.getShowProductName()
+
+            _language.value = systemLanguage
+            _time.value = TimeUtils.getNowTimeInYearAndHour(language = language)
             _backToFirstPage.value = autoBackToFirstPage
             _numberOfProductPerPage.value = numberOfProductPerPage
             _frontLightColor.value = frontLightColor
             _frontLightBrightness.value = frontLightBrightness
             _screenBrightness.value = screenBrightness
-        }
-    }
-
-    fun initGroupThree() {
-        viewModelScope.launch {
-            val showExtractionTime = dataStore.getShowExtractionTime()
-            val showProductName = dataStore.getShowProductName()
             _showExtractionTime.value = showExtractionTime
             _showProductName.value = showProductName
         }

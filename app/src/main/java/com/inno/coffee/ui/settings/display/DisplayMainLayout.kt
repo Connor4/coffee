@@ -48,15 +48,22 @@ fun DisplayMainLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
-    val groupTwoSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
+    val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
     val defaultValue = remember { mutableStateOf("") }
     val dataMap = remember { mutableMapOf<String, Any>() }
 
     val language = viewModel.language.collectAsState()
     val time = viewModel.time.collectAsState()
+    val backToFirstPage = viewModel.backToFirstPage.collectAsState()
+    val numberOfProductPerPage = viewModel.numberOfProductPerPage.collectAsState()
+    val frontLightColor = viewModel.frontLightColor.collectAsState()
+    val frontLightBrightness = viewModel.frontLightBrightness.collectAsState()
+    val screenBrightness = viewModel.screenBrightness.collectAsState()
+    val showExtractionTime = viewModel.showExtractionTime.collectAsState()
+    val showProductName = viewModel.showProductName.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.initGroupOne()
+        viewModel.initGroup()
     }
 
     Box(
@@ -95,17 +102,21 @@ fun DisplayMainLayout(
                     })
             }
             Spacer(modifier = Modifier.height(40.dp))
-            DisplayGroupTwoLayout(viewModel, { index, default, map ->
-                groupTwoSelectIndex.value = index
+            DisplayGroupTwoLayout(backToFirstPage.value, numberOfProductPerPage.value,
+                frontLightColor.value, frontLightBrightness.value, screenBrightness.value
+            ) { index,
+                default, map ->
+                itemSelectIndex.value = index
                 defaultValue.value = default
                 dataMap.clear()
                 map.forEach {
                     dataMap[it.key] = it.value
                 }
-            })
+            }
             Spacer(modifier = Modifier.height(40.dp))
-            DisplayGroupThreeLayout(viewModel) { index, default, map ->
-                groupTwoSelectIndex.value = index
+            DisplayGroupThreeLayout(showExtractionTime.value, showProductName.value
+            ) { index, default, map ->
+                itemSelectIndex.value = index
                 defaultValue.value = default
                 dataMap.clear()
                 map.forEach {
@@ -114,12 +125,12 @@ fun DisplayMainLayout(
             }
         }
 
-        if (groupTwoSelectIndex.value != INVALID_INT) {
+        if (itemSelectIndex.value != INVALID_INT) {
             ListSelectLayout(defaultValue.value, dataMap.toMap(), { _, value ->
-                viewModel.saveDisplayGroupTwoValue(groupTwoSelectIndex.value, value)
-                groupTwoSelectIndex.value = INVALID_INT
+                viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, value)
+                itemSelectIndex.value = INVALID_INT
             }, {
-                groupTwoSelectIndex.value = INVALID_INT
+                itemSelectIndex.value = INVALID_INT
             })
         }
     }
@@ -143,6 +154,7 @@ private fun FunctionButton(
                 .height(50.dp),
             text = stringResource(id = R.string.display_import_screen)
         ) {
+            onImportScreen()
         }
         Spacer(modifier = Modifier.width(20.dp))
         ChangeColorButton(
@@ -151,6 +163,7 @@ private fun FunctionButton(
                 .height(50.dp),
             text = stringResource(id = R.string.display_import_language),
         ) {
+            onImportLanguage()
         }
     }
 }
