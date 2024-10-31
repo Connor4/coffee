@@ -43,6 +43,7 @@ import com.inno.coffee.utilities.nsp
 fun HomeBottomBar(
     leftTemp: Int = 0,
     rightTemp: Int = 0,
+    showExtractionTime: Boolean = true,
     onReleaseSteam: () -> Unit = {},
     onClickWarning: () -> Unit = {},
 ) {
@@ -103,7 +104,9 @@ fun HomeBottomBar(
                             color = Color.White)
                     }
                     Spacer(modifier = Modifier.width(24.dp))
-                    Text(text = "0.00s", fontSize = 6.nsp(), color = Color.White)
+                    if (showExtractionTime) {
+                        Text(text = "0.00s", fontSize = 6.nsp(), color = Color.White)
+                    }
                 }
             }
 

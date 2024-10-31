@@ -51,6 +51,7 @@ fun HomeContent(
     val loginState by viewModel.loginState.collectAsState()
     val leftTemperature = viewModel.leftBoilerTemp.collectAsState()
     val rightTemperature = viewModel.rightBoilerTemp.collectAsState()
+    val showExtractionTime = viewModel.showExtractionTime.collectAsState(initial = true)
     val mainScreen = ScreenDisplayManager.isMainDisplay(context)
 
     LaunchedEffect(Unit) {
@@ -60,7 +61,8 @@ fun HomeContent(
         when (loginState) {
             is LoginState.Success -> {
                 ScreenDisplayManager.autoRoute(context,
-                    SettingActivity::class.java)
+                    SettingActivity::class.java
+                )
                 coroutineScope.launch {
                     delay(1000)
                     showLoginDialog = false
@@ -69,7 +71,8 @@ fun HomeContent(
             is LoginState.Error -> {
                 val errorMessage = (loginState as LoginState.Error).message
                 Toast.makeText(context, context.resources.getString(errorMessage),
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             else -> {}
         }
@@ -95,8 +98,9 @@ fun HomeContent(
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter)
             ) {
-                HomeBottomBar(leftTemp = leftTemperature.value,
-                    rightTemp = rightTemperature.value) {
+                HomeBottomBar(leftTemp = leftTemperature.value, rightTemp = rightTemperature.value,
+                    showExtractionTime = showExtractionTime.value
+                ) {
                     viewModel.showWarningDialog(mainScreen)
                 }
             }
@@ -113,7 +117,8 @@ fun HomeContent(
                                     if (UserSessionManager.isLoggedIn()) {
                                         UserSessionManager.increaseLoginCount()
                                         ScreenDisplayManager.autoRoute(context,
-                                            SettingActivity::class.java)
+                                            SettingActivity::class.java
+                                        )
                                     } else {
                                         showLoginDialog = true
                                     }
