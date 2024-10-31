@@ -104,7 +104,7 @@ fun SingleInputPasswordLayout(
                 Box(
                     modifier = Modifier
                         .width(692.dp)
-                        .height(60.dp)
+                        .height(52.dp)
                         .background(Color(0xFF2C2C2C), RoundedCornerShape(4.dp))
                 )
                 Image(
