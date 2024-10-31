@@ -50,11 +50,11 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         saveCoffeePreference(FRONT_LIGHT_BRIGHTNESS, frontLightBrightness)
     }
 
-    suspend fun getFrontLightColor(): String {
-        return getCoffeePreference(FRONT_LIGHT_COLOR, "AUTO")
+    suspend fun getFrontLightColor(): Int {
+        return getCoffeePreference(FRONT_LIGHT_COLOR, 1)
     }
 
-    suspend fun saveFrontLightColor(frontLightColor: String) {
+    suspend fun saveFrontLightColor(frontLightColor: Int) {
         saveCoffeePreference(FRONT_LIGHT_COLOR, frontLightColor)
     }
 

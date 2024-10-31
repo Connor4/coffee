@@ -4,6 +4,13 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.utilities.DISPLAY_COLOR_MIX
+import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_12
+import com.inno.coffee.utilities.INDEX_AUTO_BACK_TO_FIRST_PAGE
+import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_BRIGHTNESS
+import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_COLOR
+import com.inno.coffee.utilities.INDEX_NUMBER_OF_PRODUCT_PER_PAGE
+import com.inno.coffee.utilities.INDEX_SCREEN_BRIGHTNESS
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.common.utils.SystemLocaleHelper
@@ -30,13 +37,13 @@ class DisplayViewModel @Inject constructor(
 
     private val _backToFirstPage = MutableStateFlow(false)
     val backToFirstPage: StateFlow<Boolean> = _backToFirstPage
-    private val _numberOfProductPerPage = MutableStateFlow(0)
+    private val _numberOfProductPerPage = MutableStateFlow(DISPLAY_PER_PAGE_COUNT_12)
     val numberOfProductPerPage: StateFlow<Int> = _numberOfProductPerPage
-    private val _frontLightColor = MutableStateFlow("")
-    val frontLightColor: StateFlow<String> = _frontLightColor
-    private val _frontLightBrightness = MutableStateFlow(0)
+    private val _frontLightColor = MutableStateFlow(DISPLAY_COLOR_MIX)
+    val frontLightColor: StateFlow<Int> = _frontLightColor
+    private val _frontLightBrightness = MutableStateFlow(90)
     val frontLightBrightness: StateFlow<Int> = _frontLightBrightness
-    private val _screenBrightness = MutableStateFlow(0)
+    private val _screenBrightness = MutableStateFlow(90)
     val screenBrightness: StateFlow<Int> = _screenBrightness
 
     private val _showExtractionTime = MutableStateFlow(false)
@@ -100,6 +107,28 @@ class DisplayViewModel @Inject constructor(
 //            _time.value = TimeUtils.getNowTimeInYearAndHour(language = dataStore
 //                .getSystemLanguage())
 //            Logger.d(TAG, "setSystemTime() called time ${_time.value}")
+        }
+    }
+
+    fun saveDisplayGroupTwoValue(key: Int, value: Any) {
+        viewModelScope.launch(defaultDispatcher) {
+            when (key) {
+                INDEX_AUTO_BACK_TO_FIRST_PAGE -> {
+                    dataStore.saveBackToFirstPage(value as Boolean)
+                    _backToFirstPage.value = value
+                }
+                INDEX_NUMBER_OF_PRODUCT_PER_PAGE -> {
+                    dataStore.saveNumberOfProductPerPage(value as Int)
+                    _numberOfProductPerPage.value = value
+                }
+                INDEX_FRONT_LIGHT_COLOR -> {
+                    dataStore.saveFrontLightColor(value as Int)
+                    _frontLightColor.value = value
+                }
+                INDEX_FRONT_LIGHT_BRIGHTNESS -> {}
+                INDEX_SCREEN_BRIGHTNESS -> {}
+                else -> {}
+            }
         }
     }
 

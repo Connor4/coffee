@@ -299,4 +299,8 @@
     <string name="display_show_product_name">显示产品名</string>
     <string name="display_value_on">开</string>
     <string name="display_value_off">关</string>
+    <string name="display_color_red">红</string>
+    <string name="display_color_green">绿</string>
+    <string name="display_color_blue">蓝</string>
+    <string name="display_color_mix">混合</string>
 </resources>

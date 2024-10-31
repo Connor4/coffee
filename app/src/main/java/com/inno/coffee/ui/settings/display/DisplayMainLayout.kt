@@ -15,6 +15,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,9 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.ChangeColorButton
+import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.groupone.DisplayGroupOneLayout
 import com.inno.coffee.ui.settings.display.grouptwo.DisplayGroupTwoLayout
+import com.inno.coffee.utilities.INDEX_AUTO_BACK_TO_FIRST_PAGE
+import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_COLOR
+import com.inno.coffee.utilities.INDEX_NUMBER_OF_PRODUCT_PER_PAGE
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
 
@@ -37,6 +45,10 @@ fun DisplayMainLayout(
     viewModel: DisplayViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val groupTwoSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
+    val defaultValue = remember { mutableStateOf("") }
+    val dataMap = remember { mutableMapOf<String, Any>() }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -68,9 +80,53 @@ fun DisplayMainLayout(
         ) {
             DisplayGroupOneLayout(viewModel)
             Spacer(modifier = Modifier.height(40.dp))
-            DisplayGroupTwoLayout(viewModel)
+            DisplayGroupTwoLayout(viewModel, { index, default, map ->
+                groupTwoSelectIndex.value = index
+                defaultValue.value = default
+                dataMap.clear()
+                map.forEach {
+                    dataMap[it.key] = it.value
+                }
+            }, { index ->
+                groupTwoSelectIndex.value = index
+            })
             Spacer(modifier = Modifier.height(40.dp))
             DisplayGroupThreeLayout(viewModel)
+        }
+
+        if (groupTwoSelectIndex.value != INVALID_INT) {
+            when (groupTwoSelectIndex.value) {
+                INDEX_AUTO_BACK_TO_FIRST_PAGE -> {
+                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
+                        viewModel.saveDisplayGroupTwoValue(INDEX_AUTO_BACK_TO_FIRST_PAGE, value)
+                        groupTwoSelectIndex.value = INVALID_INT
+                    }, {
+                        groupTwoSelectIndex.value = INVALID_INT
+                    })
+                }
+                INDEX_NUMBER_OF_PRODUCT_PER_PAGE -> {
+                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
+                        viewModel.saveDisplayGroupTwoValue(INDEX_NUMBER_OF_PRODUCT_PER_PAGE, value)
+                        groupTwoSelectIndex.value = INVALID_INT
+                    }, {
+                        groupTwoSelectIndex.value = INVALID_INT
+                    })
+                }
+                INDEX_FRONT_LIGHT_COLOR -> {
+                    ListSelectLayout(defaultValue.value, dataMap.toMap(), { key, value ->
+                        viewModel.saveDisplayGroupTwoValue(INDEX_FRONT_LIGHT_COLOR, value)
+                        groupTwoSelectIndex.value = INVALID_INT
+                    }, {
+                        groupTwoSelectIndex.value = INVALID_INT
+                    })
+                }
+//                INDEX_FRONT_LIGHT_BRIGHTNESS -> {
+//                }
+//                INDEX_SCREEN_BRIGHTNESS -> {
+//                }
+                else -> {
+                }
+            }
         }
     }
 }

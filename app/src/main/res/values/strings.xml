@@ -302,5 +302,9 @@
     <string name="display_show_product_name">Display Product Name</string>
     <string name="display_value_on">On</string>
     <string name="display_value_off">Off</string>
+    <string name="display_color_red">Red</string>
+    <string name="display_color_green">Green</string>
+    <string name="display_color_blue">Blue</string>
+    <string name="display_color_mix">Mix</string>
 
 </resources>

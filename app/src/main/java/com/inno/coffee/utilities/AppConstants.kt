@@ -68,5 +68,16 @@ const val SECOND_SCREEN_PRODUCT_ID_LIMIT = 1000
 const val DISPLAY_SETTING_KEY = "display_setting_key"
 const val DISPLAY_SETTING_LANGUAGE = "display_setting_language"
 const val DISPLAY_SETTING_TIME = "display_setting_time"
+const val INDEX_AUTO_BACK_TO_FIRST_PAGE = 0
+const val INDEX_NUMBER_OF_PRODUCT_PER_PAGE = 1
+const val INDEX_FRONT_LIGHT_COLOR = 2
+const val INDEX_FRONT_LIGHT_BRIGHTNESS = 3
+const val INDEX_SCREEN_BRIGHTNESS = 4
+const val DISPLAY_PER_PAGE_COUNT_12 = 12
+const val DISPLAY_PER_PAGE_COUNT_15 = 15
+const val DISPLAY_COLOR_MIX = 1
+const val DISPLAY_COLOR_RED = 2
+const val DISPLAY_COLOR_GREEN = 3
+const val DISPLAY_COLOR_BLUE = 4
 
 
