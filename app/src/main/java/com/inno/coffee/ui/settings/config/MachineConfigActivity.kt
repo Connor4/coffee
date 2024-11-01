@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.display
+package com.inno.coffee.ui.settings.config
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -7,17 +7,16 @@ import com.inno.coffee.ui.theme.CoffeeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DisplayActivity : CoffeeActivity() {
+class MachineConfigActivity : CoffeeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                DisplayMainLayout() {
-                    this@DisplayActivity.finish()
+                MachineConfigLayout() {
+                    this@MachineConfigActivity.finish()
                 }
             }
         }
     }
-
 }

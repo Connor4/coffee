@@ -302,9 +302,22 @@
     <string name="display_show_product_name">Display Product Name</string>
     <string name="display_value_on">On</string>
     <string name="display_value_off">Off</string>
+
     <string name="display_color_red">Red</string>
     <string name="display_color_green">Green</string>
     <string name="display_color_blue">Blue</string>
     <string name="display_color_mix">Mix</string>
+
+    <string name="config_power_configuration">Power Configuration</string>
+    <string name="config_low_power">Low Power Mode</string>
+    <string name="config_machine_type">Machine Type</string>
+    <string name="config_temperature_unit">Temperature Unit</string>
+    <string name="config_operation_mode">Operating Mode</string>
+    <string name="config_smart_mode">Smart Mode</string>
+    <string name="config_water_tank_surveillance">Water Tank Surveillance</string>
+    <string name="config_different_boiler">Different Boiler Temperature</string>
+    <string name="config_americano_temp_adjust">Americano Temperature Adjustment</string>
+    <string name="config_hot_water_output">Hot Water Output</string>
+    <string name="config_steam_wand_position">Steam Wand Position</string>
 
 </resources>

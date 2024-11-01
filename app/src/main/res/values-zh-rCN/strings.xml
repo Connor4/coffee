@@ -303,4 +303,17 @@
     <string name="display_color_green">绿</string>
     <string name="display_color_blue">蓝</string>
     <string name="display_color_mix">混合</string>
+
+    <string name="config_power_configuration">电源设置</string>
+    <string name="config_low_power">低功耗模式</string>
+    <string name="config_machine_type">机器类型</string>
+    <string name="config_temperature_unit">温度单位</string>
+    <string name="config_operation_mode">操作模式</string>
+    <string name="config_smart_mode">智能模式</string>
+    <string name="config_water_tank_surveillance">水箱监控</string>
+    <string name="config_different_boiler">锅炉不同温度</string>
+    <string name="config_americano_temp_adjust">美式温度自适应</string>
+    <string name="config_hot_water_output">热水出口</string>
+    <string name="config_steam_wand_position">蒸汽棒位置</string>
+
 </resources>

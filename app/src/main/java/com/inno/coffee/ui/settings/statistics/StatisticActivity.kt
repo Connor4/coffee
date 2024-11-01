@@ -43,7 +43,6 @@ class StatisticActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-//                StatisticMain()
                 StatisticLayout() {
                     this@StatisticActivity.finish()
                 }

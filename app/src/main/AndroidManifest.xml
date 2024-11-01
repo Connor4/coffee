@@ -55,6 +55,7 @@
         <activity android:name=".ui.settings.serialtest.SerialPortActivity" />
         <activity android:name=".ui.settings.display.DisplayActivity" />
         <activity android:name=".ui.settings.display.groupone.DisplaySettingActivity" />
+        <activity android:name=".ui.settings.config.MachineConfigActivity" />
     </application>
 
 </manifest>
