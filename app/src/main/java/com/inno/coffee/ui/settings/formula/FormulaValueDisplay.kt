@@ -34,7 +34,6 @@ fun FormulaValuesDisplay(
     Box(
         modifier = Modifier
             .wrapContentSize()
-//            .align(Alignment.TopStart)
             .padding(top = 657.dp, start = 719.dp)
     ) {
         Row {
