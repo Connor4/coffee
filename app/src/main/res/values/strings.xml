@@ -319,5 +319,18 @@
     <string name="config_americano_temp_adjust">Americano Temperature Adjustment</string>
     <string name="config_hot_water_output">Hot Water Output</string>
     <string name="config_steam_wand_position">Steam Wand Position</string>
+    <string name="config_temp_unit_celsius">°C</string>
+    <string name="config_temp_unit_fahrenheit">°F</string>
+    <string name="config_operation_mode_normal">Normal</string>
+    <string name="config_operation_mode_self_service">Self Service</string>
+    <string name="config_smart_mode_front_hopper">Only Front Hopper</string>
+    <string name="config_smart_mode_back_hopper">Only Back Hopper</string>
+    <string name="config_adjustment_manual">Manual</string>
+    <string name="config_adjustment_auto">Auto</string>
+    <string name="config_hot_water_output_mid">Mid</string>
+    <string name="config_hot_water_output_coffee">Coffee Side</string>
+    <string name="config_steam_wand_both">Both</string>
+    <string name="config_steam_wand_left">Left</string>
+    <string name="config_steam_wand_right">Right</string>
 
 </resources>

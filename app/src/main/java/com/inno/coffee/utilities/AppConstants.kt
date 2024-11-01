@@ -81,4 +81,19 @@ const val DISPLAY_COLOR_RED = 2
 const val DISPLAY_COLOR_GREEN = 3
 const val DISPLAY_COLOR_BLUE = 4
 
+const val CONFIG_OPERATION_MODE_NORMAL = 0
+const val CONFIG_OPERATION_MODE_SELF_SERVICE = 1
+const val SMART_MODE_OFF = 0
+const val SMART_MODE_ON = 1
+const val SMART_MODE_FRONT = 2
+const val SMART_MODE_BACK = 3
+const val ADJUSTMENT_NONE = 0
+const val ADJUSTMENT_MANUAL = 1
+const val ADJUSTMENT_AUTO = 2
+const val HOW_WATER_MID = 0
+const val HOT_WATER_SIDE = 1
+const val STEAM_WAND_BOTH = 0
+const val STEAM_WAND_LEFT = 1
+const val STEAM_WAND_RIGHT = 2
+
 
