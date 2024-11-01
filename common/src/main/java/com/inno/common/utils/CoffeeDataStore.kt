@@ -29,11 +29,101 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val FRONT_LIGHT_BRIGHTNESS = "front_light_brightness"
         private const val SCREEN_BRIGHTNESS = "screen_brightness"
         private const val SHOW_EXTRACTION_TIME = "show_extraction_time"
+        private const val LOW_POWER_MODE = "low_power_mode"
+        private const val MACHINE_TYPE = "machine_type"
+        private const val TEMPERATURE_UNIT = "temperature_unit"
+        private const val OPERATION_MODE = "operation_mode"
+        private const val SMART_MODE = "smart_mode"
+        private const val WATER_TANK_SURVEILLANCE = "water_tank_surveillance"
+        private const val DIFFERENT_BOILER = "different_boiler"
+        private const val AMERICANO_TEMP_ADJUST = "americano_temp_adjust"
+        private const val HOT_WATER_OUTPUT = "hot_water_output"
+        private const val STEAM_WAND_POSITION = "steam_wand_position"
     }
 
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
+
+    fun getAmericanoTempAdjustFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(AMERICANO_TEMP_ADJUST, false)
+    }
+
+    suspend fun saveAmericanoTempAdjust(americanoTempAdjust: Boolean) {
+        saveCoffeePreference(AMERICANO_TEMP_ADJUST, americanoTempAdjust)
+    }
+
+    fun getHotWaterOutputFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(HOT_WATER_OUTPUT, false)
+    }
+
+    suspend fun saveHotWaterOutput(hotWaterOutput: Boolean) {
+        saveCoffeePreference(HOT_WATER_OUTPUT, hotWaterOutput)
+    }
+
+    fun getDifferentBoilerFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(DIFFERENT_BOILER, false)
+    }
+
+    suspend fun saveDifferentBoiler(differentBoiler: Boolean) {
+        saveCoffeePreference(DIFFERENT_BOILER, differentBoiler)
+    }
+
+    fun getSteamWandPositionFlow(): Flow<String> {
+        return getCoffeePreferenceFlow(STEAM_WAND_POSITION, "OFF")
+    }
+
+    suspend fun saveSteamWandPosition(steamWandPosition: String) {
+        saveCoffeePreference(STEAM_WAND_POSITION, steamWandPosition)
+    }
+
+    fun getWaterTankSurveillanceFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(WATER_TANK_SURVEILLANCE, false)
+    }
+
+    suspend fun saveWaterTankSurveillance(waterTankSurveillance: Boolean) {
+        saveCoffeePreference(WATER_TANK_SURVEILLANCE, waterTankSurveillance)
+    }
+
+    fun getSmartModeFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(SMART_MODE, false)
+    }
+
+    suspend fun saveSmartMode(smartMode: Boolean) {
+        saveCoffeePreference(SMART_MODE, smartMode)
+    }
+
+    fun getOperationModeFlow(): Flow<String> {
+        return getCoffeePreferenceFlow(OPERATION_MODE, "OFF")
+    }
+
+    suspend fun saveOperationMode(operationMode: String) {
+        saveCoffeePreference(OPERATION_MODE, operationMode)
+    }
+
+    fun getTemperatureUnitFlow(): Flow<String> {
+        return getCoffeePreferenceFlow(TEMPERATURE_UNIT, "C")
+    }
+
+    suspend fun saveTemperatureUnit(temperatureUnit: String) {
+        saveCoffeePreference(TEMPERATURE_UNIT, temperatureUnit)
+    }
+
+    fun getMachineTypeFlow(): Flow<String> {
+        return getCoffeePreferenceFlow(MACHINE_TYPE, "CM01")
+    }
+
+    suspend fun saveMachineType(machineType: String) {
+        saveCoffeePreference(MACHINE_TYPE, machineType)
+    }
+
+    fun getLowPowerModeFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(LOW_POWER_MODE, false)
+    }
+
+    suspend fun saveLowPowerMode(low: Boolean) {
+        saveCoffeePreference(LOW_POWER_MODE, low)
+    }
 
     suspend fun getScreenBrightness(): Int {
         return getCoffeePreference(SCREEN_BRIGHTNESS, 90)
