@@ -327,7 +327,7 @@
     <string name="config_smart_mode_back_hopper">Only Back Hopper</string>
     <string name="config_adjustment_manual">Manual</string>
     <string name="config_adjustment_auto">Auto</string>
-    <string name="config_hot_water_output_mid">Mid</string>
+    <string name="config_hot_water_output_mid">Middle</string>
     <string name="config_hot_water_output_coffee">Coffee Side</string>
     <string name="config_steam_wand_both">Both</string>
     <string name="config_steam_wand_left">Left</string>

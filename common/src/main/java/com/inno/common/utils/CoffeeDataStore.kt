@@ -89,7 +89,7 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         return getCoffeePreference(SMART_MODE, 0)
     }
 
-    suspend fun saveSmartMode(smartMode: Boolean) {
+    suspend fun saveSmartMode(smartMode: Int) {
         saveCoffeePreference(SMART_MODE, smartMode)
     }
 
@@ -105,7 +105,7 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         return getCoffeePreference(TEMPERATURE_UNIT, false)
     }
 
-    suspend fun saveTemperatureUnit(temperatureUnit: String) {
+    suspend fun saveTemperatureUnit(temperatureUnit: Boolean) {
         saveCoffeePreference(TEMPERATURE_UNIT, temperatureUnit)
     }
 
