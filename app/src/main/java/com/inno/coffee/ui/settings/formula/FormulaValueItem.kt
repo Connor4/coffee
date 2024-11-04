@@ -32,8 +32,6 @@ import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.utils.Logger
-import kotlin.reflect.KMutableProperty1
-import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
 private val formulaProperties = Formula::class.memberProperties
@@ -154,13 +152,13 @@ fun FormulaValueItem(
                                 .align(Alignment.TopEnd)
                                 .padding(top = 250.dp, end = 90.dp),
                             unitValue = value) { changeValue ->
-                            onValueChange()
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         }
                     }
                 }
                 is FormulaItem.FormulaProductType -> {
                     FormulaProductTypeLayout(value, { changeValue ->
-                        onValueChange()
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -168,7 +166,7 @@ fun FormulaValueItem(
                 }
                 is FormulaItem.FormulaProductName -> {
                     FormulaChangeNameLayout(value, { changeValue ->
-                        onValueChange()
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -176,7 +174,7 @@ fun FormulaValueItem(
                 }
                 is FormulaItem.FormulaVatPosition -> {
                     FormulaBeanPositionLayout(value, { changeValue ->
-                        onValueChange()
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -184,7 +182,7 @@ fun FormulaValueItem(
                 }
                 is FormulaItem.FormulaAmericanoSeq -> {
                     FormulaAmericanoSeqLayout(value, { changeValue ->
-                        onValueChange()
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -192,7 +190,7 @@ fun FormulaValueItem(
                 }
                 is FormulaItem.FormulaPressWeight -> {
                     FormulaPressWeightLayout(value, {
-                        onValueChange()
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -200,18 +198,6 @@ fun FormulaValueItem(
                 }
             }
         }
-    }
-}
-
-private fun <T : Any, V> updateFormulaValue(
-    formula: T,
-    property: KProperty1<T, V>?,
-    newValue: V
-) {
-    if (property is KMutableProperty1<T, V>) {
-        property.set(formula, newValue)  // Update the property value
-    } else {
-        println("The property is not mutable!")
     }
 }
 
