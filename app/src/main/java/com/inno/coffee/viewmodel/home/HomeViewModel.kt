@@ -238,8 +238,8 @@ class HomeViewModel @Inject constructor(
             val steam = ProductType.assertType(selfType, ProductType.STEAM)
             val foam = ProductType.assertType(selfType, ProductType.FOAM)
             val id = making?.productId == self.productId
-            Logger.d(TAG, "enableMask() called with: RINSE = $stop, RINSE = $steam" +
-                    " RINSE = $foam")
+            Logger.d(TAG, "RINSE() called with: STOP = $stop, STEAM = $steam FOAM = $foam," +
+                    " ID = $id ")
             return !(stop || steam || foam || id)
         }
         if (ProductType.assertType(makingType, ProductType.STEAM) ||
@@ -247,7 +247,7 @@ class HomeViewModel @Inject constructor(
             val steam = ProductType.assertType(selfType, ProductType.STEAM)
             val foam = ProductType.assertType(selfType, ProductType.FOAM)
             val id = self.productId != making?.productId
-            Logger.d(TAG, "enableMask() called with: STEAM = $steam, STEAM = $id")
+            Logger.d(TAG, "STEAM() called with: STEAM = $steam, FOAM = $foam, ID = $id")
             return (steam && id) || (foam && id)
         }
         making?.let {
