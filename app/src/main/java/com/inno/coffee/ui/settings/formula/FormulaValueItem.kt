@@ -155,14 +155,12 @@ fun FormulaValueItem(
                                 .padding(top = 250.dp, end = 90.dp),
                             unitValue = value) { changeValue ->
                             onValueChange()
-                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         }
                     }
                 }
                 is FormulaItem.FormulaProductType -> {
                     FormulaProductTypeLayout(value, { changeValue ->
                         onValueChange()
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -171,7 +169,6 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaProductName -> {
                     FormulaChangeNameLayout(value, { changeValue ->
                         onValueChange()
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -180,7 +177,6 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaVatPosition -> {
                     FormulaBeanPositionLayout(value, { changeValue ->
                         onValueChange()
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -189,7 +185,6 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaAmericanoSeq -> {
                     FormulaAmericanoSeqLayout(value, { changeValue ->
                         onValueChange()
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -198,7 +193,6 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaPressWeight -> {
                     FormulaPressWeightLayout(value, {
                         onValueChange()
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -232,7 +226,8 @@ private fun getFormulaValue(formula: Formula?, nameList: MutableList<String>,
             }
             val propertyValue = property?.get(formula) ?: ""
             if (propertyValue != "") {
-                Logger.d("getFormulaValue() called with: propertyName = $propertyName value " +
+                Logger.d("FormulaValueItem",
+                    "getFormulaValue() called with: propertyName = $propertyName value " +
                         "$propertyValue")
                 nameList.add(propertyName)
                 valueList.add(propertyValue)
