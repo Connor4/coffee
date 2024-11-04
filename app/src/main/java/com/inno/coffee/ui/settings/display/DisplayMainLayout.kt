@@ -35,12 +35,16 @@ import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.ListSelectLayout
+import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.groupone.DisplayGroupOneLayout
 import com.inno.coffee.ui.settings.display.groupone.DisplaySettingActivity
+import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_BRIGHTNESS
+import com.inno.coffee.utilities.INDEX_SCREEN_BRIGHTNESS
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
+import com.inno.common.db.entity.FormulaItem
 
 @Composable
 fun DisplayMainLayout(
@@ -51,6 +55,11 @@ fun DisplayMainLayout(
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
     val defaultValue = remember { mutableStateOf("") }
     val dataMap = remember { mutableMapOf<String, Any>() }
+    val scrollDefaultValue = remember {
+        mutableStateOf(FormulaItem.FormulaUnitValue(
+            value = 0, rangeStart = 0F, rangeEnd = 100F, unit = ""
+        ))
+    }
 
     val language = viewModel.language.collectAsState()
     val time = viewModel.time.collectAsState()
@@ -99,19 +108,23 @@ fun DisplayMainLayout(
                     Bundle().apply {
                         putString(key, value)
                     })
+                itemSelectIndex.value = INVALID_INT
             }
             Spacer(modifier = Modifier.height(40.dp))
             DisplayGroupTwoLayout(backToFirstPage.value, numberOfProductPerPage.value,
-                frontLightColor.value, frontLightBrightness.value, screenBrightness.value
-            ) { index,
-                default, map ->
-                itemSelectIndex.value = index
-                defaultValue.value = default
-                dataMap.clear()
-                map.forEach {
-                    dataMap[it.key] = it.value
+                frontLightColor.value, frontLightBrightness.value, screenBrightness.value,
+                { index, default, map ->
+                    itemSelectIndex.value = index
+                    defaultValue.value = default
+                    dataMap.clear()
+                    map.forEach {
+                        dataMap[it.key] = it.value
+                    }
+                }, { index, default ->
+                    itemSelectIndex.value = index
+                    scrollDefaultValue.value.value = default.toShort()
                 }
-            }
+            )
             Spacer(modifier = Modifier.height(40.dp))
             DisplayGroupThreeLayout(showExtractionTime.value) { index, default, map ->
                 itemSelectIndex.value = index
@@ -124,12 +137,25 @@ fun DisplayMainLayout(
         }
 
         if (itemSelectIndex.value != INVALID_INT) {
-            ListSelectLayout(defaultValue.value, dataMap.toMap(), { _, value ->
-                viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, value)
-                itemSelectIndex.value = INVALID_INT
-            }, {
-                itemSelectIndex.value = INVALID_INT
-            })
+            if (itemSelectIndex.value == INDEX_SCREEN_BRIGHTNESS || itemSelectIndex.value ==
+                    INDEX_FRONT_LIGHT_BRIGHTNESS) {
+                UnitValueScrollBar(
+                    modifier = Modifier
+                        .padding(top = 172.dp, start = 270.dp)
+                        .width(450.dp)
+                        .wrapContentHeight(),
+                    unitValue = scrollDefaultValue.value) { changeValue ->
+                    viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, changeValue.value
+                        .toInt())
+                }
+            } else {
+                ListSelectLayout(defaultValue.value, dataMap.toMap(), { _, value ->
+                    viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, value)
+                    itemSelectIndex.value = INVALID_INT
+                }, {
+                    itemSelectIndex.value = INVALID_INT
+                })
+            }
         }
     }
 }

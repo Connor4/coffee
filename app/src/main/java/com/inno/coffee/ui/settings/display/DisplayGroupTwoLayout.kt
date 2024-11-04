@@ -27,6 +27,7 @@ fun DisplayGroupTwoLayout(
     frontLightBrightness: Int,
     screenBrightness: Int,
     onClickListSelect: (Int, String, Map<String, Any>) -> Unit,
+    onClickScroll: (Int, Int) -> Unit,
 ) {
 
     val on = stringResource(R.string.display_value_on)
@@ -95,25 +96,13 @@ fun DisplayGroupTwoLayout(
                 "$frontLightBrightness",
                 Color(0xFF2A2B2D)
             ) {
-                onClickListSelect(INDEX_FRONT_LIGHT_BRIGHTNESS, "$frontLightBrightness",
-                    mapOf(
-                        Pair("10", 10), Pair("20", 20), Pair("30", 30), Pair("40", 40),
-                        Pair("50", 50), Pair("60", 60), Pair("70", 70), Pair("80", 80),
-                        Pair("90", 90), Pair("100", 100),
-                    )
-                )
+                onClickScroll(INDEX_FRONT_LIGHT_BRIGHTNESS, frontLightBrightness)
             }
             DisplayItemLayout(stringResource(R.string.display_screen_brightness),
                 "$screenBrightness",
                 Color(0xFF191A1D)
             ) {
-                onClickListSelect(INDEX_SCREEN_BRIGHTNESS, "$screenBrightness",
-                    mapOf(
-                        Pair("10", 10), Pair("20", 20), Pair("30", 30), Pair("40", 40),
-                        Pair("50", 50), Pair("60", 60), Pair("70", 70), Pair("80", 80),
-                        Pair("90", 90), Pair("100", 100),
-                    )
-                )
+                onClickScroll(INDEX_SCREEN_BRIGHTNESS, screenBrightness)
             }
         }
 
