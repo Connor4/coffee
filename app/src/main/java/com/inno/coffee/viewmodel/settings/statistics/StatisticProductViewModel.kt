@@ -40,7 +40,7 @@ class StatisticProductViewModel @Inject constructor(
     fun loadDrinkTypeList() {
         viewModelScope.launch(defaultDispatcher) {
             _drinksList.value = repository.getAllFormula().filter {
-                it.productType?.type != ProductType.OPERATION.value
+                !ProductType.isOperationType(it.productType?.type)
                         && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
             }
             getProductCount(_drinksList.value.first().productId)

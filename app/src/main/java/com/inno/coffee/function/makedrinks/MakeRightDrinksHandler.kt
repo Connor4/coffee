@@ -5,8 +5,8 @@ import com.inno.coffee.utilities.HEAD_INDEX
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MAKE_DRINK_COMMAND
 import com.inno.coffee.utilities.MAKE_DRINK_REPLY_VALUE
-import com.inno.coffee.utilities.PRODUCT_STOP
 import com.inno.common.db.entity.Formula
+import com.inno.common.enums.ProductType
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.SerialPortDataManager
 import com.inno.serialport.function.data.DataCenter
@@ -46,6 +46,8 @@ object MakeRightDrinksHandler {
     val queue: StateFlow<List<Formula>> = _queue.asStateFlow()
     private val _size = MutableStateFlow(0)
     val size: StateFlow<Int> = _size.asStateFlow()
+    private val _making = MutableStateFlow<Formula?>(null)
+    val making = _making.asStateFlow()
     private val _status = MutableStateFlow(MakeDrinkStatusEnum.RIGHT_BREWING)
     val status: StateFlow<MakeDrinkStatusEnum> = _status.asStateFlow()
 
@@ -77,12 +79,14 @@ object MakeRightDrinksHandler {
         Logger.d(TAG, "executeNow() called")
         scope.launch {
             mutex.withLock {
+                _making.value = model
                 val productProfile =
                     ProductProfileManager.convertProductProfile(model.productId + RIGHT_OFFSET,
                         false)
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
 
-                if (model.productId == PRODUCT_STOP && processingProductId != INVALID_INT) {
+                if (ProductType.assertType(model.productType?.type, ProductType.STOP) &&
+                        processingProductId != INVALID_INT) {
                     discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
                 }
             }
@@ -152,6 +156,7 @@ object MakeRightDrinksHandler {
     private fun addQueueSize(model: Formula) {
         _queue.value += model
         _size.value = _queue.value.size
+        _making.value = model
     }
 
     private fun minusQueueSize(model: Formula) {
@@ -160,6 +165,7 @@ object MakeRightDrinksHandler {
                 it.productId != model.productId
             }
             _size.value = _queue.value.size
+            _making.value = null
         }
     }
 

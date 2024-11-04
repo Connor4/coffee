@@ -73,7 +73,7 @@ object SelfCheckManager {
         // TODO 1. 下发开始锅炉加热命令
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
-        delay(3000)
+        delay(1000)
         _step.value = STEP_BOILER_HEATING
         _coffeeHeating.value = false
         waitSteamBoilerHeating()
@@ -84,7 +84,7 @@ object SelfCheckManager {
         // TODO 1. 下发开始锅炉加热命令
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
-        delay(3000)
+        delay(1000)
         _step.value = STEP_STEAM_HEATING
         _steamHeating.value = false
         _releaseSteam.value = RELEASE_STEAM_READY
@@ -94,7 +94,7 @@ object SelfCheckManager {
         _releaseSteam.value = RELEASE_STEAM_START
         // TODO 1. 下发释放蒸汽命令
         //  2.抓取释放结果
-        delay(3000)
+        delay(1000)
         _step.value = STEP_RELEASE_STEAM
         _releaseSteam.value = RELEASE_STEAM_FINISHED
         _checking.value = false

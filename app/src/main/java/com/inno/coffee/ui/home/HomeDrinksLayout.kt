@@ -50,9 +50,13 @@ fun HomeDrinksLayout(
     } else {
         MakeRightDrinksHandler.size.collectAsState()
     }
+    val making by if (mainScreen) {
+        MakeLeftDrinksHandler.making.collectAsState()
+    } else {
+        MakeRightDrinksHandler.making.collectAsState()
+    }
     val autoBack = viewModel.autoReturnEnabled.collectAsState(initial = false)
     val drinksList by viewModel.formulaList.collectAsState()
-    val checking by SelfCheckManager.checking.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
     val totalCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
@@ -93,12 +97,12 @@ fun HomeDrinksLayout(
                     maxItemsInEachRow = 4,
                 ) {
                     currentList.forEach { drinkModel ->
-                        val enable = viewModel.enableMask(size > 0, checking, drinkModel.productId)
+                        val enable = viewModel.enableMask(making, drinkModel)
                         val select = selected.intValue == drinkModel.productId
 
                         DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
                             selected.intValue = drinkModel.productId
-                            viewModel.startMakeDrink(drinkModel, mainScreen, checking)
+                            viewModel.startMakeDrink(drinkModel, mainScreen)
                         }
                     }
                 }

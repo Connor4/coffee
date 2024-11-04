@@ -1,5 +1,6 @@
 package com.inno.coffee.viewmodel.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
@@ -69,14 +70,16 @@ class HomeViewModel @Inject constructor(
     val steamBoilerTemp = temperatureDisplayFlow(_steamBoilerTemp)
     private val _steamBoilerPressure = MutableStateFlow(0)
     val steamBoilerPressure = _steamBoilerPressure
-    private var specialItem = mutableListOf<Int>()
 
     private val _time = MutableStateFlow("")
     val time: StateFlow<String> = _time.asStateFlow()
     private val _date = MutableStateFlow("")
     val date: StateFlow<String> = _date.asStateFlow()
-    private val _selfCheck = MutableStateFlow(false)
-    val selfCheck = _selfCheck.asStateFlow()
+//    private val _selfCheck = MutableStateFlow(false)
+//    val selfCheck = _selfCheck.asStateFlow()
+
+    private val checking: Boolean
+        get() = SelfCheckManager.checking.value
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -181,12 +184,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun startMakeDrink(model: Formula, main: Boolean, selfCheck: Boolean) {
+    fun startMakeDrink(model: Formula, main: Boolean) {
         Logger.d(TAG,
-            "startMakeDrink() called with: model = $model, main = $main, selfCheck = $selfCheck")
-        if (model.productType?.type == ProductType.OPERATION.value
-                || model.productType?.type == ProductType.FOAM.value) {
-            if (selfCheck && model.productId == PRODUCT_RINSE) {
+            "startMakeDrink() called with: model = $model, main = $main, selfCheck = $checking")
+        if (ProductType.isOperationType(model.productType?.type)) {
+            if (checking && model.productId == PRODUCT_RINSE) {
                 viewModelScope.launch {
                     SelfCheckManager.operateRinse()
                 }
@@ -215,14 +217,40 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun enableMask(making: Boolean, checking: Boolean, productId: Int): Boolean {
-        Logger.d(TAG,
-            "enableMask() called with: making = $making, checking = $checking, productId = $productId")
+    /**
+     * 1. in self check status, only enable rinse.
+     * 2. rinse and hot water, only enable stop、 steam and self.
+     * 3. steam active, the other steam inactive.
+     * 4. when making, disable other product, except stop、steam and self.
+     * 5. when not making, enable all product.
+     */
+    fun enableMask(making: Formula?, self: Formula): Boolean {
+        Logger.d(TAG, "enableMask() called with: making = ${making?.productId}, " +
+                "self = ${self.productId}")
+        val selfType = self.productType?.type
         if (checking) {
-            return productId != PRODUCT_RINSE
+            return !ProductType.assertType(selfType, ProductType.RINSE)
         }
-        if (making) {
-            return !specialItem.contains(productId)
+        val makingType = making?.productType?.type
+
+        if (ProductType.assertType(makingType, ProductType.RINSE) ||
+                ProductType.assertType(makingType, ProductType.HOT_WATER)) {
+            val stop = ProductType.assertType(selfType, ProductType.STOP)
+            val steam = ProductType.assertType(selfType, ProductType.STEAM)
+            val id = making?.productId == self.productId
+            Log.d(TAG, "enableMask() called with: RINSE = $stop, RINSE = $steam")
+            return !(stop || steam || id)
+        }
+        if (ProductType.assertType(makingType, ProductType.STEAM)) {
+            val type = ProductType.assertType(selfType, ProductType.STEAM)
+            val id = self.productId != making?.productId
+            Log.d(TAG, "enableMask() called with: STEAM = $type, STEAM = $id")
+            return type && id
+        }
+        making?.let {
+            val operation = ProductType.isMakingEnableType(selfType)
+            val id = making.productId == self.productId
+            return !(operation || id)
         }
         return false
     }

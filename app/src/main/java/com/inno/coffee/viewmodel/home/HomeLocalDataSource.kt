@@ -13,7 +13,7 @@ class HomeLocalDataSource @Inject constructor() {
     val drinksTypes = listOf(
         DrinksModel(
             productId = 1,
-            type = ProductType.OPERATION,
+            type = ProductType.STEAM,
             name = R.string.home_item_stop,
             imageRes = R.drawable.home_stop_normal_ic
         ),
@@ -31,7 +31,7 @@ class HomeLocalDataSource @Inject constructor() {
         ),
         DrinksModel(
             productId = 4,
-            type = ProductType.OPERATION,
+            type = ProductType.STEAM,
             name = R.string.home_item_rinse,
             imageRes = R.drawable.operate_rinse_ic
         ),
@@ -73,13 +73,13 @@ class HomeLocalDataSource @Inject constructor() {
         ),
         DrinksModel(
             productId = 11,
-            type = ProductType.OPERATION,
+            type = ProductType.STEAM,
             name = R.string.home_item_auto_foam,
             imageRes = R.drawable.operate_auto_milk_ic
         ),
         DrinksModel(
             productId = 12,
-            type = ProductType.OPERATION,
+            type = ProductType.STEAM,
             name = R.string.home_item_manual_foam,
             imageRes = R.drawable.operate_manual_milk_ic
         ),
@@ -139,7 +139,7 @@ class HomeLocalDataSource @Inject constructor() {
         ),
         DrinksModel(
             productId = 104,
-            type = ProductType.OPERATION,
+            type = ProductType.STEAM,
             name = R.string.home_item_rinse,
             imageRes = R.drawable.operate_rinse_ic
         ),
@@ -181,13 +181,13 @@ class HomeLocalDataSource @Inject constructor() {
         ),
         DrinksModel(
             productId = 111,
-            type = ProductType.OPERATION,
+            type = ProductType.STEAM,
             name = R.string.home_item_auto_foam,
             imageRes = R.drawable.operate_auto_milk_ic
         ),
         DrinksModel(
             productId = 112,
-            type = ProductType.OPERATION,
+            type = ProductType.STEAM,
             name = R.string.home_item_manual_foam,
             imageRes = R.drawable.operate_manual_milk_ic
         ),

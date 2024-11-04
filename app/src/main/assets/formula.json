@@ -3,7 +3,7 @@
     "productId": 1,
     "imageRes": "home_stop_normal_ic",
     "productType": {
-      "type": "Operation"
+      "type": "Stop"
     },
     "productName": {
       "name": "",
@@ -60,7 +60,7 @@
     "productId": 4,
     "imageRes": "operate_rinse_ic",
     "productType": {
-      "type": "Operation"
+      "type": "Rinse"
     },
     "productName": {
       "name": "",
@@ -1131,7 +1131,7 @@
     "productId": 101,
     "imageRes": "home_stop_normal_ic",
     "productType": {
-      "type": "Operation"
+      "type": "Stop"
     },
     "productName": {
       "name": "",
@@ -1188,7 +1188,7 @@
     "productId": 104,
     "imageRes": "operate_rinse_ic",
     "productType": {
-      "type": "Operation"
+      "type": "Rinse"
     },
     "productName": {
       "name": "",
