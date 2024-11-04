@@ -48,83 +48,88 @@ fun UnitValueScrollBar(
         mutableFloatStateOf(unitValue.value.toFloat())
     }
 
-    Row(
-        modifier = modifier,
-    ) {
+    Box(modifier = modifier) {
         Row(
-            modifier = Modifier.padding(top = 6.dp)
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 6.dp, end = 381.dp)
         ) {
             Text(text = "$currentValue", fontSize = 6.nsp(), color = Color.White)
             Spacer(modifier = Modifier.width(5.dp))
             Text(text = unitValue.unit, fontSize = 6.nsp(), color = Color.White)
         }
-        Spacer(modifier = Modifier.width(30.dp))
-        StateImage(
-            normalImage = painterResource(id = R.drawable.formula_minus_normal_ic),
-            pressedImage = painterResource(id = R.drawable.formula_minus_press_ic),
-            modifier = Modifier.size(40.dp)
-        ) {
-            val newValue = (currentValue - 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
-            currentValue = newValue
-            progress = currentValue / unitValue.rangeEnd
-            unitValue.value = currentValue.toInt().toShort()
-            onValueChange(unitValue)
-        }
-        Spacer(modifier = Modifier.width(20.dp))
-        Column(
+        Row(
             modifier = Modifier
-                .width(progressBarWidth)
-                .height(55.dp)
+                .align(Alignment.TopEnd),
         ) {
-            Box(
+            StateImage(
+                normalImage = painterResource(id = R.drawable.formula_minus_normal_ic),
+                pressedImage = painterResource(id = R.drawable.formula_minus_press_ic),
+                modifier = Modifier.size(40.dp)
+            ) {
+                val newValue = (currentValue - 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
+                currentValue = newValue
+                progress = currentValue / unitValue.rangeEnd
+                unitValue.value = currentValue.toInt().toShort()
+                onValueChange(unitValue)
+            }
+            Spacer(modifier = Modifier.width(20.dp))
+            Column(
                 modifier = Modifier
                     .width(progressBarWidth)
-                    .height(progressBarHeight)
-                    .background(Color(0xFF191A1D))
-                    .pointerInput(Unit) {
-                        detectDragGestures { _, dragAmount ->
-                            val newProgress = (progress + dragAmount.x / progressBarWidth
-                                .toPx()).coerceIn(0f, 1f)
-                            currentValue = Math.round(unitValue.rangeEnd * newProgress) * 10 / 10f
-                            progress = newProgress
-                            unitValue.value = currentValue
-                                .toInt()
-                                .toShort()
-                            onValueChange(unitValue)
-                        }
-                    },
-                contentAlignment = Alignment.CenterStart
+                    .height(55.dp)
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(progress)
-                        .height(22.dp)
-                        .padding(start = 4.dp, end = 4.dp)
-                        .background(mainColor)
-                )
-            }
+                        .width(progressBarWidth)
+                        .height(progressBarHeight)
+                        .background(Color(0xFF191A1D))
+                        .pointerInput(Unit) {
+                            detectDragGestures { _, dragAmount ->
+                                val newProgress = (progress + dragAmount.x / progressBarWidth
+                                    .toPx()).coerceIn(0f, 1f)
+                                currentValue =
+                                    Math.round(unitValue.rangeEnd * newProgress) * 10 / 10f
+                                progress = newProgress
+                                unitValue.value = currentValue
+                                    .toInt()
+                                    .toShort()
+                                onValueChange(unitValue)
+                            }
+                        },
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(progress)
+                            .height(22.dp)
+                            .padding(start = 4.dp, end = 4.dp)
+                            .background(mainColor)
+                    )
+                }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-                horizontalArrangement = Arrangement.Absolute.SpaceBetween
-            ) {
-                Text(text = "${unitValue.rangeStart}", fontSize = 5.nsp(), color = Color.White)
-                Text(text = "${unitValue.rangeEnd}", fontSize = 5.nsp(), color = Color.White)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    horizontalArrangement = Arrangement.Absolute.SpaceBetween
+                ) {
+                    Text(text = "${unitValue.rangeStart}", fontSize = 5.nsp(), color = Color.White)
+                    Text(text = "${unitValue.rangeEnd}", fontSize = 5.nsp(), color = Color.White)
+                }
             }
-        }
-        Spacer(modifier = Modifier.width(20.dp))
-        StateImage(
-            normalImage = painterResource(id = R.drawable.formula_add_normal_ic),
-            pressedImage = painterResource(id = R.drawable.formula_add_press_ic),
-            modifier = Modifier.size(40.dp)
-        ) {
-            val newValue = (currentValue + 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
-            currentValue = newValue
-            progress = currentValue / unitValue.rangeEnd
-            unitValue.value = currentValue.toInt().toShort()
-            onValueChange(unitValue)
+            Spacer(modifier = Modifier.width(20.dp))
+            StateImage(
+                normalImage = painterResource(id = R.drawable.formula_add_normal_ic),
+                pressedImage = painterResource(id = R.drawable.formula_add_press_ic),
+                modifier = Modifier.size(40.dp)
+            ) {
+                val newValue = (currentValue + 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
+                currentValue = newValue
+                progress = currentValue / unitValue.rangeEnd
+                unitValue.value = currentValue.toInt().toShort()
+                onValueChange(unitValue)
+            }
         }
     }
 }
