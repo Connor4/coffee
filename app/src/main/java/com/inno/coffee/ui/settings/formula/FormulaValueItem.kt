@@ -153,6 +153,7 @@ fun FormulaValueItem(
                                 .padding(top = 250.dp, end = 90.dp),
                             unitValue = value) { changeValue ->
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
                         }
                     }
                 }
@@ -207,7 +208,8 @@ fun FormulaValueItem(
 }
 
 private fun getFormulaValue(formula: Formula?, nameList: MutableList<String>,
-    valueList: MutableList<Any>) {
+    valueList: MutableList<Any>
+) {
     formula?.let {
         nameList.clear()
         valueList.clear()
@@ -219,7 +221,7 @@ private fun getFormulaValue(formula: Formula?, nameList: MutableList<String>,
             if (propertyValue != "") {
                 Logger.d("FormulaValueItem",
                     "getFormulaValue() called with: propertyName = $propertyName value " +
-                        "$propertyValue")
+                            "$propertyValue")
                 nameList.add(propertyName)
                 valueList.add(propertyValue)
             }

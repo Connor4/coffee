@@ -50,9 +50,6 @@ fun FormulaLayout(
 
     LaunchedEffect(Unit) {
         viewModel.loadDrinkTypeList(mainScreen)
-    }
-
-    LaunchedEffect(allFormula) {
         if (allFormula.isNotEmpty() && selectFormula != null) {
             viewModel.getFormula(selectFormula!!.productId)
         }

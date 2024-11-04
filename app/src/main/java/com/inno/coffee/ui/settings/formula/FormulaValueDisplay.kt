@@ -140,7 +140,7 @@ fun FormulaValuesDisplay(
     }
 }
 
-@Preview
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewValuesDisplay() {
     FormulaValuesDisplay()
