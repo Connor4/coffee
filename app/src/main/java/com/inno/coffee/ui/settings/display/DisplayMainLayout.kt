@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,11 +56,7 @@ fun DisplayMainLayout(
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
     val defaultValue = remember { mutableStateOf("") }
     val dataMap = remember { mutableMapOf<String, Any>() }
-    val scrollDefaultValue = remember {
-        mutableStateOf(FormulaItem.FormulaUnitValue(
-            value = 0, rangeStart = 0F, rangeEnd = 100F, unit = ""
-        ))
-    }
+    val scrollDefaultValue = remember { mutableStateOf<FormulaItem.FormulaUnitValue?>(null) }
 
     val language = viewModel.language.collectAsState()
     val time = viewModel.time.collectAsState()
@@ -104,11 +101,11 @@ fun DisplayMainLayout(
                 .padding(start = 50.dp, top = 254.dp, end = 95.dp)
         ) {
             DisplayGroupOneLayout(language.value, time.value) { key, value ->
+                itemSelectIndex.value = INVALID_INT
                 ScreenDisplayManager.autoRoute(context, DisplaySettingActivity::class.java,
                     Bundle().apply {
                         putString(key, value)
                     })
-                itemSelectIndex.value = INVALID_INT
             }
             Spacer(modifier = Modifier.height(40.dp))
             DisplayGroupTwoLayout(backToFirstPage.value, numberOfProductPerPage.value,
@@ -122,7 +119,9 @@ fun DisplayMainLayout(
                     }
                 }, { index, default ->
                     itemSelectIndex.value = index
-                    scrollDefaultValue.value.value = default.toShort()
+                    scrollDefaultValue.value = FormulaItem.FormulaUnitValue(
+                        value = default.toShort(), rangeStart = 0F, rangeEnd = 100F, unit = ""
+                    )
                 }
             )
             Spacer(modifier = Modifier.height(40.dp))
@@ -139,14 +138,16 @@ fun DisplayMainLayout(
         if (itemSelectIndex.value != INVALID_INT) {
             if (itemSelectIndex.value == INDEX_SCREEN_BRIGHTNESS || itemSelectIndex.value ==
                     INDEX_FRONT_LIGHT_BRIGHTNESS) {
-                UnitValueScrollBar(
-                    modifier = Modifier
-                        .padding(top = 172.dp, start = 270.dp)
-                        .width(450.dp)
-                        .wrapContentHeight(),
-                    unitValue = scrollDefaultValue.value) { changeValue ->
-                    viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, changeValue.value
-                        .toInt())
+                key(scrollDefaultValue.value) {
+                    UnitValueScrollBar(
+                        modifier = Modifier
+                            .padding(top = 172.dp, start = 270.dp)
+                            .width(450.dp)
+                            .wrapContentHeight(),
+                        unitValue = scrollDefaultValue.value!!) { changeValue ->
+                        viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, changeValue.value
+                            .toInt())
+                    }
                 }
             } else {
                 ListSelectLayout(defaultValue.value, dataMap.toMap(), { _, value ->
