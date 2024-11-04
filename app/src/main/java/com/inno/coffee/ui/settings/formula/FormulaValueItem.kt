@@ -159,6 +159,7 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaProductType -> {
                     FormulaProductTypeLayout(value, { changeValue ->
                         getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                        onValueChange()
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -167,6 +168,7 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaProductName -> {
                     FormulaChangeNameLayout(value, { changeValue ->
                         getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                        onValueChange()
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -175,6 +177,7 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaVatPosition -> {
                     FormulaBeanPositionLayout(value, { changeValue ->
                         getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                        onValueChange()
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -183,6 +186,7 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaAmericanoSeq -> {
                     FormulaAmericanoSeqLayout(value, { changeValue ->
                         getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                        onValueChange()
                         selectedValue = null
                     }, {
                         selectedValue = null
@@ -191,6 +195,7 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaPressWeight -> {
                     FormulaPressWeightLayout(value, {
                         getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                        onValueChange()
                         selectedValue = null
                     }, {
                         selectedValue = null
