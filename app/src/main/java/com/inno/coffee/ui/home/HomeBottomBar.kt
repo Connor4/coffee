@@ -41,8 +41,8 @@ import com.inno.coffee.utilities.nsp
 
 @Composable
 fun HomeBottomBar(
-    leftTemp: Int = 0,
-    rightTemp: Int = 0,
+    leftTemp: String,
+    rightTemp: String,
     showExtractionTime: Boolean = true,
     onReleaseSteam: () -> Unit = {},
     onClickWarning: () -> Unit = {},
@@ -131,13 +131,13 @@ fun HomeBottomBar(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Text(
-                        text = " $leftTemp°C",
+                        text = " $leftTemp",
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
-                        text = " $rightTemp°C",
+                        text = " $rightTemp",
                         fontSize = 4.nsp(),
                         color = Color.White,
                     )
@@ -214,5 +214,5 @@ fun HomeBottomBar(
 @Preview(device = Devices.TABLET)
 @Composable
 private fun PreviewHomeBottomBar() {
-    HomeBottomBar()
+    HomeBottomBar("80", "81")
 }

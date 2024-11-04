@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -49,6 +50,9 @@ class HomeViewModel @Inject constructor(
     private val TAG = "HomeViewModel"
     val formulaList: StateFlow<List<Formula>> = repository.getAllFormulas()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    private val temperatureUnit: Flow<Boolean> = dataStore.getTemperatureUnitFlow()
+    val autoReturnEnabled: Flow<Boolean> = dataStore.getBackToFirstPageFlow()
+    val showExtractionTime: Flow<Boolean> = dataStore.getShowExtractionTimeFlow()
     private val _username = MutableStateFlow("")
     val username: StateFlow<String> = _username
     private val _password = MutableStateFlow("")
@@ -58,11 +62,11 @@ class HomeViewModel @Inject constructor(
     private val _countdown = MutableStateFlow(LOCK_AND_CLEAN_TIME)
     val countdown: StateFlow<Int> = _countdown
     private val _leftBoilerTemp = MutableStateFlow(HOME_LEFT_COFFEE_BOILER_TEMP)
-    val leftBoilerTemp = _leftBoilerTemp
+    val leftBoilerTemp = temperatureDisplayFlow(_leftBoilerTemp)
     private val _rightBoilerTemp = MutableStateFlow(HOME_RIGHT_COFFEE_BOILER_TEMP)
-    val rightBoilerTemp = _rightBoilerTemp
+    val rightBoilerTemp = temperatureDisplayFlow(_rightBoilerTemp)
     private val _steamBoilerTemp = MutableStateFlow(HOME_LEFT_COFFEE_BOILER_TEMP)
-    val steamBoilerTemp = _steamBoilerTemp
+    val steamBoilerTemp = temperatureDisplayFlow(_steamBoilerTemp)
     private val _steamBoilerPressure = MutableStateFlow(0)
     val steamBoilerPressure = _steamBoilerPressure
     private var specialItem = mutableListOf<Int>()
@@ -73,9 +77,6 @@ class HomeViewModel @Inject constructor(
     val date: StateFlow<String> = _date.asStateFlow()
     private val _selfCheck = MutableStateFlow(false)
     val selfCheck = _selfCheck.asStateFlow()
-
-    val autoReturnEnabled: Flow<Boolean> = dataStore.getBackToFirstPageFlow()
-    val showExtractionTime: Flow<Boolean> = dataStore.getShowExtractionTimeFlow()
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -184,7 +185,7 @@ class HomeViewModel @Inject constructor(
         Logger.d(TAG,
             "startMakeDrink() called with: model = $model, main = $main, selfCheck = $selfCheck")
         if (model.productType?.type == ProductType.OPERATION.value
-            || model.productType?.type == ProductType.FOAM.value) {
+                || model.productType?.type == ProductType.FOAM.value) {
             if (selfCheck && model.productId == PRODUCT_RINSE) {
                 viewModelScope.launch {
                     SelfCheckManager.operateRinse()
@@ -234,23 +235,6 @@ class HomeViewModel @Inject constructor(
         _countdown.value = LOCK_AND_CLEAN_TIME
     }
 
-    fun startRecycleTemp() {
-        viewModelScope.launch {
-            while (true) {
-                delay(1500)
-                if (_leftBoilerTemp.value < 92) {
-                    _leftBoilerTemp.value++
-                    _rightBoilerTemp.value++
-                    _steamBoilerTemp.value++
-                } else {
-                    _leftBoilerTemp.value = HOME_LEFT_COFFEE_BOILER_TEMP
-                    _rightBoilerTemp.value = HOME_RIGHT_COFFEE_BOILER_TEMP
-                    _steamBoilerTemp.value = HOME_LEFT_COFFEE_BOILER_TEMP
-                }
-            }
-        }
-    }
-
     private fun parseReceivedData(data: Any) {
         val boiler = data as ReceivedData.HeartBeat
         boiler.temperature?.let { reply ->
@@ -268,4 +252,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Int>): StateFlow<String> {
+        return temperatureUnit.combine(temperatureFlow) { isFahrenheit, tempCelsius ->
+            if (isFahrenheit) {
+                val fahrenheit = tempCelsius * 1.8 + 32
+                "$fahrenheit°F"
+            } else {
+                "$tempCelsius°C"
+            }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, "")
+
+    }
 }

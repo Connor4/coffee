@@ -101,6 +101,10 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         saveCoffeePreference(OPERATION_MODE, operationMode)
     }
 
+    fun getTemperatureUnitFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(TEMPERATURE_UNIT, false)
+    }
+
     suspend fun getTemperatureUnit(): Boolean {
         return getCoffeePreference(TEMPERATURE_UNIT, false)
     }
