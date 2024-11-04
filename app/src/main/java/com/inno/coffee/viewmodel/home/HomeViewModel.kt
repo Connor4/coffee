@@ -1,6 +1,5 @@
 package com.inno.coffee.viewmodel.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
@@ -237,15 +236,19 @@ class HomeViewModel @Inject constructor(
                 ProductType.assertType(makingType, ProductType.HOT_WATER)) {
             val stop = ProductType.assertType(selfType, ProductType.STOP)
             val steam = ProductType.assertType(selfType, ProductType.STEAM)
+            val foam = ProductType.assertType(selfType, ProductType.FOAM)
             val id = making?.productId == self.productId
-            Log.d(TAG, "enableMask() called with: RINSE = $stop, RINSE = $steam")
-            return !(stop || steam || id)
+            Logger.d(TAG, "enableMask() called with: RINSE = $stop, RINSE = $steam" +
+                    " RINSE = $foam")
+            return !(stop || steam || foam || id)
         }
-        if (ProductType.assertType(makingType, ProductType.STEAM)) {
-            val type = ProductType.assertType(selfType, ProductType.STEAM)
+        if (ProductType.assertType(makingType, ProductType.STEAM) ||
+                ProductType.assertType(makingType, ProductType.FOAM)) {
+            val steam = ProductType.assertType(selfType, ProductType.STEAM)
+            val foam = ProductType.assertType(selfType, ProductType.FOAM)
             val id = self.productId != making?.productId
-            Log.d(TAG, "enableMask() called with: STEAM = $type, STEAM = $id")
-            return type && id
+            Logger.d(TAG, "enableMask() called with: STEAM = $steam, STEAM = $id")
+            return (steam && id) || (foam && id)
         }
         making?.let {
             val operation = ProductType.isMakingEnableType(selfType)
