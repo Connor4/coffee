@@ -56,6 +56,7 @@
         <activity android:name=".ui.settings.display.DisplayActivity" />
         <activity android:name=".ui.settings.display.groupone.DisplaySettingActivity" />
         <activity android:name=".ui.settings.config.MachineConfigActivity" />
+        <activity android:name=".ui.settings.params.MachineParamsActivity" />
     </application>
 
 </manifest>
