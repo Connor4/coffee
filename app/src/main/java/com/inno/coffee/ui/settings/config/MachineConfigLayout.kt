@@ -159,16 +159,16 @@ fun MachineConfigLayout(
                 "2/PE, 208V-, 60Hz |30A (USA)", Color(0xFF191A1D)) {
 
             }
+            DisplayItemLayout(stringResource(R.string.config_machine_type),
+                "CM01", Color(0xFF191A1D)) {
+
+            }
             DisplayItemLayout(stringResource(R.string.config_low_power),
                 lowPowerValue, Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = INDEX_LOW_POWER
                 defaultValue.value = lowPowerValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(on, true), Pair(off, false)))
-            }
-            DisplayItemLayout(stringResource(R.string.config_machine_type),
-                "CM01", Color(0xFF191A1D)) {
-
             }
             DisplayItemLayout(stringResource(R.string.config_temperature_unit),
                 unitValue, Color(0xFF2A2B2D)) {
