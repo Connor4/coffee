@@ -62,6 +62,7 @@ fun HomeDrinksLayout(
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val selected = rememberSaveable { mutableIntStateOf(INVALID_INT) }
 
+    // auto back to first page
     LaunchedEffect(pagerState.currentPage, autoBack.value) {
         if (size <= 0 && autoBack.value && releaseSteam != RELEASE_STEAM_READY
                 && releaseSteam != RELEASE_STEAM_START) {
@@ -70,6 +71,7 @@ fun HomeDrinksLayout(
         }
     }
 
+    // release select item
     if (size < 1) {
         selected.intValue = INVALID_INT
     }
