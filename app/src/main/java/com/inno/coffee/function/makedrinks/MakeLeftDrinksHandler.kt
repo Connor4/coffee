@@ -28,13 +28,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeoutOrNull
 
-// 1 多次点击需要可排队 done
-// 2 停止、冲水跟制作饮品不一样，不可以多次点击 done
-// 3 由于主副屏上的viewmodel独立，只能按照时间戳排队进去给manager处理队列 done
-// 4 完成制作通知去除队列任务 done
-// 5 副屏饮品id+100 done
-// 6 主屏副屏独立使用handler处理各自任务，同用任务只让主屏handler执行即可 done
-// 7 制作异常，需要取消并 TODO 执行清除机器操作
 object MakeLeftDrinksHandler {
     private const val TAG = "MakeLeftDrinksHandler"
     private const val REPLY_WAIT_TIME = 2000L
