@@ -87,11 +87,6 @@ object MakeRightDrinksHandler {
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
                 waitForOperationReplyConfirm()
                 Logger.d(TAG, "executeNow() called ${_executingQueue.value}")
-
-                if (ProductType.assertType(model.productType?.type, ProductType.STOP) &&
-                        processingProductId != INVALID_INT) {
-                    discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
-                }
             }
         }
     }

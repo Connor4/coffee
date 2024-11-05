@@ -85,12 +85,6 @@ object MakeLeftDrinksHandler {
                     productProfile)
                 waitForOperationReplyConfirm()
                 Logger.d(TAG, "executeNow() called ${_executingQueue.value}")
-
-                // stop operation need to discard current
-                if (ProductType.assertType(model.productType?.type, ProductType.STOP) &&
-                        processingProductId != INVALID_INT) {
-                    discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
-                }
             }
         }
     }
@@ -236,7 +230,8 @@ object MakeLeftDrinksHandler {
                             }
                         }
                     } else {
-                        // if not product, that must be operation
+                        // TODO if not product, that must be operation.
+
                     }
                     _executingQueue.update { list ->
                         list.filterNot { it.productId == productId }
