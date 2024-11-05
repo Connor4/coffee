@@ -160,11 +160,11 @@ fun MachineConfigLayout(
 
             }
             DisplayItemLayout(stringResource(R.string.config_machine_type),
-                "CM01", Color(0xFF191A1D)) {
+                "CM01", Color(0xFF2A2B2D)) {
 
             }
             DisplayItemLayout(stringResource(R.string.config_low_power),
-                lowPowerValue, Color(0xFF2A2B2D)) {
+                lowPowerValue, Color(0xFF191A1D)) {
                 itemSelectIndex.value = INDEX_LOW_POWER
                 defaultValue.value = lowPowerValue
                 dataMap.clear()
