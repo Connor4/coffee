@@ -1,5 +1,6 @@
 package com.inno.coffee.viewmodel.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
@@ -223,39 +224,44 @@ class HomeViewModel @Inject constructor(
      * 4. when making, disable other product, except stop、steam and self.
      * 5. when not making, enable all product.
      */
-    fun enableMask(making: Formula?, self: Formula): Boolean {
-        Logger.d(TAG, "enableMask() called with: making = ${making?.productId}, " +
+    fun enableMask(self: Formula, makingList: List<Formula>): Boolean {
+        Logger.d(TAG, "enableMask() called with: making = ${makingList.size}, " +
                 "self = ${self.productId}")
         val selfType = self.productType?.type
         if (checking) {
             return !ProductType.assertType(selfType, ProductType.RINSE)
         }
-        val makingType = making?.productType?.type
 
-        if (ProductType.assertType(makingType, ProductType.RINSE) ||
-                ProductType.assertType(makingType, ProductType.HOT_WATER)) {
-            val stop = ProductType.assertType(selfType, ProductType.STOP)
-            val steam = ProductType.assertType(selfType, ProductType.STEAM)
-            val foam = ProductType.assertType(selfType, ProductType.FOAM)
-            val id = making?.productId == self.productId
-            Logger.d(TAG, "RINSE() called with: STOP = $stop, STEAM = $steam FOAM = $foam," +
-                    " ID = $id ")
-            return !(stop || steam || foam || id)
+        var shouldEnableMask = false
+        for (making in makingList) {
+            Log.d(TAG, "enableMask() called with: making = ${making.productId}")
+            val makingType = making.productType?.type
+
+            if (ProductType.assertType(makingType, ProductType.RINSE) ||
+                    ProductType.assertType(makingType, ProductType.HOT_WATER)) {
+                val stop = ProductType.assertType(selfType, ProductType.STOP)
+                val steam = ProductType.assertType(selfType, ProductType.STEAM)
+                val foam = ProductType.assertType(selfType, ProductType.FOAM)
+                val id = making.productId == self.productId
+                Logger.d(TAG, "RINSE() called with: STOP = $stop, STEAM = $steam FOAM = $foam," +
+                        " ID = $id ")
+                shouldEnableMask = shouldEnableMask || !(stop || steam || foam || id)
+            } else if (ProductType.assertType(makingType, ProductType.STEAM) ||
+                    ProductType.assertType(makingType, ProductType.FOAM)) {
+                val steam = ProductType.assertType(selfType, ProductType.STEAM)
+                val foam = ProductType.assertType(selfType, ProductType.FOAM)
+                val id = self.productId != making.productId
+                Logger.d(TAG, "STEAM() called with: STEAM = $steam, FOAM = $foam, ID = $id")
+                shouldEnableMask = shouldEnableMask || (steam && id) || (foam && id)
+            } else {
+                making.let {
+                    val operation = ProductType.isMakingEnableType(selfType)
+                    val id = making.productId == self.productId
+                    shouldEnableMask = shouldEnableMask || !(operation || id)
+                }
+            }
         }
-        if (ProductType.assertType(makingType, ProductType.STEAM) ||
-                ProductType.assertType(makingType, ProductType.FOAM)) {
-            val steam = ProductType.assertType(selfType, ProductType.STEAM)
-            val foam = ProductType.assertType(selfType, ProductType.FOAM)
-            val id = self.productId != making?.productId
-            Logger.d(TAG, "STEAM() called with: STEAM = $steam, FOAM = $foam, ID = $id")
-            return (steam && id) || (foam && id)
-        }
-        making?.let {
-            val operation = ProductType.isMakingEnableType(selfType)
-            val id = making.productId == self.productId
-            return !(operation || id)
-        }
-        return false
+        return shouldEnableMask
     }
 
     suspend fun startCountDown() {

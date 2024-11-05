@@ -23,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -34,28 +35,29 @@ object MakeLeftDrinksHandler {
     private var messageHead: DrinkMessage? = null
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
-    private var replyConfirmJob: Job? = null
+    private var productReplyConfirmJob: Job? = null
+    private var operationReplyConfirmJob: Job? = null
     private var processingProductId = INVALID_INT
+    private val _queue = MutableStateFlow<List<Formula>>(emptyList())
+    val queue: StateFlow<List<Formula>> = _queue.asStateFlow()
+    private val _size = MutableStateFlow(0)
+    val size: StateFlow<Int> = _size.asStateFlow()
+    private val _status = MutableStateFlow(MakeDrinkStatusEnum.LEFT_BREWING)
+    val status: StateFlow<MakeDrinkStatusEnum> = _status.asStateFlow()
+    private val _executingQueue = MutableStateFlow<List<Formula>>(emptyList())
+    val executingQueue = _executingQueue.asStateFlow()
+
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
         }
     }
-    private val _queue = MutableStateFlow<List<Formula>>(emptyList())
-    val queue: StateFlow<List<Formula>> = _queue.asStateFlow()
-    private val _size = MutableStateFlow(0)
-    val size: StateFlow<Int> = _size.asStateFlow()
-    private val _making = MutableStateFlow<Formula?>(null)
-    val making = _making.asStateFlow()
-    private val _status = MutableStateFlow(MakeDrinkStatusEnum.LEFT_BREWING)
-    val status: StateFlow<MakeDrinkStatusEnum> = _status.asStateFlow()
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
     fun discardAndClear(index: Int, model: Formula) {
-        replyConfirmJob?.cancel()
         scope.launch {
             mutex.withLock {
                 Logger.d(TAG, "discard index $index, processingProductId: $processingProductId, " +
@@ -74,13 +76,15 @@ object MakeLeftDrinksHandler {
     }
 
     fun executeNow(model: Formula) {
-        Logger.d(TAG, "executeNow() called")
         scope.launch {
             mutex.withLock {
-                _making.value = model
+                _executingQueue.value += model
                 val productProfile =
                     ProductProfileManager.convertProductProfile(model.productId, true)
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID,
+                    productProfile)
+                waitForOperationReplyConfirm()
+                Logger.d(TAG, "executeNow() called ${_executingQueue.value}")
 
                 // stop operation need to discard current
                 if (ProductType.assertType(model.productType?.type, ProductType.STOP) &&
@@ -94,6 +98,7 @@ object MakeLeftDrinksHandler {
     fun enqueueMessage(model: Formula) {
         scope.launch {
             mutex.withLock {
+                // build real drink queue
                 val message = DrinkMessage.obtainMessage(model.productId)
                 if (messageHead == null) {
                     messageHead = message
@@ -121,10 +126,13 @@ object MakeLeftDrinksHandler {
     private suspend fun handleMessage() {
         if (messageHead != null && processingProductId == INVALID_INT) {
             processingProductId = messageHead!!.productId
+            _executingQueue.value += _queue.value[HEAD_INDEX]
+            Logger.d(TAG, "handleMessage() called ${_executingQueue.value}")
+
             val productProfile =
                 ProductProfileManager.convertProductProfile(processingProductId, true)
             SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
-            waitForReplyConfirm()
+            waitForProductReplyConfirm()
         }
     }
 
@@ -154,7 +162,6 @@ object MakeLeftDrinksHandler {
     private fun addQueueSize(model: Formula) {
         _queue.value += model
         _size.value = _queue.value.size
-        _making.value = model
     }
 
     private fun minusQueueSize(model: Formula) {
@@ -163,22 +170,37 @@ object MakeLeftDrinksHandler {
                 it.productId != model.productId
             }
             _size.value = _queue.value.size
-            _making.value = null
+        }
+        _executingQueue.update { list ->
+            list.filterNot { it.productId == processingProductId }
         }
     }
 
-    private fun waitForReplyConfirm() {
-        // 1. after send start command, we have to start countdown
-        // 2. if timeout, show notification, this command failed
-        replyConfirmJob?.cancel()
-        replyConfirmJob = scope.launch {
+    private fun waitForProductReplyConfirm() {
+        productReplyConfirmJob?.cancel()
+        productReplyConfirmJob = scope.launch {
             val result = withTimeoutOrNull(REPLY_WAIT_TIME) {
                 delay(REPLY_WAIT_TIME + 1)
             }
             if (result == null) {
-                Logger.d(TAG, "waitForReplyConfirm() called")
                 discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
+                Logger.d(TAG, "waitForProductReplyConfirm() called ${_queue.value}")
                 // TODO show notification
+            }
+        }
+    }
+
+    private fun waitForOperationReplyConfirm() {
+        operationReplyConfirmJob?.cancel()
+        operationReplyConfirmJob = scope.launch {
+            val result = withTimeoutOrNull(REPLY_WAIT_TIME) {
+                delay(REPLY_WAIT_TIME + 1)
+            }
+            if (result == null) {
+                _executingQueue.update { list ->
+                    list.filterNot { ProductType.isOperationType(it.productType?.type) }
+                }
+                Logger.d(TAG, "waitForOperationReplyConfirm() called ${_executingQueue.value}")
             }
         }
     }
@@ -187,7 +209,11 @@ object MakeLeftDrinksHandler {
         val drinkData = data as ReceivedData.HeartBeat
         drinkData.makeDrinkReply?.let { reply ->
             if (reply.command == MAKE_DRINK_COMMAND && reply.value == MAKE_DRINK_REPLY_VALUE) {
-                replyConfirmJob?.cancel()
+                if (reply.id == processingProductId) {
+                    productReplyConfirmJob?.cancel()
+                } else {
+                    operationReplyConfirmJob?.cancel()
+                }
             }
         }
         drinkData.makeDrink?.let { reply ->
@@ -210,7 +236,10 @@ object MakeLeftDrinksHandler {
                             }
                         }
                     } else {
-                        // TODO dispose product id, you need to notify.
+                        // if not product, that must be operation
+                    }
+                    _executingQueue.update { list ->
+                        list.filterNot { it.productId == productId }
                     }
                 }
                 else -> {}
