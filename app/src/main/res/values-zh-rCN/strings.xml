@@ -335,10 +335,25 @@
     <string name="params_grounds_drawer_quantity">粉渣盒容量</string>
     <string name="params_brew_group_load_balancing">冲泡头平衡功能</string>
     <string name="params_brew_group_pre_heating">冲泡头预热功能</string>
-    <string name="params_grinder_purge_function">磨豆机清理咖啡粉</string>
+    <string name="params_grinder_purge_function">研磨器清理咖啡粉功能</string>
     <string name="params_number_of_cycles_rinse">分水网表面冲水循环次数</string>
     <string name="params_steam_boiler_pressure">蒸汽锅炉压力</string>
     <string name="params_ntc_correction_steam_left">左边蒸汽棒温度针温度校正</string>
     <string name="params_ntc_correction_steam_right">右边蒸汽棒温度针温度校正</string>
+    <string name="params_grounds_drawer_ignore">不需要检查(0.0kg)</string>
+    <string name="params_grounds_drawer_one_kg">需要检查(1.0kg)</string>
+    <string name="params_grounds_drawer_two_five_kg">需要检查(2.5kg)</string>
+    <string name="params_grounds_drawer_five_kg">需要检查(5.0kg)</string>
+    <string name="params_grounds_drawer_seven_five_kg">需要检查(7.5kg)</string>
+    <string name="params_grounds_drawer_ten_kg">需要检查(10.0kg)</string>
+    <string name="params_pre_heating_automatic_drawer">自动 -> 冲水到粉渣盒</string>
+    <string name="params_pre_heating_force_manual_5">强制手动冲水(5分钟) -> 冲水到咖啡出口</string>
+    <string name="params_pre_heating_force_manual_10">强制手动冲水(10分钟) -> 冲水到咖啡出口</string>
+    <string name="params_pre_heating_manual_reminder_5">手动冲水提醒(5分钟) -> 冲水到咖啡出口</string>
+    <string name="params_pre_heating_manual_reminder_10">手动冲水提醒(10分钟) -> 冲水到咖啡出口</string>
+    <string name="params_purge_function_grinder_purge">研磨器清理咖啡粉</string>
+    <string name="params_purge_function_etc">快速ETC调整</string>
+    <string name="params_screen_rinse_regular">正常</string>
+    <string name="params_screen_rinse_extra">额外冲洗</string>
 
 </resources>

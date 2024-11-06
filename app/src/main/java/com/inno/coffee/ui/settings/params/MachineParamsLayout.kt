@@ -33,9 +33,42 @@ import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.PARAMS_KEY_BOILER_TEMP
+import com.inno.coffee.utilities.PARAMS_KEY_BREW_BALANCE
+import com.inno.coffee.utilities.PARAMS_KEY_BREW_PRE_HEATING
+import com.inno.coffee.utilities.PARAMS_KEY_COLD_RINSE
+import com.inno.coffee.utilities.PARAMS_KEY_GRINDER_PURGE_FUNCTION
+import com.inno.coffee.utilities.PARAMS_KEY_GROUNDS_QUANTITY
 import com.inno.coffee.utilities.PARAMS_KEY_NTC_LEFT
 import com.inno.coffee.utilities.PARAMS_KEY_NTC_RIGHT
+import com.inno.coffee.utilities.PARAMS_KEY_NUMBER_OF_CYCLES_RINSE
 import com.inno.coffee.utilities.PARAMS_KEY_STEAM_BOILER_PRESSURE
+import com.inno.coffee.utilities.PARAMS_KEY_WARM_RINSE
+import com.inno.coffee.utilities.PARAMS_VALUE_DRAWER_FIVE_KG
+import com.inno.coffee.utilities.PARAMS_VALUE_DRAWER_IGNORE
+import com.inno.coffee.utilities.PARAMS_VALUE_DRAWER_ONE_KG
+import com.inno.coffee.utilities.PARAMS_VALUE_DRAWER_ONLY
+import com.inno.coffee.utilities.PARAMS_VALUE_DRAWER_SEVEN_FIVE_KG
+import com.inno.coffee.utilities.PARAMS_VALUE_DRAWER_TEN_KG
+import com.inno.coffee.utilities.PARAMS_VALUE_DRAWER_TWO_FIVE_KG
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_10
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_15
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_e
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_r
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_2
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_20
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_25
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_3
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_4
+import com.inno.coffee.utilities.PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_5
+import com.inno.coffee.utilities.PARAMS_VALUE_PRE_HEATING_AUTOMATIC
+import com.inno.coffee.utilities.PARAMS_VALUE_PRE_HEATING_FORCE_10
+import com.inno.coffee.utilities.PARAMS_VALUE_PRE_HEATING_FORCE_5
+import com.inno.coffee.utilities.PARAMS_VALUE_PRE_HEATING_OFF
+import com.inno.coffee.utilities.PARAMS_VALUE_PRE_HEATING_REMINDER_10
+import com.inno.coffee.utilities.PARAMS_VALUE_PRE_HEATING_REMINDER_5
+import com.inno.coffee.utilities.PARAMS_VALUE_PURGE_FUNCTION_ETC
+import com.inno.coffee.utilities.PARAMS_VALUE_PURGE_FUNCTION_GRINDER_PURGE
+import com.inno.coffee.utilities.PARAMS_VALUE_PURGE_FUNCTION_NONE
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.params.MachineParamsViewModel
 
@@ -51,6 +84,7 @@ fun MachineParamsLayout(
     val scrollRangeStart = remember { mutableStateOf(0f) }
     val scrollRangeEnd = remember { mutableStateOf(0f) }
     val scrollUnit = remember { mutableStateOf("") }
+    val scrollAccuracy = remember { mutableStateOf(1) }
 
     val boilerTemp = viewModel.boilerTemp.collectAsState()
     val coldRinseQuantity = viewModel.coldRinseQuantity.collectAsState()
@@ -66,6 +100,122 @@ fun MachineParamsLayout(
 
     val on = stringResource(R.string.display_value_on)
     val off = stringResource(R.string.display_value_off)
+    val drawerOnly = stringResource(R.string.params_grounds_drawer_only)
+    val ignore = stringResource(R.string.params_grounds_drawer_ignore)
+    val oneKg = stringResource(R.string.params_grounds_drawer_one_kg)
+    val twoFiveKg = stringResource(R.string.params_grounds_drawer_two_five_kg)
+    val fiveKg = stringResource(R.string.params_grounds_drawer_five_kg)
+    val sevenFiveKg = stringResource(R.string.params_grounds_drawer_seven_five_kg)
+    val tenKg = stringResource(R.string.params_grounds_drawer_ten_kg)
+    val automatic = stringResource(R.string.params_pre_heating_automatic_drawer)
+    val force5 = stringResource(R.string.params_pre_heating_force_manual_5)
+    val force10 = stringResource(R.string.params_pre_heating_force_manual_10)
+    val reminder5 = stringResource(R.string.params_pre_heating_manual_reminder_5)
+    val reminder10 = stringResource(R.string.params_pre_heating_manual_reminder_10)
+    val grinderPurge = stringResource(R.string.params_purge_function_grinder_purge)
+    val etc = stringResource(R.string.params_purge_function_etc)
+    val regular = stringResource(R.string.params_screen_rinse_regular)
+    val extra = stringResource(R.string.params_screen_rinse_extra)
+
+    val drawerQuantityValue = when (groundsDrawerQuantity.value) {
+        PARAMS_VALUE_DRAWER_ONLY -> {
+            drawerOnly
+        }
+        PARAMS_VALUE_DRAWER_IGNORE -> {
+            ignore
+        }
+        PARAMS_VALUE_DRAWER_ONE_KG -> {
+            oneKg
+        }
+        PARAMS_VALUE_DRAWER_TWO_FIVE_KG -> {
+            twoFiveKg
+        }
+        PARAMS_VALUE_DRAWER_FIVE_KG -> {
+            fiveKg
+        }
+        PARAMS_VALUE_DRAWER_SEVEN_FIVE_KG -> {
+            sevenFiveKg
+        }
+        PARAMS_VALUE_DRAWER_TEN_KG -> {
+            tenKg
+        }
+        else -> {
+            drawerOnly
+        }
+    }
+    val balanceValue = if (brewGroupLoadBalancing.value) on else off
+    val preHeatingValue = when (brewGroupPreHeating.value) {
+        PARAMS_VALUE_PRE_HEATING_OFF -> {
+            off
+        }
+        PARAMS_VALUE_PRE_HEATING_AUTOMATIC -> {
+            automatic
+        }
+        PARAMS_VALUE_PRE_HEATING_FORCE_5 -> {
+            force5
+        }
+        PARAMS_VALUE_PRE_HEATING_FORCE_10 -> {
+            force10
+        }
+        PARAMS_VALUE_PRE_HEATING_REMINDER_5 -> {
+            reminder5
+        }
+        PARAMS_VALUE_PRE_HEATING_REMINDER_10 -> {
+            reminder10
+        }
+        else -> {
+            off
+        }
+    }
+    val purgeValue = when (grinderPurgeFunction.value) {
+        PARAMS_VALUE_PURGE_FUNCTION_NONE -> {
+            off
+        }
+        PARAMS_VALUE_PURGE_FUNCTION_GRINDER_PURGE -> {
+            grinderPurge
+        }
+        PARAMS_VALUE_PURGE_FUNCTION_ETC -> {
+            etc
+        }
+        else -> {
+            ""
+        }
+    }
+    val screenRinseValue = when (numberOfCyclesRinse.value) {
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_r -> {
+            "1-$regular"
+        }
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_e -> {
+            "1-$extra"
+        }
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_2 -> {
+            "2"
+        }
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_3 -> {
+            "3"
+        }
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_4 -> {
+            "4"
+        }
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_5 -> {
+            "5"
+        }
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_10 -> {
+            "10"
+        }
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_15 -> {
+            "15"
+        }
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_20 -> {
+            "20"
+        }
+        PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_25 -> {
+            "25"
+        }
+        else -> {
+            ""
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.init()
@@ -105,42 +255,111 @@ fun MachineParamsLayout(
                 scrollRangeStart.value = 80f
                 scrollRangeEnd.value = 100f
                 scrollUnit.value = "[°C]"
+                scrollAccuracy.value = 1
             }
             DisplayItemLayout(stringResource(R.string.params_cold_rinse_quantity),
                 "${coldRinseQuantity.value}", Color(0xFF2A2B2D)) {
-
+                itemSelectIndex.value = PARAMS_KEY_COLD_RINSE
+                scrollDefaultValue.value = coldRinseQuantity.value.toFloat()
+                scrollRangeStart.value = 100f
+                scrollRangeEnd.value = 2000f
+                scrollUnit.value = "[tick]"
+                scrollAccuracy.value = 1
             }
             DisplayItemLayout(stringResource(R.string.params_warm_rinse_quantity),
                 "${warmRinseQuantity.value}", Color(0xFF191A1D)) {
-
+                itemSelectIndex.value = PARAMS_KEY_WARM_RINSE
+                scrollDefaultValue.value = warmRinseQuantity.value.toFloat()
+                scrollRangeStart.value = 20f
+                scrollRangeEnd.value = 200f
+                scrollUnit.value = "[tick]"
+                scrollAccuracy.value = 1
             }
             DisplayItemLayout(stringResource(R.string.params_grounds_drawer_quantity),
-                "", Color(0xFF2A2B2D)) {
-
+                drawerQuantityValue, Color(0xFF2A2B2D)) {
+                itemSelectIndex.value = PARAMS_KEY_GROUNDS_QUANTITY
+                defaultValue.value = drawerQuantityValue
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(ignore, PARAMS_VALUE_DRAWER_IGNORE),
+                        Pair(oneKg, PARAMS_VALUE_DRAWER_ONE_KG),
+                        Pair(twoFiveKg, PARAMS_VALUE_DRAWER_TWO_FIVE_KG),
+                        Pair(fiveKg, PARAMS_VALUE_DRAWER_FIVE_KG),
+                        Pair(sevenFiveKg, PARAMS_VALUE_DRAWER_SEVEN_FIVE_KG),
+                        Pair(tenKg, PARAMS_VALUE_DRAWER_TEN_KG)
+                    )
+                )
             }
             DisplayItemLayout(stringResource(R.string.params_brew_group_load_balancing),
-                "", Color(0xFF191A1D)) {
-
+                balanceValue, Color(0xFF191A1D)) {
+                itemSelectIndex.value = PARAMS_KEY_BREW_BALANCE
+                defaultValue.value = balanceValue
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(on, true),
+                        Pair(off, false)
+                    )
+                )
             }
             DisplayItemLayout(stringResource(R.string.params_brew_group_pre_heating),
-                "", Color(0xFF2A2B2D)) {
-
+                preHeatingValue, Color(0xFF2A2B2D)) {
+                itemSelectIndex.value = PARAMS_KEY_BREW_PRE_HEATING
+                defaultValue.value = preHeatingValue
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(off, PARAMS_VALUE_PRE_HEATING_OFF),
+                        Pair(automatic, PARAMS_VALUE_PRE_HEATING_AUTOMATIC),
+                        Pair(force5, PARAMS_VALUE_PRE_HEATING_FORCE_5),
+                        Pair(force10, PARAMS_VALUE_PRE_HEATING_FORCE_10),
+                        Pair(reminder5, PARAMS_VALUE_PRE_HEATING_REMINDER_5),
+                        Pair(reminder10, PARAMS_VALUE_PRE_HEATING_REMINDER_10)
+                    )
+                )
             }
             DisplayItemLayout(stringResource(R.string.params_grinder_purge_function),
-                "", Color(0xFF191A1D)) {
-
+                purgeValue, Color(0xFF191A1D)) {
+                itemSelectIndex.value = PARAMS_KEY_GRINDER_PURGE_FUNCTION
+                defaultValue.value = purgeValue
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(off, PARAMS_VALUE_PURGE_FUNCTION_NONE),
+                        Pair(grinderPurge, PARAMS_VALUE_PURGE_FUNCTION_GRINDER_PURGE),
+                        Pair(etc, PARAMS_VALUE_PURGE_FUNCTION_ETC)
+                    )
+                )
             }
             DisplayItemLayout(stringResource(R.string.params_number_of_cycles_rinse),
-                "", Color(0xFF2A2B2D)) {
-
+                screenRinseValue, Color(0xFF2A2B2D)) {
+                itemSelectIndex.value = PARAMS_KEY_NUMBER_OF_CYCLES_RINSE
+                defaultValue.value = screenRinseValue
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair("1-$regular", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_r),
+                        Pair("1-$extra", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_e),
+                        Pair("2", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_2),
+                        Pair("3", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_3),
+                        Pair("4", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_4),
+                        Pair("5", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_5),
+                        Pair("10", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_10),
+                        Pair("15", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_15),
+                        Pair("20", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_20),
+                        Pair("25", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_25)
+                    )
+                )
             }
             DisplayItemLayout(stringResource(R.string.params_steam_boiler_pressure),
                 "${steamBoilerPressure.value}", Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_STEAM_BOILER_PRESSURE
                 scrollDefaultValue.value = steamBoilerPressure.value.toFloat()
-                scrollRangeStart.value = -10f
-                scrollRangeEnd.value = 10f
+                scrollRangeStart.value = 1f
+                scrollRangeEnd.value = 2f
                 scrollUnit.value = "[bar]"
+                scrollAccuracy.value = 2
             }
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_left),
                 "${ntcCorrectionSteamLeft.value}", Color(0xFF2A2B2D)) {
@@ -149,6 +368,7 @@ fun MachineParamsLayout(
                 scrollRangeStart.value = -10f
                 scrollRangeEnd.value = 10f
                 scrollUnit.value = "[°C]"
+                scrollAccuracy.value = 1
             }
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_right),
                 "${ntcCorrectionSteamRight.value}", Color(0xFF191A1D)) {
@@ -157,6 +377,7 @@ fun MachineParamsLayout(
                 scrollRangeStart.value = -10f
                 scrollRangeEnd.value = 10f
                 scrollUnit.value = "[°C]"
+                scrollAccuracy.value = 1
             }
         }
 
@@ -175,15 +396,15 @@ fun MachineParamsLayout(
                         value = scrollDefaultValue.value,
                         rangeStart = scrollRangeStart.value,
                         rangeEnd = scrollRangeEnd.value,
-                        unit = scrollUnit.value
+                        unit = scrollUnit.value,
+                        accuracy = scrollAccuracy.value
                     ) { changeValue ->
-//                        viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, changeValue.value
-//                            .toInt())
+                        viewModel.saveMachineParamsValue(itemSelectIndex.value, changeValue.toInt())
                     }
                 }
             } else {
                 ListSelectLayout(defaultValue.value, dataMap.toMap(), { _, value ->
-//                    viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, value)
+                    viewModel.saveMachineParamsValue(itemSelectIndex.value, value)
                     itemSelectIndex.value = INVALID_INT
                 }, {
                     itemSelectIndex.value = INVALID_INT

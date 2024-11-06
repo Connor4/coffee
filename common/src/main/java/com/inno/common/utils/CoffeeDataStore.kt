@@ -89,11 +89,11 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         saveCoffeePreference(GROUNDS_QUANTITY, groundsDrawerQuantity)
     }
 
-    suspend fun getBrewGroupLoadBalancing(): Int {
-        return getCoffeePreference(BREW_BALANCE, 0)
+    suspend fun getBrewGroupLoadBalancing(): Boolean {
+        return getCoffeePreference(BREW_BALANCE, false)
     }
 
-    suspend fun saveBrewGroupLoadBalancing(brewGroupLoadBalancing: Int) {
+    suspend fun saveBrewGroupLoadBalancing(brewGroupLoadBalancing: Boolean) {
         saveCoffeePreference(BREW_BALANCE, brewGroupLoadBalancing)
     }
 
@@ -122,7 +122,7 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
     }
 
     suspend fun getSteamBoilerPressure(): Int {
-        return getCoffeePreference(STEAM_BOILER_PRESSURE, 0)
+        return getCoffeePreference(STEAM_BOILER_PRESSURE, 1)
     }
 
     suspend fun saveSteamBoilerPressure(steamBoilerPressure: Int) {
