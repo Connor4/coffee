@@ -98,6 +98,7 @@ fun MachineParamsLayout(
     val steamBoilerPressure = viewModel.steamBoilerPressure.collectAsState()
     val ntcCorrectionSteamLeft = viewModel.ntcCorrectionSteamLeft.collectAsState()
     val ntcCorrectionSteamRight = viewModel.ntcCorrectionSteamRight.collectAsState()
+    val unit = viewModel.temperatureUnit.collectAsState()
 
     val on = stringResource(R.string.display_value_on)
     val off = stringResource(R.string.display_value_off)
@@ -223,6 +224,7 @@ fun MachineParamsLayout(
             ""
         }
     }
+    val unitValue = if (unit.value) "°F" else "°C"
 
     LaunchedEffect(Unit) {
         viewModel.init()
@@ -256,12 +258,12 @@ fun MachineParamsLayout(
                 .padding(start = 50.dp, top = 254.dp, end = 95.dp)
         ) {
             DisplayItemLayout(stringResource(R.string.params_coffee_boiler_temp),
-                "${boilerTemp.value}", Color(0xFF191A1D)) {
+                "${boilerTemp.value}  [$unitValue]", Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_BOILER_TEMP
-                scrollDefaultValue.value = boilerTemp.value.toFloat()
-                scrollRangeStart.value = 80f
-                scrollRangeEnd.value = 100f
-                scrollUnit.value = "[°C]"
+                scrollDefaultValue.value = viewModel.temperatureDisplay(boilerTemp.value)
+                scrollRangeStart.value = viewModel.temperatureDisplay(80)
+                scrollRangeEnd.value = viewModel.temperatureDisplay(100)
+                scrollUnit.value = "[$unitValue]"
                 scrollAccuracy.value = 1
             }
             DisplayItemLayout(stringResource(R.string.params_cold_rinse_quantity),
@@ -375,21 +377,23 @@ fun MachineParamsLayout(
                 scrollAccuracy.value = 2
             }
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_left),
-                "${ntcCorrectionSteamLeft.value}", Color(0xFF2A2B2D)) {
+                "${ntcCorrectionSteamLeft.value}  [$unitValue]", Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = PARAMS_KEY_NTC_LEFT
-                scrollDefaultValue.value = ntcCorrectionSteamLeft.value.toFloat()
-                scrollRangeStart.value = -10f
-                scrollRangeEnd.value = 10f
-                scrollUnit.value = "[°C]"
+                scrollDefaultValue.value = viewModel.temperatureDisplay(ntcCorrectionSteamLeft
+                    .value)
+                scrollRangeStart.value = viewModel.temperatureDisplay(-10)
+                scrollRangeEnd.value = viewModel.temperatureDisplay(10)
+                scrollUnit.value = "[$unitValue]"
                 scrollAccuracy.value = 1
             }
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_right),
-                "${ntcCorrectionSteamRight.value}", Color(0xFF191A1D)) {
+                "${ntcCorrectionSteamRight.value}  [$unitValue]", Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_NTC_RIGHT
-                scrollDefaultValue.value = ntcCorrectionSteamRight.value.toFloat()
-                scrollRangeStart.value = -10f
-                scrollRangeEnd.value = 10f
-                scrollUnit.value = "[°C]"
+                scrollDefaultValue.value = viewModel.temperatureDisplay(ntcCorrectionSteamRight
+                    .value)
+                scrollRangeStart.value = viewModel.temperatureDisplay(-10)
+                scrollRangeEnd.value = viewModel.temperatureDisplay(10)
+                scrollUnit.value = "[$unitValue]"
                 scrollAccuracy.value = 1
             }
         }

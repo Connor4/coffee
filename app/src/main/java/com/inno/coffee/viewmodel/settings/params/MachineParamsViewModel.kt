@@ -54,6 +54,8 @@ class MachineParamsViewModel @Inject constructor(
     val ntcCorrectionSteamLeft: StateFlow<Int> = _ntcCorrectionSteamLeft
     private val _ntcCorrectionSteamRight = MutableStateFlow(0)
     val ntcCorrectionSteamRight: StateFlow<Int> = _ntcCorrectionSteamRight
+    private var _temperatureUnit = MutableStateFlow(false)
+    val temperatureUnit = _temperatureUnit
 
     fun init() {
         viewModelScope.launch(defaultDispatcher) {
@@ -68,6 +70,7 @@ class MachineParamsViewModel @Inject constructor(
             _steamBoilerPressure.value = dataStore.getSteamBoilerPressure()
             _ntcCorrectionSteamLeft.value = dataStore.getNtcCorrectionSteamLeft()
             _ntcCorrectionSteamRight.value = dataStore.getNtcCorrectionSteamRight()
+            _temperatureUnit.value = dataStore.getTemperatureUnit()
         }
     }
 
@@ -121,6 +124,14 @@ class MachineParamsViewModel @Inject constructor(
                 }
                 else -> {}
             }
+        }
+    }
+
+    fun temperatureDisplay(value: Int): Float {
+        return if (_temperatureUnit.value) {
+            (value * 1.8 + 32).toFloat()
+        } else {
+            value.toFloat()
         }
     }
 
