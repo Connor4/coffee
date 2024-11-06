@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.formula.formulatype
+package com.inno.coffee.ui.settings.formula
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

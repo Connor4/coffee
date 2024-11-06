@@ -263,7 +263,7 @@
     <string name="formula_bypass_dosage">旁路水路出水量</string>
     <string name="formula_foam">奶泡</string>
     <string name="formula_milk">牛奶</string>
-    <string name="formula_font_vat">前方</string>
+    <string name="formula_front_vat">前方</string>
     <string name="formula_back_vat">后方</string>
     <string name="formula_steam_wand">蒸汽棒:</string>
     <string name="formula_steam_boiler">蒸汽锅炉:</string>

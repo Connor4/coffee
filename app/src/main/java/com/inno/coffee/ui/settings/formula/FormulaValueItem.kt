@@ -20,15 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
-import com.inno.coffee.ui.settings.formula.formulatype.FormulaAmericanoSeqLayout
-import com.inno.coffee.ui.settings.formula.formulatype.FormulaBeanPositionLayout
-import com.inno.coffee.ui.settings.formula.formulatype.FormulaChangeNameLayout
-import com.inno.coffee.ui.settings.formula.formulatype.FormulaPressWeightLayout
-import com.inno.coffee.ui.settings.formula.formulatype.FormulaProductTypeLayout
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
+import com.inno.coffee.utilities.formulaProductTypeMultilingual
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.utils.Logger
@@ -163,13 +160,16 @@ fun FormulaValueItem(
                     }
                 }
                 is FormulaItem.FormulaProductType -> {
-                    FormulaProductTypeLayout(value, { changeValue ->
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
-                        onValueChange()
-                        selectedValue = null
-                    }, {
-                        selectedValue = null
-                    })
+                    ListSelectLayout("", value.type,
+                        formulaProductTypeMultilingual, { key, _ ->
+                            value.type = key
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
+                            selectedValue = null
+                        }, {
+                            selectedValue = null
+                        }
+                    )
                 }
                 is FormulaItem.FormulaProductName -> {
                     FormulaChangeNameLayout(value, { changeValue ->
@@ -181,39 +181,57 @@ fun FormulaValueItem(
                     })
                 }
                 is FormulaItem.FormulaVatPosition -> {
-                    FormulaBeanPositionLayout(value, { changeValue ->
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
-                        onValueChange()
-                        selectedValue = null
-                    }, {
-                        selectedValue = null
-                    })
+                    val front = stringResource(R.string.formula_front_vat)
+                    val back = stringResource(R.string.formula_back_vat)
+                    val default = if (value.position) front else back
+                    ListSelectLayout("", default, mapOf(Pair(front, true), Pair(back, false)),
+                        { _, changeValue ->
+                            value.position = changeValue as Boolean
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
+                            selectedValue = null
+                        }, {
+                            selectedValue = null
+                        }
+                    )
                 }
                 is FormulaItem.FormulaAmericanoSeq -> {
-                    FormulaAmericanoSeqLayout(value, { changeValue ->
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
-                        onValueChange()
-                        selectedValue = null
-                    }, {
-                        selectedValue = null
-                    })
+                    val cw = stringResource(R.string.formula_americano_seq_c_w)
+                    val wc = stringResource(R.string.formula_americano_seq_w_c)
+                    val default = if (value.sequence) cw else wc
+                    ListSelectLayout("", default, mapOf(Pair(cw, true), Pair(wc, false)),
+                        { _, changeValue ->
+                            value.sequence = changeValue as Boolean
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
+                            selectedValue = null
+                        }, {
+                            selectedValue = null
+                        }
+                    )
                 }
                 is FormulaItem.FormulaPressWeight -> {
-                    FormulaPressWeightLayout(value, {
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
-                        onValueChange()
-                        selectedValue = null
-                    }, {
-                        selectedValue = null
-                    })
+                    ListSelectLayout("", "${value.weight} [kg]",
+                        mapOf(Pair("20 [kg]", 20.toShort()), Pair("40 [kg]", 40.toShort()),
+                            Pair("60 [kg]", 60.toShort())),
+                        { _, changeValue ->
+                            value.weight = changeValue as Short
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
+                            selectedValue = null
+                        }, {
+                            selectedValue = null
+                        }
+                    )
                 }
             }
         }
     }
 }
 
-private fun getFormulaValue(formula: Formula?, nameList: MutableList<String>,
-    valueList: MutableList<Any>
+private fun getFormulaValue(
+    formula: Formula?, nameList: MutableList<String>,
+    valueList: MutableList<Any>,
 ) {
     formula?.let {
         nameList.clear()

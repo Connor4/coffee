@@ -89,7 +89,7 @@ fun VerticalScrollList(
             }
             item {
                 val vat = if (formula.vat?.position != false) stringResource(id = R.string
-                    .formula_font_vat)
+                    .formula_front_vat)
                 else stringResource(id = R.string.formula_back_vat)
                 FormulaItem(backgroundColor = singularItemColor,
                     description = R.string.formula_vat_position, value = vat)
