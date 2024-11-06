@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ListSelectLayout(
+//    title: String = "",
     defaultKey: String,
     map: Map<String, Any>,
     onClick: (key: String, value: Any) -> Unit,
@@ -54,20 +55,23 @@ fun ListSelectLayout(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.common_midsize_dialog_bg),
+            painter = painterResource(id = R.drawable.common_list_select_bg),
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .width(834.dp)
-                .height(629.dp)
+                .height(474.dp)
         )
         Box(
             modifier = Modifier
                 .width(770.dp)
-                .height(575.dp)
+                .height(420.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color(0xFF191A1D))
         ) {
+            Text(text = "title", fontWeight = FontWeight.Bold, fontSize = 7.nsp(),
+                color = Color.White, modifier = Modifier.padding(start = 40.dp, top = 20.dp)
+            )
             Image(
                 painter = painterResource(id = R.drawable.home_entrance_close_ic),
                 contentDescription = null,
@@ -78,28 +82,21 @@ fun ListSelectLayout(
                     .height(42.dp)
                     .fastclick { onCloseClick() },
             )
-            Box(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(top = 40.dp)
-                    .background(color = Color.Transparent),
-                contentAlignment = Alignment.Center,
+                    .padding(top = 110.dp)
+                    .align(Alignment.TopCenter)
+                    .width(690.dp)
+                    .height(300.dp)
+                    .verticalScroll(rememberScrollState())
+                    .selectableGroup()
             ) {
-                Column(
-                    modifier = Modifier
-                        .width(450.dp)
-                        .height(495.dp)
-                        .verticalScroll(rememberScrollState())
-                        .selectableGroup()
-                ) {
-                    map.forEach {
-                        SelectItem(it.key, (it.key == selectedKey.value)) {
-                            selectedKey.value = it.key
-                            coroutineScope.launch {
-                                delay(300)
-                                onClick(it.key, it.value)
-                            }
+                map.forEach {
+                    SelectItem(it.key, (it.key == selectedKey.value)) {
+                        selectedKey.value = it.key
+                        coroutineScope.launch {
+                            delay(300)
+                            onClick(it.key, it.value)
                         }
                     }
                 }
@@ -119,7 +116,7 @@ private fun SelectItem(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .height(90.dp)
+            .height(70.dp)
             .debouncedClickable({
                 onClick()
             }),
@@ -128,10 +125,15 @@ private fun SelectItem(
             Box(modifier = Modifier
                 .fillMaxSize()
                 .draw9Patch(LocalContext.current, R.drawable.common_item_select_bg))
+        } else {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp)
+                .background(Color(0xFF2C2C2C), RoundedCornerShape(10.dp)))
         }
         Text(
             text = text,
-            fontSize = 7.nsp(),
+            fontSize = 5.nsp(),
             color = Color.White,
         )
     }
@@ -140,8 +142,9 @@ private fun SelectItem(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewListSelect() {
-    ListSelectLayout("1", mapOf(Pair("1", "1"), Pair("2", "2"), Pair("3", "3"), Pair("4", "5"),
-        Pair("5", "5"), Pair("6", "5")),
+    ListSelectLayout("1",
+        mapOf(Pair("1", "1"), Pair("2", "2"), Pair("3", "3"), Pair("4", "5"),
+            Pair("5", "5"), Pair("6", "5")),
         { key, text ->
         }, {
 
