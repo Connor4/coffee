@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.theme.mainColor
 import com.inno.coffee.utilities.nsp
+import kotlin.math.roundToInt
 
 
 @Composable
@@ -38,6 +39,7 @@ fun UnitValueScrollBar(
     rangeStart: Float = 0f,
     rangeEnd: Float = 0f,
     unit: String = "",
+    accuracy: Int = 1,
     onValueChange: (newValue: Float) -> Unit,
 ) {
     val progressBarWidth = 230.dp
@@ -69,8 +71,18 @@ fun UnitValueScrollBar(
                 pressedImage = painterResource(id = R.drawable.formula_minus_press_ic),
                 modifier = Modifier.size(40.dp)
             ) {
-                val newValue = (currentValue - 1).coerceIn(rangeStart, rangeEnd)
-                currentValue = newValue
+                currentValue = when (accuracy) {
+                    1 -> {
+                        currentValue.minus(1).coerceIn(rangeStart, rangeEnd)
+                    }
+                    2 -> {
+                        (((currentValue - 0.1f) * 10).roundToInt() / 10f).coerceIn(rangeStart,
+                            rangeEnd)
+                    }
+                    else -> {
+                        currentValue.minus(1).coerceIn(rangeStart, rangeEnd)
+                    }
+                }
                 progress = (currentValue - rangeStart) / (rangeEnd - rangeStart)
                 onValueChange(currentValue)
             }
@@ -89,7 +101,22 @@ fun UnitValueScrollBar(
                             detectDragGestures { _, dragAmount ->
                                 val newProgress = (progress + dragAmount.x / progressBarWidth
                                     .toPx()).coerceIn(0f, 1f)
-                                currentValue = Math.round(rangeEnd * newProgress) * 10 / 10f
+                                currentValue = when (accuracy) {
+                                    1 -> {
+                                        (rangeStart + (rangeEnd - rangeStart) * newProgress)
+                                            .roundToInt()
+                                            .toFloat()
+                                    }
+                                    2 -> {
+                                        ((rangeStart + (rangeEnd - rangeStart) * newProgress) *
+                                                10).roundToInt() / 10f
+                                    }
+                                    else -> {
+                                        (rangeStart + (rangeEnd - rangeStart) * newProgress)
+                                            .roundToInt()
+                                            .toFloat()
+                                    }
+                                }
                                 progress = newProgress
                                 onValueChange(currentValue)
                             }
@@ -121,8 +148,18 @@ fun UnitValueScrollBar(
                 pressedImage = painterResource(id = R.drawable.formula_add_press_ic),
                 modifier = Modifier.size(40.dp)
             ) {
-                val newValue = (currentValue + 1).coerceIn(rangeStart, rangeEnd)
-                currentValue = newValue
+                currentValue = when (accuracy) {
+                    1 -> {
+                        currentValue.plus(1).coerceIn(rangeStart, rangeEnd)
+                    }
+                    2 -> {
+                        (((currentValue + 0.1f) * 10).roundToInt() / 10f).coerceIn(rangeStart,
+                            rangeEnd)
+                    }
+                    else -> {
+                        currentValue.plus(1).coerceIn(rangeStart, rangeEnd)
+                    }
+                }
                 progress = (currentValue - rangeStart) / (rangeEnd - rangeStart)
                 onValueChange(currentValue)
             }
