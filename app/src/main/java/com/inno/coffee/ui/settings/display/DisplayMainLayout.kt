@@ -45,7 +45,6 @@ import com.inno.coffee.utilities.INDEX_SCREEN_BRIGHTNESS
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
-import com.inno.common.db.entity.FormulaItem
 
 @Composable
 fun DisplayMainLayout(
@@ -56,7 +55,7 @@ fun DisplayMainLayout(
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
     val defaultValue = remember { mutableStateOf("") }
     val dataMap = remember { mutableMapOf<String, Any>() }
-    val scrollDefaultValue = remember { mutableStateOf<FormulaItem.FormulaUnitValue?>(null) }
+    val scrollDefaultValue = remember { mutableStateOf(0f) }
 
     val language = viewModel.language.collectAsState()
     val time = viewModel.time.collectAsState()
@@ -119,9 +118,7 @@ fun DisplayMainLayout(
                     }
                 }, { index, default ->
                     itemSelectIndex.value = index
-                    scrollDefaultValue.value = FormulaItem.FormulaUnitValue(
-                        value = default.toShort(), rangeStart = 0F, rangeEnd = 100F, unit = ""
-                    )
+                    scrollDefaultValue.value = default.toFloat()
                 }
             )
             Spacer(modifier = Modifier.height(40.dp))
@@ -144,8 +141,11 @@ fun DisplayMainLayout(
                             .padding(top = 172.dp, start = 270.dp)
                             .width(450.dp)
                             .wrapContentHeight(),
-                        unitValue = scrollDefaultValue.value!!) { changeValue ->
-                        viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, changeValue.value
+                        value = scrollDefaultValue.value,
+                        rangeStart = 0f,
+                        rangeEnd = 100f,
+                    ) { changeValue ->
+                        viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, changeValue
                             .toInt())
                     }
                 }

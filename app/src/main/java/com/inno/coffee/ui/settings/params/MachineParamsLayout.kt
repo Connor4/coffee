@@ -38,7 +38,6 @@ import com.inno.coffee.utilities.PARAMS_KEY_NTC_RIGHT
 import com.inno.coffee.utilities.PARAMS_KEY_STEAM_BOILER_PRESSURE
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.params.MachineParamsViewModel
-import com.inno.common.db.entity.FormulaItem
 
 @Composable
 fun MachineParamsLayout(
@@ -48,7 +47,10 @@ fun MachineParamsLayout(
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
     val defaultValue = remember { mutableStateOf("") }
     val dataMap = remember { mutableMapOf<String, Any>() }
-    val scrollDefaultValue = remember { mutableStateOf<FormulaItem.FormulaUnitValue?>(null) }
+    val scrollDefaultValue = remember { mutableStateOf(0f) }
+    val scrollRangeStart = remember { mutableStateOf(0f) }
+    val scrollRangeEnd = remember { mutableStateOf(0f) }
+    val scrollUnit = remember { mutableStateOf("") }
 
     val boilerTemp = viewModel.boilerTemp.collectAsState()
     val coldRinseQuantity = viewModel.coldRinseQuantity.collectAsState()
@@ -99,10 +101,10 @@ fun MachineParamsLayout(
             DisplayItemLayout(stringResource(R.string.params_coffee_boiler_temp),
                 "${boilerTemp.value}", Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_BOILER_TEMP
-                scrollDefaultValue.value = FormulaItem.FormulaUnitValue(
-                    value = boilerTemp.value.toShort(), rangeStart = 80F, rangeEnd = 100F,
-                    unit = "[°C]"
-                )
+                scrollDefaultValue.value = boilerTemp.value.toFloat()
+                scrollRangeStart.value = 80f
+                scrollRangeEnd.value = 100f
+                scrollUnit.value = "[°C]"
             }
             DisplayItemLayout(stringResource(R.string.params_cold_rinse_quantity),
                 "${coldRinseQuantity.value}", Color(0xFF2A2B2D)) {
@@ -135,28 +137,26 @@ fun MachineParamsLayout(
             DisplayItemLayout(stringResource(R.string.params_steam_boiler_pressure),
                 "${steamBoilerPressure.value}", Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_STEAM_BOILER_PRESSURE
-                scrollDefaultValue.value = FormulaItem.FormulaUnitValue(
-                    value = steamBoilerPressure.value.toShort(), rangeStart = -10F, rangeEnd = 10F,
-                    unit = "[bar]"
-                )
+                scrollDefaultValue.value = steamBoilerPressure.value.toFloat()
+                scrollRangeStart.value = -10f
+                scrollRangeEnd.value = 10f
+                scrollUnit.value = "[bar]"
             }
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_left),
                 "${ntcCorrectionSteamLeft.value}", Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = PARAMS_KEY_NTC_LEFT
-                scrollDefaultValue.value = FormulaItem.FormulaUnitValue(
-                    value = ntcCorrectionSteamLeft.value.toShort(), rangeStart = -10F,
-                    rangeEnd = 10F,
-                    unit = "[°C]"
-                )
+                scrollDefaultValue.value = ntcCorrectionSteamLeft.value.toFloat()
+                scrollRangeStart.value = -10f
+                scrollRangeEnd.value = 10f
+                scrollUnit.value = "[°C]"
             }
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_right),
                 "${ntcCorrectionSteamRight.value}", Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_NTC_RIGHT
-                scrollDefaultValue.value = FormulaItem.FormulaUnitValue(
-                    value = ntcCorrectionSteamRight.value.toShort(), rangeStart = -10F,
-                    rangeEnd = 10F,
-                    unit = "[°C]"
-                )
+                scrollDefaultValue.value = ntcCorrectionSteamRight.value.toFloat()
+                scrollRangeStart.value = -10f
+                scrollRangeEnd.value = 10f
+                scrollUnit.value = "[°C]"
             }
         }
 
@@ -172,7 +172,11 @@ fun MachineParamsLayout(
                             .padding(top = 172.dp, end = 90.dp)
                             .width(550.dp)
                             .wrapContentHeight(),
-                        unitValue = scrollDefaultValue.value!!) { changeValue ->
+                        value = scrollDefaultValue.value,
+                        rangeStart = scrollRangeStart.value,
+                        rangeEnd = scrollRangeEnd.value,
+                        unit = scrollUnit.value
+                    ) { changeValue ->
 //                        viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, changeValue.value
 //                            .toInt())
                     }

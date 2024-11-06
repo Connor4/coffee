@@ -29,24 +29,25 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.theme.mainColor
 import com.inno.coffee.utilities.nsp
-import com.inno.common.db.entity.FormulaItem
 
 
 @Composable
 fun UnitValueScrollBar(
     modifier: Modifier = Modifier,
-    unitValue: FormulaItem.FormulaUnitValue,
-    onValueChange: (newValue: FormulaItem.FormulaUnitValue) -> Unit,
+    value: Float = 0f,
+    rangeStart: Float = 0f,
+    rangeEnd: Float = 0f,
+    unit: String = "",
+    onValueChange: (newValue: Float) -> Unit,
 ) {
     val progressBarWidth = 230.dp
     val progressBarHeight = 30.dp
-    val defaultProgress = (unitValue.value - unitValue.rangeStart) / (unitValue.rangeEnd -
-            unitValue.rangeStart)
+    val defaultProgress = (value - rangeStart) / (rangeEnd - rangeStart)
     var progress by remember {
         mutableFloatStateOf(defaultProgress)
     }
     var currentValue by remember {
-        mutableFloatStateOf(unitValue.value.toFloat())
+        mutableFloatStateOf(value)
     }
 
     Box(modifier = modifier) {
@@ -57,7 +58,7 @@ fun UnitValueScrollBar(
         ) {
             Text(text = "$currentValue", fontSize = 6.nsp(), color = Color.White)
             Spacer(modifier = Modifier.width(5.dp))
-            Text(text = unitValue.unit, fontSize = 6.nsp(), color = Color.White)
+            Text(text = unit, fontSize = 6.nsp(), color = Color.White)
         }
         Row(
             modifier = Modifier
@@ -68,12 +69,10 @@ fun UnitValueScrollBar(
                 pressedImage = painterResource(id = R.drawable.formula_minus_press_ic),
                 modifier = Modifier.size(40.dp)
             ) {
-                val newValue = (currentValue - 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
+                val newValue = (currentValue - 1).coerceIn(rangeStart, rangeEnd)
                 currentValue = newValue
-                progress = (currentValue - unitValue.rangeStart) / (unitValue.rangeEnd -
-                        unitValue.rangeStart)
-                unitValue.value = currentValue.toInt().toShort()
-                onValueChange(unitValue)
+                progress = (currentValue - rangeStart) / (rangeEnd - rangeStart)
+                onValueChange(currentValue)
             }
             Spacer(modifier = Modifier.width(20.dp))
             Column(
@@ -90,13 +89,9 @@ fun UnitValueScrollBar(
                             detectDragGestures { _, dragAmount ->
                                 val newProgress = (progress + dragAmount.x / progressBarWidth
                                     .toPx()).coerceIn(0f, 1f)
-                                currentValue =
-                                    Math.round(unitValue.rangeEnd * newProgress) * 10 / 10f
+                                currentValue = Math.round(rangeEnd * newProgress) * 10 / 10f
                                 progress = newProgress
-                                unitValue.value = currentValue
-                                    .toInt()
-                                    .toShort()
-                                onValueChange(unitValue)
+                                onValueChange(currentValue)
                             }
                         },
                     contentAlignment = Alignment.CenterStart
@@ -116,8 +111,8 @@ fun UnitValueScrollBar(
                         .wrapContentHeight(),
                     horizontalArrangement = Arrangement.Absolute.SpaceBetween
                 ) {
-                    Text(text = "${unitValue.rangeStart}", fontSize = 5.nsp(), color = Color.White)
-                    Text(text = "${unitValue.rangeEnd}", fontSize = 5.nsp(), color = Color.White)
+                    Text(text = "$rangeStart", fontSize = 5.nsp(), color = Color.White)
+                    Text(text = "$rangeEnd", fontSize = 5.nsp(), color = Color.White)
                 }
             }
             Spacer(modifier = Modifier.width(20.dp))
@@ -126,12 +121,10 @@ fun UnitValueScrollBar(
                 pressedImage = painterResource(id = R.drawable.formula_add_press_ic),
                 modifier = Modifier.size(40.dp)
             ) {
-                val newValue = (currentValue + 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
+                val newValue = (currentValue + 1).coerceIn(rangeStart, rangeEnd)
                 currentValue = newValue
-                progress = (currentValue - unitValue.rangeStart) / (unitValue.rangeEnd -
-                        unitValue.rangeStart)
-                unitValue.value = currentValue.toInt().toShort()
-                onValueChange(unitValue)
+                progress = (currentValue - rangeStart) / (rangeEnd - rangeStart)
+                onValueChange(currentValue)
             }
         }
     }
@@ -140,5 +133,5 @@ fun UnitValueScrollBar(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewUnitValueScrollBar() {
-    UnitValueScrollBar(unitValue = FormulaItem.FormulaUnitValue(20, 0f, 1000f, "[tick]")) {}
+    UnitValueScrollBar(value = 20f, rangeStart = 0f, rangeEnd = 100f, unit = "[tick]") {}
 }

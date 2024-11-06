@@ -151,7 +151,12 @@ fun FormulaValueItem(
                                 .wrapContentSize()
                                 .align(Alignment.TopEnd)
                                 .padding(top = 250.dp, end = 90.dp),
-                            unitValue = value) { changeValue ->
+                            value = value.value.toFloat(),
+                            rangeStart = value.rangeStart,
+                            rangeEnd = value.rangeEnd,
+                            unit = value.unit
+                        ) { changeValue ->
+                            value.value = changeValue.toInt().toShort()
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                             onValueChange()
                         }
