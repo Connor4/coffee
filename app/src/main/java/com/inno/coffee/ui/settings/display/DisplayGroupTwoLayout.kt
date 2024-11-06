@@ -26,7 +26,7 @@ fun DisplayGroupTwoLayout(
     frontLightColor: Int,
     frontLightBrightness: Int,
     screenBrightness: Int,
-    onClickListSelect: (Int, String, Map<String, Any>) -> Unit,
+    onClickListSelect: (String, Int, String, Map<String, Any>) -> Unit,
     onClickScroll: (Int, Int) -> Unit,
 ) {
 
@@ -36,6 +36,9 @@ fun DisplayGroupTwoLayout(
     val green = stringResource(R.string.display_color_green)
     val blue = stringResource(R.string.display_color_blue)
     val mix = stringResource(R.string.display_color_mix)
+    val backToFirstString = stringResource(R.string.display_auto_back_to_first_page)
+    val numberOfProductString = stringResource(R.string.display_number_of_product_per_page)
+    val frontColorString = stringResource(R.string.display_front_light_color)
 
     val backToFirstPageValue = if (backToFirstPage) on else off
     val lightColorValue = when (frontLightColor) {
@@ -58,19 +61,20 @@ fun DisplayGroupTwoLayout(
 
     Box {
         Column {
-            DisplayItemLayout(stringResource(R.string.display_auto_back_to_first_page),
+            DisplayItemLayout(backToFirstString,
                 backToFirstPageValue,
                 Color(0xFF191A1D)
             ) {
                 val defaultValue = if (backToFirstPage) on else off
                 val map = mapOf(Pair(on, true), Pair(off, false))
-                onClickListSelect(INDEX_AUTO_BACK_TO_FIRST_PAGE, defaultValue, map)
+                onClickListSelect(backToFirstString, INDEX_AUTO_BACK_TO_FIRST_PAGE, defaultValue,
+                    map)
             }
-            DisplayItemLayout(stringResource(R.string.display_number_of_product_per_page),
+            DisplayItemLayout(numberOfProductString,
                 "$numberOfProductPerPage",
                 Color(0xFF2A2B2D)
             ) {
-                onClickListSelect(INDEX_NUMBER_OF_PRODUCT_PER_PAGE,
+                onClickListSelect(numberOfProductString, INDEX_NUMBER_OF_PRODUCT_PER_PAGE,
                     "$numberOfProductPerPage",
                     mapOf(
                         Pair("$DISPLAY_PER_PAGE_COUNT_12", DISPLAY_PER_PAGE_COUNT_12),
@@ -78,12 +82,11 @@ fun DisplayGroupTwoLayout(
                     )
                 )
             }
-            DisplayItemLayout(stringResource(R.string.display_front_light_color),
+            DisplayItemLayout(frontColorString,
                 lightColorValue,
                 Color(0xFF191A1D)
             ) {
-                onClickListSelect(INDEX_FRONT_LIGHT_COLOR,
-                    lightColorValue,
+                onClickListSelect(frontColorString, INDEX_FRONT_LIGHT_COLOR, lightColorValue,
                     mapOf(
                         Pair(mix, DISPLAY_COLOR_MIX),
                         Pair(red, DISPLAY_COLOR_RED),

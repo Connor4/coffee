@@ -73,6 +73,7 @@ fun MachineConfigLayout(
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
     val defaultValue = remember { mutableStateOf("") }
     val dataMap = remember { mutableMapOf<String, Any>() }
+    val titleValue = remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         viewModel.init()
@@ -93,6 +94,16 @@ fun MachineConfigLayout(
     val steamWandBoth = stringResource(R.string.config_steam_wand_both)
     val steamWandLeft = stringResource(R.string.config_steam_wand_left)
     val steamWandRight = stringResource(R.string.config_steam_wand_right)
+
+    val lowPowerString = stringResource(R.string.config_low_power)
+    val tmpUnitString = stringResource(R.string.config_temperature_unit)
+    val modeString = stringResource(R.string.config_operation_mode)
+    val smartModeString = stringResource(R.string.config_smart_mode)
+    val waterTankString = stringResource(R.string.config_water_tank_surveillance)
+    val differentBoilerString = stringResource(R.string.config_different_boiler)
+    val tmpAdjustString = stringResource(R.string.config_americano_temp_adjust)
+    val outputString = stringResource(R.string.config_hot_water_output)
+    val positionString = stringResource(R.string.config_steam_wand_position)
 
     val lowPowerValue = if (lowPower.value) on else off
     val unitValue = if (temperatureUnit.value) fahrenheit else celsius
@@ -163,69 +174,78 @@ fun MachineConfigLayout(
                 "CM01", Color(0xFF2A2B2D)) {
 
             }
-            DisplayItemLayout(stringResource(R.string.config_low_power),
+            DisplayItemLayout(lowPowerString,
                 lowPowerValue, Color(0xFF191A1D)) {
                 itemSelectIndex.value = INDEX_LOW_POWER
+                titleValue.value = lowPowerString
                 defaultValue.value = lowPowerValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(on, true), Pair(off, false)))
             }
-            DisplayItemLayout(stringResource(R.string.config_temperature_unit),
+            DisplayItemLayout(tmpUnitString,
                 unitValue, Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = INDEX_TEMPERATURE_UNIT
+                titleValue.value = tmpUnitString
                 defaultValue.value = unitValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(celsius, false), Pair(fahrenheit, true)))
             }
-            DisplayItemLayout(stringResource(R.string.config_operation_mode),
+            DisplayItemLayout(modeString,
                 operationModeValue, Color(0xFF191A1D)) {
                 itemSelectIndex.value = INDEX_OPERATION_MODE
+                titleValue.value = modeString
                 defaultValue.value = operationModeValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(operationNormal, CONFIG_OPERATION_MODE_NORMAL),
                     Pair(operationSelfService, CONFIG_OPERATION_MODE_SELF_SERVICE)))
             }
-            DisplayItemLayout(stringResource(R.string.config_smart_mode),
+            DisplayItemLayout(smartModeString,
                 smartModeValue, Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = INDEX_SMART_MODE
+                titleValue.value = smartModeString
                 defaultValue.value = smartModeValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(off, SMART_MODE_OFF), Pair(on, SMART_MODE_ON),
                     Pair(smartModeFront, SMART_MODE_FRONT), Pair(smartModeBack, SMART_MODE_BACK)))
             }
-            DisplayItemLayout(stringResource(R.string.config_water_tank_surveillance),
+            DisplayItemLayout(waterTankString,
                 waterTankValue, Color(0xFF191A1D)) {
                 itemSelectIndex.value = INDEX_WATER_TANK_SURVEILLANCE
+                titleValue.value = waterTankString
                 defaultValue.value = waterTankValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(on, true), Pair(off, false)))
             }
-            DisplayItemLayout(stringResource(R.string.config_different_boiler),
+            DisplayItemLayout(differentBoilerString,
                 differentBoilerValue, Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = INDEX_DIFFERENT_BOILER
+                titleValue.value = differentBoilerString
                 defaultValue.value = differentBoilerValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(on, true), Pair(off, false)))
             }
-            DisplayItemLayout(stringResource(R.string.config_americano_temp_adjust),
+            DisplayItemLayout(tmpAdjustString,
                 americanoTempAdjustValue, Color(0xFF191A1D)) {
                 itemSelectIndex.value = INDEX_AMERICANO_TEMP_ADJUST
+                titleValue.value = tmpAdjustString
                 defaultValue.value = americanoTempAdjustValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(off, ADJUSTMENT_NONE),
                     Pair(adjustManual, ADJUSTMENT_MANUAL), Pair(adjustAuto, ADJUSTMENT_AUTO)))
             }
-            DisplayItemLayout(stringResource(R.string.config_hot_water_output),
+            DisplayItemLayout(outputString,
                 hotWaterOutputValue, Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = INDEX_HOT_WATER_OUTPUT
+                titleValue.value = outputString
                 defaultValue.value = hotWaterOutputValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(waterMid, HOW_WATER_MID),
                     Pair(waterCoffee, HOT_WATER_SIDE)))
             }
-            DisplayItemLayout(stringResource(R.string.config_steam_wand_position),
+            DisplayItemLayout(positionString,
                 steamWandPositionValue, Color(0xFF191A1D)) {
                 itemSelectIndex.value = INDEX_STEAM_WAND_POSITION
+                titleValue.value = positionString
                 defaultValue.value = steamWandPositionValue
                 dataMap.clear()
                 dataMap.putAll(mapOf(Pair(steamWandBoth, STEAM_WAND_BOTH), Pair(steamWandLeft,
@@ -234,7 +254,7 @@ fun MachineConfigLayout(
         }
 
         if (itemSelectIndex.value != INVALID_INT) {
-            ListSelectLayout("", defaultValue.value, dataMap.toMap(), { _, value ->
+            ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(), { _, value ->
                 viewModel.saveMachineConfigValue(itemSelectIndex.value, value)
                 itemSelectIndex.value = INVALID_INT
             }, {

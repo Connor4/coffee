@@ -25,6 +25,10 @@ import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
+import com.inno.coffee.utilities.FORMULA_PROPERTY_PRESS_WEIGHT
+import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_TYPE
+import com.inno.coffee.utilities.FORMULA_PROPERTY_VAT
+import com.inno.coffee.utilities.FORMULA_PROPERTY_WATER_SEQUENCE
 import com.inno.coffee.utilities.formulaProductTypeMultilingual
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
@@ -34,17 +38,17 @@ import kotlin.reflect.full.memberProperties
 private val formulaProperties = Formula::class.memberProperties
 
 private val formulaPropertyNames = listOf(
-    "productType",
+    FORMULA_PROPERTY_PRODUCT_TYPE,
     "productName",
-    "vat",
+    FORMULA_PROPERTY_VAT,
     FORMULA_PROPERTY_COFFEE_WATER,
     FORMULA_PROPERTY_POWDER_DOSAGE,
-    "pressWeight",
+    FORMULA_PROPERTY_PRESS_WEIGHT,
     "preMakeTime",
     "postPreMakeWaitTime",
     "secPressWeight",
     "hotWater",
-    "waterSequence",
+    FORMULA_PROPERTY_WATER_SEQUENCE,
     "coffeeCycles",
     "bypassWater",
     "foam",
@@ -52,17 +56,17 @@ private val formulaPropertyNames = listOf(
 )
 
 private val formulaPropertyStringMapping = mapOf(
-    "productType" to R.string.formula_product_type,
+    FORMULA_PROPERTY_PRODUCT_TYPE to R.string.formula_product_type,
     "productName" to R.string.formula_product_name,
-    "vat" to R.string.formula_vat_position,
+    FORMULA_PROPERTY_VAT to R.string.formula_vat_position,
     FORMULA_PROPERTY_COFFEE_WATER to R.string.formula_water_dosage,
     FORMULA_PROPERTY_POWDER_DOSAGE to R.string.formula_powder_dosage,
-    "pressWeight" to R.string.formula_press_weight,
+    FORMULA_PROPERTY_PRESS_WEIGHT to R.string.formula_press_weight,
     "preMakeTime" to R.string.formula_pre_make_time,
     "postPreMakeWaitTime" to R.string.formula_pre_make_wait_time,
     "secPressWeight" to R.string.formula_second_press_weight,
     "hotWater" to R.string.formula_hot_water_dosage,
-    "waterSequence" to R.string.formula_americano_seq,
+    FORMULA_PROPERTY_WATER_SEQUENCE to R.string.formula_americano_seq,
     "coffeeCycles" to R.string.formula_coffee_cycles,
     "bypassWater" to R.string.formula_bypass_dosage,
     "foam" to R.string.formula_foam,
@@ -160,7 +164,8 @@ fun FormulaValueItem(
                     }
                 }
                 is FormulaItem.FormulaProductType -> {
-                    ListSelectLayout("", value.type,
+                    val title = formulaPropertyStringMapping[FORMULA_PROPERTY_PRODUCT_TYPE]
+                    ListSelectLayout(stringResource(title!!), value.type,
                         formulaProductTypeMultilingual, { key, _ ->
                             value.type = key
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
@@ -184,7 +189,10 @@ fun FormulaValueItem(
                     val front = stringResource(R.string.formula_front_vat)
                     val back = stringResource(R.string.formula_back_vat)
                     val default = if (value.position) front else back
-                    ListSelectLayout("", default, mapOf(Pair(front, true), Pair(back, false)),
+                    val title = formulaPropertyStringMapping[FORMULA_PROPERTY_VAT]
+                    ListSelectLayout(
+                        stringResource(title!!), default, mapOf(Pair(front, true), Pair(back,
+                            false)),
                         { _, changeValue ->
                             value.position = changeValue as Boolean
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
@@ -199,7 +207,9 @@ fun FormulaValueItem(
                     val cw = stringResource(R.string.formula_americano_seq_c_w)
                     val wc = stringResource(R.string.formula_americano_seq_w_c)
                     val default = if (value.sequence) cw else wc
-                    ListSelectLayout("", default, mapOf(Pair(cw, true), Pair(wc, false)),
+                    val title = formulaPropertyStringMapping[FORMULA_PROPERTY_WATER_SEQUENCE]
+                    ListSelectLayout(
+                        stringResource(title!!), default, mapOf(Pair(cw, true), Pair(wc, false)),
                         { _, changeValue ->
                             value.sequence = changeValue as Boolean
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
@@ -211,7 +221,8 @@ fun FormulaValueItem(
                     )
                 }
                 is FormulaItem.FormulaPressWeight -> {
-                    ListSelectLayout("", "${value.weight} [kg]",
+                    val title = formulaPropertyStringMapping[FORMULA_PROPERTY_PRESS_WEIGHT]
+                    ListSelectLayout(stringResource(title!!), "${value.weight} [kg]",
                         mapOf(Pair("20 [kg]", 20.toShort()), Pair("40 [kg]", 40.toShort()),
                             Pair("60 [kg]", 60.toShort())),
                         { _, changeValue ->

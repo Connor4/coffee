@@ -85,6 +85,7 @@ fun MachineParamsLayout(
     val scrollRangeEnd = remember { mutableStateOf(0f) }
     val scrollUnit = remember { mutableStateOf("") }
     val scrollAccuracy = remember { mutableStateOf(1) }
+    val titleValue = remember { mutableStateOf("") }
 
     val boilerTemp = viewModel.boilerTemp.collectAsState()
     val coldRinseQuantity = viewModel.coldRinseQuantity.collectAsState()
@@ -116,6 +117,12 @@ fun MachineParamsLayout(
     val etc = stringResource(R.string.params_purge_function_etc)
     val regular = stringResource(R.string.params_screen_rinse_regular)
     val extra = stringResource(R.string.params_screen_rinse_extra)
+
+    val drawerString = stringResource(R.string.params_grounds_drawer_quantity)
+    val balanceString = stringResource(R.string.params_brew_group_load_balancing)
+    val heatingString = stringResource(R.string.params_brew_group_pre_heating)
+    val purgeString = stringResource(R.string.params_grinder_purge_function)
+    val screenRinseString = stringResource(R.string.params_number_of_cycles_rinse)
 
     val drawerQuantityValue = when (groundsDrawerQuantity.value) {
         PARAMS_VALUE_DRAWER_ONLY -> {
@@ -275,9 +282,10 @@ fun MachineParamsLayout(
                 scrollUnit.value = "[tick]"
                 scrollAccuracy.value = 1
             }
-            DisplayItemLayout(stringResource(R.string.params_grounds_drawer_quantity),
+            DisplayItemLayout(drawerString,
                 drawerQuantityValue, Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = PARAMS_KEY_GROUNDS_QUANTITY
+                titleValue.value = drawerString
                 defaultValue.value = drawerQuantityValue
                 dataMap.clear()
                 dataMap.putAll(
@@ -292,9 +300,10 @@ fun MachineParamsLayout(
                     )
                 )
             }
-            DisplayItemLayout(stringResource(R.string.params_brew_group_load_balancing),
+            DisplayItemLayout(balanceString,
                 balanceValue, Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_BREW_BALANCE
+                titleValue.value = balanceString
                 defaultValue.value = balanceValue
                 dataMap.clear()
                 dataMap.putAll(
@@ -304,9 +313,10 @@ fun MachineParamsLayout(
                     )
                 )
             }
-            DisplayItemLayout(stringResource(R.string.params_brew_group_pre_heating),
+            DisplayItemLayout(heatingString,
                 preHeatingValue, Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = PARAMS_KEY_BREW_PRE_HEATING
+                titleValue.value = heatingString
                 defaultValue.value = preHeatingValue
                 dataMap.clear()
                 dataMap.putAll(
@@ -320,9 +330,10 @@ fun MachineParamsLayout(
                     )
                 )
             }
-            DisplayItemLayout(stringResource(R.string.params_grinder_purge_function),
+            DisplayItemLayout(purgeString,
                 purgeValue, Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_GRINDER_PURGE_FUNCTION
+                titleValue.value = purgeString
                 defaultValue.value = purgeValue
                 dataMap.clear()
                 dataMap.putAll(
@@ -333,9 +344,10 @@ fun MachineParamsLayout(
                     )
                 )
             }
-            DisplayItemLayout(stringResource(R.string.params_number_of_cycles_rinse),
+            DisplayItemLayout(screenRinseString,
                 screenRinseValue, Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = PARAMS_KEY_NUMBER_OF_CYCLES_RINSE
+                titleValue.value = screenRinseString
                 defaultValue.value = screenRinseValue
                 dataMap.clear()
                 dataMap.putAll(
@@ -406,12 +418,14 @@ fun MachineParamsLayout(
                     }
                 }
             } else {
-                ListSelectLayout("", defaultValue.value, dataMap.toMap(), { _, value ->
-                    viewModel.saveMachineParamsValue(itemSelectIndex.value, value)
-                    itemSelectIndex.value = INVALID_INT
-                }, {
-                    itemSelectIndex.value = INVALID_INT
-                })
+                ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
+                    { _, value ->
+                        viewModel.saveMachineParamsValue(itemSelectIndex.value, value)
+                        itemSelectIndex.value = INVALID_INT
+                    }, {
+                        itemSelectIndex.value = INVALID_INT
+                    }
+                )
             }
         }
     }

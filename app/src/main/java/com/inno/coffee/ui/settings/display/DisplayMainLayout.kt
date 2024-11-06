@@ -56,6 +56,7 @@ fun DisplayMainLayout(
     val defaultValue = remember { mutableStateOf("") }
     val dataMap = remember { mutableMapOf<String, Any>() }
     val scrollDefaultValue = remember { mutableStateOf(0f) }
+    val titleValue = remember { mutableStateOf("") }
 
     val language = viewModel.language.collectAsState()
     val time = viewModel.time.collectAsState()
@@ -109,8 +110,9 @@ fun DisplayMainLayout(
             Spacer(modifier = Modifier.height(40.dp))
             DisplayGroupTwoLayout(backToFirstPage.value, numberOfProductPerPage.value,
                 frontLightColor.value, frontLightBrightness.value, screenBrightness.value,
-                { index, default, map ->
+                { title, index, default, map ->
                     itemSelectIndex.value = index
+                    titleValue.value = title
                     defaultValue.value = default
                     dataMap.clear()
                     map.forEach {
@@ -122,8 +124,9 @@ fun DisplayMainLayout(
                 }
             )
             Spacer(modifier = Modifier.height(40.dp))
-            DisplayGroupThreeLayout(showExtractionTime.value) { index, default, map ->
+            DisplayGroupThreeLayout(showExtractionTime.value) { title, index, default, map ->
                 itemSelectIndex.value = index
+                titleValue.value = title
                 defaultValue.value = default
                 dataMap.clear()
                 map.forEach {
@@ -150,12 +153,13 @@ fun DisplayMainLayout(
                     }
                 }
             } else {
-                ListSelectLayout("", defaultValue.value, dataMap.toMap(), { _, value ->
-                    viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, value)
-                    itemSelectIndex.value = INVALID_INT
-                }, {
-                    itemSelectIndex.value = INVALID_INT
-                })
+                ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
+                    { _, value ->
+                        viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, value)
+                        itemSelectIndex.value = INVALID_INT
+                    }, {
+                        itemSelectIndex.value = INVALID_INT
+                    })
             }
         }
     }

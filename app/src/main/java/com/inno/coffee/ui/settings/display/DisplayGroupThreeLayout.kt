@@ -11,21 +11,22 @@ import com.inno.coffee.utilities.INDEX_SHOW_EXTRACTION_TIME
 fun DisplayGroupThreeLayout(
     showExtractionTime: Boolean,
 //    showProductName: Boolean,
-    onClickListSelect: (Int, String, Map<String, Any>) -> Unit,
+    onClickListSelect: (String, Int, String, Map<String, Any>) -> Unit,
 ) {
     val on = stringResource(R.string.display_value_on)
     val off = stringResource(R.string.display_value_off)
+    val extractionNameString = stringResource(R.string.display_show_extract_time)
     val showExtractionTimeValue = if (showExtractionTime) on else off
 //    val showProductNameValue = if (showProductName) on else off
 
     Column {
-        DisplayItemLayout(stringResource(R.string.display_show_extract_time),
+        DisplayItemLayout(extractionNameString,
             showExtractionTimeValue,
             Color(0xFF191A1D)
         ) {
             val defaultValue = if (showExtractionTime) on else off
             val map = mapOf(Pair(on, true), Pair(off, false))
-            onClickListSelect(INDEX_SHOW_EXTRACTION_TIME, defaultValue, map)
+            onClickListSelect(extractionNameString, INDEX_SHOW_EXTRACTION_TIME, defaultValue, map)
         }
 //        DisplayItemLayout(stringResource(R.string.display_show_product_name),
 //            showProductNameValue,
