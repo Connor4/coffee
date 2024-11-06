@@ -383,7 +383,9 @@ fun MachineParamsLayout(
         }
 
         if (itemSelectIndex.value != INVALID_INT) {
-            if (itemSelectIndex.value == PARAMS_KEY_BOILER_TEMP ||
+            if (itemSelectIndex.value == PARAMS_KEY_COLD_RINSE ||
+                    itemSelectIndex.value == PARAMS_KEY_WARM_RINSE ||
+                    itemSelectIndex.value == PARAMS_KEY_BOILER_TEMP ||
                     itemSelectIndex.value == PARAMS_KEY_STEAM_BOILER_PRESSURE ||
                     itemSelectIndex.value == PARAMS_KEY_NTC_LEFT ||
                     itemSelectIndex.value == PARAMS_KEY_NTC_RIGHT) {
