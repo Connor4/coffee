@@ -39,11 +39,111 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val AMERICANO_TEMP_ADJUST = "americano_temp_adjust"
         private const val HOT_WATER_OUTPUT = "hot_water_output"
         private const val STEAM_WAND_POSITION = "steam_wand_position"
+
+        private const val COFFEE_BOILER_TEMP = "coffee_boiler_temp"
+        private const val COLD_RINSE = "code_rinse"
+        private const val WARM_RINSE = "warm_rinse"
+        private const val GROUNDS_QUANTITY = "grounds_quantity"
+        private const val BREW_BALANCE = "brew_balance"
+        private const val BREW_PRE_HEATING = "brew_pre_heating"
+        private const val GRINDER_PURGE_FUNCTION = "grinder_purge_function"
+        private const val NUMBER_OF_CYCLES_RINSE = "number_of_cycles_rinse"
+        private const val STEAM_BOILER_PRESSURE = "steam_boiler_pressure"
+        private const val NTC_LEFT = "ntc_left"
+        private const val NTC_RIGHT = "ntc_right"
     }
 
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
+
+    suspend fun getCoffeeBoilerTemp(): Int {
+        return getCoffeePreference(COFFEE_BOILER_TEMP, 90)
+    }
+
+    suspend fun saveCoffeeBoilerTemp(coffeeBoilerTemp: Int) {
+        saveCoffeePreference(COFFEE_BOILER_TEMP, coffeeBoilerTemp)
+    }
+
+    suspend fun getColdRinseQuantity(): Int {
+        return getCoffeePreference(COLD_RINSE, 500)
+    }
+
+    suspend fun saveColdRinseQuantity(coldRinseQuantity: Int) {
+        saveCoffeePreference(COLD_RINSE, coldRinseQuantity)
+    }
+
+    suspend fun getWarmRinseQuantity(): Int {
+        return getCoffeePreference(WARM_RINSE, 100)
+    }
+
+    suspend fun saveWarmRinseQuantity(warmRinseQuantity: Int) {
+        saveCoffeePreference(WARM_RINSE, warmRinseQuantity)
+    }
+
+    suspend fun getGroundsDrawerQuantity(): Int {
+        return getCoffeePreference(GROUNDS_QUANTITY, 0)
+    }
+
+    suspend fun saveGroundsDrawerQuantity(groundsDrawerQuantity: Int) {
+        saveCoffeePreference(GROUNDS_QUANTITY, groundsDrawerQuantity)
+    }
+
+    suspend fun getBrewGroupLoadBalancing(): Int {
+        return getCoffeePreference(BREW_BALANCE, 0)
+    }
+
+    suspend fun saveBrewGroupLoadBalancing(brewGroupLoadBalancing: Int) {
+        saveCoffeePreference(BREW_BALANCE, brewGroupLoadBalancing)
+    }
+
+    suspend fun getBrewGroupPreHeating(): Int {
+        return getCoffeePreference(BREW_PRE_HEATING, 0)
+    }
+
+    suspend fun saveBrewGroupPreHeating(brewGroupPreHeating: Int) {
+        saveCoffeePreference(BREW_PRE_HEATING, brewGroupPreHeating)
+    }
+
+    suspend fun getGrinderPurgeFunction(): Int {
+        return getCoffeePreference(GRINDER_PURGE_FUNCTION, 0)
+    }
+
+    suspend fun saveGrinderPurgeFunction(grinderPurgeFunction: Int) {
+        saveCoffeePreference(GRINDER_PURGE_FUNCTION, grinderPurgeFunction)
+    }
+
+    suspend fun getNumberOfCyclesRinse(): Int {
+        return getCoffeePreference(NUMBER_OF_CYCLES_RINSE, 0)
+    }
+
+    suspend fun saveNumberOfCyclesRinse(numberOfCyclesRinse: Int) {
+        saveCoffeePreference(NUMBER_OF_CYCLES_RINSE, numberOfCyclesRinse)
+    }
+
+    suspend fun getSteamBoilerPressure(): Int {
+        return getCoffeePreference(STEAM_BOILER_PRESSURE, 0)
+    }
+
+    suspend fun saveSteamBoilerPressure(steamBoilerPressure: Int) {
+        saveCoffeePreference(STEAM_BOILER_PRESSURE, steamBoilerPressure)
+    }
+
+    suspend fun getNtcCorrectionSteamLeft(): Int {
+        return getCoffeePreference(NTC_LEFT, 0)
+    }
+
+    suspend fun saveNtcCorrectionSteamLeft(ntcCorrectionSteamLeft: Int) {
+        saveCoffeePreference(NTC_LEFT, ntcCorrectionSteamLeft)
+    }
+
+    suspend fun getNtcCorrectionSteamRight(): Int {
+        return getCoffeePreference(NTC_RIGHT, 0)
+    }
+
+    suspend fun saveNtcCorrectionSteamRight(ntcCorrectionSteamRight: Int) {
+        saveCoffeePreference(NTC_RIGHT, ntcCorrectionSteamRight)
+    }
 
     suspend fun getAmericanoTempAdjust(): Int {
         return getCoffeePreference(AMERICANO_TEMP_ADJUST, 0)

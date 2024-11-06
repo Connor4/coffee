@@ -42,6 +42,7 @@ import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.config.MachineConfigActivity
 import com.inno.coffee.ui.settings.display.DisplayActivity
 import com.inno.coffee.ui.settings.formula.FormulaActivity
+import com.inno.coffee.ui.settings.params.MachineParamsActivity
 import com.inno.coffee.ui.settings.permissions.PermissionActivity
 import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
 import com.inno.coffee.ui.settings.statistics.StatisticActivity
@@ -195,7 +196,7 @@ private fun jumpDetail(name: String, context: Context) {
             ScreenDisplayManager.autoRoute(context, MachineConfigActivity::class.java)
         }
         MACHINE_OPERATION -> {
-            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+            ScreenDisplayManager.autoRoute(context, MachineParamsActivity::class.java)
         }
         BEANS_AND_GRINDER -> {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()

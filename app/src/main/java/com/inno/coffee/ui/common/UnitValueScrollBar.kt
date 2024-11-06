@@ -40,7 +40,8 @@ fun UnitValueScrollBar(
 ) {
     val progressBarWidth = 230.dp
     val progressBarHeight = 30.dp
-    val defaultProgress = unitValue.value / unitValue.rangeEnd
+    val defaultProgress = (unitValue.value - unitValue.rangeStart) / (unitValue.rangeEnd -
+            unitValue.rangeStart)
     var progress by remember {
         mutableFloatStateOf(defaultProgress)
     }
@@ -69,7 +70,8 @@ fun UnitValueScrollBar(
             ) {
                 val newValue = (currentValue - 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
                 currentValue = newValue
-                progress = currentValue / unitValue.rangeEnd
+                progress = (currentValue - unitValue.rangeStart) / (unitValue.rangeEnd -
+                        unitValue.rangeStart)
                 unitValue.value = currentValue.toInt().toShort()
                 onValueChange(unitValue)
             }
@@ -126,7 +128,8 @@ fun UnitValueScrollBar(
             ) {
                 val newValue = (currentValue + 1).coerceIn(unitValue.rangeStart, unitValue.rangeEnd)
                 currentValue = newValue
-                progress = currentValue / unitValue.rangeEnd
+                progress = (currentValue - unitValue.rangeStart) / (unitValue.rangeEnd -
+                        unitValue.rangeStart)
                 unitValue.value = currentValue.toInt().toShort()
                 onValueChange(unitValue)
             }

@@ -13,7 +13,9 @@ class MachineParamsActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-
+                MachineParamsLayout() {
+                    this@MachineParamsActivity.finish()
+                }
             }
         }
     }

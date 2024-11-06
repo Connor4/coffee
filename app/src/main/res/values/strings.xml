@@ -333,4 +333,17 @@
     <string name="config_steam_wand_left">Left</string>
     <string name="config_steam_wand_right">Right</string>
 
+    <string name="params_coffee_boiler_temp">Coffee Boiler Temperature</string>
+    <string name="params_cold_rinse_quantity">Cold Rinse Quantity</string>
+    <string name="params_warm_rinse_quantity">Warm Rinse Quantity</string>
+    <string name="params_grounds_drawer_quantity">Grounds Drawer Quantity</string>
+    <string name="params_brew_group_load_balancing">Brew Group Load Balancing</string>
+    <string name="params_brew_group_pre_heating">Brew Group Pre-heating</string>
+    <string name="params_grinder_purge_function">Grinder Purge Function</string>
+    <string name="params_number_of_cycles_rinse">Number of Cycles to Screen Rinse</string>
+    <string name="params_steam_boiler_pressure">Steam Boiler Pressure</string>
+    <string name="params_ntc_correction_steam_left">NTC Correction Steam Left</string>
+    <string name="params_ntc_correction_steam_right">NTC Correction Steam Right</string>
+
+
 </resources>

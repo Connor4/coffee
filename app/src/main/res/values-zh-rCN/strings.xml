@@ -329,4 +329,16 @@
     <string name="config_steam_wand_left">左</string>
     <string name="config_steam_wand_right">右</string>
 
+    <string name="params_coffee_boiler_temp">咖啡锅炉温度</string>
+    <string name="params_cold_rinse_quantity">冷水冲水量</string>
+    <string name="params_warm_rinse_quantity">热水冲水量</string>
+    <string name="params_grounds_drawer_quantity">粉渣盒容量</string>
+    <string name="params_brew_group_load_balancing">冲泡头平衡功能</string>
+    <string name="params_brew_group_pre_heating">冲泡头预热功能</string>
+    <string name="params_grinder_purge_function">磨豆机清理咖啡粉</string>
+    <string name="params_number_of_cycles_rinse">分水网表面冲水循环次数</string>
+    <string name="params_steam_boiler_pressure">蒸汽锅炉压力</string>
+    <string name="params_ntc_correction_steam_left">左边蒸汽棒温度针温度校正</string>
+    <string name="params_ntc_correction_steam_right">右边蒸汽棒温度针温度校正</string>
+
 </resources>
