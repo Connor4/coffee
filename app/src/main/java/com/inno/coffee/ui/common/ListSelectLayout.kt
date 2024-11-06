@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.utilities.nsp
+import com.inno.common.utils.DimenUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -41,9 +43,18 @@ fun ListSelectLayout(
     onClick: (key: String, value: Any) -> Unit,
     onCloseClick: () -> Unit,
 ) {
+    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
     val selectedKey = remember {
         mutableStateOf(defaultKey)
+    }
+
+    LaunchedEffect(Unit) {
+        val index = map.keys.indexOf(defaultKey)
+        if (index != -1) {
+            scrollState.scrollTo(index * DimenUtils.dp2px(context, 75f).toInt())
+        }
     }
 
     Box(
@@ -86,7 +97,7 @@ fun ListSelectLayout(
                     .align(Alignment.TopCenter)
                     .width(690.dp)
                     .height(300.dp)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(scrollState)
                     .selectableGroup()
             ) {
                 map.forEach {
