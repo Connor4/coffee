@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -36,7 +35,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ListSelectLayout(
-//    title: String = "",
+    title: String = "",
     defaultKey: String,
     map: Map<String, Any>,
     onClick: (key: String, value: Any) -> Unit,
@@ -66,10 +65,9 @@ fun ListSelectLayout(
             modifier = Modifier
                 .width(770.dp)
                 .height(420.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(Color(0xFF191A1D))
+                .background(Color(0xFF191A1D), RoundedCornerShape(20.dp))
         ) {
-            Text(text = "title", fontWeight = FontWeight.Bold, fontSize = 7.nsp(),
+            Text(text = title, fontWeight = FontWeight.Bold, fontSize = 7.nsp(),
                 color = Color.White, modifier = Modifier.padding(start = 40.dp, top = 20.dp)
             )
             Image(
@@ -84,7 +82,7 @@ fun ListSelectLayout(
             )
             Column(
                 modifier = Modifier
-                    .padding(top = 110.dp)
+                    .padding(top = 100.dp)
                     .align(Alignment.TopCenter)
                     .width(690.dp)
                     .height(300.dp)
@@ -116,7 +114,7 @@ private fun SelectItem(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp)
+            .height(75.dp)
             .debouncedClickable({
                 onClick()
             }),
@@ -128,7 +126,7 @@ private fun SelectItem(
         } else {
             Box(modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp)
+                .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
                 .background(Color(0xFF2C2C2C), RoundedCornerShape(10.dp)))
         }
         Text(
@@ -142,7 +140,7 @@ private fun SelectItem(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewListSelect() {
-    ListSelectLayout("1",
+    ListSelectLayout("Connection Interface", "1",
         mapOf(Pair("1", "1"), Pair("2", "2"), Pair("3", "3"), Pair("4", "5"),
             Pair("5", "5"), Pair("6", "5")),
         { key, text ->

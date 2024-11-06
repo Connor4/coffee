@@ -403,7 +403,7 @@ fun MachineParamsLayout(
                     }
                 }
             } else {
-                ListSelectLayout(defaultValue.value, dataMap.toMap(), { _, value ->
+                ListSelectLayout("", defaultValue.value, dataMap.toMap(), { _, value ->
                     viewModel.saveMachineParamsValue(itemSelectIndex.value, value)
                     itemSelectIndex.value = INVALID_INT
                 }, {

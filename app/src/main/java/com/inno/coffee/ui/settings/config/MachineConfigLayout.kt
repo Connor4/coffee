@@ -234,7 +234,7 @@ fun MachineConfigLayout(
         }
 
         if (itemSelectIndex.value != INVALID_INT) {
-            ListSelectLayout(defaultValue.value, dataMap.toMap(), { _, value ->
+            ListSelectLayout("", defaultValue.value, dataMap.toMap(), { _, value ->
                 viewModel.saveMachineConfigValue(itemSelectIndex.value, value)
                 itemSelectIndex.value = INVALID_INT
             }, {
