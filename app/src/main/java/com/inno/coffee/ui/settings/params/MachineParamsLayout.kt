@@ -282,6 +282,7 @@ fun MachineParamsLayout(
                 dataMap.clear()
                 dataMap.putAll(
                     mapOf(
+                        Pair(drawerOnly, PARAMS_VALUE_DRAWER_ONLY),
                         Pair(ignore, PARAMS_VALUE_DRAWER_IGNORE),
                         Pair(oneKg, PARAMS_VALUE_DRAWER_ONE_KG),
                         Pair(twoFiveKg, PARAMS_VALUE_DRAWER_TWO_FIVE_KG),
