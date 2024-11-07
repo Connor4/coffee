@@ -54,8 +54,8 @@ class BeanGrinderViewModel @Inject constructor(
 
     fun init() {
         viewModelScope.launch {
-            _rearHopperName.value = dataStore.getCoffeePreference(REAR_HOPPER_NAME, "")
-            _frontHopperName.value = dataStore.getCoffeePreference(FRONT_HOPPER_NAME, "")
+            _rearHopperName.value = dataStore.getCoffeePreference(REAR_HOPPER_NAME, "rear")
+            _frontHopperName.value = dataStore.getCoffeePreference(FRONT_HOPPER_NAME, "front")
             _levelling.value = dataStore.getCoffeePreference(LEVELLING, false)
             _pqc.value = dataStore.getCoffeePreference(PQC, false)
             _grindingCapacityFront.value =

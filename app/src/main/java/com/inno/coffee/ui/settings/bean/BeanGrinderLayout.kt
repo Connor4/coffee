@@ -32,6 +32,7 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.ACCURACY_3
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.ListSelectLayout
+import com.inno.coffee.ui.common.SingleInputLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
@@ -68,6 +69,8 @@ fun BeanGrinderLayout(
     val levelling = viewModel.levelling.collectAsState()
     val grindingCapacityRear = viewModel.grindingCapacityRear.collectAsState()
     val grindingCapacityFront = viewModel.grindingCapacityFront.collectAsState()
+    val rearName = viewModel.rearHopperName.collectAsState()
+    val frontName = viewModel.frontHopperName.collectAsState()
 
     val on = stringResource(R.string.display_value_on)
     val off = stringResource(R.string.display_value_off)
@@ -77,6 +80,8 @@ fun BeanGrinderLayout(
     val pqcString = stringResource(R.string.bean_powder_quantity_control)
     val etcFrontString = stringResource(R.string.bean_extraction_time_control_front)
     val etcRearString = stringResource(R.string.bean_extraction_time_control_rear)
+    val rearNameString = stringResource(R.string.bean_hopper_rear_name)
+    val frontNameString = stringResource(R.string.bean_hopper_front_name)
 
     val pqcValue = if (pqc.value) on else off
     val etcRearValue = if (etcRear.value) on else off
@@ -124,13 +129,17 @@ fun BeanGrinderLayout(
                 .wrapContentHeight()
                 .padding(start = 50.dp, top = 254.dp, end = 95.dp)
         ) {
-            DisplayItemLayout(stringResource(R.string.bean_hopper_rear_name),
-                "", Color(0xFF191A1D)) {
+            DisplayItemLayout(rearNameString,
+                rearName.value, Color(0xFF191A1D)) {
                 itemSelectIndex.value = BEAN_KEY_INDEX_REAR_HOPPER
+                defaultValue.value = rearName.value
+                titleValue.value = rearNameString
             }
-            DisplayItemLayout(stringResource(R.string.bean_hopper_front_name),
-                "", Color(0xFF2A2B2D)) {
+            DisplayItemLayout(frontNameString,
+                frontName.value, Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = BEAN_KEY_INDEX_FRONT_HOPPER
+                defaultValue.value = frontName.value
+                titleValue.value = frontNameString
             }
             DisplayItemLayout(levellingString, levellingValue, Color(0xFF191A1D)) {
                 itemSelectIndex.value = BEAN_KEY_INDEX_LEVELLING
@@ -222,6 +231,20 @@ fun BeanGrinderLayout(
                         viewModel.saveBeanGrinderValue(itemSelectIndex.value, changeValue)
                     }
                 }
+            } else if (itemSelectIndex.value == BEAN_KEY_INDEX_REAR_HOPPER
+                    || itemSelectIndex.value == BEAN_KEY_INDEX_FRONT_HOPPER) {
+                SingleInputLayout(
+                    defaultInput = defaultValue.value,
+                    title = titleValue.value,
+                    tips = stringResource(R.string.statistic_maintenance_enter_description),
+
+                    onEnterClick = { description ->
+                        viewModel.saveBeanGrinderValue(itemSelectIndex.value, description)
+                        itemSelectIndex.value = INVALID_INT
+                    },
+                    onCloseClick = {
+                        itemSelectIndex.value = INVALID_INT
+                    })
             } else {
                 ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
                     { _, value ->

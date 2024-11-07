@@ -35,6 +35,7 @@ import com.inno.coffee.utilities.nsp
 
 @Composable
 fun SingleInputLayout(
+    defaultInput: String = "",
     title: String = "",
     tips: String = "",
     maxInputLimitSize: Int = 70,
@@ -42,7 +43,7 @@ fun SingleInputLayout(
     onCloseClick: () -> Unit,
 ) {
     var input by rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(defaultInput)
     }
 
     Box(
@@ -139,5 +140,5 @@ fun SingleInputLayout(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewSingleInput() {
-    SingleInputLayout(title = "title", tips = "tips") { }
+    SingleInputLayout(defaultInput = "defaultInput", title = "title", tips = "tips") { }
 }
