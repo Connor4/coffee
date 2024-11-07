@@ -86,7 +86,7 @@ fun MachineConfigLayout(
     val operationNormal = stringResource(R.string.config_operation_mode_normal)
     val operationSelfService = stringResource(R.string.config_operation_mode_self_service)
     val smartModeFront = stringResource(R.string.config_smart_mode_front_hopper)
-    val smartModeBack = stringResource(R.string.config_smart_mode_back_hopper)
+    val smartModeBack = stringResource(R.string.config_smart_mode_rear_hopper)
     val adjustManual = stringResource(R.string.config_adjustment_manual)
     val adjustAuto = stringResource(R.string.config_adjustment_auto)
     val waterMid = stringResource(R.string.config_hot_water_output_mid)

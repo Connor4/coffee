@@ -215,9 +215,9 @@ class GlobalDialogLeftManager private constructor(private val application: Appli
             -11 to R.string.error_command_no_reply,
         )
         private val machineErrorMap = mapOf(
-            2000 to R.string.error_front_bean_container_empty,
-            2001 to R.string.error_back_bean_container_empty,
-            2002 to R.string.error_bean_container_empty,
+            2000 to R.string.error_front_bean_hopper_empty,
+            2001 to R.string.error_rear_bean_hopper_empty,
+            2002 to R.string.error_bean_hopper_empty,
             3000 to R.string.error_left_grinder_error,
             3001 to R.string.error_right_grinder_error,
             3002 to R.string.error_left_boiler_error,

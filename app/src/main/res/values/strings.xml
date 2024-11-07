@@ -34,9 +34,9 @@
     <string name="error_serial_no_reply">Serial Port No Reply</string>
     <string name="error_command_no_reply">Common No Reply</string>
 
-    <string name="error_front_bean_container_empty">Front Bean Container Empty</string>
-    <string name="error_back_bean_container_empty">Rear Bean Container Empty</string>
-    <string name="error_bean_container_empty">Bean Container Empty</string>
+    <string name="error_front_bean_hopper_empty">Front Bean Hopper Empty</string>
+    <string name="error_rear_bean_hopper_empty">Rear Bean Hopper Empty</string>
+    <string name="error_bean_hopper_empty">Bean Hopper Empty</string>
     <string name="error_left_grinder_error">Left Grinder Error</string>
     <string name="error_right_grinder_error">Right Grinder Error</string>
     <string name="error_left_boiler_error">Left Coffee Boiler Error</string>
@@ -252,7 +252,7 @@
     <string name="formula_powder_test">Powder Test</string>
     <string name="formula_product_type">Product Type</string>
     <string name="formula_product_name">Product Name</string>
-    <string name="formula_vat_position">Vat Position</string>
+    <string name="formula_bean_hopper_position">Bean Hopper</string>
     <string name="formula_water_dosage">Water dosage</string>
     <string name="formula_powder_dosage">Powder Dosage</string>
     <string name="formula_press_weight">Press Weight</string>
@@ -267,8 +267,8 @@
     <string name="formula_bypass_dosage">Bypass Dosage</string>
     <string name="formula_foam">Foam</string>
     <string name="formula_milk">Milk</string>
-    <string name="formula_front_vat">Front</string>
-    <string name="formula_back_vat">Rear</string>
+    <string name="formula_front_hopper">Front</string>
+    <string name="formula_rear_hopper">Rear</string>
     <string name="formula_steam_wand">Steam Wand:</string>
     <string name="formula_steam_boiler">Steam Boiler:</string>
     <string name="formula_change_product_name">Enter Product Name</string>
@@ -324,7 +324,7 @@
     <string name="config_operation_mode_normal">Normal</string>
     <string name="config_operation_mode_self_service">Self Service</string>
     <string name="config_smart_mode_front_hopper">Only Front Hopper</string>
-    <string name="config_smart_mode_back_hopper">Only Rear Hopper</string>
+    <string name="config_smart_mode_rear_hopper">Only Rear Hopper</string>
     <string name="config_adjustment_manual">Manual</string>
     <string name="config_adjustment_auto">Auto</string>
     <string name="config_hot_water_output_mid">Middle</string>

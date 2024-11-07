@@ -89,10 +89,10 @@ fun VerticalScrollList(
             }
             item {
                 val vat = if (formula.vat?.position != false) stringResource(id = R.string
-                    .formula_front_vat)
-                else stringResource(id = R.string.formula_back_vat)
+                    .formula_front_hopper)
+                else stringResource(id = R.string.formula_rear_hopper)
                 FormulaItem(backgroundColor = singularItemColor,
-                    description = R.string.formula_vat_position, value = vat)
+                    description = R.string.formula_bean_hopper_position, value = vat)
             }
             item {
                 FormulaItem(

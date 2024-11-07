@@ -94,8 +94,8 @@ fun FormulaItem(
                     textValue = name!!
                 }
                 is FormulaItem.FormulaVatPosition -> {
-                    textValue = if (value.position) stringResource(R.string.formula_front_vat)
-                    else stringResource(R.string.formula_back_vat)
+                    textValue = if (value.position) stringResource(R.string.formula_front_hopper)
+                    else stringResource(R.string.formula_rear_hopper)
                 }
                 is FormulaItem.FormulaAmericanoSeq -> {
                     textValue =

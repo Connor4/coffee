@@ -34,9 +34,9 @@
     <string name="error_serial_no_reply">串口无响应</string>
     <string name="error_command_no_reply">命令无响应</string>
 
-    <string name="error_front_bean_container_empty">前豆仓空</string>
-    <string name="error_back_bean_container_empty">后豆仓空</string>
-    <string name="error_bean_container_empty">豆仓空</string>
+    <string name="error_front_bean_hopper_empty">前豆仓空</string>
+    <string name="error_rear_bean_hopper_empty">后豆仓空</string>
+    <string name="error_bean_hopper_empty">豆仓空</string>
     <string name="error_left_grinder_error">左研磨器异常</string>
     <string name="error_right_grinder_error">右研磨器异常</string>
     <string name="error_left_boiler_error">左咖啡锅炉异常</string>
@@ -248,7 +248,7 @@
     <string name="formula_powder_test">测试粉量</string>
     <string name="formula_product_type">产品类型</string>
     <string name="formula_product_name">产品名称</string>
-    <string name="formula_vat_position">豆缸</string>
+    <string name="formula_bean_hopper_position">豆缸</string>
     <string name="formula_water_dosage">水量</string>
     <string name="formula_powder_dosage">粉量</string>
     <string name="formula_press_weight">压粉重量</string>
@@ -263,8 +263,8 @@
     <string name="formula_bypass_dosage">旁路水路出水量</string>
     <string name="formula_foam">奶泡</string>
     <string name="formula_milk">牛奶</string>
-    <string name="formula_front_vat">前方</string>
-    <string name="formula_back_vat">后方</string>
+    <string name="formula_front_hopper">前方</string>
+    <string name="formula_rear_hopper">后方</string>
     <string name="formula_steam_wand">蒸汽棒:</string>
     <string name="formula_steam_boiler">蒸汽锅炉:</string>
     <string name="formula_change_product_name">输入产品名</string>
@@ -320,7 +320,7 @@
     <string name="config_operation_mode_normal">一般模式</string>
     <string name="config_operation_mode_self_service">自助运营模式</string>
     <string name="config_smart_mode_front_hopper">前豆仓</string>
-    <string name="config_smart_mode_back_hopper">后豆仓</string>
+    <string name="config_smart_mode_rear_hopper">后豆仓</string>
     <string name="config_adjustment_manual">手动</string>
     <string name="config_adjustment_auto">自动</string>
     <string name="config_hot_water_output_mid">中间</string>

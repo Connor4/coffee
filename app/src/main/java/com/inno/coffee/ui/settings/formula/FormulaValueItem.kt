@@ -58,7 +58,7 @@ private val formulaPropertyNames = listOf(
 private val formulaPropertyStringMapping = mapOf(
     FORMULA_PROPERTY_PRODUCT_TYPE to R.string.formula_product_type,
     "productName" to R.string.formula_product_name,
-    FORMULA_PROPERTY_VAT to R.string.formula_vat_position,
+    FORMULA_PROPERTY_VAT to R.string.formula_bean_hopper_position,
     FORMULA_PROPERTY_COFFEE_WATER to R.string.formula_water_dosage,
     FORMULA_PROPERTY_POWDER_DOSAGE to R.string.formula_powder_dosage,
     FORMULA_PROPERTY_PRESS_WEIGHT to R.string.formula_press_weight,
@@ -186,8 +186,8 @@ fun FormulaValueItem(
                     })
                 }
                 is FormulaItem.FormulaVatPosition -> {
-                    val front = stringResource(R.string.formula_front_vat)
-                    val back = stringResource(R.string.formula_back_vat)
+                    val front = stringResource(R.string.formula_front_hopper)
+                    val back = stringResource(R.string.formula_rear_hopper)
                     val default = if (value.position) front else back
                     val title = formulaPropertyStringMapping[FORMULA_PROPERTY_VAT]
                     ListSelectLayout(
