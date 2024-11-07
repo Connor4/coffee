@@ -1,6 +1,6 @@
 package com.inno.coffee
 
 fun main() {
-    val result = null == "hello"
+    val result = 1.23f
     println("result $result")
 }

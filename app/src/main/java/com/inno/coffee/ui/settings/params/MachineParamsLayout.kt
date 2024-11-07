@@ -27,6 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.ui.common.ACCURACY_1
+import com.inno.coffee.ui.common.ACCURACY_2
 import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.fastclick
@@ -264,7 +266,7 @@ fun MachineParamsLayout(
                 scrollRangeStart.value = viewModel.temperatureDisplay(80f)
                 scrollRangeEnd.value = viewModel.temperatureDisplay(100f)
                 scrollUnit.value = "[$unitValue]"
-                scrollAccuracy.value = 1
+                scrollAccuracy.value = ACCURACY_1
             }
             DisplayItemLayout(stringResource(R.string.params_cold_rinse_quantity),
                 "${coldRinseQuantity.value}", Color(0xFF2A2B2D)) {
@@ -273,7 +275,7 @@ fun MachineParamsLayout(
                 scrollRangeStart.value = 100f
                 scrollRangeEnd.value = 2000f
                 scrollUnit.value = "[tick]"
-                scrollAccuracy.value = 1
+                scrollAccuracy.value = ACCURACY_1
             }
             DisplayItemLayout(stringResource(R.string.params_warm_rinse_quantity),
                 "${warmRinseQuantity.value}", Color(0xFF191A1D)) {
@@ -282,7 +284,7 @@ fun MachineParamsLayout(
                 scrollRangeStart.value = 20f
                 scrollRangeEnd.value = 200f
                 scrollUnit.value = "[tick]"
-                scrollAccuracy.value = 1
+                scrollAccuracy.value = ACCURACY_1
             }
             DisplayItemLayout(drawerString,
                 drawerQuantityValue, Color(0xFF2A2B2D)) {
@@ -374,7 +376,7 @@ fun MachineParamsLayout(
                 scrollRangeStart.value = 1f
                 scrollRangeEnd.value = 2f
                 scrollUnit.value = "[bar]"
-                scrollAccuracy.value = 2
+                scrollAccuracy.value = ACCURACY_2
             }
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_left),
                 "${ntcCorrectionSteamLeft.value}  [$unitValue]", Color(0xFF2A2B2D)) {
@@ -383,7 +385,7 @@ fun MachineParamsLayout(
                 scrollRangeStart.value = viewModel.temperatureDisplay(-10f)
                 scrollRangeEnd.value = viewModel.temperatureDisplay(10f)
                 scrollUnit.value = "[$unitValue]"
-                scrollAccuracy.value = 1
+                scrollAccuracy.value = ACCURACY_1
             }
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_right),
                 "${ntcCorrectionSteamRight.value}  [$unitValue]", Color(0xFF191A1D)) {
@@ -392,7 +394,7 @@ fun MachineParamsLayout(
                 scrollRangeStart.value = viewModel.temperatureDisplay(-10f)
                 scrollRangeEnd.value = viewModel.temperatureDisplay(10f)
                 scrollUnit.value = "[$unitValue]"
-                scrollAccuracy.value = 1
+                scrollAccuracy.value = ACCURACY_1
             }
         }
 

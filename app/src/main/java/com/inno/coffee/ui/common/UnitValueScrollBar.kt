@@ -31,6 +31,9 @@ import com.inno.coffee.ui.theme.mainColor
 import com.inno.coffee.utilities.nsp
 import kotlin.math.roundToInt
 
+const val ACCURACY_1 = 1
+const val ACCURACY_2 = 2
+const val ACCURACY_3 = 3
 
 @Composable
 fun UnitValueScrollBar(
@@ -39,7 +42,7 @@ fun UnitValueScrollBar(
     rangeStart: Float = 0f,
     rangeEnd: Float = 0f,
     unit: String = "",
-    accuracy: Int = 1,
+    accuracy: Int = ACCURACY_1,
     onValueChange: (newValue: Float) -> Unit,
 ) {
     val progressBarWidth = 230.dp
@@ -72,11 +75,15 @@ fun UnitValueScrollBar(
                 modifier = Modifier.size(40.dp)
             ) {
                 currentValue = when (accuracy) {
-                    1 -> {
+                    ACCURACY_1 -> {
                         currentValue.minus(1).coerceIn(rangeStart, rangeEnd)
                     }
-                    2 -> {
+                    ACCURACY_2 -> {
                         (((currentValue - 0.1f) * 10).roundToInt() / 10f).coerceIn(rangeStart,
+                            rangeEnd)
+                    }
+                    ACCURACY_3 -> {
+                        (((currentValue - 0.01f) * 100).roundToInt() / 100f).coerceIn(rangeStart,
                             rangeEnd)
                     }
                     else -> {
@@ -102,14 +109,18 @@ fun UnitValueScrollBar(
                                 val newProgress = (progress + dragAmount.x / progressBarWidth
                                     .toPx()).coerceIn(0f, 1f)
                                 currentValue = when (accuracy) {
-                                    1 -> {
+                                    ACCURACY_1 -> {
                                         (rangeStart + (rangeEnd - rangeStart) * newProgress)
                                             .roundToInt()
                                             .toFloat()
                                     }
-                                    2 -> {
+                                    ACCURACY_2 -> {
                                         ((rangeStart + (rangeEnd - rangeStart) * newProgress) *
                                                 10).roundToInt() / 10f
+                                    }
+                                    ACCURACY_3 -> {
+                                        ((rangeStart + (rangeEnd - rangeStart) * newProgress) *
+                                                100).roundToInt() / 100f
                                     }
                                     else -> {
                                         (rangeStart + (rangeEnd - rangeStart) * newProgress)
@@ -149,11 +160,15 @@ fun UnitValueScrollBar(
                 modifier = Modifier.size(40.dp)
             ) {
                 currentValue = when (accuracy) {
-                    1 -> {
+                    ACCURACY_1 -> {
                         currentValue.plus(1).coerceIn(rangeStart, rangeEnd)
                     }
-                    2 -> {
+                    ACCURACY_2 -> {
                         (((currentValue + 0.1f) * 10).roundToInt() / 10f).coerceIn(rangeStart,
+                            rangeEnd)
+                    }
+                    ACCURACY_3 -> {
+                        (((currentValue + 0.01f) * 100).roundToInt() / 100f).coerceIn(rangeStart,
                             rangeEnd)
                     }
                     else -> {
