@@ -49,11 +49,18 @@ class HomeViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
     private val TAG = "HomeViewModel"
+    private val TEMPERATURE_UNIT = "temperature_unit"
+    private val SHOW_EXTRACTION_TIME = "show_extraction_time"
+    private val BACK_TO_FIRST_PAGE = "back_to_first_page"
+
     val formulaList: StateFlow<List<Formula>> = repository.getAllFormulas()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-    private val temperatureUnit: Flow<Boolean> = dataStore.getTemperatureUnitFlow()
-    val autoReturnEnabled: Flow<Boolean> = dataStore.getBackToFirstPageFlow()
-    val showExtractionTime: Flow<Boolean> = dataStore.getShowExtractionTimeFlow()
+    private val temperatureUnit: Flow<Boolean> =
+        dataStore.getCoffeePreferenceFlow(TEMPERATURE_UNIT, false)
+    val autoReturnEnabled: Flow<Boolean> =
+        dataStore.getCoffeePreferenceFlow(BACK_TO_FIRST_PAGE, false)
+    val showExtractionTime: Flow<Boolean> =
+        dataStore.getCoffeePreferenceFlow(SHOW_EXTRACTION_TIME, true)
     private val _username = MutableStateFlow("")
     val username: StateFlow<String> = _username
     private val _password = MutableStateFlow("")

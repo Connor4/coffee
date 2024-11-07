@@ -33,6 +33,16 @@ class MachineConfigViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     private val TAG = "MachineConfigViewModel"
+    private val LOW_POWER_MODE = "low_power_mode"
+    private val MACHINE_TYPE = "machine_type"
+    private val TEMPERATURE_UNIT = "temperature_unit"
+    private val OPERATION_MODE = "operation_mode"
+    private val SMART_MODE = "smart_mode"
+    private val WATER_TANK_SURVEILLANCE = "water_tank_surveillance"
+    private val DIFFERENT_BOILER = "different_boiler"
+    private val AMERICANO_TEMP_ADJUST = "americano_temp_adjust"
+    private val HOT_WATER_OUTPUT = "hot_water_output"
+    private val STEAM_WAND_POSITION = "steam_wand_position"
 
     private val _lowPower = MutableStateFlow(false)
     val lowPower: StateFlow<Boolean> = _lowPower
@@ -57,16 +67,18 @@ class MachineConfigViewModel @Inject constructor(
 
     fun init() {
         viewModelScope.launch {
-            _lowPower.value = coffeeDataStore.getLowPowerMode()
-            _machineType.value = coffeeDataStore.getMachineType()
-            _temperatureUnit.value = coffeeDataStore.getTemperatureUnit()
-            _operationMode.value = coffeeDataStore.getOperationMode()
-            _smartMode.value = coffeeDataStore.getSmartMode()
-            _waterTankSurveillance.value = coffeeDataStore.getWaterTankSurveillance()
-            _differentBoiler.value = coffeeDataStore.getDifferentBoiler()
-            _americanoTempAdjust.value = coffeeDataStore.getAmericanoTempAdjust()
-            _hotWaterOutput.value = coffeeDataStore.getHotWaterOutput()
-            _steamWandPosition.value = coffeeDataStore.getSteamWandPosition()
+            _lowPower.value = coffeeDataStore.getCoffeePreference(LOW_POWER_MODE, false)
+            _machineType.value = coffeeDataStore.getCoffeePreference(MACHINE_TYPE, "CM01")
+            _temperatureUnit.value = coffeeDataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
+            _operationMode.value = coffeeDataStore.getCoffeePreference(OPERATION_MODE, 0)
+            _smartMode.value = coffeeDataStore.getCoffeePreference(SMART_MODE, 0)
+            _waterTankSurveillance.value =
+                coffeeDataStore.getCoffeePreference(WATER_TANK_SURVEILLANCE, false)
+            _differentBoiler.value = coffeeDataStore.getCoffeePreference(DIFFERENT_BOILER, false)
+            _americanoTempAdjust.value =
+                coffeeDataStore.getCoffeePreference(AMERICANO_TEMP_ADJUST, 0)
+            _hotWaterOutput.value = coffeeDataStore.getCoffeePreference(HOT_WATER_OUTPUT, 0)
+            _steamWandPosition.value = coffeeDataStore.getCoffeePreference(STEAM_WAND_POSITION, 0)
         }
     }
 
@@ -75,47 +87,45 @@ class MachineConfigViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             when (key) {
                 INDEX_POWER_CONFIGURATION -> {
-                    coffeeDataStore.saveLowPowerMode(value as Boolean)
-                    _lowPower.value = value
                 }
                 INDEX_LOW_POWER -> {
-                    coffeeDataStore.saveLowPowerMode(value as Boolean)
+                    coffeeDataStore.saveCoffeePreference(LOW_POWER_MODE, value as Boolean)
                     _lowPower.value = value
                 }
                 INDEX_MACHINE_TYPE -> {
-                    coffeeDataStore.saveMachineType(value as String)
+                    coffeeDataStore.saveCoffeePreference(MACHINE_TYPE, value as String)
                     _machineType.value = value
                 }
                 INDEX_TEMPERATURE_UNIT -> {
-                    coffeeDataStore.saveTemperatureUnit(value as Boolean)
+                    coffeeDataStore.saveCoffeePreference(TEMPERATURE_UNIT, value as Boolean)
                     _temperatureUnit.value = value
                 }
                 INDEX_OPERATION_MODE -> {
-                    coffeeDataStore.saveOperationMode(value as Int)
+                    coffeeDataStore.saveCoffeePreference(OPERATION_MODE, value as Int)
                     _operationMode.value = value
                 }
                 INDEX_SMART_MODE -> {
-                    coffeeDataStore.saveSmartMode(value as Int)
+                    coffeeDataStore.saveCoffeePreference(SMART_MODE, value as Int)
                     _smartMode.value = value
                 }
                 INDEX_WATER_TANK_SURVEILLANCE -> {
-                    coffeeDataStore.saveWaterTankSurveillance(value as Boolean)
+                    coffeeDataStore.saveCoffeePreference(WATER_TANK_SURVEILLANCE, value as Boolean)
                     _waterTankSurveillance.value = value
                 }
                 INDEX_DIFFERENT_BOILER -> {
-                    coffeeDataStore.saveDifferentBoiler(value as Boolean)
+                    coffeeDataStore.saveCoffeePreference(DIFFERENT_BOILER, value as Boolean)
                     _differentBoiler.value = value
                 }
                 INDEX_AMERICANO_TEMP_ADJUST -> {
-                    coffeeDataStore.saveAmericanoTempAdjust(value as Int)
+                    coffeeDataStore.saveCoffeePreference(AMERICANO_TEMP_ADJUST, value as Int)
                     _americanoTempAdjust.value = value
                 }
                 INDEX_HOT_WATER_OUTPUT -> {
-                    coffeeDataStore.saveHotWaterOutput(value as Int)
+                    coffeeDataStore.saveCoffeePreference(HOT_WATER_OUTPUT, value as Int)
                     _hotWaterOutput.value = value
                 }
                 INDEX_STEAM_WAND_POSITION -> {
-                    coffeeDataStore.saveSteamWandPosition(value as Int)
+                    coffeeDataStore.saveCoffeePreference(STEAM_WAND_POSITION, value as Int)
                     _steamWandPosition.value = value
                 }
             }

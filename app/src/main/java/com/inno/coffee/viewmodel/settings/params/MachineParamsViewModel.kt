@@ -30,6 +30,18 @@ class MachineParamsViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     private val TAG = "MachineParamsViewModel"
+    private val COFFEE_BOILER_TEMP = "coffee_boiler_temp"
+    private val COLD_RINSE = "code_rinse"
+    private val WARM_RINSE = "warm_rinse"
+    private val GROUNDS_QUANTITY = "grounds_quantity"
+    private val BREW_BALANCE = "brew_balance"
+    private val BREW_PRE_HEATING = "brew_pre_heating"
+    private val GRINDER_PURGE_FUNCTION = "grinder_purge_function"
+    private val NUMBER_OF_CYCLES_RINSE = "number_of_cycles_rinse"
+    private val STEAM_BOILER_PRESSURE = "steam_boiler_pressure"
+    private val NTC_LEFT = "ntc_left"
+    private val NTC_RIGHT = "ntc_right"
+    private val TEMPERATURE_UNIT = "temperature_unit"
 
     private var _temperatureUnit = MutableStateFlow(false)
     val temperatureUnit = _temperatureUnit
@@ -58,21 +70,21 @@ class MachineParamsViewModel @Inject constructor(
 
     fun init() {
         viewModelScope.launch(defaultDispatcher) {
-            _temperatureUnit.value = dataStore.getTemperatureUnit()
-            _boilerTemp.value =
-                temperatureDisplay(dataStore.getCoffeeBoilerTemp())
-            _coldRinseQuantity.value = dataStore.getColdRinseQuantity()
-            _warmRinseQuantity.value = dataStore.getWarmRinseQuantity()
-            _groundsDrawerQuantity.value = dataStore.getGroundsDrawerQuantity()
-            _brewGroupLoadBalancing.value = dataStore.getBrewGroupLoadBalancing()
-            _brewGroupPreHeating.value = dataStore.getBrewGroupPreHeating()
-            _grinderPurgeFunction.value = dataStore.getGrinderPurgeFunction()
-            _numberOfCyclesRinse.value = dataStore.getNumberOfCyclesRinse()
-            _steamBoilerPressure.value = dataStore.getSteamBoilerPressure()
+            _temperatureUnit.value = dataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
+            _boilerTemp.value = temperatureDisplay(
+                dataStore.getCoffeePreference(COFFEE_BOILER_TEMP, 90f))
+            _coldRinseQuantity.value = dataStore.getCoffeePreference(COLD_RINSE, 500)
+            _warmRinseQuantity.value = dataStore.getCoffeePreference(WARM_RINSE, 100)
+            _groundsDrawerQuantity.value = dataStore.getCoffeePreference(GROUNDS_QUANTITY, 0)
+            _brewGroupLoadBalancing.value = dataStore.getCoffeePreference(BREW_BALANCE, false)
+            _brewGroupPreHeating.value = dataStore.getCoffeePreference(BREW_PRE_HEATING, 0)
+            _grinderPurgeFunction.value = dataStore.getCoffeePreference(GRINDER_PURGE_FUNCTION, 0)
+            _numberOfCyclesRinse.value = dataStore.getCoffeePreference(NUMBER_OF_CYCLES_RINSE, 0)
+            _steamBoilerPressure.value = dataStore.getCoffeePreference(STEAM_BOILER_PRESSURE, 1)
             _ntcCorrectionSteamLeft.value =
-                temperatureDisplay(dataStore.getNtcCorrectionSteamLeft())
+                temperatureDisplay(dataStore.getCoffeePreference(NTC_LEFT, 0f))
             _ntcCorrectionSteamRight.value =
-                temperatureDisplay(dataStore.getNtcCorrectionSteamRight())
+                temperatureDisplay(dataStore.getCoffeePreference(NTC_RIGHT, 0f))
         }
     }
 
@@ -82,52 +94,52 @@ class MachineParamsViewModel @Inject constructor(
             when (key) {
                 PARAMS_KEY_BOILER_TEMP -> {
                     val realValue = temperatureRevert(value as Float)
-                    dataStore.saveCoffeeBoilerTemp(realValue)
+                    dataStore.saveCoffeePreference(COFFEE_BOILER_TEMP, realValue)
                     _boilerTemp.value = value
                 }
                 PARAMS_KEY_COLD_RINSE -> {
                     val realValue = value as Float
-                    dataStore.saveColdRinseQuantity(realValue.toInt())
+                    dataStore.saveCoffeePreference(COLD_RINSE, realValue.toInt())
                     _coldRinseQuantity.value = realValue.toInt()
                 }
                 PARAMS_KEY_WARM_RINSE -> {
                     val realValue = value as Float
-                    dataStore.saveWarmRinseQuantity(realValue.toInt())
+                    dataStore.saveCoffeePreference(WARM_RINSE, realValue.toInt())
                     _warmRinseQuantity.value = realValue.toInt()
                 }
                 PARAMS_KEY_GROUNDS_QUANTITY -> {
-                    dataStore.saveGroundsDrawerQuantity(value as Int)
+                    dataStore.saveCoffeePreference(GROUNDS_QUANTITY, value as Int)
                     _groundsDrawerQuantity.value = value
                 }
                 PARAMS_KEY_BREW_BALANCE -> {
-                    dataStore.saveBrewGroupLoadBalancing(value as Boolean)
+                    dataStore.saveCoffeePreference(BREW_BALANCE, value as Boolean)
                     _brewGroupLoadBalancing.value = value
                 }
                 PARAMS_KEY_BREW_PRE_HEATING -> {
-                    dataStore.saveBrewGroupPreHeating(value as Int)
+                    dataStore.saveCoffeePreference(BREW_PRE_HEATING, value as Int)
                     _brewGroupPreHeating.value = value
                 }
                 PARAMS_KEY_GRINDER_PURGE_FUNCTION -> {
-                    dataStore.saveGrinderPurgeFunction(value as Int)
+                    dataStore.saveCoffeePreference(GRINDER_PURGE_FUNCTION, value as Int)
                     _grinderPurgeFunction.value = value
                 }
                 PARAMS_KEY_NUMBER_OF_CYCLES_RINSE -> {
-                    dataStore.saveNumberOfCyclesRinse(value as Int)
+                    dataStore.saveCoffeePreference(NUMBER_OF_CYCLES_RINSE, value as Int)
                     _numberOfCyclesRinse.value = value
                 }
                 PARAMS_KEY_STEAM_BOILER_PRESSURE -> {
                     val realValue = value as Float
-                    dataStore.saveSteamBoilerPressure(realValue.toInt())
+                    dataStore.saveCoffeePreference(STEAM_BOILER_PRESSURE, realValue.toInt())
                     _steamBoilerPressure.value = realValue.toInt()
                 }
                 PARAMS_KEY_NTC_LEFT -> {
                     val realValue = temperatureRevert(value as Float)
-                    dataStore.saveNtcCorrectionSteamLeft(realValue)
+                    dataStore.saveCoffeePreference(NTC_LEFT, realValue)
                     _ntcCorrectionSteamLeft.value = value
                 }
                 PARAMS_KEY_NTC_RIGHT -> {
                     val realValue = temperatureRevert(value as Float)
-                    dataStore.saveNtcCorrectionSteamRight(realValue)
+                    dataStore.saveCoffeePreference(NTC_RIGHT, realValue)
                     _ntcCorrectionSteamRight.value = value
                 }
                 else -> {}

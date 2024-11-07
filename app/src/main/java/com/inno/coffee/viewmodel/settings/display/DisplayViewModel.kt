@@ -30,6 +30,12 @@ class DisplayViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     private val TAG = "DisplayViewModel"
+    private val BACK_TO_FIRST_PAGE = "back_to_first_page"
+    private val NUMBER_OF_PRODUCT_PER_PAGE = "number_of_product_per_page"
+    private val FRONT_LIGHT_COLOR = "front_light_color"
+    private val FRONT_LIGHT_BRIGHTNESS = "front_light_brightness"
+    private val SCREEN_BRIGHTNESS = "screen_brightness"
+    private val SHOW_EXTRACTION_TIME = "show_extraction_time"
 
     private val _language = MutableStateFlow("")
     val language: StateFlow<String> = _language
@@ -54,12 +60,13 @@ class DisplayViewModel @Inject constructor(
         viewModelScope.launch {
             val systemLanguage = dataStore.getSystemLanguage()
             val language = Locale.forLanguageTag(systemLanguage).language
-            val autoBackToFirstPage = dataStore.getBackToFirstPage()
-            val numberOfProductPerPage = dataStore.getNumberOfProductPerPage()
-            val frontLightColor = dataStore.getFrontLightColor()
-            val frontLightBrightness = dataStore.getFrontLightBrightness()
-            val screenBrightness = dataStore.getScreenBrightness()
-            val showExtractionTime = dataStore.getShowExtractionTime()
+            val autoBackToFirstPage = dataStore.getCoffeePreference(BACK_TO_FIRST_PAGE, false)
+            val numberOfProductPerPage =
+                dataStore.getCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, 12)
+            val frontLightColor = dataStore.getCoffeePreference(FRONT_LIGHT_COLOR, 1)
+            val frontLightBrightness = dataStore.getCoffeePreference(FRONT_LIGHT_BRIGHTNESS, 90)
+            val screenBrightness = dataStore.getCoffeePreference(SCREEN_BRIGHTNESS, 90)
+            val showExtractionTime = dataStore.getCoffeePreference(SHOW_EXTRACTION_TIME, true)
 
             _language.value = systemLanguage
             _time.value = TimeUtils.getNowTimeInYearAndHour(language = language)
@@ -102,27 +109,27 @@ class DisplayViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             when (key) {
                 INDEX_AUTO_BACK_TO_FIRST_PAGE -> {
-                    dataStore.saveBackToFirstPage(value as Boolean)
+                    dataStore.saveCoffeePreference(BACK_TO_FIRST_PAGE, value as Boolean)
                     _backToFirstPage.value = value
                 }
                 INDEX_NUMBER_OF_PRODUCT_PER_PAGE -> {
-                    dataStore.saveNumberOfProductPerPage(value as Int)
+                    dataStore.saveCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, value as Int)
                     _numberOfProductPerPage.value = value
                 }
                 INDEX_FRONT_LIGHT_COLOR -> {
-                    dataStore.saveFrontLightColor(value as Int)
+                    dataStore.saveCoffeePreference(FRONT_LIGHT_COLOR, value as Int)
                     _frontLightColor.value = value
                 }
                 INDEX_FRONT_LIGHT_BRIGHTNESS -> {
-                    dataStore.saveFrontLightBrightness(value as Int)
+                    dataStore.saveCoffeePreference(FRONT_LIGHT_BRIGHTNESS, value as Int)
                     _frontLightBrightness.value = value
                 }
                 INDEX_SCREEN_BRIGHTNESS -> {
-                    dataStore.saveScreenBrightness(value as Int)
+                    dataStore.saveCoffeePreference(SCREEN_BRIGHTNESS, value as Int)
                     _screenBrightness.value = value
                 }
                 INDEX_SHOW_EXTRACTION_TIME -> {
-                    dataStore.saveShowExtractionTime(value as Boolean)
+                    dataStore.saveCoffeePreference(SHOW_EXTRACTION_TIME, value as Boolean)
                     _showExtractionTime.value = value
                 }
             }
