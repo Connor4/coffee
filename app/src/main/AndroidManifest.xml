@@ -57,6 +57,7 @@
         <activity android:name=".ui.settings.display.groupone.DisplaySettingActivity" />
         <activity android:name=".ui.settings.config.MachineConfigActivity" />
         <activity android:name=".ui.settings.params.MachineParamsActivity" />
+        <activity android:name=".ui.settings.bean.BeanGrinderActivity" />
     </application>
 
 </manifest>

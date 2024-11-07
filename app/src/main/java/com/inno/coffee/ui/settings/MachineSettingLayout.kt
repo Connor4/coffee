@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.ui.settings.bean.BeanGrinderActivity
 import com.inno.coffee.ui.settings.config.MachineConfigActivity
 import com.inno.coffee.ui.settings.display.DisplayActivity
 import com.inno.coffee.ui.settings.formula.FormulaActivity
@@ -199,7 +200,7 @@ private fun jumpDetail(name: String, context: Context) {
             ScreenDisplayManager.autoRoute(context, MachineParamsActivity::class.java)
         }
         BEANS_AND_GRINDER -> {
-            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+            ScreenDisplayManager.autoRoute(context, BeanGrinderActivity::class.java)
         }
         WASH_MACHINE -> {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()

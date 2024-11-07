@@ -357,4 +357,14 @@
     <string name="params_screen_rinse_regular">正常</string>
     <string name="params_screen_rinse_extra">额外冲洗</string>
 
+    <string name="bean_hopper_rear_name">后方豆缸名称</string>
+    <string name="bean_hopper_front_name">前方豆缸名称</string>
+    <string name="bean_powder_quantity_control">粉量监测系统</string>
+    <string name="bean_grinding_capacity_hopper_rear">后方豆缸研磨容量</string>
+    <string name="bean_grinding_capacity_hopper_front">前方豆缸研磨容量</string>
+    <string name="bean_extraction_time_control_rear">后方豆缸萃取时间监测系统</string>
+    <string name="bean_extraction_time_control_front">前方豆缸萃取时间监测系统</string>
+    <string name="bean_levelling">布粉</string>
+    <string name="bean_grinder_setting">研磨设置</string>
+
 </resources>
