@@ -345,7 +345,7 @@
     <string name="params_ntc_correction_steam_left">NTC Correction Steam Left</string>
     <string name="params_ntc_correction_steam_right">NTC Correction Steam Right</string>
     <string name="params_grounds_drawer_only">Grounds Drawer (0.7kg)</string>
-    <string name="params_grounds_drawer_ignore">Grounds Bin Not Monitored (0.0kg)</string>
+    <string name="params_grounds_drawer_ignore">Grounds Bin Not Monitored</string>
     <string name="params_grounds_drawer_one_kg">Grounds Bin Monitored (1.0kg)</string>
     <string name="params_grounds_drawer_two_five_kg">Grounds Bin Monitored (2.5kg)</string>
     <string name="params_grounds_drawer_five_kg">Grounds Bin Monitored (5.0kg)</string>
