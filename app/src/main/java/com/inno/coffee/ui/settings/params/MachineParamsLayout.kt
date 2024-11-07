@@ -260,9 +260,9 @@ fun MachineParamsLayout(
             DisplayItemLayout(stringResource(R.string.params_coffee_boiler_temp),
                 "${boilerTemp.value}  [$unitValue]", Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_BOILER_TEMP
-                scrollDefaultValue.value = viewModel.temperatureDisplay(boilerTemp.value)
-                scrollRangeStart.value = viewModel.temperatureDisplay(80)
-                scrollRangeEnd.value = viewModel.temperatureDisplay(100)
+                scrollDefaultValue.value = boilerTemp.value
+                scrollRangeStart.value = viewModel.temperatureDisplay(80f)
+                scrollRangeEnd.value = viewModel.temperatureDisplay(100f)
                 scrollUnit.value = "[$unitValue]"
                 scrollAccuracy.value = 1
             }
@@ -379,20 +379,18 @@ fun MachineParamsLayout(
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_left),
                 "${ntcCorrectionSteamLeft.value}  [$unitValue]", Color(0xFF2A2B2D)) {
                 itemSelectIndex.value = PARAMS_KEY_NTC_LEFT
-                scrollDefaultValue.value = viewModel.temperatureDisplay(ntcCorrectionSteamLeft
-                    .value)
-                scrollRangeStart.value = viewModel.temperatureDisplay(-10)
-                scrollRangeEnd.value = viewModel.temperatureDisplay(10)
+                scrollDefaultValue.value = ntcCorrectionSteamLeft.value
+                scrollRangeStart.value = viewModel.temperatureDisplay(-10f)
+                scrollRangeEnd.value = viewModel.temperatureDisplay(10f)
                 scrollUnit.value = "[$unitValue]"
                 scrollAccuracy.value = 1
             }
             DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_right),
                 "${ntcCorrectionSteamRight.value}  [$unitValue]", Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_NTC_RIGHT
-                scrollDefaultValue.value = viewModel.temperatureDisplay(ntcCorrectionSteamRight
-                    .value)
-                scrollRangeStart.value = viewModel.temperatureDisplay(-10)
-                scrollRangeEnd.value = viewModel.temperatureDisplay(10)
+                scrollDefaultValue.value = ntcCorrectionSteamRight.value
+                scrollRangeStart.value = viewModel.temperatureDisplay(-10f)
+                scrollRangeEnd.value = viewModel.temperatureDisplay(10f)
                 scrollUnit.value = "[$unitValue]"
                 scrollAccuracy.value = 1
             }
@@ -418,7 +416,7 @@ fun MachineParamsLayout(
                         unit = scrollUnit.value,
                         accuracy = scrollAccuracy.value
                     ) { changeValue ->
-                        viewModel.saveMachineParamsValue(itemSelectIndex.value, changeValue.toInt())
+                        viewModel.saveMachineParamsValue(itemSelectIndex.value, changeValue)
                     }
                 }
             } else {

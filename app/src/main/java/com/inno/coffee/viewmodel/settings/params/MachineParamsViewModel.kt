@@ -21,7 +21,6 @@ import com.inno.common.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,34 +31,36 @@ class MachineParamsViewModel @Inject constructor(
 ) : ViewModel() {
     private val TAG = "MachineParamsViewModel"
 
-    private val _boilerTemp = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
-    val boilerTemp: StateFlow<Int> = _boilerTemp
-    private val _coldRinseQuantity = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
-    val coldRinseQuantity: StateFlow<Int> = _coldRinseQuantity
-    private val _warmRinseQuantity = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
-    val warmRinseQuantity: StateFlow<Int> = _warmRinseQuantity
-    private val _groundsDrawerQuantity = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
-    val groundsDrawerQuantity: StateFlow<Int> = _groundsDrawerQuantity
-    private val _brewGroupLoadBalancing = MutableStateFlow(false)
-    val brewGroupLoadBalancing: StateFlow<Boolean> = _brewGroupLoadBalancing
-    private val _brewGroupPreHeating = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
-    val brewGroupPreHeating: StateFlow<Int> = _brewGroupPreHeating
-    private val _grinderPurgeFunction = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
-    val grinderPurgeFunction: StateFlow<Int> = _grinderPurgeFunction
-    private val _numberOfCyclesRinse = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
-    val numberOfCyclesRinse: StateFlow<Int> = _numberOfCyclesRinse
-    private val _steamBoilerPressure = MutableStateFlow(PARAMS_VALUE_STEAM_BOILER_PRESSURE)
-    val steamBoilerPressure: StateFlow<Int> = _steamBoilerPressure
-    private val _ntcCorrectionSteamLeft = MutableStateFlow(0)
-    val ntcCorrectionSteamLeft: StateFlow<Int> = _ntcCorrectionSteamLeft
-    private val _ntcCorrectionSteamRight = MutableStateFlow(0)
-    val ntcCorrectionSteamRight: StateFlow<Int> = _ntcCorrectionSteamRight
     private var _temperatureUnit = MutableStateFlow(false)
     val temperatureUnit = _temperatureUnit
+    private val _boilerTemp = MutableStateFlow(90f)
+    val boilerTemp = _boilerTemp
+    private val _coldRinseQuantity = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
+    val coldRinseQuantity = _coldRinseQuantity
+    private val _warmRinseQuantity = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
+    val warmRinseQuantity = _warmRinseQuantity
+    private val _groundsDrawerQuantity = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
+    val groundsDrawerQuantity = _groundsDrawerQuantity
+    private val _brewGroupLoadBalancing = MutableStateFlow(false)
+    val brewGroupLoadBalancing = _brewGroupLoadBalancing
+    private val _brewGroupPreHeating = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
+    val brewGroupPreHeating = _brewGroupPreHeating
+    private val _grinderPurgeFunction = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
+    val grinderPurgeFunction = _grinderPurgeFunction
+    private val _numberOfCyclesRinse = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
+    val numberOfCyclesRinse = _numberOfCyclesRinse
+    private val _steamBoilerPressure = MutableStateFlow(PARAMS_VALUE_STEAM_BOILER_PRESSURE)
+    val steamBoilerPressure = _steamBoilerPressure
+    private val _ntcCorrectionSteamLeft = MutableStateFlow(0f)
+    val ntcCorrectionSteamLeft = _ntcCorrectionSteamLeft
+    private val _ntcCorrectionSteamRight = MutableStateFlow(0f)
+    val ntcCorrectionSteamRight = _ntcCorrectionSteamRight
 
     fun init() {
         viewModelScope.launch(defaultDispatcher) {
-            _boilerTemp.value = dataStore.getCoffeeBoilerTemp()
+            _temperatureUnit.value = dataStore.getTemperatureUnit()
+            _boilerTemp.value =
+                temperatureDisplay(dataStore.getCoffeeBoilerTemp())
             _coldRinseQuantity.value = dataStore.getColdRinseQuantity()
             _warmRinseQuantity.value = dataStore.getWarmRinseQuantity()
             _groundsDrawerQuantity.value = dataStore.getGroundsDrawerQuantity()
@@ -68,9 +69,10 @@ class MachineParamsViewModel @Inject constructor(
             _grinderPurgeFunction.value = dataStore.getGrinderPurgeFunction()
             _numberOfCyclesRinse.value = dataStore.getNumberOfCyclesRinse()
             _steamBoilerPressure.value = dataStore.getSteamBoilerPressure()
-            _ntcCorrectionSteamLeft.value = dataStore.getNtcCorrectionSteamLeft()
-            _ntcCorrectionSteamRight.value = dataStore.getNtcCorrectionSteamRight()
-            _temperatureUnit.value = dataStore.getTemperatureUnit()
+            _ntcCorrectionSteamLeft.value =
+                temperatureDisplay(dataStore.getNtcCorrectionSteamLeft())
+            _ntcCorrectionSteamRight.value =
+                temperatureDisplay(dataStore.getNtcCorrectionSteamRight())
         }
     }
 
@@ -79,16 +81,19 @@ class MachineParamsViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             when (key) {
                 PARAMS_KEY_BOILER_TEMP -> {
-                    dataStore.saveCoffeeBoilerTemp(value as Int)
+                    val realValue = temperatureRevert(value as Float)
+                    dataStore.saveCoffeeBoilerTemp(realValue)
                     _boilerTemp.value = value
                 }
                 PARAMS_KEY_COLD_RINSE -> {
-                    dataStore.saveColdRinseQuantity(value as Int)
-                    _coldRinseQuantity.value = value
+                    val realValue = value as Float
+                    dataStore.saveColdRinseQuantity(realValue.toInt())
+                    _coldRinseQuantity.value = realValue.toInt()
                 }
                 PARAMS_KEY_WARM_RINSE -> {
-                    dataStore.saveWarmRinseQuantity(value as Int)
-                    _warmRinseQuantity.value = value
+                    val realValue = value as Float
+                    dataStore.saveWarmRinseQuantity(realValue.toInt())
+                    _warmRinseQuantity.value = realValue.toInt()
                 }
                 PARAMS_KEY_GROUNDS_QUANTITY -> {
                     dataStore.saveGroundsDrawerQuantity(value as Int)
@@ -111,15 +116,18 @@ class MachineParamsViewModel @Inject constructor(
                     _numberOfCyclesRinse.value = value
                 }
                 PARAMS_KEY_STEAM_BOILER_PRESSURE -> {
-                    dataStore.saveSteamBoilerPressure(value as Int)
-                    _steamBoilerPressure.value = value
+                    val realValue = value as Float
+                    dataStore.saveSteamBoilerPressure(realValue.toInt())
+                    _steamBoilerPressure.value = realValue.toInt()
                 }
                 PARAMS_KEY_NTC_LEFT -> {
-                    dataStore.saveNtcCorrectionSteamLeft(value as Int)
+                    val realValue = temperatureRevert(value as Float)
+                    dataStore.saveNtcCorrectionSteamLeft(realValue)
                     _ntcCorrectionSteamLeft.value = value
                 }
                 PARAMS_KEY_NTC_RIGHT -> {
-                    dataStore.saveNtcCorrectionSteamRight(value as Int)
+                    val realValue = temperatureRevert(value as Float)
+                    dataStore.saveNtcCorrectionSteamRight(realValue)
                     _ntcCorrectionSteamRight.value = value
                 }
                 else -> {}
@@ -127,12 +135,24 @@ class MachineParamsViewModel @Inject constructor(
         }
     }
 
-    fun temperatureDisplay(value: Int): Float {
-        return if (_temperatureUnit.value) {
-            (value * 1.8 + 32).toFloat()
+    fun temperatureDisplay(value: Float): Float {
+        val result = if (_temperatureUnit.value) {
+            Math.round(value * 9 / 5 + 32).toFloat()
         } else {
-            value.toFloat()
+            Math.round(value).toFloat()
         }
+        Logger.d(TAG, "temperatureDisplay() called with: value = $value result = $result")
+        return result
+    }
+
+    private fun temperatureRevert(value: Float): Float {
+        val result = if (_temperatureUnit.value) {
+            Math.round((value - 32) * 5 / 9).toFloat()
+        } else {
+            Math.round(value).toFloat()
+        }
+        Logger.d(TAG, "temperatureRevert() called with: value = $value result = $result")
+        return result
     }
 
 }

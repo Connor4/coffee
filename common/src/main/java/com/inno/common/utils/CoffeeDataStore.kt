@@ -57,11 +57,11 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         name = USER_PREFERENCES_NAME
     )
 
-    suspend fun getCoffeeBoilerTemp(): Int {
-        return getCoffeePreference(COFFEE_BOILER_TEMP, 90)
+    suspend fun getCoffeeBoilerTemp(): Float {
+        return getCoffeePreference(COFFEE_BOILER_TEMP, 90f)
     }
 
-    suspend fun saveCoffeeBoilerTemp(coffeeBoilerTemp: Int) {
+    suspend fun saveCoffeeBoilerTemp(coffeeBoilerTemp: Float) {
         saveCoffeePreference(COFFEE_BOILER_TEMP, coffeeBoilerTemp)
     }
 
@@ -129,19 +129,19 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         saveCoffeePreference(STEAM_BOILER_PRESSURE, steamBoilerPressure)
     }
 
-    suspend fun getNtcCorrectionSteamLeft(): Int {
-        return getCoffeePreference(NTC_LEFT, 0)
+    suspend fun getNtcCorrectionSteamLeft(): Float {
+        return getCoffeePreference(NTC_LEFT, 0f)
     }
 
-    suspend fun saveNtcCorrectionSteamLeft(ntcCorrectionSteamLeft: Int) {
+    suspend fun saveNtcCorrectionSteamLeft(ntcCorrectionSteamLeft: Float) {
         saveCoffeePreference(NTC_LEFT, ntcCorrectionSteamLeft)
     }
 
-    suspend fun getNtcCorrectionSteamRight(): Int {
-        return getCoffeePreference(NTC_RIGHT, 0)
+    suspend fun getNtcCorrectionSteamRight(): Float {
+        return getCoffeePreference(NTC_RIGHT, 0f)
     }
 
-    suspend fun saveNtcCorrectionSteamRight(ntcCorrectionSteamRight: Int) {
+    suspend fun saveNtcCorrectionSteamRight(ntcCorrectionSteamRight: Float) {
         saveCoffeePreference(NTC_RIGHT, ntcCorrectionSteamRight)
     }
 
