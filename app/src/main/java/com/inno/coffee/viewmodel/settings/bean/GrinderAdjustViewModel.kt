@@ -16,9 +16,9 @@ class GrinderAdjustViewModel @Inject constructor(
     private val TAG = "GrinderAdjustViewModel"
     private val LEFT_GRINDER_VALUE = "left_grinder_value"
     private val RIGHT_GRINDER_VALUE = "right_grinder_value"
-    private val LEFT_DEFAULT_VALUE = 0
-    private val RIGHT_DEFAULT_VALUE = 0
-    private val MIN_VALUE = 0
+    private val LEFT_DEFAULT_VALUE = 1
+    private val RIGHT_DEFAULT_VALUE = 1
+    private val MIN_VALUE = 1
     private val MAX_VALUE = 100
 
     private val _leftGrinderValue = MutableStateFlow(0)
@@ -38,17 +38,21 @@ class GrinderAdjustViewModel @Inject constructor(
 
     fun saveGrinderValue(left: Boolean, add: Boolean) {
         Logger.d(TAG, "saveGrinderValue() called with: left = $left, add = $add")
-        if (_leftGrinderValue.value > MAX_VALUE || _rightGrinderValue.value > MAX_VALUE ||
-                _leftGrinderValue.value < MIN_VALUE || _rightGrinderValue.value < MIN_VALUE) {
-            return
-        }
         viewModelScope.launch {
             if (left) {
-                dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE,
-                    if (add) _leftGrinderValue.value++ else _leftGrinderValue.value--)
+                if (_leftGrinderValue.value <= MAX_VALUE && add) {
+                    dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE, leftGrinderValue.value++)
+                }
+                if (_leftGrinderValue.value > MIN_VALUE && !add) {
+                    dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE, leftGrinderValue.value--)
+                }
             } else {
-                dataStore.saveCoffeePreference(RIGHT_GRINDER_VALUE,
-                    if (add) _rightGrinderValue.value++ else _rightGrinderValue.value--)
+                if (_rightGrinderValue.value <= MAX_VALUE && add) {
+                    dataStore.saveCoffeePreference(RIGHT_GRINDER_VALUE, rightGrinderValue.value++)
+                }
+                if (_rightGrinderValue.value > MIN_VALUE && !add) {
+                    dataStore.saveCoffeePreference(RIGHT_GRINDER_VALUE, rightGrinderValue.value--)
+                }
             }
         }
     }

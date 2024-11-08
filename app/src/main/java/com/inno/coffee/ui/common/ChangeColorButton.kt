@@ -20,32 +20,31 @@ import com.inno.coffee.utilities.nsp
 fun ChangeColorButton(
     modifier: Modifier = Modifier,
     text: String = "",
-    pressedTextColor: Color = Color.Black,
+    pressedTextColor: Color = Color.White,
     normalTextColor: Color = Color.White,
+    pressedBoarderColor: Color = Color(0xFF00DE93),
+    normalBoarderColor: Color = Color(0xFF484848),
     onClick: () -> Unit = {},
 ) {
     val interactionSource = remember {
         MutableInteractionSource()
     }
     val pressed by interactionSource.collectIsPressedAsState()
-    val bgColor: Color?
     val textColor: Color?
     val boarderColor: Color?
     if (pressed) {
-        bgColor = Color(0xFF00DE93)
         textColor = pressedTextColor
-        boarderColor = Color(0xFF00DE93)
+        boarderColor = pressedBoarderColor
     } else {
-        bgColor = Color(0xFF191A1D)
         textColor = normalTextColor
-        boarderColor = Color(0xFF484848)
+        boarderColor = normalBoarderColor
     }
 
     Button(
         modifier = modifier,
         interactionSource = interactionSource,
-        colors = ButtonDefaults.buttonColors(containerColor = bgColor),
-        border = BorderStroke(1.dp, boarderColor),
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF191A1D)),
+        border = BorderStroke(2.dp, boarderColor),
         shape = RoundedCornerShape(10.dp),
         onClick = composeClick {
             onClick()

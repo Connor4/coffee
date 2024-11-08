@@ -111,7 +111,8 @@ fun GrinderSettingLayout(
                 }
             }, {
                 viewModel.saveGrinderValue(left = true, add = false)
-            }
+            },
+            pressedColor = Color(0xFF6DD400),
         )
         AdjustButton(
             modifier = Modifier
@@ -133,7 +134,8 @@ fun GrinderSettingLayout(
                 }
             }, {
                 viewModel.saveGrinderValue(left = true, add = true)
-            }
+            },
+            pressedColor = Color(0xFF6DD400),
         )
         ChangeColorButton(
             modifier = Modifier
@@ -141,7 +143,9 @@ fun GrinderSettingLayout(
                 .width(200.dp)
                 .height(50.dp),
             text = stringResource(R.string.bean_grinder_reset),
-            normalTextColor = Color(0xFF6DD400)
+            normalTextColor = Color(0xFF6DD400),
+            pressedTextColor = Color(0xFF6DD400),
+            pressedBoarderColor = Color(0xFF6DD400),
         ) {
             viewModel.resetGrinderValue(true)
         }
@@ -151,7 +155,9 @@ fun GrinderSettingLayout(
                 .width(210.dp)
                 .height(50.dp),
             text = stringResource(R.string.bean_grinder_rear_test),
-            normalTextColor = Color(0xFF6DD400)
+            normalTextColor = Color(0xFF6DD400),
+            pressedTextColor = Color(0xFF6DD400),
+            pressedBoarderColor = Color(0xFF6DD400),
         ) {
             viewModel.grinderTest(true)
         }
@@ -194,7 +200,8 @@ fun GrinderSettingLayout(
                 }
             }, {
                 viewModel.saveGrinderValue(left = false, add = false)
-            }
+            },
+            pressedColor = Color(0xFF0FB9A4),
         )
         AdjustButton(
             modifier = Modifier
@@ -216,7 +223,8 @@ fun GrinderSettingLayout(
                 }
             }, {
                 viewModel.saveGrinderValue(left = false, add = true)
-            }
+            },
+            pressedColor = Color(0xFF0FB9A4),
         )
         ChangeColorButton(
             modifier = Modifier
@@ -224,7 +232,9 @@ fun GrinderSettingLayout(
                 .width(200.dp)
                 .height(50.dp),
             text = stringResource(R.string.bean_grinder_reset),
-            normalTextColor = Color(0xFF0FB9A4)
+            normalTextColor = Color(0xFF0FB9A4),
+            pressedTextColor = Color(0xFF0FB9A4),
+            pressedBoarderColor = Color(0xFF0FB9A4),
         ) {
             viewModel.resetGrinderValue(false)
         }
@@ -234,7 +244,9 @@ fun GrinderSettingLayout(
                 .width(210.dp)
                 .height(50.dp),
             text = stringResource(R.string.bean_grinder_front_test),
-            normalTextColor = Color(0xFF0FB9A4)
+            normalTextColor = Color(0xFF0FB9A4),
+            pressedTextColor = Color(0xFF0FB9A4),
+            pressedBoarderColor = Color(0xFF0FB9A4),
         ) {
             viewModel.grinderTest(false)
         }
@@ -246,26 +258,23 @@ private fun AdjustButton(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
     onClick: () -> Unit = {},
+    pressedColor: Color = Color(0xFF00DE93),
 ) {
     val interactionSource = remember {
         MutableInteractionSource()
     }
     val pressed by interactionSource.collectIsPressedAsState()
-    val bgColor: Color?
-    val boarderColor: Color?
-    if (pressed) {
-        bgColor = Color(0xFF00DE93)
-        boarderColor = Color(0xFF00DE93)
+    val boarderColor = if (pressed) {
+        pressedColor
     } else {
-        bgColor = Color(0xFF191A1D)
-        boarderColor = Color(0xFF484848)
+        Color(0xFF484848)
     }
 
     Button(
         modifier = modifier,
         interactionSource = interactionSource,
-        colors = ButtonDefaults.buttonColors(containerColor = bgColor),
-        border = BorderStroke(1.dp, boarderColor),
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF191A1D)),
+        border = BorderStroke(2.dp, boarderColor),
         shape = RoundedCornerShape(20.dp),
         onClick = composeClick {
             onClick()
