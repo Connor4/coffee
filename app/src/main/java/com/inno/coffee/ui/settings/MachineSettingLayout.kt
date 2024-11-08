@@ -43,9 +43,9 @@ import com.inno.coffee.ui.settings.bean.BeanGrinderActivity
 import com.inno.coffee.ui.settings.config.MachineConfigActivity
 import com.inno.coffee.ui.settings.display.DisplayActivity
 import com.inno.coffee.ui.settings.formula.FormulaActivity
+import com.inno.coffee.ui.settings.machinetest.MachineTestActivity
 import com.inno.coffee.ui.settings.params.MachineParamsActivity
 import com.inno.coffee.ui.settings.permissions.PermissionActivity
-import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
 import com.inno.coffee.ui.settings.statistics.StatisticActivity
 import com.inno.coffee.utilities.nsp
 import com.inno.common.annotations.BEANS_AND_GRINDER
@@ -218,7 +218,7 @@ private fun jumpDetail(name: String, context: Context) {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
         }
         MACHINE_TEST -> {
-            ScreenDisplayManager.autoRoute(context, SerialPortActivity::class.java)
+            ScreenDisplayManager.autoRoute(context, MachineTestActivity::class.java)
         }
         else -> {}
     }

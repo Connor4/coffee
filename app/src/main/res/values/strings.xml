@@ -381,4 +381,10 @@
     <string name="bean_grinder_finer">Finer</string>
     <string name="bean_grinder_coarser">Coarser</string>
 
+    <string name="machine_test_coffee_inputs">Coffee Inputs</string>
+    <string name="machine_test_coffee_output">Coffee Outputs</string>
+    <string name="machine_test_steam_inputs">Steam Inputs</string>
+    <string name="machine_test_steam_output">Steam Outputs</string>
+    <string name="machine_test_motor_test">Motor Test</string>
+
 </resources>
