@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings.machinetest
 
+import android.content.Context
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -19,8 +20,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,7 +36,6 @@ import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
-import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_ACTIVITY
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_COFFEE_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_COFFEE_OUTPUTS
@@ -65,9 +63,6 @@ fun MachineTestLayout(
         Pair(MACHINE_TEST_KEY_MOTOR_TEST, R.string.machine_test_motor_test),
         Pair(MACHINE_TEST_KEY_SERIAL_TEST, R.string.common_serial_test),
     )
-    val selectedIndex = remember {
-        mutableStateOf(INVALID_INT)
-    }
 
     Box(
         modifier = Modifier
@@ -100,50 +95,48 @@ fun MachineTestLayout(
         ) {
             items.forEach { name ->
                 MenuItem(title = name.second) {
-                    selectedIndex.value = name.first
+                    jump(name.first, context)
                 }
                 Spacer(modifier = Modifier.width(20.dp))
             }
         }
-        if (selectedIndex.value != INVALID_INT) {
-            when (selectedIndex.value) {
-                MACHINE_TEST_KEY_COFFEE_INPUTS -> {
-                    ScreenDisplayManager.autoRoute(context, MachineTestInputsActivity::class.java,
-                        Bundle().apply {
-                            putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_COFFEE_INPUTS)
-                        })
-                }
-                MACHINE_TEST_KEY_COFFEE_OUTPUTS -> {
-                    ScreenDisplayManager.autoRoute(context, MachineTestOutputsActivity::class.java,
-                        Bundle().apply {
-                            putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_COFFEE_OUTPUTS)
-                        })
-                }
-                MACHINE_TEST_KEY_STEAM_INPUTS -> {
-                    ScreenDisplayManager.autoRoute(context, MachineTestInputsActivity::class.java,
-                        Bundle().apply {
-                            putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_STEAM_INPUTS)
-                        })
-                }
-                MACHINE_TEST_KEY_STEAM_OUTPUTS -> {
-                    ScreenDisplayManager.autoRoute(context, MachineTestOutputsActivity::class.java,
-                        Bundle().apply {
-                            putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_STEAM_OUTPUTS)
-                        })
-                }
-                MACHINE_TEST_KEY_MOTOR_TEST -> {
-                }
-                MACHINE_TEST_KEY_SERIAL_TEST -> {
-                    ScreenDisplayManager.autoRoute(context, SerialPortActivity::class.java)
-                }
-            }
-
-        }
-
     }
 
 }
 
+private fun jump(index: Int, context: Context) {
+    when (index) {
+        MACHINE_TEST_KEY_COFFEE_INPUTS -> {
+            ScreenDisplayManager.autoRoute(context, MachineTestInputsActivity::class.java,
+                Bundle().apply {
+                    putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_COFFEE_INPUTS)
+                })
+        }
+        MACHINE_TEST_KEY_COFFEE_OUTPUTS -> {
+            ScreenDisplayManager.autoRoute(context, MachineTestOutputsActivity::class.java,
+                Bundle().apply {
+                    putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_COFFEE_OUTPUTS)
+                })
+        }
+        MACHINE_TEST_KEY_STEAM_INPUTS -> {
+            ScreenDisplayManager.autoRoute(context, MachineTestInputsActivity::class.java,
+                Bundle().apply {
+                    putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_STEAM_INPUTS)
+                })
+        }
+        MACHINE_TEST_KEY_STEAM_OUTPUTS -> {
+            ScreenDisplayManager.autoRoute(context, MachineTestOutputsActivity::class.java,
+                Bundle().apply {
+                    putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_STEAM_OUTPUTS)
+                })
+        }
+        MACHINE_TEST_KEY_MOTOR_TEST -> {
+        }
+        MACHINE_TEST_KEY_SERIAL_TEST -> {
+            ScreenDisplayManager.autoRoute(context, SerialPortActivity::class.java)
+        }
+    }
+}
 
 @Composable
 private fun MenuItem(

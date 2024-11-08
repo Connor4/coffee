@@ -22,9 +22,11 @@ class MachineTestInputsActivity : CoffeeActivity() {
             CoffeeTheme {
                 when (index) {
                     MACHINE_TEST_VALUE_COFFEE_INPUTS -> {
+                        MachineTestCoffeeInputLayout() {
+                            finish()
+                        }
                     }
                     MACHINE_TEST_VALUE_STEAM_INPUTS -> {
-
                     }
                 }
             }

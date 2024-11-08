@@ -17,7 +17,7 @@ class MachineTestOutputsActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         val index =
             intent.extras?.getString(MACHINE_TEST_KEY_ACTIVITY) ?: MACHINE_TEST_VALUE_COFFEE_OUTPUTS
-        Logger.d("MachineTestInputsActivity", "onCreate() index = $index")
+        Logger.d("MachineTestOutputsActivity", "onCreate() index = $index")
         setContent {
             CoffeeTheme {
                 when (index) {

@@ -4,7 +4,7 @@
     <string name="global_warning_title">WARNING</string>
     <string name="global_warning_follow_instruction">Please follow the instructions for regular maintenance.</string>
 
-    <string name="common_empty_string"></string>
+    <string name="common_empty_string" translatable="false"></string>
     <string name="common_button_confirm">OK</string>
     <string name="common_button_cancel">Cancel</string>
     <string name="common_statistic">Statistic/History</string>
@@ -49,10 +49,10 @@
     <string name="first_install_language_title">Language Settings</string>
     <string name="first_install_language_English">English</string>
     <string name="first_install_language_Chinese_simplified">中文(简体)</string>
-    <string name="first_install_language_Chinese_traditional">"中文(繁體)"</string>
-    <string name="first_install_language_Japanese">日本語</string>
-    <string name="first_install_language_Korean">한국어</string>
-    <string name="first_install_language_French">Français</string>
+    <string name="first_install_language_Chinese_traditional" translatable="false">"中文(繁體)"</string>
+    <string name="first_install_language_Japanese" translatable="false">日本語</string>
+    <string name="first_install_language_Korean" translatable="false">한국어</string>
+    <string name="first_install_language_French" translatable="false">Français</string>
     <string name="first_install_next">Next Step</string>
     <string name="first_install_date_title">Date Settings</string>
     <string name="first_install_select_date">Select Date</string>
@@ -386,5 +386,24 @@
     <string name="machine_test_steam_inputs">Steam Inputs</string>
     <string name="machine_test_steam_output">Steam Outputs</string>
     <string name="machine_test_motor_test">Motor Test</string>
+    <string name="machine_test_input_test_coffee">Input Test - Coffee</string>
+    <string name="machine_test_input_test_steam">Input Test - Steam</string>
+    <string name="machine_test_output_test_coffee">Output Test - Coffee</string>
+    <string name="machine_test_output_test_steam">Output Test - Steam</string>
+    <string name="machine_test_micro_switch_left">Micro Switch Grinder Left: </string>
+    <string name="machine_test_micro_switch_right">Micro Switch Grinder Right: </string>
+    <string name="machine_test_bean_hopper_rear">Bean Hopper Rear: </string>
+    <string name="machine_test_bean_hopper_front">Bean Hopper Front: </string>
+    <string name="machine_test_grounds_drawer">Grounds Drawer: </string>
+    <string name="machine_test_line_pressure_switch">Line Pressure Switch: </string>
+    <string name="machine_test_water_pressure">Water Pressure: </string>
+    <string name="machine_test_boiler_temperature_left">Coffee Boiler Temperature Left: </string>
+    <string name="machine_test_boiler_temperature_right">Coffee Boiler Temperature Right: </string>
+    <string name="machine_test_flow_rate_left">Flow Rate Left: </string>
+    <string name="machine_test_flow_rate_right">Flow Rate Right: </string>
+    <string name="machine_test_present">Present</string>
+    <string name="machine_test_missing">Missing</string>
+    <string name="machine_test_ok">OK</string>
+    <string name="machine_test_warning">WARNING</string>
 
 </resources>
