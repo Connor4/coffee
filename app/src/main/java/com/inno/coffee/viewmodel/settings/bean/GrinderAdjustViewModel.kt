@@ -18,6 +18,8 @@ class GrinderAdjustViewModel @Inject constructor(
     private val RIGHT_GRINDER_VALUE = "right_grinder_value"
     private val LEFT_DEFAULT_VALUE = 0
     private val RIGHT_DEFAULT_VALUE = 0
+    private val MIN_VALUE = 0
+    private val MAX_VALUE = 100
 
     private val _leftGrinderValue = MutableStateFlow(0)
     val leftGrinderValue = _leftGrinderValue
@@ -36,6 +38,10 @@ class GrinderAdjustViewModel @Inject constructor(
 
     fun saveGrinderValue(left: Boolean, add: Boolean) {
         Logger.d(TAG, "saveGrinderValue() called with: left = $left, add = $add")
+        if (_leftGrinderValue.value > MAX_VALUE || _rightGrinderValue.value > MAX_VALUE ||
+                _leftGrinderValue.value < MIN_VALUE || _rightGrinderValue.value < MIN_VALUE) {
+            return
+        }
         viewModelScope.launch {
             if (left) {
                 dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE,
