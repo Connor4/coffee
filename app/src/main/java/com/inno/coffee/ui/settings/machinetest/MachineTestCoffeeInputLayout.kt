@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,14 +22,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.TextWithValue
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.machinetest.MachineTestViewModel
 
 
 @Composable
 fun MachineTestCoffeeInputLayout(
+    viewModel: MachineTestViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val okColor = Color(0xFF6DD400)
@@ -38,16 +42,17 @@ fun MachineTestCoffeeInputLayout(
     val ok = stringResource(R.string.machine_test_ok)
     val warning = stringResource(R.string.machine_test_warning)
 
-    val rear = true
-    val front = false
-    val drawer = true
-    val switch = true
-    val pressure = 4.6
-    val leftTemp = 90
-    val rightTemp = 92
-    val leftFlow = 10
-    val rightFlow = 12
-    val tempUnit = "C"
+    val microSwitchLeft = viewModel.microSwitchLeft.collectAsState()
+    val microSwitchRight = viewModel.microSwitchRight.collectAsState()
+    val rear = viewModel.rear.collectAsState()
+    val front = viewModel.front.collectAsState()
+    val drawer = viewModel.drawer.collectAsState()
+    val switch = viewModel.switch.collectAsState()
+    val pressure = viewModel.pressure.collectAsState()
+    val leftTemp = viewModel.leftTemp.collectAsState()
+    val rightTemp = viewModel.rightTemp.collectAsState()
+    val leftFlow = viewModel.leftFlow.collectAsState()
+    val rightFlow = viewModel.rightFlow.collectAsState()
 
     Box(
         modifier = Modifier
@@ -72,11 +77,13 @@ fun MachineTestCoffeeInputLayout(
 
         TextWithValue(
             stringResource(R.string.machine_test_micro_switch_left),
-            "ON", modifier = Modifier.padding(top = 179.dp, start = 55.dp),
+            if (microSwitchLeft.value) ok else warning,
+            modifier = Modifier.padding(top = 179.dp, start = 55.dp),
         )
         TextWithValue(
             stringResource(R.string.machine_test_micro_switch_right),
-            "OFF", modifier = Modifier.padding(top = 179.dp, start = 579.dp),
+            if (microSwitchRight.value) ok else warning,
+            modifier = Modifier.padding(top = 179.dp, start = 579.dp),
         )
 
         Box(
@@ -96,18 +103,18 @@ fun MachineTestCoffeeInputLayout(
             ) {
                 TextWithValue(
                     stringResource(R.string.machine_test_bean_hopper_rear),
-                    if (rear) present else missing,
-                    textColor = if (rear) okColor else failColor,
+                    if (rear.value) present else missing,
+                    textColor = if (rear.value) okColor else failColor,
                 )
                 TextWithValue(
                     stringResource(R.string.machine_test_bean_hopper_front),
-                    if (front) present else missing,
-                    textColor = if (front) okColor else failColor,
+                    if (front.value) present else missing,
+                    textColor = if (front.value) okColor else failColor,
                 )
                 TextWithValue(
                     stringResource(R.string.machine_test_grounds_drawer),
-                    if (drawer) present else missing,
-                    textColor = if (drawer) okColor else failColor,
+                    if (drawer.value) present else missing,
+                    textColor = if (drawer.value) okColor else failColor,
                 )
             }
         }
@@ -121,38 +128,36 @@ fun MachineTestCoffeeInputLayout(
         ) {
             TextWithValue(
                 stringResource(R.string.machine_test_line_pressure_switch),
-                value = if (switch) ok else warning,
-                textColor = if (switch) okColor else failColor,
+                value = if (switch.value) ok else warning,
+                textColor = if (switch.value) okColor else failColor,
                 modifier = Modifier.padding(start = 30.dp, top = 20.dp)
             )
             TextWithValue(
                 stringResource(R.string.machine_test_water_pressure),
-                value = "$pressure",
+                value = "${pressure.value}",
                 unit = "bar",
                 modifier = Modifier.padding(start = 600.dp, top = 20.dp)
             )
             TextWithValue(
                 stringResource(R.string.machine_test_boiler_temperature_left),
-                value = "$leftTemp",
-                unit = tempUnit,
+                value = leftTemp.value,
                 modifier = Modifier.padding(start = 30.dp, top = 55.dp)
             )
             TextWithValue(
                 stringResource(R.string.machine_test_boiler_temperature_right),
-                value = "$rightTemp",
-                unit = tempUnit,
+                value = rightTemp.value,
                 modifier = Modifier.padding(start = 600.dp, top = 55.dp)
             )
 
             TextWithValue(
                 stringResource(R.string.machine_test_flow_rate_left),
-                value = "$leftFlow",
+                value = "${leftFlow.value}",
                 unit = "ticks/s",
                 modifier = Modifier.padding(start = 30.dp, top = 120.dp)
             )
             TextWithValue(
                 stringResource(R.string.machine_test_flow_rate_right),
-                value = "$rightFlow",
+                value = "${rightFlow.value}",
                 unit = "ticks/s",
                 modifier = Modifier.padding(start = 600.dp, top = 120.dp)
             )
