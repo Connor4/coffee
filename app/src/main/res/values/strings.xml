@@ -405,5 +405,11 @@
     <string name="machine_test_missing">Missing</string>
     <string name="machine_test_ok">OK</string>
     <string name="machine_test_warning">WARNING</string>
+    <string name="machine_test_steam_pressure">Pressure Sensor Steam Boiler: </string>
+    <string name="machine_test_security_level">Water Security Level: </string>
+    <string name="machine_test_work_level">Water Working Level: </string>
+    <string name="machine_test_left_wand_temp">Temperature Steam Wand Left: </string>
+    <string name="machine_test_right_wand_temp">Temperature Steam Wand Right: </string>
+
 
 </resources>

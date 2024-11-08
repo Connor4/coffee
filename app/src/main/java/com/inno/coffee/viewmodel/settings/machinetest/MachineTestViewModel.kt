@@ -47,6 +47,18 @@ class MachineTestViewModel @Inject constructor(
     private val _rightFlow = MutableStateFlow(0f)
     val rightFlow = _rightFlow
 
+    private val _steamPressure = MutableStateFlow(0f)
+    val steamPressure = _steamPressure
+    private val _securityLevel = MutableStateFlow(true)
+    val securityLevel = _securityLevel
+    private val _workLevel = MutableStateFlow(true)
+    val workLevel = _workLevel
+    private val _leftWandTemp = MutableStateFlow(0f)
+    val leftWandTemp = temperatureDisplayFlow(_leftWandTemp)
+    private val _rightWandTemp = MutableStateFlow(0f)
+    val rightWandTemp = temperatureDisplayFlow(_rightWandTemp)
+
+
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)

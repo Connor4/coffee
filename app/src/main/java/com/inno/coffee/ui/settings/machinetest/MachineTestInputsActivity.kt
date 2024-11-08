@@ -30,6 +30,9 @@ class MachineTestInputsActivity : CoffeeActivity() {
                         }
                     }
                     MACHINE_TEST_VALUE_STEAM_INPUTS -> {
+                        MachineTestSteamInputLayout(viewModel) {
+                            finish()
+                        }
                     }
                 }
             }
