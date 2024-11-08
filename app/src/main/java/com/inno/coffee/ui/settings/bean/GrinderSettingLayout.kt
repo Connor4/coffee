@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,16 +29,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.composeClick
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.bean.GrinderAdjustViewModel
 
 @Composable
 fun GrinderSettingLayout(
+    viewModel: GrinderAdjustViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val leftGrinderValue by viewModel.leftGrinderValue.collectAsState()
+    val rightGrinderValue by viewModel.rightGrinderValue.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +82,7 @@ fun GrinderSettingLayout(
         ) {
             Text(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                text = "0", fontSize = 15.nsp(), color = Color(0xFF6DD400),
+                text = "$leftGrinderValue", fontSize = 15.nsp(), color = Color(0xFF6DD400),
                 fontWeight = FontWeight.Bold,
             )
             Text(
@@ -84,28 +91,48 @@ fun GrinderSettingLayout(
                 fontSize = 5.nsp(), color = Color(0xFF6DD400),
             )
         }
-        ChangeColorButton2(
+        AdjustButton(
             modifier = Modifier
                 .padding(top = 312.dp, start = 160.dp)
-                .size(160.dp), {
-                Text(
-                    text = stringResource(R.string.bean_grinder_finer),
-                    fontSize = 6.nsp(), color = Color(0xFF6DD400),
-                )
+                .size(160.dp),
+            {
+                Column {
+                    Text(
+                        text = stringResource(R.string.bean_grinder_finer),
+                        fontSize = 6.nsp(), color = Color(0xFF6DD400),
+                    )
+                    Text(
+                        modifier = Modifier
+                            .align(alignment = Alignment.CenterHorizontally)
+                            .padding(top = 20.dp),
+                        text = "( - )",
+                        fontSize = 8.nsp(), color = Color(0xFF6DD400),
+                    )
+                }
             }, {
-
+                viewModel.saveGrinderValue(left = true, add = false)
             }
         )
-        ChangeColorButton2(
+        AdjustButton(
             modifier = Modifier
                 .padding(top = 492.dp, start = 160.dp)
-                .size(160.dp), {
-                Text(
-                    text = stringResource(R.string.bean_grinder_coarser),
-                    fontSize = 6.nsp(), color = Color(0xFF6DD400),
-                )
+                .size(160.dp),
+            {
+                Column {
+                    Text(
+                        text = stringResource(R.string.bean_grinder_coarser),
+                        fontSize = 6.nsp(), color = Color(0xFF6DD400),
+                    )
+                    Text(
+                        modifier = Modifier
+                            .align(alignment = Alignment.CenterHorizontally)
+                            .padding(top = 20.dp),
+                        text = "( + )",
+                        fontSize = 8.nsp(), color = Color(0xFF6DD400),
+                    )
+                }
             }, {
-
+                viewModel.saveGrinderValue(left = true, add = true)
             }
         )
         ChangeColorButton(
@@ -116,7 +143,7 @@ fun GrinderSettingLayout(
             text = stringResource(R.string.bean_grinder_reset),
             normalTextColor = Color(0xFF6DD400)
         ) {
-
+            viewModel.resetGrinderValue(true)
         }
         ChangeColorButton(
             modifier = Modifier
@@ -126,7 +153,7 @@ fun GrinderSettingLayout(
             text = stringResource(R.string.bean_grinder_rear_test),
             normalTextColor = Color(0xFF6DD400)
         ) {
-
+            viewModel.grinderTest(true)
         }
 // =============================right end================================
 //===============================left start================================
@@ -138,7 +165,7 @@ fun GrinderSettingLayout(
         ) {
             Text(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                text = "0", fontSize = 15.nsp(), color = Color(0xFF0FB9A4),
+                text = "$rightGrinderValue", fontSize = 15.nsp(), color = Color(0xFF0FB9A4),
                 fontWeight = FontWeight.Bold,
             )
             Text(
@@ -147,28 +174,48 @@ fun GrinderSettingLayout(
             )
         }
 
-        ChangeColorButton2(
+        AdjustButton(
             modifier = Modifier
                 .padding(top = 312.dp, start = 950.dp)
-                .size(160.dp), {
-                Text(
-                    text = stringResource(R.string.bean_grinder_finer),
-                    fontSize = 6.nsp(), color = Color(0xFF0FB9A4),
-                )
+                .size(160.dp),
+            {
+                Column {
+                    Text(
+                        text = stringResource(R.string.bean_grinder_finer),
+                        fontSize = 6.nsp(), color = Color(0xFF0FB9A4),
+                    )
+                    Text(
+                        modifier = Modifier
+                            .align(alignment = Alignment.CenterHorizontally)
+                            .padding(top = 20.dp),
+                        text = "( - )",
+                        fontSize = 8.nsp(), color = Color(0xFF0FB9A4),
+                    )
+                }
             }, {
-
+                viewModel.saveGrinderValue(left = false, add = false)
             }
         )
-        ChangeColorButton2(
+        AdjustButton(
             modifier = Modifier
                 .padding(top = 492.dp, start = 950.dp)
-                .size(160.dp), {
-                Text(
-                    text = stringResource(R.string.bean_grinder_coarser),
-                    fontSize = 6.nsp(), color = Color(0xFF0FB9A4),
-                )
+                .size(160.dp),
+            {
+                Column {
+                    Text(
+                        text = stringResource(R.string.bean_grinder_coarser),
+                        fontSize = 6.nsp(), color = Color(0xFF0FB9A4),
+                    )
+                    Text(
+                        modifier = Modifier
+                            .align(alignment = Alignment.CenterHorizontally)
+                            .padding(top = 20.dp),
+                        text = "( + )",
+                        fontSize = 8.nsp(), color = Color(0xFF0FB9A4),
+                    )
+                }
             }, {
-
+                viewModel.saveGrinderValue(left = false, add = true)
             }
         )
         ChangeColorButton(
@@ -179,7 +226,7 @@ fun GrinderSettingLayout(
             text = stringResource(R.string.bean_grinder_reset),
             normalTextColor = Color(0xFF0FB9A4)
         ) {
-
+            viewModel.resetGrinderValue(false)
         }
         ChangeColorButton(
             modifier = Modifier
@@ -189,13 +236,13 @@ fun GrinderSettingLayout(
             text = stringResource(R.string.bean_grinder_front_test),
             normalTextColor = Color(0xFF0FB9A4)
         ) {
-
+            viewModel.grinderTest(false)
         }
 //===============================left end================================
     }
 }
 @Composable
-private fun ChangeColorButton2(
+private fun AdjustButton(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
     onClick: () -> Unit = {},
