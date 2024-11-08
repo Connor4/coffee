@@ -374,6 +374,11 @@
     <string name="bean_extraction_time_control_rear">Extraction Time Control Rear</string>
     <string name="bean_extraction_time_control_front">Extraction Time Control Front</string>
     <string name="bean_levelling">Levelling</string>
-    <string name="bean_grinder_setting">Grinder Setting</string>
+    <string name="bean_grinder_adjustment">Grinder Adjustment</string>
+    <string name="bean_grinder_reset">Reset</string>
+    <string name="bean_grinder_rear_test">Rear Grinder Test</string>
+    <string name="bean_grinder_front_test">Front GrinderTest</string>
+    <string name="bean_grinder_finer">Finer</string>
+    <string name="bean_grinder_coarser">Coarser</string>
 
 </resources>

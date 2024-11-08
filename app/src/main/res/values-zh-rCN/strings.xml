@@ -365,6 +365,11 @@
     <string name="bean_extraction_time_control_rear">后方豆缸萃取时间监测系统</string>
     <string name="bean_extraction_time_control_front">前方豆缸萃取时间监测系统</string>
     <string name="bean_levelling">布粉</string>
-    <string name="bean_grinder_setting">研磨设置</string>
+    <string name="bean_grinder_adjustment">研磨调整</string>
+    <string name="bean_grinder_reset">重置</string>
+    <string name="bean_grinder_rear_test">后方研磨测试</string>
+    <string name="bean_grinder_front_test">前方研磨测试</string>
+    <string name="bean_grinder_finer">细</string>
+    <string name="bean_grinder_coarser">粗</string>
 
 </resources>

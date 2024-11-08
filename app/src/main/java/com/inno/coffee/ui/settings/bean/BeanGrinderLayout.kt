@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.ACCURACY_3
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.ListSelectLayout
@@ -53,6 +55,7 @@ fun BeanGrinderLayout(
     viewModel: BeanGrinderViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
     val defaultValue = remember { mutableStateOf("") }
     val dataMap = remember { mutableMapOf<String, Any>() }
@@ -117,10 +120,12 @@ fun BeanGrinderLayout(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(top = 172.dp, end = 95.dp)
-                .width(220.dp)
+                .width(230.dp)
                 .height(50.dp),
-            text = stringResource(id = R.string.bean_grinder_setting)
+            text = stringResource(id = R.string.bean_grinder_adjustment)
         ) {
+            itemSelectIndex.value = INVALID_INT
+            ScreenDisplayManager.autoRoute(context, GrinderAdjustmentActivity::class.java)
         }
 
         Column(

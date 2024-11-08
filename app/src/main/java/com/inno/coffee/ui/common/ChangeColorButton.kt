@@ -20,6 +20,8 @@ import com.inno.coffee.utilities.nsp
 fun ChangeColorButton(
     modifier: Modifier = Modifier,
     text: String = "",
+    pressedTextColor: Color = Color.Black,
+    normalTextColor: Color = Color.White,
     onClick: () -> Unit = {},
 ) {
     val interactionSource = remember {
@@ -31,11 +33,11 @@ fun ChangeColorButton(
     val boarderColor: Color?
     if (pressed) {
         bgColor = Color(0xFF00DE93)
-        textColor = Color.Black
+        textColor = pressedTextColor
         boarderColor = Color(0xFF00DE93)
     } else {
         bgColor = Color(0xFF191A1D)
-        textColor = Color.White
+        textColor = normalTextColor
         boarderColor = Color(0xFF484848)
     }
 
