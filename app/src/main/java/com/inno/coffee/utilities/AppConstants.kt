@@ -173,4 +173,9 @@ const val MACHINE_TEST_VALUE_COFFEE_INPUTS = "coffee_inputs"
 const val MACHINE_TEST_VALUE_COFFEE_OUTPUTS = "coffee_outputs"
 const val MACHINE_TEST_VALUE_STEAM_INPUTS = "steam_inputs"
 const val MACHINE_TEST_VALUE_STEAM_OUTPUTS = "steam_outputs"
+const val MACHINE_TEST_VALUE_MOTOR_TEST = "motor_test"
+const val MACHINE_TEST_MOTOR_STEP = 0
+const val MACHINE_TEST_MOTOR_SPEED = 1
+const val MACHINE_TEST_MOTOR_CURRENT = 2
+
 

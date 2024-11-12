@@ -428,5 +428,8 @@
     <string name="machine_test_so_steam_valve1">左边蒸汽阀</string>
     <string name="machine_test_so_steam_valve2">右边蒸汽阀</string>
     <string name="machine_test_so_air_pump">气泵</string>
+    <string name="machine_test_motor_steps">单位</string>
+    <string name="machine_test_motor_speed">速度</string>
+    <string name="machine_test_maximum_current">最大电流</string>
 
 </resources>

@@ -437,5 +437,8 @@
     <string name="machine_test_so_steam_valve1">Steam Valve 1</string>
     <string name="machine_test_so_steam_valve2">Steam Valve 2</string>
     <string name="machine_test_so_air_pump">Air Pump</string>
+    <string name="machine_test_motor_steps">Step</string>
+    <string name="machine_test_motor_speed">Speed</string>
+    <string name="machine_test_maximum_current">Maximum Current</string>
 
 </resources>

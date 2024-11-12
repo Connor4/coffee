@@ -38,6 +38,7 @@ import com.inno.coffee.utilities.MACHINE_TEST_KEY_STEAM_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_STEAM_OUTPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_COFFEE_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_COFFEE_OUTPUTS
+import com.inno.coffee.utilities.MACHINE_TEST_VALUE_MOTOR_TEST
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_STEAM_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_STEAM_OUTPUTS
 import com.inno.coffee.utilities.nsp
@@ -124,6 +125,10 @@ private fun jump(index: Int, context: Context) {
                 })
         }
         MACHINE_TEST_KEY_MOTOR_TEST -> {
+            ScreenDisplayManager.autoRoute(context, MachineTestOutputsActivity::class.java,
+                Bundle().apply {
+                    putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_MOTOR_TEST)
+                })
         }
         MACHINE_TEST_KEY_SERIAL_TEST -> {
             ScreenDisplayManager.autoRoute(context, SerialPortActivity::class.java)

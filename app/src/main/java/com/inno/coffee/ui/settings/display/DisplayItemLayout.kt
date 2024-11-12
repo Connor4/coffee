@@ -22,6 +22,7 @@ fun DisplayItemLayout(
     key: String,
     value: String,
     backgroundColor: Color = Color(0xFF191A1D),
+    unit: String = "",
     onClick: () -> Unit = {},
 ) {
     Column(
@@ -47,6 +48,13 @@ fun DisplayItemLayout(
                 fontSize = 5.nsp(),
                 modifier = Modifier.padding(start = 420.dp)
             )
+            if (unit.isNotEmpty()) {
+                Text(
+                    text = unit, color = Color.White,
+                    fontSize = 5.nsp(),
+                    modifier = Modifier.padding(start = 810.dp)
+                )
+            }
         }
         Spacer(modifier = Modifier.height(2.dp))
     }
