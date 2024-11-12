@@ -427,6 +427,15 @@
     <string name="machine_test_co_fan_front">Fan Front</string>
     <string name="machine_test_co_fan_left">Fan Left</string>
     <string name="machine_test_co_fan_right">Fan Right</string>
-
+    <string name="machine_test_so_water_fill_valve">Water Fill Valve</string>
+    <string name="machine_test_so_purge_valve">Purge Valve</string>
+    <string name="machine_test_so_purge_mix_valve">Purge Mix Valve</string>
+    <string name="machine_test_so_hot_water_valve">Hot Water Valve</string>
+    <string name="machine_test_so_hot_water_mix_valve">Hot Water Mix Valve</string>
+    <string name="machine_test_so_steam_boiler_heater1">Steam Boiler Heater 1</string>
+    <string name="machine_test_so_steam_boiler_heater2">Steam Boiler Heater 2</string>
+    <string name="machine_test_so_steam_valve1">Steam Valve 1</string>
+    <string name="machine_test_so_steam_valve2">Steam Valve 2</string>
+    <string name="machine_test_so_air_pump">Air Pump</string>
 
 </resources>

@@ -27,7 +27,9 @@ class MachineTestOutputsActivity : CoffeeActivity() {
                         }
                     }
                     MACHINE_TEST_VALUE_STEAM_OUTPUTS -> {
-
+                        MachineTestSteamOutputLayout() {
+                            finish()
+                        }
                     }
                 }
             }

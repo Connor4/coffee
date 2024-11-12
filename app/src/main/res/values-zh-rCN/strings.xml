@@ -418,5 +418,15 @@
     <string name="machine_test_co_fan_front">前方风扇</string>
     <string name="machine_test_co_fan_left">左侧风扇</string>
     <string name="machine_test_co_fan_right">右侧风扇</string>
+    <string name="machine_test_so_water_fill_valve">蒸汽锅炉进水阀</string>
+    <string name="machine_test_so_purge_valve">排气阀</string>
+    <string name="machine_test_so_purge_mix_valve">排气混合阀</string>
+    <string name="machine_test_so_hot_water_valve">热水阀</string>
+    <string name="machine_test_so_hot_water_mix_valve">热水混合阀</string>
+    <string name="machine_test_so_steam_boiler_heater1">蒸汽锅炉1号加热管</string>
+    <string name="machine_test_so_steam_boiler_heater2">蒸汽锅炉2号加热管</string>
+    <string name="machine_test_so_steam_valve1">左边蒸汽阀</string>
+    <string name="machine_test_so_steam_valve2">右边蒸汽阀</string>
+    <string name="machine_test_so_air_pump">气泵</string>
 
 </resources>
