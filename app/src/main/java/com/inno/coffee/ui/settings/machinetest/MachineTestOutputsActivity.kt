@@ -36,7 +36,7 @@ class MachineTestOutputsActivity : CoffeeActivity() {
                         }
                     }
                     MACHINE_TEST_VALUE_MOTOR_TEST -> {
-                        MachineTestMotorLayout(viewModel) {
+                        MachineTestMotorLayout() {
                             finish()
                         }
                     }

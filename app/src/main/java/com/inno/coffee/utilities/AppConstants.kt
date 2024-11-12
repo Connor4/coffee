@@ -177,5 +177,9 @@ const val MACHINE_TEST_VALUE_MOTOR_TEST = "motor_test"
 const val MACHINE_TEST_MOTOR_STEP = 0
 const val MACHINE_TEST_MOTOR_SPEED = 1
 const val MACHINE_TEST_MOTOR_CURRENT = 2
+const val MACHINE_TEST_MOTOR_1 = 1
+const val MACHINE_TEST_MOTOR_2 = 2
+const val MACHINE_TEST_MOTOR_3 = 3
+const val MACHINE_TEST_MOTOR_4 = 4
 
 

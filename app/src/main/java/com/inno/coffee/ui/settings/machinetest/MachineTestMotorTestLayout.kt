@@ -1,17 +1,26 @@
 package com.inno.coffee.ui.settings.machinetest
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -27,9 +36,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.UnitValueScrollBar
+import com.inno.coffee.ui.common.composeClick
+import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.utilities.INVALID_INT
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_1
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_2
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_3
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_4
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_CURRENT
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_SPEED
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_STEP
@@ -46,6 +61,7 @@ fun MachineTestMotorLayout(
     val scrollRangeStart = remember { mutableStateOf(0f) }
     val scrollRangeEnd = remember { mutableStateOf(0f) }
     val scrollUnit = remember { mutableStateOf("") }
+    val selectMotor = remember { mutableIntStateOf(MACHINE_TEST_MOTOR_1) }
 
     val step = viewModel.step.collectAsState()
     val speed = viewModel.speed.collectAsState()
@@ -117,10 +133,151 @@ fun MachineTestMotorLayout(
                     rangeEnd = scrollRangeEnd.value,
                     unit = scrollUnit.value,
                 ) { changeValue ->
-                    viewModel.saveMotorTestValue(itemSelectIndex.value, changeValue.toInt())
+                    viewModel.saveMotorTestValue(itemSelectIndex.value, changeValue)
                 }
             }
         }
+
+        MotorItem(
+            modifier = Modifier.padding(start = 370.dp, top = 360.dp),
+            stringResource(R.string.machine_test_top_piston),
+            selectMotor.value == MACHINE_TEST_MOTOR_1
+        ) {
+            selectMotor.value = MACHINE_TEST_MOTOR_1
+            itemSelectIndex.value = INVALID_INT
+        }
+
+        MotorItem(
+            modifier = Modifier.padding(start = 370.dp, top = 560.dp),
+            stringResource(R.string.machine_test_bottom_piston),
+            selectMotor.value == MACHINE_TEST_MOTOR_2
+        ) {
+            selectMotor.value = MACHINE_TEST_MOTOR_2
+            itemSelectIndex.value = INVALID_INT
+        }
+
+        MotorItem(
+            modifier = Modifier.padding(start = 730.dp, top = 360.dp),
+            stringResource(R.string.machine_test_top_piston),
+            selectMotor.value == MACHINE_TEST_MOTOR_3
+        ) {
+            selectMotor.value = MACHINE_TEST_MOTOR_3
+            itemSelectIndex.value = INVALID_INT
+        }
+
+        MotorItem(
+            modifier = Modifier.padding(start = 730.dp, top = 560.dp),
+            stringResource(R.string.machine_test_bottom_piston),
+            selectMotor.value == MACHINE_TEST_MOTOR_4
+        ) {
+            selectMotor.value = MACHINE_TEST_MOTOR_4
+            itemSelectIndex.value = INVALID_INT
+        }
+
+        AdjustButton(
+            modifier = Modifier
+                .padding(start = 600.dp, top = 420.dp)
+                .size(100.dp), {
+                Image(
+                    painterResource(R.drawable.machine_test_motor_add_ic),
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp)
+                )
+            }, {
+                viewModel.sendMotorTest(selectMotor.value, true)
+            }
+        )
+        AdjustButton(
+            modifier = Modifier
+                .padding(start = 600.dp, top = 560.dp)
+                .size(100.dp), {
+                Image(
+                    painterResource(R.drawable.machine_test_motor_minus_ic),
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp)
+                )
+            }, {
+                viewModel.sendMotorTest(selectMotor.value, false)
+            }
+        )
+    }
+}
+
+@Composable
+private fun MotorItem(
+    modifier: Modifier = Modifier,
+    text: String = "",
+    selected: Boolean,
+    onClick: () -> Unit = {},
+) {
+    Box(
+        modifier = modifier
+            .width(202.dp)
+            .height(182.dp)
+            .debouncedClickable({ onClick() })
+    ) {
+        if (selected) {
+            Image(
+                painter = painterResource(id = R.drawable.machine_test_motor_bg),
+                contentDescription = null
+            )
+        } else {
+            Image(
+                painter = painterResource(id = R.drawable.machine_test_motor_normal_bg),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(180.dp)
+                    .height(160.dp)
+                    .align(Alignment.Center)
+            )
+        }
+        Image(
+            painter = painterResource(R.drawable.machine_test_motor_ic),
+            contentDescription = null,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 40.dp)
+                .width(40.dp)
+                .height(60.dp)
+        )
+        Text(
+            text = text, color = Color.White, fontSize = 5.nsp(), fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 125.dp)
+        )
+    }
+}
+
+
+@Composable
+private fun AdjustButton(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+    onClick: () -> Unit = {},
+    pressedColor: Color = Color(0xFF00DE93),
+) {
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+    val pressed by interactionSource.collectIsPressedAsState()
+    val boarderColor = if (pressed) {
+        pressedColor
+    } else {
+        Color(0xFF484848)
+    }
+
+    Button(
+        modifier = modifier,
+        interactionSource = interactionSource,
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF191A1D)),
+        border = BorderStroke(2.dp, boarderColor),
+        shape = RoundedCornerShape(20.dp),
+        onClick = composeClick {
+            onClick()
+        },
+    ) {
+        content()
     }
 }
 
@@ -128,4 +285,5 @@ fun MachineTestMotorLayout(
 @Composable
 private fun PreviewMotorTest() {
     MachineTestMotorLayout()
+//    MotorItem("Top Piston", true)
 }

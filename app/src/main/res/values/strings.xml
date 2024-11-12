@@ -440,5 +440,7 @@
     <string name="machine_test_motor_steps">Step</string>
     <string name="machine_test_motor_speed">Speed</string>
     <string name="machine_test_maximum_current">Maximum Current</string>
+    <string name="machine_test_top_piston">Top Piston</string>
+    <string name="machine_test_bottom_piston">Bottom Piston</string>
 
 </resources>

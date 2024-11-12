@@ -2,12 +2,16 @@ package com.inno.coffee.viewmodel.settings.machinetest
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_1
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_2
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_CURRENT
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_SPEED
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_STEP
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MachineTestOutputViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val TAG = "MachineTestOutputViewModel"
@@ -45,21 +50,29 @@ class MachineTestOutputViewModel @Inject constructor(
 
     }
 
-    fun saveMotorTestValue(key: Int, value: Any) {
+    fun sendMotorTest(index: Int, add: Boolean) {
+        if (index == MACHINE_TEST_MOTOR_1 || index == MACHINE_TEST_MOTOR_2) {
+
+        } else {
+
+        }
+    }
+
+    fun saveMotorTestValue(key: Int, value: Float) {
         Logger.d(TAG, "saveMotorTestValue() called with: key = $key, value = $value")
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             when (key) {
                 MACHINE_TEST_MOTOR_STEP -> {
-                    dataStore.saveCoffeePreference(MACHINE_TEST_STEP, value as Int)
-                    _step.value = value
+                    dataStore.saveCoffeePreference(MACHINE_TEST_STEP, value.toInt())
+                    _step.value = value.toInt()
                 }
                 MACHINE_TEST_MOTOR_SPEED -> {
-                    dataStore.saveCoffeePreference(MACHINE_TEST_SPEED, value as Int)
-                    _speed.value = value
+                    dataStore.saveCoffeePreference(MACHINE_TEST_SPEED, value.toInt())
+                    _speed.value = value.toInt()
                 }
                 MACHINE_TEST_MOTOR_CURRENT -> {
-                    dataStore.saveCoffeePreference(MACHINE_TEST_CURRENT, value as Int)
-                    _current.value = value
+                    dataStore.saveCoffeePreference(MACHINE_TEST_CURRENT, value.toInt())
+                    _current.value = value.toInt()
                 }
             }
         }
