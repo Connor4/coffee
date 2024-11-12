@@ -394,10 +394,29 @@
     <string name="machine_test_flow_rate_right">右侧流量计: </string>
     <string name="machine_test_present">存在</string>
     <string name="machine_test_missing">缺失</string>
+    <string name="machine_test_warning">警告</string>
     <string name="machine_test_steam_pressure">蒸汽锅炉压力: </string>
     <string name="machine_test_security_level">蒸汽锅炉安全水位: </string>
     <string name="machine_test_work_level">蒸汽锅炉操作水位: </string>
     <string name="machine_test_left_wand_temp">左边蒸汽棒温度: </string>
     <string name="machine_test_right_wand_temp">右边蒸汽棒温度: </string>
+    <string name="machine_test_ok">正常</string>
+    <string name="machine_test_co_water_pump">水泵</string>
+    <string name="machine_test_co_water_inlet_valve">进水阀</string>
+    <string name="machine_test_co_brew_valve_left">左边冲泡阀</string>
+    <string name="machine_test_co_brew_valve_right">右边冲泡阀</string>
+    <string name="machine_test_co_bypass_valve_left">左边旁路出水阀</string>
+    <string name="machine_test_co_bypass_valve_right">右边旁路出水阀</string>
+    <string name="machine_test_co_americano_left">左侧美式咖啡阀</string>
+    <string name="machine_test_co_americano_right">右侧美式咖啡阀</string>
+    <string name="machine_test_co_ball_dispenser_forward">洗机丸槽前移</string>
+    <string name="machine_test_co_ball_dispenser_backward">洗机丸槽后移</string>
+    <string name="machine_test_co_coffee_boiler_left">左侧咖啡锅炉</string>
+    <string name="machine_test_co_coffee_boiler_right">右侧咖啡锅炉</string>
+    <string name="machine_test_co_grinder_left">左边刀盘</string>
+    <string name="machine_test_co_grinder_right">右边刀盘</string>
+    <string name="machine_test_co_fan_front">前方风扇</string>
+    <string name="machine_test_co_fan_left">左侧风扇</string>
+    <string name="machine_test_co_fan_right">右侧风扇</string>
 
 </resources>

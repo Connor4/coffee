@@ -22,6 +22,9 @@ class MachineTestOutputsActivity : CoffeeActivity() {
             CoffeeTheme {
                 when (index) {
                     MACHINE_TEST_VALUE_COFFEE_OUTPUTS -> {
+                        MachineTestCoffeeOutLayout() {
+                            finish()
+                        }
                     }
                     MACHINE_TEST_VALUE_STEAM_OUTPUTS -> {
 

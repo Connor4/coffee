@@ -410,6 +410,23 @@
     <string name="machine_test_work_level">Water Working Level: </string>
     <string name="machine_test_left_wand_temp">Temperature Steam Wand Left: </string>
     <string name="machine_test_right_wand_temp">Temperature Steam Wand Right: </string>
+    <string name="machine_test_co_water_pump">Water Pump</string>
+    <string name="machine_test_co_water_inlet_valve">Water Inlet Valve</string>
+    <string name="machine_test_co_brew_valve_left">Brew Valve Left</string>
+    <string name="machine_test_co_brew_valve_right">Brew Valve Right</string>
+    <string name="machine_test_co_bypass_valve_left">Bypass Valve Left</string>
+    <string name="machine_test_co_bypass_valve_right">Bypass Valve Right</string>
+    <string name="machine_test_co_americano_left">Americano Valve Left</string>
+    <string name="machine_test_co_americano_right">Americano Valve Right</string>
+    <string name="machine_test_co_ball_dispenser_forward">Ball Dispenser Forward</string>
+    <string name="machine_test_co_ball_dispenser_backward">Ball Dispenser Backward</string>
+    <string name="machine_test_co_coffee_boiler_left">Coffee Boiler Left</string>
+    <string name="machine_test_co_coffee_boiler_right">Coffee Boiler Right</string>
+    <string name="machine_test_co_grinder_left">Grinder Left</string>
+    <string name="machine_test_co_grinder_right">Grinder Right</string>
+    <string name="machine_test_co_fan_front">Fan Front</string>
+    <string name="machine_test_co_fan_left">Fan Left</string>
+    <string name="machine_test_co_fan_right">Fan Right</string>
 
 
 </resources>
