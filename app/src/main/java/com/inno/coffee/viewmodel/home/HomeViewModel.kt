@@ -15,7 +15,6 @@ import com.inno.coffee.ui.notice.GlobalDialogRightManager
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
-import com.inno.coffee.utilities.PRODUCT_RINSE
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
 import com.inno.common.utils.CoffeeDataStore
@@ -39,7 +38,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -133,14 +131,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateUsername(username: String) {
-        _username.value = username
-    }
-
-    fun updatePassword(password: String) {
-        _password.value = password
-    }
-
     fun resetLoginState() {
         _loginState.value = LoginState.Idle
         _username.value = ""
@@ -172,22 +162,20 @@ class HomeViewModel @Inject constructor(
 
     fun authenticateUser(password: String) {
         Logger.d(TAG, "authenticateUser() called with: password = $password")
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                if (!UserSessionManager.isLoggedIn()) {
-                    if (password.isBlank()) {
-                        _loginState.value = LoginState.Error(R.string.permission_valid_empty)
-                        return@withContext
-                    }
-                    val isAuthenticated = repository.authenticateUserByPassword(password)
-                    if (!isAuthenticated) {
-                        _loginState.value =
-                            LoginState.Error(R.string.home_login_authenticate_fail)
-                        return@withContext
-                    }
+        viewModelScope.launch(defaultDispatcher) {
+            if (!UserSessionManager.isLoggedIn()) {
+                if (password.isBlank()) {
+                    _loginState.value = LoginState.Error(R.string.permission_valid_empty)
+                    return@launch
                 }
-                _loginState.value = LoginState.Success
+                val isAuthenticated = repository.authenticateUserByPassword(password)
+                if (!isAuthenticated) {
+                    _loginState.value =
+                        LoginState.Error(R.string.home_login_authenticate_fail)
+                    return@launch
+                }
             }
+            _loginState.value = LoginState.Success
         }
     }
 
@@ -195,8 +183,8 @@ class HomeViewModel @Inject constructor(
         Logger.d(TAG,
             "startMakeDrink() called with: model = $model, main = $main, selfCheck = $checking")
         if (ProductType.isOperationType(model.productType?.type)) {
-            if (checking && model.productId == PRODUCT_RINSE) {
-                viewModelScope.launch {
+            if (checking && ProductType.assertType(model.productType?.type, ProductType.RINSE)) {
+                viewModelScope.launch(defaultDispatcher) {
                     SelfCheckManager.operateRinse()
                 }
                 return
