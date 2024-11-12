@@ -27,11 +27,11 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.TextWithValue
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
-import com.inno.coffee.viewmodel.settings.machinetest.MachineTestViewModel
+import com.inno.coffee.viewmodel.settings.machinetest.MachineTestInputViewModel
 
 @Composable
 fun MachineTestSteamInputLayout(
-    viewModel: MachineTestViewModel = hiltViewModel(),
+    viewModel: MachineTestInputViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
 

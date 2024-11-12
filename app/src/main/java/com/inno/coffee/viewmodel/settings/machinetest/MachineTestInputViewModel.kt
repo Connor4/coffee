@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MachineTestViewModel @Inject constructor(
+class MachineTestInputViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
     private val TAG = "MachineTestViewModel"

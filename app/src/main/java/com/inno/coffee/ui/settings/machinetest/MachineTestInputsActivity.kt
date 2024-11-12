@@ -8,13 +8,13 @@ import com.inno.coffee.ui.theme.CoffeeTheme
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_ACTIVITY
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_COFFEE_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_STEAM_INPUTS
-import com.inno.coffee.viewmodel.settings.machinetest.MachineTestViewModel
+import com.inno.coffee.viewmodel.settings.machinetest.MachineTestInputViewModel
 import com.inno.common.utils.Logger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MachineTestInputsActivity : CoffeeActivity() {
-    private val viewModel: MachineTestViewModel by viewModels()
+    private val viewModel: MachineTestInputViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

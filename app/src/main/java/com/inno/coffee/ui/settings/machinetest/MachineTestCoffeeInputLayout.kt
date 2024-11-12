@@ -27,12 +27,12 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.TextWithValue
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
-import com.inno.coffee.viewmodel.settings.machinetest.MachineTestViewModel
+import com.inno.coffee.viewmodel.settings.machinetest.MachineTestInputViewModel
 
 
 @Composable
 fun MachineTestCoffeeInputLayout(
-    viewModel: MachineTestViewModel = hiltViewModel(),
+    viewModel: MachineTestInputViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val okColor = Color(0xFF6DD400)
