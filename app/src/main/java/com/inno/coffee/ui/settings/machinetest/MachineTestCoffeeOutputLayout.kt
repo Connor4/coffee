@@ -17,12 +17,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.machinetest.MachineTestOutputViewModel
 
 @Composable
 fun MachineTestCoffeeOutLayout(
+    viewModel: MachineTestOutputViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
 
