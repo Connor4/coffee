@@ -67,7 +67,7 @@ class RS485Driver : IDriver {
     override fun send(command: Short, productProfile: ProductProfile) {
         lock.withLock {
             val componentSize = productProfile.componentProfileList.componentList.size
-            // id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + MAX_COMPONENT * (comid2 + 2*para6)
+            // id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + COMPONENT_SIZE * (comid2 + 2*para6)
             val productFileSize = 8 + 14 * componentSize
             val serializeBuffer = ByteBuffer.allocate(productFileSize)
             serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
