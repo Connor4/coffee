@@ -29,6 +29,7 @@ const val FIRST_INSTALL_VALUE_FRENCH = "Français"
 const val MAKE_DRINK_COMMAND = 100
 const val MAKE_DRINK_REPLY_VALUE = 0
 const val MACHINE_PARAMS_COMMAND_ID: Short = 200
+const val COFFEE_INPUT_COMMAND_ID: Short = 201
 
 const val KEY_COUNTER = "counter"
 const val KEY_DAY_COUNTER = "daycounter"

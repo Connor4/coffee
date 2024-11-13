@@ -2,6 +2,7 @@ package com.inno.coffee.viewmodel.settings.machinetest
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.inno.coffee.function.CommandControlManager
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -67,6 +68,7 @@ class MachineTestInputViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            CommandControlManager.getCoffeeInputs()
             _tempUnit.value = dataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
         }
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)

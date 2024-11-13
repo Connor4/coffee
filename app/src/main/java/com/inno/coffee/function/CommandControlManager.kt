@@ -1,5 +1,6 @@
 package com.inno.coffee.function
 
+import com.inno.coffee.utilities.COFFEE_INPUT_COMMAND_ID
 import com.inno.coffee.utilities.MACHINE_PARAMS_COMMAND_ID
 import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
@@ -42,6 +43,12 @@ object CommandControlManager {
 
         scope.launch {
             SerialPortDataManager.instance.sendCommand(MACHINE_PARAMS_COMMAND_ID, 32, byteArray)
+        }
+    }
+
+    fun getCoffeeInputs() {
+        scope.launch {
+            SerialPortDataManager.instance.sendCommand(COFFEE_INPUT_COMMAND_ID, 0, byteArrayOf())
         }
     }
 
