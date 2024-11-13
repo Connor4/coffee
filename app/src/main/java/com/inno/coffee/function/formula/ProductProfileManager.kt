@@ -28,6 +28,8 @@ import dagger.hilt.android.EntryPointAccessors
 import kotlinx.serialization.json.Json
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 object ProductProfileManager {
     private const val TAG = "ProductProfileManager"
@@ -41,11 +43,34 @@ object ProductProfileManager {
         repository = entryPoint.formulaRepository()
     }
 
-    suspend fun convertProductProfile(productId: Int, leftSize: Boolean): ProductProfile? {
+    suspend fun convertProductProfile(productId: Int, leftSize: Boolean): ByteArray {
         Logger.d(TAG,
             "convertProductProfile() called with: productId = $productId, leftSize = $leftSize")
-        val formula = repository.getFormulaByProductId(productId) ?: return null
-        return createProductProfile(formula, leftSize)
+        val formula = repository.getFormulaByProductId(productId) ?: return byteArrayOf()
+        val productProfile = createProductProfile(formula, leftSize)
+
+        val componentSize = productProfile.componentProfileList.componentList.size
+        // id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + COMPONENT_SIZE * (comid2 + 2*para6)
+        val productFileSize = 8 + 14 * componentSize
+        val serializeBuffer = ByteBuffer.allocate(productFileSize)
+        serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
+        serializeBuffer.putShort(productProfile.productId)
+        serializeBuffer.putShort(productProfile.preFlush)
+        serializeBuffer.putShort(productProfile.postFlush)
+        serializeBuffer.putShort(productProfile.componentProfileList.componentNum)
+
+        for (i in 0 until componentSize) {
+            val componentProfile = productProfile.componentProfileList.componentList[i]
+            serializeBuffer.putShort(componentProfile.componentId)
+            for (para in componentProfile.para) {
+                serializeBuffer.putShort(para)
+            }
+        }
+        serializeBuffer.flip()
+        val serializeProductInfo = ByteArray(serializeBuffer.limit())
+        serializeBuffer.get(serializeProductInfo)
+
+        return serializeProductInfo
     }
 
     private fun createProductProfile(formula: Formula, leftSize: Boolean): ProductProfile {
@@ -71,8 +96,8 @@ object ProductProfileManager {
         }
         val brewerProfile =
             ComponentProfile(brewerId, shortArrayOf(formula.pressWeight?.weight ?: 0,
-            formula.preMakeTime?.value ?: 0, formula.postPreMakeWaitTime?.value ?: 0,
-            formula.secPressWeight?.value ?: 0, 0, 0))
+                formula.preMakeTime?.value ?: 0, formula.postPreMakeWaitTime?.value ?: 0,
+                formula.secPressWeight?.value ?: 0, 0, 0))
         val boilerProfile = ComponentProfile(boilerId, shortArrayOf(formula.coffeeWater?.value ?: 0,
             formula.hotWater?.value ?: 0, formula.bypassWater?.value ?: 0, sequence))
 

@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 import javax.inject.Inject
 
 class SerialPortRepository @Inject constructor(
@@ -36,7 +38,31 @@ class SerialPortRepository @Inject constructor(
     }
 
     suspend fun sendCommand(productProfile: ProductProfile?) {
-        SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+        productProfile?.let {
+            val componentSize = productProfile.componentProfileList.componentList.size
+            // id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + COMPONENT_SIZE * (comid2 + 2*para6)
+            val productFileSize = 8 + 14 * componentSize
+            val serializeBuffer = ByteBuffer.allocate(productFileSize)
+            serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
+            serializeBuffer.putShort(productProfile.productId)
+            serializeBuffer.putShort(productProfile.preFlush)
+            serializeBuffer.putShort(productProfile.postFlush)
+            serializeBuffer.putShort(productProfile.componentProfileList.componentNum)
+
+            for (i in 0 until componentSize) {
+                val componentProfile = productProfile.componentProfileList.componentList[i]
+                serializeBuffer.putShort(componentProfile.componentId)
+                for (para in componentProfile.para) {
+                    serializeBuffer.putShort(para)
+                }
+            }
+            serializeBuffer.flip()
+            val serializeProductInfo = ByteArray(serializeBuffer.limit())
+            serializeBuffer.get(serializeProductInfo)
+
+            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, componentSize,
+                serializeProductInfo)
+        }
     }
 
     fun fetchSerialPort() {

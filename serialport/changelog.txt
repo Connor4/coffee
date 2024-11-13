@@ -19,3 +19,6 @@
 
 2024/11/05
 1. 对MakeDrinkReplay添加id字段，解决多个饮品制作时，应用无法区分IO板响应哪个饮品。
+
+2024/11/13
+1. 提升端口库SerialPortDataManager#sendCommand中参数处理逻辑到业务层,支持多种数据传递通用

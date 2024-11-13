@@ -17,7 +17,6 @@ import com.inno.serialport.utilities.FRAME_LENGTH_INDEX_LOW
 import com.inno.serialport.utilities.HEART_BEAT_COMMAND
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.fcstab
-import com.inno.serialport.utilities.profile.ProductProfile
 import com.inno.serialport.utilities.statusenum.SerialErrorTypeEnum
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -64,31 +63,10 @@ class RS485Driver : IDriver {
         .build()
     private val lock = ReentrantLock()
 
-    override fun send(command: Short, productProfile: ProductProfile) {
+    override fun send(command: Short, infoSize: Int, commandInfo: ByteArray) {
         lock.withLock {
-            val componentSize = productProfile.componentProfileList.componentList.size
-            // id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + COMPONENT_SIZE * (comid2 + 2*para6)
-            val productFileSize = 8 + 14 * componentSize
-            val serializeBuffer = ByteBuffer.allocate(productFileSize)
-            serializeBuffer.order(ByteOrder.LITTLE_ENDIAN)
-            serializeBuffer.putShort(productProfile.productId)
-            serializeBuffer.putShort(productProfile.preFlush)
-            serializeBuffer.putShort(productProfile.postFlush)
-            serializeBuffer.putShort(productProfile.componentProfileList.componentNum)
-
-            for (i in 0 until componentSize) {
-                val componentProfile = productProfile.componentProfileList.componentList[i]
-                serializeBuffer.putShort(componentProfile.componentId)
-                for (para in componentProfile.para) {
-                    serializeBuffer.putShort(para)
-                }
-            }
-            serializeBuffer.flip()
-            val serializeProductInfo = ByteArray(serializeBuffer.limit())
-            serializeBuffer.get(serializeProductInfo)
-
             // 6 = addr1 + control1 + len2 + cmd2
-            val contentSize = productFileSize + 6
+            val contentSize = infoSize + 6
             val contentBuffer = ByteBuffer.allocate(contentSize)
             contentBuffer.order(ByteOrder.LITTLE_ENDIAN)
             contentBuffer.put(FRAME_ADDRESS)
@@ -97,7 +75,7 @@ class RS485Driver : IDriver {
             contentBuffer.putShort((contentSize + 2).toShort())
             // cmd
             contentBuffer.putShort(command)
-            contentBuffer.put(serializeProductInfo)
+            contentBuffer.put(commandInfo)
             // crc
             val crc = calculateCRC(contentBuffer)
 

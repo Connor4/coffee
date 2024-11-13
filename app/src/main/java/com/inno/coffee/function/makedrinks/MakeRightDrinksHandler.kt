@@ -81,10 +81,11 @@ object MakeRightDrinksHandler {
         scope.launch {
             mutex.withLock {
                 _executingQueue.value += model
-                val productProfile =
+                val byteInfo =
                     ProductProfileManager.convertProductProfile(model.productId + RIGHT_OFFSET,
                         false)
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
+                    byteInfo)
                 waitForOperationReplyConfirm()
                 Logger.d(TAG, "executeNow() called ${_executingQueue.value}")
             }
@@ -124,9 +125,10 @@ object MakeRightDrinksHandler {
             _executingQueue.value += _queue.value[HEAD_INDEX]
             Logger.d(TAG, "handleMessage() called ${_executingQueue.value}")
 
-            val productProfile =
+            val byteInfo =
                 ProductProfileManager.convertProductProfile(processingProductId, false)
-            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, productProfile)
+            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
+                byteInfo)
             waitForReplyConfirm()
         }
     }
