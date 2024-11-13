@@ -3,6 +3,7 @@ package com.inno.coffee.viewmodel.settings.params
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.function.CommandControlManager
 import com.inno.coffee.utilities.PARAMS_KEY_BOILER_TEMP
 import com.inno.coffee.utilities.PARAMS_KEY_BREW_BALANCE
 import com.inno.coffee.utilities.PARAMS_KEY_BREW_PRE_HEATING
@@ -15,7 +16,6 @@ import com.inno.coffee.utilities.PARAMS_KEY_NUMBER_OF_CYCLES_RINSE
 import com.inno.coffee.utilities.PARAMS_KEY_STEAM_BOILER_PRESSURE
 import com.inno.coffee.utilities.PARAMS_KEY_WARM_RINSE
 import com.inno.coffee.utilities.PARAMS_VALUE_BOILER_TEMP
-import com.inno.coffee.utilities.PARAMS_VALUE_STEAM_BOILER_PRESSURE
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,7 +61,7 @@ class MachineParamsViewModel @Inject constructor(
     val grinderPurgeFunction = _grinderPurgeFunction
     private val _numberOfCyclesRinse = MutableStateFlow(PARAMS_VALUE_BOILER_TEMP)
     val numberOfCyclesRinse = _numberOfCyclesRinse
-    private val _steamBoilerPressure = MutableStateFlow(PARAMS_VALUE_STEAM_BOILER_PRESSURE)
+    private val _steamBoilerPressure = MutableStateFlow(1f)
     val steamBoilerPressure = _steamBoilerPressure
     private val _ntcCorrectionSteamLeft = MutableStateFlow(0f)
     val ntcCorrectionSteamLeft = _ntcCorrectionSteamLeft
@@ -80,7 +80,7 @@ class MachineParamsViewModel @Inject constructor(
             _brewGroupPreHeating.value = dataStore.getCoffeePreference(BREW_PRE_HEATING, 0)
             _grinderPurgeFunction.value = dataStore.getCoffeePreference(GRINDER_PURGE_FUNCTION, 0)
             _numberOfCyclesRinse.value = dataStore.getCoffeePreference(NUMBER_OF_CYCLES_RINSE, 0)
-            _steamBoilerPressure.value = dataStore.getCoffeePreference(STEAM_BOILER_PRESSURE, 1)
+            _steamBoilerPressure.value = dataStore.getCoffeePreference(STEAM_BOILER_PRESSURE, 1f)
             _ntcCorrectionSteamLeft.value =
                 temperatureDisplay(dataStore.getCoffeePreference(NTC_LEFT, 0f))
             _ntcCorrectionSteamRight.value =
@@ -128,9 +128,8 @@ class MachineParamsViewModel @Inject constructor(
                     _numberOfCyclesRinse.value = value
                 }
                 PARAMS_KEY_STEAM_BOILER_PRESSURE -> {
-                    val realValue = value as Float
-                    dataStore.saveCoffeePreference(STEAM_BOILER_PRESSURE, realValue.toInt())
-                    _steamBoilerPressure.value = realValue.toInt()
+                    dataStore.saveCoffeePreference(STEAM_BOILER_PRESSURE, value as Float)
+                    _steamBoilerPressure.value = value
                 }
                 PARAMS_KEY_NTC_LEFT -> {
                     val realValue = temperatureRevert(value as Float)
@@ -144,6 +143,13 @@ class MachineParamsViewModel @Inject constructor(
                 }
                 else -> {}
             }
+            CommandControlManager.sendMachineParams(_boilerTemp.value.toInt(),
+                _boilerTemp.value.toInt(), _coldRinseQuantity.value, _warmRinseQuantity.value,
+                _groundsDrawerQuantity.value, _brewGroupLoadBalancing.value,
+                _brewGroupPreHeating.value,
+                _grinderPurgeFunction.value, _numberOfCyclesRinse.value,
+                (_steamBoilerPressure.value * 10).toInt(),
+                _ntcCorrectionSteamLeft.value.toInt(), _ntcCorrectionSteamRight.value.toInt())
         }
     }
 

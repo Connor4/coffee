@@ -370,7 +370,7 @@ fun MachineParamsLayout(
                 )
             }
             DisplayItemLayout(stringResource(R.string.params_steam_boiler_pressure),
-                "${steamBoilerPressure.value}", Color(0xFF191A1D)) {
+                "${steamBoilerPressure.value}  [bar]", Color(0xFF191A1D)) {
                 itemSelectIndex.value = PARAMS_KEY_STEAM_BOILER_PRESSURE
                 scrollDefaultValue.value = steamBoilerPressure.value.toFloat()
                 scrollRangeStart.value = 1f

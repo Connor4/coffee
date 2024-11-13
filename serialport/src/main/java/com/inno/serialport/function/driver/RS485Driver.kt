@@ -99,6 +99,7 @@ class RS485Driver : IDriver {
             packBuffer.flip()
             val packFrame = ByteArray(packBuffer.limit())
             packBuffer.get(packFrame)
+            Logger.lengthy(TAG, "packFrame: ${packFrame.toHexString()}")
 
             SerialPortManager.writeToSerialPort(serialPort, packFrame)
         }
