@@ -71,8 +71,8 @@ class RS485Driver : IDriver {
             contentBuffer.order(ByteOrder.LITTLE_ENDIAN)
             contentBuffer.put(FRAME_ADDRESS)
             contentBuffer.put(FRAME_CONTROL)
-            // length
-            contentBuffer.putShort((contentSize + 2).toShort())
+            // length = infoSize + 2length
+            contentBuffer.putShort((infoSize + 2).toShort())
             // cmd
             contentBuffer.putShort(command)
             contentBuffer.put(commandInfo)

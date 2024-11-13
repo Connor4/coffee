@@ -22,3 +22,4 @@
 
 2024/11/13
 1. 提升端口库SerialPortDataManager#sendCommand中参数处理逻辑到业务层,支持多种数据传递通用
+2. 修正命令数据处理length计算方式

@@ -41,7 +41,7 @@ object CommandControlManager {
         Logger.d(TAG, "sendMachineParams() called with: byteArray = ${byteArray.toHexString()}")
 
         scope.launch {
-            SerialPortDataManager.instance.sendCommand(MACHINE_PARAMS_COMMAND_ID, 34, byteArray)
+            SerialPortDataManager.instance.sendCommand(MACHINE_PARAMS_COMMAND_ID, 32, byteArray)
         }
     }
 
