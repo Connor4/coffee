@@ -99,7 +99,7 @@ object ProductProfileManager {
                 formula.preMakeTime?.value ?: 0, formula.postPreMakeWaitTime?.value ?: 0,
                 formula.secPressWeight?.value ?: 0, 0, 0))
         val boilerProfile = ComponentProfile(boilerId, shortArrayOf(formula.coffeeWater?.value ?: 0,
-            formula.hotWater?.value ?: 0, formula.bypassWater?.value ?: 0, sequence))
+            formula.hotWater?.value ?: 0, formula.bypassWater?.value ?: 0, sequence, 0, 0))
 
         val componentList = mutableListOf(grinderProfile, brewerProfile, boilerProfile)
 
