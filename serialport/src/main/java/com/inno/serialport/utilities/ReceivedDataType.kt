@@ -5,4 +5,5 @@ enum class ReceivedDataType {
     HEARTBEAT,
     HEARTBEAT_LIST,
     MAKE_DRINK_REPLY,
+    COMMON_REPLY,
 }

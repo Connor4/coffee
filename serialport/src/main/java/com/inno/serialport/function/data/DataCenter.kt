@@ -33,6 +33,9 @@ object DataCenter {
                         is ReceivedData.MakeDrinkReply -> {
                             notify(ReceivedDataType.MAKE_DRINK_REPLY, receivedData)
                         }
+                        is ReceivedData.CommonReply -> {
+                            notify(ReceivedDataType.COMMON_REPLY, receivedData)
+                        }
                     }
                 }
             }

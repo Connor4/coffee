@@ -13,4 +13,7 @@ sealed class ReceivedData {
     data class HeatBeatList(var list: MutableList<HeartBeat> = mutableListOf()) : ReceivedData()
 
     data class MakeDrinkReply(var id: Int, var value: Int) : ReceivedData()
+
+    data class CommonReply(var commandId: Int, var params: ByteArray = byteArrayOf()) :
+            ReceivedData()
 }

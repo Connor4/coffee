@@ -72,11 +72,13 @@ class MachineTestInputViewModel @Inject constructor(
             _tempUnit.value = dataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
         }
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
+        DataCenter.subscribe(ReceivedDataType.COMMON_REPLY, subscriber)
     }
 
     override fun onCleared() {
         super.onCleared()
         DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
+        DataCenter.unsubscribe(ReceivedDataType.COMMON_REPLY, subscriber)
     }
 
     private fun parseReceivedData(data: Any) {
