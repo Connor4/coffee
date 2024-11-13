@@ -30,6 +30,9 @@ object DataCenter {
                             }
                             notify(ReceivedDataType.HEARTBEAT_LIST, receivedData)
                         }
+                        is ReceivedData.MakeDrinkReply -> {
+                            notify(ReceivedDataType.MAKE_DRINK_REPLY, receivedData)
+                        }
                     }
                 }
             }

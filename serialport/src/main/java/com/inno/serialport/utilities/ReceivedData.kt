@@ -4,7 +4,6 @@ sealed class ReceivedData {
     data class SerialErrorData(var code: Int, var info: String) : ReceivedData()
 
     data class HeartBeat(
-        var makeDrinkReply: HeartBeatReply.MakeDrinkReplay? = null,
         var grinder: HeartBeatReply.GrinderPowderDosage? = null,
         var makeDrink: HeartBeatReply.MakeDrink? = null,
         var temperature: HeartBeatReply.BoilerTemperature? = null,
@@ -12,4 +11,6 @@ sealed class ReceivedData {
     ) : ReceivedData()
 
     data class HeatBeatList(var list: MutableList<HeartBeat> = mutableListOf()) : ReceivedData()
+
+    data class MakeDrinkReply(var id: Int, var value: Int) : ReceivedData()
 }

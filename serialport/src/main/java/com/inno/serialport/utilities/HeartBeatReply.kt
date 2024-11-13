@@ -6,7 +6,6 @@ import com.inno.serialport.utilities.statusenum.GrinderStatusEnum
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 
 sealed class HeartBeatReply {
-    data class MakeDrinkReplay(var command: Int, var id: Int, var value: Int)
 
     data class MakeDrink(
         var status: MakeDrinkStatusEnum, var value: Int,

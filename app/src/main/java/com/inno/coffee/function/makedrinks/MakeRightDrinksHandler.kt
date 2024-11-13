@@ -3,7 +3,6 @@ package com.inno.coffee.function.makedrinks
 import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.utilities.HEAD_INDEX
 import com.inno.coffee.utilities.INVALID_INT
-import com.inno.coffee.utilities.MAKE_DRINK_COMMAND
 import com.inno.coffee.utilities.MAKE_DRINK_REPLY_VALUE
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
@@ -56,6 +55,7 @@ object MakeRightDrinksHandler {
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
+        DataCenter.subscribe(ReceivedDataType.MAKE_DRINK_REPLY, subscriber)
     }
 
     fun discardAndClear(index: Int, model: Formula) {
@@ -203,45 +203,46 @@ object MakeRightDrinksHandler {
 
 
     private fun parseReceivedData(data: Any) {
-        val drinkData = data as ReceivedData.HeartBeat
-        drinkData.makeDrinkReply?.let { reply ->
-            if (reply.command == MAKE_DRINK_COMMAND && reply.value == MAKE_DRINK_REPLY_VALUE) {
-                if (reply.id == processingProductId) {
+        if (data is ReceivedData.MakeDrinkReply) {
+            if (data.value == MAKE_DRINK_REPLY_VALUE) {
+                if (data.id == processingProductId) {
                     productReplyConfirmJob?.cancel()
                 } else {
                     operationReplyConfirmJob?.cancel()
                 }
             }
-        }
-        drinkData.makeDrink?.let { reply ->
-            val status = reply.status
-            val productId = reply.value
-            val params = reply.params
-            when (status) {
-                MakeDrinkStatusEnum.RIGHT_BREWING -> {
-                }
-                MakeDrinkStatusEnum.RIGHT_BREW_COMPLETED -> {}
-                MakeDrinkStatusEnum.RIGHT_FINISHED -> {
-                    if (processingProductId == productId) {
-                        scope.launch {
-                            mutex.withLock {
-                                // finish, proceed next drink
-                                discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
-                                processBrewParams(params)
-                                handleMessage()
+        } else if (data is ReceivedData.HeartBeat) {
+            data.makeDrink?.let { reply ->
+                val status = reply.status
+                val productId = reply.value
+                val params = reply.params
+                when (status) {
+                    MakeDrinkStatusEnum.RIGHT_BREWING -> {
+                    }
+                    MakeDrinkStatusEnum.RIGHT_BREW_COMPLETED -> {}
+                    MakeDrinkStatusEnum.RIGHT_FINISHED -> {
+                        if (processingProductId == productId) {
+                            scope.launch {
+                                mutex.withLock {
+                                    // finish, proceed next drink
+                                    discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
+                                    processBrewParams(params)
+                                    handleMessage()
+                                }
                             }
-                        }
-                    } else {
+                        } else {
 
+                        }
+                        _executingQueue.update { list ->
+                            list.filterNot { it.productId == productId }
+                        }
                     }
-                    _executingQueue.update { list ->
-                        list.filterNot { it.productId == productId }
-                    }
+                    else -> {}
                 }
-                else -> {}
+                _status.value = status
             }
-            _status.value = status
         }
+
     }
 
     private fun processBrewParams(params: ByteArray) {
