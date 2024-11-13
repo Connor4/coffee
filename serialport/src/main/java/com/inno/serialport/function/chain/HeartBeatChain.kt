@@ -50,6 +50,7 @@ class HeartBeatChain : Chain() {
                     (id <= GrinderStatusEnum.RIGHT_GRINDER_POWDER_DOSAGE.value)) { // 1009 - 1010
                 val grinderStatus = GrinderStatusEnum.getStatus(id)
                 info.grinder = HeartBeatReply.GrinderPowderDosage(grinderStatus, value)
+
             } else if ((id >= ErrorStatusEnum.FRONT_VAT_EMPTY.value) and
                     (id <= ErrorStatusEnum.NO_WATER_ERROR.value)) { // 2000 - 4000
                 val error = ErrorStatusEnum.getStatus(id)
