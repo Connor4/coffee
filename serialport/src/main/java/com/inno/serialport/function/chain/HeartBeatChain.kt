@@ -33,13 +33,13 @@ class HeartBeatChain : Chain() {
             if ((id >= MakeDrinkStatusEnum.LEFT_BREWING.value) and (id <= MakeDrinkStatusEnum
                         .RIGHT_BREW_COMPLETED.value)) { // 1000 - 1003
                 val drinkStatus = MakeDrinkStatusEnum.getStatus(id)
-                info.makeDrink = HeartBeatReply.MakeDrink(drinkStatus, value)
+                info.makeDrinkStatus = HeartBeatReply.MakeDrinkStatus(drinkStatus, value)
 
             } else if ((id >= MakeDrinkStatusEnum.LEFT_FINISHED.value) and
                     (id <= MakeDrinkStatusEnum.RIGHT_FINISHED.value)) { // 1004 - 1005
                 val drinkStatus = MakeDrinkStatusEnum.getStatus(id)
                 val params = data.sliceArray(4 until data.size - 1)
-                info.makeDrink = HeartBeatReply.MakeDrink(drinkStatus, value, params)
+                info.makeDrinkStatus = HeartBeatReply.MakeDrinkStatus(drinkStatus, value, params)
 
             } else if (id == BoilerStatusEnum.BOILER_TEMPERATURE.value) { // 1006
                 val temperature = BoilerStatusEnum.getStatus(id)

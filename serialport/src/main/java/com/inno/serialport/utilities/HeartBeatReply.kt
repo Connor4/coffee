@@ -7,7 +7,7 @@ import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 
 sealed class HeartBeatReply {
 
-    data class MakeDrink(
+    data class MakeDrinkStatus(
         var status: MakeDrinkStatusEnum, var value: Int,
         var params: ByteArray = byteArrayOf(),
     ) : HeartBeatReply()

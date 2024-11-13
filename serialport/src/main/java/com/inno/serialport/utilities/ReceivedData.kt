@@ -5,7 +5,7 @@ sealed class ReceivedData {
 
     data class HeartBeat(
         var grinder: HeartBeatReply.GrinderPowderDosage? = null,
-        var makeDrink: HeartBeatReply.MakeDrink? = null,
+        var makeDrinkStatus: HeartBeatReply.MakeDrinkStatus? = null,
         var temperature: HeartBeatReply.BoilerTemperature? = null,
         var error: HeartBeatReply.Error? = null,
     ) : ReceivedData()

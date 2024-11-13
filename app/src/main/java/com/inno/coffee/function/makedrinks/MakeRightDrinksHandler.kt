@@ -212,7 +212,7 @@ object MakeRightDrinksHandler {
                 }
             }
         } else if (data is ReceivedData.HeartBeat) {
-            data.makeDrink?.let { reply ->
+            data.makeDrinkStatus?.let { reply ->
                 val status = reply.status
                 val productId = reply.value
                 val params = reply.params
