@@ -1,7 +1,6 @@
 package com.inno.coffee.function
 
 import com.inno.serialport.function.SerialPortDataManager
-import com.inno.serialport.utilities.MACHINE_PARAM_COMMAND_ID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -27,30 +26,10 @@ object CommandControlManager {
         return byteArray
     }
 
-    fun sendMachineParams(
-        leftBoilerTemp: Int, rightBoilerTemp: Int, coldRinse: Int, warmRinse: Int,
-        groundsDrawerQuantity: Int, brewGroupLoadBalancing: Boolean, brewGroupPreHeating: Int,
-        grinderPurgeFunction: Int, numberOfCyclesRinse: Int, steamBoilerPressure: Int,
-        ntcCorrectionSteamLeft: Int, ntcCorrectionSteamRight: Int,
-    ) {
-        val reserve = 0
-        val balance = if (brewGroupLoadBalancing) 1 else 0
-        val commandInfo =
-            intArrayOf(leftBoilerTemp, rightBoilerTemp, coldRinse, warmRinse, groundsDrawerQuantity,
-                balance, brewGroupPreHeating, grinderPurgeFunction, reserve, numberOfCyclesRinse,
-                steamBoilerPressure, ntcCorrectionSteamLeft, ntcCorrectionSteamRight, reserve,
-                reserve, reserve)
-        val byteArray = intArrayConvertByte(commandInfo)
-
-        scope.launch {
-            SerialPortDataManager.instance.sendCommand(MACHINE_PARAM_COMMAND_ID, 32, byteArray)
-        }
-    }
-
     fun sendTestCommand(commandId: Short, vararg value: Int) {
         scope.launch {
             val byteArray = intArrayConvertByte(value)
-            SerialPortDataManager.instance.sendCommand(commandId, value.size * 2 + 2, byteArray)
+            SerialPortDataManager.instance.sendCommand(commandId, byteArray.size, byteArray)
         }
     }
 

@@ -18,6 +18,7 @@ import com.inno.coffee.utilities.PARAMS_KEY_WARM_RINSE
 import com.inno.coffee.utilities.PARAMS_VALUE_BOILER_TEMP
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
+import com.inno.serialport.utilities.MACHINE_PARAM_COMMAND_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -143,13 +144,16 @@ class MachineParamsViewModel @Inject constructor(
                 }
                 else -> {}
             }
-            CommandControlManager.sendMachineParams(_boilerTemp.value.toInt(),
-                _boilerTemp.value.toInt(), _coldRinseQuantity.value, _warmRinseQuantity.value,
-                _groundsDrawerQuantity.value, _brewGroupLoadBalancing.value,
-                _brewGroupPreHeating.value,
-                _grinderPurgeFunction.value, _numberOfCyclesRinse.value,
-                (_steamBoilerPressure.value * 10).toInt(),
-                _ntcCorrectionSteamLeft.value.toInt(), _ntcCorrectionSteamRight.value.toInt())
+
+            val balance = if (_brewGroupLoadBalancing.value) 1 else 0
+            CommandControlManager.sendTestCommand(MACHINE_PARAM_COMMAND_ID,
+                _boilerTemp.value.toInt(), _boilerTemp.value.toInt(),
+                _coldRinseQuantity.value, _warmRinseQuantity.value, _groundsDrawerQuantity.value,
+                balance, _brewGroupPreHeating.value, _grinderPurgeFunction.value, 0,
+                _numberOfCyclesRinse.value, (_steamBoilerPressure.value * 10).toInt(),
+                _ntcCorrectionSteamLeft.value.toInt(), _ntcCorrectionSteamRight.value.toInt(), 0,
+                0, 0)
+
         }
     }
 
