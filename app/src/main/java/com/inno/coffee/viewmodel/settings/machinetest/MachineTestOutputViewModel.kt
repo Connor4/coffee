@@ -4,14 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.function.CommandControlManager
-import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_1
-import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_2
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_CURRENT
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_LEFT_TOP
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_RIGHT_TOP
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_SPEED
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_STEP
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.serialport.utilities.COFFEE_OUTPUT_COMMAND_ID
+import com.inno.serialport.utilities.MACHINE_TEST_MOTOR_INIT_ID
+import com.inno.serialport.utilities.MACHINE_TEST_MOTOR_TEST_ID
 import com.inno.serialport.utilities.STEAM_OUTPUT_COMMAND_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -61,12 +63,19 @@ class MachineTestOutputViewModel @Inject constructor(
         CommandControlManager.sendTestCommand(id, param)
     }
 
-    fun sendMotorTest(index: Int, add: Boolean) {
-        if (index == MACHINE_TEST_MOTOR_1 || index == MACHINE_TEST_MOTOR_2) {
+    fun motorInit() {
+        CommandControlManager.sendTestCommand(MACHINE_TEST_MOTOR_INIT_ID)
+    }
 
+    fun sendMotorTest(index: Int, add: Boolean, step: Int, speed: Int, current: Int) {
+        val direction = if (index == MACHINE_TEST_MOTOR_LEFT_TOP ||
+                index == MACHINE_TEST_MOTOR_RIGHT_TOP) {
+            if (add) 0 else 1
         } else {
-
+            if (add) 1 else 0
         }
+        CommandControlManager.sendTestCommand(MACHINE_TEST_MOTOR_TEST_ID, index, direction, step,
+            speed, current, 0, 0, 0)
     }
 
     fun saveMotorTestValue(key: Int, value: Float) {

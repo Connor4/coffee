@@ -19,6 +19,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -41,11 +43,11 @@ import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.utilities.INVALID_INT
-import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_1
-import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_2
-import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_3
-import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_4
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_CURRENT
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_LEFT_BOTTOM
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_LEFT_TOP
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_RIGHT_BOTTOM
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_RIGHT_TOP
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_SPEED
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_STEP
 import com.inno.coffee.utilities.nsp
@@ -61,11 +63,20 @@ fun MachineTestMotorLayout(
     val scrollRangeStart = remember { mutableStateOf(0f) }
     val scrollRangeEnd = remember { mutableStateOf(0f) }
     val scrollUnit = remember { mutableStateOf("") }
-    val selectMotor = remember { mutableIntStateOf(MACHINE_TEST_MOTOR_1) }
+    val selectMotor = remember { mutableIntStateOf(MACHINE_TEST_MOTOR_LEFT_TOP) }
 
     val step = viewModel.step.collectAsState()
     val speed = viewModel.speed.collectAsState()
     val current = viewModel.current.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.motorInit()
+    }
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.motorInit()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -141,36 +152,36 @@ fun MachineTestMotorLayout(
         MotorItem(
             modifier = Modifier.padding(start = 370.dp, top = 360.dp),
             stringResource(R.string.machine_test_top_piston),
-            selectMotor.value == MACHINE_TEST_MOTOR_1
+            selectMotor.value == MACHINE_TEST_MOTOR_LEFT_TOP
         ) {
-            selectMotor.value = MACHINE_TEST_MOTOR_1
+            selectMotor.value = MACHINE_TEST_MOTOR_LEFT_TOP
             itemSelectIndex.value = INVALID_INT
         }
 
         MotorItem(
             modifier = Modifier.padding(start = 370.dp, top = 560.dp),
             stringResource(R.string.machine_test_bottom_piston),
-            selectMotor.value == MACHINE_TEST_MOTOR_2
+            selectMotor.value == MACHINE_TEST_MOTOR_LEFT_BOTTOM
         ) {
-            selectMotor.value = MACHINE_TEST_MOTOR_2
+            selectMotor.value = MACHINE_TEST_MOTOR_LEFT_BOTTOM
             itemSelectIndex.value = INVALID_INT
         }
 
         MotorItem(
             modifier = Modifier.padding(start = 730.dp, top = 360.dp),
             stringResource(R.string.machine_test_top_piston),
-            selectMotor.value == MACHINE_TEST_MOTOR_3
+            selectMotor.value == MACHINE_TEST_MOTOR_RIGHT_TOP
         ) {
-            selectMotor.value = MACHINE_TEST_MOTOR_3
+            selectMotor.value = MACHINE_TEST_MOTOR_RIGHT_TOP
             itemSelectIndex.value = INVALID_INT
         }
 
         MotorItem(
             modifier = Modifier.padding(start = 730.dp, top = 560.dp),
             stringResource(R.string.machine_test_bottom_piston),
-            selectMotor.value == MACHINE_TEST_MOTOR_4
+            selectMotor.value == MACHINE_TEST_MOTOR_RIGHT_BOTTOM
         ) {
-            selectMotor.value = MACHINE_TEST_MOTOR_4
+            selectMotor.value = MACHINE_TEST_MOTOR_RIGHT_BOTTOM
             itemSelectIndex.value = INVALID_INT
         }
 
@@ -184,7 +195,8 @@ fun MachineTestMotorLayout(
                     modifier = Modifier.size(40.dp)
                 )
             }, {
-                viewModel.sendMotorTest(selectMotor.value, true)
+                viewModel.sendMotorTest(selectMotor.value, true, step.value, speed.value,
+                    current.value)
             }
         )
         AdjustButton(
@@ -197,7 +209,8 @@ fun MachineTestMotorLayout(
                     modifier = Modifier.size(40.dp)
                 )
             }, {
-                viewModel.sendMotorTest(selectMotor.value, false)
+                viewModel.sendMotorTest(selectMotor.value, false, step.value, speed.value,
+                    current.value)
             }
         )
     }
