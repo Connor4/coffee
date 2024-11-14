@@ -50,7 +50,7 @@ object CommandControlManager {
     fun sendTestCommand(commandId: Short, vararg value: Int) {
         scope.launch {
             val byteArray = intArrayConvertByte(value)
-            SerialPortDataManager.instance.sendCommand(commandId, value.size + 2, byteArray)
+            SerialPortDataManager.instance.sendCommand(commandId, value.size * 2 + 2, byteArray)
         }
     }
 

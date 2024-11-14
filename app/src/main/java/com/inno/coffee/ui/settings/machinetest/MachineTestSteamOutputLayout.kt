@@ -22,22 +22,22 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.fastclick
-import com.inno.coffee.utilities.MACHINE_TEST_AIR_PUMP
-import com.inno.coffee.utilities.MACHINE_TEST_FOAM_VALVE_1
-import com.inno.coffee.utilities.MACHINE_TEST_FOAM_VALVE_2
-import com.inno.coffee.utilities.MACHINE_TEST_HOT_WATER_MAX_VALVE
-import com.inno.coffee.utilities.MACHINE_TEST_HOT_WATER_VALVE
-import com.inno.coffee.utilities.MACHINE_TEST_PURGE_MAX_VALVE
-import com.inno.coffee.utilities.MACHINE_TEST_PURGE_VALVE
-import com.inno.coffee.utilities.MACHINE_TEST_STEAM_BOILER_HEATER1
-import com.inno.coffee.utilities.MACHINE_TEST_STEAM_BOILER_HEATER2
-import com.inno.coffee.utilities.MACHINE_TEST_STEAM_VALVE_1
-import com.inno.coffee.utilities.MACHINE_TEST_STEAM_VALVE_2
-import com.inno.coffee.utilities.MACHINE_TEST_WATER_FILL_VALVE
-import com.inno.coffee.utilities.MACHINE_TEST_WATER_INLET_VALVE
-import com.inno.coffee.utilities.MACHINE_TEST_WATER_PUMP_ID
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.machinetest.MachineTestOutputViewModel
+import com.inno.serialport.utilities.MACHINE_TEST_AIR_PUMP
+import com.inno.serialport.utilities.MACHINE_TEST_FOAM_VALVE_1
+import com.inno.serialport.utilities.MACHINE_TEST_FOAM_VALVE_2
+import com.inno.serialport.utilities.MACHINE_TEST_HOT_WATER_MAX_VALVE
+import com.inno.serialport.utilities.MACHINE_TEST_HOT_WATER_VALVE
+import com.inno.serialport.utilities.MACHINE_TEST_PURGE_MAX_VALVE
+import com.inno.serialport.utilities.MACHINE_TEST_PURGE_VALVE
+import com.inno.serialport.utilities.MACHINE_TEST_STEAM_BOILER_HEATER1
+import com.inno.serialport.utilities.MACHINE_TEST_STEAM_BOILER_HEATER2
+import com.inno.serialport.utilities.MACHINE_TEST_STEAM_VALVE_1
+import com.inno.serialport.utilities.MACHINE_TEST_STEAM_VALVE_2
+import com.inno.serialport.utilities.MACHINE_TEST_WATER_FILL_VALVE
+import com.inno.serialport.utilities.MACHINE_TEST_WATER_INLET_VALVE
+import com.inno.serialport.utilities.MACHINE_TEST_WATER_PUMP_ID
 
 @Composable
 fun MachineTestSteamOutputLayout(
