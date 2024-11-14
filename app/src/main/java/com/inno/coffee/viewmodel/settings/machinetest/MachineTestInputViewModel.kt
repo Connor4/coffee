@@ -12,6 +12,7 @@ import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.STEAM_INPUT_COMMAND_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -71,7 +72,6 @@ class MachineTestInputViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            CommandControlManager.getCoffeeInputs()
             _tempUnit.value = dataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
         }
         DataCenter.subscribe(ReceivedDataType.COMMON_REPLY, subscriber)
@@ -80,6 +80,24 @@ class MachineTestInputViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         DataCenter.unsubscribe(ReceivedDataType.COMMON_REPLY, subscriber)
+    }
+
+    fun getCoffeeInputs() {
+        viewModelScope.launch {
+            while (true) {
+                CommandControlManager.getCoffeeInputs()
+                delay(1000)
+            }
+        }
+    }
+
+    fun getSteamInputs() {
+        viewModelScope.launch {
+            while (true) {
+                CommandControlManager.getSteamInputs()
+                delay(1000)
+            }
+        }
     }
 
     private fun parseReceivedData(data: Any) {
