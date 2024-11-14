@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +24,7 @@ fun TextWithValue(
 ) {
     Row(
         modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = description, color = textColor, fontSize = textSize)
         Spacer(modifier = Modifier.width(15.dp))
@@ -35,5 +37,5 @@ fun TextWithValue(
 @Preview
 @Composable
 private fun PreviewTextWithValue() {
-    TextWithValue(description = "description", value = "value", unit = "unit")
+    TextWithValue(description = "右侧咖啡锅炉温度", value = "0.0", unit = "tick/s")
 }
