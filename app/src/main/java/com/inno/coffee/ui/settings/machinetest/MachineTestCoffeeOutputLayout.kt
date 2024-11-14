@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +22,23 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.utilities.MACHINE_TEST_AMERICANO_LEFT
+import com.inno.coffee.utilities.MACHINE_TEST_AMERICANO_RIGHT
+import com.inno.coffee.utilities.MACHINE_TEST_BALL_DISPENSER_BACKWARD
+import com.inno.coffee.utilities.MACHINE_TEST_BALL_DISPENSER_FORWARD
+import com.inno.coffee.utilities.MACHINE_TEST_BOILER_LEFT
+import com.inno.coffee.utilities.MACHINE_TEST_BOILER_RIGHT
+import com.inno.coffee.utilities.MACHINE_TEST_BREW_VALVE_LEFT
+import com.inno.coffee.utilities.MACHINE_TEST_BREW_VALVE_RIGHT
+import com.inno.coffee.utilities.MACHINE_TEST_BYPASS_VALVE_LEFT
+import com.inno.coffee.utilities.MACHINE_TEST_BYPASS_VALVE_RIGHT
+import com.inno.coffee.utilities.MACHINE_TEST_FAN_FRONT
+import com.inno.coffee.utilities.MACHINE_TEST_FAN_LEFT
+import com.inno.coffee.utilities.MACHINE_TEST_FAN_RIGHT
+import com.inno.coffee.utilities.MACHINE_TEST_GRINDER_LEFT
+import com.inno.coffee.utilities.MACHINE_TEST_GRINDER_RIGHT
+import com.inno.coffee.utilities.MACHINE_TEST_WATER_INLET_VALVE
+import com.inno.coffee.utilities.MACHINE_TEST_WATER_PUMP_ID
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.machinetest.MachineTestOutputViewModel
 
@@ -28,6 +47,15 @@ fun MachineTestCoffeeOutLayout(
     viewModel: MachineTestOutputViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+
+    LaunchedEffect(Unit) {
+        viewModel.coffeeTestTurnOff()
+    }
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.coffeeTestTurnOff()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -54,19 +82,35 @@ fun MachineTestCoffeeOutLayout(
             modifier = Modifier.padding(start = 54.dp, top = 221.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestItem(R.string.machine_test_co_water_pump) { }
-            MachineTestItem(R.string.machine_test_co_water_inlet_valve) { }
-            MachineTestItem(R.string.machine_test_co_brew_valve_left) { }
-            MachineTestItem(R.string.machine_test_co_brew_valve_right) { }
+            MachineTestStatusButton(R.string.machine_test_co_water_pump) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_WATER_PUMP_ID, if (it) 1 else 0)
+            }
+            MachineTestStatusButton(R.string.machine_test_co_water_inlet_valve) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_WATER_INLET_VALVE, if (it) 1 else 0)
+            }
+            MachineTestStatusButton(R.string.machine_test_co_brew_valve_left) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_BREW_VALVE_LEFT, if (it) 1 else 0)
+            }
+            MachineTestStatusButton(R.string.machine_test_co_brew_valve_right) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_BREW_VALVE_RIGHT, if (it) 1 else 0)
+            }
         }
         Row(
             modifier = Modifier.padding(start = 54.dp, top = 316.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestItem(R.string.machine_test_co_bypass_valve_left) { }
-            MachineTestItem(R.string.machine_test_co_bypass_valve_right) { }
-            MachineTestItem(R.string.machine_test_co_americano_left) { }
-            MachineTestItem(R.string.machine_test_co_americano_right) { }
+            MachineTestStatusButton(R.string.machine_test_co_bypass_valve_left) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_BYPASS_VALVE_LEFT, if (it) 1 else 0)
+            }
+            MachineTestStatusButton(R.string.machine_test_co_bypass_valve_right) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_BYPASS_VALVE_RIGHT, if (it) 1 else 0)
+            }
+            MachineTestStatusButton(R.string.machine_test_co_americano_left) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_AMERICANO_LEFT, if (it) 1 else 0)
+            }
+            MachineTestStatusButton(R.string.machine_test_co_americano_right) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_AMERICANO_RIGHT, if (it) 1 else 0)
+            }
         }
         Row(
             modifier = Modifier
@@ -74,18 +118,31 @@ fun MachineTestCoffeeOutLayout(
                 .padding(top = 411.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestItem(R.string.machine_test_co_ball_dispenser_forward) { }
-            MachineTestItem(R.string.machine_test_co_ball_dispenser_backward) { }
+            MachineTestButton(R.string.machine_test_co_ball_dispenser_forward) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_BALL_DISPENSER_FORWARD)
+
+            }
+            MachineTestButton(R.string.machine_test_co_ball_dispenser_backward) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_BALL_DISPENSER_BACKWARD)
+            }
         }
 
         Row(
             modifier = Modifier.padding(start = 54.dp, top = 506.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestItem(R.string.machine_test_co_coffee_boiler_left) { }
-            MachineTestItem(R.string.machine_test_co_coffee_boiler_right) { }
-            MachineTestItem(R.string.machine_test_co_grinder_left) { }
-            MachineTestItem(R.string.machine_test_co_grinder_right) { }
+            MachineTestButton(R.string.machine_test_co_coffee_boiler_left) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_BOILER_LEFT)
+            }
+            MachineTestButton(R.string.machine_test_co_coffee_boiler_right) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_BOILER_RIGHT)
+            }
+            MachineTestButton(R.string.machine_test_co_grinder_left) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_GRINDER_LEFT)
+            }
+            MachineTestButton(R.string.machine_test_co_grinder_right) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_GRINDER_RIGHT)
+            }
         }
         Row(
             modifier = Modifier
@@ -93,9 +150,15 @@ fun MachineTestCoffeeOutLayout(
                 .padding(top = 601.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestItem(R.string.machine_test_co_fan_front) { }
-            MachineTestItem(R.string.machine_test_co_fan_left) { }
-            MachineTestItem(R.string.machine_test_co_fan_right) { }
+            MachineTestButton(R.string.machine_test_co_fan_front) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_FAN_FRONT)
+            }
+            MachineTestButton(R.string.machine_test_co_fan_left) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_FAN_LEFT)
+            }
+            MachineTestButton(R.string.machine_test_co_fan_right) {
+                viewModel.sendCoffeeTestCommand(MACHINE_TEST_FAN_RIGHT)
+            }
         }
 
     }

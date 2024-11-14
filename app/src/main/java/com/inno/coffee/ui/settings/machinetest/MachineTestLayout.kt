@@ -88,7 +88,7 @@ fun MachineTestLayout(
             maxItemsInEachRow = 8,
         ) {
             items.forEach { name ->
-                MachineTestItem(title = name.second) {
+                MachineTestButton(title = name.second) {
                     jump(name.first, context)
                 }
                 Spacer(modifier = Modifier.width(20.dp))

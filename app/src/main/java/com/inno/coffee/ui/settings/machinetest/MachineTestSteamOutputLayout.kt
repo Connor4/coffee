@@ -53,28 +53,28 @@ fun MachineTestSteamOutputLayout(
             modifier = Modifier.padding(start = 54.dp, top = 221.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestItem(R.string.machine_test_co_water_pump) { }
-            MachineTestItem(R.string.machine_test_co_water_inlet_valve) { }
-            MachineTestItem(R.string.machine_test_so_water_fill_valve) { }
-            MachineTestItem(R.string.machine_test_so_air_pump) { }
+            MachineTestButton(R.string.machine_test_co_water_pump) { }
+            MachineTestButton(R.string.machine_test_co_water_inlet_valve) { }
+            MachineTestButton(R.string.machine_test_so_water_fill_valve) { }
+            MachineTestButton(R.string.machine_test_so_air_pump) { }
         }
         Row(
             modifier = Modifier.padding(start = 54.dp, top = 316.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestItem(R.string.machine_test_so_purge_valve) { }
-            MachineTestItem(R.string.machine_test_so_purge_mix_valve) { }
-            MachineTestItem(R.string.machine_test_so_hot_water_valve) { }
-            MachineTestItem(R.string.machine_test_so_hot_water_mix_valve) { }
+            MachineTestButton(R.string.machine_test_so_purge_valve) { }
+            MachineTestButton(R.string.machine_test_so_purge_mix_valve) { }
+            MachineTestButton(R.string.machine_test_so_hot_water_valve) { }
+            MachineTestButton(R.string.machine_test_so_hot_water_mix_valve) { }
         }
         Row(
             modifier = Modifier.padding(start = 54.dp, top = 411.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestItem(R.string.machine_test_so_steam_boiler_heater1) { }
-            MachineTestItem(R.string.machine_test_so_steam_boiler_heater2) { }
-            MachineTestItem(R.string.machine_test_so_steam_valve1) { }
-            MachineTestItem(R.string.machine_test_so_steam_valve2) { }
+            MachineTestButton(R.string.machine_test_so_steam_boiler_heater1) { }
+            MachineTestButton(R.string.machine_test_so_steam_boiler_heater2) { }
+            MachineTestButton(R.string.machine_test_so_steam_valve1) { }
+            MachineTestButton(R.string.machine_test_so_steam_valve2) { }
         }
     }
 }

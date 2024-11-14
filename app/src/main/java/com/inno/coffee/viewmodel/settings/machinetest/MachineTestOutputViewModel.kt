@@ -3,6 +3,7 @@ package com.inno.coffee.viewmodel.settings.machinetest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.function.CommandControlManager
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_1
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_2
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_CURRENT
@@ -42,8 +43,16 @@ class MachineTestOutputViewModel @Inject constructor(
         }
     }
 
-    fun sendCoffeeOutputCommand() {
+    fun coffeeTestTurnOff() {
+        CommandControlManager.coffeeTestTurnOff()
+    }
 
+    fun sendCoffeeTestCommand(id: Int) {
+        CommandControlManager.coffeeTest(id)
+    }
+
+    fun sendCoffeeTestCommand(id: Int, param: Int) {
+        CommandControlManager.coffeeTest(id, param)
     }
 
     fun sendSteamOutputCommand() {

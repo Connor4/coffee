@@ -16,6 +16,8 @@ const val MAKE_DRINKS_COMMAND_ID: Short = 100
 const val MACHINE_PARAM_COMMAND_ID: Short = 200
 const val COFFEE_INPUT_COMMAND_ID: Short = 201
 const val STEAM_INPUT_COMMAND_ID: Short = 202
+const val COFFEE_OUTPUT_COMMAND_ID: Short = 301
+const val STEAM_OUTPUT_COMMAND_ID: Short = 302
 
 val fcstab = intArrayOf(
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,

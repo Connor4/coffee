@@ -12,19 +12,23 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.inno.coffee.R
 import com.inno.coffee.ui.common.composeClick
 import com.inno.coffee.utilities.nsp
 
 @Composable
-fun MachineTestItem(
+fun MachineTestStatusButton(
     @StringRes title: Int,
-    onClick: () -> Unit,
+    onClick: (Boolean) -> Unit,
 ) {
     val interactionSource = remember {
         MutableInteractionSource()
@@ -35,17 +39,20 @@ fun MachineTestItem(
     } else {
         Color(0xFF484848)
     }
+    var selected by remember { mutableStateOf(false) }
+    val bgColor = if (selected) Color(0xFF00DE93) else Color(0xFF191A1D)
 
     Button(
         modifier = Modifier
             .width(280.dp)
             .height(73.dp),
         interactionSource = interactionSource,
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF191A1D)),
+        colors = ButtonDefaults.buttonColors(containerColor = bgColor),
         border = BorderStroke(2.dp, boarderColor),
         shape = RoundedCornerShape(10.dp),
         onClick = composeClick {
-            onClick()
+            selected = !selected
+            onClick(selected)
         },
     ) {
         Text(
@@ -55,4 +62,10 @@ fun MachineTestItem(
             textAlign = TextAlign.Center,
         )
     }
+}
+
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
+@Composable
+private fun PreviewMachineTestStatusButton() {
+    MachineTestStatusButton(R.string.machine_test_motor_test) {}
 }
