@@ -10,6 +10,7 @@ import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.COFFEE_INPUT_COMMAND_ID
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
+import com.inno.serialport.utilities.STEAM_INPUT_COMMAND_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -83,8 +84,9 @@ class MachineTestInputViewModel @Inject constructor(
 
     private fun parseReceivedData(data: Any) {
         if (data is ReceivedData.CommonReply) {
-            if (data.commandId == COFFEE_INPUT_COMMAND_ID) {
-                val params = data.params
+            val params = data.params
+            val commandId = data.commandId
+            if (commandId == COFFEE_INPUT_COMMAND_ID) {
                 _microSwitchLeft.value = params[1] == ONE_IN_BYTE
                 _microSwitchRight.value = params[3] == ONE_IN_BYTE
                 _rear.value = params[5] == ONE_IN_BYTE
@@ -106,6 +108,18 @@ class MachineTestInputViewModel @Inject constructor(
                 val rightFlow =
                     ((params[21].toInt() and 0xFF) shl 8) or (params[20].toInt() and 0xFF)
                 _rightFlow.value = rightFlow / 10f
+            } else if (commandId == STEAM_INPUT_COMMAND_ID) {
+                val steamPressure =
+                    ((params[1].toInt() and 0xFF) shl 8) or (params[0].toInt() and 0xFF)
+                _steamPressure.value = steamPressure / 10f
+                _securityLevel.value = params[3] == ONE_IN_BYTE
+                _workLevel.value = params[5] == ONE_IN_BYTE
+                val leftWandTemp =
+                    ((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)
+                _leftWandTemp.value = leftWandTemp / 10f
+                val rightWandTemp =
+                    ((params[9].toInt() and 0xFF) shl 8) or (params[8].toInt() and 0xFF)
+                _rightWandTemp.value = rightWandTemp / 10f
             }
         }
     }
