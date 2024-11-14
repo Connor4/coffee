@@ -427,11 +427,13 @@
     <string name="machine_test_so_steam_boiler_heater2">蒸汽锅炉2号加热管</string>
     <string name="machine_test_so_steam_valve1">左边蒸汽阀</string>
     <string name="machine_test_so_steam_valve2">右边蒸汽阀</string>
+    <string name="machine_test_so_efoam_valve2">EFoam2号阀</string>
     <string name="machine_test_so_air_pump">气泵</string>
     <string name="machine_test_motor_steps">单位</string>
     <string name="machine_test_motor_speed">速度</string>
     <string name="machine_test_maximum_current">最大电流</string>
     <string name="machine_test_top_piston">顶部活塞</string>
     <string name="machine_test_bottom_piston">底部活塞</string>
+    <string name="machine_test_so_efoam_valve1">EFoam1号阀</string>
 
 </resources>

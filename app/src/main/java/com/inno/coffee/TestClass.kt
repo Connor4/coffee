@@ -3,10 +3,17 @@ package com.inno.coffee
 import com.inno.common.utils.toHexString
 
 fun main() {
-    val result = 10
-    println("result $result")
-    val shortResult = 10.toShort()
-    val byte = byteArrayOf(result.toByte(), shortResult.toByte())
-    println("short $shortResult")
-    println("byte ${byte.toHexString()}")
+    val intArrayOf = intArrayOf()
+    val bytes = intArrayConvertByte(intArrayOf)
+    println("size ${bytes.size}" + bytes.toHexString())
+}
+
+private fun intArrayConvertByte(commandInfo: IntArray): ByteArray {
+    val byteArray = ByteArray(commandInfo.size * 2)
+
+    commandInfo.forEachIndexed { index, value ->
+        byteArray[index * 2] = (value shr 8).toByte()
+        byteArray[index * 2 + 1] = (value and 0xFF).toByte()
+    }
+    return byteArray
 }

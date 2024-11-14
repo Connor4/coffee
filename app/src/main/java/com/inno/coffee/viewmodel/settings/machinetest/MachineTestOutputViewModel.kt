@@ -11,6 +11,8 @@ import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_SPEED
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_STEP
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
+import com.inno.serialport.utilities.COFFEE_OUTPUT_COMMAND_ID
+import com.inno.serialport.utilities.STEAM_OUTPUT_COMMAND_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,19 +46,19 @@ class MachineTestOutputViewModel @Inject constructor(
     }
 
     fun coffeeTestTurnOff() {
-        CommandControlManager.coffeeTestTurnOff()
+        CommandControlManager.sendTestCommand(COFFEE_OUTPUT_COMMAND_ID)
     }
 
-    fun sendCoffeeTestCommand(id: Int) {
-        CommandControlManager.coffeeTest(id)
+    fun sendCoffeeTestCommand(id: Short) {
+        CommandControlManager.sendTestCommand(id)
     }
 
-    fun sendCoffeeTestCommand(id: Int, param: Int) {
-        CommandControlManager.coffeeTest(id, param)
+    fun sendCoffeeTestCommand(id: Short, param: Int) {
+        CommandControlManager.sendTestCommand(id, param)
     }
 
-    fun sendSteamOutputCommand() {
-
+    fun steamTestTurnOff() {
+        CommandControlManager.sendTestCommand(STEAM_OUTPUT_COMMAND_ID)
     }
 
     fun sendMotorTest(index: Int, add: Boolean) {

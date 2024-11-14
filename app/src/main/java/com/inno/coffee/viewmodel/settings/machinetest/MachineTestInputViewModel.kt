@@ -85,7 +85,7 @@ class MachineTestInputViewModel @Inject constructor(
     fun getCoffeeInputs() {
         viewModelScope.launch {
             while (true) {
-                CommandControlManager.getCoffeeInputs()
+                CommandControlManager.sendTestCommand(COFFEE_INPUT_COMMAND_ID)
                 delay(1000)
             }
         }
@@ -94,7 +94,7 @@ class MachineTestInputViewModel @Inject constructor(
     fun getSteamInputs() {
         viewModelScope.launch {
             while (true) {
-                CommandControlManager.getSteamInputs()
+                CommandControlManager.sendTestCommand(STEAM_INPUT_COMMAND_ID)
                 delay(1000)
             }
         }
