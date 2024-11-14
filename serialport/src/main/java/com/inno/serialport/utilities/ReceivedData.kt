@@ -14,6 +14,6 @@ sealed class ReceivedData {
 
     data class MakeDrinkReply(var id: Int, var value: Int) : ReceivedData()
 
-    data class CommonReply(var commandId: Int, var params: ByteArray = byteArrayOf()) :
+    data class CommonReply(var commandId: Short, var params: ByteArray = byteArrayOf()) :
             ReceivedData()
 }

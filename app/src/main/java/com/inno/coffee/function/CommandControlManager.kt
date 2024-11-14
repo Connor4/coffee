@@ -1,10 +1,8 @@
 package com.inno.coffee.function
 
-import com.inno.coffee.utilities.COFFEE_INPUT_COMMAND_ID
-import com.inno.coffee.utilities.MACHINE_PARAMS_COMMAND_ID
-import com.inno.common.utils.Logger
-import com.inno.common.utils.toHexString
 import com.inno.serialport.function.SerialPortDataManager
+import com.inno.serialport.utilities.COFFEE_INPUT_COMMAND_ID
+import com.inno.serialport.utilities.MACHINE_PARAM_COMMAND_ID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -39,10 +37,9 @@ object CommandControlManager {
             byteArray[index * 2] = (value shr 8).toByte()
             byteArray[index * 2 + 1] = (value and 0xFF).toByte()
         }
-        Logger.d(TAG, "sendMachineParams() called with: byteArray = ${byteArray.toHexString()}")
 
         scope.launch {
-            SerialPortDataManager.instance.sendCommand(MACHINE_PARAMS_COMMAND_ID, 32, byteArray)
+            SerialPortDataManager.instance.sendCommand(MACHINE_PARAM_COMMAND_ID, 32, byteArray)
         }
     }
 

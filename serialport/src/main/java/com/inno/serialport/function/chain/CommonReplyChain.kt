@@ -17,7 +17,7 @@ class CommonReplyChain : Chain() {
 
     override fun handle(pullBufInfo: PullBufInfo): ReceivedData {
         Logger.d("CommonReplyChain", "reply  ${pullBufInfo.pollBuf.toHexString()}")
-        return ReceivedData.CommonReply(pullBufInfo.command.toInt(), pullBufInfo.pollBuf)
+        return ReceivedData.CommonReply(pullBufInfo.command, pullBufInfo.pollBuf)
     }
 
 }

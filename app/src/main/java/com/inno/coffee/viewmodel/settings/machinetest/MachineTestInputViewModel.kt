@@ -3,9 +3,11 @@ package com.inno.coffee.viewmodel.settings.machinetest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.function.CommandControlManager
+import com.inno.coffee.utilities.ONE_IN_BYTE
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.COFFEE_INPUT_COMMAND_ID
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -71,18 +73,41 @@ class MachineTestInputViewModel @Inject constructor(
             CommandControlManager.getCoffeeInputs()
             _tempUnit.value = dataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
         }
-        DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
         DataCenter.subscribe(ReceivedDataType.COMMON_REPLY, subscriber)
     }
 
     override fun onCleared() {
         super.onCleared()
-        DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
         DataCenter.unsubscribe(ReceivedDataType.COMMON_REPLY, subscriber)
     }
 
     private fun parseReceivedData(data: Any) {
-        val boiler = data as ReceivedData.HeartBeat
+        if (data is ReceivedData.CommonReply) {
+            if (data.commandId == COFFEE_INPUT_COMMAND_ID) {
+                val params = data.params
+                _microSwitchLeft.value = params[1] == ONE_IN_BYTE
+                _microSwitchRight.value = params[3] == ONE_IN_BYTE
+                _rear.value = params[5] == ONE_IN_BYTE
+                _front.value = params[7] == ONE_IN_BYTE
+                _drawer.value = params[9] == ONE_IN_BYTE
+                _switch.value = params[11] == ONE_IN_BYTE
+                val pressure =
+                    ((params[13].toInt() and 0xFF) shl 8) or (params[12].toInt() and 0xFF)
+                _pressure.value = pressure / 10f
+                val leftTemp =
+                    ((params[15].toInt() and 0xFF) shl 8) or (params[14].toInt() and 0xFF)
+                _leftTemp.value = leftTemp / 10f
+                val rightTemp =
+                    ((params[17].toInt() and 0xFF) shl 8) or (params[16].toInt() and 0xFF)
+                _rightTemp.value = rightTemp / 10f
+                val leftFlow =
+                    ((params[19].toInt() and 0xFF) shl 8) or (params[18].toInt() and 0xFF)
+                _leftFlow.value = leftFlow / 10f
+                val rightFlow =
+                    ((params[21].toInt() and 0xFF) shl 8) or (params[20].toInt() and 0xFF)
+                _rightFlow.value = rightFlow / 10f
+            }
+        }
     }
 
     private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Float>): StateFlow<String> {

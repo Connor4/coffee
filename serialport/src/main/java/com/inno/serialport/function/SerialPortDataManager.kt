@@ -2,6 +2,7 @@ package com.inno.serialport.function
 
 import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
+import com.inno.common.utils.toHexString
 import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.driver.RS485Driver
 import com.inno.serialport.utilities.ReceivedData
@@ -65,7 +66,7 @@ class SerialPortDataManager private constructor() {
 
     suspend fun sendCommand(commandId: Short, infoSize: Int, commandInfo: ByteArray?) {
         Logger.d(TAG, "sendCommand() called with: commandId = $commandId, infoSize = $infoSize," +
-                " commandInfo = $commandInfo")
+                " commandInfo = ${commandInfo?.toHexString()}")
         commandInfo?.let {
             mutex.withLock {
                 heartBeatJob?.cancel()
