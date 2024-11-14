@@ -372,10 +372,10 @@
     <string name="bean_grinder_finer">调细</string>
     <string name="bean_grinder_coarser">调粗</string>
 
-    <string name="machine_test_coffee_inputs">咖啡模组状态</string>
-    <string name="machine_test_coffee_output">咖啡模组测试</string>
-    <string name="machine_test_steam_inputs">蒸汽模组状态</string>
-    <string name="machine_test_steam_output">蒸汽模组测试</string>
+    <string name="machine_test_coffee_inputs">咖啡输入测试</string>
+    <string name="machine_test_coffee_output">咖啡输出测试</string>
+    <string name="machine_test_steam_inputs">蒸汽输入状态</string>
+    <string name="machine_test_steam_output">蒸汽输出测试</string>
     <string name="machine_test_motor_test">电机测试</string>
     <string name="machine_test_input_test_coffee">输入测试 - 咖啡系统</string>
     <string name="machine_test_input_test_steam">输入测试 - 蒸汽系统</string>
@@ -431,5 +431,7 @@
     <string name="machine_test_motor_steps">单位</string>
     <string name="machine_test_motor_speed">速度</string>
     <string name="machine_test_maximum_current">最大电流</string>
+    <string name="machine_test_top_piston">顶部活塞</string>
+    <string name="machine_test_bottom_piston">底部活塞</string>
 
 </resources>
