@@ -49,16 +49,16 @@ class MachineTestOutputViewModel @Inject constructor(
         CommandControlManager.sendTestCommand(COFFEE_OUTPUT_COMMAND_ID)
     }
 
-    fun sendCoffeeTestCommand(id: Short) {
+    fun steamTestTurnOff() {
+        CommandControlManager.sendTestCommand(STEAM_OUTPUT_COMMAND_ID)
+    }
+
+    fun sendTestCommand(id: Short) {
         CommandControlManager.sendTestCommand(id)
     }
 
-    fun sendCoffeeTestCommand(id: Short, param: Int) {
+    fun sendTestCommand(id: Short, param: Int) {
         CommandControlManager.sendTestCommand(id, param)
-    }
-
-    fun steamTestTurnOff() {
-        CommandControlManager.sendTestCommand(STEAM_OUTPUT_COMMAND_ID)
     }
 
     fun sendMotorTest(index: Int, add: Boolean) {

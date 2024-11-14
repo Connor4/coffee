@@ -79,16 +79,16 @@ fun MachineTestSteamOutputLayout(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             MachineTestStatusButton(R.string.machine_test_co_water_pump) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_WATER_PUMP_ID, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_WATER_PUMP_ID, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_co_water_inlet_valve) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_WATER_INLET_VALVE, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_WATER_INLET_VALVE, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_so_water_fill_valve) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_WATER_FILL_VALVE, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_WATER_FILL_VALVE, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_so_air_pump) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_AIR_PUMP, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_AIR_PUMP, if (it) 1 else 0)
             }
         }
         Row(
@@ -96,16 +96,16 @@ fun MachineTestSteamOutputLayout(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             MachineTestStatusButton(R.string.machine_test_so_purge_valve) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_PURGE_VALVE, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_PURGE_VALVE, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_so_purge_mix_valve) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_PURGE_MAX_VALVE, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_PURGE_MAX_VALVE, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_so_hot_water_valve) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_HOT_WATER_VALVE, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_HOT_WATER_VALVE, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_so_hot_water_mix_valve) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_HOT_WATER_MAX_VALVE, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_HOT_WATER_MAX_VALVE, if (it) 1 else 0)
             }
         }
         Row(
@@ -113,16 +113,16 @@ fun MachineTestSteamOutputLayout(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             MachineTestStatusButton(R.string.machine_test_so_steam_boiler_heater1) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_STEAM_BOILER_HEATER1, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_STEAM_BOILER_HEATER1, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_so_steam_boiler_heater2) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_STEAM_BOILER_HEATER2, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_STEAM_BOILER_HEATER2, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_so_steam_valve1) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_STEAM_VALVE_1, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_STEAM_VALVE_1, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_so_steam_valve2) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_STEAM_VALVE_2, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_STEAM_VALVE_2, if (it) 1 else 0)
             }
         }
         Row(
@@ -130,10 +130,10 @@ fun MachineTestSteamOutputLayout(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             MachineTestStatusButton(R.string.machine_test_so_efoam_valve1) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_FOAM_VALVE_1, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_FOAM_VALVE_1, if (it) 1 else 0)
             }
             MachineTestStatusButton(R.string.machine_test_so_efoam_valve2) {
-                viewModel.sendCoffeeTestCommand(MACHINE_TEST_FOAM_VALVE_2, if (it) 1 else 0)
+                viewModel.sendTestCommand(MACHINE_TEST_FOAM_VALVE_2, if (it) 1 else 0)
             }
         }
     }
