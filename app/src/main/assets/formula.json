@@ -57,7 +57,7 @@
     "rightValueLeftBoiler": 0
   },
   {
-    "productId": 4,
+    "productId": 99,
     "imageRes": "operate_rinse_ic",
     "productType": {
       "type": "Rinse"
@@ -329,7 +329,7 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 0,
+      "value": 320,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1185,7 +1185,7 @@
     "rightValueLeftBoiler": 0
   },
   {
-    "productId": 104,
+    "productId": 199,
     "imageRes": "operate_rinse_ic",
     "productType": {
       "type": "Rinse"
