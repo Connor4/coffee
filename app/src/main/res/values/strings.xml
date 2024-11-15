@@ -445,4 +445,15 @@
     <string name="machine_test_top_piston">Top Piston</string>
     <string name="machine_test_bottom_piston">Bottom Piston</string>
 
+    <string name="info_coffee_status">Coffee Status</string>
+    <string name="info_steam_status">Steam Status</string>
+    <string name="info_sn_machine">S/N Machine: </string>
+    <string name="info_cpu">CPU</string>
+    <string name="info_sn">S/N</string>
+    <string name="info_board">Board Type</string>
+    <string name="info_ext_board_id">Extension Board ID</string>
+    <string name="info_ext_board_sn">Extension Board S/N</string>
+    <string name="info_cpu_feature">CPU Features:</string>
+    <string name="info_display">Display</string>
+
 </resources>

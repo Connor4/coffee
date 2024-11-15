@@ -171,3 +171,7 @@ const val MACHINE_TEST_MOTOR_LEFT_TOP = 0
 const val MACHINE_TEST_MOTOR_LEFT_BOTTOM = 1
 const val MACHINE_TEST_MOTOR_RIGHT_TOP = 3
 const val MACHINE_TEST_MOTOR_RIGHT_BOTTOM = 2
+
+const val INFO_KEY_ACTIVITY = "info_key_activity"
+const val INFO_VALUE_COFFEE_ACTIVITY = "coffee_activity"
+const val INFO_VALUE_STEAM_ACTIVITY = "steam_activity"

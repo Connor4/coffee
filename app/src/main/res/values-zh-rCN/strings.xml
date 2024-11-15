@@ -435,5 +435,7 @@
     <string name="machine_test_top_piston">顶部活塞</string>
     <string name="machine_test_bottom_piston">底部活塞</string>
     <string name="machine_test_so_efoam_valve1">EFoam1号阀</string>
+    <string name="info_coffee_status">咖啡状态</string>
+    <string name="info_steam_status">蒸汽状态</string>
 
 </resources>

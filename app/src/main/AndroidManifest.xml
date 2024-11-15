@@ -63,6 +63,7 @@
         <activity android:name=".ui.settings.machinetest.MachineTestInputsActivity" />
         <activity android:name=".ui.settings.machinetest.MachineTestOutputsActivity" />
         <activity android:name=".ui.settings.info.MachineInfoActivity" />
+        <activity android:name=".ui.settings.info.MachineInfoStatusActivity" />
     </application>
 
 </manifest>
