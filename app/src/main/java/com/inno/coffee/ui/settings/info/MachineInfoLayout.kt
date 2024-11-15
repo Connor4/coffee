@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -78,14 +79,42 @@ private fun InfoDisplay() {
             text = stringResource(R.string.info_display), color = Color(0xFF32C5FF),
             fontSize = 7.nsp()
         )
-        Box(
+        Row(
             modifier = Modifier
                 .padding(top = 50.dp)
                 .width(1153.dp)
                 .height(238.dp)
                 .background(Color(0xFF191A1D))
         ) {
-
+            Column(
+                modifier = Modifier
+                    .padding(start = 30.dp)
+                    .width(558.dp)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                InfoMarginTextWithValue(stringResource(R.string.info_sn), "HUMAI-01A")
+                InfoMarginTextWithValue(stringResource(R.string.info_board), "ApalisiMX6 V1.1D")
+                InfoMarginTextWithValue(stringResource(R.string.info_ext_board_id),
+                    "0.9.21- main-20220721")
+                InfoMarginTextWithValue(stringResource(R.string.info_ext_board_sn), "2.0.1- main")
+                InfoMarginTextWithValue(stringResource(R.string.info_ext_board_sn), "0d 14h 50m")
+                InfoMarginTextWithValue(stringResource(R.string.info_ext_board_sn), "31")
+            }
+            Column(
+                modifier = Modifier
+                    .padding(start = 30.dp)
+                    .width(558.dp)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                InfoMarginTextWithValue(stringResource(R.string.info_sn), "13262")
+                InfoMarginTextWithValue(stringResource(R.string.info_sn), "10927835")
+                InfoMarginTextWithValue("", "")
+                InfoMarginTextWithValue("", "")
+                InfoMarginTextWithValue("", "")
+                InfoMarginTextWithValue("", "")
+            }
         }
     }
 }

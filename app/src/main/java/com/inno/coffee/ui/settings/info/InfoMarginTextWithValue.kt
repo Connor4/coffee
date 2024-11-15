@@ -23,7 +23,7 @@ fun InfoMarginTextWithValue(
             .width(576.dp)
             .wrapContentHeight()
     ) {
-        Text(text = "$key:", color = Color.White, fontSize = 5.nsp(),
+        Text(text = key, color = Color.White, fontSize = 5.nsp(),
             modifier = Modifier.align(Alignment.CenterStart))
         Text(text = value, color = Color.White, fontSize = 5.nsp(),
             modifier = Modifier

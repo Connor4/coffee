@@ -449,10 +449,10 @@
     <string name="info_steam_status">Steam Status</string>
     <string name="info_sn_machine">S/N Machine: </string>
     <string name="info_cpu">CPU</string>
-    <string name="info_sn">S/N</string>
-    <string name="info_board">Board Type</string>
-    <string name="info_ext_board_id">Extension Board ID</string>
-    <string name="info_ext_board_sn">Extension Board S/N</string>
+    <string name="info_sn">S/N:</string>
+    <string name="info_board">Board Type:</string>
+    <string name="info_ext_board_id">Extension Board ID:</string>
+    <string name="info_ext_board_sn">Extension Board S/N:</string>
     <string name="info_cpu_feature">CPU Features:</string>
     <string name="info_display">Display</string>
     <string name="info_status_process_coffee_left">Process Coffee Left:</string>
@@ -461,8 +461,8 @@
     <string name="info_status_action_coffee_left">Action Coffee Left:</string>
     <string name="info_status_action_coffee_right">Action Coffee Right:</string>
     <string name="info_status_num_stop">Number of Stops:</string>
-    <string name="info_status_prodid_left">ProdiD Coffee Left:</string>
-    <string name="info_status_prodid_right">ProdiD Coffee Right:</string>
+    <string name="info_status_prodid_left">ProdID Coffee Left:</string>
+    <string name="info_status_prodid_right">ProdID Coffee Right:</string>
     <string name="info_status_num_error">Number of Errors:</string>
     <string name="info_status_system_flow_left">System Flow Rate Left:</string>
     <string name="info_status_system_flow_right">System Flow Rate Right:</string>
@@ -487,6 +487,29 @@
     <string name="info_status_fan_right">Fan Right:</string>
     <string name="info_status_on">ON</string>
     <string name="info_status_off">OFF</string>
-
+    <string name="info_status_process_steam_left">Process Steam Left:</string>
+    <string name="info_status_process_steam_right">Process Steam Right:</string>
+    <string name="info_status_action_steam_left">Action Steam Left:</string>
+    <string name="info_status_action_steam_right">Action Steam Right:</string>
+    <string name="info_status_process_hot_water">Process Hot Water:</string>
+    <string name="info_status_action_hot_water">Action Hot Water:</string>
+    <string name="info_status_prodid_steam_left">ProdID Steam Left:</string>
+    <string name="info_status_prodid_steam_right">ProdID Steam Right:</string>
+    <string name="info_status_prodid_hot_water">ProdID Hot Water:</string>
+    <string name="info_status_modid_steam_left">ModID Steam Left:</string>
+    <string name="info_status_modid_steam_right">ModID Steam Right:</string>
+    <string name="info_status_modid_steam_hot_water">ModID Hot Water:</string>
+    <string name="info_status_valve_water_in_boiler">Valve Water In Boiler:</string>
+    <string name="info_status_valve_hot_water">Valve Hot Water:</string>
+    <string name="info_status_valve_mix_hot_water">Valve Mix Hot Water:</string>
+    <string name="info_status_valve_steam_1">Valve Steam 1:</string>
+    <string name="info_status_valve_steam_2">Valve Steam 2:</string>
+    <string name="info_status_valve_foam_1">Valve Foam 1:</string>
+    <string name="info_status_valve_foam_2">Valve Foam 2:</string>
+    <string name="info_status_valve_purge_mix">Valve Purge Mix</string>
+    <string name="info_status_valve_purge">Valve Purge:</string>
+    <string name="info_status_steam_heating_1">Steam Heating 1:</string>
+    <string name="info_status_steam_heating_2">Steam Heating 2:</string>
+    <string name="info_status_steam_air_pump">Air Pump:</string>
 
 </resources>
