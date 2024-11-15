@@ -455,5 +455,38 @@
     <string name="info_ext_board_sn">Extension Board S/N</string>
     <string name="info_cpu_feature">CPU Features:</string>
     <string name="info_display">Display</string>
+    <string name="info_status_process_coffee_left">Process Coffee Left:</string>
+    <string name="info_status_process_coffee_right">Process Coffee Right:</string>
+    <string name="info_status_num_warning">Number of Warnings:</string>
+    <string name="info_status_action_coffee_left">Action Coffee Left:</string>
+    <string name="info_status_action_coffee_right">Action Coffee Right:</string>
+    <string name="info_status_num_stop">Number of Stops:</string>
+    <string name="info_status_prodid_left">ProdiD Coffee Left:</string>
+    <string name="info_status_prodid_right">ProdiD Coffee Right:</string>
+    <string name="info_status_num_error">Number of Errors:</string>
+    <string name="info_status_system_flow_left">System Flow Rate Left:</string>
+    <string name="info_status_system_flow_right">System Flow Rate Right:</string>
+    <string name="info_status_nozzle_flow_left">Nozzle Flow Rate Left:</string>
+    <string name="info_status_nozzle_flow_right">Nozzle Flow Rate Right:</string>
+    <string name="info_status_valve_brew_left">Valve Brew Left:</string>
+    <string name="info_status_value_brew_right">Valve Brew Right:</string>
+    <string name="info_status_valve_bypass_left">Valve Bypass Left:</string>
+    <string name="info_status_valve_bypass_right">Valve Bypass Right:</string>
+    <string name="info_status_fan_front">Fan Front:</string>
+    <string name="info_status_valve_out_left">Valve Out Sel Left:</string>
+    <string name="info_status_valve_out_right">Valve Out Sel Right:</string>
+    <string name="info_status_valve_water_inlet">Valve Water Inlet:</string>
+    <string name="info_status_valve_clean_tab">Valve Clean Tab Disp:</string>
+    <string name="info_status_grinder_left">Relay Grinder Left:</string>
+    <string name="info_status_grinder_right">Relay Grinder Right:</string>
+    <string name="info_status_boiler_left">Relay Boiler Left:</string>
+    <string name="info_status_boiler_right">Relay Boiler Right:</string>
+    <string name="info_status_water_pump">Water Pump:</string>
+    <string name="info_status_relay_standby">Relay Standby:</string>
+    <string name="info_status_fan_left">Fan Left:</string>
+    <string name="info_status_fan_right">Fan Right:</string>
+    <string name="info_status_on">ON</string>
+    <string name="info_status_off">OFF</string>
+
 
 </resources>
