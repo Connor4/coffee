@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MachineInfoViewModel @Inject constructor(
+class CoffeeStatusViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
 

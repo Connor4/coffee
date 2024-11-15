@@ -18,11 +18,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
-import com.inno.coffee.viewmodel.settings.info.MachineInfoViewModel
+import com.inno.coffee.viewmodel.settings.info.SteamStatusViewModel
 
 @Composable
 fun SteamStatusLayout(
-    viewModel: MachineInfoViewModel = hiltViewModel(),
+    viewModel: SteamStatusViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     Box(

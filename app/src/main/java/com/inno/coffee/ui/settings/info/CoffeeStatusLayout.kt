@@ -28,11 +28,11 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.TextWithValue
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
-import com.inno.coffee.viewmodel.settings.info.MachineInfoViewModel
+import com.inno.coffee.viewmodel.settings.info.CoffeeStatusViewModel
 
 @Composable
 fun CoffeeStatusLayout(
-    viewModel: MachineInfoViewModel = hiltViewModel(),
+    viewModel: CoffeeStatusViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val processCoffeeLeft = viewModel.processCoffeeLeft.collectAsState()
