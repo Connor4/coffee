@@ -28,7 +28,7 @@ fun InfoMarginTextWithValue(
         Text(text = value, color = Color.White, fontSize = 5.nsp(),
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .padding(start = 347.dp))
+                .padding(start = 300.dp))
     }
 }
 
