@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +34,38 @@ fun SteamStatusLayout(
     viewModel: SteamStatusViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val processSteamLeft = viewModel.processSteamLeft.collectAsState()
+    val processHotWater = viewModel.processHotWater.collectAsState()
+    val processSteamRight = viewModel.processSteamRight.collectAsState()
+    val actionSteamLeft = viewModel.actionSteamLeft.collectAsState()
+    val actionHotWater = viewModel.actionHotWater.collectAsState()
+    val actionSteamRight = viewModel.actionSteamRight.collectAsState()
+    val prodidSteamLeft = viewModel.prodidSteamLeft.collectAsState()
+    val prodidHotWater = viewModel.prodidHotWater.collectAsState()
+    val prodidSteamRight = viewModel.prodidSteamRight.collectAsState()
+    val modidSteamLeft = viewModel.modidSteamLeft.collectAsState()
+    val modidHotWater = viewModel.modidHotWater.collectAsState()
+    val modidSteamRight = viewModel.modidSteamRight.collectAsState()
+    val numError = viewModel.numError.collectAsState()
+    val numStop = viewModel.numStop.collectAsState()
+    val numWarning = viewModel.numWarning.collectAsState()
+
+    val valveWaterInBoiler = viewModel.valveWaterInBoiler.collectAsState()
+    val valveHotWater = viewModel.valveHotWater.collectAsState()
+    val valveMixHotWater = viewModel.valveMixHotWater.collectAsState()
+    val valveSteam1 = viewModel.valveSteam1.collectAsState()
+    val valveSteam2 = viewModel.valveSteam2.collectAsState()
+    val valveFoam1 = viewModel.valveFoam1.collectAsState()
+    val valveFoam2 = viewModel.valveFoam2.collectAsState()
+    val valvePurgeMix = viewModel.valvePurgeMix.collectAsState()
+    val valvePurge = viewModel.valvePurge.collectAsState()
+    val valveWaterInlet = viewModel.valveWaterInlet.collectAsState()
+    val waterPump = viewModel.waterPump.collectAsState()
+    val steamHeating1 = viewModel.steamHeating1.collectAsState()
+    val steamHeating2 = viewModel.steamHeating2.collectAsState()
+    val steamAirPump = viewModel.steamAirPump.collectAsState()
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,8 +87,15 @@ fun SteamStatusLayout(
             contentDescription = null
         )
 
-        SteamStatus1()
-        SteamStatus2()
+        SteamStatus1(processSteamLeft.value, processHotWater.value, processSteamRight.value,
+            actionSteamLeft.value, actionHotWater.value, actionSteamRight.value,
+            prodidSteamLeft.value, prodidHotWater.value, prodidSteamRight.value,
+            modidSteamLeft.value, modidHotWater.value, modidSteamRight.value,
+            numError.value, numStop.value, numWarning.value)
+        SteamStatus2(valveWaterInBoiler.value, valveHotWater.value, valveMixHotWater.value,
+            valveSteam1.value, valveSteam2.value, valveFoam1.value, valveFoam2.value,
+            valvePurgeMix.value, valvePurge.value, valveWaterInlet.value, waterPump.value,
+            steamHeating1.value, steamHeating2.value, steamAirPump.value)
     }
 }
 

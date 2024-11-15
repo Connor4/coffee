@@ -74,6 +74,8 @@ class CoffeeStatusViewModel @Inject constructor(
     private val _fanRight = MutableStateFlow(false)
     val fanRight = _fanRight
 
+    init {
 
+    }
 
 }
