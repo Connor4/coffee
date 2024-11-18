@@ -520,5 +520,11 @@
     <string name="maintenance_manuals">Manuals</string>
     <string name="maintenance_count_cups">Count by Cups</string>
     <string name="maintenance_count_schedule">Count by Schedule</string>
+    <string name="maintenance_countdown_point">Countdown to Maintenance Point:</string>
+    <string name="maintenance_left_brew_unit">Left Brew Left:</string>
+    <string name="maintenance_right_brew_unit">Right Brew Right:</string>
+    <string name="maintenance_next_time">Next Maintenance Date:</string>
+    <string name="maintenance_products">[Products]</string>
+    <string name="maintenance_confirm_reset_count">Confirm Reset Maintenance Count?</string>
 
 </resources>

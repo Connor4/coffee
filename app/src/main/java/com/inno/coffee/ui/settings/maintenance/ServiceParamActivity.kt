@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -30,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.base.CoffeeActivity
+import com.inno.coffee.ui.common.ChangeColorButton
+import com.inno.coffee.ui.common.ConfirmDialogLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
@@ -67,9 +70,14 @@ fun ServiceParamLayout(
     val scrollRangeStart = remember { mutableStateOf(0f) }
     val scrollRangeEnd = remember { mutableStateOf(0f) }
     val scrollUnit = remember { mutableStateOf("") }
+    val openConfirmDialog = remember { mutableStateOf(false) }
 
     val cups = viewModel.cups.collectAsState()
     val schedule = viewModel.schedule.collectAsState()
+    val totalCount = 100000
+    val leftCount = 19999
+    val rightCount = 29999
+    val nextTime = "02.11.2024"
 
     LaunchedEffect(Unit) {
         viewModel.init()
@@ -119,6 +127,58 @@ fun ServiceParamLayout(
                 scrollUnit.value = "[Month]"
             }
         }
+
+        Box(
+            modifier = Modifier
+                .padding(start = 50.dp, top = 348.dp, end = 95.dp)
+                .fillMaxWidth()
+                .height(180.dp)
+                .background(Color(0xFF191A1D))
+        ) {
+            Text(text = stringResource(R.string.maintenance_countdown_point) + " $totalCount " +
+                    stringResource(R.string.maintenance_products),
+                fontSize = 7.nsp(), color = Color(0xFF32C5FF),
+                modifier = Modifier.padding(start = 30.dp, top = 20.dp)
+            )
+            Text(text = stringResource(R.string.maintenance_left_brew_unit) + " $leftCount " +
+                    stringResource(R.string.maintenance_products),
+                fontSize = 6.nsp(), color = Color(0xFF32C5FF),
+                modifier = Modifier.padding(start = 30.dp, top = 80.dp)
+            )
+            Text(text = stringResource(R.string.maintenance_right_brew_unit) + " $rightCount " +
+                    stringResource(R.string.maintenance_products),
+                fontSize = 6.nsp(), color = Color(0xFF32C5FF),
+                modifier = Modifier.padding(start = 460.dp, top = 80.dp)
+            )
+            Text(
+                text = stringResource(R.string.maintenance_next_time) + " $nextTime",
+                fontSize = 7.nsp(), color = Color(0xFF32C5FF),
+                modifier = Modifier.padding(start = 30.dp, top = 130.dp)
+            )
+        }
+
+        ChangeColorButton(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 692.dp),
+            text = stringResource(R.string.bean_grinder_reset)
+        ) {
+            openConfirmDialog.value = true
+        }
+
+        if (openConfirmDialog.value) {
+            ConfirmDialogLayout(
+                stringResource(R.string.formula_product_cups_title),
+                stringResource(R.string.maintenance_confirm_reset_count), {
+                    openConfirmDialog.value = false
+//                    viewModel.setFormulaCups(selectedCups.value, selectFormula)
+                }, {
+                    openConfirmDialog.value = false
+                }
+            )
+        }
+
+
         if (itemSelectIndex.value != INVALID_INT) {
             key(scrollDefaultValue.value) {
                 UnitValueScrollBar(
