@@ -157,6 +157,24 @@ fun ServiceParamLayout(
             )
         }
 
+        if (itemSelectIndex.value != INVALID_INT) {
+            key(scrollDefaultValue.value) {
+                UnitValueScrollBar(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(top = 172.dp, end = 90.dp)
+                        .width(550.dp)
+                        .wrapContentHeight(),
+                    value = scrollDefaultValue.value,
+                    rangeStart = scrollRangeStart.value,
+                    rangeEnd = scrollRangeEnd.value,
+                    unit = scrollUnit.value,
+                ) { changeValue ->
+                    viewModel.saveServiceParam(itemSelectIndex.value, changeValue.toInt())
+                }
+            }
+        }
+
         ChangeColorButton(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -176,25 +194,6 @@ fun ServiceParamLayout(
                     openConfirmDialog.value = false
                 }
             )
-        }
-
-
-        if (itemSelectIndex.value != INVALID_INT) {
-            key(scrollDefaultValue.value) {
-                UnitValueScrollBar(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(top = 172.dp, end = 90.dp)
-                        .width(550.dp)
-                        .wrapContentHeight(),
-                    value = scrollDefaultValue.value,
-                    rangeStart = scrollRangeStart.value,
-                    rangeEnd = scrollRangeEnd.value,
-                    unit = scrollUnit.value,
-                ) { changeValue ->
-                    viewModel.saveServiceParam(itemSelectIndex.value, changeValue.toInt())
-                }
-            }
         }
 
     }
