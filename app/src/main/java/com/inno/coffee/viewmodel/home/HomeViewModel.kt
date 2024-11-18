@@ -258,6 +258,16 @@ class HomeViewModel @Inject constructor(
         return shouldEnableMask
     }
 
+    fun enableSelect(main: Boolean, self: Formula): Boolean {
+        val list = if (main) {
+            MakeLeftDrinksHandler.executingQueue.value
+        } else {
+            MakeRightDrinksHandler.executingQueue.value
+        }
+        val exist = list.firstOrNull { self.productId == it.productId }
+        return exist != null
+    }
+
     suspend fun startCountDown() {
         while (_countdown.value >= 0) {
             delay(1000)

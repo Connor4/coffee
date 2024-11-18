@@ -103,7 +103,7 @@ fun HomeDrinksLayout(
                 ) {
                     currentList.forEach { drinkModel ->
                         val enable = viewModel.enableMask(drinkModel, executingQueue)
-                        val select = selected.intValue == drinkModel.productId
+                        val select = viewModel.enableSelect(mainScreen, drinkModel)
 
                         DrinkItem(model = drinkModel, enableMask = enable, selected = select) {
                             selected.intValue = drinkModel.productId
