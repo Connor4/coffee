@@ -16,6 +16,7 @@ import javax.inject.Inject
 class ServiceParamViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    private val repository: ServiceParamRepository,
 ) : ViewModel() {
 
     private val SERVICE_PARAM_CUPS = "service_param_cups"
@@ -25,6 +26,12 @@ class ServiceParamViewModel @Inject constructor(
     val cups = _cups
     private val _schedule = MutableStateFlow(0)
     val schedule = _schedule
+    private val _totalCount = MutableStateFlow(0)
+    val totalCount = _totalCount
+    private val _leftCount = MutableStateFlow(0)
+    val leftCount = _leftCount
+    private val _rightCount = MutableStateFlow(0)
+    val rightCount = _rightCount
 
     fun init() {
         viewModelScope.launch {
@@ -32,6 +39,9 @@ class ServiceParamViewModel @Inject constructor(
                 dataStore.getCoffeePreference(SERVICE_PARAM_CUPS, 100000)
             _schedule.value =
                 dataStore.getCoffeePreference(SERVICE_PARAM_SCHEDULE, 12)
+            _leftCount.value = repository.getBrewProductCount(true)
+            _rightCount.value = repository.getBrewProductCount(false)
+            _totalCount.value = _cups.value - _leftCount.value - _rightCount.value
         }
     }
 
@@ -41,6 +51,7 @@ class ServiceParamViewModel @Inject constructor(
                 MAINTENANCE_VALUE_CUPS -> {
                     dataStore.saveCoffeePreference(SERVICE_PARAM_CUPS, value)
                     _cups.value = value
+                    _totalCount.value = _cups.value - _leftCount.value - _rightCount.value
                 }
                 MAINTENANCE_VALUE_SCHEDULE -> {
                     dataStore.saveCoffeePreference(SERVICE_PARAM_SCHEDULE, value)

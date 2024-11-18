@@ -74,9 +74,9 @@ fun ServiceParamLayout(
 
     val cups = viewModel.cups.collectAsState()
     val schedule = viewModel.schedule.collectAsState()
-    val totalCount = 100000
-    val leftCount = 19999
-    val rightCount = 29999
+    val totalCount = viewModel.totalCount.collectAsState()
+    val leftCount = viewModel.leftCount.collectAsState()
+    val rightCount = viewModel.rightCount.collectAsState()
     val nextTime = "02.11.2024"
 
     LaunchedEffect(Unit) {
@@ -135,18 +135,20 @@ fun ServiceParamLayout(
                 .height(180.dp)
                 .background(Color(0xFF191A1D))
         ) {
-            Text(text = stringResource(R.string.maintenance_countdown_point) + " $totalCount " +
-                    stringResource(R.string.maintenance_products),
+            Text(text = stringResource(R.string.maintenance_countdown_point) +
+                    " ${totalCount.value} " + stringResource(R.string.maintenance_products),
                 fontSize = 7.nsp(), color = Color(0xFF32C5FF),
                 modifier = Modifier.padding(start = 30.dp, top = 20.dp)
             )
-            Text(text = stringResource(R.string.maintenance_left_brew_unit) + " $leftCount " +
-                    stringResource(R.string.maintenance_products),
+            Text(
+                text = stringResource(R.string.maintenance_left_brew_unit) +
+                        " ${leftCount.value} " + stringResource(R.string.maintenance_products),
                 fontSize = 6.nsp(), color = Color(0xFF32C5FF),
                 modifier = Modifier.padding(start = 30.dp, top = 80.dp)
             )
-            Text(text = stringResource(R.string.maintenance_right_brew_unit) + " $rightCount " +
-                    stringResource(R.string.maintenance_products),
+            Text(
+                text = stringResource(R.string.maintenance_right_brew_unit) +
+                        " ${rightCount.value} " + stringResource(R.string.maintenance_products),
                 fontSize = 6.nsp(), color = Color(0xFF32C5FF),
                 modifier = Modifier.padding(start = 460.dp, top = 80.dp)
             )

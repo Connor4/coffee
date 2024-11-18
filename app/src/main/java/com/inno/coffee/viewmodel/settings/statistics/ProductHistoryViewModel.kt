@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class ProductHistoryViewModel @Inject constructor(
@@ -97,7 +98,8 @@ class ProductHistoryViewModel @Inject constructor(
             val time = TimeUtils.getNowTimeInYearAndHour(language = Locale.ENGLISH.language)
             repository.insertProductHistory(
                 ProductHistory(time = time, pressFinal = 24.0f,
-                    brewSide = true, grindTime = 11.4f, pqc = true, grindAdjust = 2,
+                    brewSide = Random.nextBoolean(), grindTime = 11.4f, pqc = true,
+                    grindAdjust = 2,
                     extTime = 18.6f,
                     waterQuantity = 100, waterTemp = 80, milkTemp = 90, steamPressure = 19,
                     productType = ProductType.COFFEE, cups = 2))

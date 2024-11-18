@@ -19,4 +19,7 @@ interface ProductHistoryDao {
     @Query("DELETE FROM product_history_table")
     suspend fun deleteAllProductHistory()
 
+    @Query("SELECT COUNT(*) FROM product_history_table WHERE brewSide == :left")
+    suspend fun getBrewProductCount(left: Boolean): Int
+
 }
