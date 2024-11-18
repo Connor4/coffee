@@ -1,6 +1,5 @@
 package com.inno.coffee.viewmodel.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
@@ -229,7 +228,7 @@ class HomeViewModel @Inject constructor(
 
         var shouldEnableMask = false
         for (making in makingList) {
-            Log.d(TAG, "enableMask() called with: making = ${making.productId}")
+            Logger.d(TAG, "enableMask() called with: making = ${making.productId}")
             val makingType = making.productType?.type
 
             if (ProductType.assertType(makingType, ProductType.RINSE) ||
