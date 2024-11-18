@@ -175,3 +175,11 @@ const val MACHINE_TEST_MOTOR_RIGHT_BOTTOM = 2
 const val INFO_KEY_ACTIVITY = "info_key_activity"
 const val INFO_VALUE_COFFEE_ACTIVITY = "coffee_activity"
 const val INFO_VALUE_STEAM_ACTIVITY = "steam_activity"
+
+const val MAINTENANCE_KEY_ACTIVITY = "maintenance_key_activity"
+const val MAINTENANCE_KEY_SERVICE_PARAM = 0
+const val MAINTENANCE_KEY_WATER_FILTER = 1
+const val MAINTENANCE_KEY_SERVICE_FUNCTIONS = 2
+const val MAINTENANCE_KEY_TEST_FUNCTIONS = 3
+const val MAINTENANCE_KEY_SAVE_RESTORE = 4
+const val MAINTENANCE_KEY_MANUAL = 5

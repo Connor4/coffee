@@ -64,6 +64,7 @@
         <activity android:name=".ui.settings.machinetest.MachineTestOutputsActivity" />
         <activity android:name=".ui.settings.info.MachineInfoActivity" />
         <activity android:name=".ui.settings.info.MachineInfoStatusActivity" />
+        <activity android:name=".ui.settings.maintenance.MaintenanceActivity" />
     </application>
 
 </manifest>

@@ -512,4 +512,11 @@
     <string name="info_status_steam_heating_2">Steam Heating 2:</string>
     <string name="info_status_steam_air_pump">Air Pump:</string>
 
+    <string name="maintenance_service_param">Service Parameter</string>
+    <string name="maintenance_water_filter">Water Filter</string>
+    <string name="maintenance_service_functions">Service Functions</string>
+    <string name="maintenance_test_functions">Test Functions</string>
+    <string name="maintenance_save_restore">Save &amp; Restore</string>
+    <string name="maintenance_manuals">Manuals</string>
+
 </resources>
