@@ -518,5 +518,7 @@
     <string name="maintenance_test_functions">Test Functions</string>
     <string name="maintenance_save_restore">Save &amp; Restore</string>
     <string name="maintenance_manuals">Manuals</string>
+    <string name="maintenance_count_cups">Count by Cups</string>
+    <string name="maintenance_count_schedule">Count by Schedule</string>
 
 </resources>

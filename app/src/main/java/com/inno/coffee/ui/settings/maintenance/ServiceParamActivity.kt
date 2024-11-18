@@ -9,9 +9,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,12 +27,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.base.CoffeeActivity
+import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.ui.theme.CoffeeTheme
 import com.inno.coffee.utilities.INVALID_INT
+import com.inno.coffee.utilities.MAINTENANCE_VALUE_CUPS
+import com.inno.coffee.utilities.MAINTENANCE_VALUE_SCHEDULE
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.maintenance.ServiceParamViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,6 +59,7 @@ class ServiceParamActivity : CoffeeActivity() {
 
 @Composable
 fun ServiceParamLayout(
+    viewModel: ServiceParamViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
@@ -56,6 +67,13 @@ fun ServiceParamLayout(
     val scrollRangeStart = remember { mutableStateOf(0f) }
     val scrollRangeEnd = remember { mutableStateOf(0f) }
     val scrollUnit = remember { mutableStateOf("") }
+
+    val cups = viewModel.cups.collectAsState()
+    val schedule = viewModel.schedule.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.init()
+    }
 
     Box(
         modifier = Modifier
@@ -84,22 +102,39 @@ fun ServiceParamLayout(
                 .wrapContentHeight()
                 .padding(start = 50.dp, top = 254.dp, end = 95.dp)
         ) {
-//            DisplayItemLayout(stringResource(R.string.machine_test_motor_steps),
-//                "${step.value}", Color(0xFF191A1D), unit = "[#]") {
-//                itemSelectIndex.value = MACHINE_TEST_MOTOR_STEP
-//                scrollDefaultValue.value = step.value.toFloat()
-//                scrollRangeStart.value = 0f
-//                scrollRangeEnd.value = 2500f
-//                scrollUnit.value = "[#]"
-//            }
-//            DisplayItemLayout(stringResource(R.string.machine_test_motor_speed),
-//                "${speed.value}", Color(0xFF2A2B2D), unit = "[Month]") {
-//                itemSelectIndex.value = MACHINE_TEST_MOTOR_SPEED
-//                scrollDefaultValue.value = speed.value.toFloat()
-//                scrollRangeStart.value = 1f
-//                scrollRangeEnd.value = 12f
-//                scrollUnit.value = "[Month]"
-//            }
+            DisplayItemLayout(stringResource(R.string.maintenance_count_cups),
+                "${cups.value}", Color(0xFF191A1D), unit = "[#]") {
+                itemSelectIndex.value = MAINTENANCE_VALUE_CUPS
+                scrollDefaultValue.value = cups.value.toFloat()
+                scrollRangeStart.value = 1f
+                scrollRangeEnd.value = 100000f
+                scrollUnit.value = ""
+            }
+            DisplayItemLayout(stringResource(R.string.maintenance_count_schedule),
+                "${schedule.value}", Color(0xFF2A2B2D), unit = "[Month]") {
+                itemSelectIndex.value = MAINTENANCE_VALUE_SCHEDULE
+                scrollDefaultValue.value = schedule.value.toFloat()
+                scrollRangeStart.value = 1f
+                scrollRangeEnd.value = 12f
+                scrollUnit.value = "[Month]"
+            }
+        }
+        if (itemSelectIndex.value != INVALID_INT) {
+            key(scrollDefaultValue.value) {
+                UnitValueScrollBar(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(top = 172.dp, end = 90.dp)
+                        .width(550.dp)
+                        .wrapContentHeight(),
+                    value = scrollDefaultValue.value,
+                    rangeStart = scrollRangeStart.value,
+                    rangeEnd = scrollRangeEnd.value,
+                    unit = scrollUnit.value,
+                ) { changeValue ->
+                    viewModel.saveServiceParam(itemSelectIndex.value, changeValue.toInt())
+                }
+            }
         }
 
     }
