@@ -1,6 +1,7 @@
 package com.inno.coffee.viewmodel.settings.display
 
 import android.content.Context
+import android.provider.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
@@ -132,6 +133,23 @@ class DisplayViewModel @Inject constructor(
                     dataStore.saveCoffeePreference(SHOW_EXTRACTION_TIME, value as Boolean)
                     _showExtractionTime.value = value
                 }
+            }
+        }
+    }
+
+    fun setScreenBrightness(context: Context, value: Int) {
+        viewModelScope.launch(defaultDispatcher) {
+            val contentResolver = context.contentResolver
+            try {
+                val mode =
+                    Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS)
+                if (mode == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
+                    Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE,
+                        Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL)
+                }
+                Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, value)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

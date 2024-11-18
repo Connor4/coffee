@@ -145,11 +145,14 @@ fun DisplayMainLayout(
                             .width(450.dp)
                             .wrapContentHeight(),
                         value = scrollDefaultValue.value,
-                        rangeStart = 0f,
-                        rangeEnd = 100f,
+                        rangeStart = 1f,
+                        rangeEnd = 255f,
                     ) { changeValue ->
                         viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, changeValue
                             .toInt())
+                        if (itemSelectIndex.value == INDEX_SCREEN_BRIGHTNESS) {
+                            viewModel.setScreenBrightness(context, changeValue.toInt())
+                        }
                     }
                 }
             } else {
