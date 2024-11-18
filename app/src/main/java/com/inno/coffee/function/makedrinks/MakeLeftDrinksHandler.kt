@@ -92,6 +92,9 @@ object MakeLeftDrinksHandler {
     fun enqueueMessage(model: Formula) {
         scope.launch {
             mutex.withLock {
+                if (processingProductId != INVALID_INT) {
+                    return@launch
+                }
                 // build real drink queue
                 val message = DrinkMessage.obtainMessage(model.productId)
                 if (messageHead == null) {

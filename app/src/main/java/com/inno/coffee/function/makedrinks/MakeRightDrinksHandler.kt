@@ -95,6 +95,9 @@ object MakeRightDrinksHandler {
     fun enqueueMessage(model: Formula) {
         scope.launch {
             mutex.withLock {
+                if (processingProductId != INVALID_INT) {
+                    return@launch
+                }
                 val message = DrinkMessage.obtainMessage(model.productId + RIGHT_OFFSET)
                 if (messageHead == null) {
                     messageHead = message
