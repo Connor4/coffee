@@ -44,7 +44,7 @@ class HomeRepository @Inject constructor(
     fun getAllFormulas(): Flow<List<Formula>> {
         return formulaDao.getAllFormulaFlow().map { formulas ->
             formulas.filter { formula -> formula.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT }
-                .sortedBy { formula -> formula.productId }
+//                .sortedBy { formula -> formula.productId }
         }
     }
 
