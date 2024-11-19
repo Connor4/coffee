@@ -10,6 +10,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,16 +34,24 @@ class ServiceParamViewModel @Inject constructor(
     val leftCount = _leftCount
     private val _rightCount = MutableStateFlow(0)
     val rightCount = _rightCount
+    private val _maintenanceDate = MutableStateFlow("")
+    val maintenanceDate = _maintenanceDate
 
     fun init() {
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _cups.value =
                 dataStore.getCoffeePreference(SERVICE_PARAM_CUPS, 100000)
             _schedule.value =
                 dataStore.getCoffeePreference(SERVICE_PARAM_SCHEDULE, 12)
+            val time = dataStore.getMaintenanceDate()
+            val dateTime = LocalDateTime.parse(time)
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val newDateTime = dateTime.plusMonths(_schedule.value.toLong())
+
             _leftCount.value = repository.getBrewProductCount(true)
             _rightCount.value = repository.getBrewProductCount(false)
             _totalCount.value = _cups.value - _leftCount.value - _rightCount.value
+            _maintenanceDate.value = newDateTime.format(formatter)
         }
     }
 
@@ -55,6 +65,12 @@ class ServiceParamViewModel @Inject constructor(
                 }
                 MAINTENANCE_VALUE_SCHEDULE -> {
                     dataStore.saveCoffeePreference(SERVICE_PARAM_SCHEDULE, value)
+                    val time = dataStore.getMaintenanceDate()
+                    val dateTime = LocalDateTime.parse(time)
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val newDateTime = dateTime.plusMonths(value.toLong())
+
+                    _maintenanceDate.value = newDateTime.format(formatter)
                     _schedule.value = value
                 }
             }

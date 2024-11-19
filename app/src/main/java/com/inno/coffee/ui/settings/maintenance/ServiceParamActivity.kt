@@ -77,7 +77,7 @@ fun ServiceParamLayout(
     val totalCount = viewModel.totalCount.collectAsState()
     val leftCount = viewModel.leftCount.collectAsState()
     val rightCount = viewModel.rightCount.collectAsState()
-    val nextTime = "02.11.2024"
+    val nextTime = viewModel.maintenanceDate.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.init()
@@ -153,7 +153,7 @@ fun ServiceParamLayout(
                 modifier = Modifier.padding(start = 460.dp, top = 80.dp)
             )
             Text(
-                text = stringResource(R.string.maintenance_next_time) + " $nextTime",
+                text = stringResource(R.string.maintenance_next_time) + " ${nextTime.value}",
                 fontSize = 7.nsp(), color = Color(0xFF32C5FF),
                 modifier = Modifier.padding(start = 30.dp, top = 130.dp)
             )

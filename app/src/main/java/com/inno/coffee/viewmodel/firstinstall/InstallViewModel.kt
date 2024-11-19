@@ -12,6 +12,7 @@ import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import java.util.Locale
 import javax.inject.Inject
 
@@ -33,6 +34,7 @@ class InstallViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             CoffeeSharedPreferences.getInstance().isFirstInstall = false
             DefaultSettingManager.insertDefaultUser()
+            dataStore.saveMaintenanceDate(LocalDateTime.now().toString())
         }
     }
 

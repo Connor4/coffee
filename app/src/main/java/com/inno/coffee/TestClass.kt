@@ -1,19 +1,14 @@
 package com.inno.coffee
 
-import com.inno.common.utils.toHexString
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun main() {
-    val intArrayOf = intArrayOf()
-    val bytes = intArrayConvertByte(intArrayOf)
-    println("size ${bytes.size}" + bytes.toHexString())
-}
+    val localDateTime = LocalDateTime.now()
+    val parse = LocalDateTime.parse(localDateTime.toString())
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
-private fun intArrayConvertByte(commandInfo: IntArray): ByteArray {
-    val byteArray = ByteArray(commandInfo.size * 2)
-
-    commandInfo.forEachIndexed { index, value ->
-        byteArray[index * 2] = (value shr 8).toByte()
-        byteArray[index * 2 + 1] = (value and 0xFF).toByte()
-    }
-    return byteArray
+    // Format the LocalDateTime
+    val formattedDateTime = parse.format(formatter)
+    println("localDateTime = $localDateTime, parse = $formattedDateTime")
 }
