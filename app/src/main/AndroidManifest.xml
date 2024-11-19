@@ -66,6 +66,7 @@
         <activity android:name=".ui.settings.info.MachineInfoStatusActivity" />
         <activity android:name=".ui.settings.maintenance.MaintenanceActivity" />
         <activity android:name=".ui.settings.maintenance.ServiceParamActivity" />
+        <activity android:name=".ui.settings.maintenance.FilterGuideActivity" />
     </application>
 
 </manifest>

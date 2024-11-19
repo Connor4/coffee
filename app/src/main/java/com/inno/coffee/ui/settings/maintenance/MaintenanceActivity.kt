@@ -117,6 +117,7 @@ private fun jump(index: Int, context: Context) {
             ScreenDisplayManager.autoRoute(context, ServiceParamActivity::class.java)
         }
         MAINTENANCE_KEY_WATER_FILTER -> {
+            ScreenDisplayManager.autoRoute(context, FilterGuideActivity::class.java)
         }
         MAINTENANCE_KEY_SERVICE_FUNCTIONS -> {
         }

@@ -180,7 +180,9 @@ fun ServiceParamLayout(
         ChangeColorButton(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(top = 692.dp),
+                .padding(top = 692.dp)
+                .width(220.dp)
+                .height(50.dp),
             text = stringResource(R.string.bean_grinder_reset)
         ) {
             openConfirmDialog.value = true

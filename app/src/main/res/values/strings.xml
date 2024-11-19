@@ -526,5 +526,7 @@
     <string name="maintenance_next_time">Next Maintenance Date:</string>
     <string name="maintenance_products">[Products]</string>
     <string name="maintenance_confirm_reset_count">Confirm Reset Maintenance Count?</string>
+    <string name="maintenance_filter_guide">Filter Guide</string>
+    <string name="maintenance_using_filters">Using Filters</string>
 
 </resources>
