@@ -88,6 +88,14 @@ class DisplayViewModel @Inject constructor(
         }
     }
 
+    fun getTime() {
+        viewModelScope.launch {
+            val language = Locale.forLanguageTag(_language.value).language
+            val time = TimeUtils.getNowTimeInYearAndHour(language = language)
+            _time.value = time
+        }
+    }
+
     fun selectLanguage(context: Context, locale: Locale) {
         viewModelScope.launch(defaultDispatcher) {
             SystemLocaleHelper.changeSystemLocale(context, locale.language)
