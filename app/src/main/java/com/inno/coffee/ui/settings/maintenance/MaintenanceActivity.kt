@@ -120,6 +120,7 @@ private fun jump(index: Int, context: Context) {
             ScreenDisplayManager.autoRoute(context, FilterGuideActivity::class.java)
         }
         MAINTENANCE_KEY_SERVICE_FUNCTIONS -> {
+            ScreenDisplayManager.autoRoute(context, ServiceFunctionActivity::class.java)
         }
         MAINTENANCE_KEY_TEST_FUNCTIONS -> {
         }
