@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -19,7 +20,7 @@ import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
 
 @Composable
 fun DisplaySettingDateAndTimeLayout(
-    viewModel: DisplayViewModel,
+    viewModel: DisplayViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val context = LocalContext.current

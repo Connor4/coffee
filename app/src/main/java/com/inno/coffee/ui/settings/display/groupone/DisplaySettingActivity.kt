@@ -2,19 +2,16 @@ package com.inno.coffee.ui.settings.display.groupone
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
 import com.inno.coffee.utilities.DISPLAY_SETTING_KEY
 import com.inno.coffee.utilities.DISPLAY_SETTING_LANGUAGE
 import com.inno.coffee.utilities.DISPLAY_SETTING_TIME
-import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
 import com.inno.common.utils.Logger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DisplaySettingActivity : CoffeeActivity() {
-    private val viewModel: DisplayViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,14 +21,14 @@ class DisplaySettingActivity : CoffeeActivity() {
             CoffeeTheme {
                 when (index) {
                     DISPLAY_SETTING_LANGUAGE -> {
-                        DisplayLanguageSettingLayout(viewModel, {
-                            this@DisplaySettingActivity.finish()
-                        })
+                        DisplayLanguageSettingLayout {
+                            finish()
+                        }
                     }
                     DISPLAY_SETTING_TIME -> {
-                        DisplaySettingDateAndTimeLayout(viewModel, {
-                            this@DisplaySettingActivity.finish()
-                        })
+                        DisplaySettingDateAndTimeLayout {
+                            finish()
+                        }
                     }
                 }
             }

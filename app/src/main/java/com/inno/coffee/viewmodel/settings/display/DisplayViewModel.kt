@@ -80,10 +80,12 @@ class DisplayViewModel @Inject constructor(
         }
     }
 
-    suspend fun getLanguage(): String {
-        val language = dataStore.getSystemLanguage()
-        Logger.d(TAG, "getLanguage() language = $language")
-        return language
+    fun getLanguage() {
+        viewModelScope.launch {
+            val language = dataStore.getSystemLanguage()
+            _language.value = language
+            Logger.d(TAG, "getLanguage() language = $language")
+        }
     }
 
     fun selectLanguage(context: Context, locale: Locale) {
