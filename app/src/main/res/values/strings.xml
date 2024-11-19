@@ -538,5 +538,9 @@
     <string name="maintenance_steam_boiler_pressure_test">Steam Boiler Pressure Test</string>
     <string name="maintenance_front_rinse">Front Rinse</string>
     <string name="maintenance_flow_rate_rinse">Flow Rate Rinse</string>
+    <string name="maintenance_grinder_test">Grinder Test</string>
+    <string name="maintenance_flow_rate_test">Flow Rate Test</string>
+    <string name="maintenance_ball_dispenser_test">Ball Dispenser Test</string>
+    <string name="maintenance_milk_test_right">Milk Test Right</string>
 
 </resources>

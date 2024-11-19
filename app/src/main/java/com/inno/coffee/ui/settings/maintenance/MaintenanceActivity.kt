@@ -123,6 +123,7 @@ private fun jump(index: Int, context: Context) {
             ScreenDisplayManager.autoRoute(context, ServiceFunctionActivity::class.java)
         }
         MAINTENANCE_KEY_TEST_FUNCTIONS -> {
+            ScreenDisplayManager.autoRoute(context, TestFunctionActivity::class.java)
         }
         MAINTENANCE_KEY_SAVE_RESTORE -> {
         }
