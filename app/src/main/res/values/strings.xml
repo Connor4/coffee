@@ -528,5 +528,15 @@
     <string name="maintenance_confirm_reset_count">Confirm Reset Maintenance Count?</string>
     <string name="maintenance_filter_guide">Filter Guide</string>
     <string name="maintenance_using_filters">Using Filters</string>
+    <string name="maintenance_steam_boiler_secure_level">Steam Boiler Water Secure Level:</string>
+    <string name="maintenance_steam_boiler_work_level">Steam Boiler Water Work Level:</string>
+    <string name="maintenance_steam_boiler_pressure">Steam Boiler Pressure:</string>
+    <string name="maintenance_empty_coffee_boiler">Empty Coffee Boiler</string>
+    <string name="maintenance_water_pump_pressure_check">Water Pump Pressure Check</string>
+    <string name="maintenance_reduce_steam_boiler_pressure">Reduce Steam Boiler Pressure</string>
+    <string name="maintenance_empty_steam_boiler">Empty Steam Boiler</string>
+    <string name="maintenance_steam_boiler_pressure_test">Steam Boiler Pressure Test</string>
+    <string name="maintenance_front_rinse">Front Rinse</string>
+    <string name="maintenance_flow_rate_rinse">Flow Rate Rinse</string>
 
 </resources>

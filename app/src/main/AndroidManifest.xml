@@ -67,6 +67,7 @@
         <activity android:name=".ui.settings.maintenance.MaintenanceActivity" />
         <activity android:name=".ui.settings.maintenance.ServiceParamActivity" />
         <activity android:name=".ui.settings.maintenance.FilterGuideActivity" />
+        <activity android:name=".ui.settings.maintenance.ServiceFunctionActivity" />
     </application>
 
 </manifest>
