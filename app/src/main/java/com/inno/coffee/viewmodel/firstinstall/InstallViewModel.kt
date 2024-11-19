@@ -30,8 +30,8 @@ class InstallViewModel @Inject constructor(
     }
 
     fun finishSetting(context: Context, date: Long, hour: Int, min: Int) {
-        TimeUtils.setDateAndTime(context, date, hour, min)
         viewModelScope.launch(defaultDispatcher) {
+            TimeUtils.setDateAndTime(context, date, hour, min)
             CoffeeSharedPreferences.getInstance().isFirstInstall = false
             DefaultSettingManager.insertDefaultUser()
             dataStore.saveMaintenanceDate(LocalDateTime.now().toString())

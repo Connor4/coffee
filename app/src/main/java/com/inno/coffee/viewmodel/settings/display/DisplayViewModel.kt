@@ -99,14 +99,11 @@ class DisplayViewModel @Inject constructor(
     fun setSystemTime(context: Context, date: Long, hour: Int, min: Int) {
         viewModelScope.launch(defaultDispatcher) {
             TimeUtils.setDateAndTime(context, date, hour, min)
-            _time.value = TimeUtils.getNowTimeInYearAndHour(language = dataStore
-                .getSystemLanguage()
-            )
             Logger.d(TAG, "setSystemTime() called time ${_time.value}")
         }
     }
 
-    fun saveDisplayGroupTwoValue(key: Int, value: Any) {
+    fun saveDisplayGroupTwoValue(context: Context, key: Int, value: Any) {
         viewModelScope.launch(defaultDispatcher) {
             when (key) {
                 INDEX_AUTO_BACK_TO_FIRST_PAGE -> {
@@ -128,6 +125,7 @@ class DisplayViewModel @Inject constructor(
                 INDEX_SCREEN_BRIGHTNESS -> {
                     dataStore.saveCoffeePreference(SCREEN_BRIGHTNESS, value as Int)
                     _screenBrightness.value = value
+                    setScreenBrightness(context, value)
                 }
                 INDEX_SHOW_EXTRACTION_TIME -> {
                     dataStore.saveCoffeePreference(SHOW_EXTRACTION_TIME, value as Boolean)
@@ -137,7 +135,7 @@ class DisplayViewModel @Inject constructor(
         }
     }
 
-    fun setScreenBrightness(context: Context, value: Int) {
+    private fun setScreenBrightness(context: Context, value: Int) {
         viewModelScope.launch(defaultDispatcher) {
             val contentResolver = context.contentResolver
             try {

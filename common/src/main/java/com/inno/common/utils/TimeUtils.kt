@@ -94,8 +94,11 @@ class TimeUtils {
         }
 
         @RequiresPermission(android.Manifest.permission.SET_TIME)
-        fun setDateAndTime(context: Context, year: Int, month: Int, day: Int, hour: Int, minute:
-        Int) {
+        fun setDateAndTime(
+            context: Context, year: Int, month: Int, day: Int, hour: Int,
+            minute:
+            Int,
+        ) {
             thread {
                 val calendar = Calendar.getInstance()
                 calendar[Calendar.YEAR] = year
@@ -115,17 +118,15 @@ class TimeUtils {
 
         @RequiresPermission(android.Manifest.permission.SET_TIME)
         fun setDateAndTime(context: Context, yearInMillis: Long, hour: Int, minute: Int) {
-            thread {
-                val calendar = Calendar.getInstance().apply {
-                    timeInMillis = yearInMillis
-                    set(Calendar.HOUR_OF_DAY, hour)
-                    set(Calendar.MINUTE, minute)
-                }
-                val timeInMillis = calendar.timeInMillis
-                if (timeInMillis / 1000 < Int.MAX_VALUE) {
-                    (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager).setTime(
-                        timeInMillis)
-                }
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = yearInMillis
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+            }
+            val timeInMillis = calendar.timeInMillis
+            if (timeInMillis / 1000 < Int.MAX_VALUE) {
+                (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager).setTime(
+                    timeInMillis)
             }
         }
 
@@ -171,8 +172,10 @@ class TimeUtils {
             }
         }
 
-        fun getNowTimeInYearAndHour(time: Long = System.currentTimeMillis(),
-            language: String): String {
+        fun getNowTimeInYearAndHour(
+            time: Long = System.currentTimeMillis(),
+            language: String,
+        ): String {
             val dateFormat = when (language) {
                 Locale.ENGLISH.language -> SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
                 Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy-MM-dd HH:mm:ss",

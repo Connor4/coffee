@@ -148,17 +148,14 @@ fun DisplayMainLayout(
                         rangeStart = 1f,
                         rangeEnd = 255f,
                     ) { changeValue ->
-                        viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, changeValue
-                            .toInt())
-                        if (itemSelectIndex.value == INDEX_SCREEN_BRIGHTNESS) {
-                            viewModel.setScreenBrightness(context, changeValue.toInt())
-                        }
+                        viewModel.saveDisplayGroupTwoValue(context, itemSelectIndex.value,
+                            changeValue.toInt())
                     }
                 }
             } else {
                 ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
                     { _, value ->
-                        viewModel.saveDisplayGroupTwoValue(itemSelectIndex.value, value)
+                        viewModel.saveDisplayGroupTwoValue(context, itemSelectIndex.value, value)
                         itemSelectIndex.value = INVALID_INT
                     }, {
                         itemSelectIndex.value = INVALID_INT
