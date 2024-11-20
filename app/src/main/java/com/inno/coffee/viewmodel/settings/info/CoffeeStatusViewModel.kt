@@ -1,9 +1,19 @@
 package com.inno.coffee.viewmodel.settings.info
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.inno.coffee.function.CommandControlManager
+import com.inno.coffee.utilities.ONE_IN_BYTE
 import com.inno.common.utils.CoffeeDataStore
+import com.inno.serialport.function.data.DataCenter
+import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.INFO_COFFEE_STATUS_ID
+import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.ReceivedDataType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -74,8 +84,52 @@ class CoffeeStatusViewModel @Inject constructor(
     private val _fanRight = MutableStateFlow(false)
     val fanRight = _fanRight
 
-    init {
+    private val subscriber = object : Subscriber {
+        override fun onDataReceived(data: Any) {
+            parseReceivedData(data)
+        }
+    }
 
+    init {
+        DataCenter.subscribe(ReceivedDataType.COMMON_REPLY, subscriber)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        DataCenter.unsubscribe(ReceivedDataType.COMMON_REPLY, subscriber)
+    }
+
+    fun getCoffeeStatus() {
+        viewModelScope.launch {
+            while (true) {
+                CommandControlManager.sendTestCommand(INFO_COFFEE_STATUS_ID)
+                delay(1000)
+            }
+        }
+    }
+
+    private fun parseReceivedData(data: Any) {
+        if (data is ReceivedData.CommonReply) {
+            if (data.commandId == INFO_COFFEE_STATUS_ID) {
+                _valveBypassLeft.value = data.params[1] == ONE_IN_BYTE
+                _valveBrewLeft.value = data.params[3] == ONE_IN_BYTE
+                _valveOutLeft.value = data.params[5] == ONE_IN_BYTE
+                _valveBypassRight.value = data.params[7] == ONE_IN_BYTE
+                _valveBrewRight.value = data.params[9] == ONE_IN_BYTE
+                _valveOutRight.value = data.params[11] == ONE_IN_BYTE
+                _valveWaterInlet.value = data.params[13] == ONE_IN_BYTE
+                _valveCleanTab.value = data.params[15] == ONE_IN_BYTE
+                _waterPump.value = data.params[17] == ONE_IN_BYTE
+                _grinderRight.value = data.params[19] == ONE_IN_BYTE
+                _grinderLeft.value = data.params[21] == ONE_IN_BYTE
+                _boilerLeft.value = data.params[23] == ONE_IN_BYTE
+                _boilerRight.value = data.params[25] == ONE_IN_BYTE
+                _relayStandby.value = data.params[27] == ONE_IN_BYTE
+                _fanFront.value = data.params[29] == ONE_IN_BYTE
+                _fanLeft.value = data.params[31] == ONE_IN_BYTE
+                _fanRight.value = data.params[33] == ONE_IN_BYTE
+            }
+        }
     }
 
 }

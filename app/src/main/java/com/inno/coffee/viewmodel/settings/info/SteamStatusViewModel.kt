@@ -1,8 +1,18 @@
 package com.inno.coffee.viewmodel.settings.info
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.inno.coffee.function.CommandControlManager
+import com.inno.coffee.utilities.ONE_IN_BYTE
+import com.inno.serialport.function.data.DataCenter
+import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.INFO_STEAM_STATUS_ID
+import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.ReceivedDataType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -70,8 +80,49 @@ class SteamStatusViewModel @Inject constructor(
     private val _steamAirPump = MutableStateFlow(false)
     val steamAirPump = _steamAirPump
 
-    init {
+    private val subscriber = object : Subscriber {
+        override fun onDataReceived(data: Any) {
+            parseReceivedData(data)
+        }
+    }
 
+    init {
+        DataCenter.subscribe(ReceivedDataType.COMMON_REPLY, subscriber)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        DataCenter.unsubscribe(ReceivedDataType.COMMON_REPLY, subscriber)
+    }
+
+    fun getSteamStatus() {
+        viewModelScope.launch {
+            while (true) {
+                CommandControlManager.sendTestCommand(INFO_STEAM_STATUS_ID)
+                delay(1000)
+            }
+        }
+    }
+
+    private fun parseReceivedData(data: Any) {
+        if (data is ReceivedData.CommonReply) {
+            if (data.commandId == INFO_STEAM_STATUS_ID) {
+                _valveWaterInBoiler.value = data.params[1] == ONE_IN_BYTE
+                _valveHotWater.value = data.params[3] == ONE_IN_BYTE
+                _valveMixHotWater.value = data.params[5] == ONE_IN_BYTE
+                _valveSteam1.value = data.params[7] == ONE_IN_BYTE
+                _valveSteam2.value = data.params[9] == ONE_IN_BYTE
+                _valveFoam1.value = data.params[11] == ONE_IN_BYTE
+                _valveFoam2.value = data.params[13] == ONE_IN_BYTE
+                _valvePurgeMix.value = data.params[15] == ONE_IN_BYTE
+                _valvePurge.value = data.params[17] == ONE_IN_BYTE
+                _valveWaterInlet.value = data.params[19] == ONE_IN_BYTE
+                _waterPump.value = data.params[21] == ONE_IN_BYTE
+                _steamHeating1.value = data.params[23] == ONE_IN_BYTE
+                _steamHeating2.value = data.params[25] == ONE_IN_BYTE
+                _steamAirPump.value = data.params[27] == ONE_IN_BYTE
+            }
+        }
     }
 
 }

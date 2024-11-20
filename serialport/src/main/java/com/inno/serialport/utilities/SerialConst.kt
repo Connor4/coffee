@@ -49,6 +49,8 @@ const val MACHINE_TEST_STEAM_BOILER_HEATER2: Short = 413
 const val MACHINE_TEST_AIR_PUMP: Short = 414
 const val MACHINE_TEST_MOTOR_INIT_ID: Short = 500
 const val MACHINE_TEST_MOTOR_TEST_ID: Short = 501
+const val INFO_COFFEE_STATUS_ID: Short = 550
+const val INFO_STEAM_STATUS_ID: Short = 551
 
 val fcstab = intArrayOf(
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
