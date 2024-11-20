@@ -437,7 +437,7 @@
     <string name="machine_test_so_efoam_valve1">EFoam1号阀</string>
     <string name="info_coffee_status">咖啡状态</string>
     <string name="info_steam_status">蒸汽状态</string>
-    <string name="maintenance_milk_test_left">左边牛奶感应器测试</string>
+    <string name="maintenance_milk_sensor_left_test">左边牛奶感应器测试</string>
     <string name="maintenance_software_update">软件更新</string>
     <string name="maintenance_reset_settings">还原设置</string>
     <string name="maintenance_remote_update">远程更新</string>
@@ -472,7 +472,7 @@
     <string name="maintenance_grinder_test">刀盘传感器测试</string>
     <string name="maintenance_flow_rate_test">流量计测试</string>
     <string name="maintenance_ball_dispenser_test">洗机丸槽测试</string>
-    <string name="maintenance_milk_test_right">右边牛奶感应器测试</string>
+    <string name="maintenance_milk_sensor_right_test">右边牛奶感应器测试</string>
     <string name="info_sn_machine">机器序列号</string>
     <string name="info_cpu">主板</string>
     <string name="info_sn">序列号</string>

@@ -541,8 +541,8 @@
     <string name="maintenance_grinder_test">Grinder Sensor Test</string>
     <string name="maintenance_flow_rate_test">Flow Rate Test</string>
     <string name="maintenance_ball_dispenser_test">Cleaning Ball Test</string>
-    <string name="maintenance_milk_test_right">Milk Sensor Test Right</string>
-    <string name="maintenance_milk_test_left">Milk Sensor Test Left</string>
+    <string name="maintenance_milk_sensor_right_test">Milk Sensor Right Test</string>
+    <string name="maintenance_milk_sensor_left_test">Milk Sensor Left Test</string>
     <string name="maintenance_software_update">Software Update</string>
     <string name="maintenance_reset_settings">Reset Settings</string>
     <string name="maintenance_remote_update">Remote Update</string>
