@@ -172,93 +172,98 @@ fun BeanGrinderLayout(
                     )
                 )
             }
-            DisplayItemLayout(stringResource(R.string.bean_grinding_capacity_hopper_rear),
-                "${grindingCapacityRear.value}", Color(0xFF191A1D)) {
-                itemSelectIndex.value = BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR
-                scrollDefaultValue.value = grindingCapacityRear.value
-                scrollRangeStart.value = 1f
-                scrollRangeEnd.value = 10f
-                scrollUnit.value = "[mm/s]"
-                scrollAccuracy.value = ACCURACY_3
-            }
-            DisplayItemLayout(stringResource(R.string.bean_grinding_capacity_hopper_front),
-                "${grindingCapacityFront.value}", Color(0xFF2A2B2D)) {
-                itemSelectIndex.value = BEAN_KEY_INDEX_GRINDING_CAPACITY_FRONT
-                scrollDefaultValue.value = grindingCapacityFront.value
-                scrollRangeStart.value = 1f
-                scrollRangeEnd.value = 10f
-                scrollUnit.value = "[mm/s]"
-                scrollAccuracy.value = ACCURACY_3
-            }
-            DisplayItemLayout(etcRearString,
-                etcRearValue, Color(0xFF191A1D)) {
-                itemSelectIndex.value = BEAN_KEY_INDEX_ETC_REAR
-                titleValue.value = etcRearString
-                defaultValue.value = etcRearValue
-                dataMap.clear()
-                dataMap.putAll(
-                    mapOf(
-                        Pair(on, true),
-                        Pair(off, false)
+            if (pqc.value) {
+                DisplayItemLayout(etcRearString,
+                    etcRearValue, Color(0xFF191A1D)) {
+                    itemSelectIndex.value = BEAN_KEY_INDEX_ETC_REAR
+                    titleValue.value = etcRearString
+                    defaultValue.value = etcRearValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair(on, true),
+                            Pair(off, false)
+                        )
                     )
-                )
-            }
-            DisplayItemLayout(etcFrontString, etcFrontValue, Color(0xFF2A2B2D)) {
-                itemSelectIndex.value = BEAN_KEY_INDEX_ETC_FRONT
-                titleValue.value = etcFrontString
-                defaultValue.value = etcFrontValue
-                dataMap.clear()
-                dataMap.putAll(
-                    mapOf(
-                        Pair(on, true),
-                        Pair(off, false)
+                }
+                DisplayItemLayout(etcFrontString, etcFrontValue, Color(0xFF2A2B2D)) {
+                    itemSelectIndex.value = BEAN_KEY_INDEX_ETC_FRONT
+                    titleValue.value = etcFrontString
+                    defaultValue.value = etcFrontValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair(on, true),
+                            Pair(off, false)
+                        )
                     )
-                )
+                }
+            } else {
+                DisplayItemLayout(stringResource(R.string.bean_grinding_capacity_hopper_rear),
+                    "${grindingCapacityRear.value}", Color(0xFF191A1D)) {
+                    itemSelectIndex.value = BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR
+                    scrollDefaultValue.value = grindingCapacityRear.value
+                    scrollRangeStart.value = 1f
+                    scrollRangeEnd.value = 10f
+                    scrollUnit.value = "[mm/s]"
+                    scrollAccuracy.value = ACCURACY_3
+                }
+                DisplayItemLayout(stringResource(R.string.bean_grinding_capacity_hopper_front),
+                    "${grindingCapacityFront.value}", Color(0xFF2A2B2D)) {
+                    itemSelectIndex.value = BEAN_KEY_INDEX_GRINDING_CAPACITY_FRONT
+                    scrollDefaultValue.value = grindingCapacityFront.value
+                    scrollRangeStart.value = 1f
+                    scrollRangeEnd.value = 10f
+                    scrollUnit.value = "[mm/s]"
+                    scrollAccuracy.value = ACCURACY_3
+                }
             }
         }
 
         if (itemSelectIndex.value != INVALID_INT) {
-            if (itemSelectIndex.value == BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR ||
-                    itemSelectIndex.value == BEAN_KEY_INDEX_GRINDING_CAPACITY_FRONT) {
-                key(scrollDefaultValue.value) {
-                    UnitValueScrollBar(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(top = 172.dp, end = 335.dp)
-                            .width(550.dp)
-                            .wrapContentHeight(),
-                        value = scrollDefaultValue.value,
-                        rangeStart = scrollRangeStart.value,
-                        rangeEnd = scrollRangeEnd.value,
-                        unit = scrollUnit.value,
-                        accuracy = scrollAccuracy.value
-                    ) { changeValue ->
-                        viewModel.saveBeanGrinderValue(itemSelectIndex.value, changeValue)
+            when (itemSelectIndex.value) {
+                BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR, BEAN_KEY_INDEX_GRINDING_CAPACITY_FRONT -> {
+                    key(scrollDefaultValue.value) {
+                        UnitValueScrollBar(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(top = 172.dp, end = 335.dp)
+                                .width(550.dp)
+                                .wrapContentHeight(),
+                            value = scrollDefaultValue.value,
+                            rangeStart = scrollRangeStart.value,
+                            rangeEnd = scrollRangeEnd.value,
+                            unit = scrollUnit.value,
+                            accuracy = scrollAccuracy.value
+                        ) { changeValue ->
+                            viewModel.saveBeanGrinderValue(itemSelectIndex.value, changeValue)
+                        }
                     }
                 }
-            } else if (itemSelectIndex.value == BEAN_KEY_INDEX_REAR_HOPPER
-                    || itemSelectIndex.value == BEAN_KEY_INDEX_FRONT_HOPPER) {
-                SingleInputLayout(
-                    defaultInput = defaultValue.value,
-                    title = titleValue.value,
-                    tips = stringResource(R.string.statistic_maintenance_enter_description),
+                BEAN_KEY_INDEX_REAR_HOPPER, BEAN_KEY_INDEX_FRONT_HOPPER -> {
+                    SingleInputLayout(
+                        defaultInput = defaultValue.value,
+                        title = titleValue.value,
+                        tips = stringResource(R.string.statistic_maintenance_enter_description),
 
-                    onEnterClick = { description ->
-                        viewModel.saveBeanGrinderValue(itemSelectIndex.value, description)
-                        itemSelectIndex.value = INVALID_INT
-                    },
-                    onCloseClick = {
-                        itemSelectIndex.value = INVALID_INT
-                    })
-            } else {
-                ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
-                    { _, value ->
-                        viewModel.saveBeanGrinderValue(itemSelectIndex.value, value)
-                        itemSelectIndex.value = INVALID_INT
-                    }, {
-                        itemSelectIndex.value = INVALID_INT
-                    }
-                )
+                        onEnterClick = { description ->
+                            viewModel.saveBeanGrinderValue(itemSelectIndex.value, description)
+                            itemSelectIndex.value = INVALID_INT
+                        },
+                        onCloseClick = {
+                            itemSelectIndex.value = INVALID_INT
+                        })
+                }
+                else -> {
+                    ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
+                        { _, value ->
+                            viewModel.saveBeanGrinderValue(itemSelectIndex.value, value)
+                            itemSelectIndex.value = INVALID_INT
+                        }, {
+                            itemSelectIndex.value = INVALID_INT
+                        }
+                    )
+                }
             }
         }
     }
