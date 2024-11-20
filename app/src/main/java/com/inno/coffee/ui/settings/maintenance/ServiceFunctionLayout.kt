@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,9 +45,9 @@ fun ServiceFunctionLayout(
     val ok = stringResource(R.string.machine_test_ok)
     val warning = stringResource(R.string.machine_test_warning)
 
-    val secureLevel = false
-    val workLevel = false
-    val pressure = 1.8
+    val secureLevel = viewModel.securityLevel.collectAsState()
+    val workLevel = viewModel.workLevel.collectAsState()
+    val pressure = viewModel.steamPressure.collectAsState()
 
     Box(
         modifier = Modifier
@@ -77,15 +78,15 @@ fun ServiceFunctionLayout(
         ) {
             ServiceFunctionItemLayout(
                 key = stringResource(R.string.maintenance_steam_boiler_secure_level),
-                value = if (secureLevel) ok else warning,
-                textColor = if (secureLevel) Color(0xFF6DD400) else Color.Red,
+                value = if (secureLevel.value) ok else warning,
+                textColor = if (secureLevel.value) Color(0xFF6DD400) else Color.Red,
                 backgroundColor = Color(0xFF191A1D))
             ServiceFunctionItemLayout(stringResource(R.string.maintenance_steam_boiler_work_level),
-                value = if (workLevel) ok else warning,
-                textColor = if (workLevel) Color(0xFF6DD400) else Color.Red,
+                value = if (workLevel.value) ok else warning,
+                textColor = if (workLevel.value) Color(0xFF6DD400) else Color.Red,
                 backgroundColor = Color(0xFF2A2B2D))
             ServiceFunctionItemLayout(stringResource(R.string.maintenance_steam_boiler_pressure),
-                "$pressure bar", backgroundColor = Color(0xFF191A1D))
+                "${pressure.value} bar", backgroundColor = Color(0xFF191A1D))
             ServiceFunctionItemLayout("", "", backgroundColor = Color(0xFF2A2B2D))
             ServiceFunctionItemLayout("", "", backgroundColor = Color(0xFF191A1D))
         }
