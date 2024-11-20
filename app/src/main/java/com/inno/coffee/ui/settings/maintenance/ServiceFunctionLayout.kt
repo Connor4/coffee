@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,12 +22,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.maintenance.ServiceFunctionViewModel
+import com.inno.serialport.utilities.MAINTENANCE_DEPRESSURIZE_STEAM_BOILER_ID
+import com.inno.serialport.utilities.MAINTENANCE_EMPTY_COFFEE_BOILER_ID
+import com.inno.serialport.utilities.MAINTENANCE_EMPTY_STEAM_BOILER_ID
+import com.inno.serialport.utilities.MAINTENANCE_FLOW_RATE_RINSE_ID
+import com.inno.serialport.utilities.MAINTENANCE_FRONT_RINSE_ID
+import com.inno.serialport.utilities.MAINTENANCE_STEAM_BOILER_OVER_PRESSURE_TEST_ID
+import com.inno.serialport.utilities.MAINTENANCE_WATER_PUMP_PRESSURE_ID
 
 @Composable
 fun ServiceFunctionLayout(
+    viewModel: ServiceFunctionViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val ok = stringResource(R.string.machine_test_ok)
@@ -78,28 +91,64 @@ fun ServiceFunctionLayout(
         }
 
         Row(
-            modifier = Modifier.padding(start = 50.dp, top = 494.dp),
+            modifier = Modifier.padding(start = 50.dp, top = 474.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            ServiceFunctionStatusButton(R.string.maintenance_empty_coffee_boiler) {
-//                viewModel.sendTestCommand(MACHINE_TEST_BYPASS_VALVE_LEFT, if (it) 1 else 0)
+            ChangeColorButton(
+                modifier = Modifier
+                    .width(280.dp)
+                    .height(73.dp),
+                text = stringResource(R.string.maintenance_empty_coffee_boiler)
+            ) {
+                viewModel.sendTestCommand(MAINTENANCE_EMPTY_COFFEE_BOILER_ID)
             }
             ServiceFunctionStatusButton(R.string.maintenance_water_pump_pressure_check) {
+                viewModel.sendTestCommand(MAINTENANCE_WATER_PUMP_PRESSURE_ID, if (it) 1 else 0)
             }
-            ServiceFunctionStatusButton(R.string.maintenance_reduce_steam_boiler_pressure) {
+            ChangeColorButton(
+                modifier = Modifier
+                    .width(280.dp)
+                    .height(73.dp),
+                text = stringResource(R.string.maintenance_reduce_steam_boiler_pressure)
+            ) {
+                viewModel.sendTestCommand(MAINTENANCE_DEPRESSURIZE_STEAM_BOILER_ID)
             }
-            ServiceFunctionStatusButton(R.string.maintenance_empty_steam_boiler) {
+            ChangeColorButton(
+                modifier = Modifier
+                    .width(280.dp)
+                    .height(73.dp),
+                text = stringResource(R.string.maintenance_empty_steam_boiler)
+            ) {
+                viewModel.sendTestCommand(MAINTENANCE_EMPTY_STEAM_BOILER_ID)
             }
         }
         Row(
             modifier = Modifier.padding(start = 50.dp, top = 564.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            ServiceFunctionStatusButton(R.string.maintenance_steam_boiler_pressure_test) {
+            ChangeColorButton(
+                modifier = Modifier
+                    .width(280.dp)
+                    .height(73.dp),
+                text = stringResource(R.string.maintenance_steam_boiler_pressure_test)
+            ) {
+                viewModel.sendTestCommand(MAINTENANCE_STEAM_BOILER_OVER_PRESSURE_TEST_ID)
             }
-            ServiceFunctionStatusButton(R.string.maintenance_front_rinse) {
+            ChangeColorButton(
+                modifier = Modifier
+                    .width(280.dp)
+                    .height(73.dp),
+                text = stringResource(R.string.maintenance_front_rinse)
+            ) {
+                viewModel.sendTestCommand(MAINTENANCE_FRONT_RINSE_ID)
             }
-            ServiceFunctionStatusButton(R.string.maintenance_flow_rate_rinse) {
+            ChangeColorButton(
+                modifier = Modifier
+                    .width(280.dp)
+                    .height(73.dp),
+                text = stringResource(R.string.maintenance_flow_rate_rinse)
+            ) {
+                viewModel.sendTestCommand(MAINTENANCE_FLOW_RATE_RINSE_ID)
             }
         }
 

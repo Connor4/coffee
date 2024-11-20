@@ -45,8 +45,8 @@ fun ServiceFunctionStatusButton(
 
     Button(
         modifier = Modifier
-            .width(270.dp)
-            .height(50.dp),
+            .width(280.dp)
+            .height(73.dp),
         interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(containerColor = bgColor),
         border = BorderStroke(2.dp, boarderColor),
