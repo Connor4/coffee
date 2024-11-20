@@ -488,5 +488,8 @@
     <string name="info_status_fan_front">前方风扇:</string>
     <string name="info_status_fan_left">左侧风扇:</string>
     <string name="info_status_fan_right">右侧风扇:</string>
+    <string name="maintenance_manual_rinse">洗机手册</string>
+    <string name="maintenance_manual_save_restore">储存数据手册</string>
+    <string name="maintenance_manual_update">更新软件手册</string>
 
 </resources>

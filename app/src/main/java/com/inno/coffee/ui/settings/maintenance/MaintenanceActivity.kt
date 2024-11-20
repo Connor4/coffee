@@ -129,6 +129,7 @@ private fun jump(index: Int, context: Context) {
             ScreenDisplayManager.autoRoute(context, SaveRestoreActivity::class.java)
         }
         MAINTENANCE_KEY_MANUAL -> {
+            ScreenDisplayManager.autoRoute(context, ManualActivity::class.java)
         }
     }
 }

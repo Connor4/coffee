@@ -548,6 +548,8 @@
     <string name="maintenance_remote_update">Remote Update</string>
     <string name="maintenance_save_all_data">Save All Data</string>
     <string name="maintenance_restore_settings">Restore Settings</string>
-
+    <string name="maintenance_manual_rinse">Rinse Manual</string>
+    <string name="maintenance_manual_save_restore">Save &amp; Restore Manual</string>
+    <string name="maintenance_manual_update">Update Manual</string>
 
 </resources>
