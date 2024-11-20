@@ -122,8 +122,8 @@ fun ServiceParamLayout(
                 "${schedule.value}", Color(0xFF2A2B2D), unit = "[Month]") {
                 itemSelectIndex.value = MAINTENANCE_VALUE_SCHEDULE
                 scrollDefaultValue.value = schedule.value.toFloat()
-                scrollRangeStart.value = 1f
-                scrollRangeEnd.value = 12f
+                scrollRangeStart.value = 3f
+                scrollRangeEnd.value = 24f
                 scrollUnit.value = "[Month]"
             }
         }

@@ -102,6 +102,10 @@ fun TestFunctionLayout(
         Column(
             modifier = Modifier.padding(start = 750.dp, top = 295.dp)
         ) {
+            TestFunctionButton(stringResource(R.string.maintenance_milk_test_left)) {
+
+            }
+            Spacer(modifier = Modifier.height(40.dp))
             TestFunctionButton(stringResource(R.string.maintenance_milk_test_right)) {
 
             }

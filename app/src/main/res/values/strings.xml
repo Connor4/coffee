@@ -521,26 +521,33 @@
     <string name="maintenance_count_cups">Count by Cups</string>
     <string name="maintenance_count_schedule">Count by Schedule</string>
     <string name="maintenance_countdown_point">Countdown to Maintenance Point:</string>
-    <string name="maintenance_left_brew_unit">Left Brew Left:</string>
-    <string name="maintenance_right_brew_unit">Right Brew Right:</string>
+    <string name="maintenance_left_brew_unit">Left Brew Unit:</string>
+    <string name="maintenance_right_brew_unit">Right Brew Unit:</string>
     <string name="maintenance_next_time">Next Maintenance Date:</string>
     <string name="maintenance_products">[Products]</string>
     <string name="maintenance_confirm_reset_count">Confirm Reset Maintenance Count?</string>
     <string name="maintenance_filter_guide">Filter Guide</string>
     <string name="maintenance_using_filters">Using Filters</string>
     <string name="maintenance_steam_boiler_secure_level">Steam Boiler Water Secure Level:</string>
-    <string name="maintenance_steam_boiler_work_level">Steam Boiler Water Work Level:</string>
+    <string name="maintenance_steam_boiler_work_level">Steam Boiler Water WorkingLevel:</string>
     <string name="maintenance_steam_boiler_pressure">Steam Boiler Pressure:</string>
     <string name="maintenance_empty_coffee_boiler">Empty Coffee Boiler</string>
     <string name="maintenance_water_pump_pressure_check">Water Pump Pressure Check</string>
-    <string name="maintenance_reduce_steam_boiler_pressure">Reduce Steam Boiler Pressure</string>
+    <string name="maintenance_reduce_steam_boiler_pressure">Depressurize Steam Boiler</string>
     <string name="maintenance_empty_steam_boiler">Empty Steam Boiler</string>
-    <string name="maintenance_steam_boiler_pressure_test">Steam Boiler Pressure Test</string>
+    <string name="maintenance_steam_boiler_pressure_test">Steam Boiler Over Pressure Test</string>
     <string name="maintenance_front_rinse">Front Rinse</string>
     <string name="maintenance_flow_rate_rinse">Flow Rate Rinse</string>
-    <string name="maintenance_grinder_test">Grinder Test</string>
+    <string name="maintenance_grinder_test">Grinder Sensor Test</string>
     <string name="maintenance_flow_rate_test">Flow Rate Test</string>
-    <string name="maintenance_ball_dispenser_test">Ball Dispenser Test</string>
-    <string name="maintenance_milk_test_right">Milk Test Right</string>
+    <string name="maintenance_ball_dispenser_test">Cleaning Ball Test</string>
+    <string name="maintenance_milk_test_right">Milk Sensor Test Right</string>
+    <string name="maintenance_milk_test_left">Milk Sensor Test Left</string>
+    <string name="maintenance_software_update">Software Update</string>
+    <string name="maintenance_reset_settings">Reset Settings</string>
+    <string name="maintenance_remote_update">Remote Update</string>
+    <string name="maintenance_save_all_data">Save All Data</string>
+    <string name="maintenance_restore_settings">Restore Settings</string>
+
 
 </resources>

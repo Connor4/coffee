@@ -69,6 +69,7 @@
         <activity android:name=".ui.settings.maintenance.FilterGuideActivity" />
         <activity android:name=".ui.settings.maintenance.ServiceFunctionActivity" />
         <activity android:name=".ui.settings.maintenance.TestFunctionActivity" />
+        <activity android:name=".ui.settings.maintenance.SaveRestoreActivity" />
     </application>
 
 </manifest>

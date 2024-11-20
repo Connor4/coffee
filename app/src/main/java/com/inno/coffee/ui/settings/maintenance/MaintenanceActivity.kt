@@ -78,7 +78,7 @@ fun MaintenanceScreen(
             .background(Color(0xED000000))
     ) {
         Text(
-            text = stringResource(R.string.info_steam_status),
+            text = stringResource(R.string.common_maintenance),
             fontSize = 7.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
@@ -126,6 +126,7 @@ private fun jump(index: Int, context: Context) {
             ScreenDisplayManager.autoRoute(context, TestFunctionActivity::class.java)
         }
         MAINTENANCE_KEY_SAVE_RESTORE -> {
+            ScreenDisplayManager.autoRoute(context, SaveRestoreActivity::class.java)
         }
         MAINTENANCE_KEY_MANUAL -> {
         }
