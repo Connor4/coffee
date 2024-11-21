@@ -16,6 +16,7 @@ import com.inno.coffee.R
 import com.inno.common.utils.Logger
 import java.lang.reflect.Constructor
 import java.lang.reflect.Field
+import java.lang.reflect.Method
 import java.lang.reflect.Proxy
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -39,6 +40,8 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     private var maxDate: Calendar = Calendar.getInstance()
     private var mDYDateFormat: SimpleDateFormat? = null
     private var mYDateFormat: SimpleDateFormat? = null
+    private var lastPositionOffset = 0f
+    private var scrollRight = false
 
     init {
         val locale = Locale.getDefault()
@@ -53,20 +56,10 @@ class CoffeeDatePickerView @JvmOverloads constructor(
 
     fun performPrevClick() {
         prevButton?.performClick()
-        displayDate.add(Calendar.MONTH, -1)
-        if (displayDate.timeInMillis < minDate.timeInMillis) {
-            displayDate.timeInMillis = minDate.timeInMillis
-        }
-        updateDate()
     }
 
     fun performNextClick() {
         nextButton?.performClick()
-        displayDate.add(Calendar.MONTH, 1)
-        if (displayDate.timeInMillis > maxDate.timeInMillis) {
-            displayDate.timeInMillis = maxDate.timeInMillis
-        }
-        updateDate()
     }
 
     fun showYearPickerView(show: Boolean) {
@@ -207,6 +200,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                 setTextStyle(dayPickerViewInstance, context, attrs, defStyleAttr)
                 setDayPickerMethodParams(dayPickerViewClass, dayPickerViewInstance)
                 setDaySelectedListener(dayPickerViewClass, dayPickerViewInstance)
+                setPageChangeListener(dayPickerViewInstance)
             } else {
                 Logger.e(TAG, "Failed to cast to ViewGroup")
             }
@@ -350,6 +344,60 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                 null
             }
             setOnDaySelectedListenerMethod.invoke(dayPickerViewInstance, listener)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun setPageChangeListener(dayPickerViewInstance: Any) {
+        try {
+            val listenerField: Field =
+                dayPickerViewInstance.javaClass.getDeclaredField("mOnPageChangedListener")
+            listenerField.isAccessible = true
+            val originalListener = listenerField.get(dayPickerViewInstance)
+
+            val proxyListener = Proxy.newProxyInstance(
+                originalListener?.javaClass?.classLoader,
+                originalListener?.javaClass?.interfaces
+            ) { _, method: Method, args: Array<out Any>? ->
+                if (method.name == "onPageScrolled" && args != null) {
+                    Logger.d(TAG, "setPageChangeListener() onPageScrolled")
+                    val positionOffset = args[1] as Float
+                    scrollRight = positionOffset > lastPositionOffset
+                    lastPositionOffset = positionOffset
+                } else if (method.name == "onPageScrollStateChanged" && args != null) {
+                    val state = args[0] as Int
+                    Logger.d(TAG, "setPageChangeListener() onPageScrollStateChanged $state")
+                    if (state == 0) {
+                        if (scrollRight) {
+                            displayDate.add(Calendar.MONTH, 1)
+                            if (displayDate.timeInMillis > maxDate.timeInMillis) {
+                                displayDate.timeInMillis = maxDate.timeInMillis
+                            }
+                            updateDate()
+                        } else {
+                            displayDate.add(Calendar.MONTH, -1)
+                            if (displayDate.timeInMillis < minDate.timeInMillis) {
+                                displayDate.timeInMillis = minDate.timeInMillis
+                            }
+                            updateDate()
+                        }
+                    }
+                }
+                method.invoke(originalListener, *(args ?: emptyArray()))
+            }
+
+            val viewPagerField = dayPickerViewInstance.javaClass.getDeclaredField("mViewPager")
+            viewPagerField.isAccessible = true
+            val viewPagerInstance = viewPagerField.get(dayPickerViewInstance)
+            val viewPagerClass = viewPagerInstance.javaClass.superclass
+            val setListenerMethod = viewPagerClass?.getDeclaredMethod(
+                "setOnPageChangeListener",
+                Class.forName("com.android.internal.widget.ViewPager\$OnPageChangeListener")
+            )
+            setListenerMethod?.isAccessible = true
+
+            setListenerMethod?.invoke(viewPagerInstance, proxyListener)
         } catch (e: Exception) {
             e.printStackTrace()
         }
