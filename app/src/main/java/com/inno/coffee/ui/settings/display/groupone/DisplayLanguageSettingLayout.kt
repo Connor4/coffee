@@ -59,7 +59,6 @@ fun DisplayLanguageSettingLayout(
             contentDescription = null
         )
         LanguageGroupLayout(Locale.forLanguageTag(defaultLanguage.value)) { locale ->
-            onCloseClick()
             viewModel.selectLanguage(context, locale)
         }
     }
