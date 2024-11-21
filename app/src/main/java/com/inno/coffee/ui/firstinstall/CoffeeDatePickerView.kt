@@ -29,26 +29,21 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     private val DEFAULT_END_YEAR = 2100
     private var prevButton: ImageButton? = null
     private var nextButton: ImageButton? = null
-    //    private var dayPickerView: View? = null
     private var yearPickerView: View? = null
     private var dayInstance: Any? = null
     private var yearInstance: Any? = null
     private var observableSparseArray: ObservableSparseArray? = null
-    private var selectedDate: Calendar? = null
-    private var displayDate: Calendar? = null
-    private var minDate: Calendar? = null
-    private var maxDate: Calendar? = null
+    private var selectedDate: Calendar = Calendar.getInstance()
+    private var displayDate: Calendar = Calendar.getInstance()
+    private var minDate: Calendar = Calendar.getInstance()
+    private var maxDate: Calendar = Calendar.getInstance()
     private var mDYDateFormat: SimpleDateFormat? = null
     private var mYDateFormat: SimpleDateFormat? = null
 
     init {
         val locale = Locale.getDefault()
-        selectedDate = Calendar.getInstance(locale)
-        displayDate = Calendar.getInstance(locale)
-        minDate = Calendar.getInstance(locale)
-        maxDate = Calendar.getInstance(locale)
-        minDate!!.set(DEFAULT_START_YEAR, Calendar.JANUARY, 1)
-        maxDate!!.set(DEFAULT_END_YEAR, Calendar.DECEMBER, 31)
+        minDate.set(DEFAULT_START_YEAR, Calendar.JANUARY, 1)
+        maxDate.set(DEFAULT_END_YEAR, Calendar.DECEMBER, 31)
         mDYDateFormat = SimpleDateFormat("MMM d, yyyy", locale)
         mYDateFormat = SimpleDateFormat("MMM, yyyy", locale)
         addDayPickerView(context, attrs, defStyleAttr)
@@ -58,18 +53,18 @@ class CoffeeDatePickerView @JvmOverloads constructor(
 
     fun performPrevClick() {
         prevButton?.performClick()
-        displayDate?.add(Calendar.MONTH, -1)
-        if (displayDate?.timeInMillis!! < minDate!!.timeInMillis) {
-            displayDate?.timeInMillis = minDate!!.timeInMillis
+        displayDate.add(Calendar.MONTH, -1)
+        if (displayDate.timeInMillis < minDate.timeInMillis) {
+            displayDate.timeInMillis = minDate.timeInMillis
         }
         updateDate()
     }
 
     fun performNextClick() {
         nextButton?.performClick()
-        displayDate?.add(Calendar.MONTH, 1)
-        if (displayDate?.timeInMillis!! > maxDate!!.timeInMillis) {
-            displayDate?.timeInMillis = maxDate!!.timeInMillis
+        displayDate.add(Calendar.MONTH, 1)
+        if (displayDate.timeInMillis > maxDate.timeInMillis) {
+            displayDate.timeInMillis = maxDate.timeInMillis
         }
         updateDate()
     }
@@ -83,9 +78,9 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     }
 
     fun updateDate() {
-        val monthDayYear = selectedDate?.time?.let { mDYDateFormat?.format(it) }
-        val monthYear = displayDate?.time?.let { mYDateFormat?.format(it) }
-        onDateSelected?.invoke(monthDayYear, monthYear, selectedDate?.timeInMillis ?: 0)
+        val monthDayYear = selectedDate.time?.let { mDYDateFormat?.format(it) }
+        val monthYear = displayDate.time?.let { mYDateFormat?.format(it) }
+        onDateSelected?.invoke(monthDayYear, monthYear, selectedDate.timeInMillis)
     }
 
     @SuppressLint("PrivateApi")
@@ -127,7 +122,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
             val methodSetYear =
                 yearPickerViewClass.getDeclaredMethod("setYear", Int::class.java)
             methodSetYear.isAccessible = true
-            methodSetYear.invoke(yearPickerViewInstance, selectedDate?.get(Calendar.YEAR))
+            methodSetYear.invoke(yearPickerViewInstance, selectedDate.get(Calendar.YEAR))
         } catch (e: Exception) {
             e.printStackTrace()
             Logger.e(TAG, "setYearPickerMethodParams $e")
@@ -172,19 +167,19 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                 if (method.name == "onYearChanged") {
                     val selectedYear = args[1] as Int
                     Logger.d(TAG, "selected year: $selectedYear")
-                    val day = selectedDate?.get(Calendar.DAY_OF_MONTH) ?: 1
-                    val month = selectedDate?.get(Calendar.MONTH) ?: Calendar.JANUARY
+                    val day = selectedDate.get(Calendar.DAY_OF_MONTH)
+                    val month = selectedDate.get(Calendar.MONTH)
                     val daysInMonth = getDaysInMonth(month, day)
                     if (day > daysInMonth) {
-                        selectedDate?.set(Calendar.DAY_OF_MONTH, daysInMonth)
+                        selectedDate.set(Calendar.DAY_OF_MONTH, daysInMonth)
                     }
-                    selectedDate?.set(Calendar.YEAR, selectedYear)
-                    if (selectedDate!! < minDate) {
-                        selectedDate!!.timeInMillis = minDate!!.timeInMillis
-                    } else if (selectedDate!! > maxDate) {
-                        selectedDate!!.timeInMillis = maxDate!!.timeInMillis
+                    selectedDate.set(Calendar.YEAR, selectedYear)
+                    if (selectedDate < minDate) {
+                        selectedDate.timeInMillis = minDate.timeInMillis
+                    } else if (selectedDate > maxDate) {
+                        selectedDate.timeInMillis = maxDate.timeInMillis
                     }
-                    displayDate!!.timeInMillis = selectedDate!!.timeInMillis
+                    displayDate.timeInMillis = selectedDate.timeInMillis
 
                     updateDayPickerViewDate()
                     updateDate()
@@ -306,12 +301,12 @@ class CoffeeDatePickerView @JvmOverloads constructor(
             val methodSetMinDate =
                 dayPickerViewClass.getDeclaredMethod("setMinDate", Long::class.java)
             methodSetMinDate.isAccessible = true
-            methodSetMinDate.invoke(dayPickerViewInstance, minDate?.timeInMillis)
+            methodSetMinDate.invoke(dayPickerViewInstance, minDate.timeInMillis)
 
             val methodSetMaxDate =
                 dayPickerViewClass.getDeclaredMethod("setMaxDate", Long::class.java)
             methodSetMaxDate.isAccessible = true
-            methodSetMaxDate.invoke(dayPickerViewInstance, maxDate?.timeInMillis)
+            methodSetMaxDate.invoke(dayPickerViewInstance, maxDate.timeInMillis)
         } catch (e: Exception) {
             e.printStackTrace()
             Logger.e(TAG, "setViewParams: $e")
@@ -323,7 +318,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
         try {
             val dayPickerViewClass = Class.forName("android.widget.DayPickerView")
             val methodSetDate = dayPickerViewClass.getDeclaredMethod("setDate", Long::class.java)
-            methodSetDate.invoke(dayInstance, selectedDate?.timeInMillis)
+            methodSetDate.invoke(dayInstance, selectedDate.timeInMillis)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -346,9 +341,9 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                 if (method.name == "onDaySelected") {
                     val selectedDay = args[1] as Calendar
                     Logger.d(TAG, "Selected day: ${selectedDay.time}")
-                    selectedDate?.timeInMillis = selectedDay.timeInMillis
-                    displayDate?.timeInMillis = selectedDate?.timeInMillis ?: 0
-                    val year = selectedDate?.get(Calendar.YEAR) ?: 2024
+                    selectedDate.timeInMillis = selectedDay.timeInMillis
+                    displayDate.timeInMillis = selectedDate.timeInMillis
+                    val year = selectedDate.get(Calendar.YEAR)
                     updateYearPickerViewYear(year)
                     updateDate()
                 }
