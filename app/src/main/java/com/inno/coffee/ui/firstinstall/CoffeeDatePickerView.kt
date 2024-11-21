@@ -59,12 +59,18 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     fun performPrevClick() {
         prevButton?.performClick()
         displayDate?.add(Calendar.MONTH, -1)
+        if (displayDate?.timeInMillis!! < minDate!!.timeInMillis) {
+            displayDate?.timeInMillis = minDate!!.timeInMillis
+        }
         updateDate()
     }
 
     fun performNextClick() {
         nextButton?.performClick()
         displayDate?.add(Calendar.MONTH, 1)
+        if (displayDate?.timeInMillis!! > maxDate!!.timeInMillis) {
+            displayDate?.timeInMillis = maxDate!!.timeInMillis
+        }
         updateDate()
     }
 
