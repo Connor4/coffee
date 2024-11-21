@@ -6,7 +6,6 @@ import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.icu.util.Calendar
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -17,7 +16,6 @@ import com.inno.coffee.R
 import com.inno.common.utils.Logger
 import java.lang.reflect.Constructor
 import java.lang.reflect.Field
-import java.lang.reflect.Method
 import java.lang.reflect.Proxy
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -205,7 +203,6 @@ class CoffeeDatePickerView @JvmOverloads constructor(
             if (dayPickerViewInstance is ViewGroup) {
                 addView(dayPickerViewInstance)
                 disableButton(dayPickerViewInstance)
-//                setPageChangeListener(dayPickerViewInstance)
                 setTextStyle(dayPickerViewInstance, context, attrs, defStyleAttr)
                 setDayPickerMethodParams(dayPickerViewClass, dayPickerViewInstance)
                 setDaySelectedListener(dayPickerViewClass, dayPickerViewInstance)
@@ -352,32 +349,6 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                 null
             }
             setOnDaySelectedListenerMethod.invoke(dayPickerViewInstance, listener)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun setPageChangeListener(dayPickerView: Any) {
-        try {
-            val listenerField: Field =
-                dayPickerView.javaClass.getDeclaredField("mOnPageChangedListener")
-            listenerField.isAccessible = true
-            val originalListener = listenerField.get(dayPickerView)
-
-            val proxyListener = Proxy.newProxyInstance(
-                originalListener?.javaClass?.classLoader,
-                originalListener?.javaClass?.interfaces
-            ) { _, method: Method, args: Array<out Any>? ->
-                Log.d(TAG,
-                    "setPageChangeListener() called with: _ , method = $method, args = $args")
-                if (method.name == "onPageSelected" && args != null) {
-                    val position = args[0] as Int
-//                    onPageSelectedCallback(position)
-                }
-                method.invoke(originalListener, *(args ?: emptyArray()))
-            }
-
-            listenerField.set(dayPickerView, proxyListener)
         } catch (e: Exception) {
             e.printStackTrace()
         }
