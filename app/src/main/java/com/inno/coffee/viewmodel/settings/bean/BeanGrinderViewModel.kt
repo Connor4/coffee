@@ -3,6 +3,7 @@ package com.inno.coffee.viewmodel.settings.bean
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.function.CommandControlManager
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_ETC_FRONT
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_ETC_REAR
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_FRONT_HOPPER
@@ -15,6 +16,7 @@ import com.inno.coffee.utilities.BEAN_KEY_INDEX_PQC
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_REAR_HOPPER
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
+import com.inno.serialport.utilities.BEAN_GRINDER_SETTING
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -134,8 +136,23 @@ class BeanGrinderViewModel @Inject constructor(
                     _frontGrinderLimitCapacity.value = value
                 }
             }
+
+            val pqcConOff = if (_pqc.value) 1 else 0
+            val rearCapacity = _grindingCapacityRear.value * 100
+            val frontCapacity = _grindingCapacityFront.value * 100
+            val levelling = if (_levelling.value) 1 else 0
+            val etcFront = if (_etcFront.value) 1 else 0
+            val frontReference = _etcFrontReference.value
+            val etcRear = if (_etcRear.value) 1 else 0
+            val rearReference = _etcRearReference.value
+            val rearLimitCapacity = _rearGrinderLimitCapacity.value * 100
+            val frontLimitCapacity = _frontGrinderLimitCapacity.value * 100
+
+            CommandControlManager.sendTestCommand(BEAN_GRINDER_SETTING, pqcConOff,
+                rearCapacity.toInt(), frontCapacity.toInt(), levelling, etcFront,
+                frontReference.toInt(), etcRear, rearReference.toInt(),
+                rearLimitCapacity.toInt(), frontLimitCapacity.toInt(), 0, 0, 0, 0)
         }
     }
-
 
 }
