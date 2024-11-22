@@ -90,8 +90,7 @@ class DisplayViewModel @Inject constructor(
 
     fun getTime() {
         viewModelScope.launch {
-            val language = Locale.forLanguageTag(_language.value).language
-            val time = TimeUtils.getNowTimeInYearAndHour(language = language)
+            val time = TimeUtils.getNowTimeInYearAndHour(language = dataStore.getSystemLanguage())
             _time.value = time
         }
     }
