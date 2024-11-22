@@ -148,8 +148,8 @@ fun BeanGrinderLayout(
         if (etcRear.value || etcFront.value) {
             ChangeColorButton(
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 172.dp, end = 345.dp)
+                    .align(Alignment.TopCenter)
+                    .padding(top = 692.dp)
                     .width(230.dp)
                     .height(50.dp),
                 text = stringResource(id = R.string.bean_etc_configuration)
