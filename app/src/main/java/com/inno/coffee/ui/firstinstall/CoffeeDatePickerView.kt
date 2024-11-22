@@ -40,10 +40,6 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     private var maxDate: Calendar = Calendar.getInstance()
     private var mDYDateFormat: SimpleDateFormat? = null
     private var mYDateFormat: SimpleDateFormat? = null
-    private var lastPositionOffset = 0f
-    private var scrollRight = false
-    private var lastPosition = -1
-    private var lastPositionChange = false
 
     init {
         val locale = Locale.getDefault()
