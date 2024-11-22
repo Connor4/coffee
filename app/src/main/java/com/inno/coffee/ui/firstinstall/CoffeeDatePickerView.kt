@@ -42,6 +42,8 @@ class CoffeeDatePickerView @JvmOverloads constructor(
     private var mYDateFormat: SimpleDateFormat? = null
     private var lastPositionOffset = 0f
     private var scrollRight = false
+    private var lastPosition = -1
+    private var lastPositionChange = false
 
     init {
         val locale = Locale.getDefault()
@@ -356,35 +358,46 @@ class CoffeeDatePickerView @JvmOverloads constructor(
             listenerField.isAccessible = true
             val originalListener = listenerField.get(dayPickerViewInstance)
 
-            val proxyListener = Proxy.newProxyInstance(
-                originalListener?.javaClass?.classLoader,
-                originalListener?.javaClass?.interfaces
-            ) { _, method: Method, args: Array<out Any>? ->
-                if (method.name == "onPageScrolled" && args != null) {
-                    Logger.d(TAG, "setPageChangeListener() onPageScrolled")
-                    val positionOffset = args[1] as Float
-                    scrollRight = positionOffset > lastPositionOffset
-                    lastPositionOffset = positionOffset
-                } else if (method.name == "onPageScrollStateChanged" && args != null) {
-                    val state = args[0] as Int
-                    Logger.d(TAG, "setPageChangeListener() onPageScrollStateChanged $state")
-                    if (state == 0) {
-                        if (scrollRight) {
-                            displayDate.add(Calendar.MONTH, 1)
-                            if (displayDate.timeInMillis > maxDate.timeInMillis) {
-                                displayDate.timeInMillis = maxDate.timeInMillis
-                            }
-                            updateDate()
-                        } else {
-                            displayDate.add(Calendar.MONTH, -1)
-                            if (displayDate.timeInMillis < minDate.timeInMillis) {
-                                displayDate.timeInMillis = minDate.timeInMillis
+            val proxyListener = originalListener?.javaClass?.let {
+                Proxy.newProxyInstance(
+                    it.classLoader, it.interfaces
+                ) { _, method: Method, args: Array<out Any>? ->
+                    if (method.name == "onPageScrolled" && args != null) {
+                        val positionOffset = args[1] as Float
+                        if (positionOffset > 0f) {
+                            Logger.d(TAG, "onPageScrolled offset: $lastPositionOffset " +
+                                    "positionOffset $positionOffset")
+                            scrollRight = positionOffset > lastPositionOffset
+                            lastPositionOffset = positionOffset
+                        }
+                    } else if (method.name == "onPageSelected" && args != null) {
+                        val position = args[0] as Int
+                        lastPositionChange = position != lastPosition
+                        lastPosition = position
+                        Logger.d(TAG, "onPageSelected position: $position" +
+                                "lastPositionChange: $lastPositionChange")
+                    } else if (method.name == "onPageScrollStateChanged" && args != null) {
+                        val state = args[0] as Int
+                        Logger.d(TAG, "onPageScrollStateChanged $state scrollRight: $scrollRight" +
+                                " lastPositionChange: $lastPositionChange")
+                        if (state == 0 && lastPositionChange) {
+                            lastPositionChange = false
+                            if (scrollRight) {
+                                displayDate.add(Calendar.MONTH, 1)
+                                if (displayDate.timeInMillis > maxDate.timeInMillis) {
+                                    displayDate.timeInMillis = maxDate.timeInMillis
+                                }
+                            } else {
+                                displayDate.add(Calendar.MONTH, -1)
+                                if (displayDate.timeInMillis < minDate.timeInMillis) {
+                                    displayDate.timeInMillis = minDate.timeInMillis
+                                }
                             }
                             updateDate()
                         }
                     }
+                    method.invoke(originalListener, *(args ?: emptyArray()))
                 }
-                method.invoke(originalListener, *(args ?: emptyArray()))
             }
 
             val viewPagerField = dayPickerViewInstance.javaClass.getDeclaredField("mViewPager")
