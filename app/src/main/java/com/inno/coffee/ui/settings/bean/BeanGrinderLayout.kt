@@ -145,7 +145,7 @@ fun BeanGrinderLayout(
             ScreenDisplayManager.autoRoute(context, GrinderAdjustmentActivity::class.java)
         }
 
-        if (etcRear.value || etcFront.value) {
+        if ((etcRear.value || etcFront.value) && pqc.value) {
             ChangeColorButton(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
