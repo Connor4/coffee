@@ -41,6 +41,8 @@ import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_ETC_FRONT
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_ETC_REAR
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_FRONT_HOPPER
+import com.inno.coffee.utilities.BEAN_KEY_INDEX_GRINDER_LIMIT_CAPACITY_FRONT
+import com.inno.coffee.utilities.BEAN_KEY_INDEX_GRINDER_LIMIT_CAPACITY_REAR
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_GRINDING_CAPACITY_FRONT
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_LEVELLING
@@ -74,6 +76,10 @@ fun BeanGrinderLayout(
     val grindingCapacityFront = viewModel.grindingCapacityFront.collectAsState()
     val rearName = viewModel.rearHopperName.collectAsState()
     val frontName = viewModel.frontHopperName.collectAsState()
+    val rearLimitCapacity = viewModel.rearGrinderLimitCapacity.collectAsState()
+    val frontLimitCapacity = viewModel.frontGrinderLimitCapacity.collectAsState()
+    val rearReference = viewModel.etcRearReference.collectAsState()
+    val frontReference = viewModel.etcFrontReference.collectAsState()
 
     val on = stringResource(R.string.display_value_on)
     val off = stringResource(R.string.display_value_off)
@@ -90,6 +96,17 @@ fun BeanGrinderLayout(
     val etcRearValue = if (etcRear.value) on else off
     val etcFrontValue = if (etcFront.value) on else off
     val levellingValue = if (levelling.value) yes else no
+    val rearReferenceValue = if (etcRear.value && rearReference.value == 0f) {
+        stringResource(R.string.bean_etc_value_no_reference)
+    } else {
+        ""
+    }
+
+    val frontReferenceValue = if (etcFront.value && frontReference.value == 0f) {
+        stringResource(R.string.bean_etc_value_no_reference)
+    } else {
+        ""
+    }
 
     LaunchedEffect(Unit) {
         viewModel.init()
@@ -126,6 +143,20 @@ fun BeanGrinderLayout(
         ) {
             itemSelectIndex.value = INVALID_INT
             ScreenDisplayManager.autoRoute(context, GrinderAdjustmentActivity::class.java)
+        }
+
+        if (etcRear.value || etcFront.value) {
+            ChangeColorButton(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 172.dp, end = 345.dp)
+                    .width(230.dp)
+                    .height(50.dp),
+                text = stringResource(id = R.string.bean_etc_configuration)
+            ) {
+                itemSelectIndex.value = INVALID_INT
+//                ScreenDisplayManager.autoRoute(context, GrinderAdjustmentActivity::class.java)
+            }
         }
 
         Column(
@@ -173,8 +204,9 @@ fun BeanGrinderLayout(
                 )
             }
             if (pqc.value) {
-                DisplayItemLayout(etcRearString,
-                    etcRearValue, Color(0xFF191A1D)) {
+                DisplayItemLayout(etcRearString, etcRearValue, unit = rearReferenceValue,
+                    backgroundColor = Color(0xFF191A1D)
+                ) {
                     itemSelectIndex.value = BEAN_KEY_INDEX_ETC_REAR
                     titleValue.value = etcRearString
                     defaultValue.value = etcRearValue
@@ -186,7 +218,9 @@ fun BeanGrinderLayout(
                         )
                     )
                 }
-                DisplayItemLayout(etcFrontString, etcFrontValue, Color(0xFF2A2B2D)) {
+                DisplayItemLayout(etcFrontString, etcFrontValue, unit = frontReferenceValue,
+                    backgroundColor = Color(0xFF2A2B2D)
+                ) {
                     itemSelectIndex.value = BEAN_KEY_INDEX_ETC_FRONT
                     titleValue.value = etcFrontString
                     defaultValue.value = etcFrontValue
@@ -197,6 +231,34 @@ fun BeanGrinderLayout(
                             Pair(off, false)
                         )
                     )
+                }
+                if (etcRear.value) {
+                    DisplayItemLayout(
+                        stringResource(R.string.bean_lower_limit_grinding_capacity_rear),
+                        "${rearLimitCapacity.value}", unit = "[mm/s]",
+                        backgroundColor = Color(0xFF191A1D)
+                    ) {
+                        itemSelectIndex.value = BEAN_KEY_INDEX_GRINDER_LIMIT_CAPACITY_REAR
+                        scrollDefaultValue.value = rearLimitCapacity.value
+                        scrollRangeStart.value = 1f
+                        scrollRangeEnd.value = 10f
+                        scrollUnit.value = "[mm/s]"
+                        scrollAccuracy.value = ACCURACY_3
+                    }
+                }
+                if (etcFront.value) {
+                    DisplayItemLayout(
+                        stringResource(R.string.bean_lower_limit_grinding_capacity_front),
+                        "${frontLimitCapacity.value}", unit = "[mm/s]",
+                        backgroundColor = Color(0xFF2A2B2D)
+                    ) {
+                        itemSelectIndex.value = BEAN_KEY_INDEX_GRINDER_LIMIT_CAPACITY_FRONT
+                        scrollDefaultValue.value = frontLimitCapacity.value
+                        scrollRangeStart.value = 1f
+                        scrollRangeEnd.value = 10f
+                        scrollUnit.value = "[mm/s]"
+                        scrollAccuracy.value = ACCURACY_3
+                    }
                 }
             } else {
                 DisplayItemLayout(stringResource(R.string.bean_grinding_capacity_hopper_rear),
@@ -222,7 +284,9 @@ fun BeanGrinderLayout(
 
         if (itemSelectIndex.value != INVALID_INT) {
             when (itemSelectIndex.value) {
-                BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR, BEAN_KEY_INDEX_GRINDING_CAPACITY_FRONT -> {
+                BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR, BEAN_KEY_INDEX_GRINDING_CAPACITY_FRONT,
+                BEAN_KEY_INDEX_GRINDER_LIMIT_CAPACITY_FRONT, BEAN_KEY_INDEX_GRINDER_LIMIT_CAPACITY_REAR,
+                    -> {
                     key(scrollDefaultValue.value) {
                         UnitValueScrollBar(
                             modifier = Modifier

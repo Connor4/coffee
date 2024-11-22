@@ -364,6 +364,9 @@
     <string name="bean_grinding_capacity_hopper_front">前方豆缸研磨容量</string>
     <string name="bean_extraction_time_control_rear">后方豆缸萃取时间监测系统</string>
     <string name="bean_extraction_time_control_front">前方豆缸萃取时间监测系统</string>
+    <string name="bean_lower_limit_grinding_capacity_front">前方豆缸研磨容量下限值</string>
+    <string name="bean_etc_value_no_reference">没有参考值</string>
+    <string name="bean_etc_configuration">萃取时间控制设置</string>
     <string name="bean_levelling">电子布粉</string>
     <string name="bean_grinder_adjustment">研磨调整</string>
     <string name="bean_grinder_reset">重置</string>
@@ -443,6 +446,7 @@
     <string name="maintenance_remote_update">远程更新</string>
     <string name="maintenance_save_all_data">保存所有数据</string>
     <string name="maintenance_restore_settings">U盘还原设置</string>
+    <string name="info_status_steam_air_pump">气泵:</string>
     <string name="maintenance_service_param">维修保养设置</string>
     <string name="maintenance_water_filter">过滤器</string>
     <string name="maintenance_service_functions">维修功能</string>
@@ -491,5 +495,9 @@
     <string name="maintenance_manual_rinse">洗机手册</string>
     <string name="maintenance_manual_save_restore">储存数据手册</string>
     <string name="maintenance_manual_update">更新软件手册</string>
+    <string name="info_status_on">开</string>
+    <string name="info_status_off">关</string>
+    <string name="bean_lower_limit_grinding_capacity_rear">后方豆缸研磨容量下限值</string>
+    <string name="info_status_water_pump">水泵:</string>
 
 </resources>

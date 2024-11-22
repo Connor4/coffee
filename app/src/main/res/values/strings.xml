@@ -373,6 +373,10 @@
     <string name="bean_grinding_capacity_hopper_front">Grinding Capacity Bean Hopper Front</string>
     <string name="bean_extraction_time_control_rear">Extraction Time Control Rear</string>
     <string name="bean_extraction_time_control_front">Extraction Time Control Front</string>
+    <string name="bean_lower_limit_grinding_capacity_rear">Lower Limit Grinding Capacity Rear</string>
+    <string name="bean_lower_limit_grinding_capacity_front">Lower Limit Grinding Capacity Front</string>
+    <string name="bean_etc_value_no_reference">No Reference</string>
+    <string name="bean_etc_configuration">ETC Configuration</string>
     <string name="bean_levelling">Levelling</string>
     <string name="bean_grinder_adjustment">Grinder Adjustment</string>
     <string name="bean_grinder_reset">Reset</string>
