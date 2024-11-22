@@ -19,6 +19,7 @@ import com.inno.common.utils.SystemLocaleHelper
 import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -97,6 +98,7 @@ class DisplayViewModel @Inject constructor(
 
     fun selectLanguage(context: Context, locale: Locale) {
         viewModelScope.launch(defaultDispatcher) {
+            delay(100)
             SystemLocaleHelper.changeSystemLocale(context, locale.language)
             val languageTag = locale.toLanguageTag()
             dataStore.saveSystemLanguage(languageTag)
