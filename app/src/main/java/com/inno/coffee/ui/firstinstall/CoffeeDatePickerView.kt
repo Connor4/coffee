@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.icu.util.Calendar
+import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -45,8 +46,10 @@ class CoffeeDatePickerView @JvmOverloads constructor(
         val locale = Locale.getDefault()
         minDate.set(DEFAULT_START_YEAR, Calendar.JANUARY, 1)
         maxDate.set(DEFAULT_END_YEAR, Calendar.DECEMBER, 31)
-        mDYDateFormat = SimpleDateFormat("MMM d, yyyy", locale)
-        mYDateFormat = SimpleDateFormat("MMM, yyyy", locale)
+        val dyFormat = DateFormat.getBestDateTimePattern(locale, "MMM d, yyyy")
+        val myFormat = DateFormat.getBestDateTimePattern(locale, "MMM, yyyy")
+        mDYDateFormat = SimpleDateFormat(dyFormat, locale)
+        mYDateFormat = SimpleDateFormat(myFormat, locale)
         addDayPickerView(context, attrs, defStyleAttr)
         addYearPickerView(context, attrs)
         showYearPickerView(false)
