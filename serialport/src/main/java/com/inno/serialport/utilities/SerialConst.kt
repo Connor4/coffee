@@ -62,6 +62,9 @@ const val MAINTENANCE_GRINDER_SENSOR_TEST_ID: Short = 650
 const val MAINTENANCE_FLOW_RATE_TEST_ID: Short = 651
 const val MAINTENANCE_CLEANING_BALL_TEST_ID: Short = 652
 const val MAINTENANCE_MILK_SENSOR_RIGHT_TEST_ID: Short = 653
+const val GRINDER_ADJ_FINER_ID: Short = 710
+const val GRINDER_ADJ_COARSER_ID: Short = 711
+const val GRINDER_ADJ_GRIND_ID: Short = 712
 
 val fcstab = intArrayOf(
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,

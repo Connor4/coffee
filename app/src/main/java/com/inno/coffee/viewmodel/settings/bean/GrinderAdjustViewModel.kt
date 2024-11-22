@@ -2,8 +2,12 @@ package com.inno.coffee.viewmodel.settings.bean
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.inno.coffee.function.CommandControlManager
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
+import com.inno.serialport.utilities.GRINDER_ADJ_COARSER_ID
+import com.inno.serialport.utilities.GRINDER_ADJ_FINER_ID
+import com.inno.serialport.utilities.GRINDER_ADJ_GRIND_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -42,16 +46,20 @@ class GrinderAdjustViewModel @Inject constructor(
             if (left) {
                 if (_leftGrinderValue.value <= MAX_VALUE && add) {
                     dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE, leftGrinderValue.value++)
+                    CommandControlManager.sendTestCommand(GRINDER_ADJ_COARSER_ID, 0)
                 }
                 if (_leftGrinderValue.value > MIN_VALUE && !add) {
                     dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE, leftGrinderValue.value--)
+                    CommandControlManager.sendTestCommand(GRINDER_ADJ_FINER_ID, 0)
                 }
             } else {
                 if (_rightGrinderValue.value <= MAX_VALUE && add) {
                     dataStore.saveCoffeePreference(RIGHT_GRINDER_VALUE, rightGrinderValue.value++)
+                    CommandControlManager.sendTestCommand(GRINDER_ADJ_COARSER_ID, 1)
                 }
                 if (_rightGrinderValue.value > MIN_VALUE && !add) {
                     dataStore.saveCoffeePreference(RIGHT_GRINDER_VALUE, rightGrinderValue.value--)
+                    CommandControlManager.sendTestCommand(GRINDER_ADJ_FINER_ID, 1)
                 }
             }
         }
@@ -71,11 +79,7 @@ class GrinderAdjustViewModel @Inject constructor(
 
     fun grinderTest(left: Boolean) {
         viewModelScope.launch {
-            if (left) {
-
-            } else {
-
-            }
+            CommandControlManager.sendTestCommand(GRINDER_ADJ_GRIND_ID, if (left) 0 else 1)
         }
     }
 
