@@ -362,39 +362,14 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                 Proxy.newProxyInstance(
                     it.classLoader, it.interfaces
                 ) { _, method: Method, args: Array<out Any>? ->
-                    if (method.name == "onPageScrolled" && args != null) {
-                        val positionOffset = args[1] as Float
-                        if (positionOffset > 0f) {
-                            Logger.d(TAG, "onPageScrolled offset: $lastPositionOffset " +
-                                    "positionOffset $positionOffset")
-                            scrollRight = positionOffset > lastPositionOffset
-                            lastPositionOffset = positionOffset
-                        }
-                    } else if (method.name == "onPageSelected" && args != null) {
+                    if (method.name == "onPageSelected" && args != null) {
                         val position = args[0] as Int
-                        lastPositionChange = position != lastPosition
-                        lastPosition = position
-                        Logger.d(TAG, "onPageSelected position: $position" +
-                                "lastPositionChange: $lastPositionChange")
-                    } else if (method.name == "onPageScrollStateChanged" && args != null) {
-                        val state = args[0] as Int
-                        Logger.d(TAG, "onPageScrollStateChanged $state scrollRight: $scrollRight" +
-                                " lastPositionChange: $lastPositionChange")
-                        if (state == 0 && lastPositionChange) {
-                            lastPositionChange = false
-                            if (scrollRight) {
-                                displayDate.add(Calendar.MONTH, 1)
-                                if (displayDate.timeInMillis > maxDate.timeInMillis) {
-                                    displayDate.timeInMillis = maxDate.timeInMillis
-                                }
-                            } else {
-                                displayDate.add(Calendar.MONTH, -1)
-                                if (displayDate.timeInMillis < minDate.timeInMillis) {
-                                    displayDate.timeInMillis = minDate.timeInMillis
-                                }
-                            }
-                            updateDate()
-                        }
+                        val monthForPosition = getMonthForPosition(position)
+                        val yearForPosition = getYearForPosition(position)
+                        Logger.d(TAG,
+                            "onPageSelected month $monthForPosition year $yearForPosition")
+                        displayDate.set(yearForPosition, monthForPosition, 1)
+                        updateDate()
                     }
                     method.invoke(originalListener, *(args ?: emptyArray()))
                 }
@@ -423,6 +398,16 @@ class CoffeeDatePickerView @JvmOverloads constructor(
             Calendar.FEBRUARY -> if ((year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) 29 else 28
             else -> throw IllegalArgumentException("Invalid Month")
         }
+    }
+
+    private fun getMonthForPosition(position: Int): Int {
+        val month = (position + minDate.get(Calendar.MONTH)) % 12
+        return month.coerceIn(Calendar.JANUARY, Calendar.DECEMBER)
+    }
+
+    private fun getYearForPosition(position: Int): Int {
+        val yearOffset: Int = (position + minDate.get(Calendar.MONTH)) / 12
+        return yearOffset + minDate.get(Calendar.YEAR)
     }
 
 }
