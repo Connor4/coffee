@@ -71,6 +71,7 @@
         <activity android:name=".ui.settings.maintenance.TestFunctionActivity" />
         <activity android:name=".ui.settings.maintenance.SaveRestoreActivity" />
         <activity android:name=".ui.settings.maintenance.ManualActivity" />
+        <activity android:name=".ui.settings.clean.CleanActivity" />
     </application>
 
 </manifest>

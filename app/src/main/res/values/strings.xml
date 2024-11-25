@@ -556,4 +556,19 @@
     <string name="maintenance_manual_save_restore">Save &amp; Restore Manual</string>
     <string name="maintenance_manual_update">Update Manual</string>
 
+    <string name="clean_reset_next_clean_date">Reset Next Clean Date</string>
+    <string name="clean_mode">Cleaning Mode</string>
+    <string name="clean_cleaning_period">Cleaning Period</string>
+    <string name="clean_set_time">Cleaning Time</string>
+    <string name="clean_time_tolerance">Cleaning Time Tolerance</string>
+    <string name="clean_weekend_clean_mode">Weekend Cleaning Mode</string>
+    <string name="clean_milk_weekend_clean_mode">Milk Weekend Cleaning Mode</string>
+    <string name="clean_standby_after_cleaning">Standby After Cleaning</string>
+    <string name="clean_standby_time_settings">Standby On/Off Time</string>
+    <string name="clean_standby_button">Standby Button</string>
+
+    <string name="clean_mode_periodic">Periodic</string>
+    <string name="clean_specified_time_auto">Specified Time(Automatic Cleaning)</string>
+    <string name="clean_specified_time_manual">Specified Time(Manual Cleaning)</string>
+
 </resources>
