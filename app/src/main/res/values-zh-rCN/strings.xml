@@ -499,5 +499,18 @@
     <string name="info_status_off">关</string>
     <string name="bean_lower_limit_grinding_capacity_rear">后方豆缸研磨容量下限值</string>
     <string name="info_status_water_pump">水泵:</string>
+    <string name="clean_reset_next_clean_date">重设下次洗机日期</string>
+    <string name="clean_mode">洗机模式</string>
+    <string name="clean_cleaning_period">洗机间隔时间</string>
+    <string name="clean_cleaning_time">设置定时洗机时间</string>
+    <string name="clean_time_tolerance">不洗机情况延时使用时长</string>
+    <string name="clean_weekend_clean_mode">周末洗机模式</string>
+    <string name="clean_milk_weekend_clean_mode">牛奶周末洗机模式</string>
+    <string name="clean_standby_after_cleaning">洗机后进入备用状态</string>
+    <string name="clean_standby_time_settings">自动开关机时间</string>
+    <string name="clean_standby_button">备用状态按钮</string>
+    <string name="clean_mode_periodic">按时段</string>
+    <string name="clean_specified_time_auto">指定时间(自动洗机)</string>
+    <string name="clean_specified_time_manual">指定时间(手动洗机)</string>
 
 </resources>

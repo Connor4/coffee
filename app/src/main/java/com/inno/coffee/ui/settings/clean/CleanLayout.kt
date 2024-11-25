@@ -151,7 +151,7 @@ fun CleanLayout(
                     scrollUnit.value = "[h]"
                 }
             } else {
-                DisplayItemLayout(stringResource(R.string.clean_set_time),
+                DisplayItemLayout(stringResource(R.string.clean_cleaning_time),
                     "$cleanTime",
                     Color(0xFF2A2B2D)
                 ) {
