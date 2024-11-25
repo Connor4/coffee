@@ -62,7 +62,7 @@ fun DisplaySettingTimeLayout(
             .background(Color(0xED000000))
     ) {
         Text(
-            text = stringResource(id = R.string.first_install_select_date),
+            text = stringResource(id = R.string.first_install_select_time),
             fontSize = 7.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
