@@ -199,3 +199,6 @@ const val CLEAN_STANDBY_ON_OFF_TIME = 7
 const val CLEAN_MODE_PERIOD = 0
 const val CLEAN_MODE_AUTO = 1
 const val CLEAN_MODE_MANUAL = 2
+const val CLEAN_WEEKEND_OFF = 0
+const val CLEAN_WEEKEND_NO_SAT_SUN = 1
+const val CLEAN_WEEKEND_NO_FRI_SAT = 2

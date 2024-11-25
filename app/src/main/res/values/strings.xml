@@ -570,5 +570,7 @@
     <string name="clean_mode_periodic">Periodic</string>
     <string name="clean_specified_time_auto">Specified Time(Automatic Cleaning)</string>
     <string name="clean_specified_time_manual">Specified Time(Manual Cleaning)</string>
+    <string name="clean_no_sat_sun">No Cleaning at Sat &amp; Sun</string>
+    <string name="clean_no_fri_sat">No Cleaning at Friday &amp; Sat</string>
 
 </resources>

@@ -41,6 +41,9 @@ import com.inno.coffee.utilities.CLEAN_STANDBY_BUTTON
 import com.inno.coffee.utilities.CLEAN_STANDBY_ON_OFF_TIME
 import com.inno.coffee.utilities.CLEAN_TIME_TOLERANCE
 import com.inno.coffee.utilities.CLEAN_WEEKEND_CLEAN_MODE
+import com.inno.coffee.utilities.CLEAN_WEEKEND_NO_FRI_SAT
+import com.inno.coffee.utilities.CLEAN_WEEKEND_NO_SAT_SUN
+import com.inno.coffee.utilities.CLEAN_WEEKEND_OFF
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
 
@@ -62,18 +65,21 @@ fun CleanLayout(
     val cleanPeriod = 1f
     val cleanTime = 1f
     val timeTolerance = 1f
-    val weekendCleanMode = 1f
+    val weekendCleanMode = 1
     val milkWeekendCleanMode = 1f
     val afterCleaning = false
     val standbyButton = false
 
     val modeTitle = stringResource(R.string.clean_mode)
+    val weekendTitle = stringResource(R.string.clean_weekend_clean_mode)
 
     val on = stringResource(R.string.display_value_on)
     val off = stringResource(R.string.display_value_off)
     val modeString1 = stringResource(R.string.clean_mode_periodic)
     val modeString2 = stringResource(R.string.clean_specified_time_auto)
     val modeString3 = stringResource(R.string.clean_specified_time_manual)
+    val weekendString1 = stringResource(R.string.clean_no_sat_sun)
+    val weekendString2 = stringResource(R.string.clean_no_fri_sat)
 
     val modeValue = when (mode) {
         CLEAN_MODE_PERIOD -> {
@@ -84,6 +90,20 @@ fun CleanLayout(
         }
         CLEAN_MODE_MANUAL -> {
             modeString3
+        }
+        else -> {
+            ""
+        }
+    }
+    val weekendValue = when (weekendCleanMode) {
+        CLEAN_WEEKEND_OFF -> {
+            off
+        }
+        CLEAN_WEEKEND_NO_SAT_SUN -> {
+            weekendString1
+        }
+        CLEAN_WEEKEND_NO_FRI_SAT -> {
+            weekendString2
         }
         else -> {
             ""
@@ -142,7 +162,7 @@ fun CleanLayout(
             }
             if (mode == CLEAN_MODE_PERIOD) {
                 DisplayItemLayout(key = stringResource(R.string.clean_cleaning_period),
-                    value = "2", backgroundColor = Color(0xFF2A2B2D), unit = "[h]"
+                    value = "$cleanPeriod", backgroundColor = Color(0xFF2A2B2D), unit = "[h]"
                 ) {
                     itemSelectIndex.value = CLEAN_MODE
                     scrollDefaultValue.value = cleanTime
@@ -167,11 +187,19 @@ fun CleanLayout(
                 scrollRangeEnd.value = 5f
                 scrollUnit.value = "[h]"
             }
-            DisplayItemLayout(stringResource(R.string.clean_weekend_clean_mode),
-                "1",
-                Color(0xFF2A2B2D)
+            DisplayItemLayout(weekendTitle, weekendValue, Color(0xFF2A2B2D)
             ) {
                 itemSelectIndex.value = CLEAN_WEEKEND_CLEAN_MODE
+                titleValue.value = weekendTitle
+                defaultValue.value = weekendValue
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(off, CLEAN_WEEKEND_OFF),
+                        Pair(weekendString1, CLEAN_WEEKEND_NO_SAT_SUN),
+                        Pair(weekendString2, CLEAN_WEEKEND_NO_FRI_SAT),
+                    )
+                )
             }
             DisplayItemLayout(stringResource(R.string.clean_milk_weekend_clean_mode),
                 "2",
@@ -199,15 +227,7 @@ fun CleanLayout(
             }
         }
         if (itemSelectIndex.value != INVALID_INT) {
-            if (itemSelectIndex.value == CLEAN_MODE) {
-                ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
-                    { _, value ->
-                        itemSelectIndex.value = INVALID_INT
-                    }, {
-                        itemSelectIndex.value = INVALID_INT
-                    }
-                )
-            } else {
+            if (itemSelectIndex.value == CLEAN_TIME_TOLERANCE) {
                 key(scrollDefaultValue.value) {
                     UnitValueScrollBar(
                         modifier = Modifier
@@ -223,6 +243,15 @@ fun CleanLayout(
                     ) { changeValue ->
                     }
                 }
+            } else {
+                ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
+                    { _, value ->
+                        itemSelectIndex.value = INVALID_INT
+                    }, {
+                        itemSelectIndex.value = INVALID_INT
+                    }
+                )
+
             }
         }
     }

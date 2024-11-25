@@ -512,5 +512,7 @@
     <string name="clean_mode_periodic">按时段</string>
     <string name="clean_specified_time_auto">指定时间(自动洗机)</string>
     <string name="clean_specified_time_manual">指定时间(手动洗机)</string>
+    <string name="clean_no_sat_sun">周六及周日不洗机</string>
+    <string name="clean_no_fri_sat">周五及周六不洗机</string>
 
 </resources>
