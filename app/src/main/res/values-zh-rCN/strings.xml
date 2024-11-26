@@ -141,6 +141,7 @@
     <string name="home_login_input_empty">用户名或密码未输入</string>
     <string name="home_login_input_invalid">用户名或密码长度不符</string>
     <string name="home_login_authenticate_fail">验证失败</string>
+    <string name="statistic_clean_enter_description">请输入内容</string>
     <string name="home_open_setting">打开设置</string>
     <string name="home_clean_screen">锁屏擦拭</string>
     <string name="home_machine_info">机器信息</string>

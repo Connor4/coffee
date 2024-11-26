@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings.statistics.history
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,10 +37,12 @@ fun MaintenanceHistoryLayout(
     viewModel: ProductHistoryViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     var showInput by remember { mutableStateOf(false) }
     val historyList by viewModel.maintenanceHistory.collectAsState()
 //    val historyList = mutableListOf<MaintenanceHistory>()
     val placeHolder = MaintenanceHistory()
+    val emptyNoticeString = stringResource(R.string.statistic_clean_enter_description)
 
     Box {
         CommonHistoryListLayout(
@@ -98,9 +102,13 @@ fun MaintenanceHistoryLayout(
                 tips = stringResource(R.string.statistic_maintenance_enter_description),
 
                 onEnterClick = { description ->
-                    showInput = false
-                    viewModel.addMaintenanceHistory(description)
+                    if (description.isEmpty()) {
+                        Toast.makeText(context, emptyNoticeString, Toast.LENGTH_SHORT).show()
+                    } else {
+                        showInput = false
+                        viewModel.addMaintenanceHistory(description)
 //                    viewModel.addFakeHistoryDataForTest()
+                    }
                 },
                 onCloseClick = {
                     showInput = false
