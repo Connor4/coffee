@@ -31,13 +31,15 @@ class DisplayViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-    private val TAG = "DisplayViewModel"
-    private val BACK_TO_FIRST_PAGE = "back_to_first_page"
-    private val NUMBER_OF_PRODUCT_PER_PAGE = "number_of_product_per_page"
-    private val FRONT_LIGHT_COLOR = "front_light_color"
-    private val FRONT_LIGHT_BRIGHTNESS = "front_light_brightness"
-    private val SCREEN_BRIGHTNESS = "screen_brightness"
-    private val SHOW_EXTRACTION_TIME = "show_extraction_time"
+    companion object {
+        private const val TAG = "DisplayViewModel"
+        private const val BACK_TO_FIRST_PAGE = "back_to_first_page"
+        private const val NUMBER_OF_PRODUCT_PER_PAGE = "number_of_product_per_page"
+        private const val FRONT_LIGHT_COLOR = "front_light_color"
+        private const val FRONT_LIGHT_BRIGHTNESS = "front_light_brightness"
+        private const val SCREEN_BRIGHTNESS = "screen_brightness"
+        private const val SHOW_EXTRACTION_TIME = "show_extraction_time"
+    }
 
     private val _language = MutableStateFlow("")
     val language: StateFlow<String> = _language

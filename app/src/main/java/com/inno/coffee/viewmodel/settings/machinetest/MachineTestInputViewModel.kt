@@ -25,8 +25,10 @@ import javax.inject.Inject
 class MachineTestInputViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
-    private val TAG = "MachineTestViewModel"
-    private val TEMPERATURE_UNIT = "temperature_unit"
+    companion object {
+        private const val TAG = "MachineTestViewModel"
+        private const val TEMPERATURE_UNIT = "temperature_unit"
+    }
 
     private val _tempUnit = MutableStateFlow(false)
     private val _microSwitchLeft = MutableStateFlow(false)

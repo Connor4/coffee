@@ -30,19 +30,21 @@ class MachineParamsViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-    private val TAG = "MachineParamsViewModel"
-    private val COFFEE_BOILER_TEMP = "coffee_boiler_temp"
-    private val COLD_RINSE = "code_rinse"
-    private val WARM_RINSE = "warm_rinse"
-    private val GROUNDS_QUANTITY = "grounds_quantity"
-    private val BREW_BALANCE = "brew_balance"
-    private val BREW_PRE_HEATING = "brew_pre_heating"
-    private val GRINDER_PURGE_FUNCTION = "grinder_purge_function"
-    private val NUMBER_OF_CYCLES_RINSE = "number_of_cycles_rinse"
-    private val STEAM_BOILER_PRESSURE = "steam_boiler_pressure"
-    private val NTC_LEFT = "ntc_left"
-    private val NTC_RIGHT = "ntc_right"
-    private val TEMPERATURE_UNIT = "temperature_unit"
+    companion object {
+        private const val TAG = "MachineParamsViewModel"
+        private const val COFFEE_BOILER_TEMP = "coffee_boiler_temp"
+        private const val COLD_RINSE = "code_rinse"
+        private const val WARM_RINSE = "warm_rinse"
+        private const val GROUNDS_QUANTITY = "grounds_quantity"
+        private const val BREW_BALANCE = "brew_balance"
+        private const val BREW_PRE_HEATING = "brew_pre_heating"
+        private const val GRINDER_PURGE_FUNCTION = "grinder_purge_function"
+        private const val NUMBER_OF_CYCLES_RINSE = "number_of_cycles_rinse"
+        private const val STEAM_BOILER_PRESSURE = "steam_boiler_pressure"
+        private const val NTC_LEFT = "ntc_left"
+        private const val NTC_RIGHT = "ntc_right"
+        private const val TEMPERATURE_UNIT = "temperature_unit"
+    }
 
     private var _temperatureUnit = MutableStateFlow(false)
     val temperatureUnit = _temperatureUnit

@@ -29,19 +29,21 @@ class BeanGrinderViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-    private val TAG = "BeanGrinderViewModel"
-    private val REAR_HOPPER_NAME = "rear_hopper_name"
-    private val FRONT_HOPPER_NAME = "front_hopper_name"
-    private val LEVELLING = "levelling"
-    private val PQC = "pqc"
-    private val GRINDING_CAPACITY_FRONT = "grinding_capacity_front"
-    private val GRINDING_CAPACITY_REAR = "grinding_capacity_rear"
-    private val ETC_FRONT = "etc_front"
-    private val ETC_REAR = "etc_rear"
-    private val GRINDER_LIMIT_CAPACITY_REAR = "grinder_limit_capacity_rear"
-    private val GRINDER_LIMIT_CAPACITY_FRONT = "grinder_limit_capacity_front"
-    private val ETC_FRONT_REFERNECE = "etc_front_reference"
-    private val ETC_REAR_REFERNECE = "etc_rear_reference"
+    companion object {
+        private const val TAG = "BeanGrinderViewModel"
+        private const val REAR_HOPPER_NAME = "rear_hopper_name"
+        private const val FRONT_HOPPER_NAME = "front_hopper_name"
+        private const val LEVELLING = "levelling"
+        private const val PQC = "pqc"
+        private const val GRINDING_CAPACITY_FRONT = "grinding_capacity_front"
+        private const val GRINDING_CAPACITY_REAR = "grinding_capacity_rear"
+        private const val ETC_FRONT = "etc_front"
+        private const val ETC_REAR = "etc_rear"
+        private const val GRINDER_LIMIT_CAPACITY_REAR = "grinder_limit_capacity_rear"
+        private const val GRINDER_LIMIT_CAPACITY_FRONT = "grinder_limit_capacity_front"
+        private const val ETC_FRONT_REFERENCE = "etc_front_reference"
+        private const val ETC_REAR_REFERENCE = "etc_rear_reference"
+    }
 
     private val _rearHopperName = MutableStateFlow("")
     val rearHopperName: StateFlow<String> = _rearHopperName
@@ -85,9 +87,9 @@ class BeanGrinderViewModel @Inject constructor(
             _frontGrinderLimitCapacity.value =
                 dataStore.getCoffeePreference(GRINDER_LIMIT_CAPACITY_FRONT, 1.00f)
             _etcFrontReference.value =
-                dataStore.getCoffeePreference(ETC_FRONT_REFERNECE, 0.00f)
+                dataStore.getCoffeePreference(ETC_FRONT_REFERENCE, 0.00f)
             _etcRearReference.value =
-                dataStore.getCoffeePreference(ETC_REAR_REFERNECE, 0.00f)
+                dataStore.getCoffeePreference(ETC_REAR_REFERENCE, 0.00f)
         }
     }
 

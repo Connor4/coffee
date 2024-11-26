@@ -17,13 +17,15 @@ import javax.inject.Inject
 class GrinderAdjustViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
-    private val TAG = "GrinderAdjustViewModel"
-    private val LEFT_GRINDER_VALUE = "left_grinder_value"
-    private val RIGHT_GRINDER_VALUE = "right_grinder_value"
-    private val LEFT_DEFAULT_VALUE = 1
-    private val RIGHT_DEFAULT_VALUE = 1
-    private val MIN_VALUE = 1
-    private val MAX_VALUE = 100
+    companion object {
+        private const val TAG = "GrinderAdjustViewModel"
+        private const val LEFT_GRINDER_VALUE = "left_grinder_value"
+        private const val RIGHT_GRINDER_VALUE = "right_grinder_value"
+        private const val LEFT_DEFAULT_VALUE = 1
+        private const val RIGHT_DEFAULT_VALUE = 1
+        private const val MIN_VALUE = 1
+        private const val MAX_VALUE = 100
+    }
 
     private val _leftGrinderValue = MutableStateFlow(0)
     val leftGrinderValue = _leftGrinderValue

@@ -26,11 +26,12 @@ class MachineTestOutputViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-
-    private val TAG = "MachineTestOutputViewModel"
-    private val MACHINE_TEST_STEP = "machine_test_step"
-    private val MACHINE_TEST_SPEED = "machine_test_speed"
-    private val MACHINE_TEST_CURRENT = "machine_test_current"
+    companion object {
+        private const val TAG = "MachineTestOutputViewModel"
+        private const val MACHINE_TEST_STEP = "machine_test_step"
+        private const val MACHINE_TEST_SPEED = "machine_test_speed"
+        private const val MACHINE_TEST_CURRENT = "machine_test_current"
+    }
 
     private val _step = MutableStateFlow(0)
     val step = _step

@@ -45,10 +45,12 @@ class HomeViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
-    private val TAG = "HomeViewModel"
-    private val TEMPERATURE_UNIT = "temperature_unit"
-    private val SHOW_EXTRACTION_TIME = "show_extraction_time"
-    private val BACK_TO_FIRST_PAGE = "back_to_first_page"
+    companion object {
+        private const val TAG = "HomeViewModel"
+        private const val TEMPERATURE_UNIT = "temperature_unit"
+        private const val SHOW_EXTRACTION_TIME = "show_extraction_time"
+        private const val BACK_TO_FIRST_PAGE = "back_to_first_page"
+    }
 
     val formulaList: StateFlow<List<Formula>> = repository.getAllFormulas()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
