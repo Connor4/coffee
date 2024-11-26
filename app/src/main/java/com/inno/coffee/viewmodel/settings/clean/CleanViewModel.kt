@@ -2,9 +2,19 @@ package com.inno.coffee.viewmodel.settings.clean
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.utilities.CLEAN_MILK_WEEKEND_CLEAN_MODE
+import com.inno.coffee.utilities.CLEAN_MODE
+import com.inno.coffee.utilities.CLEAN_PERIOD_TIME
+import com.inno.coffee.utilities.CLEAN_SET_TIME
+import com.inno.coffee.utilities.CLEAN_STANDBY_AFTER_CLEANING
+import com.inno.coffee.utilities.CLEAN_STANDBY_BUTTON
+import com.inno.coffee.utilities.CLEAN_TIME_TOLERANCE
+import com.inno.coffee.utilities.CLEAN_WEEKEND_CLEAN_MODE
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -12,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CleanViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     companion object {
         private const val TAG = "CleanViewModel"
@@ -36,7 +47,7 @@ class CleanViewModel @Inject constructor(
     val timeTolerance = _timeTolerance
     private val _weekendCleanMode = MutableStateFlow(0)
     val weekendCleanMode = _weekendCleanMode
-    private val _milkWeekendCleanMode = MutableStateFlow(0)
+    private val _milkWeekendCleanMode = MutableStateFlow(false)
     val milkWeekendCleanMode = _milkWeekendCleanMode
     private val _afterCleaning = MutableStateFlow(false)
     val afterCleaning = _afterCleaning
@@ -46,13 +57,14 @@ class CleanViewModel @Inject constructor(
     private val _switchValue = MutableStateFlow(0)
 
     fun init() {
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _mode.value = dataStore.getCoffeePreference(MODE, 0)
             _cleanPeriod.value = dataStore.getCoffeePreference(CLEAN_PERIOD, 0)
             _cleanTime.value = dataStore.getCoffeePreference(CLEAN_TIME, "")
-            _timeTolerance.value = dataStore.getCoffeePreference(TIME_TOLERANCE, 0)
+            _timeTolerance.value = dataStore.getCoffeePreference(TIME_TOLERANCE, 1)
             _weekendCleanMode.value = dataStore.getCoffeePreference(WEEKEND_CLEAN_MODE, 0)
-            _milkWeekendCleanMode.value = dataStore.getCoffeePreference(MILK_WEEKEND_CLEAN_MODE, 0)
+            _milkWeekendCleanMode.value = dataStore.getCoffeePreference(MILK_WEEKEND_CLEAN_MODE,
+                false)
             _afterCleaning.value = dataStore.getCoffeePreference(AFTER_CLEANING, false)
             _standbyButton.value = dataStore.getCoffeePreference(STANDBY_BUTTON, false)
 
@@ -70,6 +82,45 @@ class CleanViewModel @Inject constructor(
                 "${_switchValue.value}")
         viewModelScope.launch {
             dataStore.saveCoffeePreference(SWITCH_VALUE, _switchValue.value)
+        }
+    }
+
+    fun setCleanValue(key: Int, value: Any) {
+        viewModelScope.launch(defaultDispatcher) {
+            when (key) {
+                CLEAN_MODE -> {
+                    dataStore.saveCoffeePreference(MODE, value as Int)
+                    _mode.value = value
+                }
+                CLEAN_PERIOD_TIME -> {
+                    dataStore.saveCoffeePreference(CLEAN_PERIOD, value as Int)
+                    _cleanPeriod.value = value
+                }
+                CLEAN_SET_TIME -> {
+                    dataStore.saveCoffeePreference(CLEAN_TIME, value as Int)
+                    _cleanPeriod.value = value
+                }
+                CLEAN_TIME_TOLERANCE -> {
+                    dataStore.saveCoffeePreference(TIME_TOLERANCE, value as Int)
+                    _timeTolerance.value = value
+                }
+                CLEAN_WEEKEND_CLEAN_MODE -> {
+                    dataStore.saveCoffeePreference(WEEKEND_CLEAN_MODE, value as Int)
+                    _weekendCleanMode.value = value
+                }
+                CLEAN_MILK_WEEKEND_CLEAN_MODE -> {
+                    dataStore.saveCoffeePreference(MILK_WEEKEND_CLEAN_MODE, value as Boolean)
+                    _milkWeekendCleanMode.value = value
+                }
+                CLEAN_STANDBY_AFTER_CLEANING -> {
+                    dataStore.saveCoffeePreference(AFTER_CLEANING, value as Boolean)
+                    _afterCleaning.value = value
+                }
+                CLEAN_STANDBY_BUTTON -> {
+                    dataStore.saveCoffeePreference(STANDBY_BUTTON, value as Boolean)
+                    _standbyButton.value = value
+                }
+            }
         }
     }
 

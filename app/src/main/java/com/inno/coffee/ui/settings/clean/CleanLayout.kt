@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +39,7 @@ import com.inno.coffee.utilities.CLEAN_MODE
 import com.inno.coffee.utilities.CLEAN_MODE_AUTO
 import com.inno.coffee.utilities.CLEAN_MODE_MANUAL
 import com.inno.coffee.utilities.CLEAN_MODE_PERIOD
+import com.inno.coffee.utilities.CLEAN_PERIOD_TIME
 import com.inno.coffee.utilities.CLEAN_SET_TIME
 import com.inno.coffee.utilities.CLEAN_STANDBY_AFTER_CLEANING
 import com.inno.coffee.utilities.CLEAN_STANDBY_BUTTON
@@ -66,14 +68,14 @@ fun CleanLayout(
     val scrollUnit = remember { mutableStateOf("") }
     val scrollAccuracy = remember { mutableStateOf(1) }
 
-    val mode = 1
-    val cleanPeriod = 1f
-    val cleanTime = 1f
-    val timeTolerance = 1f
-    val weekendCleanMode = 1
-    val milkWeekendCleanMode = true
-    val afterCleaning = false
-    val standbyButton = false
+    val mode = viewModel.mode.collectAsState()
+    val cleanPeriod = viewModel.cleanPeriod.collectAsState()
+    val cleanTime = viewModel.cleanTime.collectAsState()
+    val timeTolerance = viewModel.timeTolerance.collectAsState()
+    val weekendCleanMode = viewModel.weekendCleanMode.collectAsState()
+    val milkWeekendCleanMode = viewModel.milkWeekendCleanMode.collectAsState()
+    val afterCleaning = viewModel.afterCleaning.collectAsState()
+    val standbyButton = viewModel.standbyButton.collectAsState()
 
     val modeTitle = stringResource(R.string.clean_mode)
     val weekendTitle = stringResource(R.string.clean_weekend_clean_mode)
@@ -89,7 +91,7 @@ fun CleanLayout(
     val weekendString1 = stringResource(R.string.clean_no_sat_sun)
     val weekendString2 = stringResource(R.string.clean_no_fri_sat)
 
-    val modeValue = when (mode) {
+    val modeValue = when (mode.value) {
         CLEAN_MODE_PERIOD -> {
             modeString1
         }
@@ -103,7 +105,7 @@ fun CleanLayout(
             ""
         }
     }
-    val weekendValue = when (weekendCleanMode) {
+    val weekendValue = when (weekendCleanMode.value) {
         CLEAN_WEEKEND_OFF -> {
             off
         }
@@ -117,17 +119,17 @@ fun CleanLayout(
             ""
         }
     }
-    val milkValue = if (milkWeekendCleanMode) {
+    val milkValue = if (milkWeekendCleanMode.value) {
         on
     } else {
         off
     }
-    val afterValue = if (afterCleaning) {
+    val afterValue = if (afterCleaning.value) {
         on
     } else {
         off
     }
-    val buttonValue = if (standbyButton) {
+    val buttonValue = if (standbyButton.value) {
         on
     } else {
         off
@@ -188,29 +190,30 @@ fun CleanLayout(
                     )
                 )
             }
-            if (mode == CLEAN_MODE_PERIOD) {
+            if (mode.value == CLEAN_MODE_PERIOD) {
                 DisplayItemLayout(key = stringResource(R.string.clean_cleaning_period),
-                    value = "$cleanPeriod", backgroundColor = Color(0xFF2A2B2D), unit = "[h]"
+                    value = "${cleanPeriod.value}", backgroundColor = Color(0xFF2A2B2D),
+                    unit = "[h]"
                 ) {
-                    itemSelectIndex.value = CLEAN_MODE
-                    scrollDefaultValue.value = cleanTime
+                    itemSelectIndex.value = CLEAN_PERIOD_TIME
+                    scrollDefaultValue.value = cleanPeriod.value.toFloat()
                     scrollRangeStart.value = 1f
                     scrollRangeEnd.value = 26f
                     scrollUnit.value = "[h]"
                 }
             } else {
                 DisplayItemLayout(stringResource(R.string.clean_cleaning_time),
-                    "$cleanTime",
+                    "${cleanTime.value}",
                     Color(0xFF2A2B2D)
                 ) {
                     itemSelectIndex.value = CLEAN_SET_TIME
                 }
             }
             DisplayItemLayout(stringResource(R.string.clean_time_tolerance),
-                "$timeTolerance", Color(0xFF191A1D), "[h]"
+                "${timeTolerance.value}", Color(0xFF191A1D), "[h]"
             ) {
                 itemSelectIndex.value = CLEAN_TIME_TOLERANCE
-                scrollDefaultValue.value = timeTolerance
+                scrollDefaultValue.value = timeTolerance.value.toFloat()
                 scrollRangeStart.value = 1f
                 scrollRangeEnd.value = 5f
                 scrollUnit.value = "[h]"
@@ -276,7 +279,7 @@ fun CleanLayout(
         }
         if (itemSelectIndex.value != INVALID_INT) {
             when (itemSelectIndex.value) {
-                CLEAN_TIME_TOLERANCE -> {
+                CLEAN_TIME_TOLERANCE, CLEAN_PERIOD_TIME -> {
                     key(scrollDefaultValue.value) {
                         UnitValueScrollBar(
                             modifier = Modifier
@@ -290,6 +293,7 @@ fun CleanLayout(
                             unit = scrollUnit.value,
                             accuracy = scrollAccuracy.value
                         ) { changeValue ->
+                            viewModel.setCleanValue(itemSelectIndex.value, changeValue.toInt())
                         }
                     }
                 }
@@ -310,6 +314,7 @@ fun CleanLayout(
                 else -> {
                     ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
                         { _, value ->
+                            viewModel.setCleanValue(itemSelectIndex.value, value)
                             itemSelectIndex.value = INVALID_INT
                         }, {
                             itemSelectIndex.value = INVALID_INT
