@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +30,21 @@ import com.inno.coffee.utilities.nsp
 fun StandbyOnOffTimeLayout(
     onCloseClick: () -> Unit = {},
 ) {
+    val mondayStart = "08:00"
+    val mondayEnd = "18:00"
+    val tuesdayStart = "08:00"
+    val tuesdayEnd = "18:00"
+    val wednesdayStart = "08:00"
+    val wednesdayEnd = "18:00"
+    val thursdayStart = "08:00"
+    val thursdayEnd = "18:00"
+    val fridayStart = "08:00"
+    val fridayEnd = "18:00"
+    val saturdayStart = "08:00"
+    val saturdayEnd = "18:00"
+    val sundayStart = "08:00"
+    val sundayEnd = "18:00"
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -50,22 +66,70 @@ fun StandbyOnOffTimeLayout(
                 .fastclick { onCloseClick() },
             contentDescription = null
         )
+
+        Column(
+            modifier = Modifier
+                .padding(top = 265.dp)
+                .align(Alignment.TopCenter),
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(start = 348.dp, bottom = 4.dp)
+                    .width(800.dp)
+                    .height(40.dp)
+                    .background(Color(0xFF2A2B2D)),
+            ) {
+                Text(text = stringResource(R.string.clean_switch_on), color = Color.White,
+                    fontSize = 6.nsp(),
+                    modifier = Modifier.padding(start = 140.dp, top = 5.dp))
+                Text(text = stringResource(R.string.clean_switch_off), color = Color.White,
+                    fontSize = 6.nsp(),
+                    modifier = Modifier.padding(start = 471.dp, top = 5.dp))
+            }
+            StandbyOnOffTimeItem(stringResource(R.string.clean_monday), false, mondayStart,
+                mondayEnd, {}, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_tuesday), true, tuesdayStart,
+                tuesdayEnd,
+                {}, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_wednesday), false, wednesdayStart,
+                wednesdayEnd,
+                {}, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_thursday), false, thursdayStart,
+                thursdayEnd,
+                {}, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_friday), true, fridayStart,
+                fridayEnd, {}, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_saturday), true, saturdayStart,
+                saturdayEnd, {}, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_sunday), true, sundayStart,
+                sundayEnd, {},
+                {}, {})
+        }
+
     }
 
 }
 
 @Composable
 private fun StandbyOnOffTimeItem(
-    day: String = "Monday",
-    isOn: Boolean = false,
-    onToggle: (Boolean) -> Unit,
+    day: String,
+    isOn: Boolean,
+    startTime: String,
+    endTime: String,
+    onToggle: (Boolean) -> Unit = {},
+    onClickStart: () -> Unit = {},
+    onClickEnd: () -> Unit = {},
 ) {
-    Row {
+    val textColor = if (isOn) Color.White else Color(0xFF3E3F44)
+
+    Row(
+        modifier = Modifier.padding(bottom = 4.dp)
+    ) {
         Text(text = day, color = Color.White, fontSize = 6.nsp(),
             modifier = Modifier
                 .width(200.dp)
                 .height(40.dp)
-                .background(Color(0xFF2A2B2D))
+                .background(Color(0xFF191A1D))
                 .padding(start = 26.dp, top = 5.dp)
         )
         Spacer(modifier = Modifier.width(14.dp))
@@ -74,6 +138,22 @@ private fun StandbyOnOffTimeItem(
         }
         Spacer(modifier = Modifier.width(14.dp))
 
+        Text(text = startTime, color = textColor, fontSize = 6.nsp(),
+            modifier = Modifier
+                .width(400.dp)
+                .height(40.dp)
+                .background(Color(0xFF191A1D))
+                .padding(start = 140.dp, top = 5.dp)
+                .fastclick { onClickStart() }
+        )
+        Text(text = endTime, color = textColor, fontSize = 6.nsp(),
+            modifier = Modifier
+                .width(400.dp)
+                .height(40.dp)
+                .background(Color(0xFF191A1D))
+                .padding(start = 70.dp, top = 5.dp)
+                .fastclick { onClickEnd() }
+        )
     }
 }
 
@@ -82,5 +162,4 @@ private fun StandbyOnOffTimeItem(
 @Composable
 private fun PreviewStandbyOnOffTime() {
     StandbyOnOffTimeLayout()
-    StandbyOnOffTimeItem() {}
 }

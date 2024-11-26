@@ -573,5 +573,15 @@
     <string name="clean_specified_time_manual">Specified Time(Manual Cleaning)</string>
     <string name="clean_no_sat_sun">No Cleaning at Sat &amp; Sun</string>
     <string name="clean_no_fri_sat">No Cleaning at Friday &amp; Sat</string>
+    <string name="clean_switch_on">Switch-on Time</string>
+    <string name="clean_switch_off">Switch-off Time</string>
+    <string name="clean_monday">Monday</string>
+    <string name="clean_tuesday">Tuesday</string>
+    <string name="clean_wednesday">Wednesday</string>
+    <string name="clean_thursday">Thursday</string>
+    <string name="clean_friday">Friday</string>
+    <string name="clean_saturday">Saturday</string>
+    <string name="clean_sunday">Sunday</string>
+
 
 </resources>

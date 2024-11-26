@@ -515,5 +515,14 @@
     <string name="statistic_cycles_rinse_right">右侧冲洗次数:</string>
     <string name="statistic_milk_cycles_left">左侧打奶次数:</string>
     <string name="statistic_milk_cycles_right">右侧打奶次数:</string>
+    <string name="clean_switch_on">开机时间</string>
+    <string name="clean_switch_off">关机时间</string>
+    <string name="clean_monday">星期一</string>
+    <string name="clean_tuesday">星期二</string>
+    <string name="clean_wednesday">星期三</string>
+    <string name="clean_thursday">星期四</string>
+    <string name="clean_friday">星期五</string>
+    <string name="clean_saturday">星期六</string>
+    <string name="clean_sunday">星期日</string>
 
 </resources>
