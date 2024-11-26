@@ -2,6 +2,7 @@ package com.inno.coffee.ui.settings.display.groupone
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -60,6 +61,7 @@ fun DisplaySettingTimeLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xED000000))
+            .clickable(enabled = false) { },
     ) {
         Text(
             text = stringResource(id = R.string.first_install_select_time),
