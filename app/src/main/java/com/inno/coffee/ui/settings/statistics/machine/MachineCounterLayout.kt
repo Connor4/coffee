@@ -80,15 +80,14 @@ fun MachineCounterLayout(
             CounterItem(R.string.statistic_total_water_rinse, value = 0f, unit = "[L]",
                 color = Color(0xFF191A1D))
             CounterItem(R.string.statistic_total_water_cleaning, value = 0f, unit = "[L]")
-            CounterItem(R.string.statistic_total_coffee_bean_quantity, value = 0f, unit = "[L]",
+            CounterItem(R.string.statistic_total_coffee_bean_quantity, value = 0f, unit = "[kg]",
                 color = Color(0xFF191A1D))
-            CounterItem(R.string.statistic_total_coffee_beans_rear, value = 0f, unit = "[L]")
-            CounterItem(R.string.statistic_total_coffee_beans_front, value = 0f, unit = "[L]",
+            CounterItem(R.string.statistic_total_coffee_beans_rear, value = 0f, unit = "[kg]")
+            CounterItem(R.string.statistic_total_coffee_beans_front, value = 0f, unit = "[kg]",
                 color = Color(0xFF191A1D))
-            CounterItem(R.string.statistic_total_coffee_powder_chute, value = 0f, unit = "[L]")
+            CounterItem(R.string.statistic_total_coffee_powder_chute, value = 0f, unit = "[kg]")
 
-            CounterItem(R.string.statistic_cleaning_counter, value = 0f, unit = "h",
-                color = Color(0xFF191A1D))
+            CounterItem(R.string.statistic_cleaning_counter, value = 0f, color = Color(0xFF191A1D))
             CounterItem(R.string.statistic_time_hot_water, value = 0f, unit = "h")
             CounterItem(R.string.statistic_time_steam_left, value = 0f, unit = "h",
                 color = Color(0xFF191A1D))
