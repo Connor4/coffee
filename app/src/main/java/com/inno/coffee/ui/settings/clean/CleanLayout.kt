@@ -76,6 +76,7 @@ fun CleanLayout(
     val milkWeekendCleanMode = viewModel.milkWeekendCleanMode.collectAsState()
     val afterCleaning = viewModel.afterCleaning.collectAsState()
     val standbyButton = viewModel.standbyButton.collectAsState()
+    val switchValue = viewModel.switchValue.collectAsState()
 
     val modeTitle = stringResource(R.string.clean_mode)
     val weekendTitle = stringResource(R.string.clean_weekend_clean_mode)
@@ -130,6 +131,11 @@ fun CleanLayout(
         off
     }
     val buttonValue = if (standbyButton.value) {
+        on
+    } else {
+        off
+    }
+    val showSwitchValue = if (switchValue.value != 0) {
         on
     } else {
         off
@@ -259,7 +265,7 @@ fun CleanLayout(
                 )
             }
             DisplayItemLayout(stringResource(R.string.clean_standby_time_settings),
-                "2", Color(0xFF191A1D)
+                showSwitchValue, Color(0xFF191A1D)
             ) {
                 itemSelectIndex.value = CLEAN_STANDBY_ON_OFF_TIME
             }

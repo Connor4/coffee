@@ -55,6 +55,7 @@ class CleanViewModel @Inject constructor(
     val standbyButton = _standbyButton
 
     private val _switchValue = MutableStateFlow(0)
+    val switchValue = _switchValue
 
     fun init() {
         viewModelScope.launch(defaultDispatcher) {
