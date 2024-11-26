@@ -368,6 +368,7 @@ class CoffeeDatePickerView @JvmOverloads constructor(
                         Logger.d(TAG,
                             "onPageSelected month $monthForPosition year $yearForPosition")
                         displayDate.set(yearForPosition, monthForPosition, 1)
+                        updateYearPickerViewYear(yearForPosition)
                         updateDate()
                     }
                     method.invoke(originalListener, *(args ?: emptyArray()))
