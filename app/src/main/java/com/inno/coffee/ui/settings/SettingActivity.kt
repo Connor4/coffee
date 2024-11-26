@@ -16,14 +16,10 @@ class SettingActivity : CoffeeActivity() {
             CoffeeTheme {
                 MachineSettingLayout() {
                     this@SettingActivity.finish()
+                    UserSessionManager.clearUser()
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        UserSessionManager.clearUser()
     }
 
 }

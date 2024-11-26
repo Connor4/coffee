@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger
 object UserSessionManager {
     private const val TAG = "UserSessionManager"
     private var loginUser: User? = null
+    // because we have two screens, so we have to count for twice
     private val loginCount: AtomicInteger = AtomicInteger(0)
 
     fun setUser(user: User) {
