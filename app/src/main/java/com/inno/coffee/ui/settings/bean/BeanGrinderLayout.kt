@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings.bean
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -91,6 +92,7 @@ fun BeanGrinderLayout(
     val etcRearString = stringResource(R.string.bean_extraction_time_control_rear)
     val rearNameString = stringResource(R.string.bean_hopper_rear_name)
     val frontNameString = stringResource(R.string.bean_hopper_front_name)
+    val emptyNoticeString = stringResource(R.string.statistic_clean_enter_description)
 
     val pqcValue = if (pqc.value) on else off
     val etcRearValue = if (etcRear.value) on else off
@@ -315,8 +317,13 @@ fun BeanGrinderLayout(
                         tips = stringResource(R.string.statistic_maintenance_enter_description),
 
                         onEnterClick = { description ->
-                            viewModel.saveBeanGrinderValue(itemSelectIndex.value, description)
-                            itemSelectIndex.value = INVALID_INT
+                            if (description.isEmpty()) {
+                                Toast.makeText(context, emptyNoticeString, Toast.LENGTH_SHORT)
+                                    .show()
+                            } else {
+                                viewModel.saveBeanGrinderValue(itemSelectIndex.value, description)
+                                itemSelectIndex.value = INVALID_INT
+                            }
                         },
                         onCloseClick = {
                             itemSelectIndex.value = INVALID_INT
