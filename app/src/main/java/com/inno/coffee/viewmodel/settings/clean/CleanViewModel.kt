@@ -39,11 +39,11 @@ class CleanViewModel @Inject constructor(
 
     private val _mode = MutableStateFlow(0)
     val mode = _mode
-    private val _cleanPeriod = MutableStateFlow(0)
+    private val _cleanPeriod = MutableStateFlow(1)
     val cleanPeriod = _cleanPeriod
     private val _cleanTime = MutableStateFlow("")
     val cleanTime = _cleanTime
-    private val _timeTolerance = MutableStateFlow(0)
+    private val _timeTolerance = MutableStateFlow(1)
     val timeTolerance = _timeTolerance
     private val _weekendCleanMode = MutableStateFlow(0)
     val weekendCleanMode = _weekendCleanMode
@@ -59,7 +59,7 @@ class CleanViewModel @Inject constructor(
     fun init() {
         viewModelScope.launch(defaultDispatcher) {
             _mode.value = dataStore.getCoffeePreference(MODE, 0)
-            _cleanPeriod.value = dataStore.getCoffeePreference(CLEAN_PERIOD, 0)
+            _cleanPeriod.value = dataStore.getCoffeePreference(CLEAN_PERIOD, 1)
             _cleanTime.value = dataStore.getCoffeePreference(CLEAN_TIME, "")
             _timeTolerance.value = dataStore.getCoffeePreference(TIME_TOLERANCE, 1)
             _weekendCleanMode.value = dataStore.getCoffeePreference(WEEKEND_CLEAN_MODE, 0)
