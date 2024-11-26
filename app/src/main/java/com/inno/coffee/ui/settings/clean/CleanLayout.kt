@@ -152,9 +152,9 @@ fun CleanLayout(
 
         ChangeColorButton(
             modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 172.dp, end = 95.dp)
-                .width(220.dp)
+                .align(Alignment.TopCenter)
+                .padding(top = 692.dp)
+                .width(250.dp)
                 .height(50.dp),
             text = stringResource(id = R.string.clean_reset_next_clean_date)
         ) {
