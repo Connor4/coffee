@@ -32,17 +32,19 @@ class MachineConfigViewModel @Inject constructor(
     private val coffeeDataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
-    private val TAG = "MachineConfigViewModel"
-    private val LOW_POWER_MODE = "low_power_mode"
-    private val MACHINE_TYPE = "machine_type"
-    private val TEMPERATURE_UNIT = "temperature_unit"
-    private val OPERATION_MODE = "operation_mode"
-    private val SMART_MODE = "smart_mode"
-    private val WATER_TANK_SURVEILLANCE = "water_tank_surveillance"
-    private val DIFFERENT_BOILER = "different_boiler"
-    private val AMERICANO_TEMP_ADJUST = "americano_temp_adjust"
-    private val HOT_WATER_OUTPUT = "hot_water_output"
-    private val STEAM_WAND_POSITION = "steam_wand_position"
+    companion object {
+        private const val TAG = "MachineConfigViewModel"
+        private const val LOW_POWER_MODE = "low_power_mode"
+        private const val MACHINE_TYPE = "machine_type"
+        private const val TEMPERATURE_UNIT = "temperature_unit"
+        private const val OPERATION_MODE = "operation_mode"
+        private const val SMART_MODE = "smart_mode"
+        private const val WATER_TANK_SURVEILLANCE = "water_tank_surveillance"
+        private const val DIFFERENT_BOILER = "different_boiler"
+        private const val AMERICANO_TEMP_ADJUST = "americano_temp_adjust"
+        private const val HOT_WATER_OUTPUT = "hot_water_output"
+        private const val STEAM_WAND_POSITION = "steam_wand_position"
+    }
 
     private val _lowPower = MutableStateFlow(false)
     val lowPower: StateFlow<Boolean> = _lowPower

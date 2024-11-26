@@ -25,13 +25,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.SwitchButton
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.clean.CleanViewModel
 
 @Composable
 fun StandbyOnOffTimeLayout(
+    viewModel: CleanViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val mondayStart = "08:00"
@@ -90,24 +93,20 @@ fun StandbyOnOffTimeLayout(
                     fontSize = 6.nsp(),
                     modifier = Modifier.padding(start = 471.dp, top = 5.dp))
             }
-            StandbyOnOffTimeItem(stringResource(R.string.clean_monday), false, mondayStart,
-                mondayEnd, {}, {}, {})
-            StandbyOnOffTimeItem(stringResource(R.string.clean_tuesday), true, tuesdayStart,
-                tuesdayEnd,
-                {}, {}, {})
-            StandbyOnOffTimeItem(stringResource(R.string.clean_wednesday), false, wednesdayStart,
-                wednesdayEnd,
-                {}, {}, {})
-            StandbyOnOffTimeItem(stringResource(R.string.clean_thursday), false, thursdayStart,
-                thursdayEnd,
-                {}, {}, {})
-            StandbyOnOffTimeItem(stringResource(R.string.clean_friday), true, fridayStart,
-                fridayEnd, {}, {}, {})
-            StandbyOnOffTimeItem(stringResource(R.string.clean_saturday), true, saturdayStart,
-                saturdayEnd, {}, {}, {})
-            StandbyOnOffTimeItem(stringResource(R.string.clean_sunday), true, sundayStart,
-                sundayEnd, {},
-                {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_monday), viewModel.isFlagSet(0),
+                mondayStart, mondayEnd, { viewModel.setFlag(0, it) }, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_tuesday), viewModel.isFlagSet(1),
+                tuesdayStart, tuesdayEnd, { viewModel.setFlag(1, it) }, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_wednesday), viewModel.isFlagSet(2),
+                wednesdayStart, wednesdayEnd, { viewModel.setFlag(2, it) }, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_thursday), viewModel.isFlagSet(3),
+                thursdayStart, thursdayEnd, { viewModel.setFlag(3, it) }, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_friday), viewModel.isFlagSet(4),
+                fridayStart, fridayEnd, { viewModel.setFlag(4, it) }, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_saturday), viewModel.isFlagSet(5),
+                saturdayStart, saturdayEnd, { viewModel.setFlag(5, it) }, {}, {})
+            StandbyOnOffTimeItem(stringResource(R.string.clean_sunday), viewModel.isFlagSet(6),
+                sundayStart, sundayEnd, { viewModel.setFlag(6, it) }, {}, {})
         }
 
     }
@@ -158,7 +157,7 @@ private fun StandbyOnOffTimeItem(
                 .height(40.dp)
                 .background(Color(0xFF191A1D))
                 .padding(start = 70.dp, top = 5.dp)
-                .fastclick(enabled = state) { onClickStart() }
+                .fastclick(enabled = state) { onClickEnd() }
         )
     }
 }

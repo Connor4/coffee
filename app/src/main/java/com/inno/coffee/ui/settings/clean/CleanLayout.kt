@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.ListSelectLayout
@@ -47,9 +49,11 @@ import com.inno.coffee.utilities.CLEAN_WEEKEND_NO_SAT_SUN
 import com.inno.coffee.utilities.CLEAN_WEEKEND_OFF
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.clean.CleanViewModel
 
 @Composable
 fun CleanLayout(
+    viewModel: CleanViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
@@ -129,6 +133,10 @@ fun CleanLayout(
         off
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.init()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -154,7 +162,7 @@ fun CleanLayout(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 692.dp)
-                .width(250.dp)
+                .width(254.dp)
                 .height(50.dp),
             text = stringResource(id = R.string.clean_reset_next_clean_date)
         ) {
@@ -295,7 +303,7 @@ fun CleanLayout(
                     })
                 }
                 CLEAN_STANDBY_ON_OFF_TIME -> {
-                    StandbyOnOffTimeLayout {
+                    StandbyOnOffTimeLayout(viewModel) {
                         itemSelectIndex.value = INVALID_INT
                     }
                 }
