@@ -33,6 +33,7 @@ import com.inno.coffee.ui.common.draw9Patch
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.firstinstall.CoffeeTimePickerView
 import com.inno.coffee.utilities.HOUR
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MINUTES
 import com.inno.coffee.utilities.nsp
 import java.util.Calendar
@@ -43,6 +44,8 @@ fun DisplaySettingTimeLayout(
     onTimePick: (Int, Int) -> Unit,
     onCloseClick: () -> Unit = {},
     onCancelClick: () -> Unit,
+    defaultHour: Int = INVALID_INT,
+    defaultMinute: Int = INVALID_INT,
 ) {
     val selectHour = remember {
         mutableStateOf(true)
@@ -176,30 +179,34 @@ fun DisplaySettingTimeLayout(
                         onValueSelected = { pickerType, newValue, autoAdvance ->
                             when (pickerType) {
                                 HOUR -> {
-                                    hour.value = String.format(Locale.getDefault(), "%02d",
-                                        newValue)
+                                    hour.value = formatTime(newValue)
                                     if (autoAdvance) {
                                         selectHour.value = false
                                         timePickerViewRef.value?.setShowType(MINUTES)
                                     }
                                 }
                                 MINUTES -> {
-                                    minutes.value = String.format(Locale.getDefault(), "%02d",
-                                        newValue)
+                                    minutes.value = formatTime(newValue)
                                 }
                             }
                         }
                         timePickerViewRef.value = this
+                        if (defaultHour != INVALID_INT) {
+                            setCurrentHour(defaultHour)
+                        }
+                        if (defaultMinute != INVALID_INT) {
+                            setCurrentMinute(defaultMinute)
+                        }
                     }
                 },
                 update = {
                     val calendar = Calendar.getInstance(Locale.getDefault())
-                    val currentHour = calendar[Calendar.HOUR_OF_DAY]
-                    val currentMinute = calendar[Calendar.MINUTE]
-                    hour.value = String.format(Locale.getDefault(), "%02d",
-                        currentHour)
-                    minutes.value = String.format(Locale.getDefault(), "%02d",
-                        currentMinute)
+                    val currentHour =
+                        if (defaultHour != INVALID_INT) defaultHour else calendar[Calendar.HOUR_OF_DAY]
+                    val currentMinute =
+                        if (defaultMinute != INVALID_INT) defaultMinute else calendar[Calendar.MINUTE]
+                    hour.value = formatTime(currentHour)
+                    minutes.value = formatTime(currentMinute)
                 }
             )
         }
@@ -225,6 +232,8 @@ fun DisplaySettingTimeLayout(
         }
     }
 }
+
+private fun formatTime(newValue: Int?) = String.format(Locale.getDefault(), "%02d", newValue)
 
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable

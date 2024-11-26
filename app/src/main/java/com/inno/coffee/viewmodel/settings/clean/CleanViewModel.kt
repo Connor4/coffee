@@ -6,7 +6,6 @@ import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.utilities.CLEAN_MILK_WEEKEND_CLEAN_MODE
 import com.inno.coffee.utilities.CLEAN_MODE
 import com.inno.coffee.utilities.CLEAN_PERIOD_TIME
-import com.inno.coffee.utilities.CLEAN_SET_TIME
 import com.inno.coffee.utilities.CLEAN_STANDBY_AFTER_CLEANING
 import com.inno.coffee.utilities.CLEAN_STANDBY_BUTTON
 import com.inno.coffee.utilities.CLEAN_TIME_TOLERANCE
@@ -88,17 +87,12 @@ class CleanViewModel @Inject constructor(
         }
     }
 
-    fun encodeTime(hour: Int, minute: Int): Int {
-        if (hour in 0..23 || minute in 0..59) {
-            return (hour shl 8) or minute
+    fun saveCleanTime(hour: Int, minute: Int) {
+        _cleanTime.value = String.format("%02d:%02d", hour, minute)
+        viewModelScope.launch {
+            val timeValue = encodeTime(hour, minute)
+            dataStore.saveCoffeePreference(CLEAN_TIME, timeValue)
         }
-        return (0 shl 8) or 0
-    }
-
-    private fun decodeTime(timeValue: Int): Pair<Int, Int> {
-        val hour = (timeValue shr 8) and 0xFF
-        val minute = timeValue and 0xFF
-        return Pair(hour, minute)
     }
 
     fun setCleanValue(key: Int, value: Any) {
@@ -111,11 +105,6 @@ class CleanViewModel @Inject constructor(
                 CLEAN_PERIOD_TIME -> {
                     dataStore.saveCoffeePreference(CLEAN_PERIOD, value as Int)
                     _cleanPeriod.value = value
-                }
-                CLEAN_SET_TIME -> {
-                    dataStore.saveCoffeePreference(CLEAN_TIME, value as Int)
-                    val (hour, minute) = decodeTime(value)
-                    _cleanTime.value = String.format("%02d:%02d", hour, minute)
                 }
                 CLEAN_TIME_TOLERANCE -> {
                     dataStore.saveCoffeePreference(TIME_TOLERANCE, value as Int)
@@ -139,6 +128,19 @@ class CleanViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun encodeTime(hour: Int, minute: Int): Int {
+        if (hour in 0..23 || minute in 0..59) {
+            return (hour shl 8) or minute
+        }
+        return 0
+    }
+
+    private fun decodeTime(timeValue: Int): Pair<Int, Int> {
+        val hour = (timeValue shr 8) and 0xFF
+        val minute = timeValue and 0xFF
+        return Pair(hour, minute)
     }
 
 }

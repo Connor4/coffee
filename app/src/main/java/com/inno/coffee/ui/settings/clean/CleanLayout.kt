@@ -304,15 +304,19 @@ fun CleanLayout(
                     }
                 }
                 CLEAN_SET_TIME -> {
-                    DisplaySettingTimeLayout({ hour, min ->
-                        val time = viewModel.encodeTime(hour, min)
-                        viewModel.setCleanValue(itemSelectIndex.value, time)
-                        itemSelectIndex.value = INVALID_INT
-                    }, {
-                        itemSelectIndex.value = INVALID_INT
-                    }, {
-                        itemSelectIndex.value = INVALID_INT
-                    })
+                    DisplaySettingTimeLayout(
+                        { hour, min ->
+                            viewModel.saveCleanTime(hour, min)
+                            itemSelectIndex.value = INVALID_INT
+                        },
+                        {
+                            itemSelectIndex.value = INVALID_INT
+                        },
+                        {
+                            itemSelectIndex.value = INVALID_INT
+                        },
+                        defaultHour = 0, defaultMinute = 0,
+                    )
                 }
                 CLEAN_STANDBY_ON_OFF_TIME -> {
                     StandbyOnOffTimeLayout(viewModel) {

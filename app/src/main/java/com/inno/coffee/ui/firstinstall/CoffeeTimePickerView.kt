@@ -62,9 +62,35 @@ class CoffeeTimePickerView @JvmOverloads constructor(
         }
     }
 
+    fun setCurrentHour(hour: Int) {
+        try {
+            val method =
+                holdingInstance!!::class.java.getDeclaredMethod("setCurrentHour", Int::class.java)
+            method.isAccessible = true
+            method.invoke(holdingInstance, hour)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun setCurrentMinute(minute: Int) {
+        try {
+            val method =
+                holdingInstance!!::class.java.getDeclaredMethod("setCurrentMinute", Int::class.java)
+            method.isAccessible = true
+            method.invoke(holdingInstance, minute)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
     @SuppressLint("PrivateApi")
-    private fun setTimeValueSelectListener(timePickerViewClass: Class<*>, timePickerViewInstance:
-    Any) {
+    private fun setTimeValueSelectListener(
+        timePickerViewClass: Class<*>,
+        timePickerViewInstance:
+        Any,
+    ) {
         try {
             val onValueSelectedListenerClass =
                 Class.forName("android.widget.RadialTimePickerView\$OnValueSelectedListener")
@@ -170,8 +196,12 @@ class CoffeeTimePickerView @JvmOverloads constructor(
         }
     }
 
-    private fun setAttributes(timePickerViewInstance: Any, context: Context, attrs:
-    AttributeSet?, defStyleAttr: Int) {
+    private fun setAttributes(
+        timePickerViewInstance: Any, context: Context,
+        attrs:
+        AttributeSet?,
+        defStyleAttr: Int,
+    ) {
         try {
             val a: TypedArray = context.obtainStyledAttributes(attrs, R.styleable
                 .CoffeeTimePickerView, defStyleAttr, 0)
