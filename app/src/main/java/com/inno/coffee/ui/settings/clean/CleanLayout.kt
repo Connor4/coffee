@@ -30,6 +30,7 @@ import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
+import com.inno.coffee.ui.settings.display.groupone.DisplaySettingTimeLayout
 import com.inno.coffee.utilities.CLEAN_MILK_WEEKEND_CLEAN_MODE
 import com.inno.coffee.utilities.CLEAN_MODE
 import com.inno.coffee.utilities.CLEAN_MODE_AUTO
@@ -66,12 +67,15 @@ fun CleanLayout(
     val cleanTime = 1f
     val timeTolerance = 1f
     val weekendCleanMode = 1
-    val milkWeekendCleanMode = 1f
+    val milkWeekendCleanMode = true
     val afterCleaning = false
     val standbyButton = false
 
     val modeTitle = stringResource(R.string.clean_mode)
     val weekendTitle = stringResource(R.string.clean_weekend_clean_mode)
+    val milkTitle = stringResource(R.string.clean_milk_weekend_clean_mode)
+    val afterTitle = stringResource(R.string.clean_standby_after_cleaning)
+    val buttonTitle = stringResource(R.string.clean_standby_button)
 
     val on = stringResource(R.string.display_value_on)
     val off = stringResource(R.string.display_value_off)
@@ -109,6 +113,21 @@ fun CleanLayout(
             ""
         }
     }
+    val milkValue = if (milkWeekendCleanMode) {
+        on
+    } else {
+        off
+    }
+    val afterValue = if (afterCleaning) {
+        on
+    } else {
+        off
+    }
+    val buttonValue = if (standbyButton) {
+        on
+    } else {
+        off
+    }
 
     Box(
         modifier = Modifier
@@ -133,9 +152,10 @@ fun CleanLayout(
 
         ChangeColorButton(
             modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 172.dp, end = 95.dp)
                 .width(220.dp)
-                .height(50.dp)
-                .padding(top = 172.dp, end = 95.dp),
+                .height(50.dp),
             text = stringResource(id = R.string.clean_reset_next_clean_date)
         ) {
         }
@@ -201,57 +221,94 @@ fun CleanLayout(
                     )
                 )
             }
-            DisplayItemLayout(stringResource(R.string.clean_milk_weekend_clean_mode),
-                "2",
-                Color(0xFF191A1D)
+            DisplayItemLayout(milkTitle, milkValue, Color(0xFF191A1D)
             ) {
                 itemSelectIndex.value = CLEAN_MILK_WEEKEND_CLEAN_MODE
+                titleValue.value = milkTitle
+                defaultValue.value = milkValue
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(on, true),
+                        Pair(off, false)
+                    )
+                )
             }
-            DisplayItemLayout(stringResource(R.string.clean_standby_after_cleaning),
-                "1",
-                Color(0xFF2A2B2D)
+            DisplayItemLayout(afterTitle, afterValue, Color(0xFF2A2B2D)
             ) {
                 itemSelectIndex.value = CLEAN_STANDBY_AFTER_CLEANING
+                titleValue.value = afterTitle
+                defaultValue.value = afterValue
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(on, true),
+                        Pair(off, false)
+                    )
+                )
             }
             DisplayItemLayout(stringResource(R.string.clean_standby_time_settings),
-                "2",
-                Color(0xFF191A1D)
+                "2", Color(0xFF191A1D)
             ) {
                 itemSelectIndex.value = CLEAN_STANDBY_ON_OFF_TIME
             }
-            DisplayItemLayout(stringResource(R.string.clean_standby_button),
-                "1",
-                Color(0xFF2A2B2D)
+            DisplayItemLayout(buttonTitle, buttonValue, Color(0xFF2A2B2D)
             ) {
                 itemSelectIndex.value = CLEAN_STANDBY_BUTTON
+                titleValue.value = buttonTitle
+                defaultValue.value = buttonValue
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(on, true),
+                        Pair(off, false)
+                    )
+                )
             }
         }
         if (itemSelectIndex.value != INVALID_INT) {
-            if (itemSelectIndex.value == CLEAN_TIME_TOLERANCE) {
-                key(scrollDefaultValue.value) {
-                    UnitValueScrollBar(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(top = 172.dp, end = 90.dp)
-                            .width(550.dp)
-                            .wrapContentHeight(),
-                        value = scrollDefaultValue.value,
-                        rangeStart = scrollRangeStart.value,
-                        rangeEnd = scrollRangeEnd.value,
-                        unit = scrollUnit.value,
-                        accuracy = scrollAccuracy.value
-                    ) { changeValue ->
+            when (itemSelectIndex.value) {
+                CLEAN_TIME_TOLERANCE -> {
+                    key(scrollDefaultValue.value) {
+                        UnitValueScrollBar(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(top = 172.dp, end = 335.dp)
+                                .width(550.dp)
+                                .wrapContentHeight(),
+                            value = scrollDefaultValue.value,
+                            rangeStart = scrollRangeStart.value,
+                            rangeEnd = scrollRangeEnd.value,
+                            unit = scrollUnit.value,
+                            accuracy = scrollAccuracy.value
+                        ) { changeValue ->
+                        }
                     }
                 }
-            } else {
-                ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
-                    { _, value ->
+                CLEAN_SET_TIME -> {
+                    DisplaySettingTimeLayout({ hour, min ->
                         itemSelectIndex.value = INVALID_INT
                     }, {
                         itemSelectIndex.value = INVALID_INT
+                    }, {
+                        itemSelectIndex.value = INVALID_INT
+                    })
+                }
+                CLEAN_STANDBY_ON_OFF_TIME -> {
+                    StandbyOnOffTimeLayout {
+                        itemSelectIndex.value = INVALID_INT
                     }
-                )
+                }
+                else -> {
+                    ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
+                        { _, value ->
+                            itemSelectIndex.value = INVALID_INT
+                        }, {
+                            itemSelectIndex.value = INVALID_INT
+                        }
+                    )
 
+                }
             }
         }
     }
