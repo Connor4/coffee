@@ -13,6 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -120,7 +124,8 @@ private fun StandbyOnOffTimeItem(
     onClickStart: () -> Unit = {},
     onClickEnd: () -> Unit = {},
 ) {
-    val textColor = if (isOn) Color.White else Color(0xFF3E3F44)
+    var state by remember { mutableStateOf(isOn) }
+    val textColor = if (state) Color.White else Color(0xFF3E3F44)
 
     Row(
         modifier = Modifier.padding(bottom = 4.dp)
@@ -133,8 +138,9 @@ private fun StandbyOnOffTimeItem(
                 .padding(start = 26.dp, top = 5.dp)
         )
         Spacer(modifier = Modifier.width(14.dp))
-        SwitchButton(isOn) { newState ->
+        SwitchButton(state) { newState ->
             onToggle(newState)
+            state = newState
         }
         Spacer(modifier = Modifier.width(14.dp))
 
@@ -144,7 +150,7 @@ private fun StandbyOnOffTimeItem(
                 .height(40.dp)
                 .background(Color(0xFF191A1D))
                 .padding(start = 140.dp, top = 5.dp)
-                .fastclick { onClickStart() }
+                .fastclick(enabled = state) { onClickStart() }
         )
         Text(text = endTime, color = textColor, fontSize = 6.nsp(),
             modifier = Modifier
@@ -152,7 +158,7 @@ private fun StandbyOnOffTimeItem(
                 .height(40.dp)
                 .background(Color(0xFF191A1D))
                 .padding(start = 70.dp, top = 5.dp)
-                .fastclick { onClickEnd() }
+                .fastclick(enabled = state) { onClickStart() }
         )
     }
 }
