@@ -61,7 +61,9 @@ class CleanViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             _mode.value = dataStore.getCoffeePreference(MODE, 0)
             _cleanPeriod.value = dataStore.getCoffeePreference(CLEAN_PERIOD, 1)
-            _cleanTime.value = dataStore.getCoffeePreference(CLEAN_TIME, "")
+            val time = dataStore.getCoffeePreference(CLEAN_TIME, 0)
+            val (hour, minute) = decodeTime(time)
+            _cleanTime.value = String.format("%02d:%02d", hour, minute)
             _timeTolerance.value = dataStore.getCoffeePreference(TIME_TOLERANCE, 1)
             _weekendCleanMode.value = dataStore.getCoffeePreference(WEEKEND_CLEAN_MODE, 0)
             _milkWeekendCleanMode.value = dataStore.getCoffeePreference(MILK_WEEKEND_CLEAN_MODE,
@@ -86,6 +88,19 @@ class CleanViewModel @Inject constructor(
         }
     }
 
+    fun encodeTime(hour: Int, minute: Int): Int {
+        if (hour in 0..23 || minute in 0..59) {
+            return (hour shl 8) or minute
+        }
+        return (0 shl 8) or 0
+    }
+
+    private fun decodeTime(timeValue: Int): Pair<Int, Int> {
+        val hour = (timeValue shr 8) and 0xFF
+        val minute = timeValue and 0xFF
+        return Pair(hour, minute)
+    }
+
     fun setCleanValue(key: Int, value: Any) {
         viewModelScope.launch(defaultDispatcher) {
             when (key) {
@@ -99,7 +114,8 @@ class CleanViewModel @Inject constructor(
                 }
                 CLEAN_SET_TIME -> {
                     dataStore.saveCoffeePreference(CLEAN_TIME, value as Int)
-                    _cleanPeriod.value = value
+                    val (hour, minute) = decodeTime(value)
+                    _cleanTime.value = String.format("%02d:%02d", hour, minute)
                 }
                 CLEAN_TIME_TOLERANCE -> {
                     dataStore.saveCoffeePreference(TIME_TOLERANCE, value as Int)

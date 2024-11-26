@@ -209,7 +209,7 @@ fun CleanLayout(
                 }
             } else {
                 DisplayItemLayout(stringResource(R.string.clean_cleaning_time),
-                    "${cleanTime.value}",
+                    cleanTime.value,
                     Color(0xFF2A2B2D)
                 ) {
                     itemSelectIndex.value = CLEAN_SET_TIME
@@ -290,7 +290,7 @@ fun CleanLayout(
                         UnitValueScrollBar(
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
-                                .padding(top = 172.dp, end = 335.dp)
+                                .padding(top = 172.dp, end = 95.dp)
                                 .width(550.dp)
                                 .wrapContentHeight(),
                             value = scrollDefaultValue.value,
@@ -305,6 +305,8 @@ fun CleanLayout(
                 }
                 CLEAN_SET_TIME -> {
                     DisplaySettingTimeLayout({ hour, min ->
+                        val time = viewModel.encodeTime(hour, min)
+                        viewModel.setCleanValue(itemSelectIndex.value, time)
                         itemSelectIndex.value = INVALID_INT
                     }, {
                         itemSelectIndex.value = INVALID_INT
