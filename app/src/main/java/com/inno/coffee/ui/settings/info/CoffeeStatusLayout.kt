@@ -118,6 +118,9 @@ private fun CoffeeStatus3(
     value16: Boolean = false,
     value17: Boolean = false,
 ) {
+    val onColor = Color(0xFF6DD400)
+    val offColor = Color.Red
+
     Row(
         modifier = Modifier
             .padding(top = 434.dp, start = 55.dp)
@@ -136,7 +139,8 @@ private fun CoffeeStatus3(
             InfoOnOffText(stringResource(R.string.info_status_value_brew_right), value2)
             InfoOnOffText(stringResource(R.string.info_status_valve_bypass_left), value3)
             InfoOnOffText(stringResource(R.string.info_status_valve_bypass_right), value4)
-            InfoOnOffText(stringResource(R.string.info_status_fan_front), value5)
+            InfoOnOffText(stringResource(R.string.info_status_fan_front), value5,
+                textColor = if (value5) onColor else offColor)
             InfoOnOffText(stringResource(R.string.info_status_valve_out_left), value6)
             InfoOnOffText(stringResource(R.string.info_status_valve_out_right), value7)
             InfoOnOffText(stringResource(R.string.info_status_valve_water_inlet), value8)
@@ -153,9 +157,12 @@ private fun CoffeeStatus3(
             InfoOnOffText(stringResource(R.string.info_status_boiler_left), value12)
             InfoOnOffText(stringResource(R.string.info_status_boiler_right), value13)
             InfoOnOffText(stringResource(R.string.info_status_water_pump), value14)
-            InfoOnOffText(stringResource(R.string.info_status_relay_standby), value15)
-            InfoOnOffText(stringResource(R.string.info_status_fan_left), value16)
-            InfoOnOffText(stringResource(R.string.info_status_fan_right), value17)
+            InfoOnOffText(stringResource(R.string.info_status_relay_standby), value15,
+                textColor = if (value15) onColor else offColor)
+            InfoOnOffText(stringResource(R.string.info_status_fan_left), value16,
+                textColor = if (value16) onColor else offColor)
+            InfoOnOffText(stringResource(R.string.info_status_fan_right), value17,
+                textColor = if (value17) onColor else offColor)
         }
     }
 }
