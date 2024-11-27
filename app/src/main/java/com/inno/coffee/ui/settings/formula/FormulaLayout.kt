@@ -47,6 +47,10 @@ fun FormulaLayout(
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val openConfirmDialog = remember { mutableStateOf(false) }
     val selectedCups = remember { mutableStateOf(1) }
+    val leftTemp by viewModel.leftTemp.collectAsState()
+    val rightTemp by viewModel.rightTemp.collectAsState()
+    val wandTemp by viewModel.wandTemp.collectAsState()
+    val steamTemp by viewModel.steamTemp.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadDrinkTypeList(mainScreen)
@@ -85,7 +89,8 @@ fun FormulaLayout(
         FormulaDrinkPage(selectFormula, totalCount, pagerState, drinksTypeList) {
             viewModel.getFormula(it.productId)
         }
-        FormulaValuesDisplay()
+        FormulaValuesDisplay(leftCoffee = leftTemp, rightCoffee = rightTemp, wand = wandTemp,
+            steam = steamTemp)
         FormulaValueItem(selectFormula, {
             selectFormula?.let {
                 viewModel.updateFormula(it)

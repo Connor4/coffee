@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -21,15 +22,14 @@ import com.inno.coffee.utilities.nsp
 
 @Composable
 fun FormulaValuesDisplay(
-    coffee: Int = 0,
-    milk: Int = 0,
-    wand: Int = 0,
-    steam: Int = 0,
+    leftCoffee: String = "0",
+    rightCoffee: String = "0",
+    wand: String = "0",
+    steam: String = "0",
     flow: Int = 0,
     extract: Float = 0.0f,
     bar: Float = 0.0f,
     press: Int = 0,
-    temperature: Int = 0,
 ) {
     Box(
         modifier = Modifier
@@ -56,13 +56,14 @@ fun FormulaValuesDisplay(
                 modifier = Modifier.align(Alignment.CenterVertically)
             ) {
                 Text(
-                    text = " $coffee°C",
+                    text = " $leftCoffee",
                     fontSize = 4.nsp(),
                     color = Color.White,
+                    textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = " $milk°C",
+                    text = " $rightCoffee",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
@@ -87,13 +88,13 @@ fun FormulaValuesDisplay(
                 modifier = Modifier.align(Alignment.CenterVertically)
             ) {
                 Text(
-                    text = " $wand°C",
+                    text = " $wand",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = " $steam°C",
+                    text = " $steam",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
@@ -126,12 +127,6 @@ fun FormulaValuesDisplay(
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = "$press mm",
-                    fontSize = 4.nsp(),
-                    color = Color.White,
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = "$temperature°C/°F",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )

@@ -10,13 +10,21 @@ import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
 import com.inno.coffee.utilities.SECOND_SCREEN_PRODUCT_ID_LIMIT
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
+import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
+import com.inno.serialport.function.data.DataCenter
+import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.COFFEE_INPUT_COMMAND_ID
+import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.ReceivedDataType
+import com.inno.serialport.utilities.STEAM_INPUT_COMMAND_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,12 +35,14 @@ import javax.inject.Inject
 @HiltViewModel
 class FormulaViewModel @Inject constructor(
     private val repository: FormulaRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    private val dataStore: CoffeeDataStore,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     companion object {
         private const val TAG = "FormulaViewModel"
         private const val FORMULA_JSON_FILE = "/formula.txt"
+        private const val TEMPERATURE_UNIT = "temperature_unit"
     }
 
     val formulaList: StateFlow<List<Formula>> = repository.getAllFormulaFlow()
@@ -46,6 +56,28 @@ class FormulaViewModel @Inject constructor(
     val drinksList: StateFlow<List<Formula>> = _drinksList.asStateFlow()
     private val _formula = MutableStateFlow<Formula?>(null)
     val formula = _formula.asStateFlow()
+    private val _tempUnit = MutableStateFlow(false)
+    private val _leftTemp = MutableStateFlow(0f)
+    val leftTemp = temperatureDisplayFlow(_leftTemp)
+    private val _rightTemp = MutableStateFlow(0f)
+    val rightTemp = temperatureDisplayFlow(_rightTemp)
+    private val _wandTemp = MutableStateFlow(0f)
+    val wandTemp = temperatureDisplayFlow(_wandTemp)
+    private val _steamTemp = MutableStateFlow(0f)
+    val steamTemp = temperatureDisplayFlow(_steamTemp)
+
+    private val subscriber = object : Subscriber {
+        override fun onDataReceived(data: Any) {
+            parseReceivedData(data)
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            _tempUnit.value = dataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
+        }
+        DataCenter.subscribe(ReceivedDataType.COMMON_REPLY, subscriber)
+    }
 
     fun loadDrinkTypeList(mainScreen: Boolean) {
         viewModelScope.launch(defaultDispatcher) {
@@ -205,6 +237,48 @@ class FormulaViewModel @Inject constructor(
                 repository.updateFormula(it)
             }
         }
+    }
+
+    private fun parseReceivedData(data: Any) {
+        if (data is ReceivedData.CommonReply) {
+            val params = data.params
+            val commandId = data.commandId
+            if (commandId == COFFEE_INPUT_COMMAND_ID) {
+                val leftTemp =
+                    ((params[15].toInt() and 0xFF) shl 8) or (params[14].toInt() and 0xFF)
+                _leftTemp.value = leftTemp / 10f
+                val rightTemp =
+                    ((params[17].toInt() and 0xFF) shl 8) or (params[16].toInt() and 0xFF)
+                _rightTemp.value = rightTemp / 10f
+                val leftFlow =
+                    ((params[19].toInt() and 0xFF) shl 8) or (params[18].toInt() and 0xFF)
+            } else if (commandId == STEAM_INPUT_COMMAND_ID) {
+                // TODO 需要区分左右屏的蒸汽棒温度
+//                val steamPressure =
+//                    ((params[1].toInt() and 0xFF) shl 8) or (params[0].toInt() and 0xFF)
+//                _steamPressure.value = steamPressure / 10f
+//                _securityLevel.value = params[3] == ONE_IN_BYTE
+//                _workLevel.value = params[5] == ONE_IN_BYTE
+//                val leftWandTemp =
+//                    ((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)
+//                _leftWandTemp.value = leftWandTemp / 10f
+//                val rightWandTemp =
+//                    ((params[9].toInt() and 0xFF) shl 8) or (params[8].toInt() and 0xFF)
+//                _rightWandTemp.value = rightWandTemp / 10f
+            }
+        }
+    }
+
+    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Float>): StateFlow<String> {
+        return _tempUnit.combine(temperatureFlow) { isFahrenheit, tempCelsius ->
+            if (isFahrenheit) {
+                val fahrenheit = tempCelsius * 1.8 + 32
+                "$fahrenheit °F"
+            } else {
+                "$tempCelsius °C"
+            }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, "")
+
     }
 
 }
