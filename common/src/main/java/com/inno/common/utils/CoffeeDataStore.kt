@@ -23,21 +23,11 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val DEFAULT_LANGUAGE_VALUE = "en"
         private const val LAST_RESET_PRODUCT_TIME = "last_reset_product_time"
         private const val DEFAULT_LAST_RESET_PRODUCT_TIME = 1704038400000 // 2024/01/01
-        private const val MAINTENANCE_DATE = "maintenance_date"
-        private const val DEFAULT_MAINTENANCE_DATE = "2024-01-01 00:00:00"
     }
 
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
-
-    suspend fun getMaintenanceDate(): String {
-        return getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
-    }
-
-    suspend fun saveMaintenanceDate(time: String) {
-        saveCoffeePreference(MAINTENANCE_DATE, time)
-    }
 
     suspend fun getLastResetProductTime(): Long {
         return getCoffeePreference(LAST_RESET_PRODUCT_TIME, DEFAULT_LAST_RESET_PRODUCT_TIME)

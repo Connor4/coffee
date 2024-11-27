@@ -20,9 +20,12 @@ class ServiceParamViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val repository: ServiceParamRepository,
 ) : ViewModel() {
-
-    private val SERVICE_PARAM_CUPS = "service_param_cups"
-    private val SERVICE_PARAM_SCHEDULE = "service_param_schedule"
+    companion object {
+        private const val SERVICE_PARAM_CUPS = "service_param_cups"
+        private const val SERVICE_PARAM_SCHEDULE = "service_param_schedule"
+        private const val MAINTENANCE_DATE = "maintenance_date"
+        private const val DEFAULT_MAINTENANCE_DATE = "2024-01-01 00:00:00"
+    }
 
     private val _cups = MutableStateFlow(0)
     val cups = _cups
@@ -43,7 +46,8 @@ class ServiceParamViewModel @Inject constructor(
                 dataStore.getCoffeePreference(SERVICE_PARAM_CUPS, 100000)
             _schedule.value =
                 dataStore.getCoffeePreference(SERVICE_PARAM_SCHEDULE, 12)
-            val time = dataStore.getMaintenanceDate()
+
+            val time = dataStore.getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
             val dateTime = LocalDateTime.parse(time)
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             val newDateTime = dateTime.plusMonths(_schedule.value.toLong())
@@ -65,7 +69,9 @@ class ServiceParamViewModel @Inject constructor(
                 }
                 MAINTENANCE_VALUE_SCHEDULE -> {
                     dataStore.saveCoffeePreference(SERVICE_PARAM_SCHEDULE, value)
-                    val time = dataStore.getMaintenanceDate()
+
+                    val time =
+                        dataStore.getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
                     val dateTime = LocalDateTime.parse(time)
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val newDateTime = dateTime.plusMonths(value.toLong())
