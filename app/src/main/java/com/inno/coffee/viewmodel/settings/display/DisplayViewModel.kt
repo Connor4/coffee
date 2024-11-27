@@ -101,12 +101,12 @@ class DisplayViewModel @Inject constructor(
     }
 
     fun selectLanguage(context: Context, locale: Locale) {
+        val languageTag = locale.toLanguageTag()
+        _language.value = languageTag
         viewModelScope.launch(defaultDispatcher) {
             delay(100)
-            SystemLocaleHelper.changeSystemLocale(context, locale.language)
-            val languageTag = locale.toLanguageTag()
             dataStore.saveSystemLanguage(languageTag)
-            _language.value = languageTag
+            SystemLocaleHelper.changeSystemLocale(context, locale.language)
             Logger.d(TAG, "selectLanguage() language = ${_language.value}")
         }
     }
