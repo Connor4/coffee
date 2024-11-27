@@ -19,8 +19,12 @@ import javax.inject.Inject
 @HiltViewModel
 class InstallViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
+
+    companion object {
+        private const val MAINTENANCE_DATE = "maintenance_date"
+    }
 
     fun selectLanguage(context: Context, locale: Locale) {
         viewModelScope.launch(defaultDispatcher) {
@@ -34,7 +38,7 @@ class InstallViewModel @Inject constructor(
             TimeUtils.setDateAndTime(context, date, hour, min)
             CoffeeSharedPreferences.getInstance().isFirstInstall = false
             DefaultSettingManager.insertDefaultUser()
-            dataStore.saveMaintenanceDate(LocalDateTime.now().toString())
+            dataStore.saveCoffeePreference(MAINTENANCE_DATE, LocalDateTime.now().toString())
         }
     }
 

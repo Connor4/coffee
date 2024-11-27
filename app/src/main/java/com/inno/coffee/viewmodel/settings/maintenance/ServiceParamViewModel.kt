@@ -6,12 +6,13 @@ import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.utilities.MAINTENANCE_VALUE_CUPS
 import com.inno.coffee.utilities.MAINTENANCE_VALUE_SCHEDULE
 import com.inno.common.utils.CoffeeDataStore
+import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +22,7 @@ class ServiceParamViewModel @Inject constructor(
     private val repository: ServiceParamRepository,
 ) : ViewModel() {
     companion object {
+        private const val TAG = "ServiceParamViewModel"
         private const val SERVICE_PARAM_CUPS = "service_param_cups"
         private const val SERVICE_PARAM_SCHEDULE = "service_param_schedule"
         private const val MAINTENANCE_DATE = "maintenance_date"
@@ -47,15 +49,17 @@ class ServiceParamViewModel @Inject constructor(
             _schedule.value =
                 dataStore.getCoffeePreference(SERVICE_PARAM_SCHEDULE, 12)
 
+            val systemLanguage = dataStore.getSystemLanguage()
+            val language = Locale.forLanguageTag(systemLanguage).language
             val time = dataStore.getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
             val dateTime = LocalDateTime.parse(time)
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             val newDateTime = dateTime.plusMonths(_schedule.value.toLong())
+            val date = TimeUtils.getDateString(language, newDateTime)
 
             _leftCount.value = repository.getBrewProductCount(true)
             _rightCount.value = repository.getBrewProductCount(false)
             _totalCount.value = _cups.value - _leftCount.value - _rightCount.value
-            _maintenanceDate.value = newDateTime.format(formatter)
+            _maintenanceDate.value = date
         }
     }
 
@@ -70,13 +74,15 @@ class ServiceParamViewModel @Inject constructor(
                 MAINTENANCE_VALUE_SCHEDULE -> {
                     dataStore.saveCoffeePreference(SERVICE_PARAM_SCHEDULE, value)
 
+                    val systemLanguage = dataStore.getSystemLanguage()
+                    val language = Locale.forLanguageTag(systemLanguage).language
                     val time =
                         dataStore.getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
                     val dateTime = LocalDateTime.parse(time)
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val newDateTime = dateTime.plusMonths(value.toLong())
+                    val newDateTime = dateTime.plusMonths(_schedule.value.toLong())
+                    val date = TimeUtils.getDateString(language, newDateTime)
 
-                    _maintenanceDate.value = newDateTime.format(formatter)
+                    _maintenanceDate.value = date
                     _schedule.value = value
                 }
             }

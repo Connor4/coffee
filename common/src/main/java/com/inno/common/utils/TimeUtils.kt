@@ -7,6 +7,8 @@ import android.provider.Settings
 import android.text.format.DateFormat
 import androidx.annotation.RequiresPermission
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -199,6 +201,17 @@ class TimeUtils {
         fun getNowTimeInHour(): String {
             val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
             return sdf.format(Date())
+        }
+
+        fun getDateString(language: String, dateTime: LocalDateTime): String {
+            Logger.d("Display",
+                "getLocalDateTimeString() called with: language = $language, dateTime = $dateTime")
+            val formatter = when (language) {
+                Locale.ENGLISH.language -> DateTimeFormatter.ofPattern("MM/dd/yyyy")
+                Locale.SIMPLIFIED_CHINESE.language -> DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                else -> DateTimeFormatter.ofPattern("MM/dd/yyyy")
+            }
+            return formatter.format(dateTime)
         }
 
     }
