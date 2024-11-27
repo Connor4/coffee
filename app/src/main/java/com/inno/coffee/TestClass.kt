@@ -2,8 +2,8 @@ package com.inno.coffee
 
 fun main() {
     // Set time
-    val hour = 0 // 2:00 PM
-    val minute = 0
+    val hour = 15 // 2:00 PM
+    val minute = 30
 
     // Encode time
     val timeValue = encodeTime(hour, minute)

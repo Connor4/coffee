@@ -38,10 +38,10 @@ class CoffeeTimePickerView @JvmOverloads constructor(
                 holdingInstance = timePickerViewInstance
                 addView(timePickerViewInstance)
                 setAttributes(timePickerViewInstance, context, attrs, defStyleAttr)
-                set24HourMode(timePickerViewInstance)
                 setTextSize(timePickerViewInstance)
                 setSelectRadius(timePickerViewInstance)
                 setTimeValueSelectListener(timePickerViewClass, timePickerViewInstance)
+                initialize(getCurrentHour(), getCurrentMinute())
             } else {
                 Logger.e(tag, "Failed to cast to View")
             }
@@ -62,28 +62,42 @@ class CoffeeTimePickerView @JvmOverloads constructor(
         }
     }
 
-    fun setCurrentHour(hour: Int) {
+    fun initialize(hour: Int, minute: Int) {
+        Logger.d("initialize() called with: hour = $hour, minute = $minute")
         try {
             val method =
-                holdingInstance!!::class.java.getDeclaredMethod("setCurrentHour", Int::class.java)
+                holdingInstance!!::class.java.getDeclaredMethod("initialize", Int::class.java,
+                    Int::class.java, Boolean::class.java)
             method.isAccessible = true
-            method.invoke(holdingInstance, hour)
+            method.invoke(holdingInstance, hour, minute, true)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun setCurrentMinute(minute: Int) {
+    fun getCurrentHour(): Int {
         try {
             val method =
-                holdingInstance!!::class.java.getDeclaredMethod("setCurrentMinute", Int::class.java)
+                holdingInstance!!::class.java.getDeclaredMethod("getCurrentHour")
             method.isAccessible = true
-            method.invoke(holdingInstance, minute)
+            return method.invoke(holdingInstance) as Int
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        return 0
     }
 
+    fun getCurrentMinute(): Int {
+        try {
+            val method =
+                holdingInstance!!::class.java.getDeclaredMethod("getCurrentMinute")
+            method.isAccessible = true
+            return method.invoke(holdingInstance) as Int
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return 0
+    }
 
     @SuppressLint("PrivateApi")
     private fun setTimeValueSelectListener(

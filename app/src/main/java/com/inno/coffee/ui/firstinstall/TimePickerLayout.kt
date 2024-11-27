@@ -31,7 +31,6 @@ import com.inno.coffee.ui.common.draw9Patch
 import com.inno.coffee.utilities.HOUR
 import com.inno.coffee.utilities.MINUTES
 import com.inno.coffee.utilities.nsp
-import java.util.Calendar
 import java.util.Locale
 
 @Composable
@@ -176,16 +175,14 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Int, Int) -> Un
                         onValueSelected = { pickerType, newValue, autoAdvance ->
                             when (pickerType) {
                                 HOUR -> {
-                                    hour.value = String.format(Locale.getDefault(), "%02d",
-                                        newValue)
+                                    hour.value = formatTime(newValue)
                                     if (autoAdvance) {
                                         selectHour.value = false
                                         timePickerViewRef.value?.setShowType(MINUTES)
                                     }
                                 }
                                 MINUTES -> {
-                                    minutes.value = String.format(Locale.getDefault(), "%02d",
-                                        newValue)
+                                    minutes.value = formatTime(newValue)
                                 }
                             }
                         }
@@ -193,13 +190,10 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Int, Int) -> Un
                     }
                 },
                 update = {
-                    val calendar = Calendar.getInstance(Locale.getDefault())
-                    val currentHour = calendar[Calendar.HOUR_OF_DAY]
-                    val currentMinute = calendar[Calendar.MINUTE]
-                    hour.value = String.format(Locale.getDefault(), "%02d",
-                        currentHour)
-                    minutes.value = String.format(Locale.getDefault(), "%02d",
-                        currentMinute)
+                    val currentHour = timePickerViewRef.value?.getCurrentHour()
+                    hour.value = formatTime(currentHour)
+                    val currentMinute = timePickerViewRef.value?.getCurrentMinute()
+                    minutes.value = formatTime(currentMinute)
                 }
             )
         }
@@ -209,6 +203,8 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Int, Int) -> Un
         }
     }
 }
+
+private fun formatTime(newValue: Int?) = String.format(Locale.getDefault(), "%02d", newValue)
 
 
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")

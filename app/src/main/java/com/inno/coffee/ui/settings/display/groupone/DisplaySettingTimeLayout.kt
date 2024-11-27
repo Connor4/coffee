@@ -36,7 +36,6 @@ import com.inno.coffee.utilities.HOUR
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MINUTES
 import com.inno.coffee.utilities.nsp
-import java.util.Calendar
 import java.util.Locale
 
 @Composable
@@ -191,21 +190,15 @@ fun DisplaySettingTimeLayout(
                             }
                         }
                         timePickerViewRef.value = this
-                        if (defaultHour != INVALID_INT) {
-                            setCurrentHour(defaultHour)
-                        }
-                        if (defaultMinute != INVALID_INT) {
-                            setCurrentMinute(defaultMinute)
+                        if (defaultHour != INVALID_INT && defaultMinute != INVALID_INT) {
+                            initialize(defaultHour, defaultMinute)
                         }
                     }
                 },
                 update = {
-                    val calendar = Calendar.getInstance(Locale.getDefault())
-                    val currentHour =
-                        if (defaultHour != INVALID_INT) defaultHour else calendar[Calendar.HOUR_OF_DAY]
-                    val currentMinute =
-                        if (defaultMinute != INVALID_INT) defaultMinute else calendar[Calendar.MINUTE]
+                    val currentHour = timePickerViewRef.value?.getCurrentHour()
                     hour.value = formatTime(currentHour)
+                    val currentMinute = timePickerViewRef.value?.getCurrentMinute()
                     minutes.value = formatTime(currentMinute)
                 }
             )
