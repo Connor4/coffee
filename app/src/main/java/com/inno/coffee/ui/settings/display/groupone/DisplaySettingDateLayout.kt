@@ -190,7 +190,7 @@ fun DisplaySettingDateLayout(
             .width(180.dp)
             .height(50.dp)
             .align(Alignment.BottomEnd),
-            text = stringResource(R.string.common_button_confirm)) {
+            text = stringResource(R.string.first_install_next)) {
             onDatePick(currentTimeInMillsState.longValue)
         }
 
