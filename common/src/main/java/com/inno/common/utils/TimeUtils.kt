@@ -177,10 +177,10 @@ class TimeUtils {
             language: String,
         ): String {
             val dateFormat = when (language) {
-                Locale.ENGLISH.language -> SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
+                Locale.ENGLISH.language -> SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.ENGLISH)
                 Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
                     Locale.SIMPLIFIED_CHINESE)
-                else -> SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.SIMPLIFIED_CHINESE)
+                else -> SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
             }
             val date = Date(time)
             return dateFormat.format(date)
@@ -188,10 +188,10 @@ class TimeUtils {
 
         fun getNowDate(language: String): String {
             val dateFormat = when (language) {
-                Locale.ENGLISH.language -> SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+                Locale.ENGLISH.language -> SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
                 Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy-MM-dd",
                     Locale.SIMPLIFIED_CHINESE)
-                else -> SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+                else -> SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
             }
             return dateFormat.format(Date())
         }
