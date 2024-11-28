@@ -1,7 +1,6 @@
 package com.inno.coffee.ui.settings
 
 import android.content.Context
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -204,26 +203,26 @@ private fun jumpDetail(name: String, context: Context) {
             ScreenDisplayManager.autoRoute(context, MachineParamsActivity::class.java)
         }
         BEANS_AND_GRINDER -> {
-            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
             ScreenDisplayManager.autoRoute(context, BeanGrinderActivity::class.java)
         }
         WASH_MACHINE -> {
-            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
             ScreenDisplayManager.autoRoute(context, CleanActivity::class.java)
         }
         PERMISSION -> {
             ScreenDisplayManager.autoRoute(context, PermissionActivity::class.java)
         }
         INTERFACE -> {
-            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
             ScreenDisplayManager.autoRoute(context, RemoteMonitorActivity::class.java)
         }
         MAINTENANCE -> {
-            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
             ScreenDisplayManager.autoRoute(context, MaintenanceActivity::class.java)
         }
         MACHINE_INFO -> {
-            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
             ScreenDisplayManager.autoRoute(context, MachineInfoActivity::class.java)
         }
         MACHINE_TEST -> {

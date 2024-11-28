@@ -1,8 +1,6 @@
 package com.inno.coffee
 
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 fun main() {
 //    val zdt = LocalDateTime.now()
@@ -16,16 +14,10 @@ fun main() {
 //    var usFormatter = DateTimeFormatter.ofPattern("E, MMMM/dd/yyyy HH:mm", Locale.US);
 //    println(usFormatter.format(zdt));
 
-    val chinese = Locale.TRADITIONAL_CHINESE
-    val tag = Locale.forLanguageTag(chinese.language)
-    println("chinese : $chinese language ${chinese.language} tag $tag")
+    val time = LocalDateTime.parse("2024-01-01T00:00:00")
+    time.plusMonths(12)
+    println("time : $time")
 
-    val default = Locale.getDefault()
-    println("default : $default language ${default.language} tag $tag")
-
-    val pattern = DateTimeFormatter.ofPattern("HH:mm")
-    val now = LocalDateTime.now()
-    println(pattern.format(now))
 }
 
 

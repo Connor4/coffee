@@ -40,6 +40,7 @@ class ServiceParamViewModel @Inject constructor(
     val rightCount = _rightCount
     private val _maintenanceDate = MutableStateFlow("")
     val maintenanceDate = _maintenanceDate
+    private lateinit var memoryDateTime: LocalDateTime
 
     fun init() {
         viewModelScope.launch(defaultDispatcher) {
@@ -49,13 +50,13 @@ class ServiceParamViewModel @Inject constructor(
                 dataStore.getCoffeePreference(SERVICE_PARAM_SCHEDULE, 12)
 
             val time = dataStore.getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
-            val nextMonth = LocalDateTime.parse(time).plusMonths(_schedule.value.toLong())
-            val date = TimeUtils.getYearMonthDayFormat(nextMonth)
+            memoryDateTime = LocalDateTime.parse(time)
+            val nextMonth = memoryDateTime.plusMonths(_schedule.value.toLong())
 
             _leftCount.value = repository.getBrewProductCount(true)
             _rightCount.value = repository.getBrewProductCount(false)
             _totalCount.value = _cups.value - _leftCount.value - _rightCount.value
-            _maintenanceDate.value = date
+            _maintenanceDate.value = TimeUtils.getYearMonthDayFormat(nextMonth)
         }
     }
 
@@ -68,15 +69,19 @@ class ServiceParamViewModel @Inject constructor(
                     _totalCount.value = _cups.value - _leftCount.value - _rightCount.value
                 }
                 MAINTENANCE_VALUE_SCHEDULE -> {
-                    dataStore.saveCoffeePreference(SERVICE_PARAM_SCHEDULE, value)
+                    if (value == _schedule.value) {
+                        return@launch
+                    }
+                    val newDate = if (value > _schedule.value) {
+                        memoryDateTime.plusMonths(1).also { memoryDateTime = it }
+                    } else {
+                        memoryDateTime.minusMonths(1).also { memoryDateTime = it }
+                    }
 
-                    val time =
-                        dataStore.getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
-                    val nextMonth = LocalDateTime.parse(time).plusMonths(_schedule.value.toLong())
-                    val date = TimeUtils.getYearMonthDayFormat(nextMonth)
-
-                    _maintenanceDate.value = date
+                    _maintenanceDate.value = TimeUtils.getYearMonthDayFormat(newDate)
                     _schedule.value = value
+
+                    dataStore.saveCoffeePreference(SERVICE_PARAM_SCHEDULE, value)
                 }
             }
         }
