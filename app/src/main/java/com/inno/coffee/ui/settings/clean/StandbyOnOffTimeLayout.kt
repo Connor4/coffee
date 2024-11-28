@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.settings.clean
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,8 +44,6 @@ fun StandbyOnOffTimeLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
-    val defaultHour = remember { mutableIntStateOf(0) }
-    val defaultMinute = remember { mutableIntStateOf(0) }
     val mondayStart = viewModel.standbyMonday.collectAsState()
     val mondayEnd = viewModel.standbyMondayEnd.collectAsState()
     val tuesdayStart = viewModel.standbyTuesday.collectAsState()
@@ -145,9 +145,17 @@ fun StandbyOnOffTimeLayout(
         }
 
         if (itemSelectIndex.value != INVALID_INT) {
+            val context = LocalContext.current
             val (hour, minute) = viewModel.getHourAndMinute(itemSelectIndex.value)
             DisplaySettingTimeLayout({ selectedHour, selectedMin ->
-                viewModel.saveStandbyTime(itemSelectIndex.value, selectedHour, selectedMin)
+                val timeCheck =
+                    viewModel.timeCheck(itemSelectIndex.value, selectedHour, selectedMin)
+                if (timeCheck) {
+                    viewModel.saveStandbyTime(itemSelectIndex.value, selectedHour, selectedMin)
+                } else {
+                    Toast.makeText(context, context.getString(R.string.clean_time_rule), Toast
+                        .LENGTH_SHORT).show()
+                }
                 itemSelectIndex.value = INVALID_INT
             }, {
                 itemSelectIndex.value = INVALID_INT

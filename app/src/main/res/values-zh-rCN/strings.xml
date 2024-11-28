@@ -524,5 +524,6 @@
     <string name="clean_friday">星期五</string>
     <string name="clean_saturday">星期六</string>
     <string name="clean_sunday">星期日</string>
+    <string name="clean_time_rule">开机时间需要早于关机时间</string>
 
 </resources>

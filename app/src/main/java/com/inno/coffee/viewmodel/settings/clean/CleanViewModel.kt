@@ -73,31 +73,31 @@ class CleanViewModel @Inject constructor(
 
     private val _standbyMonday = MutableStateFlow(0)
     val standbyMonday = decodeTimeToString(_standbyMonday)
-    private val _standbyMondayEnd = MutableStateFlow(0)
+    private val _standbyMondayEnd = MutableStateFlow(1)
     val standbyMondayEnd = decodeTimeToString(_standbyMondayEnd)
     private val _standbyTuesday = MutableStateFlow(0)
     val standbyTuesday = decodeTimeToString(_standbyTuesday)
-    private val _standbyTuesdayEnd = MutableStateFlow(0)
+    private val _standbyTuesdayEnd = MutableStateFlow(1)
     val standbyTuesdayEnd = decodeTimeToString(_standbyTuesdayEnd)
     private val _standbyWednesday = MutableStateFlow(0)
     val standbyWednesday = decodeTimeToString(_standbyWednesday)
-    private val _standbyWednesdayEnd = MutableStateFlow(0)
+    private val _standbyWednesdayEnd = MutableStateFlow(1)
     val standbyWednesdayEnd = decodeTimeToString(_standbyWednesdayEnd)
     private val _standbyThursday = MutableStateFlow(0)
     val standbyThursday = decodeTimeToString(_standbyThursday)
-    private val _standbyThursdayEnd = MutableStateFlow(0)
+    private val _standbyThursdayEnd = MutableStateFlow(1)
     val standbyThursdayEnd = decodeTimeToString(_standbyThursdayEnd)
     private val _standbyFriday = MutableStateFlow(0)
     val standbyFriday = decodeTimeToString(_standbyFriday)
-    private val _standbyFridayEnd = MutableStateFlow(0)
+    private val _standbyFridayEnd = MutableStateFlow(1)
     val standbyFridayEnd = decodeTimeToString(_standbyFridayEnd)
     private val _standbySaturday = MutableStateFlow(0)
     val standbySaturday = decodeTimeToString(_standbySaturday)
-    private val _standbySaturdayEnd = MutableStateFlow(0)
+    private val _standbySaturdayEnd = MutableStateFlow(1)
     val standbySaturdayEnd = decodeTimeToString(_standbySaturdayEnd)
     private val _standbySunday = MutableStateFlow(0)
     val standbySunday = decodeTimeToString(_standbySunday)
-    private val _standbySundayEnd = MutableStateFlow(0)
+    private val _standbySundayEnd = MutableStateFlow(1)
     val standbySundayEnd = decodeTimeToString(_standbySundayEnd)
 
     private val _switchValue = MutableStateFlow(0)
@@ -107,19 +107,19 @@ class CleanViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             val time = dataStore.getCoffeePreference(CLEAN_TIME, 0)
             val monday = dataStore.getCoffeePreference(STANDBY_MONDAY, 0)
-            val mondayEnd = dataStore.getCoffeePreference(STANDBY_MONDAY_END, 0)
+            val mondayEnd = dataStore.getCoffeePreference(STANDBY_MONDAY_END, 1)
             val tuesday = dataStore.getCoffeePreference(STANDBY_TUESDAY, 0)
-            val tuesdayEnd = dataStore.getCoffeePreference(STANDBY_TUESDAY_END, 0)
+            val tuesdayEnd = dataStore.getCoffeePreference(STANDBY_TUESDAY_END, 1)
             val wednesday = dataStore.getCoffeePreference(STANDBY_WEDNESDAY, 0)
-            val wednesdayEnd = dataStore.getCoffeePreference(STANDBY_WEDNESDAY_END, 0)
+            val wednesdayEnd = dataStore.getCoffeePreference(STANDBY_WEDNESDAY_END, 1)
             val thursday = dataStore.getCoffeePreference(STANDBY_THURSDAY, 0)
-            val thursdayEnd = dataStore.getCoffeePreference(STANDBY_THURSDAY_END, 0)
+            val thursdayEnd = dataStore.getCoffeePreference(STANDBY_THURSDAY_END, 1)
             val friday = dataStore.getCoffeePreference(STANDBY_FRIDAY, 0)
-            val fridayEnd = dataStore.getCoffeePreference(STANDBY_FRIDAY_END, 0)
+            val fridayEnd = dataStore.getCoffeePreference(STANDBY_FRIDAY_END, 1)
             val saturday = dataStore.getCoffeePreference(STANDBY_SATURDAY, 0)
-            val saturdayEnd = dataStore.getCoffeePreference(STANDBY_SATURDAY_END, 0)
+            val saturdayEnd = dataStore.getCoffeePreference(STANDBY_SATURDAY_END, 1)
             val sunday = dataStore.getCoffeePreference(STANDBY_SUNDAY, 0)
-            val sundayEnd = dataStore.getCoffeePreference(STANDBY_SUNDAY_END, 0)
+            val sundayEnd = dataStore.getCoffeePreference(STANDBY_SUNDAY_END, 1)
 
             _cleanTime.value = decodeTimeForString(time)
             _standbyMonday.value = monday
@@ -190,6 +190,27 @@ class CleanViewModel @Inject constructor(
             else -> Pair(0, 0)
         }
         return Pair(hour, minute)
+    }
+
+    fun timeCheck(index: Int, hour: Int, minute: Int): Boolean {
+        val timeValue = encodeTime(hour, minute)
+        return when (index) {
+            0 -> return _standbyMondayEnd.value > timeValue
+            1 -> return _standbyMonday.value < timeValue
+            2 -> return _standbyTuesdayEnd.value > timeValue
+            3 -> return _standbyTuesday.value < timeValue
+            4 -> return _standbyWednesdayEnd.value > timeValue
+            5 -> return _standbyWednesday.value < timeValue
+            6 -> return _standbyThursdayEnd.value > timeValue
+            7 -> return _standbyThursday.value < timeValue
+            8 -> return _standbyFridayEnd.value > timeValue
+            9 -> return _standbyFriday.value < timeValue
+            10 -> return _standbySaturdayEnd.value > timeValue
+            11 -> return _standbySaturday.value < timeValue
+            12 -> return _standbySundayEnd.value > timeValue
+            13 -> return _standbySunday.value < timeValue
+            else -> false
+        }
     }
 
     fun saveStandbyTime(index: Int, hour: Int, minute: Int) {

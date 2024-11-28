@@ -582,6 +582,7 @@
     <string name="clean_friday">Friday</string>
     <string name="clean_saturday">Saturday</string>
     <string name="clean_sunday">Sunday</string>
+    <string name="clean_time_rule">Switch-on Time must be before Switch-off Time</string>
 
 
 </resources>
