@@ -63,7 +63,6 @@ class DisplayViewModel @Inject constructor(
     fun initGroup() {
         viewModelScope.launch {
             val systemLanguage = dataStore.getSystemLanguage()
-            val language = Locale.forLanguageTag(systemLanguage).language
             val autoBackToFirstPage = dataStore.getCoffeePreference(BACK_TO_FIRST_PAGE, false)
             val numberOfProductPerPage =
                 dataStore.getCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, 12)
@@ -73,7 +72,8 @@ class DisplayViewModel @Inject constructor(
             val showExtractionTime = dataStore.getCoffeePreference(SHOW_EXTRACTION_TIME, true)
 
             _language.value = systemLanguage
-            _time.value = TimeUtils.getNowTimeInYearAndHour(language = language)
+            _time.value = TimeUtils.getNowTimeInYearAndHour(
+                language = Locale.forLanguageTag(systemLanguage).language)
             _backToFirstPage.value = autoBackToFirstPage
             _numberOfProductPerPage.value = numberOfProductPerPage
             _frontLightColor.value = frontLightColor

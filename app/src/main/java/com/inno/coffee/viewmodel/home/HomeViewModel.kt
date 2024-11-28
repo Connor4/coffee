@@ -127,10 +127,9 @@ class HomeViewModel @Inject constructor(
 
     fun getCurrentDate() {
         viewModelScope.launch {
-            val systemLanguage = dataStore.getSystemLanguage()
-            val language = Locale.forLanguageTag(systemLanguage).language
+            val language = dataStore.getSystemLanguage()
             _time.value = TimeUtils.getNowTimeInHour()
-            _date.value = TimeUtils.getNowDate(language)
+            _date.value = TimeUtils.getNowDate(Locale.forLanguageTag(language).language)
         }
     }
 

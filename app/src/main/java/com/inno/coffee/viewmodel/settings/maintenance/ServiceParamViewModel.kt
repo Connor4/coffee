@@ -49,12 +49,12 @@ class ServiceParamViewModel @Inject constructor(
             _schedule.value =
                 dataStore.getCoffeePreference(SERVICE_PARAM_SCHEDULE, 12)
 
-            val systemLanguage = dataStore.getSystemLanguage()
-            val language = Locale.forLanguageTag(systemLanguage).language
+            val language = dataStore.getSystemLanguage()
             val time = dataStore.getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
             val dateTime = LocalDateTime.parse(time)
             val newDateTime = dateTime.plusMonths(_schedule.value.toLong())
-            val date = TimeUtils.getDateString(language, newDateTime)
+            val date =
+                TimeUtils.getDateString(Locale.forLanguageTag(language).language, newDateTime)
 
             _leftCount.value = repository.getBrewProductCount(true)
             _rightCount.value = repository.getBrewProductCount(false)
