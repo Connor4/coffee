@@ -9,15 +9,16 @@ import com.inno.common.db.entity.MaintenanceHistory
 import com.inno.common.db.entity.ProductHistory
 import com.inno.common.db.entity.RinseHistory
 import com.inno.common.enums.ProductType
-import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -25,11 +26,16 @@ import kotlin.random.Random
 class ProductHistoryViewModel @Inject constructor(
     private val repository: ProductHistoryRepository,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
 
     val productHistory: StateFlow<List<ProductHistory>> =
-        repository.getAllProductHistory().stateIn(
+        repository.getAllProductHistory().map { list ->
+            list.map { history ->
+                val time = LocalDateTime.parse(history.time)
+                history.time = TimeUtils.getFullFormat(time)
+                history
+            }
+        }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = emptyList()
@@ -91,7 +97,7 @@ class ProductHistoryViewModel @Inject constructor(
 
     fun addFakeHistoryDataForTest() {
         viewModelScope.launch {
-            val time = TimeUtils.getFullFormat()
+            val time = LocalDateTime.now().toString()
             repository.insertProductHistory(
                 ProductHistory(time = time, pressFinal = 24.0f,
                     brewSide = Random.nextBoolean(), grindTime = 11.4f, pqc = true,
