@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,6 +31,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.SwitchButton
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.ui.settings.display.groupone.DisplaySettingTimeLayout
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.clean.CleanViewModel
 
@@ -37,20 +41,23 @@ fun StandbyOnOffTimeLayout(
     viewModel: CleanViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
-    val mondayStart = "08:00"
-    val mondayEnd = "18:00"
-    val tuesdayStart = "08:00"
-    val tuesdayEnd = "18:00"
-    val wednesdayStart = "08:00"
-    val wednesdayEnd = "18:00"
-    val thursdayStart = "08:00"
-    val thursdayEnd = "18:00"
-    val fridayStart = "08:00"
-    val fridayEnd = "18:00"
-    val saturdayStart = "08:00"
-    val saturdayEnd = "18:00"
-    val sundayStart = "08:00"
-    val sundayEnd = "18:00"
+    val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
+    val defaultHour = remember { mutableIntStateOf(0) }
+    val defaultMinute = remember { mutableIntStateOf(0) }
+    val mondayStart = viewModel.standbyMonday.collectAsState()
+    val mondayEnd = viewModel.standbyMondayEnd.collectAsState()
+    val tuesdayStart = viewModel.standbyTuesday.collectAsState()
+    val tuesdayEnd = viewModel.standbyTuesdayEnd.collectAsState()
+    val wednesdayStart = viewModel.standbyWednesday.collectAsState()
+    val wednesdayEnd = viewModel.standbyWednesdayEnd.collectAsState()
+    val thursdayStart = viewModel.standbyThursday.collectAsState()
+    val thursdayEnd = viewModel.standbyThursdayEnd.collectAsState()
+    val fridayStart = viewModel.standbyFriday.collectAsState()
+    val fridayEnd = viewModel.standbyFridayEnd.collectAsState()
+    val saturdayStart = viewModel.standbySaturday.collectAsState()
+    val saturdayEnd = viewModel.standbySaturdayEnd.collectAsState()
+    val sundayStart = viewModel.standbySunday.collectAsState()
+    val sundayEnd = viewModel.standbySundayEnd.collectAsState()
 
     Box(
         modifier = Modifier
@@ -94,19 +101,60 @@ fun StandbyOnOffTimeLayout(
                     modifier = Modifier.padding(start = 471.dp, top = 5.dp))
             }
             StandbyOnOffTimeItem(stringResource(R.string.clean_monday), viewModel.isFlagSet(0),
-                mondayStart, mondayEnd, { viewModel.setFlag(0, it) }, {}, {})
+                mondayStart.value, mondayEnd.value, { viewModel.setFlag(0, it) }, {
+                    itemSelectIndex.value = 0
+                }, {
+                    itemSelectIndex.value = 1
+                })
             StandbyOnOffTimeItem(stringResource(R.string.clean_tuesday), viewModel.isFlagSet(1),
-                tuesdayStart, tuesdayEnd, { viewModel.setFlag(1, it) }, {}, {})
+                tuesdayStart.value, tuesdayEnd.value, { viewModel.setFlag(1, it) }, {
+                    itemSelectIndex.value = 2
+                }, {
+                    itemSelectIndex.value = 3
+                })
             StandbyOnOffTimeItem(stringResource(R.string.clean_wednesday), viewModel.isFlagSet(2),
-                wednesdayStart, wednesdayEnd, { viewModel.setFlag(2, it) }, {}, {})
+                wednesdayStart.value, wednesdayEnd.value, { viewModel.setFlag(2, it) }, {
+                    itemSelectIndex.value = 4
+                }, {
+                    itemSelectIndex.value = 5
+                })
             StandbyOnOffTimeItem(stringResource(R.string.clean_thursday), viewModel.isFlagSet(3),
-                thursdayStart, thursdayEnd, { viewModel.setFlag(3, it) }, {}, {})
+                thursdayStart.value, thursdayEnd.value, { viewModel.setFlag(3, it) }, {
+                    itemSelectIndex.value = 6
+                }, {
+                    itemSelectIndex.value = 7
+                })
             StandbyOnOffTimeItem(stringResource(R.string.clean_friday), viewModel.isFlagSet(4),
-                fridayStart, fridayEnd, { viewModel.setFlag(4, it) }, {}, {})
+                fridayStart.value, fridayEnd.value, { viewModel.setFlag(4, it) }, {
+                    itemSelectIndex.value = 8
+                }, {
+                    itemSelectIndex.value = 9
+                })
             StandbyOnOffTimeItem(stringResource(R.string.clean_saturday), viewModel.isFlagSet(5),
-                saturdayStart, saturdayEnd, { viewModel.setFlag(5, it) }, {}, {})
+                saturdayStart.value, saturdayEnd.value, { viewModel.setFlag(5, it) }, {
+                    itemSelectIndex.value = 1
+                }, {
+                    itemSelectIndex.value = 11
+                })
             StandbyOnOffTimeItem(stringResource(R.string.clean_sunday), viewModel.isFlagSet(6),
-                sundayStart, sundayEnd, { viewModel.setFlag(6, it) }, {}, {})
+                sundayStart.value, sundayEnd.value, { viewModel.setFlag(6, it) }, {
+                    itemSelectIndex.value = 12
+                }, {
+                    itemSelectIndex.value = 13
+                })
+        }
+
+        if (itemSelectIndex.value != INVALID_INT) {
+            val (hour, minute) = viewModel.getHourAndMinute(0)
+            DisplaySettingTimeLayout({ selectedHour, selectedMin ->
+                viewModel.saveStandbyTime(itemSelectIndex.value, selectedHour, selectedMin)
+                itemSelectIndex.value = INVALID_INT
+            }, {
+                itemSelectIndex.value = INVALID_INT
+            }, {
+                itemSelectIndex.value = INVALID_INT
+            }, defaultHour = hour, defaultMinute = minute
+            )
         }
 
     }
@@ -127,7 +175,9 @@ private fun StandbyOnOffTimeItem(
     val textColor = if (state) Color.White else Color(0xFF3E3F44)
 
     Row(
-        modifier = Modifier.padding(bottom = 4.dp)
+        modifier = Modifier
+            .padding(bottom = 4.dp)
+            .clickable(enabled = isOn) {}
     ) {
         Text(text = day, color = Color.White, fontSize = 6.nsp(),
             modifier = Modifier
