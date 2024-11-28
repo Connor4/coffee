@@ -15,6 +15,10 @@ import com.inno.common.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -66,34 +70,35 @@ class CleanViewModel @Inject constructor(
     val afterCleaning = _afterCleaning
     private val _standbyButton = MutableStateFlow(false)
     val standbyButton = _standbyButton
-    private val _standbyMonday = MutableStateFlow("")
-    val standbyMonday = _standbyMonday
-    private val _standbyMondayEnd = MutableStateFlow("")
-    val standbyMondayEnd = _standbyMondayEnd
-    private val _standbyTuesday = MutableStateFlow("")
-    val standbyTuesday = _standbyTuesday
-    private val _standbyTuesdayEnd = MutableStateFlow("")
-    val standbyTuesdayEnd = _standbyTuesdayEnd
-    private val _standbyWednesday = MutableStateFlow("")
-    val standbyWednesday = _standbyWednesday
-    private val _standbyWednesdayEnd = MutableStateFlow("")
-    val standbyWednesdayEnd = _standbyWednesdayEnd
-    private val _standbyThursday = MutableStateFlow("")
-    val standbyThursday = _standbyThursday
-    private val _standbyThursdayEnd = MutableStateFlow("")
-    val standbyThursdayEnd = _standbyThursdayEnd
-    private val _standbyFriday = MutableStateFlow("")
-    val standbyFriday = _standbyFriday
-    private val _standbyFridayEnd = MutableStateFlow("")
-    val standbyFridayEnd = _standbyFridayEnd
-    private val _standbySaturday = MutableStateFlow("")
-    val standbySaturday = _standbySaturday
-    private val _standbySaturdayEnd = MutableStateFlow("")
-    val standbySaturdayEnd = _standbySaturdayEnd
-    private val _standbySunday = MutableStateFlow("")
-    val standbySunday = _standbySunday
-    private val _standbySundayEnd = MutableStateFlow("")
-    val standbySundayEnd = _standbySundayEnd
+
+    private val _standbyMonday = MutableStateFlow(0)
+    val standbyMonday = decodeTimeToString(_standbyMonday)
+    private val _standbyMondayEnd = MutableStateFlow(0)
+    val standbyMondayEnd = decodeTimeToString(_standbyMondayEnd)
+    private val _standbyTuesday = MutableStateFlow(0)
+    val standbyTuesday = decodeTimeToString(_standbyTuesday)
+    private val _standbyTuesdayEnd = MutableStateFlow(0)
+    val standbyTuesdayEnd = decodeTimeToString(_standbyTuesdayEnd)
+    private val _standbyWednesday = MutableStateFlow(0)
+    val standbyWednesday = decodeTimeToString(_standbyWednesday)
+    private val _standbyWednesdayEnd = MutableStateFlow(0)
+    val standbyWednesdayEnd = decodeTimeToString(_standbyWednesdayEnd)
+    private val _standbyThursday = MutableStateFlow(0)
+    val standbyThursday = decodeTimeToString(_standbyThursday)
+    private val _standbyThursdayEnd = MutableStateFlow(0)
+    val standbyThursdayEnd = decodeTimeToString(_standbyThursdayEnd)
+    private val _standbyFriday = MutableStateFlow(0)
+    val standbyFriday = decodeTimeToString(_standbyFriday)
+    private val _standbyFridayEnd = MutableStateFlow(0)
+    val standbyFridayEnd = decodeTimeToString(_standbyFridayEnd)
+    private val _standbySaturday = MutableStateFlow(0)
+    val standbySaturday = decodeTimeToString(_standbySaturday)
+    private val _standbySaturdayEnd = MutableStateFlow(0)
+    val standbySaturdayEnd = decodeTimeToString(_standbySaturdayEnd)
+    private val _standbySunday = MutableStateFlow(0)
+    val standbySunday = decodeTimeToString(_standbySunday)
+    private val _standbySundayEnd = MutableStateFlow(0)
+    val standbySundayEnd = decodeTimeToString(_standbySundayEnd)
 
     private val _switchValue = MutableStateFlow(0)
     val switchValue = _switchValue
@@ -117,20 +122,20 @@ class CleanViewModel @Inject constructor(
             val sundayEnd = dataStore.getCoffeePreference(STANDBY_SUNDAY_END, 0)
 
             _cleanTime.value = decodeTimeForString(time)
-            _standbyMonday.value = decodeTimeForString(monday)
-            _standbyMondayEnd.value = decodeTimeForString(mondayEnd)
-            _standbyTuesday.value = decodeTimeForString(tuesday)
-            _standbyTuesdayEnd.value = decodeTimeForString(tuesdayEnd)
-            _standbyWednesday.value = decodeTimeForString(wednesday)
-            _standbyWednesdayEnd.value = decodeTimeForString(wednesdayEnd)
-            _standbyThursday.value = decodeTimeForString(thursday)
-            _standbyThursdayEnd.value = decodeTimeForString(thursdayEnd)
-            _standbyFriday.value = decodeTimeForString(friday)
-            _standbyFridayEnd.value = decodeTimeForString(fridayEnd)
-            _standbySaturday.value = decodeTimeForString(saturday)
-            _standbySaturdayEnd.value = decodeTimeForString(saturdayEnd)
-            _standbySunday.value = decodeTimeForString(sunday)
-            _standbySundayEnd.value = decodeTimeForString(sundayEnd)
+            _standbyMonday.value = monday
+            _standbyMondayEnd.value = mondayEnd
+            _standbyTuesday.value = tuesday
+            _standbyTuesdayEnd.value = tuesdayEnd
+            _standbyWednesday.value = wednesday
+            _standbyWednesdayEnd.value = wednesdayEnd
+            _standbyThursday.value = thursday
+            _standbyThursdayEnd.value = thursdayEnd
+            _standbyFriday.value = friday
+            _standbyFridayEnd.value = fridayEnd
+            _standbySaturday.value = saturday
+            _standbySaturdayEnd.value = saturdayEnd
+            _standbySunday.value = sunday
+            _standbySundayEnd.value = sundayEnd
 
             _mode.value = dataStore.getCoffeePreference(MODE, 0)
             _cleanPeriod.value = dataStore.getCoffeePreference(CLEAN_PERIOD, 1)
@@ -167,71 +172,85 @@ class CleanViewModel @Inject constructor(
     }
 
     fun getHourAndMinute(index: Int): Pair<Int, Int> {
-        return Pair(0, 0)
+        val (hour, minute) = when (index) {
+            0 -> decodeTime(_standbyMonday.value)
+            1 -> decodeTime(_standbyMondayEnd.value)
+            2 -> decodeTime(_standbyTuesday.value)
+            3 -> decodeTime(_standbyTuesdayEnd.value)
+            4 -> decodeTime(_standbyWednesday.value)
+            5 -> decodeTime(_standbyWednesdayEnd.value)
+            6 -> decodeTime(_standbyThursday.value)
+            7 -> decodeTime(_standbyThursdayEnd.value)
+            8 -> decodeTime(_standbyFriday.value)
+            9 -> decodeTime(_standbyFridayEnd.value)
+            10 -> decodeTime(_standbySaturday.value)
+            11 -> decodeTime(_standbySaturdayEnd.value)
+            12 -> decodeTime(_standbySunday.value)
+            13 -> decodeTime(_standbySundayEnd.value)
+            else -> Pair(0, 0)
+        }
+        return Pair(hour, minute)
     }
 
     fun saveStandbyTime(index: Int, hour: Int, minute: Int) {
         viewModelScope.launch {
             val timeValue = encodeTime(hour, minute)
-            val timeString = String.format("%02d:%02d", hour, minute)
             when (index) {
                 0 -> {
+                    _standbyMonday.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_MONDAY, timeValue)
-                    _standbyMonday.value = timeString
                 }
                 1 -> {
+                    _standbyMondayEnd.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_MONDAY_END, timeValue)
-                    _standbyMondayEnd.value = timeString
                 }
                 2 -> {
+                    _standbyTuesday.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_TUESDAY, timeValue)
-                    _standbyTuesday.value = timeString
                 }
                 3 -> {
+                    _standbyTuesdayEnd.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_TUESDAY_END, timeValue)
-                    _standbyTuesdayEnd.value = timeString
                 }
                 4 -> {
+                    _standbyWednesday.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_WEDNESDAY, timeValue)
-                    _standbyWednesday.value = timeString
                 }
                 5 -> {
+                    _standbyWednesdayEnd.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_WEDNESDAY_END, timeValue)
-                    _standbyWednesdayEnd.value = timeString
                 }
                 6 -> {
+                    _standbyThursday.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_THURSDAY, timeValue)
-                    _standbyThursday.value = timeString
-
                 }
                 7 -> {
+                    _standbyThursdayEnd.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_THURSDAY_END, timeValue)
-                    _standbyThursdayEnd.value = timeString
                 }
                 8 -> {
+                    _standbyFriday.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_FRIDAY, timeValue)
-                    _standbyFriday.value = timeString
                 }
                 9 -> {
+                    _standbyFridayEnd.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_FRIDAY_END, timeValue)
-                    _standbyFridayEnd.value = timeString
                 }
                 10 -> {
+                    _standbySaturday.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_SATURDAY, timeValue)
-                    _standbySaturday.value = timeString
                 }
                 11 -> {
+                    _standbySaturdayEnd.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_SATURDAY_END, timeValue)
-                    _standbySaturdayEnd.value = timeString
                 }
                 12 -> {
+                    _standbySunday.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_SUNDAY, timeValue)
-                    _standbySunday.value = timeString
-
                 }
                 13 -> {
+                    _standbySundayEnd.value = timeValue
                     dataStore.saveCoffeePreference(STANDBY_SUNDAY_END, timeValue)
-                    _standbySundayEnd.value = timeString
                 }
             }
         }
@@ -288,6 +307,13 @@ class CleanViewModel @Inject constructor(
         val hour = (timeValue shr 8) and 0xFF
         val minute = timeValue and 0xFF
         return Pair(hour, minute)
+    }
+
+    private fun decodeTimeToString(time: StateFlow<Int>): StateFlow<String> {
+        return time.map {
+            val (hour, minute) = decodeTime(it)
+            String.format("%02d:%02d", hour, minute)
+        }.stateIn(viewModelScope, SharingStarted.Lazily, "")
     }
 
 }

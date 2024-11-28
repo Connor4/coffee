@@ -145,7 +145,7 @@ fun StandbyOnOffTimeLayout(
         }
 
         if (itemSelectIndex.value != INVALID_INT) {
-//            val (hour, minute) = viewModel.getHourAndMinute(0)
+            val (hour, minute) = viewModel.getHourAndMinute(itemSelectIndex.value)
             DisplaySettingTimeLayout({ selectedHour, selectedMin ->
                 viewModel.saveStandbyTime(itemSelectIndex.value, selectedHour, selectedMin)
                 itemSelectIndex.value = INVALID_INT
@@ -153,7 +153,7 @@ fun StandbyOnOffTimeLayout(
                 itemSelectIndex.value = INVALID_INT
             }, {
                 itemSelectIndex.value = INVALID_INT
-            }, defaultHour = 0, defaultMinute = 0
+            }, defaultHour = hour, defaultMinute = minute
             )
         }
 
