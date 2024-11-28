@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +25,8 @@ class MachineCounterViewModel @Inject constructor(
     init {
         viewModelScope.launch(defaultDispatcher) {
             val resetTime = dataStore.getLastResetProductTime()
-            val language = dataStore.getSystemLanguage()
+            val systemLanguage = dataStore.getSystemLanguage()
+            val language = Locale.forLanguageTag(systemLanguage).language
             _time.value = TimeUtils.getNowTimeInYearAndHour(resetTime, language)
         }
     }

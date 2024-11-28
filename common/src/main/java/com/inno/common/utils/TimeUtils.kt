@@ -180,9 +180,9 @@ class TimeUtils {
         ): String {
             val dateFormat = when (language) {
                 Locale.ENGLISH.language -> SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.ENGLISH)
-                Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+                Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy/MM/dd HH:mm:ss",
                     Locale.SIMPLIFIED_CHINESE)
-                else -> SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                else -> SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.ENGLISH)
             }
             val date = Date(time)
             return dateFormat.format(date)
@@ -191,7 +191,7 @@ class TimeUtils {
         fun getNowDate(language: String): String {
             val dateFormat = when (language) {
                 Locale.ENGLISH.language -> SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
-                Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy-MM-dd",
+                Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy/MM/dd",
                     Locale.SIMPLIFIED_CHINESE)
                 else -> SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
             }
@@ -208,7 +208,7 @@ class TimeUtils {
                 "getLocalDateTimeString() called with: language = $language, dateTime = $dateTime")
             val formatter = when (language) {
                 Locale.ENGLISH.language -> DateTimeFormatter.ofPattern("MM/dd/yyyy")
-                Locale.SIMPLIFIED_CHINESE.language -> DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                Locale.SIMPLIFIED_CHINESE.language -> DateTimeFormatter.ofPattern("yyyy/MM/dd")
                 else -> DateTimeFormatter.ofPattern("MM/dd/yyyy")
             }
             return formatter.format(dateTime)

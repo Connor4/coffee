@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,7 +49,8 @@ class StatisticProductViewModel @Inject constructor(
             _typeCounts.value = repository.getTypeCounts()
 
             val resetTime = dataStore.getLastResetProductTime()
-            val language = dataStore.getSystemLanguage()
+            val systemLanguage = dataStore.getSystemLanguage()
+            val language = Locale.forLanguageTag(systemLanguage).language
             _time.value = TimeUtils.getNowTimeInYearAndHour(resetTime, language)
         }
     }
@@ -59,7 +61,8 @@ class StatisticProductViewModel @Inject constructor(
             repository.deleteAllProductCount()
 
             val nowTime = System.currentTimeMillis()
-            val language = dataStore.getSystemLanguage()
+            val systemLanguage = dataStore.getSystemLanguage()
+            val language = Locale.forLanguageTag(systemLanguage).language
             val nowTimeFormat = TimeUtils.getNowTimeInYearAndHour(nowTime, language)
             _time.value = nowTimeFormat
 

@@ -84,7 +84,8 @@ class ProductHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(defaultDispatcher) {
                 val nowTime = System.currentTimeMillis()
-                val language = dataStore.getSystemLanguage()
+                val systemLanguage = dataStore.getSystemLanguage()
+                val language = Locale.forLanguageTag(systemLanguage).language
                 val nowTimeFormat = TimeUtils.getNowTimeInYearAndHour(nowTime, language)
                 val maintenanceHistory =
                     MaintenanceHistory(time = nowTimeFormat, description = description)
