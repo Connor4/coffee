@@ -72,6 +72,7 @@
         <activity android:name=".ui.settings.maintenance.SaveRestoreActivity" />
         <activity android:name=".ui.settings.maintenance.ManualActivity" />
         <activity android:name=".ui.settings.clean.CleanActivity" />
+        <activity android:name=".ui.settings.remote.RemoteMonitorActivity" />
     </application>
 
 </manifest>

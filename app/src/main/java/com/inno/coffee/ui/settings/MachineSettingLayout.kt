@@ -49,6 +49,7 @@ import com.inno.coffee.ui.settings.machinetest.MachineTestActivity
 import com.inno.coffee.ui.settings.maintenance.MaintenanceActivity
 import com.inno.coffee.ui.settings.params.MachineParamsActivity
 import com.inno.coffee.ui.settings.permissions.PermissionActivity
+import com.inno.coffee.ui.settings.remote.RemoteMonitorActivity
 import com.inno.coffee.ui.settings.statistics.StatisticActivity
 import com.inno.coffee.utilities.nsp
 import com.inno.common.annotations.BEANS_AND_GRINDER
@@ -203,10 +204,11 @@ private fun jumpDetail(name: String, context: Context) {
             ScreenDisplayManager.autoRoute(context, MachineParamsActivity::class.java)
         }
         BEANS_AND_GRINDER -> {
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
             ScreenDisplayManager.autoRoute(context, BeanGrinderActivity::class.java)
         }
         WASH_MACHINE -> {
-//            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
             ScreenDisplayManager.autoRoute(context, CleanActivity::class.java)
         }
         PERMISSION -> {
@@ -214,13 +216,14 @@ private fun jumpDetail(name: String, context: Context) {
         }
         INTERFACE -> {
             Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+            ScreenDisplayManager.autoRoute(context, RemoteMonitorActivity::class.java)
         }
         MAINTENANCE -> {
-//            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
             ScreenDisplayManager.autoRoute(context, MaintenanceActivity::class.java)
         }
         MACHINE_INFO -> {
-//            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "还没做", Toast.LENGTH_SHORT).show()
             ScreenDisplayManager.autoRoute(context, MachineInfoActivity::class.java)
         }
         MACHINE_TEST -> {
