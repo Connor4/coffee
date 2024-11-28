@@ -6,11 +6,9 @@ import android.os.SystemClock
 import android.provider.Settings
 import android.text.format.DateFormat
 import androidx.annotation.RequiresPermission
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 import kotlin.concurrent.thread
@@ -174,45 +172,39 @@ class TimeUtils {
             }
         }
 
-        fun getNowTimeInYearAndHour(
-            time: Long = System.currentTimeMillis(),
-            language: String,
-        ): String {
-            val dateFormat = when (language) {
-                Locale.ENGLISH.language -> SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.ENGLISH)
-                Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy/MM/dd HH:mm:ss",
-                    Locale.SIMPLIFIED_CHINESE)
-                else -> SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.ENGLISH)
+        private const val TAG = "TimeUtils"
+        private val englishFullPattern = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")
+        private val englishDatePattern = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        private val chineseFullPattern = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+        private val chineseDatePattern = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        private val hourMinutePattern = DateTimeFormatter.ofPattern("HH:mm")
+
+        fun getFullFormat(date: LocalDateTime = LocalDateTime.now()): String {
+            val default = Locale.getDefault()
+            Logger.d(TAG, "getDateString() called with: date = $date language = $default")
+            val formatter = when (default.language) {
+                Locale.ENGLISH.language -> englishFullPattern
+                Locale.SIMPLIFIED_CHINESE.language -> chineseFullPattern
+                else -> englishFullPattern
             }
-            val date = Date(time)
-            return dateFormat.format(date)
+            return formatter.format(date)
         }
 
-        fun getNowDate(language: String): String {
-            val dateFormat = when (language) {
-                Locale.ENGLISH.language -> SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
-                Locale.SIMPLIFIED_CHINESE.language -> SimpleDateFormat("yyyy/MM/dd",
-                    Locale.SIMPLIFIED_CHINESE)
-                else -> SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+        fun getYearMonthDayFormat(date: LocalDateTime = LocalDateTime.now()): String {
+            val default = Locale.getDefault()
+            Logger.d(TAG, "getDateString() called with: date = $date language = $default")
+            val formatter = when (default.language) {
+                Locale.ENGLISH.language -> englishDatePattern
+                Locale.SIMPLIFIED_CHINESE.language -> chineseDatePattern
+                else -> englishDatePattern
             }
-            return dateFormat.format(Date())
+            return formatter.format(date)
         }
 
-        fun getNowTimeInHour(): String {
-            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-            return sdf.format(Date())
-        }
-
-        fun getDateString(language: String, dateTime: LocalDateTime): String {
-            Logger.d("Display",
-                "getLocalDateTimeString() called with: language = $language, dateTime = $dateTime")
-            val formatter = when (language) {
-                Locale.ENGLISH.language -> DateTimeFormatter.ofPattern("MM/dd/yyyy")
-                Locale.SIMPLIFIED_CHINESE.language -> DateTimeFormatter.ofPattern("yyyy/MM/dd")
-                else -> DateTimeFormatter.ofPattern("MM/dd/yyyy")
-            }
-            return formatter.format(dateTime)
+        fun getHourMinuteFormat(time: LocalDateTime = LocalDateTime.now()): String {
+            return hourMinutePattern.format(time)
         }
 
     }
+
 }

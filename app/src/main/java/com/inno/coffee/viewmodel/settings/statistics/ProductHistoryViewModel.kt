@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Locale
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -83,12 +82,8 @@ class ProductHistoryViewModel @Inject constructor(
     fun addMaintenanceHistory(description: String) {
         viewModelScope.launch {
             withContext(defaultDispatcher) {
-                val nowTime = System.currentTimeMillis()
-                val systemLanguage = dataStore.getSystemLanguage()
-                val language = Locale.forLanguageTag(systemLanguage).language
-                val nowTimeFormat = TimeUtils.getNowTimeInYearAndHour(nowTime, language)
-                val maintenanceHistory =
-                    MaintenanceHistory(time = nowTimeFormat, description = description)
+                val time = TimeUtils.getFullFormat()
+                val maintenanceHistory = MaintenanceHistory(time = time, description = description)
                 repository.addMaintenanceHistory(maintenanceHistory)
             }
         }
@@ -96,7 +91,7 @@ class ProductHistoryViewModel @Inject constructor(
 
     fun addFakeHistoryDataForTest() {
         viewModelScope.launch {
-            val time = TimeUtils.getNowTimeInYearAndHour(language = Locale.ENGLISH.language)
+            val time = TimeUtils.getFullFormat()
             repository.insertProductHistory(
                 ProductHistory(time = time, pressFinal = 24.0f,
                     brewSide = Random.nextBoolean(), grindTime = 11.4f, pqc = true,

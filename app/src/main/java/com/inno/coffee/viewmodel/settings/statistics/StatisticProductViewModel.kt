@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Locale
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,8 +25,10 @@ class StatisticProductViewModel @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val dataStore: CoffeeDataStore,
 ) : ViewModel() {
+    companion object {
+        private const val TAG = "StatisticProductViewModel"
+    }
 
-    private val TAG = "StatisticProductViewModel"
     private val _typeCounts = MutableStateFlow<List<ProductTypeCount>>(emptyList())
     val typeCounts: StateFlow<List<ProductTypeCount>> = _typeCounts
     private val _productCount = MutableStateFlow(0)
@@ -39,37 +41,28 @@ class StatisticProductViewModel @Inject constructor(
     val formula = _formula.asStateFlow()
 
     fun loadDrinkTypeList() {
+        Logger.d(TAG, "loadDrinkTypeList() called")
         viewModelScope.launch(defaultDispatcher) {
             _drinksList.value = repository.getAllFormula().filter {
                 !ProductType.isOperationType(it.productType?.type)
                         && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
             }
             getProductCount(_drinksList.value.first().productId)
-
-            _typeCounts.value = repository.getTypeCounts()
-
             val resetTime = dataStore.getLastResetProductTime()
-            val systemLanguage = dataStore.getSystemLanguage()
-            val language = Locale.forLanguageTag(systemLanguage).language
-            _time.value = TimeUtils.getNowTimeInYearAndHour(resetTime, language)
+            _typeCounts.value = repository.getTypeCounts()
+            _time.value = TimeUtils.getFullFormat(LocalDateTime.parse(resetTime))
         }
     }
 
     fun resetData() {
+        Logger.d(TAG, "resetData()")
         viewModelScope.launch(defaultDispatcher) {
-            Logger.d(TAG, "resetData()")
             repository.deleteAllProductCount()
-
-            val nowTime = System.currentTimeMillis()
-            val systemLanguage = dataStore.getSystemLanguage()
-            val language = Locale.forLanguageTag(systemLanguage).language
-            val nowTimeFormat = TimeUtils.getNowTimeInYearAndHour(nowTime, language)
-            _time.value = nowTimeFormat
-
+            val nowTime = LocalDateTime.now()
+            _time.value = TimeUtils.getFullFormat(nowTime)
             _typeCounts.value = repository.getTypeCounts()
             getProductCount(_drinksList.value.first().productId)
-
-            dataStore.saveLastResetProductTime(nowTime)
+            dataStore.saveLastResetProductTime(nowTime.toString())
         }
     }
 

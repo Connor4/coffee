@@ -12,7 +12,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -49,12 +48,9 @@ class ServiceParamViewModel @Inject constructor(
             _schedule.value =
                 dataStore.getCoffeePreference(SERVICE_PARAM_SCHEDULE, 12)
 
-            val language = dataStore.getSystemLanguage()
             val time = dataStore.getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
-            val dateTime = LocalDateTime.parse(time)
-            val newDateTime = dateTime.plusMonths(_schedule.value.toLong())
-            val date =
-                TimeUtils.getDateString(Locale.forLanguageTag(language).language, newDateTime)
+            val nextMonth = LocalDateTime.parse(time).plusMonths(_schedule.value.toLong())
+            val date = TimeUtils.getYearMonthDayFormat(nextMonth)
 
             _leftCount.value = repository.getBrewProductCount(true)
             _rightCount.value = repository.getBrewProductCount(false)
@@ -74,13 +70,10 @@ class ServiceParamViewModel @Inject constructor(
                 MAINTENANCE_VALUE_SCHEDULE -> {
                     dataStore.saveCoffeePreference(SERVICE_PARAM_SCHEDULE, value)
 
-                    val systemLanguage = dataStore.getSystemLanguage()
-                    val language = Locale.forLanguageTag(systemLanguage).language
                     val time =
                         dataStore.getCoffeePreference(MAINTENANCE_DATE, DEFAULT_MAINTENANCE_DATE)
-                    val dateTime = LocalDateTime.parse(time)
-                    val newDateTime = dateTime.plusMonths(_schedule.value.toLong())
-                    val date = TimeUtils.getDateString(language, newDateTime)
+                    val nextMonth = LocalDateTime.parse(time).plusMonths(_schedule.value.toLong())
+                    val date = TimeUtils.getYearMonthDayFormat(nextMonth)
 
                     _maintenanceDate.value = date
                     _schedule.value = value

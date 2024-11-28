@@ -107,7 +107,7 @@ fun MaintenanceHistoryLayout(
                     } else {
                         showInput = false
                         viewModel.addMaintenanceHistory(description)
-//                    viewModel.addFakeHistoryDataForTest()
+                        viewModel.addFakeHistoryDataForTest()
                     }
                 },
                 onCloseClick = {

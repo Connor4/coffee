@@ -1,5 +1,7 @@
 package com.inno.coffee
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun main() {
@@ -17,6 +19,13 @@ fun main() {
     val chinese = Locale.TRADITIONAL_CHINESE
     val tag = Locale.forLanguageTag(chinese.language)
     println("chinese : $chinese language ${chinese.language} tag $tag")
+
+    val default = Locale.getDefault()
+    println("default : $default language ${default.language} tag $tag")
+
+    val pattern = DateTimeFormatter.ofPattern("HH:mm")
+    val now = LocalDateTime.now()
+    println(pattern.format(now))
 }
 
 

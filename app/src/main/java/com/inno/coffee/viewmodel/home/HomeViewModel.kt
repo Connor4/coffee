@@ -37,7 +37,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -127,9 +126,8 @@ class HomeViewModel @Inject constructor(
 
     fun getCurrentDate() {
         viewModelScope.launch {
-            val language = dataStore.getSystemLanguage()
-            _time.value = TimeUtils.getNowTimeInHour()
-            _date.value = TimeUtils.getNowDate(Locale.forLanguageTag(language).language)
+            _time.value = TimeUtils.getHourMinuteFormat()
+            _date.value = TimeUtils.getYearMonthDayFormat()
         }
     }
 

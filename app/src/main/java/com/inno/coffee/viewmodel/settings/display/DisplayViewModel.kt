@@ -72,8 +72,7 @@ class DisplayViewModel @Inject constructor(
             val showExtractionTime = dataStore.getCoffeePreference(SHOW_EXTRACTION_TIME, true)
 
             _language.value = systemLanguage
-            _time.value = TimeUtils.getNowTimeInYearAndHour(
-                language = Locale.forLanguageTag(systemLanguage).language)
+            _time.value = TimeUtils.getFullFormat()
             _backToFirstPage.value = autoBackToFirstPage
             _numberOfProductPerPage.value = numberOfProductPerPage
             _frontLightColor.value = frontLightColor
@@ -93,10 +92,7 @@ class DisplayViewModel @Inject constructor(
 
     fun getTime() {
         viewModelScope.launch {
-            val systemLanguage = dataStore.getSystemLanguage()
-            val language = Locale.forLanguageTag(systemLanguage).language
-            val time = TimeUtils.getNowTimeInYearAndHour(language = language)
-            _time.value = time
+            _time.value = TimeUtils.getFullFormat()
         }
     }
 
