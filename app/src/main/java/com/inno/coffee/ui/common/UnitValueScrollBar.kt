@@ -1,7 +1,9 @@
 package com.inno.coffee.ui.common
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.drag
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,12 +19,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,6 +58,9 @@ fun UnitValueScrollBar(
     }
     var currentValue by remember {
         mutableFloatStateOf(value)
+    }
+    var offset by remember {
+        mutableStateOf(Offset.Zero)
     }
 
     Box(modifier = modifier) {
@@ -105,31 +113,56 @@ fun UnitValueScrollBar(
                         .height(progressBarHeight)
                         .background(Color(0xFF191A1D))
                         .pointerInput(Unit) {
-                            detectDragGestures { _, dragAmount ->
-                                val newProgress = (progress + dragAmount.x / progressBarWidth
-                                    .toPx()).coerceIn(0f, 1f)
+                            awaitEachGesture {
+                                val downEvent = awaitFirstDown()
+                                offset = downEvent.position
+                                progress = (offset.x / progressBarWidth.toPx()).coerceIn(0f, 1f)
                                 currentValue = when (accuracy) {
                                     ACCURACY_1 -> {
-                                        (rangeStart + (rangeEnd - rangeStart) * newProgress)
+                                        (rangeStart + (rangeEnd - rangeStart) * progress)
                                             .roundToInt()
                                             .toFloat()
                                     }
                                     ACCURACY_2 -> {
-                                        ((rangeStart + (rangeEnd - rangeStart) * newProgress) *
+                                        ((rangeStart + (rangeEnd - rangeStart) * progress) *
                                                 10).roundToInt() / 10f
                                     }
                                     ACCURACY_3 -> {
-                                        ((rangeStart + (rangeEnd - rangeStart) * newProgress) *
+                                        ((rangeStart + (rangeEnd - rangeStart) * progress) *
                                                 100).roundToInt() / 100f
                                     }
                                     else -> {
-                                        (rangeStart + (rangeEnd - rangeStart) * newProgress)
+                                        (rangeStart + (rangeEnd - rangeStart) * progress)
                                             .roundToInt()
                                             .toFloat()
                                     }
                                 }
-                                progress = newProgress
                                 onValueChange(currentValue)
+                                drag(downEvent.id) {
+                                    offset += it.positionChange()
+                                    progress = (offset.x / progressBarWidth.toPx()).coerceIn(0f, 1f)
+                                    currentValue = when (accuracy) {
+                                        ACCURACY_1 -> {
+                                            (rangeStart + (rangeEnd - rangeStart) * progress)
+                                                .roundToInt()
+                                                .toFloat()
+                                        }
+                                        ACCURACY_2 -> {
+                                            ((rangeStart + (rangeEnd - rangeStart) * progress) *
+                                                    10).roundToInt() / 10f
+                                        }
+                                        ACCURACY_3 -> {
+                                            ((rangeStart + (rangeEnd - rangeStart) * progress) *
+                                                    100).roundToInt() / 100f
+                                        }
+                                        else -> {
+                                            (rangeStart + (rangeEnd - rangeStart) * progress)
+                                                .roundToInt()
+                                                .toFloat()
+                                        }
+                                    }
+                                    onValueChange(currentValue)
+                                }
                             }
                         },
                     contentAlignment = Alignment.CenterStart
