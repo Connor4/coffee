@@ -58,8 +58,8 @@ class CleanViewModel @Inject constructor(
     val mode = _mode
     private val _cleanPeriod = MutableStateFlow(1)
     val cleanPeriod = _cleanPeriod
-    private val _cleanTime = MutableStateFlow("")
-    val cleanTime = _cleanTime
+    private val _cleanTime = MutableStateFlow(0)
+    val cleanTime = decodeTimeToString(_cleanTime)
     private val _timeTolerance = MutableStateFlow(1)
     val timeTolerance = _timeTolerance
     private val _weekendCleanMode = MutableStateFlow(0)
@@ -121,7 +121,7 @@ class CleanViewModel @Inject constructor(
             val sunday = dataStore.getCoffeePreference(STANDBY_SUNDAY, 0)
             val sundayEnd = dataStore.getCoffeePreference(STANDBY_SUNDAY_END, 1)
 
-            _cleanTime.value = decodeTimeForString(time)
+            _cleanTime.value = time
             _standbyMonday.value = monday
             _standbyMondayEnd.value = mondayEnd
             _standbyTuesday.value = tuesday
@@ -158,15 +158,15 @@ class CleanViewModel @Inject constructor(
         _switchValue.value = _switchValue.value xor (1 shl flagIndex)
         Logger.d(TAG, "setFlag() called with: flagIndex = $flagIndex, value = $value, newValue = " +
                 "${_switchValue.value}")
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             dataStore.saveCoffeePreference(SWITCH_VALUE, _switchValue.value)
         }
     }
 
     fun saveCleanTime(hour: Int, minute: Int) {
-        _cleanTime.value = String.format("%02d:%02d", hour, minute)
-        viewModelScope.launch {
-            val timeValue = encodeTime(hour, minute)
+        val timeValue = encodeTime(hour, minute)
+        _cleanTime.value = timeValue
+        viewModelScope.launch(defaultDispatcher) {
             dataStore.saveCoffeePreference(CLEAN_TIME, timeValue)
         }
     }
@@ -187,6 +187,7 @@ class CleanViewModel @Inject constructor(
             11 -> decodeTime(_standbySaturdayEnd.value)
             12 -> decodeTime(_standbySunday.value)
             13 -> decodeTime(_standbySundayEnd.value)
+            14 -> decodeTime(_cleanTime.value)
             else -> Pair(0, 0)
         }
         return Pair(hour, minute)
@@ -214,7 +215,7 @@ class CleanViewModel @Inject constructor(
     }
 
     fun saveStandbyTime(index: Int, hour: Int, minute: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             val timeValue = encodeTime(hour, minute)
             when (index) {
                 0 -> {
@@ -310,11 +311,6 @@ class CleanViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun decodeTimeForString(timeValue: Int): String {
-        val (hour, minute) = decodeTime(timeValue)
-        return String.format("%02d:%02d", hour, minute)
     }
 
     private fun encodeTime(hour: Int, minute: Int): Int {
