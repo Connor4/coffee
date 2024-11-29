@@ -69,7 +69,21 @@ fun UnitValueScrollBar(
                 .align(Alignment.TopEnd)
                 .padding(top = 6.dp, end = 381.dp)
         ) {
-            Text(text = "$currentValue", fontSize = 6.nsp(), color = Color.White)
+            val realShowCurrentValue = when (accuracy) {
+                ACCURACY_1 -> {
+                    "${currentValue.toInt()}"
+                }
+                ACCURACY_2 -> {
+                    "${(currentValue * 10).roundToInt() / 10f}"
+                }
+                ACCURACY_3 -> {
+                    "${(currentValue * 100).roundToInt() / 100f}"
+                }
+                else -> {
+                    "${currentValue.toInt()}"
+                }
+            }
+            Text(text = realShowCurrentValue, fontSize = 6.nsp(), color = Color.White)
             Spacer(modifier = Modifier.width(5.dp))
             Text(text = unit, fontSize = 6.nsp(), color = Color.White)
         }
@@ -182,8 +196,36 @@ fun UnitValueScrollBar(
                         .wrapContentHeight(),
                     horizontalArrangement = Arrangement.Absolute.SpaceBetween
                 ) {
-                    Text(text = "$rangeStart", fontSize = 5.nsp(), color = Color.White)
-                    Text(text = "$rangeEnd", fontSize = 5.nsp(), color = Color.White)
+                    val realShowRangeStart = when (accuracy) {
+                        ACCURACY_1 -> {
+                            "${rangeStart.toInt()}"
+                        }
+                        ACCURACY_2 -> {
+                            "${(rangeStart * 10).roundToInt() / 10f}"
+                        }
+                        ACCURACY_3 -> {
+                            "${(rangeStart * 100).roundToInt() / 100f}"
+                        }
+                        else -> {
+                            "${rangeStart.toInt()}"
+                        }
+                    }
+                    val realShowRangeEnd = when (accuracy) {
+                        ACCURACY_1 -> {
+                            "${rangeEnd.toInt()}"
+                        }
+                        ACCURACY_2 -> {
+                            "${(rangeEnd * 10).roundToInt() / 10f}"
+                        }
+                        ACCURACY_3 -> {
+                            "${(rangeEnd * 100).roundToInt() / 100f}"
+                        }
+                        else -> {
+                            "${rangeEnd.toInt()}"
+                        }
+                    }
+                    Text(text = realShowRangeStart, fontSize = 5.nsp(), color = Color.White)
+                    Text(text = realShowRangeEnd, fontSize = 5.nsp(), color = Color.White)
                 }
             }
             Spacer(modifier = Modifier.width(20.dp))
