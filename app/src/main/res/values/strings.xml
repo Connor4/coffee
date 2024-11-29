@@ -584,5 +584,10 @@
     <string name="clean_sunday">Sunday</string>
     <string name="clean_time_rule">Switch-on Time must be before Switch-off Time</string>
 
+    <string name="remote_check_connection">Check Connection</string>
+    <string name="remote_telemetry">Telemetry</string>
+    <string name="remote_id">Machine ID</string>
+    <string name="remote_telemetry_open">OPEN</string>
+    <string name="remote_telemetry_close">CLOSE</string>
 
 </resources>
