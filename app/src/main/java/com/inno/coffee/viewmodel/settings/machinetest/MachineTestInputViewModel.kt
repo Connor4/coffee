@@ -31,9 +31,9 @@ class MachineTestInputViewModel @Inject constructor(
     }
 
     private val _tempUnit = MutableStateFlow(false)
-    private val _microSwitchLeft = MutableStateFlow(false)
+    private val _microSwitchLeft = MutableStateFlow(true)
     val microSwitchLeft = _microSwitchLeft
-    private val _microSwitchRight = MutableStateFlow(false)
+    private val _microSwitchRight = MutableStateFlow(true)
     val microSwitchRight = _microSwitchRight
     private val _rear = MutableStateFlow(true)
     val rear = _rear
