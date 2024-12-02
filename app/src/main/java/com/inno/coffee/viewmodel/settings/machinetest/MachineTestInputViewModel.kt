@@ -8,6 +8,7 @@ import com.inno.common.utils.CoffeeDataStore
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.COFFEE_INPUT_COMMAND_ID
+import com.inno.serialport.utilities.MILK_INPUT_COMMAND_ID
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.STEAM_INPUT_COMMAND_ID
@@ -114,6 +115,15 @@ class MachineTestInputViewModel @Inject constructor(
         }
     }
 
+    fun getMilkInputs() {
+        viewModelScope.launch {
+            while (true) {
+                CommandControlManager.sendTestCommand(MILK_INPUT_COMMAND_ID)
+                delay(1000)
+            }
+        }
+    }
+
     private fun parseReceivedData(data: Any) {
         if (data is ReceivedData.CommonReply) {
             val params = data.params
@@ -152,6 +162,22 @@ class MachineTestInputViewModel @Inject constructor(
                 val rightWandTemp =
                     ((params[9].toInt() and 0xFF) shl 8) or (params[8].toInt() and 0xFF)
                 _rightWandTemp.value = rightWandTemp / 10f
+            } else if (commandId == MILK_INPUT_COMMAND_ID) {
+                val leftMilkTemp =
+                    ((params[1].toInt() and 0xFF) shl 8) or (params[0].toInt() and 0xFF)
+                _milkTempLeft.value = leftMilkTemp / 10f
+                val rightMilkTemp =
+                    ((params[3].toInt() and 0xFF) shl 8) or (params[2].toInt() and 0xFF)
+                _milkTempRight.value = rightMilkTemp / 10f
+                val leftTankTemp =
+                    ((params[5].toInt() and 0xFF) shl 8) or (params[4].toInt() and 0xFF)
+                _milkTankTempLeft.value = leftTankTemp / 10f
+                val rightTankTemp =
+                    ((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)
+                _milkTankTempRight.value = rightTankTemp / 10f
+                _milkSensorLeft.value = params[9] == ONE_IN_BYTE
+                _milkSensorRight.value = params[11] == ONE_IN_BYTE
+
             }
         }
     }

@@ -16,6 +16,7 @@ const val MAKE_DRINKS_COMMAND_ID: Short = 100
 const val MACHINE_PARAM_COMMAND_ID: Short = 200
 const val COFFEE_INPUT_COMMAND_ID: Short = 201
 const val STEAM_INPUT_COMMAND_ID: Short = 202
+const val MILK_INPUT_COMMAND_ID: Short = 203
 const val COFFEE_OUTPUT_COMMAND_ID: Short = 300
 const val MACHINE_TEST_WATER_PUMP_ID: Short = 301
 const val MACHINE_TEST_WATER_INLET_VALVE: Short = 302
