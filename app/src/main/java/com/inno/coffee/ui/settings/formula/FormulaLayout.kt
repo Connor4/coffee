@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -71,39 +70,34 @@ fun FormulaLayout(
             openConfirmDialog.value = true
             selectedCups.value = cups
         }
-        Box(
+        ChangeColorButton(
             modifier = Modifier
-                .wrapContentSize()
                 .align(Alignment.TopStart)
                 .padding(start = 450.dp, top = 330.dp)
+                .width(220.dp)
+                .height(50.dp),
+            text = stringResource(id = R.string.formula_assimilation_key),
         ) {
-            ChangeColorButton(
-                modifier = Modifier
-                    .width(220.dp)
-                    .height(50.dp),
-                text = stringResource(id = R.string.formula_assimilation_key),
-            ) {
-                viewModel.assimilationProduct(selectFormula)
-            }
+            viewModel.assimilationProduct(selectFormula)
         }
         FormulaDrinkPage(selectFormula, totalCount, pagerState, drinksTypeList) {
             viewModel.getFormula(it.productId)
         }
         FormulaValuesDisplay(leftCoffee = leftTemp, rightCoffee = rightTemp, wand = wandTemp,
             steam = steamTemp)
-        FormulaValueItem(selectFormula, {
+        FormulaValueItem(selectFormula, onValueChange = {
             selectFormula?.let {
                 viewModel.updateFormula(it)
             }
-        }, {
+        }, onProductTest = {
 
-        }, { index ->
+        }, onLearn = { index ->
             when (index) {
                 FORMULA_SHOW_LEARN_WATER -> {
-//                    viewModel.learnWater()
+
                 }
                 FORMULA_SHOW_POWDER_TEST -> {
-//                    viewModel.productTest()
+
                 }
             }
         })
