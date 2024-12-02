@@ -65,6 +65,18 @@ class MachineTestInputViewModel @Inject constructor(
     private val _rightWandTemp = MutableStateFlow(0f)
     val rightWandTemp = temperatureDisplayFlow(_rightWandTemp)
 
+    private val _milkTempLeft = MutableStateFlow(0f)
+    val milkTempLeft = temperatureDisplayFlow(_milkTempLeft)
+    private val _milkTempRight = MutableStateFlow(0f)
+    val milkTempRight = temperatureDisplayFlow(_milkTempRight)
+    private val _milkTankTempLeft = MutableStateFlow(0f)
+    val milkTankTempLeft = temperatureDisplayFlow(_milkTankTempLeft)
+    private val _milkTankTempRight = MutableStateFlow(0f)
+    val milkTankTempRight = temperatureDisplayFlow(_milkTankTempRight)
+    private val _milkSensorLeft = MutableStateFlow(true)
+    val milkSensorLeft = _milkSensorLeft
+    private val _milkSensorRight = MutableStateFlow(true)
+    val milkSensorRight = _milkSensorRight
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {

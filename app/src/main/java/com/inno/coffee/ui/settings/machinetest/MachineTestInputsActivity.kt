@@ -7,6 +7,7 @@ import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_ACTIVITY
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_COFFEE_INPUTS
+import com.inno.coffee.utilities.MACHINE_TEST_VALUE_MILK_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_STEAM_INPUTS
 import com.inno.coffee.viewmodel.settings.machinetest.MachineTestInputViewModel
 import com.inno.common.utils.Logger
@@ -31,6 +32,11 @@ class MachineTestInputsActivity : CoffeeActivity() {
                     }
                     MACHINE_TEST_VALUE_STEAM_INPUTS -> {
                         MachineTestSteamInputLayout(viewModel) {
+                            finish()
+                        }
+                    }
+                    MACHINE_TEST_VALUE_MILK_INPUTS -> {
+                        MachineTestMilkInputLayout(viewModel) {
                             finish()
                         }
                     }

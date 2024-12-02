@@ -32,12 +32,16 @@ import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_ACTIVITY
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_COFFEE_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_COFFEE_OUTPUTS
+import com.inno.coffee.utilities.MACHINE_TEST_KEY_MILK_INPUTS
+import com.inno.coffee.utilities.MACHINE_TEST_KEY_MILK_OUTPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_MOTOR_TEST
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_SERIAL_TEST
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_STEAM_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_STEAM_OUTPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_COFFEE_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_COFFEE_OUTPUTS
+import com.inno.coffee.utilities.MACHINE_TEST_VALUE_MILK_INPUTS
+import com.inno.coffee.utilities.MACHINE_TEST_VALUE_MILK_OUTPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_MOTOR_TEST
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_STEAM_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_VALUE_STEAM_OUTPUTS
@@ -54,6 +58,8 @@ fun MachineTestLayout(
         Pair(MACHINE_TEST_KEY_COFFEE_OUTPUTS, R.string.machine_test_coffee_output),
         Pair(MACHINE_TEST_KEY_STEAM_INPUTS, R.string.machine_test_steam_inputs),
         Pair(MACHINE_TEST_KEY_STEAM_OUTPUTS, R.string.machine_test_steam_output),
+        Pair(MACHINE_TEST_KEY_MILK_INPUTS, R.string.machine_test_milk_inputs),
+        Pair(MACHINE_TEST_KEY_MILK_OUTPUTS, R.string.machine_test_milk_output),
         Pair(MACHINE_TEST_KEY_MOTOR_TEST, R.string.machine_test_motor_test),
         Pair(MACHINE_TEST_KEY_SERIAL_TEST, R.string.common_serial_test),
     )
@@ -122,6 +128,18 @@ private fun jump(index: Int, context: Context) {
             ScreenDisplayManager.autoRoute(context, MachineTestOutputsActivity::class.java,
                 Bundle().apply {
                     putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_STEAM_OUTPUTS)
+                })
+        }
+        MACHINE_TEST_KEY_MILK_INPUTS -> {
+            ScreenDisplayManager.autoRoute(context, MachineTestInputsActivity::class.java,
+                Bundle().apply {
+                    putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_MILK_INPUTS)
+                })
+        }
+        MACHINE_TEST_KEY_MILK_OUTPUTS -> {
+            ScreenDisplayManager.autoRoute(context, MachineTestOutputsActivity::class.java,
+                Bundle().apply {
+                    putString(MACHINE_TEST_KEY_ACTIVITY, MACHINE_TEST_VALUE_MILK_OUTPUTS)
                 })
         }
         MACHINE_TEST_KEY_MOTOR_TEST -> {
