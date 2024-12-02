@@ -441,7 +441,7 @@
     <string name="machine_test_so_efoam_valve1">EFoam1号阀</string>
     <string name="machine_test_mo_air_valve_right">右侧牛奶系统空气阀</string>
     <string name="info_coffee_status">咖啡状态</string>
-    <string name="info_steam_status">蒸汽状态</string>
+    <string name="info_steam_status">蒸汽/牛奶状态</string>
     <string name="maintenance_milk_sensor_left_test">左边牛奶感应器测试</string>
     <string name="maintenance_software_update">软件更新</string>
     <string name="maintenance_reset_settings">还原设置</string>

@@ -475,7 +475,7 @@
     <string name="machine_test_mo_air_valve_right">Air Valve Right</string>
 
     <string name="info_coffee_status">Coffee Status</string>
-    <string name="info_steam_status">Steam Status</string>
+    <string name="info_steam_status">Steam/Milk Status</string>
     <string name="info_sn_machine">S/N Machine: </string>
     <string name="info_cpu">CPU</string>
     <string name="info_sn">S/N:</string>
