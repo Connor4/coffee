@@ -12,6 +12,8 @@ const val HOUR = 0
 const val MINUTES = 1
 const val DATE = "date"
 const val TIME = "time"
+const val ONE_IN_BYTE = 1.toByte()
+const val MAKE_DRINK_REPLY_VALUE = 0
 
 const val FIRST_INSTALL_KEY_ENGLISH = "en"
 const val FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE = "zh-CN"
@@ -26,8 +28,10 @@ const val FIRST_INSTALL_VALUE_JAPANESE = "日本語"
 const val FIRST_INSTALL_VALUE_KOREAN = "한국어"
 const val FIRST_INSTALL_VALUE_FRENCH = "Français"
 
-const val ONE_IN_BYTE = 1.toByte()
-const val MAKE_DRINK_REPLY_VALUE = 0
+const val HOME_LOGIN = 0
+const val HOME_CLEAN = 1
+const val HOME_STANDBY = 2
+const val HOME_INFO = 3
 
 const val KEY_COUNTER = "counter"
 const val KEY_DAY_COUNTER = "daycounter"

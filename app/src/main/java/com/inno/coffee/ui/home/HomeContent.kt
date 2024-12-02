@@ -30,6 +30,10 @@ import com.inno.coffee.ui.home.setting.CleanLockLayout
 import com.inno.coffee.ui.home.setting.HomeSettingEntrance
 import com.inno.coffee.ui.home.setting.MachineInfoLayout
 import com.inno.coffee.ui.settings.SettingActivity
+import com.inno.coffee.utilities.HOME_CLEAN
+import com.inno.coffee.utilities.HOME_INFO
+import com.inno.coffee.utilities.HOME_LOGIN
+import com.inno.coffee.utilities.HOME_STANDBY
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.common.utils.UserSessionManager
 import kotlinx.coroutines.delay
@@ -113,7 +117,7 @@ fun HomeContent(
                         show = showOverlay xor hideOverlay,
                         onMenuClick = {
                             when (it) {
-                                0 -> {
+                                HOME_LOGIN -> {
                                     if (UserSessionManager.isLoggedIn()) {
                                         UserSessionManager.increaseLoginCount()
                                         ScreenDisplayManager.autoRoute(context,
@@ -123,13 +127,13 @@ fun HomeContent(
                                         showLoginDialog = true
                                     }
                                 }
-                                1 -> {
+                                HOME_CLEAN -> {
                                     showCleanDialog = true
                                 }
-                                2 -> {
+                                HOME_STANDBY -> {
                                     showStandByModeDialog = true
                                 }
-                                3 -> {
+                                HOME_INFO -> {
                                     showInfoDialog = true
                                 }
                             }
