@@ -39,9 +39,6 @@ import kotlinx.coroutines.delay
 private const val PAGE_COUNT = 12
 private const val PAGE_WAIT_TIME = 10000L
 
-// 1. control item mask. relate to checking, making item. multiple need add status.
-// 2. sending formula command. need wait for callback, and support multiple command.
-
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun HomeDrinksLayout(

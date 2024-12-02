@@ -103,10 +103,14 @@ fun HomeContent(
                 modifier = Modifier.align(Alignment.BottomCenter)
             ) {
                 HomeBottomBar(leftTemp = leftTemperature.value, rightTemp = rightTemperature.value,
-                    showExtractionTime = showExtractionTime.value
-                ) {
-                    viewModel.showWarningDialog(mainScreen)
-                }
+                    showExtractionTime = showExtractionTime.value, onReleaseSteam = {
+
+                    }, onClickWarning = {
+                        viewModel.showWarningDialog(mainScreen)
+                    }, onClickStop = {
+
+                    }
+                )
             }
             if (showOverlay) {
                 Box(

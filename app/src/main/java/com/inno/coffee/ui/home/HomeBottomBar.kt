@@ -46,6 +46,7 @@ fun HomeBottomBar(
     showExtractionTime: Boolean = true,
     onReleaseSteam: () -> Unit = {},
     onClickWarning: () -> Unit = {},
+    onClickStop: () -> Unit = {},
 ) {
     val operateRinse by SelfCheckManager.operateRinse.collectAsState()
     val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
@@ -69,12 +70,20 @@ fun HomeBottomBar(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Spacer(modifier = Modifier.width(20.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.home_stop_normal_ic),
-                    contentDescription = null,
-                    contentScale = ContentScale.Inside,
-                    modifier = Modifier.size(44.dp)
-                )
+                Box(
+                    modifier = Modifier
+                        .wrapContentWidth(Alignment.End)
+                        .size(60.dp)
+                        .debouncedClickable({ onClickStop() }),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.home_stop_normal_ic),
+                        contentDescription = null,
+                        contentScale = ContentScale.Inside,
+                        modifier = Modifier.size(44.dp)
+                    )
+                }
                 if (operateRinse && !coffeeHeating && !steamHeating) {
                     Spacer(modifier = Modifier.width(20.dp))
                     Button(
