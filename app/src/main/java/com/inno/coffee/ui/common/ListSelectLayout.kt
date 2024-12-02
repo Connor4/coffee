@@ -93,10 +93,10 @@ fun ListSelectLayout(
             )
             Column(
                 modifier = Modifier
-                    .padding(top = 100.dp)
+                    .padding(top = 62.dp)
                     .align(Alignment.TopCenter)
                     .width(690.dp)
-                    .height(300.dp)
+                    .height(338.dp)
                     .verticalScroll(scrollState)
                     .selectableGroup()
             ) {
