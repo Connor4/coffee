@@ -109,36 +109,31 @@ fun FormulaValueItem(
         })
         Box(
             modifier = Modifier
-                .wrapContentSize()
                 .align(Alignment.TopEnd)
                 .padding(top = 331.dp, end = 38.dp)
+                .width(543.dp)
+                .height(293.dp),
         ) {
-            Box(
-                modifier = Modifier
-                    .width(543.dp)
-                    .height(293.dp),
-            ) {
-                VerticalScrollList2(list = formulaItemValues, minimumSize = 9, placeHolder = "",
-                    scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
-                    scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
-                    // IS THIS A GOOD WAY TO PREVENT EMPTY LIST?
-                    if (formulaItemValues.size < 1) {
-                        return@VerticalScrollList2
-                    }
-                    val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
+            VerticalScrollList2(list = formulaItemValues, minimumSize = 9, placeHolder = "",
+                scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
+                scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
+                // IS THIS A GOOD WAY TO PREVENT EMPTY LIST?
+                if (formulaItemValues.size < 1) {
+                    return@VerticalScrollList2
+                }
+                val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
 
-                    if (formulaItemValues.size <= index) {
-                        FormulaItem(backgroundColor = color, selected = false,
-                            description = "", value = "")
-                    } else {
-                        val labelResId = formulaPropertyStringMapping[formulaItemNames[index]]
-                        val label = stringResource(labelResId!!)
+                if (formulaItemValues.size <= index) {
+                    FormulaItem(backgroundColor = color, selected = false,
+                        description = "", value = "")
+                } else {
+                    val labelResId = formulaPropertyStringMapping[formulaItemNames[index]]
+                    val label = stringResource(labelResId!!)
 
-                        FormulaItem(backgroundColor = color, selected = selectedValue == item,
-                            description = label, value = item) {
-                            selectedValue = item
-                            selectedName = formulaPropertyNames[index]
-                        }
+                    FormulaItem(backgroundColor = color, selected = selectedValue == item,
+                        description = label, value = item) {
+                        selectedValue = item
+                        selectedName = formulaPropertyNames[index]
                     }
                 }
             }
