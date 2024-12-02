@@ -70,12 +70,12 @@ fun ListSelectLayout(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .width(834.dp)
-                .height(474.dp)
+                .height(512.dp)
         )
         Box(
             modifier = Modifier
                 .width(770.dp)
-                .height(420.dp)
+                .height(454.dp)
                 .background(Color(0xFF191A1D), RoundedCornerShape(20.dp))
         ) {
             Text(text = title, fontWeight = FontWeight.Bold, fontSize = 7.nsp(),
@@ -93,7 +93,7 @@ fun ListSelectLayout(
             )
             Column(
                 modifier = Modifier
-                    .padding(top = 62.dp)
+                    .padding(top = 100.dp)
                     .align(Alignment.TopCenter)
                     .width(690.dp)
                     .height(338.dp)
