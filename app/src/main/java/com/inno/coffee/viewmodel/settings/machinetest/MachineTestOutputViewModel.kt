@@ -12,6 +12,7 @@ import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_STEP
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.serialport.utilities.COFFEE_OUTPUT_COMMAND_ID
+import com.inno.serialport.utilities.MACHINE_TEST_MILK_OUTPUT_COMMAND_ID
 import com.inno.serialport.utilities.MACHINE_TEST_MOTOR_INIT_ID
 import com.inno.serialport.utilities.MACHINE_TEST_MOTOR_TEST_ID
 import com.inno.serialport.utilities.STEAM_OUTPUT_COMMAND_ID
@@ -54,6 +55,10 @@ class MachineTestOutputViewModel @Inject constructor(
 
     fun steamTestTurnOff() {
         CommandControlManager.sendTestCommand(STEAM_OUTPUT_COMMAND_ID)
+    }
+
+    fun milkTestTurnOff() {
+        CommandControlManager.sendTestCommand(MACHINE_TEST_MILK_OUTPUT_COMMAND_ID)
     }
 
     fun sendTestCommand(id: Short) {

@@ -42,7 +42,9 @@ class MachineTestOutputsActivity : CoffeeActivity() {
                         }
                     }
                     MACHINE_TEST_VALUE_MILK_OUTPUTS -> {
-
+                        MachineTestMilkOutputLayout {
+                            finish()
+                        }
                     }
                 }
             }

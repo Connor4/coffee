@@ -439,6 +439,7 @@
     <string name="machine_test_top_piston">顶部活塞</string>
     <string name="machine_test_bottom_piston">底部活塞</string>
     <string name="machine_test_so_efoam_valve1">EFoam1号阀</string>
+    <string name="machine_test_mo_air_valve_right">右侧牛奶系统空气阀</string>
     <string name="info_coffee_status">咖啡状态</string>
     <string name="info_steam_status">蒸汽状态</string>
     <string name="maintenance_milk_sensor_left_test">左边牛奶感应器测试</string>
@@ -540,5 +541,18 @@
     <string name="machine_test_milk_tank_temperature_left">"左侧奶缸温度: "</string>
     <string name="machine_test_milk_tank_temperature_right">"右侧奶缸温度: "</string>
     <string name="machine_test_milk_detect_sensor_left">"左侧牛奶传感器: "</string>
+    <string name="machine_test_mo_rinse_left">左侧牛奶系统冲洗阀</string>
+    <string name="machine_test_mo_rinse_right">右侧牛奶系统冲洗阀</string>
+    <string name="machine_test_mo_tank_left">左侧奶缸阀</string>
+    <string name="machine_test_mo_tank_right">右侧奶缸阀</string>
+    <string name="machine_test_mo_steam_left">左侧牛奶系统蒸汽阀</string>
+    <string name="machine_test_mo_steam_right">右侧牛奶系统蒸汽阀</string>
+    <string name="machine_test_mo_outlet_left">左侧牛奶出奶阀</string>
+    <string name="machine_test_mo_outlet_right">右侧牛奶出奶阀</string>
+    <string name="machine_test_mo_drain_left">左侧牛奶系统去水阀</string>
+    <string name="machine_test_mo_drain_right">右侧牛奶系统去水阀</string>
+    <string name="machine_test_mo_milk_left">左侧奶泵</string>
+    <string name="machine_test_mo_milk_right">右侧奶泵</string>
+    <string name="machine_test_mo_air_valve_left">左侧牛奶系统空气阀</string>
 
 </resources>

@@ -459,6 +459,20 @@
     <string name="machine_test_maximum_current">Maximum Current</string>
     <string name="machine_test_top_piston">Top Piston</string>
     <string name="machine_test_bottom_piston">Bottom Piston</string>
+    <string name="machine_test_mo_rinse_left">Rinse Valve Left</string>
+    <string name="machine_test_mo_rinse_right">Rinse Valve Right</string>
+    <string name="machine_test_mo_tank_left">Tank Valve Left</string>
+    <string name="machine_test_mo_tank_right">Tank Valve Right</string>
+    <string name="machine_test_mo_steam_left">Steam Valve Left</string>
+    <string name="machine_test_mo_steam_right">Steam Valve Right</string>
+    <string name="machine_test_mo_outlet_left">Outlet Valve Left</string>
+    <string name="machine_test_mo_outlet_right">Outlet Valve Right</string>
+    <string name="machine_test_mo_drain_left">Drain Valve Left</string>
+    <string name="machine_test_mo_drain_right">Drain Valve Right</string>
+    <string name="machine_test_mo_milk_left">Milk Pump Left</string>
+    <string name="machine_test_mo_milk_right">Milk Pump Right</string>
+    <string name="machine_test_mo_air_valve_left">Air Valve Left</string>
+    <string name="machine_test_mo_air_valve_right">Air Valve Right</string>
 
     <string name="info_coffee_status">Coffee Status</string>
     <string name="info_steam_status">Steam Status</string>
