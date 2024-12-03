@@ -121,7 +121,7 @@ fun VerticalScrollList2(
                             val offset = scrollTrackHeight * rate
                             IntOffset(0, offset.toInt())
                         }
-                        .background(Color(0xFF00DE93), RoundedCornerShape(10.dp))
+                        .background(Color(0xFF00DE93), RoundedCornerShape(20.dp))
                 )
             }
         }
