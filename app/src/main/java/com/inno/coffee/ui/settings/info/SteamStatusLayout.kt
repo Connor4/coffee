@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.TextWithValue
+import com.inno.coffee.ui.common.VerticalScrollComposable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.info.SteamStatusViewModel
@@ -91,15 +93,112 @@ fun SteamStatusLayout(
             contentDescription = null
         )
 
-        SteamStatus1(processSteamLeft.value, processHotWater.value, processSteamRight.value,
-            actionSteamLeft.value, actionHotWater.value, actionSteamRight.value,
-            prodidSteamLeft.value, prodidHotWater.value, prodidSteamRight.value,
-            modidSteamLeft.value, modidHotWater.value, modidSteamRight.value,
-            numError.value, numStop.value, numWarning.value)
-        SteamStatus2(valveWaterInBoiler.value, valveHotWater.value, valveMixHotWater.value,
-            valveSteam1.value, valveSteam2.value, valveFoam1.value, valveFoam2.value,
-            valvePurgeMix.value, valvePurge.value, valveWaterInlet.value, waterPump.value,
-            steamHeating1.value, steamHeating2.value, steamAirPump.value)
+        Box(
+            modifier = Modifier.padding(top = 180.dp)
+        ) {
+            VerticalScrollComposable(contentHeight = 1969, listPaddingBottom = 50) {
+                SteamStatus1(processSteamLeft.value, processHotWater.value,
+                    processSteamRight.value,
+                    actionSteamLeft.value, actionHotWater.value, actionSteamRight.value,
+                    prodidSteamLeft.value, prodidHotWater.value, prodidSteamRight.value,
+                    modidSteamLeft.value, modidHotWater.value, modidSteamRight.value,
+                    numError.value, numStop.value, numWarning.value)
+                Spacer(modifier = Modifier.height(20.dp))
+                SteamStatus2(valveWaterInBoiler.value, valveHotWater.value,
+                    valveMixHotWater.value,
+                    valveSteam1.value, valveSteam2.value, valveFoam1.value, valveFoam2.value,
+                    valvePurgeMix.value, valvePurge.value, valveWaterInlet.value,
+                    waterPump.value,
+                    steamHeating1.value, steamHeating2.value, steamAirPump.value)
+                Spacer(modifier = Modifier.height(20.dp))
+                MilkStatus1()
+                Spacer(modifier = Modifier.height(20.dp))
+                MilkStatus2()
+            }
+        }
+    }
+}
+
+@Composable
+private fun MilkStatus1(
+    value1: Int = 0, value2: Int = 0, value3: Int = 0,
+) {
+    Row(
+        modifier = Modifier
+            .padding(start = 55.dp)
+            .width(1153.dp)
+            .height(50.dp)
+            .background(Color(0xFF191A1D)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextWithValue(
+            modifier = Modifier
+                .padding(start = 30.dp)
+                .width(318.dp),
+            description = stringResource(R.string.info_status_steam_pressure),
+            value = "$value1"
+        )
+        TextWithValue(
+            modifier = Modifier
+                .width(318.dp),
+            description = stringResource(R.string.info_status_warm_foam_left),
+            value = "$value2", unit = "rpm"
+        )
+        TextWithValue(
+            modifier = Modifier
+                .width(318.dp),
+            description = stringResource(R.string.info_status_warm_foam_right),
+            value = "$value3", unit = "rpm"
+        )
+    }
+}
+
+@Composable
+private fun MilkStatus2(
+    value1: Boolean = false, value2: Boolean = false, value3: Boolean = false,
+    value4: Boolean = false,
+    value5: Boolean = false, value6: Boolean = false, value7: Boolean = false,
+    value8: Boolean = false,
+    value9: Boolean = false, value10: Boolean = false, value11: Boolean = false,
+    value12: Boolean = false,
+    value13: Boolean = false, value14: Boolean = false,
+) {
+    Row(
+        modifier = Modifier
+            .padding(start = 55.dp)
+            .width(1153.dp)
+            .height(255.dp)
+            .background(Color(0xFF191A1D)),
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(start = 30.dp)
+                .width(540.dp)
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceEvenly,
+        ) {
+            InfoOnOffText(stringResource(R.string.info_status_milk_steam_left), value1)
+            InfoOnOffText(stringResource(R.string.info_status_milk_drain_left), value2)
+            InfoOnOffText(stringResource(R.string.info_status_milk_air_left), value3)
+            InfoOnOffText(stringResource(R.string.info_status_milk_rinse_left), value4)
+            InfoOnOffText(stringResource(R.string.info_status_milk_tank_left), value5)
+            InfoOnOffText(stringResource(R.string.info_status_milk_sort_left), value6)
+            InfoOnOffText(stringResource(R.string.info_status_milk_pump_left), value7)
+        }
+        Column(
+            modifier = Modifier
+                .width(540.dp)
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceEvenly,
+        ) {
+            InfoOnOffText(stringResource(R.string.info_status_milk_steam_right), value8)
+            InfoOnOffText(stringResource(R.string.info_status_milk_drain_right), value9)
+            InfoOnOffText(stringResource(R.string.info_status_milk_air_right), value10)
+            InfoOnOffText(stringResource(R.string.info_status_milk_rinse_right), value11)
+            InfoOnOffText(stringResource(R.string.info_status_milk_tank_right), value12)
+            InfoOnOffText(stringResource(R.string.info_status_milk_sort_right), value13)
+            InfoOnOffText(stringResource(R.string.info_status_milk_pump_right), value14)
+        }
     }
 }
 
@@ -115,7 +214,7 @@ private fun SteamStatus2(
 ) {
     Row(
         modifier = Modifier
-            .padding(top = 414.dp, start = 55.dp)
+            .padding(start = 55.dp)
             .width(1153.dp)
             .height(255.dp)
             .background(Color(0xFF191A1D)),
@@ -160,7 +259,7 @@ private fun SteamStatus1(
 ) {
     Row(
         modifier = Modifier
-            .padding(top = 180.dp, start = 55.dp)
+            .padding(start = 55.dp)
             .width(1153.dp)
             .height(214.dp)
             .background(Color(0xFF191A1D)),

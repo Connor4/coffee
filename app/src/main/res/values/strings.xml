@@ -540,6 +540,23 @@
     <string name="info_status_steam_heating_1">Steam Heating 1:</string>
     <string name="info_status_steam_heating_2">Steam Heating 2:</string>
     <string name="info_status_steam_air_pump">Air Pump:</string>
+    <string name="info_status_steam_pressure">Steam Pressure: </string>
+    <string name="info_status_warm_foam_left">Warm Foam Left: </string>
+    <string name="info_status_warm_foam_right">Warm Foam Right: </string>
+    <string name="info_status_milk_steam_left">Valve Milk Steam Left: </string>
+    <string name="info_status_milk_steam_right">Valve Milk Steam Right: </string>
+    <string name="info_status_milk_drain_left">Valve Milk Drain Left: </string>
+    <string name="info_status_milk_drain_right">Valve Milk Drain Right: </string>
+    <string name="info_status_milk_air_left">Valve Milk Air Left: </string>
+    <string name="info_status_milk_air_right">Valve Milk Air Right: </string>
+    <string name="info_status_milk_rinse_left">Valve Milk Rinse Left: </string>
+    <string name="info_status_milk_rinse_right">Valve Milk Rinse Right: </string>
+    <string name="info_status_milk_tank_left">Milk Tank Clean Left: </string>
+    <string name="info_status_milk_tank_right">Milk Tank Clean Right: </string>
+    <string name="info_status_milk_sort_left">Valve Milk Sort Left: </string>
+    <string name="info_status_milk_sort_right">Valve Milk Sort Right: </string>
+    <string name="info_status_milk_pump_left">Pump Milk Left: </string>
+    <string name="info_status_milk_pump_right">Pump Milk Right: </string>
 
     <string name="maintenance_service_param">Service Parameter</string>
     <string name="maintenance_water_filter">Water Filter</string>
