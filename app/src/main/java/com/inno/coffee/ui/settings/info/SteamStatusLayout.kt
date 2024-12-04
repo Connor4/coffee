@@ -68,6 +68,24 @@ fun SteamStatusLayout(
     val steamHeating2 = viewModel.steamHeating2.collectAsState()
     val steamAirPump = viewModel.steamAirPump.collectAsState()
 
+    val milkSteamLeft = viewModel.milkSteamLeft.collectAsState()
+    val milkDrainLeft = viewModel.milkDrainLeft.collectAsState()
+    val milkAirLeft = viewModel.milkAirLeft.collectAsState()
+    val milkRinseLeft = viewModel.milkRinseLeft.collectAsState()
+    val milkTankLeft = viewModel.milkTankLeft.collectAsState()
+    val milkSortLeft = viewModel.milkSortLeft.collectAsState()
+    val milkPumpLeft = viewModel.milkPumpLeft.collectAsState()
+    val milkSteamRight = viewModel.milkSteamRight.collectAsState()
+    val milkDrainRight = viewModel.milkDrainRight.collectAsState()
+    val milkAirRight = viewModel.milkAirRight.collectAsState()
+    val milkRinseRight = viewModel.milkRinseRight.collectAsState()
+    val milkTankRight = viewModel.milkTankRight.collectAsState()
+    val milkSortRight = viewModel.milkSortRight.collectAsState()
+    val milkPumpRight = viewModel.milkPumpRight.collectAsState()
+    val steamPressure = viewModel.steamPressure.collectAsState()
+    val warmFoamLeft = viewModel.warmFoamLeft.collectAsState()
+    val warmFoamRight = viewModel.warmFoamRight.collectAsState()
+
     LaunchedEffect(Unit) {
         viewModel.getSteamStatus()
     }
@@ -112,9 +130,14 @@ fun SteamStatusLayout(
                     waterPump.value,
                     steamHeating1.value, steamHeating2.value, steamAirPump.value)
                 Spacer(modifier = Modifier.height(20.dp))
-                MilkStatus1()
+                MilkStatus1(steamPressure.value, warmFoamLeft.value, warmFoamRight.value)
                 Spacer(modifier = Modifier.height(20.dp))
-                MilkStatus2()
+                MilkStatus2(milkSteamLeft.value, milkDrainLeft.value, milkAirLeft.value,
+                    milkRinseLeft.value, milkTankLeft.value, milkSortLeft.value, milkPumpLeft.value,
+                    milkSteamRight.value, milkDrainRight.value, milkAirRight.value,
+                    milkRinseRight.value, milkTankRight.value, milkSortRight.value,
+                    milkPumpRight.value
+                )
             }
         }
     }

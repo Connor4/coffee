@@ -80,6 +80,41 @@ class SteamStatusViewModel @Inject constructor(
     private val _steamAirPump = MutableStateFlow(false)
     val steamAirPump = _steamAirPump
 
+    private val _milkSteamLeft = MutableStateFlow(false)
+    val milkSteamLeft = _milkSteamLeft
+    private val _milkSteamRight = MutableStateFlow(false)
+    val milkSteamRight = _milkSteamRight
+    private val _milkDrainLeft = MutableStateFlow(false)
+    val milkDrainLeft = _milkDrainLeft
+    private val _milkDrainRight = MutableStateFlow(false)
+    val milkDrainRight = _milkDrainRight
+    private val _milkAirLeft = MutableStateFlow(false)
+    val milkAirLeft = _milkAirLeft
+    private val _milkAirRight = MutableStateFlow(false)
+    val milkAirRight = _milkAirRight
+    private val _milkRinseLeft = MutableStateFlow(false)
+    val milkRinseLeft = _milkRinseLeft
+    private val _milkRinseRight = MutableStateFlow(false)
+    val milkRinseRight = _milkRinseRight
+    private val _milkTankLeft = MutableStateFlow(false)
+    val milkTankLeft = _milkTankLeft
+    private val _milkTankRight = MutableStateFlow(false)
+    val milkTankRight = _milkTankRight
+    private val _milkSortLeft = MutableStateFlow(false)
+    val milkSortLeft = _milkSortLeft
+    private val _milkSortRight = MutableStateFlow(false)
+    val milkSortRight = _milkSortRight
+    private val _milkPumpLeft = MutableStateFlow(false)
+    val milkPumpLeft = _milkPumpLeft
+    private val _milkPumpRight = MutableStateFlow(false)
+    val milkPumpRight = _milkPumpRight
+    private val _steamPressure = MutableStateFlow(0)
+    val steamPressure = _steamPressure
+    private val _warmFoamLeft = MutableStateFlow(0)
+    val warmFoamLeft = _warmFoamLeft
+    private val _warmFoamRight = MutableStateFlow(0)
+    val warmFoamRight = _warmFoamRight
+
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
             parseReceivedData(data)
@@ -121,6 +156,27 @@ class SteamStatusViewModel @Inject constructor(
                 _steamHeating1.value = data.params[23] == ONE_IN_BYTE
                 _steamHeating2.value = data.params[25] == ONE_IN_BYTE
                 _steamAirPump.value = data.params[27] == ONE_IN_BYTE
+
+                _milkSteamLeft.value = data.params[29] == ONE_IN_BYTE
+                _milkDrainLeft.value = data.params[31] == ONE_IN_BYTE
+                _milkAirLeft.value = data.params[33] == ONE_IN_BYTE
+                _milkRinseLeft.value = data.params[35] == ONE_IN_BYTE
+                _milkTankLeft.value = data.params[37] == ONE_IN_BYTE
+                _milkSortLeft.value = data.params[39] == ONE_IN_BYTE
+                _milkPumpLeft.value = data.params[41] == ONE_IN_BYTE
+                _milkSteamRight.value = data.params[43] == ONE_IN_BYTE
+                _milkDrainRight.value = data.params[45] == ONE_IN_BYTE
+                _milkAirRight.value = data.params[47] == ONE_IN_BYTE
+                _milkRinseRight.value = data.params[49] == ONE_IN_BYTE
+                _milkTankRight.value = data.params[51] == ONE_IN_BYTE
+                _milkSortRight.value = data.params[53] == ONE_IN_BYTE
+                _milkPumpRight.value = data.params[55] == ONE_IN_BYTE
+                _steamPressure.value =
+                    ((data.params[59].toInt() and 0xFF) shl 8) or (data.params[58].toInt() and 0xFF)
+                _warmFoamLeft.value =
+                    ((data.params[61].toInt() and 0xFF) shl 8) or (data.params[60].toInt() and 0xFF)
+                _warmFoamRight.value =
+                    ((data.params[63].toInt() and 0xFF) shl 8) or (data.params[62].toInt() and 0xFF)
             }
         }
     }
