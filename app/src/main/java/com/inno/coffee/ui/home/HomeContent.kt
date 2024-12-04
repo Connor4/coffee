@@ -113,45 +113,41 @@ fun HomeContent(
                 )
             }
             if (showOverlay) {
-                Box(
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                ) {
-                    HomeSettingEntrance(
-                        show = showOverlay xor hideOverlay,
-                        onMenuClick = {
-                            when (it) {
-                                HOME_LOGIN -> {
-                                    if (UserSessionManager.isLoggedIn()) {
-                                        UserSessionManager.increaseLoginCount()
-                                        ScreenDisplayManager.autoRoute(context,
-                                            SettingActivity::class.java
-                                        )
-                                    } else {
-                                        showLoginDialog = true
-                                    }
-                                }
-                                HOME_CLEAN -> {
-                                    showCleanDialog = true
-                                }
-                                HOME_STANDBY -> {
-                                    showStandByModeDialog = true
-                                }
-                                HOME_INFO -> {
-                                    showInfoDialog = true
+                HomeSettingEntrance(
+                    modifier = Modifier.padding(top = 60.dp),
+                    show = showOverlay xor hideOverlay,
+                    onMenuClick = {
+                        when (it) {
+                            HOME_LOGIN -> {
+                                if (UserSessionManager.isLoggedIn()) {
+                                    UserSessionManager.increaseLoginCount()
+                                    ScreenDisplayManager.autoRoute(context,
+                                        SettingActivity::class.java
+                                    )
+                                } else {
+                                    showLoginDialog = true
                                 }
                             }
-                        },
-                        onCloseFinished = {
-                            if (hideOverlay) {
-                                showOverlay = false
-                                hideOverlay = false
-                            } else {
-                                hideOverlay = true
+                            HOME_CLEAN -> {
+                                showCleanDialog = true
+                            }
+                            HOME_STANDBY -> {
+                                showStandByModeDialog = true
+                            }
+                            HOME_INFO -> {
+                                showInfoDialog = true
                             }
                         }
-                    )
-                }
+                    },
+                    onCloseFinished = {
+                        if (hideOverlay) {
+                            showOverlay = false
+                            hideOverlay = false
+                        } else {
+                            hideOverlay = true
+                        }
+                    }
+                )
             }
             if (showLoginDialog) {
                 SingleInputPasswordLayout(

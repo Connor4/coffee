@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,6 +50,7 @@ private const val ANIMATION_TIME = 375
 
 @Composable
 fun HomeSettingEntrance(
+    modifier: Modifier = Modifier,
     show: Boolean,
     onMenuClick: (index: Int) -> Unit,
     onCloseFinished: () -> Unit,
@@ -96,7 +98,7 @@ fun HomeSettingEntrance(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         Box(
             modifier = Modifier
@@ -105,45 +107,37 @@ fun HomeSettingEntrance(
                 .offset(y = offsetY.value.dp)
                 .clickable(enabled = false) {}
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                Image(
-                    painterResource(id = R.drawable.home_entrance_bg),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                )
-            }
+            Image(
+                painterResource(id = R.drawable.home_entrance_bg),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize()
+            )
 
-            Box(
+            Row(
                 modifier = Modifier
+                    .padding(start = 40.dp, top = 110.dp, end = 40.dp)
                     .fillMaxWidth()
-                    .height(418.dp)
+                    .wrapContentHeight()
             ) {
-                Row(
-                    modifier = Modifier.padding(start = 40.dp, top = 109.dp, end = 40.dp)
-                ) {
-                    entrance.entries.forEachIndexed { index, entry ->
-                        EntranceItem(imageRes = entry.key, title = entry.value) {
-                            onMenuClick(index)
-                        }
+                entrance.entries.forEachIndexed { index, entry ->
+                    EntranceItem(imageRes = entry.key, title = entry.value) {
+                        onMenuClick(index)
                     }
                 }
-
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = 27.dp)
-                        .rotate(-rotation.value)
-                        .debouncedClickable({ onCloseFinished() }),
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.home_entrance_arraw_ic),
-                        contentDescription = null,
-                    )
-                }
             }
+
+            Image(
+                painter = painterResource(id = R.drawable.home_entrance_arraw_ic),
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 67.dp)
+                    .width(37.dp)
+                    .height(20.dp)
+                    .rotate(-rotation.value)
+                    .debouncedClickable({ onCloseFinished() }),
+            )
         }
 
         Box(
@@ -187,9 +181,9 @@ private fun EntranceItem(
 
         Box(
             modifier = Modifier
-                .width(274.dp)
+                .width(276.dp)
                 .height(174.dp)
-                .border(1.dp, Color(0xFF484848), RoundedCornerShape(18.dp))
+                .border(1.dp, Color(0xFF484848), RoundedCornerShape(17.dp))
                 .clip(RoundedCornerShape(18.dp))
                 .background(color = Color(0xFF191A1D)),
         ) {
@@ -218,5 +212,6 @@ private fun EntranceItem(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewHomeSettingEntrance() {
-    HomeSettingEntrance(true, {}, {})
+    HomeSettingEntrance(modifier = Modifier.padding(top = 60.dp), show = true, onMenuClick = {},
+        onCloseFinished = {})
 }
