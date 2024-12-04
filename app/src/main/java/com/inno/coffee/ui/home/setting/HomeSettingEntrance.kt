@@ -50,7 +50,6 @@ private const val ANIMATION_TIME = 375
 
 @Composable
 fun HomeSettingEntrance(
-    modifier: Modifier = Modifier,
     show: Boolean,
     onMenuClick: (index: Int) -> Unit,
     onCloseFinished: () -> Unit,
@@ -64,21 +63,13 @@ fun HomeSettingEntrance(
     val rotation = remember {
         Animatable(if (show) 0f else 180f)
     }
-    val offsetY = remember {
-        Animatable(if (show) -LAYOUT_HEIGHT else 0f)
-    }
     LaunchedEffect(show) {
         if (show) {
             launch {
                 rotation.animateTo(
                     targetValue = 180f,
-                    animationSpec = tween(durationMillis = ANIMATION_TIME, easing = LinearEasing)
-                )
-            }
-            launch {
-                offsetY.animateTo(
-                    targetValue = 0f,
-                    animationSpec = tween(durationMillis = ANIMATION_TIME, easing = LinearEasing)
+                    animationSpec = tween(durationMillis = ANIMATION_TIME, delayMillis = 250,
+                        easing = LinearEasing)
                 )
             }
         } else {
@@ -88,23 +79,18 @@ fun HomeSettingEntrance(
                     animationSpec = tween(durationMillis = ANIMATION_TIME, easing = LinearEasing)
                 )
             }
-            launch {
-                offsetY.animateTo(
-                    targetValue = -LAYOUT_HEIGHT,
-                    animationSpec = tween(durationMillis = ANIMATION_TIME, easing = LinearEasing)
-                ).also { onCloseFinished() }
-            }
         }
     }
 
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier
+            .padding(top = 60.dp)
+            .fillMaxSize()
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(LAYOUT_HEIGHT.dp)
-                .offset(y = offsetY.value.dp)
                 .clickable(enabled = false) {}
         ) {
             Image(
@@ -212,6 +198,6 @@ private fun EntranceItem(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewHomeSettingEntrance() {
-    HomeSettingEntrance(modifier = Modifier.padding(top = 60.dp), show = true, onMenuClick = {},
+    HomeSettingEntrance(show = true, onMenuClick = {},
         onCloseFinished = {})
 }

@@ -1,10 +1,14 @@
 package com.inno.coffee.ui.home
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
@@ -44,8 +47,7 @@ fun HomeContent(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    var showOverlay by remember { mutableStateOf(false) }
-    var hideOverlay by remember { mutableStateOf(false) }
+    var overlayVisible by remember { mutableStateOf(false) }
     var showLoginDialog by remember { mutableStateOf(false) }
     var showCleanDialog by remember { mutableStateOf(false) }
     var showInfoDialog by remember { mutableStateOf(false) }
@@ -90,12 +92,8 @@ fun HomeContent(
             modifier = Modifier.fillMaxSize()
         ) {
             Column {
-                HomeTopBar(open = showOverlay, viewModel = viewModel) {
-                    if (it) {
-                        showOverlay = true
-                    } else {
-                        hideOverlay = true
-                    }
+                HomeTopBar(open = overlayVisible, viewModel = viewModel) {
+                    overlayVisible = it
                 }
                 HomeDrinksLayout(viewModel = viewModel)
             }
@@ -112,10 +110,16 @@ fun HomeContent(
                     }
                 )
             }
-            if (showOverlay) {
+
+            AnimatedVisibility(
+                visible = overlayVisible,
+                enter = slideInVertically(initialOffsetY = { -it },
+                    animationSpec = tween(durationMillis = 600, easing = LinearEasing)),
+                exit = slideOutVertically(targetOffsetY = { -it },
+                    animationSpec = tween(durationMillis = 800, easing = LinearEasing)),
+            ) {
                 HomeSettingEntrance(
-                    modifier = Modifier.padding(top = 60.dp),
-                    show = showOverlay xor hideOverlay,
+                    show = overlayVisible,
                     onMenuClick = {
                         when (it) {
                             HOME_LOGIN -> {
@@ -140,15 +144,11 @@ fun HomeContent(
                         }
                     },
                     onCloseFinished = {
-                        if (hideOverlay) {
-                            showOverlay = false
-                            hideOverlay = false
-                        } else {
-                            hideOverlay = true
-                        }
+                        overlayVisible = false
                     }
                 )
             }
+
             if (showLoginDialog) {
                 SingleInputPasswordLayout(
                     title = stringResource(R.string.home_login_title),
