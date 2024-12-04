@@ -72,6 +72,7 @@ fun HomeContent(
                 coroutineScope.launch {
                     delay(1000)
                     showLoginDialog = false
+                    overlayVisible = false
                 }
             }
             is LoginState.Error -> {
@@ -128,6 +129,7 @@ fun HomeContent(
                                     ScreenDisplayManager.autoRoute(context,
                                         SettingActivity::class.java
                                     )
+                                    overlayVisible = false
                                 } else {
                                     showLoginDialog = true
                                 }
