@@ -27,6 +27,7 @@ import com.inno.common.db.entity.FormulaItem
 
 @Composable
 fun ReleaseSteamLayout(
+    normalSize: Boolean = true,
     onReleaseSteamClick: () -> Unit,
 ) {
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
@@ -49,11 +50,11 @@ fun ReleaseSteamLayout(
 //                .fastclick { onCloseClick() },
 //        )
         if (releaseSteam == RELEASE_STEAM_READY) {
-            DrinkItem(model = Formula(
-                productId = 4, imageRes = "operate_manual_milk_ic",
-                productName = FormulaItem.FormulaProductName(name = "",
-                    nameRes = "home_item_manual_foam"),
-            ),
+            DrinkItem(
+                model = Formula(productId = 4, imageRes = "operate_manual_milk_ic",
+                    productName = FormulaItem.FormulaProductName(name = "",
+                        nameRes = "home_item_manual_foam")),
+                normalSize = normalSize,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(top = 165.dp)

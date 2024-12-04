@@ -97,7 +97,7 @@ fun HomeDrinksLayout(
     }
 
     if (releaseSteam == RELEASE_STEAM_READY || releaseSteam == RELEASE_STEAM_START) {
-        ReleaseSteamLayout {
+        ReleaseSteamLayout(normalSize = normalSize) {
             viewModel.selfCheckReleaseSteam()
         }
         return
