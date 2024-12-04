@@ -45,16 +45,14 @@ fun DrinkItem(
     val insideBoxHeight: Int
     val imageWidth: Int
     val imageHeight: Int
-    val textMarginTop: Int
     val textSize: Int
     if (normalSize) {
         totalWidth = 300
         totalHeight = 200
-        insideBoxWidth = 274
+        insideBoxWidth = 276
         insideBoxHeight = 174
         imageWidth = 80
         imageHeight = 60
-        textMarginTop = 124
         textSize = 6
     } else {
         totalWidth = 240
@@ -63,7 +61,6 @@ fun DrinkItem(
         insideBoxHeight = 176
         imageWidth = 70
         imageHeight = 50
-        textMarginTop = 120
         textSize = 5
     }
 
@@ -84,7 +81,7 @@ fun DrinkItem(
             modifier = Modifier
                 .width(insideBoxWidth.dp)
                 .height(insideBoxHeight.dp)
-                .border(1.dp, Color(0xFF484848), RoundedCornerShape(20.dp))
+                .border(1.dp, Color(0xFF484848), RoundedCornerShape(17.dp))
                 .clip(RoundedCornerShape(18.dp))
                 .background(color = Color(0xFF191A1D)),
         ) {
@@ -115,7 +112,7 @@ fun DrinkItem(
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .align(alignment = Alignment.TopCenter)
-                            .offset(y = textMarginTop.dp)
+                            .offset(y = 124.dp)
                     )
                 }
             }
