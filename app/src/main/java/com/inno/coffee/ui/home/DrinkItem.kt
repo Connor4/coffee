@@ -47,7 +47,6 @@ fun DrinkItem(
     val imageHeight: Int
     val textMarginTop: Int
     val textSize: Int
-    val bgDrawableRes: Int
     if (normalSize) {
         totalWidth = 300
         totalHeight = 200
@@ -57,17 +56,15 @@ fun DrinkItem(
         imageHeight = 60
         textMarginTop = 124
         textSize = 6
-        bgDrawableRes = R.drawable.home_item_select_12_bg
     } else {
         totalWidth = 240
         totalHeight = 200
-        insideBoxWidth = 214
-        insideBoxHeight = 174
+        insideBoxWidth = 220
+        insideBoxHeight = 176
         imageWidth = 70
         imageHeight = 50
         textMarginTop = 120
         textSize = 5
-        bgDrawableRes = R.drawable.home_item_select_15_bg
     }
 
     Box(
@@ -78,7 +75,7 @@ fun DrinkItem(
         contentAlignment = Alignment.Center,
     ) {
         if (selected) {
-            Image(painter = painterResource(id = bgDrawableRes),
+            Image(painter = painterResource(id = R.drawable.home_item_select_bg),
                 contentScale = ContentScale.FillBounds,
                 contentDescription = null)
         }

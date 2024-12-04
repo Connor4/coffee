@@ -181,7 +181,7 @@ private fun EntranceItem(
         contentAlignment = Alignment.Center,
     ) {
         if (isPressed) {
-            Image(painter = painterResource(id = R.drawable.home_item_select_12_bg),
+            Image(painter = painterResource(id = R.drawable.home_item_select_bg),
                 contentDescription = null)
         }
 
