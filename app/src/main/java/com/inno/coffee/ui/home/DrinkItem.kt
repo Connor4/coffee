@@ -47,6 +47,7 @@ fun DrinkItem(
     val imageHeight: Int
     val textMarginTop: Int
     val textSize: Int
+    val bgDrawableRes: Int
     if (normalSize) {
         totalWidth = 300
         totalHeight = 200
@@ -56,6 +57,7 @@ fun DrinkItem(
         imageHeight = 60
         textMarginTop = 124
         textSize = 6
+        bgDrawableRes = R.drawable.home_item_select_12_bg
     } else {
         totalWidth = 240
         totalHeight = 200
@@ -65,6 +67,7 @@ fun DrinkItem(
         imageHeight = 50
         textMarginTop = 120
         textSize = 5
+        bgDrawableRes = R.drawable.home_item_select_15_bg
     }
 
     Box(
@@ -75,7 +78,8 @@ fun DrinkItem(
         contentAlignment = Alignment.Center,
     ) {
         if (selected) {
-            Image(painter = painterResource(id = R.drawable.home_item_select_bg),
+            Image(painter = painterResource(id = bgDrawableRes),
+                contentScale = ContentScale.FillBounds,
                 contentDescription = null)
         }
 
@@ -83,7 +87,7 @@ fun DrinkItem(
             modifier = Modifier
                 .width(insideBoxWidth.dp)
                 .height(insideBoxHeight.dp)
-                .border(1.dp, Color(0xFF484848), RoundedCornerShape(18.dp))
+                .border(1.dp, Color(0xFF484848), RoundedCornerShape(20.dp))
                 .clip(RoundedCornerShape(18.dp))
                 .background(color = Color(0xFF191A1D)),
         ) {
@@ -122,7 +126,7 @@ fun DrinkItem(
     }
 }
 
-@Preview(device = "spec:width=1280dp,height=800dp,dpi=240", showBackground = true)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewDrink() {
     DrinkItem(model = previewFormula)

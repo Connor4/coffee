@@ -65,6 +65,7 @@ fun HomeDrinksLayout(
     val numberOfPage by viewModel.numberOfPage.collectAsState()
     val totalPage = (drinksList.size + numberOfPage - 1) / numberOfPage
     val rowCount = if (numberOfPage == DISPLAY_PER_PAGE_COUNT_12) 4 else 5
+    val normalSize = numberOfPage == DISPLAY_PER_PAGE_COUNT_12
     val pagerState = rememberPagerState(pageCount = { totalPage })
     val selected = rememberSaveable { mutableIntStateOf(INVALID_INT) }
 
@@ -107,8 +108,6 @@ fun HomeDrinksLayout(
                 .height(670.dp)
                 .background(color = Color(0xFF2C2C2C))
         ) {
-            val normalSize = numberOfPage == DISPLAY_PER_PAGE_COUNT_12
-
             HorizontalPager(state = pagerState) { page ->
                 val fromIndex = page * numberOfPage
                 val toIndex = minOf(fromIndex + numberOfPage, drinksList.size)
