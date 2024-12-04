@@ -34,7 +34,6 @@ class DisplayViewModel @Inject constructor(
     companion object {
         private const val TAG = "DisplayViewModel"
         private const val BACK_TO_FIRST_PAGE = "back_to_first_page"
-        private const val NUMBER_OF_PRODUCT_PER_PAGE = "number_of_product_per_page"
         private const val FRONT_LIGHT_COLOR = "front_light_color"
         private const val FRONT_LIGHT_BRIGHTNESS = "front_light_brightness"
         private const val SCREEN_BRIGHTNESS = "screen_brightness"
@@ -64,8 +63,7 @@ class DisplayViewModel @Inject constructor(
         viewModelScope.launch {
             val systemLanguage = dataStore.getSystemLanguage()
             val autoBackToFirstPage = dataStore.getCoffeePreference(BACK_TO_FIRST_PAGE, false)
-            val numberOfProductPerPage =
-                dataStore.getCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, 12)
+            val numberOfProductPerPage = dataStore.getNumberOfProductPerPage()
             val frontLightColor = dataStore.getCoffeePreference(FRONT_LIGHT_COLOR, 1)
             val frontLightBrightness = dataStore.getCoffeePreference(FRONT_LIGHT_BRIGHTNESS, 90)
             val screenBrightness = dataStore.getCoffeePreference(SCREEN_BRIGHTNESS, 90)
@@ -122,7 +120,7 @@ class DisplayViewModel @Inject constructor(
                     _backToFirstPage.value = value
                 }
                 INDEX_NUMBER_OF_PRODUCT_PER_PAGE -> {
-                    dataStore.saveCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, value as Int)
+                    dataStore.saveNumberOfProductPerPage(value as Int)
                     _numberOfProductPerPage.value = value
                 }
                 INDEX_FRONT_LIGHT_COLOR -> {
