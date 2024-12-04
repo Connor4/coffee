@@ -69,6 +69,7 @@
   },
   {
     "productId": 5,
+    "productPrice": 10.0,
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
@@ -142,6 +143,7 @@
   },
   {
     "productId": 6,
+    "productPrice": 10.0,
     "imageRes": "drink_double_espresso_ic",
     "productType": {
       "type": "Coffee"
@@ -215,6 +217,7 @@
   },
   {
     "productId": 7,
+    "productPrice": 10.0,
     "imageRes": "drink_americano_ic",
     "productType": {
       "type": "Americano"
@@ -297,6 +300,7 @@
   },
   {
     "productId": 8,
+    "productPrice": 10.0,
     "imageRes": "drink_double_americano_ic",
     "productType": {
       "type": "Americano"
@@ -379,6 +383,7 @@
   },
   {
     "productId": 9,
+    "productPrice": 10.0,
     "imageRes": "drink_milk_ic",
     "productType": {
       "type": "Milk"
@@ -402,6 +407,7 @@
   },
   {
     "productId": 10,
+    "productPrice": 10.0,
     "imageRes": "drink_pot_coffee_ic",
     "productType": {
       "type": "DripCoffee"
@@ -513,6 +519,7 @@
   },
   {
     "productId": 13,
+    "productPrice": 10.0,
     "imageRes": "drink_latte_ic",
     "productType": {
       "type": "Coffee"
@@ -590,6 +597,7 @@
   },
   {
     "productId": 14,
+    "productPrice": 10.0,
     "imageRes": "drink_double_latte_ic",
     "productType": {
       "type": "Coffee"
@@ -667,6 +675,7 @@
   },
   {
     "productId": 15,
+    "productPrice": 10.0,
     "imageRes": "drink_cappuccino_ic",
     "productType": {
       "type": "Coffee"
@@ -744,6 +753,7 @@
   },
   {
     "productId": 16,
+    "productPrice": 10.0,
     "imageRes": "drink_double_cappuccino_ic",
     "productType": {
       "type": "Coffee"
@@ -821,6 +831,7 @@
   },
   {
     "productId": 17,
+    "productPrice": 10.0,
     "imageRes": "drink_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
@@ -898,6 +909,7 @@
   },
   {
     "productId": 18,
+    "productPrice": 10.0,
     "imageRes": "drink_double_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
@@ -975,6 +987,7 @@
   },
   {
     "productId": 19,
+    "productPrice": 10.0,
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
@@ -1052,6 +1065,7 @@
   },
   {
     "productId": 20,
+    "productPrice": 10.0,
     "imageRes": "drink_double_es_macchiato_ic",
     "productType": {
       "type": "Coffee"
@@ -1197,6 +1211,7 @@
   },
   {
     "productId": 105,
+    "productPrice": 10.0,
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
@@ -1270,6 +1285,7 @@
   },
   {
     "productId": 106,
+    "productPrice": 10.0,
     "imageRes": "drink_double_espresso_ic",
     "productType": {
       "type": "Coffee"
@@ -1343,6 +1359,7 @@
   },
   {
     "productId": 107,
+    "productPrice": 10.0,
     "imageRes": "drink_americano_ic",
     "productType": {
       "type": "Americano"
@@ -1425,6 +1442,7 @@
   },
   {
     "productId": 108,
+    "productPrice": 10.0,
     "imageRes": "drink_double_americano_ic",
     "productType": {
       "type": "Americano"
@@ -1507,6 +1525,7 @@
   },
   {
     "productId": 109,
+    "productPrice": 10.0,
     "imageRes": "drink_milk_ic",
     "productType": {
       "type": "Milk"
@@ -1530,6 +1549,7 @@
   },
   {
     "productId": 110,
+    "productPrice": 10.0,
     "imageRes": "drink_pot_coffee_ic",
     "productType": {
       "type": "DripCoffee"
@@ -1641,6 +1661,7 @@
   },
   {
     "productId": 113,
+    "productPrice": 10.0,
     "imageRes": "drink_latte_ic",
     "productType": {
       "type": "Coffee"
@@ -1718,6 +1739,7 @@
   },
   {
     "productId": 114,
+    "productPrice": 10.0,
     "imageRes": "drink_double_latte_ic",
     "productType": {
       "type": "Coffee"
@@ -1795,6 +1817,7 @@
   },
   {
     "productId": 115,
+    "productPrice": 10.0,
     "imageRes": "drink_cappuccino_ic",
     "productType": {
       "type": "Coffee"
@@ -1872,6 +1895,7 @@
   },
   {
     "productId": 116,
+    "productPrice": 10.0,
     "imageRes": "drink_double_cappuccino_ic",
     "productType": {
       "type": "Coffee"
@@ -1949,6 +1973,7 @@
   },
   {
     "productId": 117,
+    "productPrice": 10.0,
     "imageRes": "drink_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
@@ -2026,6 +2051,7 @@
   },
   {
     "productId": 118,
+    "productPrice": 10.0,
     "imageRes": "drink_double_latte_macchiato_ic",
     "productType": {
       "type": "Coffee"
@@ -2103,6 +2129,7 @@
   },
   {
     "productId": 119,
+    "productPrice": 10.0,
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
@@ -2180,6 +2207,7 @@
   },
   {
     "productId": 120,
+    "productPrice": 10.0,
     "imageRes": "drink_double_es_macchiato_ic",
     "productType": {
       "type": "Coffee"
@@ -2258,6 +2286,7 @@
 
   {
     "productId": 1005,
+    "productPrice": 10.0,
     "imageRes": "drink_espresso_ic",
     "productType": {
       "type": "Coffee"
@@ -2326,6 +2355,7 @@
   },
   {
     "productId": 1006,
+    "productPrice": 10.0,
     "imageRes": "drink_double_espresso_ic",
     "productType": {
       "type": "Coffee"
@@ -2394,6 +2424,7 @@
   },
   {
     "productId": 1007,
+    "productPrice": 10.0,
     "imageRes": "drink_americano_ic",
     "productType": {
       "type": "Coffee"
@@ -2471,6 +2502,7 @@
   },
   {
     "productId": 1008,
+    "productPrice": 10.0,
     "imageRes": "drink_double_americano_ic",
     "productType": {
       "type": "Coffee"

@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "formula_table")
 data class Formula(
     var productId: Int,
+    var productProduct: Float = 0.0f,
     var preFlush: Boolean = false,
     var postFlush: Boolean = false,
     var productType: FormulaItem.FormulaProductType? = null,
@@ -37,7 +38,7 @@ data class Formula(
     var leftValueRightBoiler: Short = -1, // LEFT_VALVE_RIGHT_BOILER_ID
     var middleValueRightBoiler: Short = -1, // MIDILE_VALVE_RIGHT_BOILER_ID
     var rightValueRightBoiler: Short = -1, // RIGHT_VALVE_RIGHT_BOILER_ID
-    @PrimaryKey(autoGenerate = true) val id: Short = 0
+    @PrimaryKey(autoGenerate = true) val id: Short = 0,
 )
 // 美式没有bypassWater，只有hotWater+americanoSequence。
 
