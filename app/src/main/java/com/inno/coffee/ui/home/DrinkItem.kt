@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -35,12 +36,41 @@ fun DrinkItem(
     enableMask: Boolean = false,
     selected: Boolean = false,
     showProductName: Boolean = true,
+    normalSize: Boolean = true,
     onDrinkClick: () -> Unit = {},
 ) {
+    val totalWidth: Int
+    val totalHeight: Int
+    val insideBoxWidth: Int
+    val insideBoxHeight: Int
+    val imageWidth: Int
+    val imageHeight: Int
+    val textMarginTop: Int
+    val textSize: Int
+    if (normalSize) {
+        totalWidth = 300
+        totalHeight = 200
+        insideBoxWidth = 274
+        insideBoxHeight = 174
+        imageWidth = 80
+        imageHeight = 60
+        textMarginTop = 124
+        textSize = 6
+    } else {
+        totalWidth = 240
+        totalHeight = 200
+        insideBoxWidth = 214
+        insideBoxHeight = 174
+        imageWidth = 70
+        imageHeight = 50
+        textMarginTop = 120
+        textSize = 5
+    }
+
     Box(
         modifier = modifier
-            .width(300.dp)
-            .height(200.dp)
+            .width(totalWidth.dp)
+            .height(totalHeight.dp)
             .debouncedClickable({ onDrinkClick() }, enabled = !enableMask),
         contentAlignment = Alignment.Center,
     ) {
@@ -51,8 +81,8 @@ fun DrinkItem(
 
         Box(
             modifier = Modifier
-                .width(274.dp)
-                .height(174.dp)
+                .width(insideBoxWidth.dp)
+                .height(insideBoxHeight.dp)
                 .border(1.dp, Color(0xFF484848), RoundedCornerShape(18.dp))
                 .clip(RoundedCornerShape(18.dp))
                 .background(color = Color(0xFF191A1D)),
@@ -64,8 +94,8 @@ fun DrinkItem(
                     contentDescription = null,
                     contentScale = ContentScale.Inside,
                     modifier = Modifier
-                        .width(80.dp)
-                        .height(60.dp)
+                        .width(imageWidth.dp)
+                        .height(imageHeight.dp)
                         .align(Alignment.TopCenter)
                         .offset(y = 41.dp),
                 )
@@ -79,11 +109,12 @@ fun DrinkItem(
                     }
                     Text(
                         text = name!!,
-                        fontSize = 6.nsp(),
+                        fontSize = textSize.nsp(),
                         color = Color.White,
+                        textAlign = TextAlign.Center,
                         modifier = Modifier
                             .align(alignment = Alignment.TopCenter)
-                            .offset(y = 124.dp)
+                            .offset(y = textMarginTop.dp)
                     )
                 }
             }
