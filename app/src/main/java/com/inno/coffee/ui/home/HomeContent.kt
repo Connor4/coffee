@@ -103,11 +103,11 @@ fun HomeContent(
             ) {
                 HomeBottomBar(leftTemp = leftTemperature.value, rightTemp = rightTemperature.value,
                     showExtractionTime = showExtractionTime.value, onReleaseSteam = {
-
+                        viewModel.manualReleaseSteam(mainScreen)
                     }, onClickWarning = {
                         viewModel.showWarningDialog(mainScreen)
                     }, onClickStop = {
-
+                        viewModel.stopMaking(mainScreen)
                     }
                 )
             }

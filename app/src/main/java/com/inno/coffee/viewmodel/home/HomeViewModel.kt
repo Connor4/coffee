@@ -272,12 +272,20 @@ class HomeViewModel @Inject constructor(
         return exist != null
     }
 
-    fun bottomReleaseSteam() {
-
+    fun manualReleaseSteam(main: Boolean) {
+        formulaList.value.firstOrNull {
+            ProductType.assertType(it.productType?.type, ProductType.STEAM)
+        }?.let {
+            startMakeDrink(it, main)
+        }
     }
 
-    fun bottomStop() {
-
+    fun stopMaking(main: Boolean) {
+        formulaList.value.firstOrNull {
+            ProductType.assertType(it.productType?.type, ProductType.STOP)
+        }?.let {
+            startMakeDrink(it, main)
+        }
     }
 
     suspend fun startCountDown() {
