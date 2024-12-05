@@ -41,6 +41,7 @@ fun HomeTopBar(
     val date by viewModel.date.collectAsState()
     val currentTime by viewModel.time.collectAsState()
 
+    // TODO this can be lift to upper level.
     LaunchedEffect(Unit) {
         while (true) {
             viewModel.getCurrentDate()
@@ -48,6 +49,7 @@ fun HomeTopBar(
         }
     }
 
+    // TODO this can be lift to upper level.
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
