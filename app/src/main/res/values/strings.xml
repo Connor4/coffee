@@ -301,6 +301,7 @@
     <string name="display_screen_brightness">Screen Brightness</string>
     <string name="display_show_extract_time">Display Extraction Time</string>
     <string name="display_show_product_name">Display Product Name</string>
+    <string name="display_show_product_price">Display Product Price</string>
     <string name="display_value_on">On</string>
     <string name="display_value_off">Off</string>
 

@@ -70,6 +70,8 @@ fun DisplayMainLayout(
     val frontLightBrightness = viewModel.frontLightBrightness.collectAsState()
     val screenBrightness = viewModel.screenBrightness.collectAsState()
     val showExtractionTime = viewModel.showExtractionTime.collectAsState()
+    val showProductPrice = viewModel.showProductPrice.collectAsState()
+    val showProductName = viewModel.showProductName.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.initGroup()
@@ -141,7 +143,10 @@ fun DisplayMainLayout(
                 }
             )
             Spacer(modifier = Modifier.height(40.dp))
-            DisplayGroupThreeLayout(showExtractionTime.value) { title, index, default, map ->
+            DisplayGroupThreeLayout(
+                showExtractionTime = showExtractionTime.value,
+                showProductName = showProductName.value,
+                showProductPrice = showProductPrice.value) { title, index, default, map ->
                 itemSelectIndex.value = index
                 titleValue.value = title
                 defaultValue.value = default

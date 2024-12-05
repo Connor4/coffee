@@ -38,6 +38,8 @@ class DisplayViewModel @Inject constructor(
         private const val FRONT_LIGHT_BRIGHTNESS = "front_light_brightness"
         private const val SCREEN_BRIGHTNESS = "screen_brightness"
         private const val SHOW_EXTRACTION_TIME = "show_extraction_time"
+        private const val SHOW_PRODUCT_PRICE = "show_product_price"
+        private const val SHOW_PRODUCT_NAME = "show_product_name"
     }
 
     private val _language = MutableStateFlow("")
@@ -58,6 +60,10 @@ class DisplayViewModel @Inject constructor(
 
     private val _showExtractionTime = MutableStateFlow(true)
     val showExtractionTime: StateFlow<Boolean> = _showExtractionTime
+    private val _showProductPrice = MutableStateFlow(false)
+    val showProductPrice = _showProductPrice
+    private val _showProductName = MutableStateFlow(true)
+    val showProductName = _showProductName
 
     fun initGroup() {
         viewModelScope.launch {
@@ -68,6 +74,8 @@ class DisplayViewModel @Inject constructor(
             val frontLightBrightness = dataStore.getCoffeePreference(FRONT_LIGHT_BRIGHTNESS, 90)
             val screenBrightness = dataStore.getCoffeePreference(SCREEN_BRIGHTNESS, 90)
             val showExtractionTime = dataStore.getCoffeePreference(SHOW_EXTRACTION_TIME, true)
+            val showProductPrice = dataStore.getCoffeePreference(SHOW_PRODUCT_PRICE, false)
+            val showProductName = dataStore.getCoffeePreference(SHOW_PRODUCT_NAME, true)
 
             _language.value = systemLanguage
             _time.value = TimeUtils.getFullFormat()
@@ -77,6 +85,8 @@ class DisplayViewModel @Inject constructor(
             _frontLightBrightness.value = frontLightBrightness
             _screenBrightness.value = screenBrightness
             _showExtractionTime.value = showExtractionTime
+            _showProductPrice.value = showProductPrice
+            _showProductName.value = showProductName
         }
     }
 
