@@ -22,7 +22,7 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val SYSTEM_LANGUAGE = "system_language"
         private const val DEFAULT_LANGUAGE_VALUE = "en"
         private const val LAST_RESET_PRODUCT_TIME = "last_reset_product_time"
-        private const val DEFAULT_LAST_RESET_PRODUCT_TIME = "" // 2024/01/01
+        private const val DEFAULT_LAST_RESET_PRODUCT_TIME = "2024-01-01T00:00"
         private const val NUMBER_OF_PRODUCT_PER_PAGE = "number_of_product_per_page"
         private const val SHOW_PRODUCT_PRICE = "show_product_price"
         private const val SHOW_PRODUCT_NAME = "show_product_name"

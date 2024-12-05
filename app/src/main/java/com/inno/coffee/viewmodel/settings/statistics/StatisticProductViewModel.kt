@@ -49,8 +49,8 @@ class StatisticProductViewModel @Inject constructor(
             }
             getProductCount(_drinksList.value.first().productId)
             val resetTime = dataStore.getLastResetProductTime()
-            _typeCounts.value = repository.getTypeCounts()
             _time.value = TimeUtils.getFullFormat(LocalDateTime.parse(resetTime))
+            _typeCounts.value = repository.getTypeCounts()
         }
     }
 

@@ -15,7 +15,6 @@ fun main() {
 //    println(usFormatter.format(zdt));
 
     val time = LocalDateTime.parse("2024-01-01T00:00:00")
-    time.plusMonths(12)
     println("time : $time")
 
 }
