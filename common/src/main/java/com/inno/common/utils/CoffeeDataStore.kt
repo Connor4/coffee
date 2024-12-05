@@ -56,6 +56,10 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         saveCoffeePreference(SHOW_PRODUCT_NAME, value)
     }
 
+    fun getNumberOfProductPerPageFlow(): Flow<Int> {
+        return getCoffeePreferenceFlow(NUMBER_OF_PRODUCT_PER_PAGE, 12)
+    }
+
     suspend fun getNumberOfProductPerPage(): Int {
         return getCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, 12)
     }

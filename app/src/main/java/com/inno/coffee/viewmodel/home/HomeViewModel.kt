@@ -11,7 +11,6 @@ import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogLeftManager
 import com.inno.coffee.ui.notice.GlobalDialogRightManager
-import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_12
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
@@ -63,6 +62,7 @@ class HomeViewModel @Inject constructor(
         dataStore.getCoffeePreferenceFlow(SHOW_EXTRACTION_TIME, true)
     val showProductPrice: Flow<Boolean> = dataStore.getShowProductPriceFlow()
     val showProductName: Flow<Boolean> = dataStore.getShowProductNameFlow()
+    val numberOfProductPerPage: Flow<Int> = dataStore.getNumberOfProductPerPageFlow()
     private val _username = MutableStateFlow("")
     val username: StateFlow<String> = _username
     private val _password = MutableStateFlow("")
@@ -86,8 +86,6 @@ class HomeViewModel @Inject constructor(
     val date: StateFlow<String> = _date.asStateFlow()
     //    private val _selfCheck = MutableStateFlow(false)
 //    val selfCheck = _selfCheck.asStateFlow()
-    private val _numberOfPage = MutableStateFlow(DISPLAY_PER_PAGE_COUNT_12)
-    val numberOfPage = _numberOfPage.asStateFlow()
 
     private val checking: Boolean
         get() = SelfCheckManager.checking.value
@@ -272,15 +270,6 @@ class HomeViewModel @Inject constructor(
         }
         val exist = list.firstOrNull { self.productId == it.productId }
         return exist != null
-    }
-
-    fun getDrinkItemSize() {
-        viewModelScope.launch {
-            val number = dataStore.getNumberOfProductPerPage()
-            if (number != _numberOfPage.value) {
-                _numberOfPage.value = number
-            }
-        }
     }
 
     fun bottomReleaseSteam() {

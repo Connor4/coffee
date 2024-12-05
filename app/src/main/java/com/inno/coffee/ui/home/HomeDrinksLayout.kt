@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,12 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
@@ -62,9 +58,10 @@ fun HomeDrinksLayout(
     val autoBack = viewModel.autoReturnEnabled.collectAsState(initial = false)
     val showProductPrice by viewModel.showProductPrice.collectAsState(initial = false)
 //    val showProductName by viewModel.showProductName.collectAsState(initial = false)
+    val numberOfPage by viewModel.numberOfProductPerPage.collectAsState(
+        initial = DISPLAY_PER_PAGE_COUNT_12)
     val drinksList by viewModel.formulaList.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
-    val numberOfPage by viewModel.numberOfPage.collectAsState()
     val totalPage = (drinksList.size + numberOfPage - 1) / numberOfPage
     val rowCount = if (numberOfPage == DISPLAY_PER_PAGE_COUNT_12) 4 else 5
     val normalSize = numberOfPage == DISPLAY_PER_PAGE_COUNT_12
@@ -77,19 +74,6 @@ fun HomeDrinksLayout(
                 && releaseSteam != RELEASE_STEAM_START) {
             delay(PAGE_WAIT_TIME)
             pagerState.scrollToPage(0)
-        }
-    }
-
-    val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.getDrinkItemSize()
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
 
