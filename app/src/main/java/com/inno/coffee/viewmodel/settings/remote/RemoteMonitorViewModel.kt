@@ -33,7 +33,7 @@ class RemoteMonitorViewModel @Inject constructor(
     fun init() {
         viewModelScope.launch(defaultDispatcher) {
             _telemetrySwitch.value = dataStore.getCoffeePreference(TELEMETRY_SWITCH, false)
-            _telemetryId.value = dataStore.getCoffeePreference(TELEMETRY_ID, "")
+            _telemetryId.value = dataStore.getCoffeePreference(TELEMETRY_ID, "10000")
         }
     }
 
