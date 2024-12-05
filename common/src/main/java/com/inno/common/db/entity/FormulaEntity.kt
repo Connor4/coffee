@@ -8,10 +8,10 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "formula_table")
 data class Formula(
     var productId: Int,
-    var productPrice: Float = 0.0f,
     var preFlush: Boolean = false,
     var postFlush: Boolean = false,
     var productType: FormulaItem.FormulaProductType? = null,
+    var productPrice: FormulaItem.FormulaUnitValue? = null,
     var productName: FormulaItem.FormulaProductName? = null,
     var vat: FormulaItem.FormulaVatPosition? = null,
     var coffeeWater: FormulaItem.FormulaUnitValue? = null, // Boiler

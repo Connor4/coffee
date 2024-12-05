@@ -253,6 +253,7 @@
     <string name="formula_powder_test">Powder Test</string>
     <string name="formula_product_type">Product Type</string>
     <string name="formula_product_name">Product Name</string>
+    <string name="formula_product_price">Product Price</string>
     <string name="formula_bean_hopper_position">Bean Hopper</string>
     <string name="formula_water_dosage">Water dosage</string>
     <string name="formula_powder_dosage">Powder Dosage</string>

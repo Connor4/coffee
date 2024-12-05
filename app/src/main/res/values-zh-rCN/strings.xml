@@ -245,6 +245,7 @@
     <string name="formula_powder_test">测试粉量</string>
     <string name="formula_product_type">产品类型</string>
     <string name="formula_product_name">产品名称</string>
+    <string name="formula_product_price">价格</string>
     <string name="formula_bean_hopper_position">豆缸</string>
     <string name="formula_water_dosage">水量</string>
     <string name="formula_powder_dosage">粉量</string>
