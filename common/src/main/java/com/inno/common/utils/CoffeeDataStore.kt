@@ -32,12 +32,20 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         name = USER_PREFERENCES_NAME
     )
 
+    fun getShowProductPriceFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(SHOW_PRODUCT_PRICE, false)
+    }
+
     suspend fun getShowProductPrice(): Boolean {
         return getCoffeePreference(SHOW_PRODUCT_PRICE, false)
     }
 
     suspend fun saveShowProductPrice(value: Boolean) {
         saveCoffeePreference(SHOW_PRODUCT_PRICE, value)
+    }
+
+    fun getShowProductNameFlow(): Flow<Boolean> {
+        return getCoffeePreferenceFlow(SHOW_PRODUCT_NAME, true)
     }
 
     suspend fun getShowProductName(): Boolean {

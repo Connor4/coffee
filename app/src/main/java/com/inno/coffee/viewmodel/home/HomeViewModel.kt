@@ -61,6 +61,8 @@ class HomeViewModel @Inject constructor(
         dataStore.getCoffeePreferenceFlow(BACK_TO_FIRST_PAGE, false)
     val showExtractionTime: Flow<Boolean> =
         dataStore.getCoffeePreferenceFlow(SHOW_EXTRACTION_TIME, true)
+    val showProductPrice: Flow<Boolean> = dataStore.getShowProductPriceFlow()
+    val showProductName: Flow<Boolean> = dataStore.getShowProductNameFlow()
     private val _username = MutableStateFlow("")
     val username: StateFlow<String> = _username
     private val _password = MutableStateFlow("")
@@ -86,10 +88,6 @@ class HomeViewModel @Inject constructor(
 //    val selfCheck = _selfCheck.asStateFlow()
     private val _numberOfPage = MutableStateFlow(DISPLAY_PER_PAGE_COUNT_12)
     val numberOfPage = _numberOfPage.asStateFlow()
-    private val _showProductPrice = MutableStateFlow(false)
-    val showProductPrice = _showProductPrice.asStateFlow()
-    private val _showProductName = MutableStateFlow(true)
-    val showProductName = _showProductName.asStateFlow()
 
     private val checking: Boolean
         get() = SelfCheckManager.checking.value
@@ -282,15 +280,15 @@ class HomeViewModel @Inject constructor(
             if (number != _numberOfPage.value) {
                 _numberOfPage.value = number
             }
-            val showPrice = dataStore.getShowProductPrice()
-            if (showPrice != _showProductPrice.value) {
-                _showProductPrice.value = showPrice
-            }
-            val showName = dataStore.getShowProductName()
-            if (showName != _showProductName.value) {
-                _showProductName.value = showName
-            }
         }
+    }
+
+    fun bottomReleaseSteam() {
+
+    }
+
+    fun bottomStop() {
+
     }
 
     suspend fun startCountDown() {
