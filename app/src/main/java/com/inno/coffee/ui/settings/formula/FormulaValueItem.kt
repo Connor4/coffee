@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.ui.common.ACCURACY_3
 import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.ListSelectLayout2
 import com.inno.coffee.ui.common.UnitValueScrollBar
@@ -27,6 +28,7 @@ import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRESS_WEIGHT
+import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_PRICE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_TYPE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_VAT
 import com.inno.coffee.utilities.FORMULA_PROPERTY_WATER_SEQUENCE
@@ -41,7 +43,7 @@ private val formulaProperties = Formula::class.memberProperties
 private val formulaPropertyNames = listOf(
     FORMULA_PROPERTY_PRODUCT_TYPE,
     "productName",
-    "productPrice",
+    FORMULA_PROPERTY_PRODUCT_PRICE,
     FORMULA_PROPERTY_VAT,
     FORMULA_PROPERTY_COFFEE_WATER,
     FORMULA_PROPERTY_POWDER_DOSAGE,
@@ -60,7 +62,7 @@ private val formulaPropertyNames = listOf(
 private val formulaPropertyStringMapping = mapOf(
     FORMULA_PROPERTY_PRODUCT_TYPE to R.string.formula_product_type,
     "productName" to R.string.formula_product_name,
-    "productPrice" to R.string.formula_product_price,
+    FORMULA_PROPERTY_PRODUCT_PRICE to R.string.formula_product_price,
     FORMULA_PROPERTY_VAT to R.string.formula_bean_hopper_position,
     FORMULA_PROPERTY_COFFEE_WATER to R.string.formula_water_dosage,
     FORMULA_PROPERTY_POWDER_DOSAGE to R.string.formula_powder_dosage,
@@ -182,6 +184,22 @@ fun FormulaValueItem(
                     }, {
                         selectedValue = null
                     })
+                }
+                is FormulaItem.FormulaProductPrice -> {
+                    UnitValueScrollBar(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .align(Alignment.TopEnd)
+                            .padding(top = 250.dp, end = 90.dp),
+                        value = value.price,
+                        rangeStart = value.rangeStart,
+                        rangeEnd = value.rangeEnd,
+                        accuracy = ACCURACY_3
+                    ) { changeValue ->
+                        value.price = changeValue
+                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                        onValueChange()
+                    }
                 }
                 is FormulaItem.FormulaVatPosition -> {
                     val front = stringResource(R.string.formula_front_hopper)

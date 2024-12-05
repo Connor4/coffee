@@ -11,7 +11,7 @@ data class Formula(
     var preFlush: Boolean = false,
     var postFlush: Boolean = false,
     var productType: FormulaItem.FormulaProductType? = null,
-    var productPrice: FormulaItem.FormulaUnitValue? = null,
+    var productPrice: FormulaItem.FormulaProductPrice? = null,
     var productName: FormulaItem.FormulaProductName? = null,
     var vat: FormulaItem.FormulaVatPosition? = null,
     var coffeeWater: FormulaItem.FormulaUnitValue? = null, // Boiler
@@ -60,6 +60,13 @@ sealed class FormulaItem {
     data class FormulaProductName(
         var name: String?,
         var nameRes: String?,
+    )
+
+    @Serializable
+    data class FormulaProductPrice(
+        var price: Float,
+        var rangeStart: Float,
+        var rangeEnd: Float,
     )
 
     @Serializable

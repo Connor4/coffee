@@ -57,6 +57,7 @@ const val FORMULA_PRODUCT_NAME_MAX_SIZE = 15
 const val FORMULA_SHOW_LEARN_WATER = 1
 const val FORMULA_SHOW_POWDER_TEST = 2
 const val FORMULA_PROPERTY_PRODUCT_TYPE = "productType"
+const val FORMULA_PROPERTY_PRODUCT_PRICE = "productPrice"
 const val FORMULA_PROPERTY_VAT = "vat"
 const val FORMULA_PROPERTY_PRESS_WEIGHT = "pressWeight"
 const val FORMULA_PROPERTY_COFFEE_WATER = "coffeeWater"

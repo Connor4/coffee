@@ -76,4 +76,14 @@ class Converters {
     fun toFormulaCups(value: String): FormulaItem.FormulaCups {
         return Json.decodeFromString(value)
     }
+
+    @TypeConverter
+    fun fromFormulaProductPrice(value: FormulaItem.FormulaProductPrice): String {
+        return Json.encodeToString(value)
+    }
+
+    @TypeConverter
+    fun toFormulaProductPrice(value: String): FormulaItem.FormulaProductPrice {
+        return Json.decodeFromString(value)
+    }
 }

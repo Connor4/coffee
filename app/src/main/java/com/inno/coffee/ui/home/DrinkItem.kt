@@ -89,7 +89,7 @@ fun DrinkItem(
         ) {
             MaskBoxWithContent(enableMask = enableMask) {
                 val drawableRes = model.imageRes
-                val productPrice = model.productPrice?.value ?: ""
+                val productPrice = model.productPrice?.price ?: ""
                 if (showProductPrice) {
                     Text(
                         text = "$productPrice",

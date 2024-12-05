@@ -70,10 +70,9 @@
   {
     "productId": 5,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_espresso_ic",
     "productType": {
@@ -149,10 +148,9 @@
   {
     "productId": 6,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_espresso_ic",
     "productType": {
@@ -228,10 +226,9 @@
   {
     "productId": 7,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_americano_ic",
     "productType": {
@@ -316,10 +313,9 @@
   {
     "productId": 8,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_americano_ic",
     "productType": {
@@ -404,10 +400,9 @@
   {
     "productId": 9,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_milk_ic",
     "productType": {
@@ -433,10 +428,9 @@
   {
     "productId": 10,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_pot_coffee_ic",
     "productType": {
@@ -550,10 +544,9 @@
   {
     "productId": 13,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_latte_ic",
     "productType": {
@@ -633,10 +626,9 @@
   {
     "productId": 14,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_latte_ic",
     "productType": {
@@ -716,10 +708,9 @@
   {
     "productId": 15,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_cappuccino_ic",
     "productType": {
@@ -799,10 +790,9 @@
   {
     "productId": 16,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_cappuccino_ic",
     "productType": {
@@ -882,10 +872,9 @@
   {
     "productId": 17,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_latte_macchiato_ic",
     "productType": {
@@ -965,10 +954,9 @@
   {
     "productId": 18,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_latte_macchiato_ic",
     "productType": {
@@ -1048,10 +1036,9 @@
   {
     "productId": 19,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_espresso_ic",
     "productType": {
@@ -1131,10 +1118,9 @@
   {
     "productId": 20,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_es_macchiato_ic",
     "productType": {
@@ -1282,10 +1268,9 @@
   {
     "productId": 105,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_espresso_ic",
     "productType": {
@@ -1361,10 +1346,9 @@
   {
     "productId": 106,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_espresso_ic",
     "productType": {
@@ -1440,10 +1424,9 @@
   {
     "productId": 107,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_americano_ic",
     "productType": {
@@ -1528,10 +1511,9 @@
   {
     "productId": 108,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_americano_ic",
     "productType": {
@@ -1616,10 +1598,9 @@
   {
     "productId": 109,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_milk_ic",
     "productType": {
@@ -1645,10 +1626,9 @@
   {
     "productId": 110,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_pot_coffee_ic",
     "productType": {
@@ -1762,10 +1742,9 @@
   {
     "productId": 113,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_latte_ic",
     "productType": {
@@ -1845,10 +1824,9 @@
   {
     "productId": 114,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_latte_ic",
     "productType": {
@@ -1928,10 +1906,9 @@
   {
     "productId": 115,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_cappuccino_ic",
     "productType": {
@@ -2011,10 +1988,9 @@
   {
     "productId": 116,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_cappuccino_ic",
     "productType": {
@@ -2094,10 +2070,9 @@
   {
     "productId": 117,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_latte_macchiato_ic",
     "productType": {
@@ -2177,10 +2152,9 @@
   {
     "productId": 118,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_latte_macchiato_ic",
     "productType": {
@@ -2260,10 +2234,9 @@
   {
     "productId": 119,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_espresso_ic",
     "productType": {
@@ -2343,10 +2316,9 @@
   {
     "productId": 120,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_es_macchiato_ic",
     "productType": {
@@ -2426,10 +2398,9 @@
   {
     "productId": 1005,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_espresso_ic",
     "productType": {
@@ -2500,10 +2471,9 @@
   {
     "productId": 1006,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_espresso_ic",
     "productType": {
@@ -2574,10 +2544,9 @@
   {
     "productId": 1007,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_americano_ic",
     "productType": {
@@ -2657,10 +2626,9 @@
   {
     "productId": 1008,
     "productPrice": {
-      "value": 50,
+      "price": 9.99,
       "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": ""
+      "rangeEnd": 100
     },
     "imageRes": "drink_double_americano_ic",
     "productType": {
