@@ -51,15 +51,25 @@ private const val ANIMATION_TIME = 375
 @Composable
 fun HomeSettingEntrance(
     show: Boolean,
+    showStandByMode: Boolean = true,
     onMenuClick: (index: Int) -> Unit,
     onCloseFinished: () -> Unit,
 ) {
-    val entrance = mapOf(
-        Pair(R.drawable.home_entrance_psw_ic, R.string.home_open_setting),
-        Pair(R.drawable.home_entrance_clean_ic, R.string.home_clean_screen),
-        Pair(R.drawable.home_entrance_standby_ic, R.string.home_standby_mode),
-        Pair(R.drawable.home_entrance_information_ic, R.string.home_machine_info),
-    )
+    val entrance = if (showStandByMode) {
+        mapOf(
+            Pair(R.drawable.home_entrance_psw_ic, R.string.home_open_setting),
+            Pair(R.drawable.home_entrance_clean_ic, R.string.home_clean_screen),
+            Pair(R.drawable.home_entrance_standby_ic, R.string.home_standby_mode),
+            Pair(R.drawable.home_entrance_information_ic, R.string.home_machine_info),
+        )
+    } else {
+        mapOf(
+            Pair(R.drawable.home_entrance_psw_ic, R.string.home_open_setting),
+            Pair(R.drawable.home_entrance_clean_ic, R.string.home_clean_screen),
+            Pair(R.drawable.home_entrance_information_ic, R.string.home_machine_info),
+        )
+    }
+
     val rotation = remember {
         Animatable(if (show) 0f else 180f)
     }

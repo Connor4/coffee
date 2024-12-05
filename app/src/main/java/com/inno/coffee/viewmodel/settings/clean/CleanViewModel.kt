@@ -68,7 +68,7 @@ class CleanViewModel @Inject constructor(
     val milkWeekendCleanMode = _milkWeekendCleanMode
     private val _afterCleaning = MutableStateFlow(false)
     val afterCleaning = _afterCleaning
-    private val _standbyButton = MutableStateFlow(false)
+    private val _standbyButton = MutableStateFlow(true)
     val standbyButton = _standbyButton
 
     private val _standbyMonday = MutableStateFlow(0)
@@ -144,7 +144,7 @@ class CleanViewModel @Inject constructor(
             _milkWeekendCleanMode.value = dataStore.getCoffeePreference(MILK_WEEKEND_CLEAN_MODE,
                 false)
             _afterCleaning.value = dataStore.getCoffeePreference(AFTER_CLEANING, false)
-            _standbyButton.value = dataStore.getCoffeePreference(STANDBY_BUTTON, false)
+            _standbyButton.value = dataStore.getCoffeePreference(STANDBY_BUTTON, true)
 
             _switchValue.value = dataStore.getCoffeePreference(SWITCH_VALUE, 0)
         }

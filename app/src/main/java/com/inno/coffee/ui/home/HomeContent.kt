@@ -58,6 +58,7 @@ fun HomeContent(
     val leftTemperature = viewModel.leftBoilerTemp.collectAsState()
     val rightTemperature = viewModel.rightBoilerTemp.collectAsState()
     val showExtractionTime = viewModel.showExtractionTime.collectAsState(initial = true)
+    val showStandByMode = viewModel.standbyButton.collectAsState(initial = true)
     val mainScreen = ScreenDisplayManager.isMainDisplay(context)
 
     LaunchedEffect(Unit) {
@@ -121,6 +122,7 @@ fun HomeContent(
             ) {
                 HomeSettingEntrance(
                     show = overlayVisible,
+                    showStandByMode = showStandByMode.value,
                     onMenuClick = {
                         when (it) {
                             HOME_LOGIN -> {

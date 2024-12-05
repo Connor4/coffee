@@ -50,6 +50,7 @@ class HomeViewModel @Inject constructor(
         private const val TEMPERATURE_UNIT = "temperature_unit"
         private const val SHOW_EXTRACTION_TIME = "show_extraction_time"
         private const val BACK_TO_FIRST_PAGE = "back_to_first_page"
+        private const val STANDBY_BUTTON = "clean_standby_button"
     }
 
     val formulaList: StateFlow<List<Formula>> = repository.getAllFormulas()
@@ -63,6 +64,7 @@ class HomeViewModel @Inject constructor(
     val showProductPrice: Flow<Boolean> = dataStore.getShowProductPriceFlow()
     val showProductName: Flow<Boolean> = dataStore.getShowProductNameFlow()
     val numberOfProductPerPage: Flow<Int> = dataStore.getNumberOfProductPerPageFlow()
+    val standbyButton: Flow<Boolean> = dataStore.getCoffeePreferenceFlow(STANDBY_BUTTON, true)
     private val _username = MutableStateFlow("")
     val username: StateFlow<String> = _username
     private val _password = MutableStateFlow("")
