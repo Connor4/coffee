@@ -23,7 +23,7 @@ val previewFormula = Formula(
     productId = 3, productType = FormulaItem.FormulaProductType(ProductType
         .COFFEE.value),
     productName = FormulaItem.FormulaProductName("意式", "home_item_espresso"),
-    vat = FormulaItem.FormulaVatPosition(true),
+    beanHopper = FormulaItem.FormulaBeanHopperPosition(true),
     coffeeWater = FormulaItem.FormulaUnitValue(20,
         0f,
         100f,

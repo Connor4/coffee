@@ -25,12 +25,12 @@ import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.ListSelectLayout2
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
+import com.inno.coffee.utilities.FORMULA_PROPERTY_BEAN_HOPPER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRESS_WEIGHT
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_PRICE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_TYPE
-import com.inno.coffee.utilities.FORMULA_PROPERTY_VAT
 import com.inno.coffee.utilities.FORMULA_PROPERTY_WATER_SEQUENCE
 import com.inno.coffee.utilities.formulaProductTypeMultilingual
 import com.inno.common.db.entity.Formula
@@ -44,7 +44,7 @@ private val formulaPropertyNames = listOf(
     FORMULA_PROPERTY_PRODUCT_TYPE,
     "productName",
     FORMULA_PROPERTY_PRODUCT_PRICE,
-    FORMULA_PROPERTY_VAT,
+    FORMULA_PROPERTY_BEAN_HOPPER,
     FORMULA_PROPERTY_COFFEE_WATER,
     FORMULA_PROPERTY_POWDER_DOSAGE,
     FORMULA_PROPERTY_PRESS_WEIGHT,
@@ -63,7 +63,7 @@ private val formulaPropertyStringMapping = mapOf(
     FORMULA_PROPERTY_PRODUCT_TYPE to R.string.formula_product_type,
     "productName" to R.string.formula_product_name,
     FORMULA_PROPERTY_PRODUCT_PRICE to R.string.formula_product_price,
-    FORMULA_PROPERTY_VAT to R.string.formula_bean_hopper_position,
+    FORMULA_PROPERTY_BEAN_HOPPER to R.string.formula_bean_hopper_position,
     FORMULA_PROPERTY_COFFEE_WATER to R.string.formula_water_dosage,
     FORMULA_PROPERTY_POWDER_DOSAGE to R.string.formula_powder_dosage,
     FORMULA_PROPERTY_PRESS_WEIGHT to R.string.formula_press_weight,
@@ -201,11 +201,11 @@ fun FormulaValueItem(
                         onValueChange()
                     }
                 }
-                is FormulaItem.FormulaVatPosition -> {
+                is FormulaItem.FormulaBeanHopperPosition -> {
                     val front = stringResource(R.string.formula_front_hopper)
                     val back = stringResource(R.string.formula_rear_hopper)
                     val default = if (value.position) front else back
-                    val title = formulaPropertyStringMapping[FORMULA_PROPERTY_VAT]
+                    val title = formulaPropertyStringMapping[FORMULA_PROPERTY_BEAN_HOPPER]
                     ListSelectLayout(
                         stringResource(title!!), default, mapOf(Pair(front, true), Pair(back,
                             false)),

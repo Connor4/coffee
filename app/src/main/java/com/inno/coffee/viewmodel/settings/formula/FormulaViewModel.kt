@@ -166,7 +166,7 @@ class FormulaViewModel @Inject constructor(
                         productName = formula.productName,
                         preFlush = it.preFlush,
                         postFlush = it.postFlush,
-                        vat = it.vat,
+                        beanHopper = it.beanHopper,
                         coffeeWater = it.coffeeWater,
                         powderDosage = it.powderDosage,
                         pressWeight = it.pressWeight,
@@ -214,7 +214,7 @@ class FormulaViewModel @Inject constructor(
                 it.productType = formula.productType
                 it.preFlush = formula.preFlush
                 it.postFlush = formula.postFlush
-                it.vat = formula.vat
+                it.beanHopper = formula.beanHopper
                 it.coffeeWater = formula.coffeeWater
                 it.powderDosage = formula.powderDosage
                 it.pressWeight = formula.pressWeight

@@ -13,7 +13,7 @@ data class Formula(
     var productType: FormulaItem.FormulaProductType? = null,
     var productPrice: FormulaItem.FormulaProductPrice? = null,
     var productName: FormulaItem.FormulaProductName? = null,
-    var vat: FormulaItem.FormulaVatPosition? = null,
+    var beanHopper: FormulaItem.FormulaBeanHopperPosition? = null,
     var coffeeWater: FormulaItem.FormulaUnitValue? = null, // Boiler
     var powderDosage: FormulaItem.FormulaUnitValue? = null, // Grinder
     var pressWeight: FormulaItem.FormulaPressWeight? = null, // Brewer
@@ -70,7 +70,7 @@ sealed class FormulaItem {
     )
 
     @Serializable
-    data class FormulaVatPosition(
+    data class FormulaBeanHopperPosition(
         var position: Boolean,
     )
 

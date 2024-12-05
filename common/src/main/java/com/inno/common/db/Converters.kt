@@ -38,12 +38,12 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromFormulaVatPosition(value: FormulaItem.FormulaVatPosition): String {
+    fun fromFormulaVatPosition(value: FormulaItem.FormulaBeanHopperPosition): String {
         return Json.encodeToString(value)
     }
 
     @TypeConverter
-    fun toFormulaVatPosition(value: String): FormulaItem.FormulaVatPosition {
+    fun toFormulaVatPosition(value: String): FormulaItem.FormulaBeanHopperPosition {
         return Json.decodeFromString(value)
     }
 

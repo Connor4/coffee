@@ -88,7 +88,7 @@ fun VerticalScrollList(
                     value = formula.productName?.name ?: "")
             }
             item {
-                val vat = if (formula.vat?.position != false) stringResource(id = R.string
+                val vat = if (formula.beanHopper?.position != false) stringResource(id = R.string
                     .formula_front_hopper)
                 else stringResource(id = R.string.formula_rear_hopper)
                 FormulaItem(backgroundColor = singularItemColor,
@@ -270,7 +270,7 @@ private fun PreviewVerticalScrollList() {
         productId = 3, productType = FormulaItem.FormulaProductType(ProductType
             .COFFEE.value),
         productName = FormulaItem.FormulaProductName("意式", "home_item_espresso"),
-        vat = FormulaItem.FormulaVatPosition(true),
+        beanHopper = FormulaItem.FormulaBeanHopperPosition(true),
         coffeeWater = FormulaItem.FormulaUnitValue(20,
             0f,
             100f,

@@ -76,7 +76,8 @@ object ProductProfileManager {
     private fun createProductProfile(formula: Formula, leftSize: Boolean): ProductProfile {
         val preFlush: Short = if (formula.preFlush) 1 else 0
         val postFlush: Short = if (formula.postFlush) 1 else 0
-        val grinderId = if (formula.vat?.position != false) FRONT_GRINDER_ID else BACK_GRINDER_ID
+        val grinderId =
+            if (formula.beanHopper?.position != false) FRONT_GRINDER_ID else BACK_GRINDER_ID
         val grinderProfile = ComponentProfile(grinderId,
             shortArrayOf(formula.powderDosage?.value ?: 0, 0, 0, 0, 0, 0))
 

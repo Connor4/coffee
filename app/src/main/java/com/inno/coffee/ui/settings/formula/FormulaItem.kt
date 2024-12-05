@@ -96,7 +96,7 @@ fun FormulaItem(
                 is FormulaItem.FormulaProductPrice -> {
                     textValue = value.price.toString()
                 }
-                is FormulaItem.FormulaVatPosition -> {
+                is FormulaItem.FormulaBeanHopperPosition -> {
                     textValue = if (value.position) stringResource(R.string.formula_front_hopper)
                     else stringResource(R.string.formula_rear_hopper)
                 }
