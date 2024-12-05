@@ -13,6 +13,8 @@ import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_COLOR
 import com.inno.coffee.utilities.INDEX_NUMBER_OF_PRODUCT_PER_PAGE
 import com.inno.coffee.utilities.INDEX_SCREEN_BRIGHTNESS
 import com.inno.coffee.utilities.INDEX_SHOW_EXTRACTION_TIME
+import com.inno.coffee.utilities.INDEX_SHOW_PRODUCT_NAME
+import com.inno.coffee.utilities.INDEX_SHOW_PRODUCT_PRICE
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.common.utils.SystemLocaleHelper
@@ -38,8 +40,6 @@ class DisplayViewModel @Inject constructor(
         private const val FRONT_LIGHT_BRIGHTNESS = "front_light_brightness"
         private const val SCREEN_BRIGHTNESS = "screen_brightness"
         private const val SHOW_EXTRACTION_TIME = "show_extraction_time"
-        private const val SHOW_PRODUCT_PRICE = "show_product_price"
-        private const val SHOW_PRODUCT_NAME = "show_product_name"
     }
 
     private val _language = MutableStateFlow("")
@@ -74,8 +74,8 @@ class DisplayViewModel @Inject constructor(
             val frontLightBrightness = dataStore.getCoffeePreference(FRONT_LIGHT_BRIGHTNESS, 90)
             val screenBrightness = dataStore.getCoffeePreference(SCREEN_BRIGHTNESS, 90)
             val showExtractionTime = dataStore.getCoffeePreference(SHOW_EXTRACTION_TIME, true)
-            val showProductPrice = dataStore.getCoffeePreference(SHOW_PRODUCT_PRICE, false)
-            val showProductName = dataStore.getCoffeePreference(SHOW_PRODUCT_NAME, true)
+            val showProductPrice = dataStore.getShowProductPrice()
+            val showProductName = dataStore.getShowProductName()
 
             _language.value = systemLanguage
             _time.value = TimeUtils.getFullFormat()
@@ -149,6 +149,14 @@ class DisplayViewModel @Inject constructor(
                 INDEX_SHOW_EXTRACTION_TIME -> {
                     dataStore.saveCoffeePreference(SHOW_EXTRACTION_TIME, value as Boolean)
                     _showExtractionTime.value = value
+                }
+                INDEX_SHOW_PRODUCT_PRICE -> {
+                    dataStore.saveShowProductPrice(value as Boolean)
+                    _showProductPrice.value = value
+                }
+                INDEX_SHOW_PRODUCT_NAME -> {
+                    dataStore.saveShowProductName(value as Boolean)
+                    _showProductName.value = value
                 }
             }
         }

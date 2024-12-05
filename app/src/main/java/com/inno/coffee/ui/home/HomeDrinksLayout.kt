@@ -62,6 +62,8 @@ fun HomeDrinksLayout(
     val autoBack = viewModel.autoReturnEnabled.collectAsState(initial = false)
     val drinksList by viewModel.formulaList.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
+    val showProductName by viewModel.showProductName.collectAsState()
+    val showProductPrice by viewModel.showProductPrice.collectAsState()
     val numberOfPage by viewModel.numberOfPage.collectAsState()
     val totalPage = (drinksList.size + numberOfPage - 1) / numberOfPage
     val rowCount = if (numberOfPage == DISPLAY_PER_PAGE_COUNT_12) 4 else 5
@@ -123,7 +125,8 @@ fun HomeDrinksLayout(
                         val select = viewModel.enableSelect(mainScreen, drinkModel)
 
                         DrinkItem(model = drinkModel, enableMask = enable, selected = select,
-                            normalSize = normalSize) {
+                            normalSize = normalSize, showProductName = showProductName,
+                            showProductPrice = showProductPrice) {
                             selected.intValue = drinkModel.productId
                             viewModel.startMakeDrink(drinkModel, mainScreen)
                         }

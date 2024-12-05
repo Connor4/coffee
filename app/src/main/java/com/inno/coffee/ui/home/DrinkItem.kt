@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -36,6 +37,7 @@ fun DrinkItem(
     enableMask: Boolean = false,
     selected: Boolean = false,
     showProductName: Boolean = true,
+    showProductPrice: Boolean = false,
     normalSize: Boolean = true,
     onDrinkClick: () -> Unit = {},
 ) {
@@ -86,7 +88,19 @@ fun DrinkItem(
                 .background(color = Color(0xFF191A1D)),
         ) {
             MaskBoxWithContent(enableMask = enableMask) {
-                val drawableRes = model.imageRes ?: "drink_item_empty_ic"
+                val drawableRes = model.imageRes
+                val productPrice = model.productPrice?.value ?: ""
+                if (showProductPrice) {
+                    Text(
+                        text = "$productPrice",
+                        fontSize = textSize.nsp(),
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .align(alignment = Alignment.TopEnd)
+                            .padding(top = 22.dp, end = 26.dp)
+                    )
+                }
                 Image(
                     painter = painterResource(id = getImageResId(drawableRes)),
                     contentDescription = null,

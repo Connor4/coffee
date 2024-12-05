@@ -24,11 +24,29 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val LAST_RESET_PRODUCT_TIME = "last_reset_product_time"
         private const val DEFAULT_LAST_RESET_PRODUCT_TIME = "" // 2024/01/01
         private const val NUMBER_OF_PRODUCT_PER_PAGE = "number_of_product_per_page"
+        private const val SHOW_PRODUCT_PRICE = "show_product_price"
+        private const val SHOW_PRODUCT_NAME = "show_product_name"
     }
 
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
+
+    suspend fun getShowProductPrice(): Boolean {
+        return getCoffeePreference(SHOW_PRODUCT_PRICE, false)
+    }
+
+    suspend fun saveShowProductPrice(value: Boolean) {
+        saveCoffeePreference(SHOW_PRODUCT_PRICE, value)
+    }
+
+    suspend fun getShowProductName(): Boolean {
+        return getCoffeePreference(SHOW_PRODUCT_NAME, true)
+    }
+
+    suspend fun saveShowProductName(value: Boolean) {
+        saveCoffeePreference(SHOW_PRODUCT_NAME, value)
+    }
 
     suspend fun getNumberOfProductPerPage(): Int {
         return getCoffeePreference(NUMBER_OF_PRODUCT_PER_PAGE, 12)
