@@ -30,6 +30,7 @@ import com.inno.coffee.viewmodel.settings.maintenance.TestFunctionViewModel
 import com.inno.serialport.utilities.MAINTENANCE_CLEANING_BALL_TEST_ID
 import com.inno.serialport.utilities.MAINTENANCE_FLOW_RATE_TEST_ID
 import com.inno.serialport.utilities.MAINTENANCE_GRINDER_SENSOR_TEST_ID
+import com.inno.serialport.utilities.MAINTENANCE_MILK_SENSOR_LEFT_TEST_ID
 import com.inno.serialport.utilities.MAINTENANCE_MILK_SENSOR_RIGHT_TEST_ID
 
 @Composable
@@ -113,13 +114,14 @@ fun TestFunctionLayout(
         Column(
             modifier = Modifier.padding(start = 750.dp, top = 295.dp)
         ) {
-//            ChangeColorButton( modifier = Modifier
-//                    .width(280.dp)
-//                    .height(73.dp),
-            //                    stringResource(R.string.maintenance_milk_test_left)) {
-//
-//            }
-//            Spacer(modifier = Modifier.height(40.dp))
+            ChangeColorButton(modifier = Modifier
+                .width(280.dp)
+                .height(73.dp),
+                stringResource(R.string.maintenance_milk_sensor_left_test)
+            ) {
+                viewModel.sendTestCommand(MAINTENANCE_MILK_SENSOR_LEFT_TEST_ID)
+            }
+            Spacer(modifier = Modifier.height(40.dp))
             ChangeColorButton(
                 modifier = Modifier
                     .width(280.dp)
