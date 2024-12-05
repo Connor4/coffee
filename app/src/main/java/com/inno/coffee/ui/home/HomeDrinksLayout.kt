@@ -15,8 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +31,6 @@ import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_START
 import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.home.selfcheck.ReleaseSteamLayout
 import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_12
-import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import kotlinx.coroutines.delay
 
@@ -66,7 +63,6 @@ fun HomeDrinksLayout(
     val rowCount = if (numberOfPage == DISPLAY_PER_PAGE_COUNT_12) 4 else 5
     val normalSize = numberOfPage == DISPLAY_PER_PAGE_COUNT_12
     val pagerState = rememberPagerState(pageCount = { totalPage })
-    val selected = rememberSaveable { mutableIntStateOf(INVALID_INT) }
 
     // auto back to first page
     LaunchedEffect(pagerState.currentPage, autoBack.value) {
@@ -75,11 +71,6 @@ fun HomeDrinksLayout(
             delay(PAGE_WAIT_TIME)
             pagerState.scrollToPage(0)
         }
-    }
-
-    // release select item
-    if (size < 1) {
-        selected.intValue = INVALID_INT
     }
 
     if (releaseSteam == RELEASE_STEAM_READY || releaseSteam == RELEASE_STEAM_START) {
@@ -111,7 +102,6 @@ fun HomeDrinksLayout(
                         DrinkItem(model = drinkModel, enableMask = enable, selected = select,
                             normalSize = normalSize, showProductName = true,
                             showProductPrice = showProductPrice) {
-                            selected.intValue = drinkModel.productId
                             viewModel.startMakeDrink(drinkModel, mainScreen)
                         }
                     }
