@@ -278,18 +278,22 @@ class HomeViewModel @Inject constructor(
     }
 
     fun manualReleaseSteam(main: Boolean) {
-        formulaList.value.firstOrNull {
-            ProductType.assertType(it.productType?.type, ProductType.STEAM)
-        }?.let {
-            startMakeDrink(it, main)
+        if (!checking) {
+            formulaList.value.firstOrNull {
+                ProductType.assertType(it.productType?.type, ProductType.STEAM)
+            }?.let {
+                startMakeDrink(it, main)
+            }
         }
     }
 
     fun stopMaking(main: Boolean) {
-        formulaList.value.firstOrNull {
-            ProductType.assertType(it.productType?.type, ProductType.STOP)
-        }?.let {
-            startMakeDrink(it, main)
+        if (!checking) {
+            formulaList.value.firstOrNull {
+                ProductType.assertType(it.productType?.type, ProductType.STOP)
+            }?.let {
+                startMakeDrink(it, main)
+            }
         }
     }
 
@@ -330,6 +334,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    // 1. only coffee can be count
     fun startCountdownExtractTime() {
         counting = true
         _extractionTime.value = 0f
