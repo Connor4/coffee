@@ -28,6 +28,7 @@ import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -81,8 +82,6 @@ class HomeViewModel @Inject constructor(
     val steamBoilerTemp = temperatureDisplayFlow(_steamBoilerTemp)
     private val _steamBoilerPressure = MutableStateFlow(0)
     val steamBoilerPressure = _steamBoilerPressure
-    private val _extractionTime = MutableStateFlow(0f)
-    val extractionTime = _extractionTime
 
     private val _time = MutableStateFlow("")
     val time: StateFlow<String> = _time.asStateFlow()
@@ -93,7 +92,11 @@ class HomeViewModel @Inject constructor(
 
     private val checking: Boolean
         get() = SelfCheckManager.checking.value
-    private var counting: Boolean = false
+    private val leftExecutingQueue = MakeLeftDrinksHandler.executingQueue
+    private val rightExecutingQueue = MakeRightDrinksHandler.executingQueue
+    private var countdownJob: Job? = null
+    private val _extractionTime = MutableStateFlow(0f)
+    val extractionTime = _extractionTime
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -103,6 +106,24 @@ class HomeViewModel @Inject constructor(
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
+        viewModelScope.launch {
+            leftExecutingQueue.collect { queue ->
+                if (queue.isNotEmpty()) {
+                    startCountdownExtractTime(queue.firstOrNull())
+                } else {
+                    stopCountdownExtractTime()
+                }
+            }
+        }
+        viewModelScope.launch {
+            rightExecutingQueue.collect { queue ->
+                if (queue.isNotEmpty()) {
+                    startCountdownExtractTime(queue.firstOrNull())
+                } else {
+                    stopCountdownExtractTime()
+                }
+            }
+        }
     }
 
     override fun onCleared() {
@@ -208,6 +229,7 @@ class HomeViewModel @Inject constructor(
             } else {
                 MakeRightDrinksHandler.enqueueMessage(model)
             }
+            startCountdownExtractTime(model)
         }
         StatisticManager.countProductType(model)
     }
@@ -334,20 +356,25 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    // 1. only coffee can be count
-    fun startCountdownExtractTime() {
-        counting = true
+    private fun startCountdownExtractTime(formula: Formula?) {
         _extractionTime.value = 0f
-        viewModelScope.launch {
-            while (counting) {
-                delay(100)
-                _extractionTime.value += 0.1f
+        if (countdownJob == null || countdownJob?.isCancelled == true) {
+            if (ProductType.isCoffeeType(formula?.productType?.type)) {
+                countdownJob = viewModelScope.launch {
+                    viewModelScope.launch {
+                        while (true) {
+                            delay(100)
+                            _extractionTime.value += 0.1f
+                        }
+                    }
+                }
             }
         }
     }
 
-    fun stopCountdownExtractTime() {
-        counting = false
+    private fun stopCountdownExtractTime() {
+        countdownJob?.cancel()
+        countdownJob = null
     }
 
 }

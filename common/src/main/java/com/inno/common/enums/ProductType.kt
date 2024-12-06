@@ -47,6 +47,11 @@ enum class ProductType(val value: String) {
             return assertType(string, STOP) || assertType(string, FOAM) || assertType(string, STEAM)
         }
 
+        fun isCoffeeType(type: String?): Boolean {
+            return type == ESPRESSO.value || type == AMERICANO.value || type == DRIP_POD_COFFEE.value
+                    || type == DRIP_COFFEE.value || type == POD_COFFEE.value || type == COFFEE.value
+        }
+
     }
 
 }
