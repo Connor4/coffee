@@ -29,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
@@ -41,6 +40,7 @@ import com.inno.coffee.utilities.nsp
 
 @Composable
 fun HomeBottomBar(
+    extractionTime: Float,
     leftTemp: String,
     rightTemp: String,
     showExtractionTime: Boolean = true,
@@ -114,7 +114,8 @@ fun HomeBottomBar(
                     }
                     Spacer(modifier = Modifier.width(24.dp))
                     if (showExtractionTime) {
-                        Text(text = "0.00s", fontSize = 6.nsp(), color = Color.White)
+                        Text(text = String.format("%.1f s", extractionTime), fontSize = 6.nsp(),
+                            color = Color.White)
                     }
                 }
             }
@@ -220,8 +221,8 @@ fun HomeBottomBar(
     }
 }
 
-@Preview(device = Devices.TABLET)
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewHomeBottomBar() {
-    HomeBottomBar("80", "81")
+    HomeBottomBar(11.33f, "80", "81")
 }

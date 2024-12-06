@@ -55,10 +55,11 @@ fun HomeContent(
     val coroutineScope = rememberCoroutineScope()
     val ioCheck by SelfCheckManager.ioCheck.collectAsState()
     val loginState by viewModel.loginState.collectAsState()
-    val leftTemperature = viewModel.leftBoilerTemp.collectAsState()
-    val rightTemperature = viewModel.rightBoilerTemp.collectAsState()
-    val showExtractionTime = viewModel.showExtractionTime.collectAsState(initial = true)
-    val showStandByMode = viewModel.standbyButton.collectAsState(initial = true)
+    val extractionTime by viewModel.extractionTime.collectAsState()
+    val leftTemperature by viewModel.leftBoilerTemp.collectAsState()
+    val rightTemperature by viewModel.rightBoilerTemp.collectAsState()
+    val showExtractionTime by viewModel.showExtractionTime.collectAsState(initial = true)
+    val showStandByMode by viewModel.standbyButton.collectAsState(initial = true)
     val mainScreen = ScreenDisplayManager.isMainDisplay(context)
 
     LaunchedEffect(Unit) {
@@ -102,8 +103,9 @@ fun HomeContent(
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter)
             ) {
-                HomeBottomBar(leftTemp = leftTemperature.value, rightTemp = rightTemperature.value,
-                    showExtractionTime = showExtractionTime.value, onReleaseSteam = {
+                HomeBottomBar(extractionTime = extractionTime, leftTemp = leftTemperature,
+                    rightTemp = rightTemperature,
+                    showExtractionTime = showExtractionTime, onReleaseSteam = {
                         viewModel.manualReleaseSteam(mainScreen)
                     }, onClickWarning = {
                         viewModel.showWarningDialog(mainScreen)
@@ -122,7 +124,7 @@ fun HomeContent(
             ) {
                 HomeSettingEntrance(
                     show = overlayVisible,
-                    showStandByMode = showStandByMode.value,
+                    showStandByMode = showStandByMode,
                     onMenuClick = {
                         when (it) {
                             HOME_LOGIN -> {

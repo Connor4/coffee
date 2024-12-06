@@ -81,6 +81,8 @@ class HomeViewModel @Inject constructor(
     val steamBoilerTemp = temperatureDisplayFlow(_steamBoilerTemp)
     private val _steamBoilerPressure = MutableStateFlow(0)
     val steamBoilerPressure = _steamBoilerPressure
+    private val _extractionTime = MutableStateFlow(0f)
+    val extractionTime = _extractionTime
 
     private val _time = MutableStateFlow("")
     val time: StateFlow<String> = _time.asStateFlow()
@@ -91,6 +93,7 @@ class HomeViewModel @Inject constructor(
 
     private val checking: Boolean
         get() = SelfCheckManager.checking.value
+    private var counting: Boolean = false
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -326,4 +329,20 @@ class HomeViewModel @Inject constructor(
         }.stateIn(viewModelScope, SharingStarted.Lazily, "")
 
     }
+
+    fun startCountdownExtractTime() {
+        counting = true
+        _extractionTime.value = 0f
+        viewModelScope.launch {
+            while (counting) {
+                delay(100)
+                _extractionTime.value += 0.1f
+            }
+        }
+    }
+
+    fun stopCountdownExtractTime() {
+        counting = false
+    }
+
 }
