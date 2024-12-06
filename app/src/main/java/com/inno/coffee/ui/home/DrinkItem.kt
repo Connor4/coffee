@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.MaskBoxWithContent
-import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.common.debouncedClickableWithoutRipple
 import com.inno.coffee.utilities.getImageResId
 import com.inno.coffee.utilities.getStringResId
 import com.inno.coffee.utilities.nsp
@@ -70,7 +70,7 @@ fun DrinkItem(
         modifier = modifier
             .width(totalWidth.dp)
             .height(totalHeight.dp)
-            .debouncedClickable({ onDrinkClick() }, enabled = !enableMask),
+            .debouncedClickableWithoutRipple({ onDrinkClick() }, enabled = !enableMask),
         contentAlignment = Alignment.Center,
     ) {
         if (selected) {
