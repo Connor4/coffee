@@ -57,13 +57,13 @@ class FormulaViewModel @Inject constructor(
     private val _formula = MutableStateFlow<Formula?>(null)
     val formula = _formula.asStateFlow()
     private val _tempUnit = MutableStateFlow(false)
-    private val _leftTemp = MutableStateFlow(0f)
+    private val _leftTemp = MutableStateFlow(0)
     val leftTemp = temperatureDisplayFlow(_leftTemp)
-    private val _rightTemp = MutableStateFlow(0f)
+    private val _rightTemp = MutableStateFlow(0)
     val rightTemp = temperatureDisplayFlow(_rightTemp)
-    private val _wandTemp = MutableStateFlow(0f)
+    private val _wandTemp = MutableStateFlow(0)
     val wandTemp = temperatureDisplayFlow(_wandTemp)
-    private val _steamTemp = MutableStateFlow(0f)
+    private val _steamTemp = MutableStateFlow(0)
     val steamTemp = temperatureDisplayFlow(_steamTemp)
 
     private val subscriber = object : Subscriber {
@@ -246,10 +246,10 @@ class FormulaViewModel @Inject constructor(
             if (commandId == COFFEE_INPUT_COMMAND_ID) {
                 val leftTemp =
                     ((params[15].toInt() and 0xFF) shl 8) or (params[14].toInt() and 0xFF)
-                _leftTemp.value = leftTemp / 10f
+                _leftTemp.value = leftTemp
                 val rightTemp =
                     ((params[17].toInt() and 0xFF) shl 8) or (params[16].toInt() and 0xFF)
-                _rightTemp.value = rightTemp / 10f
+                _rightTemp.value = rightTemp
                 val leftFlow =
                     ((params[19].toInt() and 0xFF) shl 8) or (params[18].toInt() and 0xFF)
             } else if (commandId == STEAM_INPUT_COMMAND_ID) {
@@ -269,7 +269,7 @@ class FormulaViewModel @Inject constructor(
         }
     }
 
-    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Float>): StateFlow<String> {
+    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Int>): StateFlow<String> {
         return _tempUnit.combine(temperatureFlow) { isFahrenheit, tempCelsius ->
             if (isFahrenheit) {
                 val fahrenheit = tempCelsius * 1.8 + 32
