@@ -48,9 +48,9 @@ fun QueueDialog(
 ) {
     if (showDialog) {
         val queue = if (second) {
-            MakeRightDrinksHandler.queue.collectAsState()
+            MakeRightDrinksHandler.productQueue.collectAsState()
         } else {
-            MakeLeftDrinksHandler.queue.collectAsState()
+            MakeLeftDrinksHandler.productQueue.collectAsState()
         }
 
         Dialog(

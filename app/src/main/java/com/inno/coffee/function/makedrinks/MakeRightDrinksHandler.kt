@@ -1,8 +1,6 @@
 package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.function.formula.ProductProfileManager
-import com.inno.coffee.utilities.HEAD_INDEX
-import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MAKE_DRINK_REPLY_VALUE
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
@@ -23,6 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -32,20 +31,21 @@ object MakeRightDrinksHandler {
     private const val TAG = "MakeRightDrinksHandler"
     private const val REPLY_WAIT_TIME = 2000L
     private const val RIGHT_OFFSET = 100
-    private var messageHead: DrinkMessage? = null
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val mutex = Mutex()
     private var productReplyConfirmJob: Job? = null
     private var operationReplyConfirmJob: Job? = null
-    private var processingProductId = INVALID_INT
-    private val _queue = MutableStateFlow<List<Formula>>(emptyList())
-    val queue: StateFlow<List<Formula>> = _queue.asStateFlow()
     private val _size = MutableStateFlow(0)
     val size: StateFlow<Int> = _size.asStateFlow()
-    private val _status = MutableStateFlow(MakeDrinkStatusEnum.RIGHT_BREWING)
+    private val _status = MutableStateFlow(MakeDrinkStatusEnum.LEFT_BREWING)
     val status: StateFlow<MakeDrinkStatusEnum> = _status.asStateFlow()
-    private val _executingQueue = MutableStateFlow<List<Formula>>(emptyList())
-    val executingQueue = _executingQueue.asStateFlow()
+    private val _productQueue = MutableStateFlow<List<Formula>>(emptyList())
+    val productQueue = _productQueue.asStateFlow()
+    private val _operationQueue = MutableStateFlow<List<Formula>>(emptyList())
+    val operationQueue = _operationQueue.asStateFlow()
+    private val _extractionTime = MutableStateFlow(0f)
+    val extractionTime = _extractionTime
+    private var countdownJob: Job? = null
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -56,22 +56,13 @@ object MakeRightDrinksHandler {
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
         DataCenter.subscribe(ReceivedDataType.MAKE_DRINK_REPLY, subscriber)
-    }
-
-    fun discardAndClear(index: Int, model: Formula) {
         scope.launch {
-            mutex.withLock {
-                Logger.d(TAG,
-                    "discard index $index, processingProductId: $processingProductId, model:" +
-                            "${model.productId}")
-                if (processingProductId == model.productId + RIGHT_OFFSET) {
-                    recycleMessage(index)
-                    minusQueueSize(model)
-                    processingProductId = INVALID_INT
-                    handleMessage()
+            _productQueue.collect { queue ->
+                Logger.d(TAG, "null() called with: queue = ${queue.isEmpty()}")
+                if (queue.isNotEmpty()) {
+                    startCountdownExtractTime()
                 } else {
-                    recycleMessage(index)
-                    minusQueueSize(model)
+                    stopCountdownExtractTime()
                 }
             }
         }
@@ -80,14 +71,15 @@ object MakeRightDrinksHandler {
     fun executeNow(model: Formula) {
         scope.launch {
             mutex.withLock {
-                _executingQueue.value += model
+                _operationQueue.value += model
+                Logger.d(TAG, "executeNow() called operationId: ${model.productId}")
+
                 val byteInfo =
                     ProductProfileManager.convertProductProfile(model.productId + RIGHT_OFFSET,
                         false)
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
                     byteInfo)
                 waitForOperationReplyConfirm()
-                Logger.d(TAG, "executeNow() called ${_executingQueue.value}")
             }
         }
     }
@@ -95,96 +87,27 @@ object MakeRightDrinksHandler {
     fun enqueueMessage(model: Formula) {
         scope.launch {
             mutex.withLock {
-                if (processingProductId != INVALID_INT) {
-                    return@launch
-                }
-                val message = DrinkMessage.obtainMessage(model.productId + RIGHT_OFFSET)
-                if (messageHead == null) {
-                    messageHead = message
-                } else {
-                    var prev: DrinkMessage
-                    var p = messageHead
-                    while (true) {
-                        prev = p!!
-                        p = p.next
-                        if (p == null) {
-                            break
-                        }
-                    }
-                    prev.next = message
-                }
-                addQueueSize(model)
-                Logger.d(TAG, "message: ${messageHead.toString()}")
-                handleMessage()
+                _productQueue.value += model
+                Logger.d(TAG, "handleMessage() called processingProductId: ${model.productId}")
+
+                val byteInfo =
+                    ProductProfileManager.convertProductProfile(model.productId, true)
+                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID,
+                    byteInfo.size, byteInfo)
+                waitForProductReplyConfirm()
             }
         }
     }
 
-    // every time enqueue, only run for once. until get response
-    // id parse to command, send command
-    private suspend fun handleMessage() {
-        if (messageHead != null && processingProductId == INVALID_INT) {
-            processingProductId = messageHead!!.productId
-            _executingQueue.value += _queue.value[HEAD_INDEX]
-            Logger.d(TAG, "handleMessage() called ${_executingQueue.value}")
-
-            val byteInfo =
-                ProductProfileManager.convertProductProfile(processingProductId, false)
-            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
-                byteInfo)
-            waitForReplyConfirm()
-        }
-    }
-
-    private fun recycleMessage(index: Int) {
-        if (messageHead == null || index < 0) {
-            return
-        }
-
-        if (index == 0) {
-            messageHead = messageHead?.next
-            return
-        }
-
-        var current = messageHead
-        var currentIndex = 0
-        while (current != null && currentIndex < index - 1) {
-            current = current.next
-            currentIndex++
-        }
-        if (current?.next != null) {
-            val p = current.next
-            current.next = current.next?.next
-            DrinkMessage.recycleMessage(p!!)
-        }
-    }
-
-    private fun addQueueSize(model: Formula) {
-        _queue.value += model
-        _size.value = _queue.value.size
-    }
-
-    private fun minusQueueSize(model: Formula) {
-        if (_queue.value.isNotEmpty()) {
-            _queue.value = _queue.value.filter {
-                it.productId != model.productId
-            }
-            _size.value = _queue.value.size
-        }
-        _executingQueue.update { list ->
-            list.filterNot { it.productId + RIGHT_OFFSET == processingProductId }
-        }
-    }
-
-    private fun waitForReplyConfirm() {
+    private fun waitForProductReplyConfirm() {
         productReplyConfirmJob?.cancel()
         productReplyConfirmJob = scope.launch {
             val result = withTimeoutOrNull(REPLY_WAIT_TIME) {
                 delay(REPLY_WAIT_TIME + 1)
             }
             if (result == null) {
-                discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
-                Logger.d(TAG, "waitForProductReplyConfirm() called ${_queue.value}")
+                Logger.d(TAG, "waitForProductReplyConfirm() called")
+                clearProductQueue()
             }
         }
     }
@@ -196,22 +119,67 @@ object MakeRightDrinksHandler {
                 delay(REPLY_WAIT_TIME + 1)
             }
             if (result == null) {
-                _executingQueue.update { list ->
+                _operationQueue.update { list ->
                     list.filterNot { ProductType.isOperationType(it.productType?.type) }
                 }
-                Logger.d(TAG, "waitForOperationReplyConfirm() called ${_executingQueue.value}")
+                Logger.d(TAG, "waitForOperationReplyConfirm() called ${_productQueue.value}")
             }
         }
     }
 
+    fun finishAndClear(productId: Int) {
+        scope.launch {
+            mutex.withLock {
+                _productQueue.update { list ->
+                    list.filterNot { it.productId == productId }
+                }
+            }
+        }
+    }
+
+    fun clearProductQueue() {
+        scope.launch {
+            mutex.withLock {
+                _productQueue.update { emptyList() }
+            }
+        }
+    }
+
+    private fun startCountdownExtractTime() {
+        _extractionTime.value = 0f
+        if (countdownJob == null || countdownJob?.isCancelled == true) {
+//            if (ProductType.isCoffeeType(formula?.productType?.type)) {
+            countdownJob = scope.launch {
+                while (isActive) {
+                    delay(100)
+                    _extractionTime.value += 0.1f
+                }
+            }
+//            }
+            Logger.d(TAG, "startCountdownExtractTime() called $countdownJob")
+        }
+    }
+
+    private fun stopCountdownExtractTime() {
+        Logger.d(TAG, "stopCountdownExtractTime() called $countdownJob")
+        countdownJob?.cancel()
+        countdownJob = null
+    }
 
     private fun parseReceivedData(data: Any) {
         if (data is ReceivedData.MakeDrinkReply) {
             if (data.value == MAKE_DRINK_REPLY_VALUE) {
-                if (data.id == processingProductId) {
-                    productReplyConfirmJob?.cancel()
-                } else {
-                    operationReplyConfirmJob?.cancel()
+                _productQueue.value.forEach {
+                    val processingProductId = it.productId
+                    if (data.id == processingProductId) {
+                        productReplyConfirmJob?.cancel()
+                    }
+                }
+                _operationQueue.value.forEach {
+                    val processingProductId = it.productId
+                    if (data.id == processingProductId) {
+                        operationReplyConfirmJob?.cancel()
+                    }
                 }
             }
         } else if (data is ReceivedData.HeartBeat) {
@@ -220,32 +188,21 @@ object MakeRightDrinksHandler {
                 val productId = reply.value
                 val params = reply.params
                 when (status) {
-                    MakeDrinkStatusEnum.RIGHT_BREWING -> {
-                    }
-                    MakeDrinkStatusEnum.RIGHT_BREW_COMPLETED -> {}
-                    MakeDrinkStatusEnum.RIGHT_FINISHED -> {
-                        if (processingProductId == productId) {
-                            scope.launch {
-                                mutex.withLock {
-                                    // finish, proceed next drink
-                                    discardAndClear(HEAD_INDEX, _queue.value[HEAD_INDEX])
-                                    processBrewParams(params)
-                                    handleMessage()
-                                }
-                            }
-                        } else {
+                    MakeDrinkStatusEnum.LEFT_BREWING -> {
 
-                        }
-                        _executingQueue.update { list ->
-                            list.filterNot { it.productId == productId }
-                        }
+                    }
+                    MakeDrinkStatusEnum.LEFT_BREW_COMPLETED -> {
+
+                    }
+                    MakeDrinkStatusEnum.LEFT_FINISHED -> {
+                        finishAndClear(productId)
+                        processBrewParams(params)
                     }
                     else -> {}
                 }
                 _status.value = status
             }
         }
-
     }
 
     private fun processBrewParams(params: ByteArray) {

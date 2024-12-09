@@ -28,7 +28,6 @@ import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -92,11 +91,8 @@ class HomeViewModel @Inject constructor(
 
     private val checking: Boolean
         get() = SelfCheckManager.checking.value
-    private val leftExecutingQueue = MakeLeftDrinksHandler.executingQueue
-    private val rightExecutingQueue = MakeRightDrinksHandler.executingQueue
-    private var countdownJob: Job? = null
-    private val _extractionTime = MutableStateFlow(0f)
-    val extractionTime = _extractionTime
+    val leftExtractionTime = MakeLeftDrinksHandler.extractionTime
+    val rightExtractionTime = MakeRightDrinksHandler.extractionTime
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -217,9 +213,9 @@ class HomeViewModel @Inject constructor(
 
     fun removeQueueDrink(index: Int, model: Formula, second: Boolean) {
         if (second) {
-            MakeRightDrinksHandler.discardAndClear(index, model)
+            MakeRightDrinksHandler.finishAndClear(model.productId)
         } else {
-            MakeLeftDrinksHandler.discardAndClear(index, model)
+            MakeLeftDrinksHandler.finishAndClear(model.productId)
         }
     }
 
@@ -271,13 +267,24 @@ class HomeViewModel @Inject constructor(
     }
 
     fun enableSelect(main: Boolean, self: Formula): Boolean {
-        val list = if (main) {
-            MakeLeftDrinksHandler.executingQueue.value
+        val product: Formula?
+        val operation: Formula?
+        if (main) {
+            product = MakeLeftDrinksHandler.productQueue.value.firstOrNull {
+                self.productId == it.productId
+            }
+            operation = MakeLeftDrinksHandler.operationQueue.value.firstOrNull {
+                self.productId == it.productId
+            }
         } else {
-            MakeRightDrinksHandler.executingQueue.value
+            product = MakeRightDrinksHandler.productQueue.value.firstOrNull {
+                self.productId == it.productId
+            }
+            operation = MakeRightDrinksHandler.operationQueue.value.firstOrNull {
+                self.productId == it.productId
+            }
         }
-        val exist = list.firstOrNull { self.productId == it.productId }
-        return exist != null
+        return product != null || operation != null
     }
 
     fun manualReleaseSteam(main: Boolean) {
@@ -308,33 +315,6 @@ class HomeViewModel @Inject constructor(
         _countdown.value = LOCK_AND_CLEAN_TIME
     }
 
-    /**
-     * 1. 如果存在制作产品，开始计时，列表清空，停止计时。
-     * 2. 存在异常，产品列表清空，自动归零。
-     * 3. 时长不能超过60s
-     */
-    fun subscribeExtractTime(main: Boolean) {
-        viewModelScope.launch {
-            if (main) {
-                leftExecutingQueue.collect { queue ->
-                    if (queue.isNotEmpty()) {
-                        startCountdownExtractTime(queue.firstOrNull())
-                    } else {
-                        stopCountdownExtractTime()
-                    }
-                }
-            } else {
-                rightExecutingQueue.collect { queue ->
-                    if (queue.isNotEmpty()) {
-                        startCountdownExtractTime(queue.firstOrNull())
-                    } else {
-                        stopCountdownExtractTime()
-                    }
-                }
-            }
-        }
-    }
-
     private fun parseReceivedData(data: Any) {
         val boiler = data as ReceivedData.HeartBeat
         boiler.temperature?.let { reply ->
@@ -362,27 +342,6 @@ class HomeViewModel @Inject constructor(
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, "")
 
-    }
-
-    private fun startCountdownExtractTime(formula: Formula?) {
-        _extractionTime.value = 0f
-        if (countdownJob == null || countdownJob?.isCancelled == true) {
-            if (ProductType.isCoffeeType(formula?.productType?.type)) {
-                countdownJob = viewModelScope.launch {
-                    viewModelScope.launch {
-                        while (true) {
-                            delay(100)
-                            _extractionTime.value += 0.1f
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun stopCountdownExtractTime() {
-        countdownJob?.cancel()
-        countdownJob = null
     }
 
 }

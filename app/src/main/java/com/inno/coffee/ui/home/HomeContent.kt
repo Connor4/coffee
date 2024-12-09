@@ -47,6 +47,7 @@ fun HomeContent(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
+    val mainScreen = ScreenDisplayManager.isMainDisplay(context)
     var overlayVisible by remember { mutableStateOf(false) }
     var showLoginDialog by remember { mutableStateOf(false) }
     var showCleanDialog by remember { mutableStateOf(false) }
@@ -55,16 +56,18 @@ fun HomeContent(
     val coroutineScope = rememberCoroutineScope()
     val ioCheck by SelfCheckManager.ioCheck.collectAsState()
     val loginState by viewModel.loginState.collectAsState()
-    val extractionTime by viewModel.extractionTime.collectAsState()
     val leftTemperature by viewModel.leftBoilerTemp.collectAsState()
     val rightTemperature by viewModel.rightBoilerTemp.collectAsState()
     val showExtractionTime by viewModel.showExtractionTime.collectAsState(initial = true)
     val showStandByMode by viewModel.standbyButton.collectAsState(initial = true)
-    val mainScreen = ScreenDisplayManager.isMainDisplay(context)
+    val extractionTime = if (mainScreen) {
+        viewModel.leftExtractionTime.collectAsState()
+    } else {
+        viewModel.rightExtractionTime.collectAsState()
+    }
 
     LaunchedEffect(Unit) {
         viewModel.selfCheckIoStatus()
-        viewModel.subscribeExtractTime(mainScreen)
     }
     LaunchedEffect(loginState) {
         when (loginState) {
@@ -104,7 +107,7 @@ fun HomeContent(
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter)
             ) {
-                HomeBottomBar(extractionTime = extractionTime, leftTemp = leftTemperature,
+                HomeBottomBar(extractionTime = extractionTime.value, leftTemp = leftTemperature,
                     rightTemp = rightTemperature,
                     showExtractionTime = showExtractionTime, onReleaseSteam = {
                         viewModel.manualReleaseSteam(mainScreen)

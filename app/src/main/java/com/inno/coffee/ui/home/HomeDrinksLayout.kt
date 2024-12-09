@@ -47,10 +47,14 @@ fun HomeDrinksLayout(
     } else {
         MakeRightDrinksHandler.size.collectAsState()
     }
-    val executingQueue by if (mainScreen) {
-        MakeLeftDrinksHandler.executingQueue.collectAsState()
+    val executingQueue = if (mainScreen) {
+        val list1 = MakeLeftDrinksHandler.productQueue.collectAsState()
+        val list2 = MakeLeftDrinksHandler.operationQueue.collectAsState()
+        list1.value.plus(list2.value)
     } else {
-        MakeRightDrinksHandler.executingQueue.collectAsState()
+        val list1 = MakeRightDrinksHandler.productQueue.collectAsState()
+        val list2 = MakeRightDrinksHandler.operationQueue.collectAsState()
+        list1.value.plus(list2.value)
     }
     val autoBack = viewModel.autoReturnEnabled.collectAsState(initial = false)
     val showProductPrice by viewModel.showProductPrice.collectAsState(initial = false)
