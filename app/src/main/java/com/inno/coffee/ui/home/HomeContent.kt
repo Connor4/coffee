@@ -64,6 +64,7 @@ fun HomeContent(
 
     LaunchedEffect(Unit) {
         viewModel.selfCheckIoStatus()
+        viewModel.subscribeExtractTime(mainScreen)
     }
     LaunchedEffect(loginState) {
         when (loginState) {

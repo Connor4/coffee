@@ -106,24 +106,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
-        viewModelScope.launch {
-            leftExecutingQueue.collect { queue ->
-                if (queue.isNotEmpty()) {
-                    startCountdownExtractTime(queue.firstOrNull())
-                } else {
-                    stopCountdownExtractTime()
-                }
-            }
-        }
-        viewModelScope.launch {
-            rightExecutingQueue.collect { queue ->
-                if (queue.isNotEmpty()) {
-                    startCountdownExtractTime(queue.firstOrNull())
-                } else {
-                    stopCountdownExtractTime()
-                }
-            }
-        }
     }
 
     override fun onCleared() {
@@ -229,7 +211,6 @@ class HomeViewModel @Inject constructor(
             } else {
                 MakeRightDrinksHandler.enqueueMessage(model)
             }
-            startCountdownExtractTime(model)
         }
         StatisticManager.countProductType(model)
     }
@@ -325,6 +306,33 @@ class HomeViewModel @Inject constructor(
             _countdown.value--
         }
         _countdown.value = LOCK_AND_CLEAN_TIME
+    }
+
+    /**
+     * 1. 如果存在制作产品，开始计时，列表清空，停止计时。
+     * 2. 存在异常，产品列表清空，自动归零。
+     * 3. 时长不能超过60s
+     */
+    fun subscribeExtractTime(main: Boolean) {
+        viewModelScope.launch {
+            if (main) {
+                leftExecutingQueue.collect { queue ->
+                    if (queue.isNotEmpty()) {
+                        startCountdownExtractTime(queue.firstOrNull())
+                    } else {
+                        stopCountdownExtractTime()
+                    }
+                }
+            } else {
+                rightExecutingQueue.collect { queue ->
+                    if (queue.isNotEmpty()) {
+                        startCountdownExtractTime(queue.firstOrNull())
+                    } else {
+                        stopCountdownExtractTime()
+                    }
+                }
+            }
+        }
     }
 
     private fun parseReceivedData(data: Any) {
