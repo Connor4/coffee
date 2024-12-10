@@ -112,7 +112,9 @@ fun MachineInfoLayout(
                             text = stringResource(id = R.string.home_entrance_info_sn),
                             fontSize = 5.nsp(),
                             color = Color.White,
-                            modifier = Modifier.weight(6f)
+                            modifier = Modifier
+                                .weight(6f)
+                                .align(Alignment.CenterVertically)
                         )
                         Text(
                             text = snNumber, fontSize = 5.nsp(), color = Color(0xFF00AD72),
@@ -124,7 +126,9 @@ fun MachineInfoLayout(
                         Text(
                             text = stringResource(id = R.string.home_entrance_info_version),
                             fontSize = 5.nsp(), color = Color.White,
-                            modifier = Modifier.weight(6f)
+                            modifier = Modifier
+                                .weight(6f)
+                                .align(Alignment.CenterVertically)
                         )
                         Text(
                             text = "V$versionName", fontSize = 5.nsp(), color = Color(0xFF00AD72),
@@ -135,22 +139,32 @@ fun MachineInfoLayout(
                     Row {
                         Text(
                             text = stringResource(id = R.string.home_entrance_info_service_company),
-                            fontSize = 5.nsp(), color = Color.White, modifier = Modifier.weight(6f)
+                            fontSize = 5.nsp(), color = Color.White,
+                            modifier = Modifier
+                                .weight(6f)
+                                .align(Alignment.CenterVertically)
                         )
                         Text(
                             text = "<INNO Future>", fontSize = 5.nsp(), color = Color(0xFF00AD72),
-                            modifier = Modifier.weight(4f)
+                            modifier = Modifier
+                                .weight(4f)
+                                .align(Alignment.CenterVertically)
                         )
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     Row {
                         Text(
                             text = stringResource(id = R.string.home_entrance_info_machine_id),
-                            fontSize = 5.nsp(), color = Color.White, modifier = Modifier.weight(6f)
+                            fontSize = 5.nsp(), color = Color.White,
+                            modifier = Modifier
+                                .weight(6f)
+                                .align(Alignment.CenterVertically)
                         )
                         Text(
                             text = "255895", fontSize = 5.nsp(), color = Color(0xFF00AD72),
-                            modifier = Modifier.weight(4f)
+                            modifier = Modifier
+                                .weight(4f)
+                                .align(Alignment.CenterVertically)
                         )
                     }
                 }
