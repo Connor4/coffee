@@ -503,6 +503,8 @@
     <string name="info_status_off">关</string>
     <string name="bean_lower_limit_grinding_capacity_rear">后方豆缸研磨容量下限值</string>
     <string name="info_status_water_pump">水泵:</string>
+    <string name="maintenance_test_standard">"标准值: "</string>
+    <string name="maintenance_test_milk_test_failed">牛奶检测测试失败</string>
     <string name="clean_reset_next_clean_date">重设下次洗机日期</string>
     <string name="clean_mode">洗机模式</string>
     <string name="clean_cleaning_period">洗机间隔时间</string>
@@ -556,5 +558,9 @@
     <string name="machine_test_mo_milk_left">左侧奶泵</string>
     <string name="machine_test_mo_milk_right">右侧奶泵</string>
     <string name="machine_test_mo_air_valve_left">左侧牛奶系统空气阀</string>
+    <string name="maintenance_test_min">"最小值: "</string>
+    <string name="maintenance_test_max">"最大值: "</string>
+    <string name="maintenance_test_average">"平均值: "</string>
+    <string name="maintenance_test_milk_test_success">牛奶检测测试成功</string>
 
 </resources>

@@ -14,6 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.maintenance.TestFunctionViewModel
 import com.inno.serialport.utilities.MAINTENANCE_CLEANING_BALL_TEST_ID
@@ -39,10 +44,20 @@ fun TestFunctionLayout(
     viewModel: TestFunctionViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    var itemSelectIndex by remember { mutableIntStateOf(INVALID_INT) }
+    var titleValue by remember { mutableStateOf("") }
     val grinderLeft by viewModel.grinderLeftResult.collectAsState()
     val grinderRight by viewModel.grinderRightResult.collectAsState()
     val flowRateLeft by viewModel.flowRateLeftResult.collectAsState()
     val flowRateRight by viewModel.flowRateRightResult.collectAsState()
+    val status by viewModel.status.collectAsState()
+    val min by viewModel.min.collectAsState()
+    val max by viewModel.max.collectAsState()
+    val average by viewModel.average.collectAsState()
+    val offset by viewModel.offset.collectAsState()
+
+    val milkLeftString = stringResource(R.string.maintenance_milk_sensor_left_test)
+    val milkRightString = stringResource(R.string.maintenance_milk_sensor_right_test)
 
     Box(
         modifier = Modifier
@@ -120,8 +135,10 @@ fun TestFunctionLayout(
             ChangeColorButton(modifier = Modifier
                 .width(280.dp)
                 .height(73.dp),
-                stringResource(R.string.maintenance_milk_sensor_left_test)
+                milkLeftString
             ) {
+                itemSelectIndex = 1
+                titleValue = milkLeftString
                 viewModel.sendTestCommand(MAINTENANCE_MILK_SENSOR_LEFT_TEST_ID)
             }
             Spacer(modifier = Modifier.height(40.dp))
@@ -129,8 +146,10 @@ fun TestFunctionLayout(
                 modifier = Modifier
                     .width(280.dp)
                     .height(73.dp),
-                text = stringResource(R.string.maintenance_milk_sensor_right_test)
+                milkRightString
             ) {
+                itemSelectIndex = 2
+                titleValue = milkRightString
                 viewModel.sendTestCommand(MAINTENANCE_MILK_SENSOR_RIGHT_TEST_ID)
             }
             Spacer(modifier = Modifier.height(40.dp))
@@ -141,6 +160,13 @@ fun TestFunctionLayout(
                 text = stringResource(R.string.maintenance_ball_dispenser_test)
             ) {
                 viewModel.sendTestCommand(MAINTENANCE_CLEANING_BALL_TEST_ID)
+            }
+        }
+
+        if (itemSelectIndex != INVALID_INT) {
+            TestResultLayout(title = titleValue, min = min, max = max, average = average,
+                offset = offset) {
+                itemSelectIndex = INVALID_INT
             }
         }
     }

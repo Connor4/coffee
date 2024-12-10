@@ -599,6 +599,12 @@
     <string name="maintenance_manual_rinse">Rinse Manual</string>
     <string name="maintenance_manual_save_restore">Save &amp; Restore Manual</string>
     <string name="maintenance_manual_update">Update Manual</string>
+    <string name="maintenance_test_min">Min Value: </string>
+    <string name="maintenance_test_max">Max Value: </string>
+    <string name="maintenance_test_average">Average Value: </string>
+    <string name="maintenance_test_standard">Standard Value: </string>
+    <string name="maintenance_test_milk_test_success">Milk Test Success</string>
+    <string name="maintenance_test_milk_test_failed">Milk Test Failed</string>
 
     <string name="clean_reset_next_clean_date">Reset Next Clean Date</string>
     <string name="clean_mode">Cleaning Mode</string>
