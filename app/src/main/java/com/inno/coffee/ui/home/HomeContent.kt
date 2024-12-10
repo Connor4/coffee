@@ -115,6 +115,8 @@ fun HomeContent(
                         viewModel.showWarningDialog(mainScreen)
                     }, onClickStop = {
                         viewModel.stopMaking(mainScreen)
+                    }, onClickGrinder = {
+
                     }
                 )
             }
