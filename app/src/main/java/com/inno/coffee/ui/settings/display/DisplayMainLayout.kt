@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -62,16 +63,17 @@ fun DisplayMainLayout(
     val scrollDefaultValue = remember { mutableStateOf(0f) }
     val titleValue = remember { mutableStateOf("") }
 
-    val language = viewModel.language.collectAsState()
-    val time = viewModel.time.collectAsState()
-    val backToFirstPage = viewModel.backToFirstPage.collectAsState()
-    val numberOfProductPerPage = viewModel.numberOfProductPerPage.collectAsState()
-    val frontLightColor = viewModel.frontLightColor.collectAsState()
-    val frontLightBrightness = viewModel.frontLightBrightness.collectAsState()
-    val screenBrightness = viewModel.screenBrightness.collectAsState()
-    val showExtractionTime = viewModel.showExtractionTime.collectAsState()
-    val showProductPrice = viewModel.showProductPrice.collectAsState()
-    val showProductName = viewModel.showProductName.collectAsState()
+    val language by viewModel.language.collectAsState()
+    val time by viewModel.time.collectAsState()
+    val backToFirstPage by viewModel.backToFirstPage.collectAsState()
+    val numberOfProductPerPage by viewModel.numberOfProductPerPage.collectAsState()
+    val frontLightColor by viewModel.frontLightColor.collectAsState()
+    val frontLightBrightness by viewModel.frontLightBrightness.collectAsState()
+    val screenBrightness by viewModel.screenBrightness.collectAsState()
+    val showExtractionTime by viewModel.showExtractionTime.collectAsState()
+    val showProductPrice by viewModel.showProductPrice.collectAsState()
+    val showProductName by viewModel.showProductName.collectAsState()
+    val showGrinderButton by viewModel.showGrinderButton.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.initGroup()
@@ -119,7 +121,7 @@ fun DisplayMainLayout(
                 .wrapContentHeight()
                 .padding(start = 50.dp, top = 254.dp, end = 95.dp)
         ) {
-            DisplayGroupOneLayout(language.value, time.value) { key, value ->
+            DisplayGroupOneLayout(language, time) { key, value ->
                 itemSelectIndex.value = INVALID_INT
                 ScreenDisplayManager.autoRoute(context, DisplaySettingActivity::class.java,
                     Bundle().apply {
@@ -127,8 +129,8 @@ fun DisplayMainLayout(
                     })
             }
             Spacer(modifier = Modifier.height(40.dp))
-            DisplayGroupTwoLayout(backToFirstPage.value, numberOfProductPerPage.value,
-                frontLightColor.value, frontLightBrightness.value, screenBrightness.value,
+            DisplayGroupTwoLayout(backToFirstPage, numberOfProductPerPage,
+                frontLightColor, frontLightBrightness, screenBrightness,
                 { title, index, default, map ->
                     itemSelectIndex.value = index
                     titleValue.value = title
@@ -144,9 +146,10 @@ fun DisplayMainLayout(
             )
             Spacer(modifier = Modifier.height(40.dp))
             DisplayGroupThreeLayout(
-                showExtractionTime = showExtractionTime.value,
-                showProductName = showProductName.value,
-                showProductPrice = showProductPrice.value) { title, index, default, map ->
+                showExtractionTime = showExtractionTime,
+                showProductName = showProductName,
+                showProductPrice = showProductPrice,
+                showGrinderButton = showGrinderButton) { title, index, default, map ->
                 itemSelectIndex.value = index
                 titleValue.value = title
                 defaultValue.value = default

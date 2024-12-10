@@ -300,9 +300,13 @@
     <string name="display_front_light_color">Front Light Color</string>
     <string name="display_front_light_brightness">Front Light Brightness</string>
     <string name="display_screen_brightness">Screen Brightness</string>
-    <string name="display_show_extract_time">Display Extraction Time</string>
-    <string name="display_show_product_name">Display Product Name</string>
-    <string name="display_show_product_price">Display Product Price</string>
+    <string name="display_show_extract_time">Show Extraction Time</string>
+    <string name="display_show_product_name">Show Product Name</string>
+    <string name="display_show_product_price">Show Product Price</string>
+    <string name="display_show_grinder_button">Show Grinder Adjust Button</string>
+    <string name="display_show_protected">Yes(Protected by Password)</string>
+    <string name="display_value_no">No</string>
+    <string name="display_value_yes">Yes</string>
     <string name="display_value_on">On</string>
     <string name="display_value_off">Off</string>
 

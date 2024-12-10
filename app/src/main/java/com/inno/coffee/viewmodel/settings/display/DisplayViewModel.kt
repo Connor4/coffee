@@ -13,6 +13,7 @@ import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_COLOR
 import com.inno.coffee.utilities.INDEX_NUMBER_OF_PRODUCT_PER_PAGE
 import com.inno.coffee.utilities.INDEX_SCREEN_BRIGHTNESS
 import com.inno.coffee.utilities.INDEX_SHOW_EXTRACTION_TIME
+import com.inno.coffee.utilities.INDEX_SHOW_GRINDER_BUTTON
 import com.inno.coffee.utilities.INDEX_SHOW_PRODUCT_NAME
 import com.inno.coffee.utilities.INDEX_SHOW_PRODUCT_PRICE
 import com.inno.common.utils.CoffeeDataStore
@@ -64,6 +65,8 @@ class DisplayViewModel @Inject constructor(
     val showProductPrice = _showProductPrice
     private val _showProductName = MutableStateFlow(true)
     val showProductName = _showProductName
+    private val _showGrinderButton = MutableStateFlow(0)
+    val showGrinderButton = _showGrinderButton
 
     fun initGroup() {
         viewModelScope.launch {
@@ -87,6 +90,7 @@ class DisplayViewModel @Inject constructor(
             _showExtractionTime.value = showExtractionTime
             _showProductPrice.value = showProductPrice
             _showProductName.value = showProductName
+            _showGrinderButton.value = dataStore.getShowGrinderAdjustButton()
         }
     }
 
@@ -157,6 +161,10 @@ class DisplayViewModel @Inject constructor(
                 INDEX_SHOW_PRODUCT_NAME -> {
                     dataStore.saveShowProductName(value as Boolean)
                     _showProductName.value = value
+                }
+                INDEX_SHOW_GRINDER_BUTTON -> {
+                    dataStore.saveShowGrinderAdjustButton(value as Int)
+                    _showGrinderButton.value = value
                 }
             }
         }

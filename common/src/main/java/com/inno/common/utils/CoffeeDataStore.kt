@@ -26,11 +26,24 @@ class CoffeeDataStore @Inject constructor(@ApplicationContext private val contex
         private const val NUMBER_OF_PRODUCT_PER_PAGE = "number_of_product_per_page"
         private const val SHOW_PRODUCT_PRICE = "show_product_price"
         private const val SHOW_PRODUCT_NAME = "show_product_name"
+        private const val SHOW_GRINDER_ADJUST_BUTTON = "grinder_adjust_button"
     }
 
     private val Context.dataStore by preferencesDataStore(
         name = USER_PREFERENCES_NAME
     )
+
+    fun getShowGrinderAdjustButtonFlow(): Flow<Int> {
+        return getCoffeePreferenceFlow(SHOW_GRINDER_ADJUST_BUTTON, 0)
+    }
+
+    suspend fun getShowGrinderAdjustButton(): Int {
+        return getCoffeePreference(SHOW_GRINDER_ADJUST_BUTTON, 0)
+    }
+
+    suspend fun saveShowGrinderAdjustButton(value: Int) {
+        saveCoffeePreference(SHOW_GRINDER_ADJUST_BUTTON, value)
+    }
 
     fun getShowProductPriceFlow(): Flow<Boolean> {
         return getCoffeePreferenceFlow(SHOW_PRODUCT_PRICE, false)

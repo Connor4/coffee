@@ -30,8 +30,8 @@ fun DisplayGroupTwoLayout(
     onClickScroll: (Int, Int) -> Unit,
 ) {
 
-    val on = stringResource(R.string.display_value_on)
-    val off = stringResource(R.string.display_value_off)
+    val no = stringResource(R.string.display_value_no)
+    val yes = stringResource(R.string.display_value_yes)
     val red = stringResource(R.string.display_color_red)
     val green = stringResource(R.string.display_color_green)
     val blue = stringResource(R.string.display_color_blue)
@@ -40,7 +40,7 @@ fun DisplayGroupTwoLayout(
     val numberOfProductString = stringResource(R.string.display_number_of_product_per_page)
     val frontColorString = stringResource(R.string.display_front_light_color)
 
-    val backToFirstPageValue = if (backToFirstPage) on else off
+    val backToFirstPageValue = if (backToFirstPage) yes else no
     val lightColorValue = when (frontLightColor) {
         DISPLAY_COLOR_RED -> {
             red
@@ -65,10 +65,9 @@ fun DisplayGroupTwoLayout(
                 backToFirstPageValue,
                 Color(0xFF191A1D)
             ) {
-                val defaultValue = if (backToFirstPage) on else off
-                val map = mapOf(Pair(on, true), Pair(off, false))
-                onClickListSelect(backToFirstString, INDEX_AUTO_BACK_TO_FIRST_PAGE, defaultValue,
-                    map)
+                val map = mapOf(Pair(yes, true), Pair(no, false))
+                onClickListSelect(backToFirstString, INDEX_AUTO_BACK_TO_FIRST_PAGE,
+                    backToFirstPageValue, map)
             }
             DisplayItemLayout(numberOfProductString,
                 "$numberOfProductPerPage",
