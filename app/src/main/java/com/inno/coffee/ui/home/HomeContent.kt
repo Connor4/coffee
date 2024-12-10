@@ -108,8 +108,8 @@ fun HomeContent(
                 modifier = Modifier.align(Alignment.BottomCenter)
             ) {
                 HomeBottomBar(extractionTime = extractionTime.value, leftTemp = leftTemperature,
-                    rightTemp = rightTemperature,
-                    showExtractionTime = showExtractionTime, onReleaseSteam = {
+                    rightTemp = rightTemperature, showExtractionTime = showExtractionTime,
+                    onReleaseSteam = {
                         viewModel.manualReleaseSteam(mainScreen)
                     }, onClickWarning = {
                         viewModel.showWarningDialog(mainScreen)
