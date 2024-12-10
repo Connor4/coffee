@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.function.CommandControlManager
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.selfcheck.SelfCheckManager
@@ -22,6 +23,7 @@ import com.inno.common.utils.TimeUtils
 import com.inno.common.utils.UserSessionManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.MACHINE_PARAM_COMMAND_ID
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
@@ -51,6 +53,18 @@ class HomeViewModel @Inject constructor(
         private const val SHOW_EXTRACTION_TIME = "show_extraction_time"
         private const val BACK_TO_FIRST_PAGE = "back_to_first_page"
         private const val STANDBY_BUTTON = "clean_standby_button"
+
+        private const val COFFEE_BOILER_TEMP = "coffee_boiler_temp"
+        private const val COLD_RINSE = "code_rinse"
+        private const val WARM_RINSE = "warm_rinse"
+        private const val GROUNDS_QUANTITY = "grounds_quantity"
+        private const val BREW_BALANCE = "brew_balance"
+        private const val BREW_PRE_HEATING = "brew_pre_heating"
+        private const val GRINDER_PURGE_FUNCTION = "grinder_purge_function"
+        private const val NUMBER_OF_CYCLES_RINSE = "number_of_cycles_rinse"
+        private const val STEAM_BOILER_PRESSURE = "steam_boiler_pressure"
+        private const val NTC_LEFT = "ntc_left"
+        private const val NTC_RIGHT = "ntc_right"
     }
 
     val formulaList: StateFlow<List<Formula>> = repository.getAllFormulas()
@@ -102,6 +116,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
+        initMachineParams()
     }
 
     override fun onCleared() {
@@ -342,6 +357,43 @@ class HomeViewModel @Inject constructor(
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, "")
 
+    }
+
+    private fun initMachineParams() {
+        viewModelScope.launch {
+            delay(2000)
+            val boilerTemp = dataStore.getCoffeePreference(COFFEE_BOILER_TEMP, 90f)
+            val coldRinseQuantity = dataStore.getCoffeePreference(COLD_RINSE, 500)
+            val warmRinseQuantity = dataStore.getCoffeePreference(WARM_RINSE, 100)
+            val groundsDrawerQuantity = dataStore.getCoffeePreference(GROUNDS_QUANTITY, 0)
+            val brewGroupLoadBalancing = dataStore.getCoffeePreference(BREW_BALANCE, false)
+            val brewGroupPreHeating = dataStore.getCoffeePreference(BREW_PRE_HEATING, 0)
+            val grinderPurgeFunction = dataStore.getCoffeePreference(GRINDER_PURGE_FUNCTION, 0)
+            val numberOfCyclesRinse = dataStore.getCoffeePreference(NUMBER_OF_CYCLES_RINSE, 0)
+            val steamBoilerPressure = dataStore.getCoffeePreference(STEAM_BOILER_PRESSURE, 1f)
+            val ntcCorrectionSteamLeft = dataStore.getCoffeePreference(NTC_LEFT, 0f)
+            val ntcCorrectionSteamRight = dataStore.getCoffeePreference(NTC_RIGHT, 0f)
+            val balance = if (brewGroupLoadBalancing) 1 else 0
+            Logger.d(TAG, "initMachineParams() called with: boilerTemp = $boilerTemp, " +
+                    "coldRinseQuantity = $coldRinseQuantity, " +
+                    "warmRinseQuantity = $warmRinseQuantity, " +
+                    "groundsDrawerQuantity = $groundsDrawerQuantity, " +
+                    "brewGroupLoadBalancing = $brewGroupLoadBalancing, " +
+                    "brewGroupPreHeating = $brewGroupPreHeating, " +
+                    "grinderPurgeFunction = $grinderPurgeFunction, " +
+                    "numberOfCyclesRinse = $numberOfCyclesRinse, " +
+                    "steamBoilerPressure = $steamBoilerPressure, " +
+                    "ntcCorrectionSteamLeft = $ntcCorrectionSteamLeft, " +
+                    "ntcCorrectionSteamRight = $ntcCorrectionSteamRight")
+
+            CommandControlManager.sendTestCommand(MACHINE_PARAM_COMMAND_ID,
+                boilerTemp.toInt(), boilerTemp.toInt(),
+                coldRinseQuantity, warmRinseQuantity, groundsDrawerQuantity,
+                balance, brewGroupPreHeating, grinderPurgeFunction, 0,
+                numberOfCyclesRinse, (steamBoilerPressure * 10).toInt(),
+                ntcCorrectionSteamLeft.toInt(), ntcCorrectionSteamRight.toInt(), 0,
+                0, 0)
+        }
     }
 
 }
