@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,10 +39,10 @@ fun TestFunctionLayout(
     viewModel: TestFunctionViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
-    val grinderLeft = viewModel.grinderLeftResult.collectAsState()
-    val grinderRight = viewModel.grinderRightResult.collectAsState()
-    val flowRateLeft = viewModel.flowRateLeftResult.collectAsState()
-    val flowRateRight = viewModel.flowRateRightResult.collectAsState()
+    val grinderLeft by viewModel.grinderLeftResult.collectAsState()
+    val grinderRight by viewModel.grinderRightResult.collectAsState()
+    val flowRateLeft by viewModel.flowRateLeftResult.collectAsState()
+    val flowRateRight by viewModel.flowRateRightResult.collectAsState()
 
     Box(
         modifier = Modifier
@@ -65,16 +66,17 @@ fun TestFunctionLayout(
         )
 
         Row(
-            modifier = Modifier.padding(start = 200.dp, top = 260.dp)
+            modifier = Modifier.padding(start = 160.dp, top = 260.dp)
         ) {
             Column(
+                modifier = Modifier.width(100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = stringResource(R.string.config_steam_wand_left), color = Color.White,
                     fontSize = 5.nsp())
-                Text(text = "${grinderLeft.value}", color = Color.White, fontSize = 10.nsp(),
+                Text(text = "$grinderLeft", color = Color.White, fontSize = 10.nsp(),
                     modifier = Modifier.padding(top = 20.dp))
-                Text(text = "${flowRateLeft.value}", color = Color.White, fontSize = 10.nsp(),
+                Text(text = "$flowRateLeft", color = Color.White, fontSize = 10.nsp(),
                     modifier = Modifier.padding(top = 65.dp))
             }
             Spacer(modifier = Modifier.width(20.dp))
@@ -101,13 +103,14 @@ fun TestFunctionLayout(
             }
             Spacer(modifier = Modifier.width(20.dp))
             Column(
+                modifier = Modifier.width(100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = stringResource(R.string.config_steam_wand_right), color = Color.White,
                     fontSize = 5.nsp())
-                Text(text = "${grinderRight.value}", color = Color.White, fontSize = 10.nsp(),
+                Text(text = "$grinderRight", color = Color.White, fontSize = 10.nsp(),
                     modifier = Modifier.padding(top = 20.dp))
-                Text(text = "${flowRateRight.value}", color = Color.White, fontSize = 10.nsp(),
+                Text(text = "$flowRateRight", color = Color.White, fontSize = 10.nsp(),
                     modifier = Modifier.padding(top = 65.dp))
             }
         }
