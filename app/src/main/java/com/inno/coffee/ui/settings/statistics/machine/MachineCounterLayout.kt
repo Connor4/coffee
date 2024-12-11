@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,7 +35,8 @@ fun MachineCounterLayout(
     viewModel: MachineCounterViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
-    val time = viewModel.time.collectAsState()
+    val time by viewModel.time.collectAsState()
+    val absoluteCounter by viewModel.absoluteCounter.collectAsState()
 
     Box(
         modifier = Modifier
@@ -63,7 +65,7 @@ fun MachineCounterLayout(
             modifier = Modifier.padding(start = 79.dp, top = 180.dp)
         )
         Text(
-            text = "0", color = Color(0xFF32C5FF),
+            text = "$absoluteCounter", color = Color(0xFF32C5FF),
             fontSize = 5.nsp(),
             modifier = Modifier.padding(start = 450.dp, top = 180.dp)
         )
@@ -95,8 +97,7 @@ fun MachineCounterLayout(
             CounterItem(R.string.statistic_time_steam_boiler_purge, value = 0f, unit = "h",
                 color = Color(0xFF191A1D))
 
-            CounterItem2(stringResource(R.string.statistic_last_reset, ""),
-                value = time.value)
+            CounterItem2(stringResource(R.string.statistic_last_reset, ""), value = time)
             CounterItem2(color = Color(0xFF191A1D))
             CounterItem2()
 

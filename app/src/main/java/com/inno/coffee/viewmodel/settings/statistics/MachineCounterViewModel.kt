@@ -18,14 +18,20 @@ import javax.inject.Inject
 class MachineCounterViewModel @Inject constructor(
     private val dataStore: CoffeeDataStore,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    private val repository: MachineCounterRepository,
 ) : ViewModel() {
+
+    private val _absoluteCounter = MutableStateFlow(0)
+    val absoluteCounter: StateFlow<Int> = _absoluteCounter.asStateFlow()
     private val _time = MutableStateFlow("")
     val time: StateFlow<String> = _time.asStateFlow()
 
     init {
         viewModelScope.launch(defaultDispatcher) {
             val resetTime = dataStore.getLastResetProductTime()
+
             _time.value = TimeUtils.getFullFormat(LocalDateTime.parse(resetTime))
+            _absoluteCounter.value = repository.getAllProductCount()
         }
     }
 }
