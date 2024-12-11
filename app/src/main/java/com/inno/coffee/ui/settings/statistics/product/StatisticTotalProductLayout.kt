@@ -1,6 +1,5 @@
 package com.inno.coffee.ui.settings.statistics.product
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,8 +23,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,8 +41,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.PageIndicator
-import com.inno.coffee.ui.common.composeClick
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.getImageResId
@@ -191,32 +188,15 @@ fun StatisticTotalProductLayout(
         }
 
         // ============================right=======================================
-        Box(
+        ChangeColorButton(
             modifier = Modifier
-                .wrapContentSize()
                 .align(Alignment.TopEnd)
                 .padding(top = 132.dp, end = 90.dp)
+                .width(230.dp)
+                .height(50.dp),
+            text = stringResource(id = R.string.statistic_reset_all)
         ) {
-            Button(
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(50.dp),
-                colors = ButtonColors(
-                    Color(0xFF191A1D), Color(0xFF191A1D), Color(0xFF191A1D),
-                    Color(0xFF191A1D),
-                ),
-                border = BorderStroke(1.dp, Color(0xFF484848)),
-                shape = RoundedCornerShape(10.dp),
-                onClick = composeClick {
-                    viewModel.resetData()
-                },
-            ) {
-                Text(
-                    text = stringResource(id = R.string.statistic_reset_all),
-                    fontSize = 5.nsp(),
-                    color = Color.White
-                )
-            }
+            viewModel.resetData()
         }
         Text(
             text = stringResource(id = R.string.statistic_last_reset, time),
