@@ -48,7 +48,6 @@ fun SingleNumberInputLayout(
     defaultInput: String = "",
     title: String = "",
     tips: String = "",
-    maxInputLimitSize: Int = 3,
     onEnterClick: (Float) -> Unit = {},
     onCloseClick: () -> Unit,
 ) {
@@ -130,11 +129,12 @@ fun SingleNumberInputLayout(
                 modifier = Modifier.padding(top = 226.dp)
             ) {
                 NumberLayout(onKeyClick = {
-                    if (input.length < maxInputLimitSize) {
-                        input += it
+                    val newValue = input + it
+                    if (isValidInput(newValue)) {
+                        input = newValue
                     }
                 }, onDot = {
-                    if (input.length < maxInputLimitSize) {
+                    if (!input.contains(".") && input.isNotEmpty()) {
                         input += "."
                     }
                 }, onDelete = {
@@ -142,7 +142,10 @@ fun SingleNumberInputLayout(
                         input = input.dropLast(1)
                     }
                 }, onEnter = {
-                    onEnterClick(input.toFloat())
+                    if (input.isNotEmpty()) {
+                        val confirmedValue = input.toFloatOrNull() ?: 0.0f
+                        onEnterClick(confirmedValue)
+                    }
                 })
             }
         }
@@ -313,9 +316,20 @@ private fun KeyboardKey(
     }
 }
 
+private fun isValidInput(input: String): Boolean {
+    val numericValue = input.toDoubleOrNull()
+    return when {
+        // Ensure the numeric value does not exceed 10,000
+        numericValue != null && numericValue > 10000 -> false
+        // Ensure no more than two decimal places
+        input.contains(".") && input.substringAfter(".").length > 2 -> false
+        else -> true
+    }
+}
+
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewNumberInputLayout() {
-    SingleNumberInputLayout("1.92", "title", "tips", 3, {}, {})
+    SingleNumberInputLayout("1.92", "title", "tips", {}, {})
 //    NumberLayout({}, {}, {})
 }

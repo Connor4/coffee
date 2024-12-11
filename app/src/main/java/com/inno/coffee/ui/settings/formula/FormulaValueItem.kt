@@ -187,8 +187,10 @@ fun FormulaValueItem(
                 }
                 is FormulaItem.FormulaProductPrice -> {
                     val default = String.format("%.2f", value.price)
-                    SingleNumberInputLayout(defaultInput = default, title = "", tips = "",
-                        maxInputLimitSize = 4, onEnterClick = { changeValue ->
+                    SingleNumberInputLayout(defaultInput = default,
+                        title = stringResource(R.string.formula_product_price),
+                        tips = stringResource(R.string.formula_product_price_tips),
+                        onEnterClick = { changeValue ->
                             value.price = changeValue
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                             onValueChange()
