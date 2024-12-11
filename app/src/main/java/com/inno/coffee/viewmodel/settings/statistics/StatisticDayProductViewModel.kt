@@ -48,15 +48,6 @@ class StatisticDayProductViewModel @Inject constructor(
         }
     }
 
-    fun initQueryTime(formula: Formula) {
-        val calendar = Calendar.getInstance().apply { timeInMillis = System.currentTimeMillis() }
-        currentYear = calendar.get(Calendar.YEAR)
-        currentMonth = calendar.get(Calendar.MONTH) + 1
-        currentDay = calendar.get(Calendar.DAY_OF_MONTH)
-        _time.value = "$currentYear/$currentMonth/$currentDay"
-        getDayProductCount(formula)
-    }
-
     fun getDayProductCount(formula: Formula) {
         viewModelScope.launch(defaultDispatcher) {
             _formula.value = repository.getFormulaByProductId(formula.productId)
@@ -68,7 +59,16 @@ class StatisticDayProductViewModel @Inject constructor(
         }
     }
 
-    fun getTimestampsForDate(year: Int, month: Int, day: Int): Pair<Long, Long> {
+    private fun initQueryTime(formula: Formula) {
+        val calendar = Calendar.getInstance().apply { timeInMillis = System.currentTimeMillis() }
+        currentYear = calendar.get(Calendar.YEAR)
+        currentMonth = calendar.get(Calendar.MONTH) + 1
+        currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+        _time.value = "$currentYear/$currentMonth/$currentDay"
+        getDayProductCount(formula)
+    }
+
+    private fun getTimestampsForDate(year: Int, month: Int, day: Int): Pair<Long, Long> {
         val millisecondsPerDay = 86400000L
 
         val startOfDay = Calendar.getInstance().apply {
