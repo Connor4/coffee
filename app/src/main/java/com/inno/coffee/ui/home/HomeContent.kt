@@ -33,10 +33,16 @@ import com.inno.coffee.ui.home.setting.CleanLockLayout
 import com.inno.coffee.ui.home.setting.HomeSettingEntrance
 import com.inno.coffee.ui.home.setting.MachineInfoLayout
 import com.inno.coffee.ui.settings.SettingActivity
+import com.inno.coffee.ui.settings.bean.GrinderAdjustmentActivity
+import com.inno.coffee.utilities.DISPLAY_NO_GRINDER
+import com.inno.coffee.utilities.DISPLAY_YSE_GRINDER
 import com.inno.coffee.utilities.HOME_CLEAN
+import com.inno.coffee.utilities.HOME_GRINDER_FLAG
 import com.inno.coffee.utilities.HOME_INFO
 import com.inno.coffee.utilities.HOME_LOGIN
+import com.inno.coffee.utilities.HOME_SETTING_FLAG
 import com.inno.coffee.utilities.HOME_STANDBY
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.viewmodel.home.HomeViewModel
 import com.inno.common.utils.UserSessionManager
 import kotlinx.coroutines.delay
@@ -49,7 +55,7 @@ fun HomeContent(
     val context = LocalContext.current
     val mainScreen = ScreenDisplayManager.isMainDisplay(context)
     var overlayVisible by remember { mutableStateOf(false) }
-    var showLoginDialog by remember { mutableStateOf(false) }
+    var showLoginDialog by remember { mutableStateOf(INVALID_INT) }
     var showCleanDialog by remember { mutableStateOf(false) }
     var showInfoDialog by remember { mutableStateOf(false) }
     var showStandByModeDialog by remember { mutableStateOf(false) }
@@ -60,7 +66,8 @@ fun HomeContent(
     val rightTemperature by viewModel.rightBoilerTemp.collectAsState()
     val showExtractionTime by viewModel.showExtractionTime.collectAsState(initial = true)
     val showStandByMode by viewModel.standbyButton.collectAsState(initial = true)
-    val extractionTime = if (mainScreen) {
+    val showGrinderButton by viewModel.showGrinderButton.collectAsState(initial = 0)
+    val extractionTime by if (mainScreen) {
         viewModel.leftExtractionTime.collectAsState()
     } else {
         viewModel.rightExtractionTime.collectAsState()
@@ -72,12 +79,16 @@ fun HomeContent(
     LaunchedEffect(loginState) {
         when (loginState) {
             is LoginState.Success -> {
-                ScreenDisplayManager.autoRoute(context,
-                    SettingActivity::class.java
-                )
+                if (showLoginDialog == HOME_SETTING_FLAG) {
+                    ScreenDisplayManager.autoRoute(context,
+                        SettingActivity::class.java)
+                } else if (showLoginDialog == HOME_GRINDER_FLAG) {
+                    ScreenDisplayManager.autoRoute(context,
+                        GrinderAdjustmentActivity::class.java)
+                }
                 coroutineScope.launch {
                     delay(1000)
-                    showLoginDialog = false
+                    showLoginDialog = INVALID_INT
                     overlayVisible = false
                 }
             }
@@ -107,8 +118,9 @@ fun HomeContent(
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter)
             ) {
-                HomeBottomBar(extractionTime = extractionTime.value, leftTemp = leftTemperature,
+                HomeBottomBar(extractionTime = extractionTime, leftTemp = leftTemperature,
                     rightTemp = rightTemperature, showExtractionTime = showExtractionTime,
+                    showGrinderButton = showGrinderButton != DISPLAY_NO_GRINDER,
                     onReleaseSteam = {
                         viewModel.manualReleaseSteam(mainScreen)
                     }, onClickWarning = {
@@ -116,7 +128,17 @@ fun HomeContent(
                     }, onClickStop = {
                         viewModel.stopMaking(mainScreen)
                     }, onClickGrinder = {
-
+                        if (showGrinderButton == DISPLAY_YSE_GRINDER) {
+                            ScreenDisplayManager.autoRoute(context,
+                                GrinderAdjustmentActivity::class.java)
+                        } else {
+                            if (UserSessionManager.isLoggedIn()) {
+                                ScreenDisplayManager.autoRoute(context,
+                                    GrinderAdjustmentActivity::class.java)
+                            } else {
+                                showLoginDialog = HOME_GRINDER_FLAG
+                            }
+                        }
                     }
                 )
             }
@@ -141,7 +163,7 @@ fun HomeContent(
                                     )
                                     overlayVisible = false
                                 } else {
-                                    showLoginDialog = true
+                                    showLoginDialog = HOME_SETTING_FLAG
                                 }
                             }
                             HOME_CLEAN -> {
@@ -160,17 +182,20 @@ fun HomeContent(
                     }
                 )
             }
-
-            if (showLoginDialog) {
-                SingleInputPasswordLayout(
-                    title = stringResource(R.string.home_login_title),
-                    tips = stringResource(R.string.permission_enter_password), { password ->
+        }
+        if (showLoginDialog != INVALID_INT) {
+            SingleInputPasswordLayout(
+                title = stringResource(R.string.home_login_title),
+                tips = stringResource(R.string.permission_enter_password), { password ->
+                    if (showLoginDialog == HOME_SETTING_FLAG) {
                         viewModel.authenticateUser(password)
-                    }, {
-                        showLoginDialog = false
+                    } else if (showLoginDialog == HOME_GRINDER_FLAG) {
+                        viewModel.authenticateGrinder(password)
                     }
-                )
-            }
+                }, {
+                    showLoginDialog = INVALID_INT
+                }
+            )
         }
         if (showCleanDialog) {
             val state = viewModel.countdown.collectAsState()

@@ -75,6 +75,7 @@ class HomeViewModel @Inject constructor(
         dataStore.getCoffeePreferenceFlow(BACK_TO_FIRST_PAGE, false)
     val showExtractionTime: Flow<Boolean> =
         dataStore.getCoffeePreferenceFlow(SHOW_EXTRACTION_TIME, true)
+    val showGrinderButton: Flow<Int> = dataStore.getShowGrinderAdjustButtonFlow()
     val showProductPrice: Flow<Boolean> = dataStore.getShowProductPriceFlow()
     val showProductName: Flow<Boolean> = dataStore.getShowProductNameFlow()
     val numberOfProductPerPage: Flow<Int> = dataStore.getNumberOfProductPerPageFlow()
@@ -159,25 +160,21 @@ class HomeViewModel @Inject constructor(
         _password.value = ""
     }
 
-    fun authenticateUser() {
-        viewModelScope.launch {
-            if (_username.value.isBlank() || _password.value.isBlank()) {
-                _loginState.value =
-                    LoginState.Error(R.string.home_login_input_empty)
-                return@launch
+    fun authenticateGrinder(password: String) {
+        Logger.d(TAG, "authenticateGrinder() called with: password = $password")
+        viewModelScope.launch(defaultDispatcher) {
+            if (!UserSessionManager.isLoggedIn()) {
+                if (password.isBlank()) {
+                    _loginState.value = LoginState.Error(R.string.permission_valid_empty)
+                    return@launch
+                }
+                val isAuthenticated = repository.authenticateGrinder(password)
+                if (!isAuthenticated) {
+                    _loginState.value =
+                        LoginState.Error(R.string.home_login_authenticate_fail)
+                    return@launch
+                }
             }
-//            if (_username.value.length < 3 || _password.value.length < 6) {
-//                _loginState.value =
-//                    LoginState.Error(context.getString(R.string.home_login_input_invalid))
-//                return@launch
-//            }
-            val isAuthenticated = repository.authenticateUser(_username.value, _password.value)
-            if (!isAuthenticated) {
-                _loginState.value =
-                    LoginState.Error(R.string.home_login_authenticate_fail)
-                return@launch
-            }
-
             _loginState.value = LoginState.Success
         }
     }
@@ -242,8 +239,8 @@ class HomeViewModel @Inject constructor(
      * 5. when not making, enable all product.
      */
     fun enableMask(self: Formula, makingList: List<Formula>): Boolean {
-        Logger.d(TAG, "enableMask() called with: making = ${makingList.size}, " +
-                "self = ${self.productId}")
+//        Logger.d(TAG, "enableMask() called with: making = ${makingList.size}, " +
+//                "self = ${self.productId}")
         val selfType = self.productType?.type
         if (checking) {
             return !ProductType.assertType(selfType, ProductType.RINSE)
@@ -251,7 +248,7 @@ class HomeViewModel @Inject constructor(
 
         var shouldEnableMask = false
         for (making in makingList) {
-            Logger.d(TAG, "enableMask() called with: making = ${making.productId}")
+//            Logger.d(TAG, "enableMask() called with: making = ${making.productId}")
             val makingType = making.productType?.type
 
             if (ProductType.assertType(makingType, ProductType.RINSE) ||

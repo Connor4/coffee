@@ -40,6 +40,7 @@ fun HomeBottomBar(
     leftTemp: String,
     rightTemp: String,
     showExtractionTime: Boolean = true,
+    showGrinderButton: Boolean = false,
     onReleaseSteam: () -> Unit = {},
     onClickWarning: () -> Unit = {},
     onClickStop: () -> Unit = {},
@@ -122,20 +123,22 @@ fun HomeBottomBar(
             }
 
             Row {
-                Box(
-                    modifier = Modifier
-                        .wrapContentWidth(Alignment.End)
-                        .size(60.dp)
-                        .debouncedClickable({ onClickGrinder() }),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.home_grinder_ic),
-                        contentDescription = null,
-                        modifier = Modifier.size(40.dp)
-                    )
+                if (showGrinderButton) {
+                    Box(
+                        modifier = Modifier
+                            .wrapContentWidth(Alignment.End)
+                            .size(60.dp)
+                            .debouncedClickable({ onClickGrinder() }),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.home_grinder_ic),
+                            contentDescription = null,
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(80.dp))
                 }
-                Spacer(modifier = Modifier.width(80.dp))
                 Column(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {

@@ -8,6 +8,7 @@ object UserSessionManager {
     private var loginUser: User? = null
     // because we have two screens, so we have to count for twice
     private val loginCount: AtomicInteger = AtomicInteger(0)
+    private val grinderShow: AtomicInteger = AtomicInteger(0)
 
     fun setUser(user: User) {
         val count = loginCount.incrementAndGet()
@@ -39,4 +40,6 @@ object UserSessionManager {
         Logger.d(TAG, "increaseLoginCount() called count = ${loginCount.get()}")
         loginCount.incrementAndGet()
     }
+
+
 }

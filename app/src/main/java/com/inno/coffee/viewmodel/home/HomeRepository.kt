@@ -28,6 +28,18 @@ class HomeRepository @Inject constructor(
         } ?: false
     }
 
+    fun authenticateGrinder(password: String): Boolean {
+        userDao.getAllUser().forEach {
+            val valid = BcryptUtils.checkPassword(password, it.passwordHash)
+            Logger.d(tag, "authenticateGrinder() called: password = $password, it = $it" +
+                    "valid = $valid")
+            if (valid) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun authenticateUserByPassword(password: String): Boolean {
         userDao.getAllUser().forEach {
             val valid = BcryptUtils.checkPassword(password, it.passwordHash)
