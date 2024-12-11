@@ -127,7 +127,7 @@ fun HomeBottomBar(
             }
 
             Row {
-                if (showGrinderButton) {
+                if (showGrinderButton && operateRinse && !coffeeHeating && !steamHeating) {
                     Box(
                         modifier = Modifier
                             .wrapContentWidth(Alignment.End)
