@@ -18,6 +18,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,8 +32,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.ui.common.composeClick
 import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.ui.notice.GlobalDialogLeftManager
 import com.inno.coffee.utilities.nsp
 
 @Composable
@@ -46,14 +50,14 @@ fun HomeBottomBar(
     onClickStop: () -> Unit = {},
     onClickGrinder: () -> Unit = {},
 ) {
-//    val operateRinse by SelfCheckManager.operateRinse.collectAsState()
-//    val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
-//    val steamHeating by SelfCheckManager.steamHeating.collectAsState()
-//    val warningList by GlobalDialogLeftManager.getInstance().warningExist.collectAsState()
-    val operateRinse = true
-    val coffeeHeating = false
-    val steamHeating = false
-    val warningList = false
+    val operateRinse by SelfCheckManager.operateRinse.collectAsState()
+    val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
+    val steamHeating by SelfCheckManager.steamHeating.collectAsState()
+    val warningList by GlobalDialogLeftManager.getInstance().warningExist.collectAsState()
+//    val operateRinse = true
+//    val coffeeHeating = false
+//    val steamHeating = false
+//    val warningList = false
 
     Box(
         modifier = Modifier
