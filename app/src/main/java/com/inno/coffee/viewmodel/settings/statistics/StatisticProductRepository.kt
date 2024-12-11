@@ -1,8 +1,10 @@
 package com.inno.coffee.viewmodel.settings.statistics
 
+import com.inno.common.db.dao.ErrorHistoryDao
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.dao.ProductCountDao
 import com.inno.common.db.dao.ProductHistoryDao
+import com.inno.common.db.entity.ErrorHistory
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.ProductCount
 import com.inno.common.db.entity.ProductHistory
@@ -13,6 +15,7 @@ import javax.inject.Inject
 class StatisticProductRepository @Inject constructor(
     private val productCountDao: ProductCountDao,
     private val drinksHistoryDao: ProductHistoryDao,
+    private val errorHistoryDao: ErrorHistoryDao,
     private val formulaDao: FormulaDao,
 ) {
     suspend fun deleteAllProductCount() {
@@ -31,10 +34,6 @@ class StatisticProductRepository @Inject constructor(
         return productCountDao.getProductCountByProductId(productId)
     }
 
-    suspend fun getTypeCounts(): List<ProductTypeCount> {
-        return productCountDao.getTypeCounts()
-    }
-
     suspend fun getTypeCountsByTime(startTime: Long, endTime: Long): List<ProductTypeCount> {
         return productCountDao.getTypeCountsByTime(startTime, endTime)
     }
@@ -47,8 +46,10 @@ class StatisticProductRepository @Inject constructor(
         return formulaDao.getFormulaByProductId(productId)
     }
 
-    suspend fun getProductCountsForDate(startTime: Long, endTime: Long,
-        productId: Int): Int {
+    suspend fun getProductCountsForDate(
+        startTime: Long, endTime: Long,
+        productId: Int,
+    ): Int {
         return productCountDao.getProductCountsForDate(startTime, endTime, productId)
     }
 
@@ -58,6 +59,10 @@ class StatisticProductRepository @Inject constructor(
 
     suspend fun insertProductHistory(drinksHistory: ProductHistory) {
         drinksHistoryDao.insertProductHistory(drinksHistory)
+    }
+
+    suspend fun insertErrorHistory(errorHistory: ErrorHistory) {
+        errorHistoryDao.insertErrorHistory(errorHistory)
     }
 
 }

@@ -56,7 +56,13 @@ class ProductHistoryViewModel @Inject constructor(
         )
 
     val errorHistory: StateFlow<List<ErrorHistory>> =
-        repository.getAllErrorHistory().stateIn(
+        repository.getAllErrorHistory().map { list ->
+            list.map { error ->
+                val time = LocalDateTime.parse(error.time)
+                error.time = TimeUtils.getFullFormat(time)
+                error
+            }
+        }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = emptyList()

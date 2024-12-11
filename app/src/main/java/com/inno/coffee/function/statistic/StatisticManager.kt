@@ -3,6 +3,7 @@ package com.inno.coffee.function.statistic
 import android.app.Application
 import com.inno.coffee.di.StatisticProductRepositoryEntryPoint
 import com.inno.coffee.viewmodel.settings.statistics.StatisticProductRepository
+import com.inno.common.db.entity.ErrorHistory
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.ProductHistory
 import com.inno.common.enums.ProductType
@@ -36,6 +37,13 @@ object StatisticManager {
                     0f, false, 0, 0f, 0,
                     0, 0, 0, type, 1,
                     false, ""))
+        }
+    }
+
+    fun countErrorHistory(code: String, detail: String) {
+        scope.launch {
+            val time = LocalDateTime.now().toString()
+            repository.insertErrorHistory(ErrorHistory(time, code, detail))
         }
     }
 

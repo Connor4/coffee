@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.inno.coffee.R
 import com.inno.coffee.data.DialogData
+import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.common.IndicatorView
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.data.DataCenter
@@ -78,6 +79,7 @@ class GlobalDialogLeftManager private constructor(private val application: Appli
                         val detail = application.resources.getString(
                             serialErrorMap[errorCode] ?: R.string.error_no_resource)
                         message = "E $errorCode: $detail"
+                        StatisticManager.countErrorHistory("E $errorCode", detail)
                     }
                     dialogDataList.clear()
                     dialogDataList.add(dialogData)
@@ -97,6 +99,7 @@ class GlobalDialogLeftManager private constructor(private val application: Appli
                                     val detail = application.resources.getString(
                                         machineErrorMap[errorCode] ?: R.string.error_no_resource)
                                     message = "E $errorCode: $detail"
+                                    StatisticManager.countErrorHistory("E $errorCode", detail)
                                 }
                                 tempList.add(dialogData)
                             }
