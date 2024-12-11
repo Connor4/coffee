@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,20 +48,23 @@ class StatisticProductViewModel @Inject constructor(
                 !ProductType.isOperationType(it.productType?.type)
                         && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
             }
-            getProductCount(_drinksList.value.first().productId)
             val resetTime = dataStore.getLastResetProductTime()
-            _time.value = TimeUtils.getFullFormat(LocalDateTime.parse(resetTime))
-            _typeCounts.value = repository.getTypeCounts()
+            val localDateTime = LocalDateTime.parse(resetTime)
+            val startTime = localDateTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
+            val endTime = System.currentTimeMillis()
+            getProductCount(_drinksList.value.first().productId)
+            _time.value = TimeUtils.getFullFormat(localDateTime)
+            _typeCounts.value = repository.getTypeCountsByTime(startTime, endTime)
         }
     }
 
     fun resetData() {
         Logger.d(TAG, "resetData()")
         viewModelScope.launch(defaultDispatcher) {
-            repository.deleteAllProductCount()
             val nowTime = LocalDateTime.now()
+            val startTime = nowTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
             _time.value = TimeUtils.getFullFormat(nowTime)
-            _typeCounts.value = repository.getTypeCounts()
+            _typeCounts.value = repository.getTypeCountsByTime(startTime, startTime)
             getProductCount(_drinksList.value.first().productId)
             dataStore.saveLastResetProductTime(nowTime.toString())
         }

@@ -40,6 +40,10 @@ class StatisticProductRepository @Inject constructor(
         return productCountDao.getTypeCounts()
     }
 
+    suspend fun getTypeCountsByTime(startTime: Long, endTime: Long): List<ProductTypeCount> {
+        return productCountDao.getTypeCountsByTime(startTime, endTime)
+    }
+
     suspend fun getAllFormula(): List<Formula> {
         return formulaDao.getAllFormula()
     }
