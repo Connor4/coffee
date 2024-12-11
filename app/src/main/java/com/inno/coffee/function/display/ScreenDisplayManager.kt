@@ -14,6 +14,8 @@ object ScreenDisplayManager {
     private var secondDisplay: Display? = null
 
     fun init(context: Context) {
+        require(context != null) { "packageContext cannot be null" }
+
         context.getSystemService(DisplayManager::class.java).getDisplays(DisplayManager
             .DISPLAY_CATEGORY_PRESENTATION).firstOrNull()?.let {
             secondDisplay = it
@@ -23,11 +25,17 @@ object ScreenDisplayManager {
     fun getSecondDisplay(): Display? = secondDisplay
 
     fun isMainDisplay(packageContext: Context): Boolean {
+        require(packageContext != null) { "packageContext cannot be null" }
+
         return (packageContext as Activity).windowManager.defaultDisplay.displayId == Display.DEFAULT_DISPLAY
     }
 
-    fun manualRoute(packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = false,
-        bundle: Bundle? = null) {
+    fun manualRoute(
+        packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = false,
+        bundle: Bundle? = null,
+    ) {
+        require(packageContext != null) { "packageContext cannot be null" }
+
         if (defaultScreen) {
             route(packageContext, targetCls, bundle)
         } else {
@@ -37,6 +45,8 @@ object ScreenDisplayManager {
     }
 
     fun autoRoute(packageContext: Context, targetCls: Class<*>?, bundle: Bundle? = null) {
+        require(packageContext != null) { "packageContext cannot be null" }
+
         val display = (packageContext as Activity).windowManager.defaultDisplay
         if (display == secondDisplay) {
             route(packageContext, targetCls, display.displayId, bundle)
@@ -45,8 +55,10 @@ object ScreenDisplayManager {
         }
     }
 
-    private fun route(packageContext: Context, targetCls: Class<*>?, displayId: Int,
-        bundle: Bundle?) {
+    private fun route(
+        packageContext: Context, targetCls: Class<*>?, displayId: Int,
+        bundle: Bundle?,
+    ) {
         val options = ActivityOptions.makeBasic().apply {
             launchDisplayId = displayId
         }
