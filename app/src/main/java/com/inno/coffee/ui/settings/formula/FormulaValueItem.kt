@@ -20,9 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.ui.common.ACCURACY_3
 import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.ListSelectLayout2
+import com.inno.coffee.ui.common.SingleNumberInputLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.utilities.FORMULA_PROPERTY_BEAN_HOPPER
@@ -186,20 +186,16 @@ fun FormulaValueItem(
                     })
                 }
                 is FormulaItem.FormulaProductPrice -> {
-                    UnitValueScrollBar(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .align(Alignment.TopEnd)
-                            .padding(top = 250.dp, end = 90.dp),
-                        value = value.price,
-                        rangeStart = value.rangeStart,
-                        rangeEnd = value.rangeEnd,
-                        accuracy = ACCURACY_3
-                    ) { changeValue ->
-                        value.price = changeValue
-                        getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
-                        onValueChange()
-                    }
+                    val default = String.format("%.2f", value.price)
+                    SingleNumberInputLayout(defaultInput = default, title = "", tips = "",
+                        maxInputLimitSize = 4, onEnterClick = { changeValue ->
+                            value.price = changeValue
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
+                            selectedValue = null
+                        }, onCloseClick = {
+                            selectedValue = null
+                        })
                 }
                 is FormulaItem.FormulaBeanHopperPosition -> {
                     val front = stringResource(R.string.formula_front_hopper)
