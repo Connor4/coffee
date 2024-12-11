@@ -7,6 +7,7 @@ import android.provider.Settings
 import android.text.format.DateFormat
 import androidx.annotation.RequiresPermission
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
@@ -203,6 +204,11 @@ class TimeUtils {
 
         fun getHourMinuteFormat(time: LocalDateTime = LocalDateTime.now()): String {
             return hourMinutePattern.format(time)
+        }
+
+        fun getLocalDateTimeMilli(time: String): Long {
+            val localDateTime = LocalDateTime.parse(time)
+            return localDateTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
         }
 
     }

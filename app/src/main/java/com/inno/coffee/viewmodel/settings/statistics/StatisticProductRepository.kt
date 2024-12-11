@@ -2,15 +2,18 @@ package com.inno.coffee.viewmodel.settings.statistics
 
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.dao.ProductCountDao
+import com.inno.common.db.dao.ProductHistoryDao
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.ProductCount
+import com.inno.common.db.entity.ProductHistory
 import com.inno.common.db.entity.ProductTypeCount
 import com.inno.common.enums.ProductType
 import javax.inject.Inject
 
 class StatisticProductRepository @Inject constructor(
     private val productCountDao: ProductCountDao,
-    private val formulaDao: FormulaDao
+    private val drinksHistoryDao: ProductHistoryDao,
+    private val formulaDao: FormulaDao,
 ) {
     suspend fun deleteAllProductCount() {
         productCountDao.deleteAll()
@@ -23,14 +26,6 @@ class StatisticProductRepository @Inject constructor(
         val p = ProductCount(productId = model.productId, type = type, count = 1, time = time)
         productCountDao.insert(p)
     }
-
-//    suspend fun getAllProductCounts(): List<ProductCount> {
-//        return productCountDao.getAllProductCounts()
-//    }
-//
-//    suspend fun getProductCountsByType(type: ProductType): List<ProductCount>{
-//        return productCountDao.getProductCountsByType(type)
-//    }
 
     suspend fun getProductCountByProductId(productId: Int): Int {
         return productCountDao.getProductCountByProductId(productId)
@@ -59,7 +54,10 @@ class StatisticProductRepository @Inject constructor(
 
     suspend fun getDayTypeCounts(startTime: Long, endTime: Long): List<ProductTypeCount> {
         return productCountDao.getDayTypeCounts(startTime, endTime)
+    }
 
+    suspend fun insertProductHistory(drinksHistory: ProductHistory) {
+        drinksHistoryDao.insertProductHistory(drinksHistory)
     }
 
 }
