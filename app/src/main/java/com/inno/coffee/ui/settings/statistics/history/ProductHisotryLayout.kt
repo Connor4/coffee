@@ -125,7 +125,7 @@ fun ProductHistoryLayout(
                 Text(
                     text = stringResource(R.string.statistic_product_top_cups), color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 1065.dp)
+                    modifier = Modifier.padding(start = 1080.dp)
                 )
 
             }
@@ -228,7 +228,7 @@ private fun HistoryItem(
                 Text(
                     text = "${history.cups}x", color = Color.White,
                     fontSize = 5.nsp(),
-                    modifier = Modifier.padding(start = 1065.dp)
+                    modifier = Modifier.padding(start = 1090.dp)
                 )
                 Spacer(modifier = Modifier.height(2.dp))
             }
