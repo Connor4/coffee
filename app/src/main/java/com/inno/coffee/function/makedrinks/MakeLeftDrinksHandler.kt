@@ -59,7 +59,12 @@ object MakeLeftDrinksHandler {
             _productQueue.collect { queue ->
                 Logger.d(TAG, "null() called with: queue = ${queue.isEmpty()}")
                 if (queue.isNotEmpty()) {
-                    startCountdownExtractTime()
+                    queue.firstOrNull()?.also { formula ->
+                        val coffee = ProductType.isCoffeeType(formula.productType?.type)
+                        if (coffee) {
+                            startCountdownExtractTime()
+                        }
+                    }
                 } else {
                     stopCountdownExtractTime()
                 }
@@ -152,14 +157,12 @@ object MakeLeftDrinksHandler {
     private fun startCountdownExtractTime() {
         _extractionTime.value = 0f
         if (countdownJob == null || countdownJob?.isCancelled == true) {
-//            if (ProductType.isCoffeeType(formula?.productType?.type)) {
             countdownJob = scope.launch {
                 while (isActive) {
                     delay(100)
                     _extractionTime.value += 0.1f
                 }
             }
-//            }
             Logger.d(TAG, "startCountdownExtractTime() called $countdownJob")
         }
     }

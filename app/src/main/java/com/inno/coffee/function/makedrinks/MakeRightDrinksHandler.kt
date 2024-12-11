@@ -60,7 +60,12 @@ object MakeRightDrinksHandler {
             _productQueue.collect { queue ->
                 Logger.d(TAG, "null() called with: queue = ${queue.isEmpty()}")
                 if (queue.isNotEmpty()) {
-                    startCountdownExtractTime()
+                    queue.firstOrNull()?.also { formula ->
+                        val coffee = ProductType.isCoffeeType(formula.productType?.type)
+                        if (coffee) {
+                            startCountdownExtractTime()
+                        }
+                    }
                 } else {
                     stopCountdownExtractTime()
                 }
