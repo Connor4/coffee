@@ -158,7 +158,7 @@
     <string name="home_login_username">username</string>
     <string name="home_login_password">password</string>
     <string name="home_login_confirm">login</string>
-    <string name="home_lock_clean_count_tip">Unlock screen before countdown ends</string>
+    <string name="home_lock_clean_count_tip">Unlock screen after countdown ends</string>
     <string name="home_item_stop">Stop</string>
     <string name="home_item_hot_water">Hot Water</string>
     <string name="home_item_foam">Foam</string>
