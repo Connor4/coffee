@@ -102,44 +102,41 @@ fun StatisticTotalProductLayout(
             contentDescription = null
         )
         Box(
-            modifier = Modifier.padding(start = 90.dp, top = 140.dp)
+            modifier = Modifier
+                .padding(start = 90.dp, top = 140.dp)
+                .width(200.dp)
+                .height(180.dp)
+                .border(1.dp, Color(0xFF484848), RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(20.dp))
+                .background(color = Color(0xFF191A1D)),
         ) {
-            Box(
+            val drawableRes = selectFormula?.imageRes ?: "drink_item_empty_ic"
+            Image(
+                painter = painterResource(id = getImageResId(drawableRes)),
+                contentDescription = null,
+                contentScale = ContentScale.Inside,
                 modifier = Modifier
-                    .width(200.dp)
-                    .height(180.dp)
-                    .border(1.dp, Color(0xFF484848), RoundedCornerShape(20.dp))
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(color = Color(0xFF191A1D)),
-            ) {
-                val drawableRes = selectFormula?.imageRes ?: "drink_item_empty_ic"
-                Image(
-                    painter = painterResource(id = getImageResId(drawableRes)),
-                    contentDescription = null,
-                    contentScale = ContentScale.Inside,
-                    modifier = Modifier
-                        .width(80.dp)
-                        .height(60.dp)
-                        .align(Alignment.TopCenter)
-                        .offset(y = 40.dp),
-                )
-                val name = if (!selectFormula?.productName?.name.isNullOrBlank()) {
-                    selectFormula?.productName?.name
-                } else if (!selectFormula?.productName?.nameRes.isNullOrBlank()) {
-                    stringResource(getStringResId(selectFormula?.productName?.nameRes!!))
-                } else {
-                    stringResource(R.string.common_empty_string)
-                }
-                Text(
-                    text = name!!,
-                    fontSize = 6.nsp(),
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .offset(y = 129.dp)
-                )
+                    .width(80.dp)
+                    .height(60.dp)
+                    .align(Alignment.TopCenter)
+                    .offset(y = 40.dp),
+            )
+            val name = if (!selectFormula?.productName?.name.isNullOrBlank()) {
+                selectFormula?.productName?.name
+            } else if (!selectFormula?.productName?.nameRes.isNullOrBlank()) {
+                stringResource(getStringResId(selectFormula?.productName?.nameRes!!))
+            } else {
+                stringResource(R.string.common_empty_string)
             }
+            Text(
+                text = name!!,
+                fontSize = 6.nsp(),
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .offset(y = 129.dp)
+            )
         }
         Text(
             text = stringResource(
@@ -209,81 +206,76 @@ fun StatisticTotalProductLayout(
 
         Box(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(start = 805.dp, top = 295.dp)
+                .width(385.dp)
+                .wrapContentHeight()
         ) {
-            Box(
+            Column(
                 modifier = Modifier
-                    .width(385.dp)
+                    .fillMaxWidth()
                     .wrapContentHeight()
             ) {
-                Column(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .wrapContentHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = stringResource(id = R.string.statistic_product_coffee_counter),
-                            fontSize = 5.nsp(), color = Color.White)
-                        Text(text = "$coffee", fontSize = 6.nsp(), color = Color.White)
-                    }
-                    Spacer(modifier = Modifier.height(25.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.statistic_product_hotwater_counter),
-                            fontSize = 5.nsp(), color = Color.White)
-                        Text(text = "$hotWater", fontSize = 6.nsp(), color = Color.White)
-                    }
-                    Spacer(modifier = Modifier.height(25.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = stringResource(id = R.string.statistic_product_milk_counter),
-                            fontSize = 5.nsp(), color = Color.White)
-                        Text(text = "$milk", fontSize = 6.nsp(), color = Color.White)
-                    }
+                    Text(text = stringResource(id = R.string.statistic_product_coffee_counter),
+                        fontSize = 5.nsp(), color = Color.White)
+                    Text(text = "$coffee", fontSize = 6.nsp(), color = Color.White)
+                }
+                Spacer(modifier = Modifier.height(25.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.statistic_product_hotwater_counter),
+                        fontSize = 5.nsp(), color = Color.White)
+                    Text(text = "$hotWater", fontSize = 6.nsp(), color = Color.White)
+                }
+                Spacer(modifier = Modifier.height(25.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = stringResource(id = R.string.statistic_product_milk_counter),
+                        fontSize = 5.nsp(), color = Color.White)
+                    Text(text = "$milk", fontSize = 6.nsp(), color = Color.White)
+                }
 
-                    Spacer(modifier = Modifier.height(25.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = stringResource(id = R.string.statistic_product_foam_counter),
-                            fontSize = 5.nsp(), color = Color.White)
-                        Text(text = "$foam", fontSize = 6.nsp(), color = Color.White)
-                    }
+                Spacer(modifier = Modifier.height(25.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = stringResource(id = R.string.statistic_product_foam_counter),
+                        fontSize = 5.nsp(), color = Color.White)
+                    Text(text = "$foam", fontSize = 6.nsp(), color = Color.White)
+                }
 
-                    Spacer(modifier = Modifier.height(25.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = stringResource(id = R.string.statistic_product_steam_counter),
-                            fontSize = 5.nsp(), color = Color.White)
-                        Text(text = "$steam", fontSize = 6.nsp(), color = Color.White)
-                    }
+                Spacer(modifier = Modifier.height(25.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = stringResource(id = R.string.statistic_product_steam_counter),
+                        fontSize = 5.nsp(), color = Color.White)
+                    Text(text = "$steam", fontSize = 6.nsp(), color = Color.White)
                 }
             }
         }
