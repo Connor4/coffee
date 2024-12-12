@@ -43,7 +43,6 @@ data class Formula(
     var cups: FormulaItem.FormulaCups? = null,
     var imageRes: String = "",
     //================to be determined, but i hava to have it==================
-    var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
     var waterInputValue: Short = -1, // WATER_INPUT_VALVE_ID
     var leftValueLeftBoiler: Short = -1, // LEFT_VALVE_LEFT_BOILER_ID
     var middleValueLeftBoiler: Short = -1, // MIDILE_VALVE_LEFT_BOILER_ID
@@ -51,6 +50,23 @@ data class Formula(
     var leftValueRightBoiler: Short = -1, // LEFT_VALVE_RIGHT_BOILER_ID
     var middleValueRightBoiler: Short = -1, // MIDILE_VALVE_RIGHT_BOILER_ID
     var rightValueRightBoiler: Short = -1, // RIGHT_VALVE_RIGHT_BOILER_ID
+
+    var steamPurgeValve: Short = -1, // STEAM_PURGE_VALVE_ID
+    var steamPurgeMixValve: Short = -1, // STEAM_PURGE_MIX_VALVE_ID
+    var steamWaterFillValve: Short = -1, // STEAM_WATER_FILL_VALVE_ID
+    var steamHotWaterValve: Short = -1, // STEAM_HOT_WATER_VALVE_ID
+    var steamHotWaterValveMix: Short = -1, // STEAM_HOT_WATER_VALVE_MIX_ID
+    var steamOutSteamValve1: Short = -1, // STEAM_OUT_STEAM_VALVE1_ID
+    var steamOutSteamValve2: Short = -1, // STEAM_OUT_STEAM_VALVE2_ID
+    var steamEverFoamValve1: Short = -1, // STEAM_EVER_FOAM_VALVE1_ID
+    var steamEverFoamValve2: Short = -1, // STEAM_EVER_FOAM_VALVE2_ID
+
+    var waterPump: Short = -1, // WATER_INPUT_PUMP_ID
+
+    var airPump: Short = -1, // AIR_INPUT_PUMP_ID
+
+    var milkFoamer: Short = -1, // MILK_FOAMER_ID
+
     @PrimaryKey(autoGenerate = true) val id: Short = 0,
 )
 // 美式没有bypassWater，只有hotWater+americanoSequence。
