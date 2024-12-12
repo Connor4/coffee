@@ -39,6 +39,7 @@ sealed class Profile {
     data class SteamBoilerProfile(
         val duration: Int, // steam duration
         val temperature: Int, // wand temperature
+        val texture: Int, // foam texture
         val mixHotWater: Int, // if mix hot water product
         val cleanWand: Int, // if clean wand product
         val reserve0: Int,
