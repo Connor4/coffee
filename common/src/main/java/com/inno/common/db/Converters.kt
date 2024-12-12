@@ -117,6 +117,14 @@ class Converters {
         return Json.decodeFromString(value)
     }
 
+    @TypeConverter
+    fun fromFormulaFoamMode(value: FormulaItem.FormulaFoamMode): String {
+        return Json.encodeToString(value)
+    }
 
+    @TypeConverter
+    fun toFormulaFoamMode(value: String): FormulaItem.FormulaFoamMode {
+        return Json.decodeFromString(value)
+    }
 
 }

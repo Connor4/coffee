@@ -267,8 +267,13 @@
     <string name="formula_americano_seq_w_c">first water then coffee</string>
     <string name="formula_coffee_cycles">Coffee Cycles</string>
     <string name="formula_bypass_dosage">Bypass Dosage</string>
-    <string name="formula_foam">Foam</string>
-    <string name="formula_milk">Milk</string>
+    <string name="formula_steam_stop_temperature">Stop Temperature</string>
+    <string name="formula_steam_foam_mode">Foam Mode</string>
+    <string name="formula_steam_air_stop">Air Stop</string>
+    <string name="formula_steam_foam_texture">Foam Texture</string>
+    <string name="formula_steam_manual_time">Steam Time</string>
+    <string name="formula_steam_foam_mode_temperature">Temperature</string>
+    <string name="formula_steam_foam_mode_time">Time</string>
     <string name="formula_front_hopper">Front</string>
     <string name="formula_rear_hopper">Rear</string>
     <string name="formula_steam_wand">Steam Wand:</string>

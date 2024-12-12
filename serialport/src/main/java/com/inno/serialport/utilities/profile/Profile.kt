@@ -37,26 +37,28 @@ sealed class Profile {
 
     @Serializable
     data class SteamBoilerProfile(
-        val duration: Int, // steam duration
-        val temperature: Int, // wand temperature
-        val texture: Int, // foam texture
-        val mixHotWater: Int, // if mix hot water product
-        val cleanWand: Int, // if clean wand product
+        val manualFoamTime: Int = 0,
+        val autoFoamTemperature: Int = 0,
+        var foamMode: Boolean = false,
+        var stopAirTime: Int = 0,
+        var stopAirTemperature: Int = 0,
+        var texture: Int = 0,
+        var mixHotWater: Short = 0,
+        var cleanWand: Short = 0,
         val reserve0: Int,
-        val reserve1: Int,
     ) : Profile()
 
     @Serializable
     data class MilkFoamProfile(
-        val appearance: Int, // 0:white on top, 1:brown on top
-        val milkOutput: Int, // 0:coffee outlet, 1:milk arm
+        val appearance: Short, // 0:white on top, 1:brown on top
+        val milkOutput: Short, // 0:coffee outlet, 1:milk arm
         val milkDelayTime: Int, // ms
         val milkQuantity1: Int, // 0-100
-        val milkTemperature1: Int, // 0:cold 1:warm
-        val foamTexture1: Int, // 0-100
+        val milkTemperature1: Short, // 0:cold 1:warm
+        val foamTexture1: Short, // 0-100
         val milkQuantity2: Int, // 0-100
-        val milkTemperature2: Int, // 0:cold 1:warm
-        val foamTexture2: Int, // 0-100
+        val milkTemperature2: Short, // 0:cold 1:warm
+        val foamTexture2: Short, // 0-100
     ) : Profile()
 
 }

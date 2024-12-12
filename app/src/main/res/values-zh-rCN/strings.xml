@@ -259,8 +259,8 @@
     <string name="formula_americano_seq_w_c">先水后咖啡</string>
     <string name="formula_coffee_cycles">连续制作数</string>
     <string name="formula_bypass_dosage">旁路水路出水量</string>
-    <string name="formula_foam">奶泡</string>
-    <string name="formula_milk">牛奶</string>
+    <string name="formula_steam_foam_texture">奶泡质地</string>
+    <string name="formula_steam_manual_time">蒸汽时间</string>
     <string name="formula_front_hopper">前方</string>
     <string name="formula_rear_hopper">后方</string>
     <string name="formula_steam_wand">蒸汽棒:</string>
@@ -282,6 +282,7 @@
     <string name="formula_product_cups_change_tips">如果改变产品类别，该产品键之前所设置的参数将会取消，并由新选择产品类别的默认参数替代。</string>
 
 
+    <string name="formula_product_price_tips">输入产品价格</string>
     <string name="display_import_screen">导入图片</string>
     <string name="display_import_language">导入语言</string>
     <string name="display_language">语言</string>
@@ -296,6 +297,7 @@
     <string name="display_show_extract_time">显示萃取时间</string>
     <string name="display_show_product_name">显示产品名</string>
     <string name="display_show_product_price">显示产品价格</string>
+    <string name="display_value_yes">开启</string>
     <string name="display_value_on">开</string>
     <string name="display_value_off">关</string>
     <string name="display_color_red">红</string>
@@ -562,5 +564,11 @@
     <string name="maintenance_test_max">"最大值: "</string>
     <string name="maintenance_test_average">"平均值: "</string>
     <string name="maintenance_test_milk_test_success">牛奶检测测试成功</string>
+    <string name="display_show_grinder_button">显示研磨调整按钮</string>
+    <string name="display_show_protected">开启(密码开启)</string>
+    <string name="display_value_no">关闭</string>
+    <string name="formula_steam_stop_temperature">蒸汽停止温度</string>
+    <string name="formula_steam_foam_mode">打奶模式</string>
+    <string name="formula_steam_air_stop">空气注入停止点</string>
 
 </resources>

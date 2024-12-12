@@ -105,6 +105,11 @@ fun FormulaItem(
                         if (value.sequence) stringResource(R.string.formula_americano_seq_c_w)
                         else stringResource(R.string.formula_americano_seq_w_c)
                 }
+                is FormulaItem.FormulaFoamMode -> {
+                    textValue =
+                        if (value.mode) stringResource(R.string.formula_steam_foam_mode_temperature)
+                        else stringResource(R.string.formula_steam_foam_mode_time)
+                }
                 else -> {
                     textValue = value.toString()
                 }

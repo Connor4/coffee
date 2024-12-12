@@ -55,8 +55,12 @@ private val formulaPropertyNames = listOf(
     FORMULA_PROPERTY_WATER_SEQUENCE,
     "coffeeCycles",
     "bypassWater",
-    "foam",
-    "milk",
+    "manualFoamTime",
+    "autoFoamTemperature",
+    "foamMode",
+    "stopAirTime",
+    "stopAirTemperature",
+    "texture",
 )
 
 private val formulaPropertyStringMapping = mapOf(
@@ -74,8 +78,12 @@ private val formulaPropertyStringMapping = mapOf(
     FORMULA_PROPERTY_WATER_SEQUENCE to R.string.formula_americano_seq,
     "coffeeCycles" to R.string.formula_coffee_cycles,
     "bypassWater" to R.string.formula_bypass_dosage,
-    "foam" to R.string.formula_foam,
-    "milk" to R.string.formula_milk,
+    "manualFoamTime" to R.string.formula_steam_manual_time,
+    "autoFoamTemperature" to R.string.formula_steam_stop_temperature,
+    "foamMode" to R.string.formula_steam_foam_mode,
+    "stopAirTime" to R.string.formula_steam_air_stop,
+    "stopAirTemperature" to R.string.formula_steam_air_stop,
+    "texture" to R.string.formula_steam_foam_texture,
 )
 
 @Composable

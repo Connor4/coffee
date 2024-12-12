@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "formula_table")
 data class Formula(
     var productId: Int,
+    //=================================coffee================================
     var preFlush: Boolean = false,
     var postFlush: Boolean = false,
     var productType: FormulaItem.FormulaProductType? = null,
@@ -24,8 +25,16 @@ data class Formula(
     var waterSequence: FormulaItem.FormulaAmericanoSeq? = null, // Boiler
     var coffeeCycles: FormulaItem.FormulaUnitValue? = null, // how many cups we need to make
     var bypassWater: FormulaItem.FormulaUnitValue? = null, // Boiler
-//    var foam: FormulaItem.FormulaUnitValue? = null,
-//    var milk: FormulaItem.FormulaUnitValue? = null,
+    //=============================steam=====================================
+    val manualFoamTime: FormulaItem.FormulaUnitValue? = null,
+    val autoFoamTemperature: FormulaItem.FormulaUnitValue? = null,
+    var foamMode: FormulaItem.FormulaFoamMode? = null,
+    var stopAirTime: FormulaItem.FormulaUnitValue? = null,
+    var stopAirTemperature: FormulaItem.FormulaUnitValue? = null,
+    var texture: FormulaItem.FormulaUnitValue? = null,
+    var mixHotWater: Short = -1,
+    var cleanWand: Short = -1,
+    //============================milk=======================================
     var appearance: FormulaItem.FormulaAppearance? = null,
     var milkDelayTime: FormulaItem.FormulaUnitValue? = null,
     var milkOutput: FormulaItem.FormulaMilkOutput? = null,
@@ -96,6 +105,11 @@ sealed class FormulaItem {
         var single: Int = -1,
         var double: Int = -1,
         var current: Int = -1,
+    )
+
+    @Serializable
+    data class FormulaFoamMode(
+        var mode: Boolean,
     )
 
     @Serializable
