@@ -86,4 +86,37 @@ class Converters {
     fun toFormulaProductPrice(value: String): FormulaItem.FormulaProductPrice {
         return Json.decodeFromString(value)
     }
+
+    @TypeConverter
+    fun fromFormulaAppearance(value: FormulaItem.FormulaAppearance): String {
+        return Json.encodeToString(value)
+    }
+
+    @TypeConverter
+    fun toFormulaAppearance(value: String): FormulaItem.FormulaAppearance {
+        return Json.decodeFromString(value)
+    }
+
+    @TypeConverter
+    fun fromFormulaMilkOutput(value: FormulaItem.FormulaMilkOutput): String {
+        return Json.encodeToString(value)
+    }
+
+    @TypeConverter
+    fun toFormulaMilkOutput(value: String): FormulaItem.FormulaMilkOutput {
+        return Json.decodeFromString(value)
+    }
+
+    @TypeConverter
+    fun fromFormulaMilkSequence(value: FormulaItem.FormulaMilkSequence): String {
+        return Json.encodeToString(value)
+    }
+
+    @TypeConverter
+    fun toFormulaMilkSequence(value: String): FormulaItem.FormulaMilkSequence {
+        return Json.decodeFromString(value)
+    }
+
+
+
 }

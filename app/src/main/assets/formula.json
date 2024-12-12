@@ -45,12 +45,6 @@
     },
     "preFlush": false,
     "postFlush": false,
-    "foam": {
-      "value": 50,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[s]"
-    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -414,12 +408,6 @@
     },
     "preFlush": false,
     "postFlush": false,
-    "milk": {
-      "value": 50,
-      "rangeStart": 0,
-      "rangeEnd": 200,
-      "unit": "[ml]"
-    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -516,12 +504,6 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_auto_foam"
-    },
-    "foam": {
-      "value": 5,
-      "rangeStart": 0.0,
-      "rangeEnd": 10.0,
-      "unit": "[s]"
     }
   },
   {
@@ -533,12 +515,6 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_manual_foam"
-    },
-    "foam": {
-      "value": 5,
-      "rangeStart": 0.0,
-      "rangeEnd": 10.0,
-      "unit": "[s]"
     }
   },
   {
@@ -1243,12 +1219,6 @@
     },
     "preFlush": false,
     "postFlush": false,
-    "foam": {
-      "value": 50,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[s]"
-    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -1612,12 +1582,6 @@
     },
     "preFlush": false,
     "postFlush": false,
-    "milk": {
-      "value": 50,
-      "rangeStart": 0,
-      "rangeEnd": 200,
-      "unit": "[ml]"
-    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -1714,12 +1678,6 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_auto_foam"
-    },
-    "foam": {
-      "value": 5,
-      "rangeStart": 0.0,
-      "rangeEnd": 10.0,
-      "unit": "[s]"
     }
   },
   {
@@ -1731,12 +1689,6 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_manual_foam"
-    },
-    "foam": {
-      "value": 5,
-      "rangeStart": 0.0,
-      "rangeEnd": 10.0,
-      "unit": "[s]"
     }
   },
   {

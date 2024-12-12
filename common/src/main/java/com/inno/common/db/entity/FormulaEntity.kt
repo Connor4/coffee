@@ -24,8 +24,12 @@ data class Formula(
     var waterSequence: FormulaItem.FormulaAmericanoSeq? = null, // Boiler
     var coffeeCycles: FormulaItem.FormulaUnitValue? = null, // how many cups we need to make
     var bypassWater: FormulaItem.FormulaUnitValue? = null, // Boiler
-    var foam: FormulaItem.FormulaUnitValue? = null,
-    var milk: FormulaItem.FormulaUnitValue? = null,
+//    var foam: FormulaItem.FormulaUnitValue? = null,
+//    var milk: FormulaItem.FormulaUnitValue? = null,
+    var appearance: FormulaItem.FormulaAppearance? = null,
+    var milkDelayTime: FormulaItem.FormulaUnitValue? = null,
+    var milkOutput: FormulaItem.FormulaMilkOutput? = null,
+    var milkSequence: FormulaItem.FormulaMilkSequence? = null,
     //=======================================================================
     var cups: FormulaItem.FormulaCups? = null,
     var imageRes: String = "",
@@ -92,5 +96,25 @@ sealed class FormulaItem {
         var single: Int = -1,
         var double: Int = -1,
         var current: Int = -1,
+    )
+
+    @Serializable
+    data class FormulaAppearance(
+        var sequence: Boolean,
+    )
+
+    @Serializable
+    data class FormulaMilkOutput(
+        var output: Boolean,
+    )
+
+    @Serializable
+    data class FormulaMilkSequence(
+        val milkQuantity1: Int, // 0-100
+        val milkTemperature1: Int, // 0:cold 1:warm
+        val foamTexture1: Int, // 0-100
+        val milkQuantity2: Int, // 0-100
+        val milkTemperature2: Int, // 0:cold 1:warm
+        val foamTexture2: Int, // 0-100
     )
 }
