@@ -122,7 +122,7 @@ fun HomeContent(
                     rightTemp = rightTemperature, showExtractionTime = showExtractionTime,
                     showGrinderButton = showGrinderButton != DISPLAY_NO_GRINDER,
                     onReleaseSteam = {
-                        viewModel.manualReleaseSteam(mainScreen)
+                        viewModel.cleanWandSteam(mainScreen)
                     }, onClickWarning = {
                         viewModel.showWarningDialog(mainScreen)
                     }, onClickStop = {
