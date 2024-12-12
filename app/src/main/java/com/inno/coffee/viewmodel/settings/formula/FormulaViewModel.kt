@@ -83,12 +83,12 @@ class FormulaViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             if (mainScreen) {
                 _drinksList.value = repository.getAllFormula().filter {
-                    !ProductType.isOperationType(it.productType?.type)
+                    ProductType.isFormulaCanShowType(it.productType?.type)
                             && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
                 }
             } else {
                 _drinksList.value = repository.getAllFormula().filter {
-                    !ProductType.isOperationType(it.productType?.type)
+                    ProductType.isFormulaCanShowType(it.productType?.type)
                             && (it.productId in (MAIN_SCREEN_PRODUCT_ID_LIMIT + 1)..<SECOND_SCREEN_PRODUCT_ID_LIMIT)
                 }
             }

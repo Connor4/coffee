@@ -504,6 +504,14 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_auto_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "autoFoamTemperature": {
+      "value": 50,
+      "rangeStart": 1,
+      "rangeEnd": 100,
+      "unit": "[°C/°F]"
     }
   },
   {
@@ -515,6 +523,14 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_manual_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "manualFoamTime": {
+      "value": 90,
+      "rangeStart": 1,
+      "rangeEnd": 300,
+      "unit": "[s]"
     }
   },
   {
@@ -1678,6 +1694,14 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_auto_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "autoFoamTemperature": {
+      "value": 60,
+      "rangeStart": 1,
+      "rangeEnd": 100,
+      "unit": "[°C/°F]"
     }
   },
   {
@@ -1689,6 +1713,14 @@
     "productName": {
       "name": "",
       "nameRes": "home_item_manual_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "manualFoamTime": {
+      "value": 90,
+      "rangeStart": 1,
+      "rangeEnd": 300,
+      "unit": "[s]"
     }
   },
   {

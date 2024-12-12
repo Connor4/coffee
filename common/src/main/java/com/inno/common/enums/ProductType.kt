@@ -16,35 +16,40 @@ enum class ProductType(val value: String) {
     STOP("Stop");
 
     companion object {
-        fun fromValue(value: String): ProductType {
+        fun fromValue(type: String): ProductType {
             for (productType in entries) {
-                if (productType.value == value) {
+                if (productType.value == type) {
                     return productType
                 }
             }
             return NONE
         }
 
-        fun redirectToCoffee(value: String?): String? {
-            if (value == ESPRESSO.value || value == AMERICANO.value || value == DRIP_COFFEE.value
-                    || POD_COFFEE.value == value || DRIP_POD_COFFEE.value == value || value == COFFEE
+        fun redirectToCoffee(type: String?): String? {
+            if (type == ESPRESSO.value || type == AMERICANO.value || type == DRIP_COFFEE.value
+                    || POD_COFFEE.value == type || DRIP_POD_COFFEE.value == type || type == COFFEE
                         .value) {
                 return COFFEE.value
             }
-            return value
+            return type
         }
 
-        fun isOperationType(value: String?): Boolean {
-            return value == STOP.value || value == RINSE.value || value == FOAM.value ||
-                    value == STEAM.value
+        fun isOperationType(type: String?): Boolean {
+            return type == STOP.value || type == RINSE.value || type == FOAM.value ||
+                    type == STEAM.value
         }
 
-        fun assertType(string: String?, productType: ProductType): Boolean {
-            return productType.value == string
+        fun isFormulaCanShowType(type: String?): Boolean {
+            return isCoffeeType(type) || type == HOT_WATER.value || type == MILK.value
+                    || type == STEAM.value || type == FOAM.value
         }
 
-        fun isMakingEnableType(string: String?): Boolean {
-            return assertType(string, STOP) || assertType(string, FOAM) || assertType(string, STEAM)
+        fun assertType(type: String?, productType: ProductType): Boolean {
+            return productType.value == type
+        }
+
+        fun isMakingEnableType(type: String?): Boolean {
+            return assertType(type, STOP) || assertType(type, FOAM) || assertType(type, STEAM)
         }
 
         fun isCoffeeType(type: String?): Boolean {
