@@ -65,6 +65,8 @@ const val FORMULA_PROPERTY_COFFEE_WATER = "coffeeWater"
 const val FORMULA_PROPERTY_POWDER_DOSAGE = "powderDosage"
 const val FORMULA_PROPERTY_WATER_SEQUENCE = "waterSequence"
 const val FORMULA_PROPERTY_FOAM_MODE = "foamMode"
+const val FORMULA_PROPERTY_STOP_TIME = "stopAirTime"
+const val FORMULA_PROPERTY_STOP_TEMPERATURE = "stopAirTemperature"
 const val MAIN_SCREEN_PRODUCT_ID_LIMIT = 100
 const val SECOND_SCREEN_PRODUCT_ID_LIMIT = 1000
 

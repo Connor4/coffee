@@ -32,6 +32,8 @@ import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRESS_WEIGHT
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_PRICE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_TYPE
+import com.inno.coffee.utilities.FORMULA_PROPERTY_STOP_TEMPERATURE
+import com.inno.coffee.utilities.FORMULA_PROPERTY_STOP_TIME
 import com.inno.coffee.utilities.FORMULA_PROPERTY_WATER_SEQUENCE
 import com.inno.coffee.utilities.formulaProductTypeMultilingual
 import com.inno.common.db.entity.Formula
@@ -59,8 +61,8 @@ private val formulaPropertyNames = listOf(
     "manualFoamTime",
     "autoFoamTemperature",
     FORMULA_PROPERTY_FOAM_MODE,
-    "stopAirTime",
-    "stopAirTemperature",
+    FORMULA_PROPERTY_STOP_TIME,
+    FORMULA_PROPERTY_STOP_TEMPERATURE,
     "texture",
 )
 
@@ -82,8 +84,8 @@ private val formulaPropertyStringMapping = mapOf(
     "manualFoamTime" to R.string.formula_steam_manual_time,
     "autoFoamTemperature" to R.string.formula_steam_stop_temperature,
     FORMULA_PROPERTY_FOAM_MODE to R.string.formula_steam_foam_mode,
-    "stopAirTime" to R.string.formula_steam_air_stop,
-    "stopAirTemperature" to R.string.formula_steam_air_stop,
+    FORMULA_PROPERTY_STOP_TIME to R.string.formula_steam_air_stop,
+    FORMULA_PROPERTY_STOP_TEMPERATURE to R.string.formula_steam_air_stop,
     "texture" to R.string.formula_steam_foam_texture,
 )
 
@@ -131,23 +133,38 @@ fun FormulaValueItem(
                 scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
                 scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
                 // IS THIS A GOOD WAY TO PREVENT EMPTY LIST?
-                if (formulaItemValues.size < 1) {
+                if (formulaItemValues.isEmpty()) {
                     return@VerticalScrollList2
                 }
+
                 val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
 
                 if (formulaItemValues.size <= index) {
-                    FormulaItem(backgroundColor = color, selected = false,
-                        description = "", value = "")
-                } else {
-                    val labelResId = formulaPropertyStringMapping[formulaItemNames[index]]
-                    val label = stringResource(labelResId!!)
+                    FormulaItem(backgroundColor = color, selected = false, description = "",
+                        value = "")
+                    return@VerticalScrollList2
+                }
 
-                    FormulaItem(backgroundColor = color, selected = selectedValue == item,
-                        description = label, value = item) {
-                        selectedValue = item
-                        selectedName = formulaPropertyNames[index]
+                val name = formulaItemNames[index]
+                val labelResId = formulaPropertyStringMapping[name]
+                val label = stringResource(labelResId!!)
+
+                if (name == FORMULA_PROPERTY_STOP_TIME || name == FORMULA_PROPERTY_STOP_TEMPERATURE) {
+                    val showItem = when (name) {
+                        FORMULA_PROPERTY_STOP_TIME -> selectFormula?.foamMode?.mode != false
+                        FORMULA_PROPERTY_STOP_TEMPERATURE -> selectFormula?.foamMode?.mode == false
+                        else -> true
                     }
+
+                    if (!showItem) {
+                        return@VerticalScrollList2
+                    }
+                }
+
+                FormulaItem(backgroundColor = color, selected = selectedValue == item,
+                    description = label, value = item) {
+                    selectedValue = item
+                    selectedName = name
                 }
             }
         }
