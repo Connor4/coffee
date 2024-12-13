@@ -55,10 +55,9 @@ object ProductProfileManager {
         repository = entryPoint.formulaRepository()
     }
 
-    suspend fun convertProductProfile(productId: Int, leftSize: Boolean): ByteArray {
+    fun convertProductProfile(formula: Formula, leftSize: Boolean): ByteArray {
         Logger.d(TAG,
-            "convertProductProfile() called with: productId = $productId, leftSize = $leftSize")
-        val formula = repository.getFormulaByProductId(productId) ?: return byteArrayOf()
+            "convertProductProfile() called with: productId = ${formula.productId}, leftSize = $leftSize")
         val productProfile = createProductProfile(formula, leftSize)
 
         val componentSize = productProfile.componentProfileList.componentList.size

@@ -79,9 +79,7 @@ object MakeRightDrinksHandler {
                 _operationQueue.value += model
                 Logger.d(TAG, "executeNow() called operationId: ${model.productId}")
 
-                val byteInfo =
-                    ProductProfileManager.convertProductProfile(model.productId + RIGHT_OFFSET,
-                        false)
+                val byteInfo = ProductProfileManager.convertProductProfile(model, false)
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
                     byteInfo)
                 waitForOperationReplyConfirm()
@@ -95,8 +93,7 @@ object MakeRightDrinksHandler {
                 _productQueue.value += model
                 Logger.d(TAG, "handleMessage() called processingProductId: ${model.productId}")
 
-                val byteInfo =
-                    ProductProfileManager.convertProductProfile(model.productId, true)
+                val byteInfo = ProductProfileManager.convertProductProfile(model, true)
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID,
                     byteInfo.size, byteInfo)
                 waitForProductReplyConfirm()

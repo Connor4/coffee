@@ -16,6 +16,7 @@ import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.FormulaItem
 import com.inno.common.enums.ProductType
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
@@ -301,11 +302,11 @@ class HomeViewModel @Inject constructor(
 
     fun cleanWandSteam(main: Boolean) {
         if (!checking) {
-//            val formula = Formula(productId = 201, preFlush = false, postFlush = false,
-//                productType = FormulaItem.FormulaProductType(ProductType.STEAM.value),
-//                cleanWand = 1, steamBoiler = 1, waterPump = 1, waterInputValue = 1,
-//                steamOutSteamValve1 = 1)
-//            startMakeDrink(formula, main)
+            val formula = Formula(productId = 201, preFlush = false, postFlush = false,
+                productType = FormulaItem.FormulaProductType(ProductType.STEAM.value),
+                cleanWand = 1, steamBoiler = 1, waterPump = 1, waterInputValue = 1,
+                steamOutSteamValve1 = 1)
+            startMakeDrink(formula, main)
         }
     }
 
