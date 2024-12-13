@@ -27,6 +27,7 @@ import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.utilities.FORMULA_PROPERTY_BEAN_HOPPER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
+import com.inno.coffee.utilities.FORMULA_PROPERTY_FOAM_MODE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRESS_WEIGHT
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_PRICE
@@ -57,7 +58,7 @@ private val formulaPropertyNames = listOf(
     "bypassWater",
     "manualFoamTime",
     "autoFoamTemperature",
-    "foamMode",
+    FORMULA_PROPERTY_FOAM_MODE,
     "stopAirTime",
     "stopAirTemperature",
     "texture",
@@ -80,7 +81,7 @@ private val formulaPropertyStringMapping = mapOf(
     "bypassWater" to R.string.formula_bypass_dosage,
     "manualFoamTime" to R.string.formula_steam_manual_time,
     "autoFoamTemperature" to R.string.formula_steam_stop_temperature,
-    "foamMode" to R.string.formula_steam_foam_mode,
+    FORMULA_PROPERTY_FOAM_MODE to R.string.formula_steam_foam_mode,
     "stopAirTime" to R.string.formula_steam_air_stop,
     "stopAirTemperature" to R.string.formula_steam_air_stop,
     "texture" to R.string.formula_steam_foam_texture,
@@ -249,6 +250,24 @@ fun FormulaValueItem(
                             Pair("60 [kg]", 60.toShort())),
                         { _, changeValue ->
                             value.weight = changeValue as Short
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
+                            selectedValue = null
+                        }, {
+                            selectedValue = null
+                        }
+                    )
+                }
+                is FormulaItem.FormulaFoamMode -> {
+                    val temperature = stringResource(R.string.formula_steam_foam_mode_temperature)
+                    val time = stringResource(R.string.formula_steam_foam_mode_time)
+                    val default = if (value.mode) time else temperature
+                    val title = formulaPropertyStringMapping[FORMULA_PROPERTY_FOAM_MODE]
+                    ListSelectLayout(
+                        stringResource(title!!), default, mapOf(Pair(time, true), Pair(temperature,
+                            false)),
+                        { _, changeValue ->
+                            value.mode = changeValue as Boolean
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                             onValueChange()
                             selectedValue = null

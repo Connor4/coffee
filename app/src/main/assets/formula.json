@@ -45,10 +45,37 @@
     },
     "preFlush": false,
     "postFlush": false,
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
+    "autoFoamTemperature": {
+      "value": 50,
+      "rangeStart": 1,
+      "rangeEnd": 100,
+      "unit": "[°C/°F]"
+    },
+    "foamMode": {
+      "mode": false
+    },
+    "stopAirTime": {
+      "value": 50,
+      "rangeStart": 1,
+      "rangeEnd": 100,
+      "unit": "[s]"
+    },
+    "stopAirTemperature": {
+      "value": 50,
+      "rangeStart": 10,
+      "rangeEnd": 80,
+      "unit": "[°C/°F]"
+    },
+    "texture": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": ""
+    },
+    "steamBoiler": 1,
+    "waterPump": 1,
+    "waterInputValue": 1,
+    "steamOutSteamValve1": 1
   },
   {
     "productId": 99,
@@ -1243,10 +1270,37 @@
     },
     "preFlush": false,
     "postFlush": false,
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
+    "autoFoamTemperature": {
+      "value": 50,
+      "rangeStart": 1,
+      "rangeEnd": 100,
+      "unit": "[°C/°F]"
+    },
+    "foamMode": {
+      "mode": false
+    },
+    "stopAirTime": {
+      "value": 50,
+      "rangeStart": 1,
+      "rangeEnd": 100,
+      "unit": "[s]"
+    },
+    "stopAirTemperature": {
+      "value": 50,
+      "rangeStart": 10,
+      "rangeEnd": 80,
+      "unit": "[°C/°F]"
+    },
+    "texture": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": ""
+    },
+    "steamBoiler": 1,
+    "waterPump": 1,
+    "waterInputValue": 1,
+    "steamOutSteamValve1": 1
   },
   {
     "productId": 199,

@@ -39,7 +39,7 @@ sealed class Profile {
     data class SteamBoilerProfile(
         val manualFoamTime: Int = 0,
         val autoFoamTemperature: Int = 0,
-        var foamMode: Boolean = false,
+        var foamMode: Boolean = false, // 0:temperature mode; 1:time mode
         var stopAirTime: Int = 0,
         var stopAirTemperature: Int = 0,
         var texture: Int = 0,

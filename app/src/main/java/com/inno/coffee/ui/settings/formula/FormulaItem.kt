@@ -107,8 +107,8 @@ fun FormulaItem(
                 }
                 is FormulaItem.FormulaFoamMode -> {
                     textValue =
-                        if (value.mode) stringResource(R.string.formula_steam_foam_mode_temperature)
-                        else stringResource(R.string.formula_steam_foam_mode_time)
+                        if (value.mode) stringResource(R.string.formula_steam_foam_mode_time)
+                        else stringResource(R.string.formula_steam_foam_mode_temperature)
                 }
                 else -> {
                     textValue = value.toString()
