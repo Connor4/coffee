@@ -138,6 +138,14 @@ class HomeViewModel @Inject constructor(
 
     fun selfCheckReleaseSteam() {
         viewModelScope.launch {
+            formulaList.value.firstOrNull {
+                ProductType.assertType(it.productType?.type, ProductType.STEAM)
+            }?.let {
+                startMakeDrink(it, true)
+                startMakeDrink(it, false)
+            } ?: run {
+                // TODO notice can not release steam
+            }
             SelfCheckManager.updateReleaseSteam()
         }
     }
@@ -207,7 +215,6 @@ class HomeViewModel @Inject constructor(
                 viewModelScope.launch(defaultDispatcher) {
                     SelfCheckManager.operateRinse()
                 }
-                return
             }
             if (main) {
                 MakeLeftDrinksHandler.executeNow(model)
