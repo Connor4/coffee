@@ -132,6 +132,8 @@ object ProductProfileManager {
         if (formula.steamBoiler.toInt() != -1) {
             var steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(0, 0, 0, 0,
                 0, 0))
+            val mixValue = ((formula.cleanWand.toInt() and 0xFF) shl 8) or
+                    (formula.mixHotWater.toInt() and 0xFF)
             formula.autoFoamTemperature?.let {
                 formula.foamMode?.let {
                     val mode = if (it.mode) 1.toShort() else 0
@@ -139,16 +141,17 @@ object ProductProfileManager {
                     else formula.stopAirTime?.value
 
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                        0, mode, foamData ?: 0, formula.texture?.value ?: 0, 0, 0)
+                        formula.autoFoamTemperature?.value ?: 0, mode, foamData ?: 0,
+                        formula.texture?.value ?: 0, mixValue.toShort(), 0)
                     )
                 } ?: run {
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                        formula.autoFoamTemperature?.value ?: 0, 0, 0, 0, 0, 0)
+                        formula.autoFoamTemperature?.value ?: 0, 0, 0, 0, mixValue.toShort(), 0)
                     )
                 }
             } ?: run {
                 steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                    formula.manualFoamTime?.value ?: 0, 0, 0, 0, 0, 0)
+                    formula.manualFoamTime?.value ?: 0, 0, 0, 0, mixValue.toShort(), 0)
                 )
             }
             componentList.add(steamBoilerProfile)

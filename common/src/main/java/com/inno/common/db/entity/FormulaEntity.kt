@@ -32,8 +32,8 @@ data class Formula(
     var stopAirTime: FormulaItem.FormulaUnitValue? = null,
     var stopAirTemperature: FormulaItem.FormulaUnitValue? = null,
     var texture: FormulaItem.FormulaUnitValue? = null,
-    var mixHotWater: Short = -1,
-    var cleanWand: Short = -1,
+    var mixHotWater: Short = 0,
+    var cleanWand: Short = 0,
     //============================milk=======================================
     var appearance: FormulaItem.FormulaAppearance? = null,
     var milkDelayTime: FormulaItem.FormulaUnitValue? = null,
