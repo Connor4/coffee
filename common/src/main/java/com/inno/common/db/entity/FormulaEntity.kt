@@ -43,6 +43,7 @@ data class Formula(
     var cups: FormulaItem.FormulaCups? = null,
     var imageRes: String = "",
     //================to be determined, but i hava to have it==================
+    val steamBoiler: Short = -1, //
     var waterInputValue: Short = -1, // WATER_INPUT_VALVE_ID
     var leftValueLeftBoiler: Short = -1, // LEFT_VALVE_LEFT_BOILER_ID
     var middleValueLeftBoiler: Short = -1, // MIDILE_VALVE_LEFT_BOILER_ID

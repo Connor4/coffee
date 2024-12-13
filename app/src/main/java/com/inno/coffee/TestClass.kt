@@ -1,8 +1,5 @@
 package com.inno.coffee
 
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-
 fun main() {
 //    val zdt = LocalDateTime.now()
 //    println("d : $zdt")
@@ -15,11 +12,12 @@ fun main() {
 //    var usFormatter = DateTimeFormatter.ofPattern("E, MMMM/dd/yyyy HH:mm", Locale.US);
 //    println(usFormatter.format(zdt));
 
-    val time = LocalDateTime.parse("2024-01-01T00:00")
-    println("time : $time")
-    val epochMilli = time.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
-    val now = System.currentTimeMillis()
-    println("milli : $epochMilli  now $now")
+//    val time = LocalDateTime.parse("2024-01-01T00:00")
+//    println("time : $time")
+//    val epochMilli = time.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
+//    val now = System.currentTimeMillis()
+//    println("milli : $epochMilli  now $now")
+
 }
 
 

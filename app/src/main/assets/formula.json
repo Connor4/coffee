@@ -513,6 +513,7 @@
       "rangeEnd": 100,
       "unit": "[°C/°F]"
     },
+    "steamBoiler": 1,
     "waterPump": 1,
     "waterInputValue": 1,
     "steamOutSteamValve1": 1
@@ -535,6 +536,7 @@
       "rangeEnd": 300,
       "unit": "[s]"
     },
+    "steamBoiler": 1,
     "waterPump": 1,
     "waterInputValue": 1,
     "steamOutSteamValve1": 1
@@ -1709,6 +1711,7 @@
       "rangeEnd": 100,
       "unit": "[°C/°F]"
     },
+    "steamBoiler": 1,
     "waterPump": 1,
     "waterInputValue": 1,
     "steamOutSteamValve2": 1
@@ -1731,6 +1734,7 @@
       "rangeEnd": 300,
       "unit": "[s]"
     },
+    "steamBoiler": 1,
     "waterPump": 1,
     "waterInputValue": 1,
     "steamOutSteamValve2": 1
