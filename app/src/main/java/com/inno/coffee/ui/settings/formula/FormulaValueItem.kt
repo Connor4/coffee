@@ -111,6 +111,7 @@ fun FormulaValueItem(
 
     LaunchedEffect(selectFormula) {
         selectedValue = null
+        selectedName = ""
         getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
     }
 
