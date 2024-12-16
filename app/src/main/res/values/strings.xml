@@ -294,6 +294,17 @@
     <string name="formula_product_cups_title">Warning</string>
     <string name="formula_product_cups_change_tips">If you change the product category, the parameters previously set for the product key will be canceled and replaced by the default parameters of the newly selected product category.</string>
     <string name="formula_product_price_tips">Input Product Price</string>
+    <string name="formula_milk_appearance">Appearance</string>
+    <string name="formula_milk_white_on_top">White On Top</string>
+    <string name="formula_milk_brown_on_top">Brown On Top</string>
+    <string name="formula_milk_delay_time">Milk Delay Time</string>
+    <string name="formula_milk_output">Milk Output</string>
+    <string name="formula_milk_output_coffee_outlet">At Coffee Outlet</string>
+    <string name="formula_milk_output_milk_arm">At Milk Arm</string>
+    <string name="formula_milk_sequence">Milk Sequence</string>
+    <string name="formula_milk_quantity">Milk Quantity</string>
+    <string name="formula_milk_temperature">Milk Temperature</string>
+    <string name="formula_milk_foam_texture">Foam Texture</string>
 
     <string name="display_import_screen">Import Screen</string>
     <string name="display_import_language">Import Language</string>

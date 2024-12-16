@@ -261,6 +261,7 @@
     <string name="formula_bypass_dosage">旁路水路出水量</string>
     <string name="formula_steam_foam_texture">奶泡质地</string>
     <string name="formula_steam_manual_time">蒸汽时间</string>
+    <string name="formula_steam_foam_mode_time">时长</string>
     <string name="formula_front_hopper">前方</string>
     <string name="formula_rear_hopper">后方</string>
     <string name="formula_steam_wand">蒸汽棒:</string>
@@ -283,6 +284,8 @@
 
 
     <string name="formula_product_price_tips">输入产品价格</string>
+    <string name="formula_milk_sequence">牛奶次序</string>
+    <string name="formula_milk_foam_texture">牛奶泡沫质地</string>
     <string name="display_import_screen">导入图片</string>
     <string name="display_import_language">导入语言</string>
     <string name="display_language">语言</string>
@@ -570,5 +573,15 @@
     <string name="formula_steam_stop_temperature">蒸汽停止温度</string>
     <string name="formula_steam_foam_mode">打奶模式</string>
     <string name="formula_steam_air_stop">空气注入停止点</string>
+    <string name="formula_milk_appearance">外形</string>
+    <string name="formula_milk_white_on_top">白色在上面</string>
+    <string name="formula_milk_brown_on_top">"棕色在上面 "</string>
+    <string name="formula_milk_delay_time">牛奶延迟时间</string>
+    <string name="formula_milk_output">奶品出口</string>
+    <string name="formula_milk_output_coffee_outlet">咖啡出口</string>
+    <string name="formula_milk_output_milk_arm">牛奶出口</string>
+    <string name="formula_steam_foam_mode_temperature">温度</string>
+    <string name="formula_milk_quantity">奶量</string>
+    <string name="formula_milk_temperature">牛奶温度</string>
 
 </resources>
