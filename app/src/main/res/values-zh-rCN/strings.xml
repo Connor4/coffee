@@ -286,6 +286,7 @@
     <string name="formula_product_price_tips">输入产品价格</string>
     <string name="formula_milk_click_edit">点击编辑</string>
     <string name="formula_milk_sequence">牛奶次序</string>
+    <string name="formula_milk_temperature_warm">热牛奶</string>
     <string name="formula_milk_foam_texture">牛奶泡沫质地</string>
     <string name="display_import_screen">导入图片</string>
     <string name="display_import_language">导入语言</string>
@@ -584,5 +585,6 @@
     <string name="formula_steam_foam_mode_temperature">温度</string>
     <string name="formula_milk_quantity">奶量</string>
     <string name="formula_milk_temperature">牛奶温度</string>
+    <string name="formula_milk_temperature_cold">冷牛奶</string>
 
 </resources>

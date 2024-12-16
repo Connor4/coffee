@@ -141,10 +141,13 @@ sealed class FormulaItem {
 
     @Serializable
     data class FormulaMilkSequence(
-        var milkQuantity1: Int, // 0-100
+        val defaultMilkQuantity: Int,
+        val defaultMilkTemperature: Int,
+        val defaultFoamTexture: Int,
+        var milkQuantity1: Int = -1, // 0-100
         var milkTemperature1: Int, // 0:cold 1:warm
         var foamTexture1: Int, // 0-100
-        var milkQuantity2: Int, // 0-100
+        var milkQuantity2: Int = -1, // 0-100
         var milkTemperature2: Int, // 0:cold 1:warm
         var foamTexture2: Int, // 0-100
     )

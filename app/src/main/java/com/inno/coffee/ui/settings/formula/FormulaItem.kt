@@ -3,7 +3,6 @@ package com.inno.coffee.ui.settings.formula
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.debouncedClickable
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.formulaProductTypeMultilingual
 import com.inno.coffee.utilities.getStringResId
 import com.inno.coffee.utilities.nsp
@@ -30,6 +30,8 @@ fun FormulaItem(
     description: String,
     value: Any?,
     onClick: () -> Unit = {},
+    extraItem1Click: () -> Unit = {},
+    extraItem2Click: () -> Unit = {},
 ) {
     val bgColor: Color?
     val textColor: Color?
@@ -41,15 +43,96 @@ fun FormulaItem(
         textColor = Color.White
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(32.dp),
-    ) {
+    if (value is FormulaItem.FormulaMilkSequence) {
+        val contentHeight = when {
+            value.foamTexture1 != INVALID_INT && value.foamTexture2 != INVALID_INT -> 96
+            value.foamTexture1 == INVALID_INT && value.foamTexture2 == INVALID_INT -> 32
+            else -> 64
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(contentHeight.dp)
+                .padding(bottom = 2.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .padding(bottom = 2.dp)
+                    .background(color = bgColor)
+                    .debouncedClickable({
+                        onClick()
+                    }),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Text(
+                    text = description, fontSize = 5.nsp(), color = textColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 19.dp)
+                )
+
+                Text(
+                    text = stringResource(R.string.formula_milk_click_edit), fontSize = 5.nsp(),
+                    color = textColor, textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 255.dp)
+                )
+            }
+            if (value.foamTexture1 != INVALID_INT) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(32.dp)
+                        .padding(bottom = 2.dp)
+                        .background(color = Color(0xFF191A1D))
+                        .debouncedClickable({
+                            extraItem1Click()
+                        }),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    val temperature1 = if (value.milkTemperature1 == 0)
+                        stringResource(R.string.formula_milk_temperature_cold)
+                    else stringResource(R.string.formula_milk_temperature_warm)
+                    val extraItem1 =
+                        "#1: ${value.milkQuantity1} s | $temperature1 | ${value.foamTexture1}%"
+                    Text(
+                        text = extraItem1, fontSize = 5.nsp(), color = textColor,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(start = 40.dp)
+                    )
+                }
+            }
+            if (value.foamTexture2 != INVALID_INT) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(32.dp)
+                        .padding(bottom = 2.dp)
+                        .background(color = Color(0xFF191A1D))
+                        .debouncedClickable({
+                            extraItem2Click()
+                        }),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    val temperature2 = if (value.milkTemperature1 == 0)
+                        stringResource(R.string.formula_milk_temperature_cold)
+                    else stringResource(R.string.formula_milk_temperature_warm)
+                    val extraItem2 = "#2: ${value.milkQuantity1} s | $temperature2 | " +
+                            "${value.foamTexture1}%"
+                    Text(
+                        text = extraItem2, fontSize = 5.nsp(), color = textColor,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(start = 40.dp)
+                    )
+                }
+            }
+        }
+    } else {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(30.dp)
+                .height(32.dp)
+                .padding(bottom = 2.dp)
                 .background(color = bgColor)
                 .debouncedClickable({
                     onClick()
@@ -120,9 +203,6 @@ fun FormulaItem(
                         if (value.output) stringResource(R.string.formula_milk_output_coffee_outlet)
                         else stringResource(R.string.formula_milk_output_milk_arm)
                 }
-                is FormulaItem.FormulaMilkSequence -> {
-                    textValue = stringResource(R.string.formula_milk_click_edit)
-                }
                 else -> {
                     textValue = value.toString()
                 }
@@ -133,6 +213,6 @@ fun FormulaItem(
                 modifier = Modifier.padding(start = 255.dp)
             )
         }
-        Spacer(modifier = Modifier.height(2.dp))
     }
+
 }

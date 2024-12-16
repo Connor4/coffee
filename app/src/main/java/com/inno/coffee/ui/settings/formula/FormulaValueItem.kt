@@ -174,11 +174,20 @@ fun FormulaValueItem(
                     }
                 }
 
-                FormulaItem(backgroundColor = color, selected = selectedValue == item,
-                    description = label, value = item) {
-                    selectedValue = item
-                    selectedName = name
-                }
+                FormulaItem(
+                    backgroundColor = color, selected = selectedValue == item,
+                    description = label, value = item,
+                    onClick = {
+                        selectedValue = item
+                        selectedName = name
+                    },
+                    extraItem1Click = {
+
+                    },
+                    extraItem2Click = {
+
+                    },
+                )
             }
         }
 
@@ -339,6 +348,9 @@ fun FormulaValueItem(
                             selectedValue = null
                         }
                     )
+                }
+                is FormulaItem.FormulaMilkSequence -> {
+                    FormulaMilkSequenceLayout(value)
                 }
             }
         }

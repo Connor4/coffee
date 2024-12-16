@@ -305,6 +305,8 @@
     <string name="formula_milk_sequence">Milk Sequence</string>
     <string name="formula_milk_quantity">Milk Quantity</string>
     <string name="formula_milk_temperature">Milk Temperature</string>
+    <string name="formula_milk_temperature_cold">Cold</string>
+    <string name="formula_milk_temperature_warm">Warm</string>
     <string name="formula_milk_foam_texture">Foam Texture</string>
 
     <string name="display_import_screen">Import Screen</string>
