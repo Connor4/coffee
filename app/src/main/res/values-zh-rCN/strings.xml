@@ -579,9 +579,9 @@
     <string name="formula_milk_white_on_top">牛奶顶</string>
     <string name="formula_milk_brown_on_top">咖啡顶</string>
     <string name="formula_milk_delay_time">牛奶延迟时间</string>
-    <string name="formula_milk_output">奶品出口</string>
-    <string name="formula_milk_output_coffee_outlet">咖啡出口</string>
-    <string name="formula_milk_output_milk_arm">牛奶出口</string>
+    <string name="formula_milk_output">牛奶出口</string>
+    <string name="formula_milk_output_coffee_outlet">咖啡口</string>
+    <string name="formula_milk_output_milk_arm">奶棒</string>
     <string name="formula_steam_foam_mode_temperature">温度</string>
     <string name="formula_milk_quantity">奶量</string>
     <string name="formula_milk_temperature">牛奶温度</string>
