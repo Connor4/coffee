@@ -25,9 +25,13 @@ import com.inno.coffee.ui.common.ListSelectLayout2
 import com.inno.coffee.ui.common.SingleNumberInputLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
+import com.inno.coffee.utilities.FORMULA_PROPERTY_APPEARANCE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_BEAN_HOPPER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_FOAM_MODE
+import com.inno.coffee.utilities.FORMULA_PROPERTY_MILK_DELAY_TIME
+import com.inno.coffee.utilities.FORMULA_PROPERTY_MILK_OUTPUT
+import com.inno.coffee.utilities.FORMULA_PROPERTY_MILK_SEQUENCE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRESS_WEIGHT
 import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_PRICE
@@ -64,6 +68,10 @@ private val formulaPropertyNames = listOf(
     FORMULA_PROPERTY_STOP_TIME,
     FORMULA_PROPERTY_STOP_TEMPERATURE,
     "texture",
+    FORMULA_PROPERTY_APPEARANCE,
+    FORMULA_PROPERTY_MILK_DELAY_TIME,
+    FORMULA_PROPERTY_MILK_OUTPUT,
+    FORMULA_PROPERTY_MILK_SEQUENCE,
 )
 
 private val formulaPropertyStringMapping = mapOf(
@@ -87,6 +95,10 @@ private val formulaPropertyStringMapping = mapOf(
     FORMULA_PROPERTY_STOP_TIME to R.string.formula_steam_air_stop,
     FORMULA_PROPERTY_STOP_TEMPERATURE to R.string.formula_steam_air_stop,
     "texture" to R.string.formula_steam_foam_texture,
+    FORMULA_PROPERTY_APPEARANCE to R.string.formula_milk_appearance,
+    FORMULA_PROPERTY_MILK_DELAY_TIME to R.string.formula_milk_delay_time,
+    FORMULA_PROPERTY_MILK_OUTPUT to R.string.formula_milk_output,
+    FORMULA_PROPERTY_MILK_SEQUENCE to R.string.formula_milk_sequence,
 )
 
 @Composable
@@ -286,6 +298,40 @@ fun FormulaValueItem(
                             false)),
                         { _, changeValue ->
                             value.mode = changeValue as Boolean
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
+                            selectedValue = null
+                        }, {
+                            selectedValue = null
+                        }
+                    )
+                }
+                is FormulaItem.FormulaAppearance -> {
+                    val white = stringResource(R.string.formula_milk_white_on_top)
+                    val brown = stringResource(R.string.formula_milk_brown_on_top)
+                    val title = formulaPropertyStringMapping[FORMULA_PROPERTY_APPEARANCE]
+                    val default = if (value.appearance) white else brown
+                    ListSelectLayout(stringResource(title!!), default, mapOf(Pair(white, true),
+                        Pair(brown, false)),
+                        { _, changeValue ->
+                            value.appearance = changeValue as Boolean
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
+                            selectedValue = null
+                        }, {
+                            selectedValue = null
+                        }
+                    )
+                }
+                is FormulaItem.FormulaMilkOutput -> {
+                    val coffee = stringResource(R.string.formula_milk_output_coffee_outlet)
+                    val milk = stringResource(R.string.formula_milk_output_milk_arm)
+                    val title = formulaPropertyStringMapping[FORMULA_PROPERTY_MILK_OUTPUT]
+                    val default = if (value.output) coffee else milk
+                    ListSelectLayout(stringResource(title!!), default, mapOf(Pair(coffee, true),
+                        Pair(milk, false)),
+                        { _, changeValue ->
+                            value.output = changeValue as Boolean
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                             onValueChange()
                             selectedValue = null

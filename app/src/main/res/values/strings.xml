@@ -301,6 +301,7 @@
     <string name="formula_milk_output">Milk Output</string>
     <string name="formula_milk_output_coffee_outlet">At Coffee Outlet</string>
     <string name="formula_milk_output_milk_arm">At Milk Arm</string>
+    <string name="formula_milk_click_edit">Click To Edit</string>
     <string name="formula_milk_sequence">Milk Sequence</string>
     <string name="formula_milk_quantity">Milk Quantity</string>
     <string name="formula_milk_temperature">Milk Temperature</string>

@@ -67,6 +67,10 @@ const val FORMULA_PROPERTY_WATER_SEQUENCE = "waterSequence"
 const val FORMULA_PROPERTY_FOAM_MODE = "foamMode"
 const val FORMULA_PROPERTY_STOP_TIME = "stopAirTime"
 const val FORMULA_PROPERTY_STOP_TEMPERATURE = "stopAirTemperature"
+const val FORMULA_PROPERTY_APPEARANCE = "appearance"
+const val FORMULA_PROPERTY_MILK_DELAY_TIME = "milkDelayTime"
+const val FORMULA_PROPERTY_MILK_OUTPUT = "milkOutput"
+const val FORMULA_PROPERTY_MILK_SEQUENCE = "milkSequence"
 const val MAIN_SCREEN_PRODUCT_ID_LIMIT = 100
 const val SECOND_SCREEN_PRODUCT_ID_LIMIT = 1000
 

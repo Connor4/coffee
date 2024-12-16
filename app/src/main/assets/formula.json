@@ -140,8 +140,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "coffeeCycles": {
@@ -218,8 +218,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "coffeeCycles": {
@@ -296,8 +296,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -383,8 +383,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -492,8 +492,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -620,8 +620,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -702,8 +702,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -753,7 +753,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 195,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -765,27 +765,15 @@
       "unit": "[tick]"
     },
     "pressWeight": {
-      "weight": 20,
+      "weight": 60,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[kg]"
     },
-    "preMakeTime": {
-      "value": 800,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 2000,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
     "secPressWeight": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "value": -2,
+      "rangeStart": -5,
+      "rangeEnd": 5,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -812,7 +800,28 @@
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
+    "rightValueLeftBoiler": 0,
+    "milkFoamer": 0,
+    "appearance": {
+      "appearance": true
+    },
+    "milkDelayTime": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 30,
+      "unit": "[s]"
+    },
+    "milkOutput": {
+      "output": true
+    },
+    "milkSequence": {
+      "milkQuantity1": 10,
+      "milkTemperature1": 1,
+      "foamTexture1": 10,
+      "milkQuantity2": 20,
+      "milkTemperature2": 1,
+      "foamTexture2": 20
+    }
   },
   {
     "productId": 16,
@@ -835,7 +844,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 195,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -847,27 +856,15 @@
       "unit": "[tick]"
     },
     "pressWeight": {
-      "weight": 20,
+      "weight": 60,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[kg]"
     },
-    "preMakeTime": {
-      "value": 800,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 2000,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
     "secPressWeight": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "value": -2,
+      "rangeStart": -5,
+      "rangeEnd": 5,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -894,7 +891,28 @@
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
+    "rightValueLeftBoiler": 0,
+    "milkFoamer": 0,
+    "appearance": {
+      "appearance": true
+    },
+    "milkDelayTime": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 30,
+      "unit": "[s]"
+    },
+    "milkOutput": {
+      "output": true
+    },
+    "milkSequence": {
+      "milkQuantity1": 10,
+      "milkTemperature1": 1,
+      "foamTexture1": 10,
+      "milkQuantity2": 20,
+      "milkTemperature2": 1,
+      "foamTexture2": 20
+    }
   },
   {
     "productId": 17,
@@ -948,8 +966,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -1030,8 +1048,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -1112,8 +1130,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -1194,8 +1212,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -1365,8 +1383,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "coffeeCycles": {
@@ -1443,8 +1461,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "coffeeCycles": {
@@ -1521,8 +1539,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -1608,8 +1626,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -1717,8 +1735,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -1845,8 +1863,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -1927,8 +1945,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -1978,7 +1996,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 195,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -1990,27 +2008,15 @@
       "unit": "[tick]"
     },
     "pressWeight": {
-      "weight": 20,
+      "weight": 60,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[kg]"
     },
-    "preMakeTime": {
-      "value": 800,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 2000,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
     "secPressWeight": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "value": -2,
+      "rangeStart": -5,
+      "rangeEnd": 5,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -2037,7 +2043,28 @@
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
+    "rightValueLeftBoiler": 0,
+    "milkFoamer": 0,
+    "appearance": {
+      "appearance": true
+    },
+    "milkDelayTime": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 30,
+      "unit": "[s]"
+    },
+    "milkOutput": {
+      "output": true
+    },
+    "milkSequence": {
+      "milkQuantity1": 10,
+      "milkTemperature1": 1,
+      "foamTexture1": 10,
+      "milkQuantity2": 20,
+      "milkTemperature2": 1,
+      "foamTexture2": 20
+    }
   },
   {
     "productId": 116,
@@ -2060,7 +2087,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 195,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -2072,27 +2099,15 @@
       "unit": "[tick]"
     },
     "pressWeight": {
-      "weight": 20,
+      "weight": 60,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[kg]"
     },
-    "preMakeTime": {
-      "value": 800,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 2000,
-      "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
-      "unit": "[s]"
-    },
     "secPressWeight": {
-      "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "value": -2,
+      "rangeStart": -5,
+      "rangeEnd": 5,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -2119,7 +2134,28 @@
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
+    "rightValueLeftBoiler": 0,
+    "milkFoamer": 0,
+    "appearance": {
+      "appearance": true
+    },
+    "milkDelayTime": {
+      "value": 20,
+      "rangeStart": 0,
+      "rangeEnd": 30,
+      "unit": "[s]"
+    },
+    "milkOutput": {
+      "output": true
+    },
+    "milkSequence": {
+      "milkQuantity1": 10,
+      "milkTemperature1": 1,
+      "foamTexture1": 10,
+      "milkQuantity2": 20,
+      "milkTemperature2": 1,
+      "foamTexture2": 20
+    }
   },
   {
     "productId": 117,
@@ -2173,8 +2209,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -2255,8 +2291,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -2337,8 +2373,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -2419,8 +2455,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -2501,8 +2537,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "coffeeCycles": {
@@ -2574,8 +2610,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "coffeeCycles": {
@@ -2647,8 +2683,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {
@@ -2729,8 +2765,8 @@
     },
     "secPressWeight": {
       "value": 0,
-      "rangeStart": 0.0,
-      "rangeEnd": 50.0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
       "unit": "[mm]"
     },
     "hotWater": {

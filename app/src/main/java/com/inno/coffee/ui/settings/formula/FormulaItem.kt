@@ -110,6 +110,19 @@ fun FormulaItem(
                         if (value.mode) stringResource(R.string.formula_steam_foam_mode_time)
                         else stringResource(R.string.formula_steam_foam_mode_temperature)
                 }
+                is FormulaItem.FormulaAppearance -> {
+                    textValue =
+                        if (value.appearance) stringResource(R.string.formula_milk_white_on_top)
+                        else stringResource(R.string.formula_milk_brown_on_top)
+                }
+                is FormulaItem.FormulaMilkOutput -> {
+                    textValue =
+                        if (value.output) stringResource(R.string.formula_milk_output_coffee_outlet)
+                        else stringResource(R.string.formula_milk_output_milk_arm)
+                }
+                is FormulaItem.FormulaMilkSequence -> {
+                    textValue = stringResource(R.string.formula_milk_click_edit)
+                }
                 else -> {
                     textValue = value.toString()
                 }
