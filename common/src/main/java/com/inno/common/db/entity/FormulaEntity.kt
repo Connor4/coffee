@@ -131,7 +131,7 @@ sealed class FormulaItem {
 
     @Serializable
     data class FormulaAppearance(
-        var sequence: Boolean,
+        var appearance: Boolean,
     )
 
     @Serializable
