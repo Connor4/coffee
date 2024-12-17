@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,16 +42,19 @@ fun FormulaMilkSequenceLayout(
 ) {
     val bgColor1 = Color(0xFF2A2B2D)
     val bgColor2 = Color(0xFF191A1D)
-    val copyValue by remember { mutableStateOf(value.copy()) }
 
     val quantity = stringResource(R.string.formula_milk_quantity)
     val temperature = stringResource(R.string.formula_milk_temperature)
     val texture = stringResource(R.string.formula_milk_foam_texture)
 
-    val itemCount = when {
-        copyValue.milkQuantity1 != INVALID_INT && copyValue.milkQuantity2 != INVALID_INT -> 2
-        copyValue.milkQuantity1 == INVALID_INT && copyValue.milkQuantity2 == INVALID_INT -> 0
-        else -> 1
+    var itemCount by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(itemCount) {
+        itemCount = when {
+            value.milkQuantity1 != INVALID_INT && value.milkQuantity2 != INVALID_INT -> 2
+            value.milkQuantity1 == INVALID_INT && value.milkQuantity2 == INVALID_INT -> 0
+            else -> 1
+        }
     }
 
     Box(
@@ -94,15 +99,16 @@ fun FormulaMilkSequenceLayout(
                         .size(40.dp)
                         .fastclick {
                             if (itemCount == 0) {
-                                copyValue.milkQuantity1 = copyValue.defaultMilkQuantity
-                                copyValue.milkTemperature1 = copyValue.defaultMilkTemperature
-                                copyValue.foamTexture1 = copyValue.defaultFoamTexture
+                                value.milkQuantity1 = value.defaultMilkQuantity
+                                value.milkTemperature1 = value.defaultMilkTemperature
+                                value.foamTexture1 = value.defaultFoamTexture
                             } else {
-                                copyValue.milkQuantity2 = copyValue.defaultMilkQuantity
-                                copyValue.milkTemperature2 = copyValue.defaultMilkTemperature
-                                copyValue.foamTexture2 = copyValue.defaultFoamTexture
+                                value.milkQuantity2 = value.defaultMilkQuantity
+                                value.milkTemperature2 = value.defaultMilkTemperature
+                                value.foamTexture2 = value.defaultFoamTexture
                             }
-                            onValueChange(copyValue)
+                            itemCount++
+                            onValueChange(value)
                         }
                 )
                 Image(
@@ -114,23 +120,24 @@ fun FormulaMilkSequenceLayout(
                         .size(40.dp)
                         .fastclick {
                             if (itemCount == 2) {
-                                copyValue.milkQuantity2 = -1
-                                copyValue.milkTemperature2 = -1
-                                copyValue.foamTexture2 = -1
+                                value.milkQuantity2 = -1
+                                value.milkTemperature2 = -1
+                                value.foamTexture2 = -1
                             } else {
-                                copyValue.milkQuantity1 = -1
-                                copyValue.milkTemperature1 = -1
-                                copyValue.foamTexture1 = -1
+                                value.milkQuantity1 = -1
+                                value.milkTemperature1 = -1
+                                value.foamTexture1 = -1
                             }
-                            onValueChange(copyValue)
+                            itemCount--
+                            onValueChange(value)
                         }
                 )
             }
             if (itemCount != 0) {
                 Column {
-                    Item(false, bgColor1, quantity, copyValue.milkQuantity1.toString(), "[s]")
-                    Item(false, bgColor2, temperature, copyValue.milkTemperature1.toString(), "")
-                    Item(false, bgColor1, texture, copyValue.foamTexture1.toString(), "")
+                    Item(false, bgColor1, quantity, value.milkQuantity1.toString(), "[s]")
+                    Item(false, bgColor2, temperature, value.milkTemperature1.toString(), "")
+                    Item(false, bgColor1, texture, value.foamTexture1.toString(), "")
                 }
             }
 
@@ -161,17 +168,18 @@ fun FormulaMilkSequenceLayout(
                             .padding(end = 10.dp)
                             .size(40.dp)
                             .fastclick {
-                                copyValue.milkQuantity2 = -1
-                                copyValue.milkTemperature2 = -1
-                                copyValue.foamTexture2 = -1
-                                onValueChange(copyValue)
+                                value.milkQuantity2 = -1
+                                value.milkTemperature2 = -1
+                                value.foamTexture2 = -1
+                                itemCount--
+                                onValueChange(value)
                             }
                     )
                 }
                 Column {
-                    Item(false, bgColor1, quantity, copyValue.milkQuantity2.toString(), "[s]")
-                    Item(false, bgColor2, temperature, copyValue.milkTemperature2.toString(), "")
-                    Item(false, bgColor1, texture, copyValue.foamTexture2.toString(), "")
+                    Item(false, bgColor1, quantity, value.milkQuantity2.toString(), "[s]")
+                    Item(false, bgColor2, temperature, value.milkTemperature2.toString(), "")
+                    Item(false, bgColor1, texture, value.foamTexture2.toString(), "")
                 }
             }
         }
@@ -183,7 +191,7 @@ private fun Item(
     selected: Boolean,
     bgColor: Color,
     description: String,
-    copyValue: String,
+    value: String,
     unit: String,
 ) {
     val selectedColor: Color?
@@ -212,7 +220,7 @@ private fun Item(
             modifier = Modifier.padding(start = 19.dp)
         )
         Text(
-            text = copyValue, fontSize = 5.nsp(),
+            text = value, fontSize = 5.nsp(),
             color = textColor, textAlign = TextAlign.Center,
             modifier = Modifier.padding(start = 255.dp)
         )
