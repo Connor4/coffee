@@ -350,9 +350,9 @@ fun FormulaValueItem(
                     FormulaMilkSequenceLayout(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
-                            .padding(top = 331.dp, end = 38.dp)
+                            .padding(top = 250.dp, end = 38.dp)
                             .width(543.dp)
-                            .height(293.dp),
+                            .height(374.dp),
                         value = value,
                         onCloseClick = {
                             selectedValue = null
@@ -366,7 +366,7 @@ fun FormulaValueItem(
                             value.foamTexture2 = changeValue.foamTexture2
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                             onValueChange()
-                        }
+                        },
                     )
                 }
             }

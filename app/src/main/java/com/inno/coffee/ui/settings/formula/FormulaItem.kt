@@ -106,11 +106,11 @@ fun FormulaItem(
                         }),
                     contentAlignment = Alignment.CenterStart
                 ) {
-                    val temperature2 = if (value.milkTemperature1 == 0)
+                    val temperature2 = if (value.milkTemperature2 == 0)
                         stringResource(R.string.formula_milk_temperature_cold)
                     else stringResource(R.string.formula_milk_temperature_warm)
-                    val extraItem2 = "#2: ${value.milkQuantity1} s | $temperature2 | " +
-                            "${value.foamTexture1}%"
+                    val extraItem2 = "#2: ${value.milkQuantity2} s | $temperature2 | " +
+                            "${value.foamTexture2}%"
                     Text(
                         text = extraItem2, fontSize = 5.nsp(), color = textColor,
                         textAlign = TextAlign.Center,

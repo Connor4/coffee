@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.INVALID_INT
@@ -47,12 +50,18 @@ fun FormulaMilkSequenceLayout(
     val temperature = stringResource(R.string.formula_milk_temperature)
     val texture = stringResource(R.string.formula_milk_foam_texture)
 
-    var itemCount by remember { mutableIntStateOf(0) }
+    val copyValue by remember { mutableStateOf(value.copy()) }
+    var itemCount by remember { mutableStateOf(0) }
+    var selectedIndex by remember { mutableStateOf(INVALID_INT) }
+    var rangeStart by remember { mutableStateOf(0f) }
+    var rangeEnd by remember { mutableStateOf(1f) }
+    var unit by remember { mutableStateOf("") }
+    var selectedValue by remember { mutableStateOf(0f) }
 
-    LaunchedEffect(itemCount) {
+    LaunchedEffect(copyValue) {
         itemCount = when {
-            value.milkQuantity1 != INVALID_INT && value.milkQuantity2 != INVALID_INT -> 2
-            value.milkQuantity1 == INVALID_INT && value.milkQuantity2 == INVALID_INT -> 0
+            copyValue.milkQuantity1 != INVALID_INT && copyValue.milkQuantity2 != INVALID_INT -> 2
+            copyValue.milkQuantity1 == INVALID_INT && copyValue.milkQuantity2 == INVALID_INT -> 0
             else -> 1
         }
     }
@@ -62,88 +71,43 @@ fun FormulaMilkSequenceLayout(
             .background(Color.Black)
             .clickable(enabled = false) {}
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.home_entrance_close_ic),
-            contentDescription = null,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 10.dp, end = 10.dp)
-                .size(30.dp)
-                .fastclick { onCloseClick() },
-        )
-
-        Column(
-            modifier = Modifier.padding(end = 50.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(45.dp)
-                    .padding(bottom = 2.dp)
-                    .background(color = bgColor2)
-                    .debouncedClickable({
-                    }),
-            ) {
-                Text(text = "#1", fontSize = 7.nsp(), color = Color.White,
-                    textAlign = TextAlign.Start,
+        if (selectedIndex != INVALID_INT) {
+            key(selectedValue) {
+                UnitValueScrollBar(
                     modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 19.dp)
-                )
-                Image(
-                    painter = painterResource(R.drawable.temp_add_ic),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 60.dp)
-                        .size(40.dp)
-                        .fastclick {
-                            if (itemCount == 0) {
-                                value.milkQuantity1 = value.defaultMilkQuantity
-                                value.milkTemperature1 = value.defaultMilkTemperature
-                                value.foamTexture1 = value.defaultFoamTexture
-                            } else {
-                                value.milkQuantity2 = value.defaultMilkQuantity
-                                value.milkTemperature2 = value.defaultMilkTemperature
-                                value.foamTexture2 = value.defaultFoamTexture
-                            }
-                            itemCount++
-                            onValueChange(value)
-                        }
-                )
-                Image(
-                    painter = painterResource(R.drawable.temp_minus_ic),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 10.dp)
-                        .size(40.dp)
-                        .fastclick {
-                            if (itemCount == 2) {
-                                value.milkQuantity2 = -1
-                                value.milkTemperature2 = -1
-                                value.foamTexture2 = -1
-                            } else {
-                                value.milkQuantity1 = -1
-                                value.milkTemperature1 = -1
-                                value.foamTexture1 = -1
-                            }
-                            itemCount--
-                            onValueChange(value)
-                        }
-                )
-            }
-            if (itemCount != 0) {
-                Column {
-                    Item(false, bgColor1, quantity, value.milkQuantity1.toString(), "[s]")
-                    Item(false, bgColor2, temperature, value.milkTemperature1.toString(), "")
-                    Item(false, bgColor1, texture, value.foamTexture1.toString(), "")
+                        .align(Alignment.TopEnd)
+                        .padding(end = 52.dp)
+                        .wrapContentSize(),
+                    value = selectedValue,
+                    rangeStart = rangeStart,
+                    rangeEnd = rangeEnd,
+                    unit = unit
+                ) { changeValue ->
+                    when (selectedIndex) {
+                        0 -> copyValue.milkQuantity1 = changeValue.toInt()
+                        1 -> copyValue.milkTemperature1 = changeValue.toInt()
+                        2 -> copyValue.foamTexture1 = changeValue.toInt()
+                        3 -> copyValue.milkQuantity2 = changeValue.toInt()
+                        4 -> copyValue.milkTemperature2 = changeValue.toInt()
+                        5 -> copyValue.foamTexture2 = changeValue.toInt()
+                    }
+                    onValueChange(copyValue)
                 }
             }
+        }
 
-            Spacer(modifier = Modifier.height(10.dp))
+        Box(modifier = Modifier.padding(top = 81.dp)) {
+            Image(
+                painter = painterResource(id = R.drawable.home_entrance_close_ic),
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 10.dp, end = 10.dp)
+                    .size(30.dp)
+                    .fastclick { onCloseClick() },
+            )
 
-            if (itemCount == 2) {
+            Column(modifier = Modifier.padding(end = 50.dp)) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -153,33 +117,152 @@ fun FormulaMilkSequenceLayout(
                         .debouncedClickable({
                         }),
                 ) {
-                    Text(
-                        text = "#2", fontSize = 7.nsp(), color = Color.White,
+                    Text(text = "#1", fontSize = 7.nsp(), color = Color.White,
                         textAlign = TextAlign.Start,
                         modifier = Modifier
                             .align(Alignment.CenterStart)
                             .padding(start = 19.dp)
                     )
-                    Image(
-                        painter = painterResource(R.drawable.temp_minus_ic),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .padding(end = 10.dp)
-                            .size(40.dp)
-                            .fastclick {
-                                value.milkQuantity2 = -1
-                                value.milkTemperature2 = -1
-                                value.foamTexture2 = -1
-                                itemCount--
-                                onValueChange(value)
-                            }
-                    )
+                    if (itemCount != 2) {
+                        Image(
+                            painter = painterResource(R.drawable.temp_add_ic),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 60.dp)
+                                .size(40.dp)
+                                .fastclick {
+                                    if (itemCount == 0) {
+                                        copyValue.milkQuantity1 = copyValue.defaultMilkQuantity
+                                        copyValue.milkTemperature1 =
+                                            copyValue.defaultMilkTemperature
+                                        copyValue.foamTexture1 = copyValue.defaultFoamTexture
+                                    } else {
+                                        copyValue.milkQuantity2 = copyValue.defaultMilkQuantity
+                                        copyValue.milkTemperature2 =
+                                            copyValue.defaultMilkTemperature
+                                        copyValue.foamTexture2 = copyValue.defaultFoamTexture
+                                    }
+                                    itemCount++
+                                    selectedIndex = INVALID_INT
+                                    onValueChange(copyValue)
+                                }
+                        )
+                    }
+                    if (itemCount == 1) {
+                        Image(
+                            painter = painterResource(R.drawable.temp_minus_ic),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 10.dp)
+                                .size(40.dp)
+                                .fastclick {
+                                    if (itemCount == 2) {
+                                        copyValue.milkQuantity2 = -1
+                                        copyValue.milkTemperature2 = -1
+                                        copyValue.foamTexture2 = -1
+                                    } else {
+                                        copyValue.milkQuantity1 = -1
+                                        copyValue.milkTemperature1 = -1
+                                        copyValue.foamTexture1 = -1
+                                    }
+                                    itemCount--
+                                    selectedIndex = INVALID_INT
+                                    onValueChange(copyValue)
+                                }
+                        )
+                    }
                 }
-                Column {
-                    Item(false, bgColor1, quantity, value.milkQuantity2.toString(), "[s]")
-                    Item(false, bgColor2, temperature, value.milkTemperature2.toString(), "")
-                    Item(false, bgColor1, texture, value.foamTexture2.toString(), "")
+                if (itemCount != 0) {
+                    Column {
+                        Item(selectedIndex == 0, bgColor1, quantity, copyValue.milkQuantity1,
+                            "[s]") {
+                            selectedValue = copyValue.milkQuantity1.toFloat()
+                            rangeStart = 0f
+                            rangeEnd = 100f
+                            unit = "[s]"
+                            selectedIndex = 0
+                        }
+                        Item(selectedIndex == 1, bgColor2, temperature, copyValue.milkTemperature1,
+                            "") {
+                            selectedValue = copyValue.milkTemperature1.toFloat()
+                            rangeStart = 0f
+                            rangeEnd = 1f
+                            unit = ""
+                            selectedIndex = 1
+                        }
+                        Item(selectedIndex == 2, bgColor1, texture, copyValue.foamTexture1, "") {
+                            selectedValue = copyValue.foamTexture1.toFloat()
+                            rangeStart = 0f
+                            rangeEnd = 100f
+                            unit = ""
+                            selectedIndex = 2
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                if (itemCount == 2) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(45.dp)
+                            .padding(bottom = 2.dp)
+                            .background(color = bgColor2)
+                            .debouncedClickable({}),
+                    ) {
+                        Text(
+                            text = "#2", fontSize = 7.nsp(), color = Color.White,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = 19.dp)
+                        )
+                        Image(
+                            painter = painterResource(R.drawable.temp_minus_ic),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 10.dp)
+                                .size(40.dp)
+                                .fastclick {
+                                    copyValue.milkQuantity2 = -1
+                                    copyValue.milkTemperature2 = -1
+                                    copyValue.foamTexture2 = -1
+                                    itemCount--
+                                    selectedIndex = INVALID_INT
+                                    onValueChange(copyValue)
+                                }
+                        )
+                    }
+                    Column {
+                        Item(selectedIndex == 3, bgColor1, quantity, copyValue.milkQuantity2,
+                            "[s]") {
+                            selectedValue = copyValue.milkQuantity2.toFloat()
+                            rangeStart = 0f
+                            rangeEnd = 100f
+                            unit = "[s]"
+                            selectedIndex = 3
+                        }
+                        Item(selectedIndex == 4, bgColor2, temperature, copyValue.milkTemperature2,
+                            "") {
+                            selectedValue = copyValue.milkTemperature2.toFloat()
+                            rangeStart = 0f
+                            rangeEnd = 1f
+                            unit = ""
+                            selectedIndex = 4
+                        }
+                        Item(selectedIndex == 5, bgColor1, texture, copyValue.foamTexture2,
+                            "") {
+                            selectedValue = copyValue.foamTexture2.toFloat()
+                            rangeStart = 0f
+                            rangeEnd = 100f
+                            unit = ""
+                            selectedIndex = 5
+                        }
+                    }
                 }
             }
         }
@@ -191,8 +274,9 @@ private fun Item(
     selected: Boolean,
     bgColor: Color,
     description: String,
-    value: String,
+    value: Int,
     unit: String,
+    onClick: () -> Unit,
 ) {
     val selectedColor: Color?
     val textColor: Color?
@@ -210,8 +294,7 @@ private fun Item(
             .height(32.dp)
             .padding(bottom = 2.dp)
             .background(color = selectedColor)
-            .debouncedClickable({
-            }),
+            .debouncedClickable({ onClick() }),
         contentAlignment = Alignment.CenterStart
     ) {
         Text(
@@ -220,7 +303,7 @@ private fun Item(
             modifier = Modifier.padding(start = 19.dp)
         )
         Text(
-            text = value, fontSize = 5.nsp(),
+            text = "$value", fontSize = 5.nsp(),
             color = textColor, textAlign = TextAlign.Center,
             modifier = Modifier.padding(start = 255.dp)
         )
