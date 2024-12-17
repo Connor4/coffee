@@ -30,8 +30,6 @@ fun FormulaItem(
     description: String,
     value: Any?,
     onClick: () -> Unit = {},
-    extraItem1Click: () -> Unit = {},
-    extraItem2Click: () -> Unit = {},
 ) {
     val bgColor: Color?
     val textColor: Color?
@@ -71,12 +69,6 @@ fun FormulaItem(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 19.dp)
                 )
-
-                Text(
-                    text = stringResource(R.string.formula_milk_click_edit), fontSize = 5.nsp(),
-                    color = textColor, textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(start = 255.dp)
-                )
             }
             if (value.foamTexture1 != INVALID_INT) {
                 Box(
@@ -86,7 +78,7 @@ fun FormulaItem(
                         .padding(bottom = 2.dp)
                         .background(color = Color(0xFF191A1D))
                         .debouncedClickable({
-                            extraItem1Click()
+                            onClick()
                         }),
                     contentAlignment = Alignment.CenterStart
                 ) {
@@ -110,7 +102,7 @@ fun FormulaItem(
                         .padding(bottom = 2.dp)
                         .background(color = Color(0xFF191A1D))
                         .debouncedClickable({
-                            extraItem2Click()
+                            onClick()
                         }),
                     contentAlignment = Alignment.CenterStart
                 ) {

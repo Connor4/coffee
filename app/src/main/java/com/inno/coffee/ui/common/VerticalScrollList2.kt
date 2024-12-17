@@ -39,6 +39,7 @@ import kotlin.math.roundToInt
 fun VerticalScrollList2(
     list: List<Any> = mutableListOf(),
     minimumSize: Int = 15,
+    extraSize: Int = 0,
     placeHolder: Any = Any(),
     scrollBarWidth: Int,
     scrollTrackHeight: Int,
@@ -62,8 +63,8 @@ fun VerticalScrollList2(
     var dragOffset by remember {
         mutableFloatStateOf(0f)
     }
-    val adjustedList = if (list.size < minimumSize) {
-        list + List(minimumSize - list.size) { placeHolder }
+    val adjustedList = if ((list.size + extraSize) < minimumSize) {
+        list + List(minimumSize - list.size - extraSize) { placeHolder }
     } else {
         list
     }

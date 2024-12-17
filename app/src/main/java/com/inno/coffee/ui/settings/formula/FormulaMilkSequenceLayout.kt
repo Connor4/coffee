@@ -2,6 +2,7 @@ package com.inno.coffee.ui.settings.formula
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -42,6 +43,7 @@ fun FormulaMilkSequenceLayout(
     Box(
         modifier = modifier
             .background(Color.Black)
+            .clickable(enabled = false) {}
     ) {
         Image(
             painter = painterResource(id = R.drawable.home_entrance_close_ic),

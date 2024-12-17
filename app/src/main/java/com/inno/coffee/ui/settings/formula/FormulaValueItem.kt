@@ -142,8 +142,8 @@ fun FormulaValueItem(
                 .width(543.dp)
                 .height(293.dp),
         ) {
-            VerticalScrollList2(list = formulaItemValues, minimumSize = 9, placeHolder = "",
-                scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
+            VerticalScrollList2(list = formulaItemValues, minimumSize = 9, extraSize = 2,
+                placeHolder = "", scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
                 scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
                 // IS THIS A GOOD WAY TO PREVENT EMPTY LIST?
                 if (formulaItemValues.isEmpty()) {
@@ -180,12 +180,6 @@ fun FormulaValueItem(
                     onClick = {
                         selectedValue = item
                         selectedName = name
-                    },
-                    extraItem1Click = {
-
-                    },
-                    extraItem2Click = {
-
                     },
                 )
             }
