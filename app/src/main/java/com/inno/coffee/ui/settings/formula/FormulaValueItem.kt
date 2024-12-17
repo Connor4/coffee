@@ -350,7 +350,16 @@ fun FormulaValueItem(
                     )
                 }
                 is FormulaItem.FormulaMilkSequence -> {
-                    FormulaMilkSequenceLayout(value)
+                    FormulaMilkSequenceLayout(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(top = 331.dp, end = 38.dp)
+                            .width(543.dp)
+                            .height(293.dp), value,
+                        onCloseClick = {
+                            selectedValue = null
+                        }
+                    )
                 }
             }
         }
