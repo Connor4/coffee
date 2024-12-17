@@ -39,6 +39,7 @@ import com.inno.coffee.utilities.FORMULA_PROPERTY_PRODUCT_TYPE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_STOP_TEMPERATURE
 import com.inno.coffee.utilities.FORMULA_PROPERTY_STOP_TIME
 import com.inno.coffee.utilities.FORMULA_PROPERTY_WATER_SEQUENCE
+import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.formulaProductTypeMultilingual
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
@@ -142,7 +143,9 @@ fun FormulaValueItem(
                 .width(543.dp)
                 .height(293.dp),
         ) {
-            VerticalScrollList2(list = formulaItemValues, minimumSize = 9, extraSize = 2,
+            val extraCount = findExtraCount(selectFormula)
+
+            VerticalScrollList2(list = formulaItemValues, minimumSize = 9, extraSize = extraCount,
                 placeHolder = "", scrollBarWidth = 14, scrollTrackHeight = 300, listPaddingEnd = 48,
                 scrollBarPaddingEnd = 0, listItemHeight = 52f) { index, item ->
                 // IS THIS A GOOD WAY TO PREVENT EMPTY LIST?
@@ -381,4 +384,21 @@ private fun getFormulaValue(
             }
         }
     }
+}
+
+private fun findExtraCount(
+    formula: Formula?,
+): Int {
+    return formula?.let {
+        formulaProperties.find { property ->
+            property.name == FORMULA_PROPERTY_MILK_SEQUENCE
+        }?.get(formula)?.let { propertyValue ->
+            val value = propertyValue as FormulaItem.FormulaMilkSequence
+            when {
+                value.foamTexture1 != INVALID_INT && value.foamTexture2 != INVALID_INT -> 2
+                value.foamTexture1 == INVALID_INT && value.foamTexture2 == INVALID_INT -> 0
+                else -> 1
+            }
+        } ?: 0
+    } ?: 0
 }

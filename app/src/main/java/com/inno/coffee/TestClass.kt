@@ -18,10 +18,11 @@ fun main() {
 //    val now = System.currentTimeMillis()
 //    println("milli : $epochMilli  now $now")
 
-    val short1: Short = 0
-    val short2: Short = 1
-    val mix = ((short1.toInt() and 0xFF) shl 8) or (short2.toInt() and 0xFF)
-    println("mix: $mix ")
+    val int = 10
+    val int2 = 7
+    val result = (int / int2.toFloat()).toFloat()
+    println("result $result")
+
 }
 
 
