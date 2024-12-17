@@ -53,10 +53,16 @@ fun FormulaMilkSequenceLayout(
     val copyValue by remember { mutableStateOf(value.copy()) }
     var itemCount by remember { mutableStateOf(0) }
     var selectedIndex by remember { mutableStateOf(INVALID_INT) }
+    var selectedValue by remember { mutableStateOf(0f) }
     var rangeStart by remember { mutableStateOf(0f) }
     var rangeEnd by remember { mutableStateOf(1f) }
     var unit by remember { mutableStateOf("") }
-    var selectedValue by remember { mutableStateOf(0f) }
+    var milkQuantity1 by remember { mutableStateOf(INVALID_INT) }
+    var milkQuantity2 by remember { mutableStateOf(INVALID_INT) }
+    var milkTemperature1 by remember { mutableStateOf(INVALID_INT) }
+    var milkTemperature2 by remember { mutableStateOf(INVALID_INT) }
+    var foamTexture1 by remember { mutableStateOf(INVALID_INT) }
+    var foamTexture2 by remember { mutableStateOf(INVALID_INT) }
 
     LaunchedEffect(copyValue) {
         itemCount = when {
@@ -64,32 +70,55 @@ fun FormulaMilkSequenceLayout(
             copyValue.milkQuantity1 == INVALID_INT && copyValue.milkQuantity2 == INVALID_INT -> 0
             else -> 1
         }
+        milkQuantity1 = copyValue.milkQuantity1
+        milkQuantity2 = copyValue.milkQuantity2
+        milkTemperature1 = copyValue.milkTemperature1
+        milkTemperature2 = copyValue.milkTemperature2
+        foamTexture1 = copyValue.foamTexture1
+        foamTexture2 = copyValue.foamTexture2
     }
 
-    Box(
-        modifier = modifier
-            .background(Color.Black)
-            .clickable(enabled = false) {}
-    ) {
+//    ListSelectLayout2("sss", "1",
+//        mapOf(Pair("1", "1"), Pair("2", "2")), { key, _ ->
+//        }, {
+//        }
+//    )
+
+    Box(modifier = modifier
+        .background(Color.Black)
+        .clickable(enabled = false) {}) {
         if (selectedIndex != INVALID_INT) {
             key(selectedValue) {
-                UnitValueScrollBar(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(end = 52.dp)
-                        .wrapContentSize(),
-                    value = selectedValue,
-                    rangeStart = rangeStart,
-                    rangeEnd = rangeEnd,
-                    unit = unit
-                ) { changeValue ->
+                UnitValueScrollBar(modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(end = 52.dp)
+                    .wrapContentSize(), value = selectedValue, rangeStart = rangeStart,
+                    rangeEnd = rangeEnd, unit = unit) { changeValue ->
                     when (selectedIndex) {
-                        0 -> copyValue.milkQuantity1 = changeValue.toInt()
-                        1 -> copyValue.milkTemperature1 = changeValue.toInt()
-                        2 -> copyValue.foamTexture1 = changeValue.toInt()
-                        3 -> copyValue.milkQuantity2 = changeValue.toInt()
-                        4 -> copyValue.milkTemperature2 = changeValue.toInt()
-                        5 -> copyValue.foamTexture2 = changeValue.toInt()
+                        0 -> {
+                            copyValue.milkQuantity1 = changeValue.toInt()
+                            milkQuantity1 = changeValue.toInt()
+                        }
+                        1 -> {
+                            copyValue.milkTemperature1 = changeValue.toInt()
+                            milkTemperature1 = changeValue.toInt()
+                        }
+                        2 -> {
+                            copyValue.foamTexture1 = changeValue.toInt()
+                            foamTexture1 = changeValue.toInt()
+                        }
+                        3 -> {
+                            copyValue.milkQuantity2 = changeValue.toInt()
+                            milkQuantity2 = changeValue.toInt()
+                        }
+                        4 -> {
+                            copyValue.milkTemperature2 = changeValue.toInt()
+                            milkTemperature2 = changeValue.toInt()
+                        }
+                        5 -> {
+                            copyValue.foamTexture2 = changeValue.toInt()
+                            foamTexture2 = changeValue.toInt()
+                        }
                     }
                     onValueChange(copyValue)
                 }
@@ -114,18 +143,15 @@ fun FormulaMilkSequenceLayout(
                         .height(45.dp)
                         .padding(bottom = 2.dp)
                         .background(color = bgColor2)
-                        .debouncedClickable({
-                        }),
+                        .debouncedClickable({}),
                 ) {
                     Text(text = "#1", fontSize = 7.nsp(), color = Color.White,
                         textAlign = TextAlign.Start,
                         modifier = Modifier
                             .align(Alignment.CenterStart)
-                            .padding(start = 19.dp)
-                    )
+                            .padding(start = 19.dp))
                     if (itemCount != 2) {
-                        Image(
-                            painter = painterResource(R.drawable.temp_add_ic),
+                        Image(painter = painterResource(R.drawable.temp_add_ic),
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
@@ -137,21 +163,25 @@ fun FormulaMilkSequenceLayout(
                                         copyValue.milkTemperature1 =
                                             copyValue.defaultMilkTemperature
                                         copyValue.foamTexture1 = copyValue.defaultFoamTexture
+                                        milkQuantity1 = copyValue.defaultMilkQuantity
+                                        milkTemperature1 = copyValue.defaultMilkTemperature
+                                        foamTexture1 = copyValue.defaultFoamTexture
                                     } else {
                                         copyValue.milkQuantity2 = copyValue.defaultMilkQuantity
                                         copyValue.milkTemperature2 =
                                             copyValue.defaultMilkTemperature
                                         copyValue.foamTexture2 = copyValue.defaultFoamTexture
+                                        milkQuantity2 = copyValue.defaultMilkQuantity
+                                        milkTemperature2 = copyValue.defaultMilkTemperature
+                                        foamTexture2 = copyValue.defaultFoamTexture
                                     }
                                     itemCount++
                                     selectedIndex = INVALID_INT
                                     onValueChange(copyValue)
-                                }
-                        )
+                                })
                     }
                     if (itemCount == 1) {
-                        Image(
-                            painter = painterResource(R.drawable.temp_minus_ic),
+                        Image(painter = painterResource(R.drawable.temp_minus_ic),
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
@@ -170,29 +200,26 @@ fun FormulaMilkSequenceLayout(
                                     itemCount--
                                     selectedIndex = INVALID_INT
                                     onValueChange(copyValue)
-                                }
-                        )
+                                })
                     }
                 }
                 if (itemCount != 0) {
                     Column {
-                        Item(selectedIndex == 0, bgColor1, quantity, copyValue.milkQuantity1,
-                            "[s]") {
+                        Item(selectedIndex == 0, bgColor1, quantity, milkQuantity1, "[s]") {
                             selectedValue = copyValue.milkQuantity1.toFloat()
                             rangeStart = 0f
                             rangeEnd = 100f
                             unit = "[s]"
                             selectedIndex = 0
                         }
-                        Item(selectedIndex == 1, bgColor2, temperature, copyValue.milkTemperature1,
-                            "") {
+                        Item(selectedIndex == 1, bgColor2, temperature, milkTemperature1, "") {
                             selectedValue = copyValue.milkTemperature1.toFloat()
                             rangeStart = 0f
                             rangeEnd = 1f
                             unit = ""
                             selectedIndex = 1
                         }
-                        Item(selectedIndex == 2, bgColor1, texture, copyValue.foamTexture1, "") {
+                        Item(selectedIndex == 2, bgColor1, texture, foamTexture1, "") {
                             selectedValue = copyValue.foamTexture1.toFloat()
                             rangeStart = 0f
                             rangeEnd = 100f
@@ -213,15 +240,12 @@ fun FormulaMilkSequenceLayout(
                             .background(color = bgColor2)
                             .debouncedClickable({}),
                     ) {
-                        Text(
-                            text = "#2", fontSize = 7.nsp(), color = Color.White,
+                        Text(text = "#2", fontSize = 7.nsp(), color = Color.White,
                             textAlign = TextAlign.Start,
                             modifier = Modifier
                                 .align(Alignment.CenterStart)
-                                .padding(start = 19.dp)
-                        )
-                        Image(
-                            painter = painterResource(R.drawable.temp_minus_ic),
+                                .padding(start = 19.dp))
+                        Image(painter = painterResource(R.drawable.temp_minus_ic),
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
@@ -234,28 +258,24 @@ fun FormulaMilkSequenceLayout(
                                     itemCount--
                                     selectedIndex = INVALID_INT
                                     onValueChange(copyValue)
-                                }
-                        )
+                                })
                     }
                     Column {
-                        Item(selectedIndex == 3, bgColor1, quantity, copyValue.milkQuantity2,
-                            "[s]") {
+                        Item(selectedIndex == 3, bgColor1, quantity, milkQuantity2, "[s]") {
                             selectedValue = copyValue.milkQuantity2.toFloat()
                             rangeStart = 0f
                             rangeEnd = 100f
                             unit = "[s]"
                             selectedIndex = 3
                         }
-                        Item(selectedIndex == 4, bgColor2, temperature, copyValue.milkTemperature2,
-                            "") {
+                        Item(selectedIndex == 4, bgColor2, temperature, milkTemperature2, "") {
                             selectedValue = copyValue.milkTemperature2.toFloat()
                             rangeStart = 0f
                             rangeEnd = 1f
                             unit = ""
                             selectedIndex = 4
                         }
-                        Item(selectedIndex == 5, bgColor1, texture, copyValue.foamTexture2,
-                            "") {
+                        Item(selectedIndex == 5, bgColor1, texture, foamTexture2, "") {
                             selectedValue = copyValue.foamTexture2.toFloat()
                             rangeStart = 0f
                             rangeEnd = 100f
@@ -288,30 +308,19 @@ private fun Item(
         textColor = Color.White
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(32.dp)
-            .padding(bottom = 2.dp)
-            .background(color = selectedColor)
-            .debouncedClickable({ onClick() }),
-        contentAlignment = Alignment.CenterStart
-    ) {
-        Text(
-            text = description, fontSize = 5.nsp(), color = textColor,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(start = 19.dp)
-        )
-        Text(
-            text = "$value", fontSize = 5.nsp(),
-            color = textColor, textAlign = TextAlign.Center,
-            modifier = Modifier.padding(start = 255.dp)
-        )
-        Text(
-            text = unit, fontSize = 5.nsp(), color = textColor,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(start = 385.dp)
-        )
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(32.dp)
+        .padding(bottom = 2.dp)
+        .background(color = selectedColor)
+        .debouncedClickable({ onClick() }),
+        contentAlignment = Alignment.CenterStart) {
+        Text(text = description, fontSize = 5.nsp(), color = textColor,
+            textAlign = TextAlign.Center, modifier = Modifier.padding(start = 19.dp))
+        Text(text = "$value", fontSize = 5.nsp(), color = textColor, textAlign = TextAlign.Center,
+            modifier = Modifier.padding(start = 255.dp))
+        Text(text = unit, fontSize = 5.nsp(), color = textColor, textAlign = TextAlign.Center,
+            modifier = Modifier.padding(start = 385.dp))
     }
 }
 
@@ -321,8 +330,8 @@ private fun Item(
 private fun PreviewFormulaMilkSequenceLayout() {
     FormulaMilkSequenceLayout(modifier = Modifier
         .width(543.dp)
-        .height(293.dp), FormulaItem.FormulaMilkSequence(defaultMilkQuantity = 1,
-        defaultMilkTemperature = 1, defaultFoamTexture = 1,
-        milkQuantity1 = 1, milkQuantity2 = 1, milkTemperature1 = 1, milkTemperature2 = 2,
-        foamTexture1 = 1, foamTexture2 = 2))
+        .height(293.dp),
+        FormulaItem.FormulaMilkSequence(defaultMilkQuantity = 1, defaultMilkTemperature = 1,
+            defaultFoamTexture = 1, milkQuantity1 = 1, milkQuantity2 = 1, milkTemperature1 = 1,
+            milkTemperature2 = 2, foamTexture1 = 1, foamTexture2 = 2))
 }
