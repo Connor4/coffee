@@ -352,9 +352,20 @@ fun FormulaValueItem(
                             .align(Alignment.TopEnd)
                             .padding(top = 331.dp, end = 38.dp)
                             .width(543.dp)
-                            .height(293.dp), value,
+                            .height(293.dp),
+                        value = value,
                         onCloseClick = {
                             selectedValue = null
+                        },
+                        onValueChange = { changeValue ->
+                            value.milkQuantity1 = changeValue.milkQuantity1
+                            value.milkTemperature1 = changeValue.milkTemperature1
+                            value.foamTexture1 = changeValue.foamTexture1
+                            value.milkQuantity2 = changeValue.milkQuantity2
+                            value.milkTemperature2 = changeValue.milkTemperature2
+                            value.foamTexture2 = changeValue.foamTexture2
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
                         }
                     )
                 }
