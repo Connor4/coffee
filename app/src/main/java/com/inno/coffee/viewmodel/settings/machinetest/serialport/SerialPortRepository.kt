@@ -1,4 +1,4 @@
-package com.inno.coffee.viewmodel.serialport
+package com.inno.coffee.viewmodel.settings.machinetest.serialport
 
 import com.inno.serialport.core.SerialPortFinder
 import com.inno.serialport.function.SerialPortDataManager

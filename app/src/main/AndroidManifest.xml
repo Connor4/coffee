@@ -52,7 +52,7 @@
         <activity android:name=".ui.settings.statistics.machine.StatisticMachineActivity" />
         <activity android:name=".ui.settings.statistics.history.StatisticHistoryActivity" />
         <activity android:name=".ui.settings.formula.FormulaActivity" />
-        <activity android:name=".ui.settings.serialtest.SerialPortActivity" />
+        <activity android:name=".ui.settings.machinetest.serialtest.SerialPortActivity" />
         <activity android:name=".ui.settings.display.DisplayActivity" />
         <activity android:name=".ui.settings.display.groupone.DisplaySettingActivity" />
         <activity android:name=".ui.settings.config.MachineConfigActivity" />

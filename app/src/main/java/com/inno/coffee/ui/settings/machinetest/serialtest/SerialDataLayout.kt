@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.serialtest
+package com.inno.coffee.ui.settings.machinetest.serialtest
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.fastclick
-import com.inno.coffee.viewmodel.serialport.SerialPortViewModel
+import com.inno.coffee.viewmodel.settings.machinetest.serialport.SerialPortViewModel
 import com.inno.serialport.utilities.ReceivedData
 
 @Composable

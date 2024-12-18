@@ -1,4 +1,4 @@
-package com.inno.coffee.viewmodel.serialport
+package com.inno.coffee.viewmodel.settings.machinetest.serialport
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

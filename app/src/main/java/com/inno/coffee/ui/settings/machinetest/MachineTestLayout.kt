@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.fastclick
-import com.inno.coffee.ui.settings.serialtest.SerialPortActivity
+import com.inno.coffee.ui.settings.machinetest.serialtest.SerialPortActivity
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_ACTIVITY
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_COFFEE_INPUTS
 import com.inno.coffee.utilities.MACHINE_TEST_KEY_COFFEE_OUTPUTS

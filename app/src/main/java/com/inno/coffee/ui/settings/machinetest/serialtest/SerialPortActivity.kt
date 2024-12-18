@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.serialtest
+package com.inno.coffee.ui.settings.machinetest.serialtest
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
