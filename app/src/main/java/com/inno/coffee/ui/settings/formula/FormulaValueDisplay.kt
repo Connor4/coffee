@@ -22,8 +22,10 @@ import com.inno.coffee.utilities.nsp
 
 @Composable
 fun FormulaValuesDisplay(
+    main: Boolean = true,
     leftCoffee: String = "0",
     rightCoffee: String = "0",
+    milk: String = "0",
     wand: String = "0",
     steam: String = "0",
     flow: Int = 0,
@@ -40,14 +42,16 @@ fun FormulaValuesDisplay(
             Column(
                 modifier = Modifier.align(Alignment.CenterVertically)
             ) {
+                val text = if (main) R.string.home_left_boiler_temperature
+                else R.string.home_right_boiler_temperature
                 Text(
-                    text = stringResource(id = R.string.home_left_boiler_temperature),
+                    text = stringResource(id = text),
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = stringResource(id = R.string.home_right_boiler_temperature),
+                    text = stringResource(id = R.string.home_milk_temperature),
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
@@ -55,15 +59,16 @@ fun FormulaValuesDisplay(
             Column(
                 modifier = Modifier.align(Alignment.CenterVertically)
             ) {
+                val temp = if (main) leftCoffee else rightCoffee
                 Text(
-                    text = " $leftCoffee",
+                    text = " $temp",
                     fontSize = 4.nsp(),
                     color = Color.White,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = " $rightCoffee",
+                    text = " $milk",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )

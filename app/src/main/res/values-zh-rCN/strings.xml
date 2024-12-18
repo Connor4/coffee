@@ -178,6 +178,7 @@
     <string name="home_item_double_latte_macchiato">2x 拿铁玛奇朵</string>
     <string name="home_left_boiler_temperature">左边咖啡锅炉: </string>
     <string name="home_right_boiler_temperature">右边咖啡锅炉: </string>
+    <string name="home_milk_temperature">"牛奶: "</string>
     <string name="home_steam_boiler_temperature">蒸汽锅炉: %d°C</string>
     <string name="home_steam_boiler_pressure">蒸汽锅炉压力: %dbar</string>
     <string name="home_process_status_brewing">正在研磨</string>

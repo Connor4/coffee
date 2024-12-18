@@ -186,6 +186,7 @@
     <string name="home_item_double_es_macchiato">2x Espresso Macch.</string>
     <string name="home_left_boiler_temperature">Left Coffee Boiler: </string>
     <string name="home_right_boiler_temperature">Right Coffee Boiler: </string>
+    <string name="home_milk_temperature">Milk: </string>
     <string name="home_steam_boiler_temperature">Steam Boiler: %d°C</string>
     <string name="home_steam_boiler_pressure">Steam Boiler Pressure: %dbar</string>
     <string name="home_process_status_brewing">Brewing</string>
