@@ -127,4 +127,14 @@ class Converters {
         return Json.decodeFromString(value)
     }
 
+    @TypeConverter
+    fun fromFormulaTemperatureValue(value: FormulaItem.FormulaTemperatureValue): String {
+        return Json.encodeToString(value)
+    }
+
+    @TypeConverter
+    fun toFormulaTemperatureValue(value: String): FormulaItem.FormulaTemperatureValue {
+        return Json.decodeFromString(value)
+    }
+
 }

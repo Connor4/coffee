@@ -27,10 +27,10 @@ data class Formula(
     var bypassWater: FormulaItem.FormulaUnitValue? = null, // Boiler
     //=============================steam=====================================
     val manualFoamTime: FormulaItem.FormulaUnitValue? = null,
-    val autoFoamTemperature: FormulaItem.FormulaUnitValue? = null,
+    val autoFoamTemperature: FormulaItem.FormulaTemperatureValue? = null,
     var foamMode: FormulaItem.FormulaFoamMode? = null,
     var stopAirTime: FormulaItem.FormulaUnitValue? = null,
-    var stopAirTemperature: FormulaItem.FormulaUnitValue? = null,
+    var stopAirTemperature: FormulaItem.FormulaTemperatureValue? = null,
     var texture: FormulaItem.FormulaUnitValue? = null,
     var mixHotWater: Short = 0,
     var cleanWand: Short = 0,
@@ -137,6 +137,14 @@ sealed class FormulaItem {
     @Serializable
     data class FormulaMilkOutput(
         var output: Boolean,
+    )
+
+    @Serializable
+    data class FormulaTemperatureValue(
+        var celsiusValue: Short,
+        var celsiusRangeStart: Int,
+        var celsiusRangeEnd: Int,
+        var celsiusUnit: String,
     )
 
     @Serializable

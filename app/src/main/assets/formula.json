@@ -46,10 +46,10 @@
     "preFlush": false,
     "postFlush": false,
     "autoFoamTemperature": {
-      "value": 50,
-      "rangeStart": 1,
-      "rangeEnd": 100,
-      "unit": "[°C/°F]"
+      "celsiusValue": 50,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
     },
     "foamMode": {
       "mode": false
@@ -61,10 +61,10 @@
       "unit": "[s]"
     },
     "stopAirTemperature": {
-      "value": 50,
-      "rangeStart": 10,
-      "rangeEnd": 80,
-      "unit": "[°C/°F]"
+      "celsiusValue": 50,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
     },
     "texture": {
       "value": 0,
@@ -535,10 +535,10 @@
     "preFlush": false,
     "postFlush": false,
     "autoFoamTemperature": {
-      "value": 50,
-      "rangeStart": 1,
-      "rangeEnd": 100,
-      "unit": "[°C/°F]"
+      "celsiusValue": 50,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
     },
     "steamBoiler": 1,
     "waterPump": 1,
@@ -1295,10 +1295,10 @@
     "preFlush": false,
     "postFlush": false,
     "autoFoamTemperature": {
-      "value": 50,
-      "rangeStart": 1,
-      "rangeEnd": 100,
-      "unit": "[°C/°F]"
+      "celsiusValue": 50,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
     },
     "foamMode": {
       "mode": false
@@ -1310,10 +1310,10 @@
       "unit": "[s]"
     },
     "stopAirTemperature": {
-      "value": 50,
-      "rangeStart": 10,
-      "rangeEnd": 80,
-      "unit": "[°C/°F]"
+      "celsiusValue": 50,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
     },
     "texture": {
       "value": 0,
@@ -1784,10 +1784,10 @@
     "preFlush": false,
     "postFlush": false,
     "autoFoamTemperature": {
-      "value": 60,
-      "rangeStart": 1,
-      "rangeEnd": 100,
-      "unit": "[°C/°F]"
+      "celsiusValue": 50,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
     },
     "steamBoiler": 1,
     "waterPump": 1,

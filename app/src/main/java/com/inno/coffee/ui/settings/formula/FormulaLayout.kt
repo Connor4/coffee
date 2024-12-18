@@ -51,6 +51,7 @@ fun FormulaLayout(
     val milkTemp by viewModel.milkTemp.collectAsState()
     val wandTemp by viewModel.wandTemp.collectAsState()
     val steamTemp by viewModel.steamTemp.collectAsState()
+    val tempUnit by viewModel.tempUnit.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadDrinkTypeList(mainScreen)
@@ -86,7 +87,7 @@ fun FormulaLayout(
         }
         FormulaValuesDisplay(main = mainScreen, leftCoffee = leftTemp, rightCoffee = rightTemp,
             milk = milkTemp, wand = wandTemp, steam = steamTemp)
-        FormulaValueItem(selectFormula, onValueChange = {
+        FormulaValueItem(isFahrenheit = tempUnit, selectFormula = selectFormula, onValueChange = {
             selectFormula?.let {
                 viewModel.updateFormula(it)
             }

@@ -104,6 +104,7 @@ private val formulaPropertyStringMapping = mapOf(
 
 @Composable
 fun FormulaValueItem(
+    isFahrenheit: Boolean,
     selectFormula: Formula?,
     onValueChange: () -> Unit,
     onProductTest: () -> Unit,
@@ -156,8 +157,9 @@ fun FormulaValueItem(
                 val color = if (index % 2 == 0) Color(0xFF191A1D) else Color(0xFF2A2B2D)
 
                 if (formulaItemValues.size <= index) {
-                    FormulaItem(backgroundColor = color, selected = false, description = "",
-                        value = "")
+                    FormulaItem(isFahrenheit = isFahrenheit, backgroundColor = color,
+                        selected = false,
+                        description = "", value = "")
                     return@VerticalScrollList2
                 }
 
@@ -166,7 +168,8 @@ fun FormulaValueItem(
                 val label = stringResource(labelResId!!)
 
                 FormulaItem(
-                    backgroundColor = color, selected = selectedValue == item,
+                    isFahrenheit = isFahrenheit, backgroundColor = color,
+                    selected = selectedValue == item,
                     description = label, value = item,
                     onClick = {
                         selectedValue = item
@@ -191,6 +194,26 @@ fun FormulaValueItem(
                             unit = value.unit
                         ) { changeValue ->
                             value.value = changeValue.toInt().toShort()
+                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+                            onValueChange()
+                        }
+                    }
+                }
+                is FormulaItem.FormulaTemperatureValue -> {
+                    key(value) {
+                        UnitValueScrollBar(
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .align(Alignment.TopEnd)
+                                .padding(top = 250.dp, end = 90.dp),
+                            value = temperatureConvertFloat(isFahrenheit,
+                                value.celsiusValue.toInt()),
+                            rangeStart = temperatureConvertFloat(isFahrenheit,
+                                value.celsiusRangeStart),
+                            rangeEnd = temperatureConvertFloat(isFahrenheit, value.celsiusRangeEnd),
+                            unit = if (isFahrenheit) "°F" else "°C"
+                        ) { changeValue ->
+                            value.celsiusValue = temperatureRevert(isFahrenheit, changeValue)
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                             onValueChange()
                         }
@@ -414,4 +437,21 @@ private fun findExtraCount(
             }
         } ?: 0
     } ?: 0
+}
+
+private fun temperatureConvertFloat(isFahrenheit: Boolean, celsius: Int): Float {
+    return if (isFahrenheit) {
+        ((celsius * 9 / 5) + 32).toFloat()
+    } else {
+        celsius.toFloat()
+    }
+}
+
+private fun temperatureRevert(isFahrenheit: Boolean, value: Float): Short {
+    val result = if (isFahrenheit) {
+        Math.round((value - 32) * 5 / 9)
+    } else {
+        Math.round(value)
+    }
+    return result.toShort()
 }

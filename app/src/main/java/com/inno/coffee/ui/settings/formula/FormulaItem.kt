@@ -25,6 +25,7 @@ import com.inno.common.db.entity.FormulaItem
 
 @Composable
 fun FormulaItem(
+    isFahrenheit: Boolean,
     backgroundColor: Color,
     selected: Boolean,
     description: String,
@@ -195,6 +196,15 @@ fun FormulaItem(
                         if (value.output) stringResource(R.string.formula_milk_output_coffee_outlet)
                         else stringResource(R.string.formula_milk_output_milk_arm)
                 }
+                is FormulaItem.FormulaTemperatureValue -> {
+                    textValue = temperatureConvert(isFahrenheit, value.celsiusValue.toInt())
+                    Text(
+                        text = if (isFahrenheit) "[°F]" else "[°C]", fontSize = 5.nsp(), color =
+                        textColor,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(start = 385.dp)
+                    )
+                }
                 else -> {
                     textValue = value.toString()
                 }
@@ -207,4 +217,13 @@ fun FormulaItem(
         }
     }
 
+}
+
+private fun temperatureConvert(isFahrenheit: Boolean, celsius: Int): String {
+    return if (isFahrenheit) {
+        val tmp = (celsius * 9 / 5) + 32
+        String.format("%d°F", tmp)
+    } else {
+        String.format("%d°C", celsius)
+    }
 }

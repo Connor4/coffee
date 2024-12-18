@@ -57,6 +57,7 @@ class FormulaViewModel @Inject constructor(
     private val _formula = MutableStateFlow<Formula?>(null)
     val formula = _formula.asStateFlow()
     private val _tempUnit = MutableStateFlow(false)
+    val tempUnit = _tempUnit
     private val _leftTemp = MutableStateFlow(0)
     val leftTemp = temperatureDisplayFlow(_leftTemp)
     private val _rightTemp = MutableStateFlow(0)
