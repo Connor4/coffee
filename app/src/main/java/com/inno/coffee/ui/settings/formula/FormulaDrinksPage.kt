@@ -45,48 +45,45 @@ fun FormulaDrinkPage(
     drinksTypeList: List<Formula>,
     onDrinkItemClick: (model: Formula) -> Unit,
 ) {
-    val PAGE_COUNT = 10
+    val pageCount = 10
 
     Box {
         Box(
-            modifier = Modifier.padding(start = 219.dp, top = 198.dp)
+            modifier = Modifier
+                .padding(start = 219.dp, top = 198.dp)
+                .width(200.dp)
+                .height(180.dp)
+                .border(1.dp, Color(0xFF484848), RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(20.dp))
+                .background(color = Color(0xFF191A1D)),
         ) {
-            Box(
+            val drawableRes = selectedFormula?.imageRes ?: "drink_item_empty_ic"
+            Image(
+                painter = painterResource(id = getImageResId(drawableRes)),
+                contentDescription = null,
+                contentScale = ContentScale.Inside,
                 modifier = Modifier
-                    .width(200.dp)
-                    .height(180.dp)
-                    .border(1.dp, Color(0xFF484848), RoundedCornerShape(20.dp))
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(color = Color(0xFF191A1D)),
-            ) {
-                val drawableRes = selectedFormula?.imageRes ?: "drink_item_empty_ic"
-                Image(
-                    painter = painterResource(id = getImageResId(drawableRes)),
-                    contentDescription = null,
-                    contentScale = ContentScale.Inside,
-                    modifier = Modifier
-                        .width(80.dp)
-                        .height(60.dp)
-                        .align(Alignment.TopCenter)
-                        .offset(y = 40.dp),
-                )
-                val name = if (!selectedFormula?.productName?.name.isNullOrBlank()) {
-                    selectedFormula?.productName?.name
-                } else if (!selectedFormula?.productName?.nameRes.isNullOrBlank()) {
-                    stringResource(getStringResId(selectedFormula?.productName?.nameRes!!))
-                } else {
-                    stringResource(R.string.common_empty_string)
-                }
-                Text(
-                    text = name!!,
-                    fontSize = 6.nsp(),
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .offset(y = 129.dp)
-                )
+                    .width(80.dp)
+                    .height(60.dp)
+                    .align(Alignment.TopCenter)
+                    .offset(y = 40.dp),
+            )
+            val name = if (!selectedFormula?.productName?.name.isNullOrBlank()) {
+                selectedFormula?.productName?.name
+            } else if (!selectedFormula?.productName?.nameRes.isNullOrBlank()) {
+                stringResource(getStringResId(selectedFormula?.productName?.nameRes!!))
+            } else {
+                stringResource(R.string.common_empty_string)
             }
+            Text(
+                text = name!!,
+                fontSize = 6.nsp(),
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .offset(y = 129.dp)
+            )
         }
 
         Box(
@@ -101,8 +98,8 @@ fun FormulaDrinkPage(
                     .height(260.dp),
                 state = pagerState
             ) { page ->
-                val fromIndex = page * PAGE_COUNT
-                val toIndex = minOf(fromIndex + PAGE_COUNT, drinksTypeList.size)
+                val fromIndex = page * pageCount
+                val toIndex = minOf(fromIndex + pageCount, drinksTypeList.size)
                 val currentList = drinksTypeList.subList(fromIndex, toIndex)
                 FlowRow(
                     modifier = Modifier
@@ -158,7 +155,7 @@ private fun FormulaDrinkItem(
                 modifier = Modifier.size(101.dp)
             )
         }
-        val drawableRes = model.imageRes ?: "drink_item_empty_ic"
+        val drawableRes = model.imageRes
         Image(
             painter = painterResource(id = getImageResId(drawableRes)),
             contentDescription = null,
