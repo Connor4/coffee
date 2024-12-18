@@ -25,7 +25,6 @@ import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_POWDER_DOSAGE
 import com.inno.coffee.utilities.FORMULA_SHOW_LEARN_WATER
 import com.inno.coffee.utilities.FORMULA_SHOW_POWDER_TEST
-import com.inno.common.utils.Logger
 
 @Composable
 fun FormulaFunctionButton(
@@ -33,7 +32,6 @@ fun FormulaFunctionButton(
     onLearn: (Int) -> Unit,
     onProductTest: () -> Unit,
 ) {
-    Logger.d("FormulaFunctionButton() called $selectedName")
     var index = -1
     val showText = when (selectedName) {
         FORMULA_PROPERTY_COFFEE_WATER -> {

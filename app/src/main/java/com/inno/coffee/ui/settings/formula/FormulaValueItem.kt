@@ -165,18 +165,6 @@ fun FormulaValueItem(
                 val labelResId = formulaPropertyStringMapping[name]
                 val label = stringResource(labelResId!!)
 
-                if (name == FORMULA_PROPERTY_STOP_TIME || name == FORMULA_PROPERTY_STOP_TEMPERATURE) {
-                    val showItem = when (name) {
-                        FORMULA_PROPERTY_STOP_TIME -> selectFormula?.foamMode?.mode != false
-                        FORMULA_PROPERTY_STOP_TEMPERATURE -> selectFormula?.foamMode?.mode == false
-                        else -> true
-                    }
-
-                    if (!showItem) {
-                        return@VerticalScrollList2
-                    }
-                }
-
                 FormulaItem(
                     backgroundColor = color, selected = selectedValue == item,
                     description = label, value = item,
@@ -381,15 +369,29 @@ private fun getFormulaValue(
     formula?.let {
         nameList.clear()
         valueList.clear()
+        var foamMode = INVALID_INT
+
         formulaPropertyNames.forEach { propertyName ->
+            if (propertyName == FORMULA_PROPERTY_STOP_TIME && foamMode == 1) {
+                return@forEach
+            }
+            if (propertyName == FORMULA_PROPERTY_STOP_TEMPERATURE && foamMode == 0) {
+                return@forEach
+            }
+
             val property = formulaProperties.find { property ->
                 property.name == propertyName
             }
             val propertyValue = property?.get(formula) ?: ""
             if (propertyValue != "") {
-                Logger.d("FormulaValueItem",
-                    "getFormulaValue() called with: propertyName = $propertyName value " +
-                            "$propertyValue")
+                Logger.d("FormulaValueItem", "getFormulaValue() called with:" +
+                        " propertyName = $propertyName value $propertyValue")
+
+                if (propertyName == FORMULA_PROPERTY_FOAM_MODE) {
+                    val foamValue = propertyValue as FormulaItem.FormulaFoamMode
+                    foamMode = if (foamValue.mode) 0 else 1
+                }
+
                 nameList.add(propertyName)
                 valueList.add(propertyValue)
             }
