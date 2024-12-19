@@ -53,7 +53,7 @@ class StatisticProductViewModel @Inject constructor(
             val startTime = localDateTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
             val endTime = System.currentTimeMillis()
             getProductCount(_drinksList.value.first().productId)
-            _time.value = TimeUtils.getFullFormat(localDateTime)
+            _time.value = TimeUtils.getYearMonthDayFormat(localDateTime)
             _typeCounts.value = repository.getTypeCountsByTime(startTime, endTime)
         }
     }
@@ -63,7 +63,7 @@ class StatisticProductViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             val nowTime = LocalDateTime.now()
             val startTime = nowTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
-            _time.value = TimeUtils.getFullFormat(nowTime)
+            _time.value = TimeUtils.getYearMonthDayFormat(nowTime)
             _typeCounts.value = repository.getTypeCountsByTime(startTime, startTime)
             getProductCount(_drinksList.value.first().productId)
             dataStore.saveLastResetProductTime(nowTime.toString())
