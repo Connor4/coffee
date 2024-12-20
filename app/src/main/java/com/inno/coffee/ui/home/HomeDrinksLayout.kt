@@ -32,6 +32,7 @@ import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.home.selfcheck.ReleaseSteamLayout
 import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_12
 import com.inno.coffee.viewmodel.home.HomeViewModel
+import com.inno.common.enums.ProductType
 import kotlinx.coroutines.delay
 
 private const val PAGE_WAIT_TIME = 10000L
@@ -40,6 +41,7 @@ private const val PAGE_WAIT_TIME = 10000L
 @Composable
 fun HomeDrinksLayout(
     viewModel: HomeViewModel = hiltViewModel(),
+    onShowRinseDialog: () -> Unit = {},
 ) {
     val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
     val size by if (mainScreen) {
@@ -103,11 +105,21 @@ fun HomeDrinksLayout(
                         val enable = viewModel.enableMask(drinkModel, executingQueue)
                         val select = viewModel.enableSelect(mainScreen, drinkModel)
 
-                        DrinkItem(model = drinkModel, enableMask = enable, selected = select,
+                        DrinkItem(
+                            model = drinkModel, enableMask = enable, selected = select,
                             normalSize = normalSize, showProductName = true,
-                            showProductPrice = showProductPrice) {
-                            viewModel.startMakeDrink(drinkModel, mainScreen)
-                        }
+                            showProductPrice = showProductPrice,
+                            onDrinkClick = {
+                                viewModel.startMakeDrink(drinkModel, mainScreen)
+                            },
+                            onDrinkLongClick = {
+                                val showRinse = ProductType.assertType(drinkModel.productType?.type,
+                                    ProductType.RINSE)
+                                if (showRinse) {
+                                    onShowRinseDialog()
+                                }
+                            }
+                        )
                     }
                 }
             }

@@ -57,10 +57,10 @@ fun ReleaseSteamLayout(
                 normalSize = normalSize,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .padding(top = 165.dp)
-            ) {
-                onReleaseSteamClick()
-            }
+                    .padding(top = 165.dp),
+                onDrinkClick = { onReleaseSteamClick() }
+            )
+
             Text(
                 modifier = Modifier
                     .align(Alignment.TopCenter)

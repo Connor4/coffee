@@ -5,7 +5,9 @@ import android.content.Context
 import android.graphics.Rect
 import android.os.SystemClock
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
@@ -50,26 +52,55 @@ fun Modifier.debouncedClickable(onClick: () -> Unit, enabled: Boolean = true, de
     }
 
 @SuppressLint("ModifierFactoryUnreferencedReceiver")
-fun Modifier.debouncedClickableWithoutRipple(onClick: () -> Unit, enabled: Boolean = true,
-    delay: Long = 300) =
-    composed {
-        var clicked by remember {
-            mutableStateOf(!enabled)
-        }
-        LaunchedEffect(key1 = clicked) {
-            if (clicked) {
-                delay(delay)
-                clicked = !clicked
-            }
-        }
-        Modifier.clickable(indication = null, enabled = if (enabled) !clicked else false,
-            interactionSource = remember {
-                MutableInteractionSource()
-            }) {
+fun Modifier.debouncedClickableWithoutRipple(
+    onClick: () -> Unit, enabled: Boolean = true,
+    delay: Long = 300,
+) = composed {
+    var clicked by remember {
+        mutableStateOf(!enabled)
+    }
+    LaunchedEffect(key1 = clicked) {
+        if (clicked) {
+            delay(delay)
             clicked = !clicked
-            onClick()
         }
     }
+    Modifier.clickable(indication = null, enabled = if (enabled) !clicked else false,
+        interactionSource = remember {
+            MutableInteractionSource()
+        }) {
+        clicked = !clicked
+        onClick()
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+fun Modifier.debouncedClickAndLongClickWithoutRipple(
+    onClick: () -> Unit, onLongClick: () -> Unit,
+    enabled: Boolean = true, delay: Long = 300,
+) = composed {
+    var clicked by remember {
+        mutableStateOf(!enabled)
+    }
+    LaunchedEffect(key1 = clicked) {
+        if (clicked) {
+            delay(delay)
+            clicked = !clicked
+        }
+    }
+    Modifier.combinedClickable(
+        indication = null,
+        enabled = if (enabled) !clicked else false,
+        interactionSource = remember {
+            MutableInteractionSource()
+        },
+        onClick = {
+            clicked = !clicked
+            onClick()
+        },
+        onLongClick = { onLongClick() }
+    )
+}
 
 
 /**

@@ -208,6 +208,7 @@
     <string name="home_release_steam_attention">ATTENTION</string>
     <string name="home_release_steam_activated">Steam will be activated!</string>
     <string name="home_release_steam_wait">Releasing steam, please wait…</string>
+    <string name="home_confirm_rinse_description">Confirm to Rinse</string>
 
     <string name="settings_title">Machine Settings</string>
 

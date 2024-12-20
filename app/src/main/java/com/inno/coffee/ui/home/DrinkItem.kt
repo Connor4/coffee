@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.MaskBoxWithContent
-import com.inno.coffee.ui.common.debouncedClickableWithoutRipple
+import com.inno.coffee.ui.common.debouncedClickAndLongClickWithoutRipple
 import com.inno.coffee.utilities.getImageResId
 import com.inno.coffee.utilities.getStringResId
 import com.inno.coffee.utilities.nsp
@@ -40,6 +40,7 @@ fun DrinkItem(
     showProductPrice: Boolean = false,
     normalSize: Boolean = true,
     onDrinkClick: () -> Unit = {},
+    onDrinkLongClick: () -> Unit = {},
 ) {
     val totalWidth: Int
     val totalHeight: Int
@@ -70,7 +71,14 @@ fun DrinkItem(
         modifier = modifier
             .width(totalWidth.dp)
             .height(totalHeight.dp)
-            .debouncedClickableWithoutRipple({ onDrinkClick() }, enabled = !enableMask),
+            .debouncedClickAndLongClickWithoutRipple(
+                enabled = !enableMask,
+                onClick = {
+                    onDrinkClick()
+                },
+                onLongClick = {
+                    onDrinkLongClick()
+                }),
         contentAlignment = Alignment.Center,
     ) {
         if (selected) {

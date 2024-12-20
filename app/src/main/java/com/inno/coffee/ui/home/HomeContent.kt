@@ -59,6 +59,7 @@ fun HomeContent(
     var showCleanDialog by remember { mutableStateOf(false) }
     var showInfoDialog by remember { mutableStateOf(false) }
     var showStandByModeDialog by remember { mutableStateOf(false) }
+    var showRinseDialog by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val ioCheck by SelfCheckManager.ioCheck.collectAsState()
     val loginState by viewModel.loginState.collectAsState()
@@ -113,7 +114,9 @@ fun HomeContent(
                 HomeTopBar(open = overlayVisible, viewModel = viewModel) {
                     overlayVisible = it
                 }
-                HomeDrinksLayout(viewModel = viewModel)
+                HomeDrinksLayout(viewModel = viewModel, onShowRinseDialog = {
+                    showRinseDialog = true
+                })
             }
             Box(
                 modifier = Modifier.align(Alignment.BottomCenter)
@@ -220,6 +223,19 @@ fun HomeContent(
                 }, onCloseClick = {
                     showStandByModeDialog = false
                 })
+        }
+        if (showRinseDialog) {
+            ConfirmDialogLayout(
+                title = stringResource(R.string.home_item_rinse),
+                description = stringResource(R.string.home_confirm_rinse_description),
+                onConfirmClick = {
+                    // TODO rinse
+                    showRinseDialog = false
+                },
+                onCloseClick = {
+                    showRinseDialog = false
+                }
+            )
         }
     }
 }
