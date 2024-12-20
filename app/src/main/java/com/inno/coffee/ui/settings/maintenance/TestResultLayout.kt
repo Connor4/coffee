@@ -77,7 +77,7 @@ fun TestResultLayout(
                 Spacer(modifier = Modifier.height(10.dp))
                 Item(stringResource(id = R.string.maintenance_test_average), average, 650)
                 Spacer(modifier = Modifier.height(10.dp))
-                Item(value = offset, standardValue = 7)
+                Item(stringResource(id = R.string.maintenance_test_oscillation), offset, 7)
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
                     text = if (success) stringResource(R.string.maintenance_test_milk_test_success)
@@ -119,7 +119,7 @@ private fun Item(text: String = "", value: Int, standardValue: Int) {
             fontSize = 7.nsp(),
             color = Color.White,
             modifier = Modifier
-                .width(200.dp)
+                .width(240.dp)
                 .align(Alignment.CenterVertically)
         )
         Spacer(modifier = Modifier.width(60.dp))
@@ -132,16 +132,16 @@ private fun Item(text: String = "", value: Int, standardValue: Int) {
         )
         Spacer(modifier = Modifier.width(15.dp))
         Text(
-            text = stringResource(R.string.maintenance_test_standard) + "$standardValue",
+            text = "< $standardValue",
             fontWeight = FontWeight.Bold, fontSize = 4.nsp(), color = Color.White,
             modifier = Modifier
-                .width(160.dp)
+                .width(100.dp)
                 .align(Alignment.CenterVertically)
         )
     }
 }
 
-@Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
+@Preview(device = "spec:width=1280dp,height=800dp,dpi=240", locale = "zh")
 @Composable
 private fun PreviewTestResultLayout() {
     TestResultLayout("title", onCloseClick = {})

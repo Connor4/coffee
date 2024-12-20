@@ -627,6 +627,7 @@
     <string name="maintenance_test_min">Min Value: </string>
     <string name="maintenance_test_max">Max Value: </string>
     <string name="maintenance_test_average">Average Value: </string>
+    <string name="maintenance_test_oscillation">Max Oscillation: </string>
     <string name="maintenance_test_standard">Standard Value: </string>
     <string name="maintenance_test_milk_test_success">Milk Test Success</string>
     <string name="maintenance_test_milk_test_failed">Milk Test Failed</string>
