@@ -274,12 +274,12 @@ fun MachineParamsLayout(
 
         Box(
             modifier = Modifier
-                .padding(start = 50.dp, top = 180.dp, bottom = 100.dp)
+                .padding(start = 50.dp, top = 170.dp, bottom = 130.dp)
                 .fillMaxWidth()
                 .wrapContentHeight()
         ) {
             VerticalScrollComposable(
-                contentHeight = 960, listPaddingTop = 80, scrollTrackHeight = 800
+                contentHeight = 480, listPaddingTop = 80, scrollTrackHeight = 464, listHeight = 416
             ) {
                 DisplayItemLayout(stringResource(R.string.params_coffee_boiler_temp),
                     "${boilerTemp.value}  [$unitValue]", Color(0xFF191A1D)) {

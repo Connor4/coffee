@@ -3,6 +3,7 @@ package com.inno.coffee.ui.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -30,8 +31,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun VerticalScrollComposable(
     scrollBarWidth: Int = 14,
-    scrollTrackHeight: Int = 535,
-    listHeight: Int = 570,
+    scrollTrackHeight: Int,
+    listHeight: Int,
     contentHeight: Int,
     listPaddingStart: Int = 0,
     listPaddingTop: Int = 0,
@@ -44,8 +45,7 @@ fun VerticalScrollComposable(
     val firstVisibleItemScrollOffset = remember {
         derivedStateOf { lazyListState.firstVisibleItemScrollOffset }
     }
-    // I don't know why, there is always longer than actual scrollTrackHeight. so -5
-    val scrollBarHeight = (listHeight * scrollTrackHeight) / contentHeight - 5
+    val scrollBarHeight = (listHeight * scrollTrackHeight) / contentHeight
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -62,10 +62,10 @@ fun VerticalScrollComposable(
 
         Box(
             modifier = Modifier
+                .align(Alignment.TopEnd)
                 .padding(top = 36.dp, end = 40.dp)
                 .wrapContentWidth()
-                .height(scrollTrackHeight.dp)
-                .align(Alignment.TopEnd)
+                .fillMaxHeight()
                 .pointerInput(Unit) {
                     detectVerticalDragGestures { _, dragAmount ->
                         coroutineScope.launch {
@@ -80,7 +80,7 @@ fun VerticalScrollComposable(
             Box(
                 modifier = Modifier
                     .width(scrollBarWidth.dp)
-                    .height((scrollBarHeight).dp)
+                    .height(scrollBarHeight.dp)
                     .offset {
                         val rate = firstVisibleItemScrollOffset.value / contentHeight.toFloat()
                         val scrollHeight = scrollTrackHeight * rate

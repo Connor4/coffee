@@ -112,10 +112,12 @@ fun SteamStatusLayout(
         )
 
         Box(
-            modifier = Modifier.padding(top = 180.dp)
+            modifier = Modifier.padding(top = 180.dp, bottom = 50.dp)
         ) {
             // 834 = 214+20+255+20+50+20+255
-            VerticalScrollComposable(contentHeight = 834, listPaddingBottom = 50) {
+            VerticalScrollComposable(
+                contentHeight = 834, scrollTrackHeight = 523, listHeight = 559,
+            ) {
                 SteamStatus1(processSteamLeft.value, processHotWater.value,
                     processSteamRight.value,
                     actionSteamLeft.value, actionHotWater.value, actionSteamRight.value,
