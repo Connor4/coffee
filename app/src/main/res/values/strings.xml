@@ -394,6 +394,14 @@
     <string name="params_purge_function_etc">Short ETC Calibration</string>
     <string name="params_screen_rinse_regular">Regular</string>
     <string name="params_screen_rinse_extra">Extra Flush</string>
+    <string name="params_sink_rinse">Sink Rinse</string>
+    <string name="params_milk_rinse">Milk Rinse</string>
+    <string name="params_milk_rinse_five_min">After 5 Minutes</string>
+    <string name="params_milk_rinse_every_product_five_min">After Every Product &amp; Five
+        Minutes</string>
+    <string name="params_machine_priority">Machine Priority</string>
+    <string name="params_machine_priority_standard">Standard</string>
+    <string name="params_machine_priority_stable">Milk Temperature Stable</string>
 
     <string name="bean_hopper_rear_name">Name Bean Hopper Rear</string>
     <string name="bean_hopper_front_name">Name Bean Hopper front</string>

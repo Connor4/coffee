@@ -3,8 +3,10 @@ package com.inno.coffee.ui.settings.params
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -12,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,9 +43,12 @@ import com.inno.coffee.utilities.PARAMS_KEY_BREW_PRE_HEATING
 import com.inno.coffee.utilities.PARAMS_KEY_COLD_RINSE
 import com.inno.coffee.utilities.PARAMS_KEY_GRINDER_PURGE_FUNCTION
 import com.inno.coffee.utilities.PARAMS_KEY_GROUNDS_QUANTITY
+import com.inno.coffee.utilities.PARAMS_KEY_MACHINE_PRIORITY
+import com.inno.coffee.utilities.PARAMS_KEY_MILK_RINSE
 import com.inno.coffee.utilities.PARAMS_KEY_NTC_LEFT
 import com.inno.coffee.utilities.PARAMS_KEY_NTC_RIGHT
 import com.inno.coffee.utilities.PARAMS_KEY_NUMBER_OF_CYCLES_RINSE
+import com.inno.coffee.utilities.PARAMS_KEY_SINK_RINSE
 import com.inno.coffee.utilities.PARAMS_KEY_STEAM_BOILER_PRESSURE
 import com.inno.coffee.utilities.PARAMS_KEY_WARM_RINSE
 import com.inno.coffee.utilities.PARAMS_VALUE_DRAWER_FIVE_KG
@@ -100,6 +106,9 @@ fun MachineParamsLayout(
     val steamBoilerPressure = viewModel.steamBoilerPressure.collectAsState()
     val ntcCorrectionSteamLeft = viewModel.ntcCorrectionSteamLeft.collectAsState()
     val ntcCorrectionSteamRight = viewModel.ntcCorrectionSteamRight.collectAsState()
+    val sinkRinse by viewModel.sinkRinse.collectAsState()
+    val milkRinse by viewModel.milkRinse.collectAsState()
+    val machinePriority by viewModel.machinePriority.collectAsState()
     val unit = viewModel.temperatureUnit.collectAsState()
 
     val on = stringResource(R.string.display_value_on)
@@ -120,12 +129,19 @@ fun MachineParamsLayout(
     val etc = stringResource(R.string.params_purge_function_etc)
     val regular = stringResource(R.string.params_screen_rinse_regular)
     val extra = stringResource(R.string.params_screen_rinse_extra)
+    val rinseFive = stringResource(R.string.params_milk_rinse_five_min)
+    val rinseEveryAndFive = stringResource(R.string.params_milk_rinse_every_product_five_min)
+    val priorityStandard = stringResource(R.string.params_machine_priority_standard)
+    val priorityStable = stringResource(R.string.params_machine_priority_stable)
 
     val drawerString = stringResource(R.string.params_grounds_drawer_quantity)
     val balanceString = stringResource(R.string.params_brew_group_load_balancing)
     val heatingString = stringResource(R.string.params_brew_group_pre_heating)
     val purgeString = stringResource(R.string.params_grinder_purge_function)
     val screenRinseString = stringResource(R.string.params_number_of_cycles_rinse)
+    val sinkString = stringResource(R.string.params_sink_rinse)
+    val milkString = stringResource(R.string.params_milk_rinse)
+    val machinePriorityString = stringResource(R.string.params_machine_priority)
 
     val drawerQuantityValue = when (groundsDrawerQuantity.value) {
         PARAMS_VALUE_DRAWER_ONLY -> {
@@ -227,6 +243,9 @@ fun MachineParamsLayout(
         }
     }
     val unitValue = if (unit.value) "°F" else "°C"
+    val sinkRinseValue = if (sinkRinse) on else off
+    val milkRinseValue = if (machinePriority) rinseEveryAndFive else rinseFive
+    val machinePriorityValue = if (machinePriority) priorityStable else priorityStandard
 
     LaunchedEffect(Unit) {
         viewModel.init()
@@ -260,7 +279,7 @@ fun MachineParamsLayout(
                 .wrapContentHeight()
         ) {
             VerticalScrollComposable(
-                contentHeight = 830, listPaddingTop = 80, scrollTrackHeight = 800
+                contentHeight = 960, listPaddingTop = 80, scrollTrackHeight = 800
             ) {
                 DisplayItemLayout(stringResource(R.string.params_coffee_boiler_temp),
                     "${boilerTemp.value}  [$unitValue]", Color(0xFF191A1D)) {
@@ -315,8 +334,8 @@ fun MachineParamsLayout(
                     dataMap.clear()
                     dataMap.putAll(
                         mapOf(
-                            Pair(on, true),
-                            Pair(off, false)
+                            Pair(off, false),
+                            Pair(on, true)
                         )
                     )
                 }
@@ -398,6 +417,46 @@ fun MachineParamsLayout(
                     scrollRangeEnd.value = viewModel.temperatureDisplay(10f)
                     scrollUnit.value = "[$unitValue]"
                     scrollAccuracy.value = ACCURACY_1
+                }
+                Spacer(modifier = Modifier.height(32.dp))
+                DisplayItemLayout(sinkString,
+                    sinkRinseValue, Color(0xFF191A1D)) {
+                    itemSelectIndex.value = PARAMS_KEY_SINK_RINSE
+                    titleValue.value = sinkString
+                    defaultValue.value = sinkRinseValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair(off, false),
+                            Pair(on, true)
+                        )
+                    )
+                }
+                DisplayItemLayout(milkString,
+                    milkRinseValue, Color(0xFF2A2B2D)) {
+                    itemSelectIndex.value = PARAMS_KEY_MILK_RINSE
+                    titleValue.value = milkString
+                    defaultValue.value = milkRinseValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair(rinseFive, false),
+                            Pair(rinseEveryAndFive, true)
+                        )
+                    )
+                }
+                DisplayItemLayout(machinePriorityString,
+                    machinePriorityValue, Color(0xFF191A1D)) {
+                    itemSelectIndex.value = PARAMS_KEY_MACHINE_PRIORITY
+                    titleValue.value = machinePriorityString
+                    defaultValue.value = machinePriorityValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair(priorityStandard, false),
+                            Pair(priorityStable, true)
+                        )
+                    )
                 }
             }
         }

@@ -10,9 +10,12 @@ import com.inno.coffee.utilities.PARAMS_KEY_BREW_PRE_HEATING
 import com.inno.coffee.utilities.PARAMS_KEY_COLD_RINSE
 import com.inno.coffee.utilities.PARAMS_KEY_GRINDER_PURGE_FUNCTION
 import com.inno.coffee.utilities.PARAMS_KEY_GROUNDS_QUANTITY
+import com.inno.coffee.utilities.PARAMS_KEY_MACHINE_PRIORITY
+import com.inno.coffee.utilities.PARAMS_KEY_MILK_RINSE
 import com.inno.coffee.utilities.PARAMS_KEY_NTC_LEFT
 import com.inno.coffee.utilities.PARAMS_KEY_NTC_RIGHT
 import com.inno.coffee.utilities.PARAMS_KEY_NUMBER_OF_CYCLES_RINSE
+import com.inno.coffee.utilities.PARAMS_KEY_SINK_RINSE
 import com.inno.coffee.utilities.PARAMS_KEY_STEAM_BOILER_PRESSURE
 import com.inno.coffee.utilities.PARAMS_KEY_WARM_RINSE
 import com.inno.coffee.utilities.PARAMS_VALUE_BOILER_TEMP
@@ -44,6 +47,9 @@ class MachineParamsViewModel @Inject constructor(
         private const val NTC_LEFT = "ntc_left"
         private const val NTC_RIGHT = "ntc_right"
         private const val TEMPERATURE_UNIT = "temperature_unit"
+        private const val SINK_RINSE = "sink_rinse"
+        private const val MILK_RINSE = "milk_rinse"
+        private const val MACHINE_PRIORITY = "machine_priority"
     }
 
     private var _temperatureUnit = MutableStateFlow(false)
@@ -71,6 +77,13 @@ class MachineParamsViewModel @Inject constructor(
     private val _ntcCorrectionSteamRight = MutableStateFlow(0f)
     val ntcCorrectionSteamRight = _ntcCorrectionSteamRight
 
+    private val _sinkRinse = MutableStateFlow(false)
+    val sinkRinse = _sinkRinse
+    private val _milkRinse = MutableStateFlow(false)
+    val milkRinse = _milkRinse
+    private val _machinePriority = MutableStateFlow(false)
+    val machinePriority = _machinePriority
+
     fun init() {
         viewModelScope.launch(defaultDispatcher) {
             _temperatureUnit.value = dataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
@@ -88,6 +101,10 @@ class MachineParamsViewModel @Inject constructor(
                 temperatureDisplay(dataStore.getCoffeePreference(NTC_LEFT, 0f))
             _ntcCorrectionSteamRight.value =
                 temperatureDisplay(dataStore.getCoffeePreference(NTC_RIGHT, 0f))
+
+            _sinkRinse.value = dataStore.getCoffeePreference(SINK_RINSE, false)
+            _milkRinse.value = dataStore.getCoffeePreference(MILK_RINSE, false)
+            _machinePriority.value = dataStore.getCoffeePreference(MACHINE_PRIORITY, false)
         }
     }
 
@@ -143,6 +160,18 @@ class MachineParamsViewModel @Inject constructor(
                     val realValue = temperatureRevert(value as Float)
                     dataStore.saveCoffeePreference(NTC_RIGHT, realValue)
                     _ntcCorrectionSteamRight.value = value
+                }
+                PARAMS_KEY_SINK_RINSE -> {
+                    dataStore.saveCoffeePreference(SINK_RINSE, value as Boolean)
+                    _sinkRinse.value = value
+                }
+                PARAMS_KEY_MILK_RINSE -> {
+                    dataStore.saveCoffeePreference(MILK_RINSE, value as Boolean)
+                    _milkRinse.value = value
+                }
+                PARAMS_KEY_MACHINE_PRIORITY -> {
+                    dataStore.saveCoffeePreference(MACHINE_PRIORITY, value as Boolean)
+                    _machinePriority.value = value
                 }
                 else -> {}
             }

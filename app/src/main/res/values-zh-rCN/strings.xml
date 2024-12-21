@@ -365,6 +365,7 @@
     <string name="params_screen_rinse_regular">正常</string>
     <string name="params_screen_rinse_extra">额外冲洗</string>
 
+    <string name="params_machine_priority_stable">牛奶温度稳定性优先</string>
     <string name="bean_hopper_rear_name">后方豆缸名称</string>
     <string name="bean_hopper_front_name">前方豆缸名称</string>
     <string name="bean_powder_quantity_control">粉量监测系统</string>
@@ -589,5 +590,11 @@
     <string name="formula_milk_quantity">奶量</string>
     <string name="formula_milk_temperature">牛奶温度</string>
     <string name="formula_milk_temperature_cold">冷牛奶</string>
+    <string name="params_sink_rinse">废水槽冲洗</string>
+    <string name="params_milk_rinse">牛奶出口清洗</string>
+    <string name="params_milk_rinse_five_min">出奶5分钟后</string>
+    <string name="params_milk_rinse_every_product_five_min">制作产品和出奶5分钟后</string>
+    <string name="params_machine_priority">机器优先顺序</string>
+    <string name="params_machine_priority_standard">标准</string>
 
 </resources>
