@@ -116,7 +116,7 @@ fun SteamStatusLayout(
         ) {
             // 834 = 214+20+255+20+50+20+255
             VerticalScrollComposable(
-                contentHeight = 834, scrollTrackHeight = 523, listHeight = 559,
+                contentHeight = 834, scrollTrackHeight = 525, listHeight = 559,
             ) {
                 SteamStatus1(processSteamLeft.value, processHotWater.value,
                     processSteamRight.value,

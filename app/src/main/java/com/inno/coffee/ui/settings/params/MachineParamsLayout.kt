@@ -278,6 +278,7 @@ fun MachineParamsLayout(
                 .fillMaxWidth()
                 .wrapContentHeight()
         ) {
+            // 464 = 800 - top 170 - bottom 130 - scrollpaddingtop 34
             VerticalScrollComposable(
                 contentHeight = 480, listPaddingTop = 80, scrollTrackHeight = 464, listHeight = 416
             ) {
