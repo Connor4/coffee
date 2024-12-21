@@ -3,7 +3,6 @@ package com.inno.coffee.ui.settings.params
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,6 +30,7 @@ import com.inno.coffee.ui.common.ACCURACY_1
 import com.inno.coffee.ui.common.ACCURACY_2
 import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
+import com.inno.coffee.ui.common.VerticalScrollComposable
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.utilities.INVALID_INT
@@ -253,148 +253,152 @@ fun MachineParamsLayout(
             contentDescription = null
         )
 
-        Column(
+        Box(
             modifier = Modifier
+                .padding(start = 50.dp, top = 180.dp, bottom = 100.dp)
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = 50.dp, top = 254.dp, end = 95.dp)
         ) {
-            DisplayItemLayout(stringResource(R.string.params_coffee_boiler_temp),
-                "${boilerTemp.value}  [$unitValue]", Color(0xFF191A1D)) {
-                itemSelectIndex.value = PARAMS_KEY_BOILER_TEMP
-                scrollDefaultValue.value = boilerTemp.value
-                scrollRangeStart.value = viewModel.temperatureDisplay(80f)
-                scrollRangeEnd.value = viewModel.temperatureDisplay(100f)
-                scrollUnit.value = "[$unitValue]"
-                scrollAccuracy.value = ACCURACY_1
-            }
-            DisplayItemLayout(stringResource(R.string.params_cold_rinse_quantity),
-                "${coldRinseQuantity.value}", Color(0xFF2A2B2D)) {
-                itemSelectIndex.value = PARAMS_KEY_COLD_RINSE
-                scrollDefaultValue.value = coldRinseQuantity.value.toFloat()
-                scrollRangeStart.value = 100f
-                scrollRangeEnd.value = 2000f
-                scrollUnit.value = "[tick]"
-                scrollAccuracy.value = ACCURACY_1
-            }
-            DisplayItemLayout(stringResource(R.string.params_warm_rinse_quantity),
-                "${warmRinseQuantity.value}", Color(0xFF191A1D)) {
-                itemSelectIndex.value = PARAMS_KEY_WARM_RINSE
-                scrollDefaultValue.value = warmRinseQuantity.value.toFloat()
-                scrollRangeStart.value = 20f
-                scrollRangeEnd.value = 200f
-                scrollUnit.value = "[tick]"
-                scrollAccuracy.value = ACCURACY_1
-            }
-            DisplayItemLayout(drawerString,
-                drawerQuantityValue, Color(0xFF2A2B2D)) {
-                itemSelectIndex.value = PARAMS_KEY_GROUNDS_QUANTITY
-                titleValue.value = drawerString
-                defaultValue.value = drawerQuantityValue
-                dataMap.clear()
-                dataMap.putAll(
-                    mapOf(
-                        Pair(drawerOnly, PARAMS_VALUE_DRAWER_ONLY),
-                        Pair(ignore, PARAMS_VALUE_DRAWER_IGNORE),
-                        Pair(oneKg, PARAMS_VALUE_DRAWER_ONE_KG),
-                        Pair(twoFiveKg, PARAMS_VALUE_DRAWER_TWO_FIVE_KG),
-                        Pair(fiveKg, PARAMS_VALUE_DRAWER_FIVE_KG),
-                        Pair(sevenFiveKg, PARAMS_VALUE_DRAWER_SEVEN_FIVE_KG),
-                        Pair(tenKg, PARAMS_VALUE_DRAWER_TEN_KG)
+            VerticalScrollComposable(
+                contentHeight = 830, listPaddingTop = 80, scrollTrackHeight = 800
+            ) {
+                DisplayItemLayout(stringResource(R.string.params_coffee_boiler_temp),
+                    "${boilerTemp.value}  [$unitValue]", Color(0xFF191A1D)) {
+                    itemSelectIndex.value = PARAMS_KEY_BOILER_TEMP
+                    scrollDefaultValue.value = boilerTemp.value
+                    scrollRangeStart.value = viewModel.temperatureDisplay(80f)
+                    scrollRangeEnd.value = viewModel.temperatureDisplay(100f)
+                    scrollUnit.value = "[$unitValue]"
+                    scrollAccuracy.value = ACCURACY_1
+                }
+                DisplayItemLayout(stringResource(R.string.params_cold_rinse_quantity),
+                    "${coldRinseQuantity.value}", Color(0xFF2A2B2D)) {
+                    itemSelectIndex.value = PARAMS_KEY_COLD_RINSE
+                    scrollDefaultValue.value = coldRinseQuantity.value.toFloat()
+                    scrollRangeStart.value = 100f
+                    scrollRangeEnd.value = 2000f
+                    scrollUnit.value = "[tick]"
+                    scrollAccuracy.value = ACCURACY_1
+                }
+                DisplayItemLayout(stringResource(R.string.params_warm_rinse_quantity),
+                    "${warmRinseQuantity.value}", Color(0xFF191A1D)) {
+                    itemSelectIndex.value = PARAMS_KEY_WARM_RINSE
+                    scrollDefaultValue.value = warmRinseQuantity.value.toFloat()
+                    scrollRangeStart.value = 20f
+                    scrollRangeEnd.value = 200f
+                    scrollUnit.value = "[tick]"
+                    scrollAccuracy.value = ACCURACY_1
+                }
+                DisplayItemLayout(drawerString,
+                    drawerQuantityValue, Color(0xFF2A2B2D)) {
+                    itemSelectIndex.value = PARAMS_KEY_GROUNDS_QUANTITY
+                    titleValue.value = drawerString
+                    defaultValue.value = drawerQuantityValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair(drawerOnly, PARAMS_VALUE_DRAWER_ONLY),
+                            Pair(ignore, PARAMS_VALUE_DRAWER_IGNORE),
+                            Pair(oneKg, PARAMS_VALUE_DRAWER_ONE_KG),
+                            Pair(twoFiveKg, PARAMS_VALUE_DRAWER_TWO_FIVE_KG),
+                            Pair(fiveKg, PARAMS_VALUE_DRAWER_FIVE_KG),
+                            Pair(sevenFiveKg, PARAMS_VALUE_DRAWER_SEVEN_FIVE_KG),
+                            Pair(tenKg, PARAMS_VALUE_DRAWER_TEN_KG)
+                        )
                     )
-                )
-            }
-            DisplayItemLayout(balanceString,
-                balanceValue, Color(0xFF191A1D)) {
-                itemSelectIndex.value = PARAMS_KEY_BREW_BALANCE
-                titleValue.value = balanceString
-                defaultValue.value = balanceValue
-                dataMap.clear()
-                dataMap.putAll(
-                    mapOf(
-                        Pair(on, true),
-                        Pair(off, false)
+                }
+                DisplayItemLayout(balanceString,
+                    balanceValue, Color(0xFF191A1D)) {
+                    itemSelectIndex.value = PARAMS_KEY_BREW_BALANCE
+                    titleValue.value = balanceString
+                    defaultValue.value = balanceValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair(on, true),
+                            Pair(off, false)
+                        )
                     )
-                )
-            }
-            DisplayItemLayout(heatingString,
-                preHeatingValue, Color(0xFF2A2B2D)) {
-                itemSelectIndex.value = PARAMS_KEY_BREW_PRE_HEATING
-                titleValue.value = heatingString
-                defaultValue.value = preHeatingValue
-                dataMap.clear()
-                dataMap.putAll(
-                    mapOf(
-                        Pair(off, PARAMS_VALUE_PRE_HEATING_OFF),
-                        Pair(automatic, PARAMS_VALUE_PRE_HEATING_AUTOMATIC),
-                        Pair(force5, PARAMS_VALUE_PRE_HEATING_FORCE_5),
-                        Pair(force10, PARAMS_VALUE_PRE_HEATING_FORCE_10),
-                        Pair(reminder5, PARAMS_VALUE_PRE_HEATING_REMINDER_5),
-                        Pair(reminder10, PARAMS_VALUE_PRE_HEATING_REMINDER_10)
+                }
+                DisplayItemLayout(heatingString,
+                    preHeatingValue, Color(0xFF2A2B2D)) {
+                    itemSelectIndex.value = PARAMS_KEY_BREW_PRE_HEATING
+                    titleValue.value = heatingString
+                    defaultValue.value = preHeatingValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair(off, PARAMS_VALUE_PRE_HEATING_OFF),
+                            Pair(automatic, PARAMS_VALUE_PRE_HEATING_AUTOMATIC),
+                            Pair(force5, PARAMS_VALUE_PRE_HEATING_FORCE_5),
+                            Pair(force10, PARAMS_VALUE_PRE_HEATING_FORCE_10),
+                            Pair(reminder5, PARAMS_VALUE_PRE_HEATING_REMINDER_5),
+                            Pair(reminder10, PARAMS_VALUE_PRE_HEATING_REMINDER_10)
+                        )
                     )
-                )
-            }
-            DisplayItemLayout(purgeString,
-                purgeValue, Color(0xFF191A1D)) {
-                itemSelectIndex.value = PARAMS_KEY_GRINDER_PURGE_FUNCTION
-                titleValue.value = purgeString
-                defaultValue.value = purgeValue
-                dataMap.clear()
-                dataMap.putAll(
-                    mapOf(
-                        Pair(off, PARAMS_VALUE_PURGE_FUNCTION_NONE),
-                        Pair(grinderPurge, PARAMS_VALUE_PURGE_FUNCTION_GRINDER_PURGE),
-                        Pair(etc, PARAMS_VALUE_PURGE_FUNCTION_ETC)
+                }
+                DisplayItemLayout(purgeString,
+                    purgeValue, Color(0xFF191A1D)) {
+                    itemSelectIndex.value = PARAMS_KEY_GRINDER_PURGE_FUNCTION
+                    titleValue.value = purgeString
+                    defaultValue.value = purgeValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair(off, PARAMS_VALUE_PURGE_FUNCTION_NONE),
+                            Pair(grinderPurge, PARAMS_VALUE_PURGE_FUNCTION_GRINDER_PURGE),
+                            Pair(etc, PARAMS_VALUE_PURGE_FUNCTION_ETC)
+                        )
                     )
-                )
-            }
-            DisplayItemLayout(screenRinseString,
-                screenRinseValue, Color(0xFF2A2B2D)) {
-                itemSelectIndex.value = PARAMS_KEY_NUMBER_OF_CYCLES_RINSE
-                titleValue.value = screenRinseString
-                defaultValue.value = screenRinseValue
-                dataMap.clear()
-                dataMap.putAll(
-                    mapOf(
-                        Pair("1-$regular", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_r),
-                        Pair("1-$extra", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_e),
-                        Pair("2", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_2),
-                        Pair("3", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_3),
-                        Pair("4", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_4),
-                        Pair("5", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_5),
-                        Pair("10", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_10),
-                        Pair("15", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_15),
-                        Pair("20", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_20),
-                        Pair("25", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_25)
+                }
+                DisplayItemLayout(screenRinseString,
+                    screenRinseValue, Color(0xFF2A2B2D)) {
+                    itemSelectIndex.value = PARAMS_KEY_NUMBER_OF_CYCLES_RINSE
+                    titleValue.value = screenRinseString
+                    defaultValue.value = screenRinseValue
+                    dataMap.clear()
+                    dataMap.putAll(
+                        mapOf(
+                            Pair("1-$regular", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_r),
+                            Pair("1-$extra", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_1_e),
+                            Pair("2", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_2),
+                            Pair("3", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_3),
+                            Pair("4", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_4),
+                            Pair("5", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_5),
+                            Pair("10", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_10),
+                            Pair("15", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_15),
+                            Pair("20", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_20),
+                            Pair("25", PARAMS_VALUE_NUMBER_OF_CYCLES_RINSE_25)
+                        )
                     )
-                )
-            }
-            DisplayItemLayout(stringResource(R.string.params_steam_boiler_pressure),
-                "${steamBoilerPressure.value}  [bar]", Color(0xFF191A1D)) {
-                itemSelectIndex.value = PARAMS_KEY_STEAM_BOILER_PRESSURE
-                scrollDefaultValue.value = steamBoilerPressure.value.toFloat()
-                scrollRangeStart.value = 1f
-                scrollRangeEnd.value = 2f
-                scrollUnit.value = "[bar]"
-                scrollAccuracy.value = ACCURACY_2
-            }
-            DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_left),
-                "${ntcCorrectionSteamLeft.value}  [$unitValue]", Color(0xFF2A2B2D)) {
-                itemSelectIndex.value = PARAMS_KEY_NTC_LEFT
-                scrollDefaultValue.value = ntcCorrectionSteamLeft.value
-                scrollRangeStart.value = viewModel.temperatureDisplay(-10f)
-                scrollRangeEnd.value = viewModel.temperatureDisplay(10f)
-                scrollUnit.value = "[$unitValue]"
-                scrollAccuracy.value = ACCURACY_1
-            }
-            DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_right),
-                "${ntcCorrectionSteamRight.value}  [$unitValue]", Color(0xFF191A1D)) {
-                itemSelectIndex.value = PARAMS_KEY_NTC_RIGHT
-                scrollDefaultValue.value = ntcCorrectionSteamRight.value
-                scrollRangeStart.value = viewModel.temperatureDisplay(-10f)
-                scrollRangeEnd.value = viewModel.temperatureDisplay(10f)
-                scrollUnit.value = "[$unitValue]"
-                scrollAccuracy.value = ACCURACY_1
+                }
+                DisplayItemLayout(stringResource(R.string.params_steam_boiler_pressure),
+                    "${steamBoilerPressure.value}  [bar]", Color(0xFF191A1D)) {
+                    itemSelectIndex.value = PARAMS_KEY_STEAM_BOILER_PRESSURE
+                    scrollDefaultValue.value = steamBoilerPressure.value.toFloat()
+                    scrollRangeStart.value = 1f
+                    scrollRangeEnd.value = 2f
+                    scrollUnit.value = "[bar]"
+                    scrollAccuracy.value = ACCURACY_2
+                }
+                DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_left),
+                    "${ntcCorrectionSteamLeft.value}  [$unitValue]", Color(0xFF2A2B2D)) {
+                    itemSelectIndex.value = PARAMS_KEY_NTC_LEFT
+                    scrollDefaultValue.value = ntcCorrectionSteamLeft.value
+                    scrollRangeStart.value = viewModel.temperatureDisplay(-10f)
+                    scrollRangeEnd.value = viewModel.temperatureDisplay(10f)
+                    scrollUnit.value = "[$unitValue]"
+                    scrollAccuracy.value = ACCURACY_1
+                }
+                DisplayItemLayout(stringResource(R.string.params_ntc_correction_steam_right),
+                    "${ntcCorrectionSteamRight.value}  [$unitValue]", Color(0xFF191A1D)) {
+                    itemSelectIndex.value = PARAMS_KEY_NTC_RIGHT
+                    scrollDefaultValue.value = ntcCorrectionSteamRight.value
+                    scrollRangeStart.value = viewModel.temperatureDisplay(-10f)
+                    scrollRangeEnd.value = viewModel.temperatureDisplay(10f)
+                    scrollUnit.value = "[$unitValue]"
+                    scrollAccuracy.value = ACCURACY_1
+                }
             }
         }
 

@@ -51,9 +51,9 @@ fun VerticalScrollComposable(
         LazyColumn(
             state = lazyListState,
             modifier = Modifier
-                .fillMaxSize()
                 .padding(start = listPaddingStart.dp, top = listPaddingTop.dp,
-                    end = (listPaddingEnd + 95).dp, bottom = listPaddingBottom.dp),
+                    end = (listPaddingEnd + 95).dp, bottom = listPaddingBottom.dp)
+                .fillMaxSize(),
         ) {
             items(listOf(1)) {
                 content()
