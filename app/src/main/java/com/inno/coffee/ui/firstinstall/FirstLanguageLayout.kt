@@ -1,9 +1,8 @@
 package com.inno.coffee.ui.firstinstall
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -35,21 +34,17 @@ fun FirstLanguageLayout(
     Box(
         modifier = modifier,
     ) {
-        Box(
+        Text(
+            text = stringResource(id = R.string.first_install_language_title),
+            fontSize = 15.nsp(),
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            textAlign = TextAlign.Center,
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 66.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = stringResource(id = R.string.first_install_language_title),
-                fontSize = 15.nsp(),
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-            )
-        }
+                .align(Alignment.TopCenter)
+                .padding(top = 66.dp)
+                .wrapContentSize()
+        )
 
         LanguageGroupLayout(Locale.ENGLISH) { locale ->
             selectedLanguage.value = locale
