@@ -28,28 +28,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
 import com.inno.coffee.utilities.DATE
 import com.inno.coffee.utilities.DEFAULT_SYSTEM_TIME
+import com.inno.coffee.utilities.LANGUAGE
+import com.inno.coffee.utilities.SPLASH
+import com.inno.coffee.utilities.SPLASH_TIME
 import com.inno.coffee.utilities.TIME
 import com.inno.coffee.viewmodel.firstinstall.InstallViewModel
 import kotlinx.coroutines.delay
 
-private const val SPLASH = "splash"
-private const val LANGUAGE = "language"
-private const val SPLASH_TIME = 3000L
-
 @Composable
 fun InstallSetting(
     onSetComplete: () -> Unit,
-    viewModel: InstallViewModel = hiltViewModel()
+    viewModel: InstallViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val navController = rememberNavController()
     val modifier = Modifier
         .fillMaxSize()
         .background(color = Color(0xFF191A1D))
@@ -62,23 +56,27 @@ fun InstallSetting(
     var selectedMin by remember {
         mutableIntStateOf(0)
     }
-    NavHost(navController = navController, startDestination = SPLASH) {
-        composable(SPLASH) {
-            SplashPage(navController, modifier)
+    var step by remember { mutableStateOf(SPLASH) }
+
+    when (step) {
+        SPLASH -> {
+            SplashPage(modifier) {
+                step = LANGUAGE
+            }
         }
-        composable(LANGUAGE) {
+        LANGUAGE -> {
             FirstLanguageLayout(modifier) { locale ->
-                navController.navigate(DATE)
+                step = DATE
                 viewModel.selectLanguage(context, locale)
             }
         }
-        composable(DATE) {
+        DATE -> {
             DatePickerLayout(modifier) {
                 selectedDateMillis = it
-                navController.navigate(TIME)
+                step = TIME
             }
         }
-        composable(TIME) {
+        TIME -> {
             TimePickerLayout(modifier) { hour, min ->
                 selectedHour = hour
                 selectedMin = min
@@ -88,18 +86,18 @@ fun InstallSetting(
             }
         }
     }
+
 }
 
 
 @Composable
-private fun SplashPage(navController: NavHostController, modifier: Modifier = Modifier) {
+private fun SplashPage(
+    modifier: Modifier = Modifier,
+    onNext: () -> Unit,
+) {
     LaunchedEffect(Unit) {
         delay(SPLASH_TIME)
-        navController.navigate(LANGUAGE) {
-            popUpTo(SPLASH) {
-                inclusive = true
-            }
-        }
+        onNext()
     }
 
     val infiniteTransition = rememberInfiniteTransition(label = "")
