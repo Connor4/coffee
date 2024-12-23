@@ -82,7 +82,7 @@ fun VerticalScrollComposable(
                     .width(scrollBarWidth.dp)
                     .height(scrollBarHeight.dp)
                     .offset {
-                        val rate = firstVisibleItemScrollOffset.value / contentHeight.toFloat()
+                        val rate = (firstVisibleItemScrollOffset.value + 0.5f) / contentHeight
                         val scrollHeight = scrollTrackHeight * rate
                         IntOffset(0, scrollHeight.toInt())
                     }
