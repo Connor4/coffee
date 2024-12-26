@@ -73,6 +73,10 @@
         <activity android:name=".ui.settings.maintenance.ManualActivity" />
         <activity android:name=".ui.settings.clean.CleanActivity" />
         <activity android:name=".ui.settings.remote.RemoteMonitorActivity" />
+
+        <service
+            android:name=".service.CleanJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

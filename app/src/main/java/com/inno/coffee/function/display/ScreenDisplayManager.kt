@@ -13,7 +13,7 @@ object ScreenDisplayManager {
     private const val TAG = "ScreenDisplayManager"
     private var secondDisplay: Display? = null
 
-    fun init(context: Context) {
+    fun init(context: Context?) {
         require(context != null) { "packageContext cannot be null" }
 
         context.getSystemService(DisplayManager::class.java).getDisplays(DisplayManager
@@ -24,14 +24,14 @@ object ScreenDisplayManager {
 
     fun getSecondDisplay(): Display? = secondDisplay
 
-    fun isMainDisplay(packageContext: Context): Boolean {
+    fun isMainDisplay(packageContext: Context?): Boolean {
         require(packageContext != null) { "packageContext cannot be null" }
 
         return (packageContext as Activity).windowManager.defaultDisplay.displayId == Display.DEFAULT_DISPLAY
     }
 
     fun manualRoute(
-        packageContext: Context, targetCls: Class<*>?, defaultScreen: Boolean = false,
+        packageContext: Context?, targetCls: Class<*>?, defaultScreen: Boolean = false,
         bundle: Bundle? = null,
     ) {
         require(packageContext != null) { "packageContext cannot be null" }
@@ -44,7 +44,7 @@ object ScreenDisplayManager {
         }
     }
 
-    fun autoRoute(packageContext: Context, targetCls: Class<*>?, bundle: Bundle? = null) {
+    fun autoRoute(packageContext: Context?, targetCls: Class<*>?, bundle: Bundle? = null) {
         require(packageContext != null) { "packageContext cannot be null" }
 
         val display = (packageContext as Activity).windowManager.defaultDisplay
