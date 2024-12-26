@@ -1,6 +1,7 @@
 package com.inno.coffee.ui.settings
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import com.inno.coffee.ui.base.CoffeeActivity
 import com.inno.coffee.ui.theme.CoffeeTheme
@@ -20,6 +21,13 @@ class SettingActivity : CoffeeActivity() {
                 }
             }
         }
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                this@SettingActivity.finish()
+                UserSessionManager.clearUser()
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
 }
