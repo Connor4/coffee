@@ -2,6 +2,7 @@ package com.inno.coffee.viewmodel.settings.display
 
 import android.content.Context
 import android.provider.Settings
+import androidx.annotation.IntRange
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
@@ -127,6 +128,8 @@ class DisplayViewModel @Inject constructor(
     }
 
     fun saveDisplayGroupTwoValue(context: Context, key: Int, value: Any) {
+        Logger.d(TAG,
+            "saveDisplayGroupTwoValue() called with: key = $key, value = $value")
         viewModelScope.launch(defaultDispatcher) {
             when (key) {
                 INDEX_AUTO_BACK_TO_FIRST_PAGE -> {
@@ -170,7 +173,7 @@ class DisplayViewModel @Inject constructor(
         }
     }
 
-    private fun setScreenBrightness(context: Context, value: Int) {
+    private fun setScreenBrightness(context: Context, @IntRange(from = 0, to = 255) value: Int) {
         viewModelScope.launch(defaultDispatcher) {
             val contentResolver = context.contentResolver
             try {
@@ -180,7 +183,7 @@ class DisplayViewModel @Inject constructor(
                     Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE,
                         Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL)
                 }
-                Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, value)
+                Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, value)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
