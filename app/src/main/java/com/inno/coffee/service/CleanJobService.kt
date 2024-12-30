@@ -2,7 +2,13 @@ package com.inno.coffee.service
 
 import android.app.job.JobParameters
 import android.app.job.JobService
+import android.content.Intent
+import com.inno.coffee.utilities.ACTION_SLEEP
+import com.inno.coffee.utilities.ACTION_WAKEUP
 import com.inno.common.utils.Logger
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class CleanJobService : JobService() {
@@ -23,6 +29,11 @@ class CleanJobService : JobService() {
 
     private fun executeTask(jobId: Int?) {
         Logger.d(TAG, "executeTask() called with: jobId = $jobId")
+        sendBroadcast(Intent(ACTION_SLEEP))
+        MainScope().launch {
+            delay(3000)
+            sendBroadcast(Intent(ACTION_WAKEUP))
+        }
     }
 
 

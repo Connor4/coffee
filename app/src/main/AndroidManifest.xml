@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".CoffeeApplication"
@@ -78,6 +79,15 @@
         <service
             android:name=".service.CleanJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name=".receiver.ScreenControlReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.inno.coffee.SCREEN_WAKEUP" />
+                <action android:name="com.inno.coffee.SCREEN_SLEEP" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

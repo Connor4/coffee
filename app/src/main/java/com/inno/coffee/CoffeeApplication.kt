@@ -1,7 +1,6 @@
 package com.inno.coffee
 
 import android.app.Application
-import com.inno.coffee.function.CleanManager
 import com.inno.coffee.function.defaultsetting.DefaultSettingManager
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.formula.ProductProfileManager
@@ -45,7 +44,6 @@ class CoffeeApplication : Application() {
             ProductProfileManager.init(this@CoffeeApplication)
             DefaultSettingManager.init(this@CoffeeApplication)
             StatisticManager.init(this@CoffeeApplication)
-            CleanManager.init(this@CoffeeApplication)
 
             ProductProfileManager.readFormulaFromAssets(this@CoffeeApplication)
         }

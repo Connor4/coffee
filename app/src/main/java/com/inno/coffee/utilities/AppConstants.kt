@@ -1,5 +1,7 @@
 package com.inno.coffee.utilities
 
+const val ACTION_WAKEUP = "com.inno.coffee.SCREEN_WAKEUP"
+const val ACTION_SLEEP = "com.inno.coffee.SCREEN_SLEEP"
 const val INVALID_INT = -1
 const val LOCK_AND_CLEAN_TIME = 15
 const val VIEW_FAST_CLICK_INTERVAL_TIME = 300
