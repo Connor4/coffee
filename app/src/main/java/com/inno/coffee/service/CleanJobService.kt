@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class CleanJobService : JobService() {
     companion object {
-        const val TAG = "CleanJobService"
+        private const val TAG = "CleanJobService"
     }
 
     override fun onStartJob(params: JobParameters?): Boolean {
@@ -35,6 +35,5 @@ class CleanJobService : JobService() {
             sendBroadcast(Intent(ACTION_WAKEUP))
         }
     }
-
 
 }

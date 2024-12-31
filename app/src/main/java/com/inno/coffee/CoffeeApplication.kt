@@ -1,6 +1,7 @@
 package com.inno.coffee
 
 import android.app.Application
+import com.inno.coffee.function.clean.CleanManager
 import com.inno.coffee.function.defaultsetting.DefaultSettingManager
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.formula.ProductProfileManager
@@ -13,6 +14,7 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltAndroidApp
 class CoffeeApplication : Application() {
@@ -21,6 +23,8 @@ class CoffeeApplication : Application() {
     }
 
     private val applicationScope = CoroutineScope(Dispatchers.IO)
+    @Inject
+    private lateinit var cleanManager: CleanManager
 
     override fun onCreate() {
         super.onCreate()
@@ -34,10 +38,10 @@ class CoffeeApplication : Application() {
 
         applicationScope.launch {
             Logger.d(TAG, "CoffeeApplication init() launch call")
-            GlobalDialogLeftManager.init(this@CoffeeApplication)
-            GlobalDialogRightManager.init(this@CoffeeApplication)
 //            SerialPortDataManager.instance.open()
 //            DataCenter.init()
+            GlobalDialogLeftManager.init(this@CoffeeApplication)
+            GlobalDialogRightManager.init(this@CoffeeApplication)
 
 //            delay(3000)
             Logger.d(TAG, "CoffeeApplication delayInit start")
@@ -46,6 +50,7 @@ class CoffeeApplication : Application() {
             StatisticManager.init(this@CoffeeApplication)
 
             ProductProfileManager.readFormulaFromAssets(this@CoffeeApplication)
+            cleanManager.activeScheduleJob()
         }
     }
 
