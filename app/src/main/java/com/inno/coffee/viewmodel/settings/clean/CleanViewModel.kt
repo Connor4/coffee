@@ -11,6 +11,22 @@ import com.inno.coffee.utilities.CLEAN_STANDBY_AFTER_CLEANING
 import com.inno.coffee.utilities.CLEAN_STANDBY_BUTTON
 import com.inno.coffee.utilities.CLEAN_TIME_TOLERANCE
 import com.inno.coffee.utilities.CLEAN_WEEKEND_CLEAN_MODE
+import com.inno.coffee.utilities.DEFAULT_END_TIME
+import com.inno.coffee.utilities.DEFAULT_START_TIME
+import com.inno.coffee.utilities.STANDBY_FRIDAY
+import com.inno.coffee.utilities.STANDBY_FRIDAY_END
+import com.inno.coffee.utilities.STANDBY_MONDAY
+import com.inno.coffee.utilities.STANDBY_MONDAY_END
+import com.inno.coffee.utilities.STANDBY_SATURDAY
+import com.inno.coffee.utilities.STANDBY_SATURDAY_END
+import com.inno.coffee.utilities.STANDBY_SUNDAY
+import com.inno.coffee.utilities.STANDBY_SUNDAY_END
+import com.inno.coffee.utilities.STANDBY_THURSDAY
+import com.inno.coffee.utilities.STANDBY_THURSDAY_END
+import com.inno.coffee.utilities.STANDBY_TUESDAY
+import com.inno.coffee.utilities.STANDBY_TUESDAY_END
+import com.inno.coffee.utilities.STANDBY_WEDNESDAY
+import com.inno.coffee.utilities.STANDBY_WEDNESDAY_END
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,22 +55,6 @@ class CleanViewModel @Inject constructor(
         private const val AFTER_CLEANING = "clean_after_cleaning"
         private const val STANDBY_BUTTON = "clean_standby_button"
         private const val SWITCH_VALUE = "clean_switch_value"
-        private const val STANDBY_MONDAY = "clean_standby_monday"
-        private const val STANDBY_MONDAY_END = "clean_standby_monday_end"
-        private const val STANDBY_TUESDAY = "clean_standby_tuesday"
-        private const val STANDBY_TUESDAY_END = "clean_standby_tuesday_end"
-        private const val STANDBY_WEDNESDAY = "clean_standby_wednesday"
-        private const val STANDBY_WEDNESDAY_END = "clean_standby_wednesday_end"
-        private const val STANDBY_THURSDAY = "clean_standby_thursday"
-        private const val STANDBY_THURSDAY_END = "clean_standby_thursday_end"
-        private const val STANDBY_FRIDAY = "clean_standby_friday"
-        private const val STANDBY_FRIDAY_END = "clean_standby_friday_end"
-        private const val STANDBY_SATURDAY = "clean_standby_saturday"
-        private const val STANDBY_SATURDAY_END = "clean_standby_saturday_end"
-        private const val STANDBY_SUNDAY = "clean_standby_sunday"
-        private const val STANDBY_SUNDAY_END = "clean_standby_sunday_end"
-        private const val DEFAULT_START_TIME = 2304
-        private const val DEFAULT_END_TIME = 4608
     }
 
     private val _mode = MutableStateFlow(0)

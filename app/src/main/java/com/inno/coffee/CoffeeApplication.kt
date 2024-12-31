@@ -24,7 +24,7 @@ class CoffeeApplication : Application() {
 
     private val applicationScope = CoroutineScope(Dispatchers.IO)
     @Inject
-    private lateinit var cleanManager: CleanManager
+    lateinit var cleanManager: CleanManager
 
     override fun onCreate() {
         super.onCreate()

@@ -1,5 +1,7 @@
 package com.inno.coffee
 
+import java.time.LocalTime
+
 fun main() {
 //    val zdt = LocalDateTime.now()
 //    println("d : $zdt")
@@ -18,11 +20,8 @@ fun main() {
 //    val now = System.currentTimeMillis()
 //    println("milli : $epochMilli  now $now")
 
-    val int = 10
-    val int2 = 7
-    val result = (int / int2.toFloat()).toFloat()
-    println("result $result")
-
+    val now = LocalTime.now()
+    println("now $now")
 }
 
 
