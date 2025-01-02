@@ -160,7 +160,6 @@ object CleanManager {
         val result = scheduler.schedule(jobInfo)
         if (result == JobScheduler.RESULT_SUCCESS) {
             Logger.d(TAG, "Job scheduled successfully for day: $jobId")
-//            activeScheduleJob()
         } else {
             Logger.e(TAG, "Job scheduling failed for day: $jobId")
         }
