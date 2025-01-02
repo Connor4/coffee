@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.data.CleanDayOfWeek
 import com.inno.coffee.ui.common.SwitchButton
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.ui.settings.display.groupone.DisplaySettingTimeLayout
@@ -100,44 +101,65 @@ fun StandbyOnOffTimeLayout(
                     fontSize = 6.nsp(),
                     modifier = Modifier.padding(start = 471.dp, top = 5.dp))
             }
-            StandbyOnOffTimeItem(stringResource(R.string.clean_monday), viewModel.isFlagSet(0),
-                mondayStart.value, mondayEnd.value, { viewModel.setFlag(0, it) }, {
+            StandbyOnOffTimeItem(stringResource(R.string.clean_monday),
+                viewModel.isFlagSet(CleanDayOfWeek.MONDAY.value),
+                mondayStart.value, mondayEnd.value, {
+                    viewModel.setFlag(CleanDayOfWeek.MONDAY.value, it)
+                }, {
                     itemSelectIndex.value = 0
                 }, {
                     itemSelectIndex.value = 1
                 })
-            StandbyOnOffTimeItem(stringResource(R.string.clean_tuesday), viewModel.isFlagSet(1),
-                tuesdayStart.value, tuesdayEnd.value, { viewModel.setFlag(1, it) }, {
+            StandbyOnOffTimeItem(stringResource(R.string.clean_tuesday),
+                viewModel.isFlagSet(CleanDayOfWeek.TUESDAY.value),
+                tuesdayStart.value, tuesdayEnd.value, {
+                    viewModel.setFlag(CleanDayOfWeek.TUESDAY.value, it)
+                }, {
                     itemSelectIndex.value = 2
                 }, {
                     itemSelectIndex.value = 3
                 })
-            StandbyOnOffTimeItem(stringResource(R.string.clean_wednesday), viewModel.isFlagSet(2),
-                wednesdayStart.value, wednesdayEnd.value, { viewModel.setFlag(2, it) }, {
+            StandbyOnOffTimeItem(stringResource(R.string.clean_wednesday),
+                viewModel.isFlagSet(CleanDayOfWeek.WEDNESDAY.value),
+                wednesdayStart.value, wednesdayEnd.value, {
+                    viewModel.setFlag(CleanDayOfWeek.WEDNESDAY.value, it)
+                }, {
                     itemSelectIndex.value = 4
                 }, {
                     itemSelectIndex.value = 5
                 })
-            StandbyOnOffTimeItem(stringResource(R.string.clean_thursday), viewModel.isFlagSet(3),
-                thursdayStart.value, thursdayEnd.value, { viewModel.setFlag(3, it) }, {
+            StandbyOnOffTimeItem(stringResource(R.string.clean_thursday),
+                viewModel.isFlagSet(CleanDayOfWeek.THURSDAY.value),
+                thursdayStart.value, thursdayEnd.value, {
+                    viewModel.setFlag(CleanDayOfWeek.THURSDAY.value, it)
+                }, {
                     itemSelectIndex.value = 6
                 }, {
                     itemSelectIndex.value = 7
                 })
-            StandbyOnOffTimeItem(stringResource(R.string.clean_friday), viewModel.isFlagSet(4),
-                fridayStart.value, fridayEnd.value, { viewModel.setFlag(4, it) }, {
+            StandbyOnOffTimeItem(stringResource(R.string.clean_friday),
+                viewModel.isFlagSet(CleanDayOfWeek.FRIDAY.value),
+                fridayStart.value, fridayEnd.value, {
+                    viewModel.setFlag(CleanDayOfWeek.FRIDAY.value, it)
+                }, {
                     itemSelectIndex.value = 8
                 }, {
                     itemSelectIndex.value = 9
                 })
-            StandbyOnOffTimeItem(stringResource(R.string.clean_saturday), viewModel.isFlagSet(5),
-                saturdayStart.value, saturdayEnd.value, { viewModel.setFlag(5, it) }, {
+            StandbyOnOffTimeItem(stringResource(R.string.clean_saturday),
+                viewModel.isFlagSet(CleanDayOfWeek.SATURDAY.value),
+                saturdayStart.value, saturdayEnd.value, {
+                    viewModel.setFlag(CleanDayOfWeek.SATURDAY.value, it)
+                }, {
                     itemSelectIndex.value = 1
                 }, {
                     itemSelectIndex.value = 11
                 })
-            StandbyOnOffTimeItem(stringResource(R.string.clean_sunday), viewModel.isFlagSet(6),
-                sundayStart.value, sundayEnd.value, { viewModel.setFlag(6, it) }, {
+            StandbyOnOffTimeItem(stringResource(R.string.clean_sunday),
+                viewModel.isFlagSet(CleanDayOfWeek.SUNDAY.value),
+                sundayStart.value, sundayEnd.value, {
+                    viewModel.setFlag(CleanDayOfWeek.SUNDAY.value, it)
+                }, {
                     itemSelectIndex.value = 12
                 }, {
                     itemSelectIndex.value = 13

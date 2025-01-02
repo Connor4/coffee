@@ -5,6 +5,7 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.util.Log
+import com.inno.coffee.data.CleanDayOfWeek
 import com.inno.coffee.service.CleanJobService
 import com.inno.coffee.utilities.CLEAN_JOB_FLAG_NONE
 import com.inno.coffee.utilities.CLEAN_JOB_FLAG_SLEEP
@@ -69,6 +70,13 @@ object CleanManager {
         }
     }
 
+    fun cancelAndActive() {
+        val scheduler =
+            applicationContext.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        scheduler.cancelAll()
+        activeScheduleJob()
+    }
+
     private suspend fun findNextActiveTimeWindow(flag: Int): Pair<Int, Long> {
         val now = LocalDateTime.now()
         for (i in 0..6) {
@@ -86,20 +94,20 @@ object CleanManager {
     private suspend fun findDayOfWeek(now: LocalDateTime, findDay: LocalDateTime, flag: Int):
             Pair<Int, Long>? {
         return when (findDay.dayOfWeek) {
-            DayOfWeek.MONDAY -> checkDaySchedule(flag, 0, now, findDay, STANDBY_MONDAY,
-                STANDBY_MONDAY_END)
-            DayOfWeek.TUESDAY -> checkDaySchedule(flag, 1, now, findDay, STANDBY_TUESDAY,
-                STANDBY_TUESDAY_END)
-            DayOfWeek.WEDNESDAY -> checkDaySchedule(flag, 2, now, findDay, STANDBY_WEDNESDAY,
-                STANDBY_WEDNESDAY_END)
-            DayOfWeek.THURSDAY -> checkDaySchedule(flag, 3, now, findDay, STANDBY_THURSDAY,
-                STANDBY_THURSDAY_END)
-            DayOfWeek.FRIDAY -> checkDaySchedule(flag, 4, now, findDay, STANDBY_FRIDAY,
-                STANDBY_FRIDAY_END)
-            DayOfWeek.SATURDAY -> checkDaySchedule(flag, 5, now, findDay, STANDBY_SATURDAY,
-                STANDBY_SATURDAY_END)
-            DayOfWeek.SUNDAY -> checkDaySchedule(flag, 6, now, findDay, STANDBY_SUNDAY,
-                STANDBY_SUNDAY_END)
+            DayOfWeek.MONDAY -> checkDaySchedule(flag, CleanDayOfWeek.MONDAY.value, now, findDay,
+                STANDBY_MONDAY, STANDBY_MONDAY_END)
+            DayOfWeek.TUESDAY -> checkDaySchedule(flag, CleanDayOfWeek.TUESDAY.value, now,
+                findDay, STANDBY_TUESDAY, STANDBY_TUESDAY_END)
+            DayOfWeek.WEDNESDAY -> checkDaySchedule(flag, CleanDayOfWeek.WEDNESDAY.value, now,
+                findDay, STANDBY_WEDNESDAY, STANDBY_WEDNESDAY_END)
+            DayOfWeek.THURSDAY -> checkDaySchedule(flag, CleanDayOfWeek.THURSDAY.value, now,
+                findDay, STANDBY_THURSDAY, STANDBY_THURSDAY_END)
+            DayOfWeek.FRIDAY -> checkDaySchedule(flag, CleanDayOfWeek.FRIDAY.value, now, findDay,
+                STANDBY_FRIDAY, STANDBY_FRIDAY_END)
+            DayOfWeek.SATURDAY -> checkDaySchedule(flag, CleanDayOfWeek.SATURDAY.value, now,
+                findDay, STANDBY_SATURDAY, STANDBY_SATURDAY_END)
+            DayOfWeek.SUNDAY -> checkDaySchedule(flag, CleanDayOfWeek.SUNDAY.value, now, findDay,
+                STANDBY_SUNDAY, STANDBY_SUNDAY_END)
             null -> Pair(CLEAN_JOB_FLAG_NONE, 0)
         }
     }

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.function.clean.CleanManager
 import com.inno.coffee.utilities.CLEAN_MILK_WEEKEND_CLEAN_MODE
 import com.inno.coffee.utilities.CLEAN_MODE
 import com.inno.coffee.utilities.CLEAN_PERIOD_TIME
@@ -164,6 +165,7 @@ class CleanViewModel @Inject constructor(
                 "${_switchValue.value}")
         viewModelScope.launch(defaultDispatcher) {
             dataStore.saveCoffeePreference(SWITCH_VALUE, _switchValue.value)
+            CleanManager.cancelAndActive()
         }
     }
 
