@@ -28,25 +28,26 @@ import com.inno.coffee.utilities.STANDBY_WEDNESDAY_END
 import com.inno.coffee.utilities.SWITCH_VALUE
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import javax.inject.Inject
 
 
-class CleanManager @Inject constructor(
-    @ApplicationContext private val applicationContext: Context,
-    private val dataStore: CoffeeDataStore,
-) {
-    companion object {
-        private const val TAG = "CleanManager"
-    }
+object CleanManager {
+    private const val TAG = "CleanManager"
 
     private val scope = CoroutineScope(Dispatchers.Main)
+    private lateinit var dataStore: CoffeeDataStore
+    private lateinit var applicationContext: Context
+
+    fun initialize(dataStore: CoffeeDataStore, applicationContext: Context) {
+        this.dataStore = dataStore
+        this.applicationContext = applicationContext
+        activeScheduleJob()
+    }
 
     /**
      * 1.Parse the schedule and extract the times and statuses for each day.
@@ -128,17 +129,14 @@ class CleanManager @Inject constructor(
                 "start = $startLocalDateTime, end = $endLocalDateTime")
         return when {
             now.isBefore(startLocalDateTime) -> {
-                Logger.d(TAG, "findNextMove() called isBefore")
                 val between = ChronoUnit.MILLIS.between(now, startLocalDateTime)
                 Pair(CLEAN_JOB_FLAG_WAKEUP, between)
             }
             now.isAfter(startLocalDateTime) && now.isBefore(endLocalDateTime) -> {
-                Logger.d(TAG, "findNextMove() called isMid")
                 val between = ChronoUnit.MILLIS.between(now, endLocalDateTime)
                 Pair(CLEAN_JOB_FLAG_SLEEP, between)
             }
             now.isAfter(endLocalDateTime) -> {
-                Logger.d(TAG, "findNextMove() called isAfter")
                 findDayOfWeek(now, now.plusDays(1), flag)
             }
             else -> Pair(CLEAN_JOB_FLAG_NONE, 0)

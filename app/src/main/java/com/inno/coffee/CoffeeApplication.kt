@@ -8,6 +8,7 @@ import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogLeftManager
 import com.inno.coffee.ui.notice.GlobalDialogRightManager
+import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
 import dagger.hilt.android.HiltAndroidApp
@@ -24,7 +25,7 @@ class CoffeeApplication : Application() {
 
     private val applicationScope = CoroutineScope(Dispatchers.IO)
     @Inject
-    lateinit var cleanManager: CleanManager
+    lateinit var dataStore: CoffeeDataStore
 
     override fun onCreate() {
         super.onCreate()
@@ -48,9 +49,9 @@ class CoffeeApplication : Application() {
             ProductProfileManager.init(this@CoffeeApplication)
             DefaultSettingManager.init(this@CoffeeApplication)
             StatisticManager.init(this@CoffeeApplication)
+            CleanManager.initialize(dataStore, this@CoffeeApplication)
 
             ProductProfileManager.readFormulaFromAssets(this@CoffeeApplication)
-            cleanManager.activeScheduleJob()
         }
     }
 
