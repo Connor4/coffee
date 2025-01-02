@@ -151,7 +151,7 @@ fun StandbyOnOffTimeLayout(
                 saturdayStart.value, saturdayEnd.value, {
                     viewModel.setFlag(CleanDayOfWeek.SATURDAY.value, it)
                 }, {
-                    itemSelectIndex.value = 1
+                    itemSelectIndex.value = 10
                 }, {
                     itemSelectIndex.value = 11
                 })
