@@ -234,6 +234,7 @@ const val CLEAN_MODE_MANUAL = 2
 const val CLEAN_WEEKEND_OFF = 0
 const val CLEAN_WEEKEND_NO_SAT_SUN = 1
 const val CLEAN_WEEKEND_NO_FRI_SAT = 2
+const val SWITCH_VALUE = "clean_switch_value"
 const val STANDBY_MONDAY = "clean_standby_monday"
 const val STANDBY_MONDAY_END = "clean_standby_monday_end"
 const val STANDBY_TUESDAY = "clean_standby_tuesday"

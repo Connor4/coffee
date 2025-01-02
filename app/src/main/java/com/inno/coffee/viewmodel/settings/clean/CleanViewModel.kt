@@ -27,6 +27,7 @@ import com.inno.coffee.utilities.STANDBY_TUESDAY
 import com.inno.coffee.utilities.STANDBY_TUESDAY_END
 import com.inno.coffee.utilities.STANDBY_WEDNESDAY
 import com.inno.coffee.utilities.STANDBY_WEDNESDAY_END
+import com.inno.coffee.utilities.SWITCH_VALUE
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,7 +55,6 @@ class CleanViewModel @Inject constructor(
         private const val MILK_WEEKEND_CLEAN_MODE = "clean_milk_weekend_clean_mode"
         private const val AFTER_CLEANING = "clean_after_cleaning"
         private const val STANDBY_BUTTON = "clean_standby_button"
-        private const val SWITCH_VALUE = "clean_switch_value"
     }
 
     private val _mode = MutableStateFlow(0)
