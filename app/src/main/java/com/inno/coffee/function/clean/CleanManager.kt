@@ -63,12 +63,12 @@ class CleanManager @Inject constructor(
                 Logger.d(TAG, "switch off, no schedule clean")
                 return@launch
             }
-            val move = findActiveTime(cleanFlag)
+            val move = findNextActiveTimeWindow(cleanFlag)
             scheduleJob(move.first, move.second)
         }
     }
 
-    private suspend fun findActiveTime(flag: Int): Pair<Int, Long> {
+    private suspend fun findNextActiveTimeWindow(flag: Int): Pair<Int, Long> {
         val now = LocalDateTime.now()
         for (i in 0..6) {
             val dayToCheck = now.plusDays(i.toLong())
@@ -85,66 +85,32 @@ class CleanManager @Inject constructor(
     private suspend fun findDayOfWeek(now: LocalDateTime, findDay: LocalDateTime, flag: Int):
             Pair<Int, Long>? {
         return when (findDay.dayOfWeek) {
-            DayOfWeek.MONDAY -> {
-                val dayOn = isFlagSet(flag, 0)
-                if (dayOn) {
-                    findNextMove(now, findDay, STANDBY_MONDAY, STANDBY_MONDAY_END, flag)
-                } else {
-                    null
-                }
-            }
-            DayOfWeek.TUESDAY -> {
-                val dayOn = isFlagSet(flag, 1)
-                if (dayOn) {
-                    findNextMove(now, findDay, STANDBY_TUESDAY, STANDBY_TUESDAY_END, flag)
-                } else {
-                    null
-                }
-            }
-            DayOfWeek.WEDNESDAY -> {
-                val dayOn = isFlagSet(flag, 2)
-                if (dayOn) {
-                    findNextMove(now, findDay, STANDBY_WEDNESDAY, STANDBY_WEDNESDAY_END, flag)
-                } else {
-                    null
-                }
-            }
-            DayOfWeek.THURSDAY -> {
-                val dayOn = isFlagSet(flag, 3)
-                if (dayOn) {
-                    findNextMove(now, findDay, STANDBY_THURSDAY, STANDBY_THURSDAY_END, flag)
-                } else {
-                    null
-                }
-            }
-            DayOfWeek.FRIDAY -> {
-                val dayOn = isFlagSet(flag, 4)
-                if (dayOn) {
-                    findNextMove(now, findDay, STANDBY_FRIDAY, STANDBY_FRIDAY_END, flag)
-                } else {
-                    null
-                }
-            }
-            DayOfWeek.SATURDAY -> {
-                val dayOn = isFlagSet(flag, 5)
-                if (dayOn) {
-                    findNextMove(now, findDay, STANDBY_SATURDAY, STANDBY_SATURDAY_END, flag)
-                } else {
-                    null
-                }
-            }
-            DayOfWeek.SUNDAY -> {
-                val dayOn = isFlagSet(flag, 6)
-                if (dayOn) {
-                    findNextMove(now, findDay, STANDBY_SUNDAY, STANDBY_SUNDAY_END, flag)
-                } else {
-                    null
-                }
-            }
-            null -> {
-                Pair(CLEAN_JOB_FLAG_NONE, 0)
-            }
+            DayOfWeek.MONDAY -> checkDaySchedule(flag, 0, now, findDay, STANDBY_MONDAY,
+                STANDBY_MONDAY_END)
+            DayOfWeek.TUESDAY -> checkDaySchedule(flag, 1, now, findDay, STANDBY_TUESDAY,
+                STANDBY_TUESDAY_END)
+            DayOfWeek.WEDNESDAY -> checkDaySchedule(flag, 2, now, findDay, STANDBY_WEDNESDAY,
+                STANDBY_WEDNESDAY_END)
+            DayOfWeek.THURSDAY -> checkDaySchedule(flag, 3, now, findDay, STANDBY_THURSDAY,
+                STANDBY_THURSDAY_END)
+            DayOfWeek.FRIDAY -> checkDaySchedule(flag, 4, now, findDay, STANDBY_FRIDAY,
+                STANDBY_FRIDAY_END)
+            DayOfWeek.SATURDAY -> checkDaySchedule(flag, 5, now, findDay, STANDBY_SATURDAY,
+                STANDBY_SATURDAY_END)
+            DayOfWeek.SUNDAY -> checkDaySchedule(flag, 6, now, findDay, STANDBY_SUNDAY,
+                STANDBY_SUNDAY_END)
+            null -> Pair(CLEAN_JOB_FLAG_NONE, 0)
         }
+    }
+
+    private suspend fun checkDaySchedule(
+        flag: Int, flagIndex: Int, now: LocalDateTime, findDay: LocalDateTime, start: String,
+        end: String,
+    ): Pair<Int, Long>? {
+        if (!isFlagSet(flag, flagIndex)) {
+            return null
+        }
+        return findNextMove(now, findDay, start, end, flag)
     }
 
     private suspend fun findNextMove(
