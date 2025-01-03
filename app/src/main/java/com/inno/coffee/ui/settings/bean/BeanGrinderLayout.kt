@@ -205,6 +205,30 @@ fun BeanGrinderLayout(
                     )
                 )
             }
+
+            DisplayItemLayout(stringResource(R.string.bean_grinding_capacity_hopper_rear),
+                "${grindingCapacityRear.value}", unit = "[mm/s]",
+                backgroundColor = Color(0xFF191A1D), enable = !pqc.value
+            ) {
+                itemSelectIndex.value = BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR
+                scrollDefaultValue.value = grindingCapacityRear.value
+                scrollRangeStart.value = 1f
+                scrollRangeEnd.value = 10f
+                scrollUnit.value = "[mm/s]"
+                scrollAccuracy.value = ACCURACY_3
+            }
+            DisplayItemLayout(stringResource(R.string.bean_grinding_capacity_hopper_front),
+                "${grindingCapacityFront.value}", unit = "[mm/s]",
+                backgroundColor = Color(0xFF2A2B2D), enable = !pqc.value
+            ) {
+                itemSelectIndex.value = BEAN_KEY_INDEX_GRINDING_CAPACITY_FRONT
+                scrollDefaultValue.value = grindingCapacityFront.value
+                scrollRangeStart.value = 1f
+                scrollRangeEnd.value = 10f
+                scrollUnit.value = "[mm/s]"
+                scrollAccuracy.value = ACCURACY_3
+            }
+
             if (pqc.value) {
                 DisplayItemLayout(etcRearString, etcRearValue, unit = rearReferenceValue,
                     backgroundColor = Color(0xFF191A1D)
@@ -262,29 +286,7 @@ fun BeanGrinderLayout(
                         scrollAccuracy.value = ACCURACY_3
                     }
                 }
-            } else {
-                DisplayItemLayout(stringResource(R.string.bean_grinding_capacity_hopper_rear),
-                    "${grindingCapacityRear.value}", unit = "[mm/s]",
-                    backgroundColor = Color(0xFF191A1D)
-                ) {
-                    itemSelectIndex.value = BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR
-                    scrollDefaultValue.value = grindingCapacityRear.value
-                    scrollRangeStart.value = 1f
-                    scrollRangeEnd.value = 10f
-                    scrollUnit.value = "[mm/s]"
-                    scrollAccuracy.value = ACCURACY_3
-                }
-                DisplayItemLayout(stringResource(R.string.bean_grinding_capacity_hopper_front),
-                    "${grindingCapacityFront.value}", unit = "[mm/s]",
-                    backgroundColor = Color(0xFF2A2B2D)
-                ) {
-                    itemSelectIndex.value = BEAN_KEY_INDEX_GRINDING_CAPACITY_FRONT
-                    scrollDefaultValue.value = grindingCapacityFront.value
-                    scrollRangeStart.value = 1f
-                    scrollRangeEnd.value = 10f
-                    scrollUnit.value = "[mm/s]"
-                    scrollAccuracy.value = ACCURACY_3
-                }
+
             }
         }
 

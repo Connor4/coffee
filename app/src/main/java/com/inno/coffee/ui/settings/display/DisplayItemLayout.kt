@@ -23,8 +23,11 @@ fun DisplayItemLayout(
     value: String,
     backgroundColor: Color = Color(0xFF191A1D),
     unit: String = "",
+    enable: Boolean = true,
     onClick: () -> Unit = {},
 ) {
+    val textColor = if (enable) Color.White else Color(0x4DFFFFFF)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -35,22 +38,22 @@ fun DisplayItemLayout(
                 .fillMaxWidth()
                 .height(30.dp)
                 .background(color = backgroundColor)
-                .debouncedClickable({ onClick() }),
+                .debouncedClickable({ onClick() }, enabled = enable),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(
-                text = key, color = Color.White,
+                text = key, color = textColor,
                 fontSize = 5.nsp(),
                 modifier = Modifier.padding(start = 29.dp)
             )
             Text(
-                text = value, color = Color.White,
+                text = value, color = textColor,
                 fontSize = 5.nsp(),
                 modifier = Modifier.padding(start = 420.dp)
             )
             if (unit.isNotEmpty()) {
                 Text(
-                    text = unit, color = Color.White,
+                    text = unit, color = textColor,
                     fontSize = 5.nsp(),
                     modifier = Modifier.padding(start = 810.dp)
                 )
