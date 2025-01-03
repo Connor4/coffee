@@ -110,7 +110,8 @@ fun MachineTestMotorLayout(
                 itemSelectIndex.value = MACHINE_TEST_MOTOR_STEP
                 scrollDefaultValue.value = step.value.toFloat()
                 scrollRangeStart.value = 0f
-                scrollRangeEnd.value = 2500f
+                scrollRangeEnd.value = if (selectMotor.value == MACHINE_TEST_MOTOR_LEFT_TOP ||
+                        selectMotor.value == MACHINE_TEST_MOTOR_RIGHT_TOP) 2500f else 1250f
                 scrollUnit.value = "[step]"
             }
             DisplayItemLayout(stringResource(R.string.machine_test_motor_speed),
@@ -118,7 +119,8 @@ fun MachineTestMotorLayout(
                 itemSelectIndex.value = MACHINE_TEST_MOTOR_SPEED
                 scrollDefaultValue.value = speed.value.toFloat()
                 scrollRangeStart.value = 200f
-                scrollRangeEnd.value = 2000f
+                scrollRangeEnd.value = if (selectMotor.value == MACHINE_TEST_MOTOR_LEFT_TOP ||
+                        selectMotor.value == MACHINE_TEST_MOTOR_RIGHT_TOP) 2000f else 800f
                 scrollUnit.value = "[rpm]"
             }
             DisplayItemLayout(stringResource(R.string.machine_test_maximum_current),
