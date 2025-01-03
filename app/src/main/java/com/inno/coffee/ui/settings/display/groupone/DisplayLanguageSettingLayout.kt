@@ -24,7 +24,6 @@ import com.inno.coffee.ui.common.LanguageGroupLayout
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.display.DisplayViewModel
-import java.util.Locale
 
 @Composable
 fun DisplayLanguageSettingLayout(
@@ -58,8 +57,8 @@ fun DisplayLanguageSettingLayout(
                 .fastclick { onCloseClick() },
             contentDescription = null
         )
-        LanguageGroupLayout(Locale.forLanguageTag(defaultLanguage.value)) { locale ->
-            viewModel.selectLanguage(context, locale)
+        LanguageGroupLayout(defaultLanguage.value) { language ->
+            viewModel.selectLanguage(context, language)
         }
     }
 }

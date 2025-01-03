@@ -27,7 +27,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -109,14 +108,13 @@ class DisplayViewModel @Inject constructor(
         }
     }
 
-    fun selectLanguage(context: Context, locale: Locale) {
-        val languageTag = locale.toLanguageTag()
-        _language.value = languageTag
+    fun selectLanguage(context: Context, language: String) {
+        Logger.d(TAG, "selectLanguage() language = $language")
+        _language.value = language
         viewModelScope.launch(defaultDispatcher) {
             delay(100)
-            dataStore.saveSystemLanguage(languageTag)
-            SystemLocaleHelper.changeSystemLocale(context, locale.language)
-            Logger.d(TAG, "selectLanguage() language = ${_language.value}")
+            SystemLocaleHelper.changeSystemLocale(context, language)
+            dataStore.saveSystemLanguage(language)
         }
     }
 

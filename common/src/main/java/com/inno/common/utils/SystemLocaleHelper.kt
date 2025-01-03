@@ -20,7 +20,13 @@ object SystemLocaleHelper {
             val activityManagerNative = getServiceMethod.invoke(am)
 
             val configuration = Configuration()
-            val localeList = LocaleList(Locale(language))
+            val localeParts = language.split("_")
+            val locale = if (localeParts.size == 2) {
+                Locale(localeParts[0], localeParts[1])
+            } else {
+                Locale(localeParts[0])
+            }
+            val localeList = LocaleList(locale)
             configuration.setLocales(localeList)
 
             val userSetLocaleField = configuration.javaClass.getDeclaredField("userSetLocale")

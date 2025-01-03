@@ -24,23 +24,33 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_ENGLISH
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_FRENCH
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_JAPANESE
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_KOREAN
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE
+import com.inno.coffee.utilities.FIRST_INSTALL_KEY_TRADITIONAL_CHINESE
 import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_ENGLISH
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_FRENCH
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_JAPANESE
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_KOREAN
 import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_SIMPLIFIED_CHINESE
+import com.inno.coffee.utilities.FIRST_INSTALL_VALUE_TRADITIONAL_CHINESE
 import com.inno.coffee.utilities.nsp
 import java.util.Locale
 
 @Composable
 fun LanguageGroupLayout(
-    defaultLocale: Locale,
-    onLanguagePick: (Locale) -> Unit,
+    defaultLocale: String,
+    onLanguagePick: (String) -> Unit,
 ) {
-    val radioOptions = mapOf<Locale, String>(
-        Pair(Locale.ENGLISH, FIRST_INSTALL_VALUE_ENGLISH),
-        Pair(Locale.SIMPLIFIED_CHINESE, FIRST_INSTALL_VALUE_SIMPLIFIED_CHINESE),
-//        Pair(Locale.TRADITIONAL_CHINESE, FIRST_INSTALL_VALUE_TRADITIONAL_CHINESE),
-//        Pair(Locale.JAPAN, FIRST_INSTALL_VALUE_JAPANESE),
-//        Pair(Locale.KOREA, FIRST_INSTALL_VALUE_KOREAN),
-//        Pair(Locale.FRANCE, FIRST_INSTALL_VALUE_FRENCH)
+    val radioOptions = mapOf(
+        Pair(FIRST_INSTALL_KEY_ENGLISH, FIRST_INSTALL_VALUE_ENGLISH),
+        Pair(FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE, FIRST_INSTALL_VALUE_SIMPLIFIED_CHINESE),
+        Pair(FIRST_INSTALL_KEY_TRADITIONAL_CHINESE, FIRST_INSTALL_VALUE_TRADITIONAL_CHINESE),
+        Pair(FIRST_INSTALL_KEY_JAPANESE, FIRST_INSTALL_VALUE_JAPANESE),
+        Pair(FIRST_INSTALL_KEY_KOREAN, FIRST_INSTALL_VALUE_KOREAN),
+        Pair(FIRST_INSTALL_KEY_FRENCH, FIRST_INSTALL_VALUE_FRENCH)
     )
 
     val (selectedKey, setSelectedKey) = remember {
@@ -109,5 +119,5 @@ private fun LanguageRadioButton(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewDisplayLanguageGroup() {
-    LanguageGroupLayout(Locale.ENGLISH) {}
+    LanguageGroupLayout(Locale.ENGLISH.language) {}
 }

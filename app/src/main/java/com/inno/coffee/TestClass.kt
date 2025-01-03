@@ -1,6 +1,6 @@
 package com.inno.coffee
 
-import java.time.LocalTime
+import java.util.Locale
 
 fun main() {
 //    val zdt = LocalDateTime.now()
@@ -20,8 +20,9 @@ fun main() {
 //    val now = System.currentTimeMillis()
 //    println("milli : $epochMilli  now $now")
 
-    val now = LocalTime.now()
-    println("now $now")
+    val default = Locale.getDefault()
+    val country = "zh_CN".split("_", limit = 2)[1]
+    println("default $default country $country")
 }
 
 

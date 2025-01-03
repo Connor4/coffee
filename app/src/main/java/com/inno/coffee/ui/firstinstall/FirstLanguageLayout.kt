@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,10 +28,10 @@ import java.util.Locale
 
 @Composable
 fun FirstLanguageLayout(
-    onLanguagePick: (Locale) -> Unit,
+    onLanguagePick: (String) -> Unit,
 ) {
-    val selectedLanguage = remember {
-        mutableStateOf(Locale.ENGLISH)
+    var selectedLanguage by remember {
+        mutableStateOf(getCurrentSystemLanguage())
     }
 
     Box(
@@ -49,13 +51,22 @@ fun FirstLanguageLayout(
                 .wrapContentSize()
         )
 
-        LanguageGroupLayout(Locale.ENGLISH) { locale ->
-            selectedLanguage.value = locale
+        LanguageGroupLayout(selectedLanguage) { language ->
+            selectedLanguage = language
         }
 
         NextStepButton(modifier = Modifier.align(Alignment.BottomEnd)) {
-            onLanguagePick(selectedLanguage.value)
+            onLanguagePick(selectedLanguage)
         }
+    }
+}
+
+private fun getCurrentSystemLanguage(): String {
+    val locale = Locale.getDefault()
+    return if (locale.country.isNotEmpty()) {
+        "${locale.language}_${locale.country}"
+    } else {
+        locale.language
     }
 }
 

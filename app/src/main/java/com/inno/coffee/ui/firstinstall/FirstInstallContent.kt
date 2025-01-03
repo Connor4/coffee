@@ -70,9 +70,9 @@ fun InstallSetting(
             }
         }
         composable(LANGUAGE) {
-            FirstLanguageLayout { locale ->
+            FirstLanguageLayout { language ->
                 navController.navigate(DATE)
-                viewModel.selectLanguage(context, locale)
+                viewModel.selectLanguage(context, language)
             }
         }
         composable(DATE) {
