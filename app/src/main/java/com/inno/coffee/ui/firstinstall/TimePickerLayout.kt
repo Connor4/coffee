@@ -1,5 +1,6 @@
 package com.inno.coffee.ui.firstinstall
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +33,7 @@ import com.inno.coffee.utilities.nsp
 import java.util.Locale
 
 @Composable
-fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Int, Int) -> Unit) {
+fun TimePickerLayout(onTimePick: (Int, Int) -> Unit) {
 //    val selectAm = remember {
 //        mutableStateOf(true)
 //    }
@@ -50,7 +51,9 @@ fun TimePickerLayout(modifier: Modifier = Modifier, onTimePick: (Int, Int) -> Un
     }
 
     Box(
-        modifier = modifier
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color(0xFF191A1D))
     ) {
         Text(
             text = stringResource(id = R.string.first_install_time_title),

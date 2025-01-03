@@ -1,6 +1,7 @@
 package com.inno.coffee.ui.firstinstall
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -39,7 +40,7 @@ import com.inno.coffee.utilities.nsp
 
 
 @Composable
-fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit) {
+fun DatePickerLayout(onDatePick: (Long?) -> Unit) {
     val datePickerViewRef = remember {
         mutableStateOf<CoffeeDatePickerView?>(null)
     }
@@ -64,7 +65,9 @@ fun DatePickerLayout(modifier: Modifier = Modifier, onDatePick: (Long?) -> Unit)
     datePickerViewRef.value?.showYearPickerView(openYear.value)
 
     Box(
-        modifier = modifier
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color(0xFF191A1D))
     ) {
         Text(
             text = stringResource(id = R.string.first_install_date_title),

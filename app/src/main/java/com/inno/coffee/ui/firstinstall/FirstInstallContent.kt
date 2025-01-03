@@ -28,6 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.inno.coffee.R
 import com.inno.coffee.utilities.DATE
 import com.inno.coffee.utilities.DEFAULT_SYSTEM_TIME
@@ -44,9 +47,8 @@ fun InstallSetting(
     viewModel: InstallViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val modifier = Modifier
-        .fillMaxSize()
-        .background(color = Color(0xFF191A1D))
+    val navController = rememberNavController()
+
     var selectedDateMillis by remember {
         mutableStateOf<Long?>(DEFAULT_SYSTEM_TIME)
     }
@@ -56,28 +58,31 @@ fun InstallSetting(
     var selectedMin by remember {
         mutableIntStateOf(0)
     }
-    var step by remember { mutableStateOf(SPLASH) }
 
-    when (step) {
-        SPLASH -> {
-            SplashPage(modifier) {
-                step = LANGUAGE
+    NavHost(navController = navController, startDestination = SPLASH) {
+        composable(SPLASH) {
+            SplashPage {
+                navController.navigate(LANGUAGE) {
+                    popUpTo(SPLASH) {
+                        inclusive = true
+                    }
+                }
             }
         }
-        LANGUAGE -> {
-            FirstLanguageLayout(modifier) { locale ->
-                step = DATE
+        composable(LANGUAGE) {
+            FirstLanguageLayout { locale ->
+                navController.navigate(DATE)
                 viewModel.selectLanguage(context, locale)
             }
         }
-        DATE -> {
-            DatePickerLayout(modifier) {
+        composable(DATE) {
+            DatePickerLayout {
                 selectedDateMillis = it
-                step = TIME
+                navController.navigate(TIME)
             }
         }
-        TIME -> {
-            TimePickerLayout(modifier) { hour, min ->
+        composable(TIME) {
+            TimePickerLayout { hour, min ->
                 selectedHour = hour
                 selectedMin = min
                 viewModel.finishSetting(context, selectedDateMillis ?: DEFAULT_SYSTEM_TIME,
@@ -92,7 +97,6 @@ fun InstallSetting(
 
 @Composable
 private fun SplashPage(
-    modifier: Modifier = Modifier,
     onNext: () -> Unit,
 ) {
     LaunchedEffect(Unit) {
@@ -111,7 +115,9 @@ private fun SplashPage(
     )
 
     Box(
-        modifier = modifier,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color(0xFF191A1D)),
     ) {
         Image(
             painter = painterResource(id = R.drawable.install_splash_logo_ic),

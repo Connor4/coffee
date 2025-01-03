@@ -1,6 +1,8 @@
 package com.inno.coffee.ui.firstinstall
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
@@ -24,7 +26,6 @@ import java.util.Locale
 
 @Composable
 fun FirstLanguageLayout(
-    modifier: Modifier = Modifier,
     onLanguagePick: (Locale) -> Unit,
 ) {
     val selectedLanguage = remember {
@@ -32,7 +33,9 @@ fun FirstLanguageLayout(
     }
 
     Box(
-        modifier = modifier,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color(0xFF191A1D)),
     ) {
         Text(
             text = stringResource(id = R.string.first_install_language_title),
