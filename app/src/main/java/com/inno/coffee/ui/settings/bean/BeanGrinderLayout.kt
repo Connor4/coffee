@@ -276,7 +276,8 @@ fun BeanGrinderLayout(
                     DisplayItemLayout(
                         stringResource(R.string.bean_lower_limit_grinding_capacity_front),
                         "${frontLimitCapacity.value}", unit = "[mm/s]",
-                        backgroundColor = Color(0xFF2A2B2D)
+                        backgroundColor =
+                        if (!etcRear.value) Color(0xFF191A1D) else Color(0xFF2A2B2D)
                     ) {
                         itemSelectIndex.value = BEAN_KEY_INDEX_GRINDER_LIMIT_CAPACITY_FRONT
                         scrollDefaultValue.value = frontLimitCapacity.value
