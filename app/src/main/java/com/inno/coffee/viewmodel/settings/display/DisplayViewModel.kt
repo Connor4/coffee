@@ -25,7 +25,6 @@ import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.common.utils.SystemLocaleHelper
 import com.inno.common.utils.TimeUtils
-import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.FRAME_ADDRESS_3
 import com.inno.serialport.utilities.FRAME_ADDRESS_4
@@ -33,7 +32,6 @@ import com.inno.serialport.utilities.FRONT_GRADIENT_COLOR_ID
 import com.inno.serialport.utilities.FRONT_SINGLE_COLOR_ID
 import com.inno.serialport.utilities.FRONT_TWINKLE_COLOR_ID
 import com.inno.serialport.utilities.ReceivedData
-import com.inno.serialport.utilities.ReceivedDataType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
@@ -83,17 +81,17 @@ class DisplayViewModel @Inject constructor(
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
-            parseReceivedData(data)
+//            parseReceivedData(data)
         }
     }
 
     init {
-        DataCenter.subscribe(ReceivedDataType.FRONT_COLOR, subscriber)
+//        DataCenter.subscribe(ReceivedDataType.FRONT_COLOR, subscriber)
     }
 
     override fun onCleared() {
         super.onCleared()
-        DataCenter.unsubscribe(ReceivedDataType.FRONT_COLOR, subscriber)
+//        DataCenter.unsubscribe(ReceivedDataType.FRONT_COLOR, subscriber)
     }
 
     fun initGroup() {
