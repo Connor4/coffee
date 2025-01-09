@@ -26,10 +26,26 @@ object CommandControlManager {
         return byteArray
     }
 
+    private fun shortArrayConvertByte(commandInfo: ShortArray): ByteArray {
+        val byteArray = ByteArray(commandInfo.size)
+        commandInfo.forEachIndexed { index, value ->
+            byteArray[index] = value.toByte()
+        }
+        return byteArray
+    }
+
     fun sendTestCommand(commandId: Short, vararg value: Int) {
         scope.launch {
             val byteArray = intArrayConvertByte(value)
             SerialPortDataManager.instance.sendCommand(commandId, byteArray.size, byteArray)
+        }
+    }
+
+    fun sendFrontColorCommand(commandId: Short, address: Byte, vararg value: Short) {
+        scope.launch {
+            val byteArray = shortArrayConvertByte(value)
+            SerialPortDataManager.instance.sendCommandSpecifyAddress(commandId, byteArray.size,
+                address, byteArray)
         }
     }
 

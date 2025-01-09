@@ -5,6 +5,7 @@ import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
 import com.inno.serialport.function.chain.RealChainHandler
 import com.inno.serialport.function.driver.RS485Driver
+import com.inno.serialport.utilities.FRAME_ADDRESS_2
 import com.inno.serialport.utilities.ReceivedData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -67,10 +68,16 @@ class SerialPortDataManager private constructor() {
     suspend fun sendCommand(commandId: Short, infoSize: Int, commandInfo: ByteArray?) {
         Logger.d(TAG, "sendCommand() called with: commandId = $commandId, infoSize = $infoSize," +
                 " commandInfo = ${commandInfo?.toHexString()}")
+        sendCommandSpecifyAddress(commandId, infoSize, FRAME_ADDRESS_2, commandInfo)
+    }
+
+    suspend fun sendCommandSpecifyAddress(
+        commandId: Short, infoSize: Int, address: Byte, commandInfo: ByteArray?,
+    ) {
         commandInfo?.let {
             mutex.withLock {
                 heartBeatJob?.cancel()
-                driver.send(commandId, infoSize, commandInfo)
+                driver.send(commandId, infoSize, address, commandInfo)
                 startHeartBeat()
             }
         }

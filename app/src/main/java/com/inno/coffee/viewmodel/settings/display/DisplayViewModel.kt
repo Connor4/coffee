@@ -6,7 +6,11 @@ import androidx.annotation.IntRange
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.function.CommandControlManager
+import com.inno.coffee.utilities.DISPLAY_COLOR_BLUE
+import com.inno.coffee.utilities.DISPLAY_COLOR_GREEN
 import com.inno.coffee.utilities.DISPLAY_COLOR_MIX
+import com.inno.coffee.utilities.DISPLAY_COLOR_RED
 import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_12
 import com.inno.coffee.utilities.INDEX_AUTO_BACK_TO_FIRST_PAGE
 import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_BRIGHTNESS
@@ -21,6 +25,9 @@ import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.common.utils.SystemLocaleHelper
 import com.inno.common.utils.TimeUtils
+import com.inno.serialport.utilities.FRAME_ADDRESS_3
+import com.inno.serialport.utilities.FRAME_ADDRESS_4
+import com.inno.serialport.utilities.FRONT_SINGLE_COLOR_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
@@ -141,6 +148,7 @@ class DisplayViewModel @Inject constructor(
                 INDEX_FRONT_LIGHT_COLOR -> {
                     dataStore.saveCoffeePreference(FRONT_LIGHT_COLOR, value as Int)
                     _frontLightColor.value = value
+                    setFrontLightColor(value)
                 }
                 INDEX_FRONT_LIGHT_BRIGHTNESS -> {
                     dataStore.saveCoffeePreference(FRONT_LIGHT_BRIGHTNESS, value as Int)
@@ -186,6 +194,31 @@ class DisplayViewModel @Inject constructor(
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun setFrontLightColor(color: Int) {
+        when (color) {
+            DISPLAY_COLOR_MIX -> {}
+            DISPLAY_COLOR_RED -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
+                    0, 0XFF, 0)
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
+                    0, 0XFF, 0)
+            }
+            DISPLAY_COLOR_GREEN -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
+                    0XFF, 0, 0)
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
+                    0XFF, 0, 0)
+            }
+            DISPLAY_COLOR_BLUE -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
+                    0, 0, 0XFF)
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
+                    0, 0, 0XFF)
+            }
+        }
+
     }
 
 }

@@ -79,6 +79,7 @@ object MakeLeftDrinksHandler {
                 Logger.d(TAG, "executeNow() called operationId: ${model.productId}")
 
                 val byteInfo = ProductProfileManager.convertProductProfile(model, true)
+                // TODO try use class CommandControlManager
                 SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
                     byteInfo)
                 waitForOperationReplyConfirm()

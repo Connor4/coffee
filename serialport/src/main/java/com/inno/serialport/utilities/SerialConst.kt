@@ -9,9 +9,13 @@ const val FRAME_LENGTH_INDEX_HIGH = 4
 const val FRAME_CMD_INDEX_LOW = 5
 const val FRAME_CMD_INDEX_HIGH = 6
 const val FRAME_CONTENT_START_INDEX = 7
+const val FRAME_ADDRESS_2 = 0x2.toByte()
+const val FRAME_ADDRESS_3 = 0x3.toByte()
+const val FRAME_ADDRESS_4 = 0x4.toByte()
 
 const val ERROR_ID = 0
 const val HEARTBEAT_COMMAND_ID: Short = 1
+const val GET_FW_VERSION: Short = 2
 const val MAKE_DRINKS_COMMAND_ID: Short = 100
 const val MACHINE_PARAM_COMMAND_ID: Short = 200
 const val COFFEE_INPUT_COMMAND_ID: Short = 201
@@ -84,6 +88,10 @@ const val BEAN_GRINDER_SETTING: Short = 700
 const val GRINDER_ADJ_FINER_ID: Short = 710
 const val GRINDER_ADJ_COARSER_ID: Short = 711
 const val GRINDER_ADJ_GRIND_ID: Short = 712
+
+const val FRONT_SINGLE_COLOR_ID: Short = 3001
+const val FRONT_GRADIENT_COLOR_ID: Short = 3002
+const val FRONT_TWINKLE_COLOR_ID: Short = 3004
 
 val fcstab = intArrayOf(
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,

@@ -45,7 +45,6 @@ class RS485Driver : IDriver {
 //        // 10 = frame head1 + addr1 + control1 + len2 + cmd2 + crc2 + frame end1
 //        private const val PACK_BUFFER_SIZE = TOTAL_BUFFER_SIZE + 10
         private const val FRAME_FLAG = 0x7E.toByte()
-        private const val FRAME_ADDRESS = 0x2.toByte()
         private const val FRAME_CONTROL = 0X1.toByte()
         private const val FD = 0x5D.toByte()
         private const val FE = 0x5E.toByte()
@@ -63,13 +62,13 @@ class RS485Driver : IDriver {
         .build()
     private val lock = ReentrantLock()
 
-    override fun send(command: Short, infoSize: Int, commandInfo: ByteArray) {
+    override fun send(command: Short, infoSize: Int, address: Byte, commandInfo: ByteArray) {
         lock.withLock {
             // 6 = addr1 + control1 + len2 + cmd2
             val contentSize = infoSize + 6
             val contentBuffer = ByteBuffer.allocate(contentSize)
             contentBuffer.order(ByteOrder.LITTLE_ENDIAN)
-            contentBuffer.put(FRAME_ADDRESS)
+            contentBuffer.put(address)
             contentBuffer.put(FRAME_CONTROL)
             // length = infoSize + 2length
             contentBuffer.putShort((infoSize + 2).toShort())
