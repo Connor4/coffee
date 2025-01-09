@@ -118,6 +118,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
+        // TODO this function will be call twice, because two screen. find a better place
         initMachineParams()
     }
 
