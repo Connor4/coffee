@@ -1,9 +1,11 @@
 package com.inno.serialport.function
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
 import com.inno.serialport.function.chain.RealChainHandler
+import com.inno.serialport.function.driver.FrontColorDriver
 import com.inno.serialport.function.driver.RS485Driver
 import com.inno.serialport.utilities.FRAME_ADDRESS_2
 import com.inno.serialport.utilities.ReceivedData
@@ -44,15 +46,18 @@ class SerialPortDataManager private constructor() {
     val receivedDataFlow: SharedFlow<ReceivedData?> = _receivedDataFlow
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val driver = RS485Driver()
+    private val frontColorDriver = FrontColorDriver()
     private val mutex = Mutex()
     private var heartBeatJob: Job? = null
+    private var frontColorReceiveJob: Job? = null
     private var heartBeatMiss = 0
     private var retryCount = 0
     private val chain = RealChainHandler()
 
-    suspend fun open() {
+    fun open() {
         Logger.d(TAG, "open driver")
         driver.open()
+        frontColorDriver.open()
         scope.launch {
             startHeartBeat()
         }
@@ -63,22 +68,30 @@ class SerialPortDataManager private constructor() {
         heartBeatMiss = 0
         scope.coroutineContext.cancelChildren()
         driver.close()
+        frontColorDriver.close()
+        frontColorReceiveJob?.cancel()
     }
 
     suspend fun sendCommand(commandId: Short, infoSize: Int, commandInfo: ByteArray?) {
         Logger.d(TAG, "sendCommand() called with: commandId = $commandId, infoSize = $infoSize," +
                 " commandInfo = ${commandInfo?.toHexString()}")
-        sendCommandSpecifyAddress(commandId, infoSize, FRAME_ADDRESS_2, commandInfo)
-    }
-
-    suspend fun sendCommandSpecifyAddress(
-        commandId: Short, infoSize: Int, address: Byte, commandInfo: ByteArray?,
-    ) {
         commandInfo?.let {
             mutex.withLock {
                 heartBeatJob?.cancel()
-                driver.send(commandId, infoSize, address, commandInfo)
+                driver.send(commandId, infoSize, FRAME_ADDRESS_2, commandInfo)
                 startHeartBeat()
+            }
+        }
+    }
+
+    fun sendFrontColorCommand(
+        commandId: Short, infoSize: Int, address: Byte, commandInfo: ByteArray?,
+    ) {
+        commandInfo?.let {
+            frontColorDriver.send(commandId, infoSize, address, commandInfo)
+            frontColorReceiveJob?.cancel()
+            frontColorReceiveJob = scope.launch {
+                startFrontColorReceive()
             }
         }
     }
@@ -96,7 +109,19 @@ class SerialPortDataManager private constructor() {
         }
     }
 
-    private suspend fun startHeartBeat() {
+    private suspend fun startFrontColorReceive() {
+        delay(RECEIVE_INTERVAL_MILLIS)
+        val pullBufInfo = frontColorDriver.receive()
+        for (info in pullBufInfo) {
+            val result = chain.proceed(info)
+            Log.d(TAG, "startFrontColorReceive() called $result")
+            result?.let {
+                _receivedDataFlow.emit(it)
+            }
+        }
+    }
+
+    private fun startHeartBeat() {
         heartBeatJob?.cancel()
         heartBeatJob = scope.launch {
             Logger.d(TAG, "startHeartBeat() called")

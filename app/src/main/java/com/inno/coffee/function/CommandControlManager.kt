@@ -44,7 +44,7 @@ object CommandControlManager {
     fun sendFrontColorCommand(commandId: Short, address: Byte, vararg value: Short) {
         scope.launch {
             val byteArray = shortArrayConvertByte(value)
-            SerialPortDataManager.instance.sendCommandSpecifyAddress(commandId, byteArray.size,
+            SerialPortDataManager.instance.sendFrontColorCommand(commandId, byteArray.size,
                 address, byteArray)
         }
     }

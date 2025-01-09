@@ -36,6 +36,9 @@ object DataCenter {
                         is ReceivedData.CommonReply -> {
                             notify(ReceivedDataType.COMMON_REPLY, receivedData)
                         }
+                        is ReceivedData.FrontColor -> {
+                            notify(ReceivedDataType.FRONT_COLOR, receivedData)
+                        }
                     }
                 }
             }

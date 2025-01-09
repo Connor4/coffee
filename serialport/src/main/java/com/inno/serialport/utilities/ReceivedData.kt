@@ -16,4 +16,7 @@ sealed class ReceivedData {
 
     data class CommonReply(var commandId: Short, var params: ByteArray = byteArrayOf()) :
             ReceivedData()
+
+    data class FrontColor(var commandId: Short, var params: ByteArray = byteArrayOf()) :
+            ReceivedData()
 }
