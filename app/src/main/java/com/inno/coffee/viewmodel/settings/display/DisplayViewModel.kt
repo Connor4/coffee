@@ -219,7 +219,12 @@ class DisplayViewModel @Inject constructor(
 
     private fun setFrontLightColor(color: Int) {
         when (color) {
-            DISPLAY_COLOR_MIX -> {}
+            DISPLAY_COLOR_MIX -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_GRADIENT_COLOR_ID,
+                    FRAME_ADDRESS_3, 0x32, 0, 0XFF, 0X00, 0X00, 0X00, 0XFF, 0X00)
+                CommandControlManager.sendFrontColorCommand(FRONT_GRADIENT_COLOR_ID,
+                    FRAME_ADDRESS_4, 0x32, 0, 0XFF, 0X00, 0X00, 0X00, 0XFF, 0X00)
+            }
             DISPLAY_COLOR_RED -> {
                 CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
                     0, 0XFF, 0)
