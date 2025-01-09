@@ -80,7 +80,7 @@ fun DisplayGroupTwoLayout(
             mix
         }
         else -> {
-            mix
+            colorOff
         }
     }
 
@@ -106,10 +106,7 @@ fun DisplayGroupTwoLayout(
                     )
                 )
             }
-            DisplayItemLayout(frontColorString,
-                lightColorValue,
-                Color(0xFF191A1D)
-            ) {
+            DisplayItemLayout(frontColorString, lightColorValue, Color(0xFF191A1D)) {
                 onClickListSelect(frontColorString, INDEX_FRONT_LIGHT_COLOR, lightColorValue,
                     mapOf(
                         Pair(colorOff, DISPLAY_COLOR_OFF),

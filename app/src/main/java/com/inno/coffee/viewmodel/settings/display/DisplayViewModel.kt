@@ -7,15 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.function.CommandControlManager
-import com.inno.coffee.utilities.DISPLAY_COLOR_BLUE
-import com.inno.coffee.utilities.DISPLAY_COLOR_GREEN
-import com.inno.coffee.utilities.DISPLAY_COLOR_MIX
 import com.inno.coffee.utilities.DISPLAY_COLOR_OFF
-import com.inno.coffee.utilities.DISPLAY_COLOR_ORANGE
-import com.inno.coffee.utilities.DISPLAY_COLOR_PURPLE
-import com.inno.coffee.utilities.DISPLAY_COLOR_RED
-import com.inno.coffee.utilities.DISPLAY_COLOR_WHITE
-import com.inno.coffee.utilities.DISPLAY_COLOR_YELLOW
 import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_12
 import com.inno.coffee.utilities.INDEX_AUTO_BACK_TO_FIRST_PAGE
 import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_BRIGHTNESS
@@ -31,8 +23,6 @@ import com.inno.common.utils.Logger
 import com.inno.common.utils.SystemLocaleHelper
 import com.inno.common.utils.TimeUtils
 import com.inno.serialport.function.data.Subscriber
-import com.inno.serialport.utilities.FRAME_ADDRESS_3
-import com.inno.serialport.utilities.FRAME_ADDRESS_4
 import com.inno.serialport.utilities.FRONT_GRADIENT_COLOR_ID
 import com.inno.serialport.utilities.FRONT_SINGLE_COLOR_ID
 import com.inno.serialport.utilities.FRONT_TWINKLE_COLOR_ID
@@ -68,7 +58,7 @@ class DisplayViewModel @Inject constructor(
     val backToFirstPage: StateFlow<Boolean> = _backToFirstPage
     private val _numberOfProductPerPage = MutableStateFlow(DISPLAY_PER_PAGE_COUNT_12)
     val numberOfProductPerPage: StateFlow<Int> = _numberOfProductPerPage
-    private val _frontLightColor = MutableStateFlow(DISPLAY_COLOR_MIX)
+    private val _frontLightColor = MutableStateFlow(DISPLAY_COLOR_OFF)
     val frontLightColor: StateFlow<Int> = _frontLightColor
     private val _frontLightBrightness = MutableStateFlow(0)
     val frontLightBrightness: StateFlow<Int> = _frontLightBrightness
@@ -104,7 +94,8 @@ class DisplayViewModel @Inject constructor(
             val systemLanguage = dataStore.getSystemLanguage()
             val autoBackToFirstPage = dataStore.getCoffeePreference(BACK_TO_FIRST_PAGE, false)
             val numberOfProductPerPage = dataStore.getNumberOfProductPerPage()
-            val frontLightColor = dataStore.getCoffeePreference(FRONT_LIGHT_COLOR, 1)
+            val frontLightColor =
+                dataStore.getCoffeePreference(FRONT_LIGHT_COLOR, DISPLAY_COLOR_OFF)
             val frontLightBrightness = dataStore.getCoffeePreference(FRONT_LIGHT_BRIGHTNESS, 90)
             val screenBrightness = dataStore.getCoffeePreference(SCREEN_BRIGHTNESS, 90)
             val showExtractionTime = dataStore.getCoffeePreference(SHOW_EXTRACTION_TIME, true)
@@ -172,7 +163,7 @@ class DisplayViewModel @Inject constructor(
                 INDEX_FRONT_LIGHT_COLOR -> {
                     dataStore.saveCoffeePreference(FRONT_LIGHT_COLOR, value as Int)
                     _frontLightColor.value = value
-                    setFrontLightColor(value)
+                    CommandControlManager.sendFrontColor(value)
                 }
                 INDEX_FRONT_LIGHT_BRIGHTNESS -> {
                     dataStore.saveCoffeePreference(FRONT_LIGHT_BRIGHTNESS, value as Int)
@@ -216,65 +207,6 @@ class DisplayViewModel @Inject constructor(
                 Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, value)
             } catch (e: Exception) {
                 e.printStackTrace()
-            }
-        }
-    }
-
-    private fun setFrontLightColor(color: Int) {
-        when (color) {
-            DISPLAY_COLOR_OFF -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0, 0, 0)
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0, 0, 0)
-            }
-            DISPLAY_COLOR_WHITE -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0xFF, 0xFF, 0xFF)
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0xFF, 0xFF, 0xFF)
-            }
-            DISPLAY_COLOR_PURPLE -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0, 0x80, 0x80)
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0, 0x80, 0x80)
-            }
-            DISPLAY_COLOR_YELLOW -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0xFF, 0xFF, 0)
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0xFF, 0xFF, 0)
-            }
-            DISPLAY_COLOR_ORANGE -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0xA5, 0XFF, 0)
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0xA5, 0XFF, 0)
-            }
-            DISPLAY_COLOR_RED -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0, 0xFF, 0)
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0, 0xFF, 0)
-            }
-            DISPLAY_COLOR_GREEN -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0xFF, 0, 0)
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0xFF, 0, 0)
-            }
-            DISPLAY_COLOR_BLUE -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0, 0, 0xFF)
-                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0, 0, 0xFF)
-            }
-            DISPLAY_COLOR_MIX -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_GRADIENT_COLOR_ID,
-                    FRAME_ADDRESS_3, 0x32, 0, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00)
-                CommandControlManager.sendFrontColorCommand(FRONT_GRADIENT_COLOR_ID,
-                    FRAME_ADDRESS_4, 0x32, 0, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00)
             }
         }
     }

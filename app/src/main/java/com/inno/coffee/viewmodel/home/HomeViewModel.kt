@@ -55,6 +55,8 @@ class HomeViewModel @Inject constructor(
         private const val BACK_TO_FIRST_PAGE = "back_to_first_page"
         private const val STANDBY_BUTTON = "clean_standby_button"
 
+        private const val FRONT_LIGHT_COLOR = "front_light_color"
+
         private const val COFFEE_BOILER_TEMP = "coffee_boiler_temp"
         private const val COLD_RINSE = "code_rinse"
         private const val WARM_RINSE = "warm_rinse"
@@ -366,7 +368,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun initMachineParams() {
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
+            val frontColor = dataStore.getCoffeePreference(FRONT_LIGHT_COLOR, 0)
+            CommandControlManager.sendFrontColor(frontColor)
+
             delay(2000)
             val boilerTemp = dataStore.getCoffeePreference(COFFEE_BOILER_TEMP, 90f)
             val coldRinseQuantity = dataStore.getCoffeePreference(COLD_RINSE, 500)
