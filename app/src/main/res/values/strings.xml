@@ -336,6 +336,11 @@
     <string name="display_color_green">Green</string>
     <string name="display_color_blue">Blue</string>
     <string name="display_color_mix">Mix</string>
+    <string name="display_color_white">White</string>
+    <string name="display_color_yellow">Yellow</string>
+    <string name="display_color_orange">Orange</string>
+    <string name="display_color_purple">Purple</string>
+    <string name="display_color_off">Off</string>
 
     <string name="config_power_configuration">Power Configuration</string>
     <string name="config_low_power">Low Power Mode</string>

@@ -10,7 +10,12 @@ import com.inno.coffee.R
 import com.inno.coffee.utilities.DISPLAY_COLOR_BLUE
 import com.inno.coffee.utilities.DISPLAY_COLOR_GREEN
 import com.inno.coffee.utilities.DISPLAY_COLOR_MIX
+import com.inno.coffee.utilities.DISPLAY_COLOR_OFF
+import com.inno.coffee.utilities.DISPLAY_COLOR_ORANGE
+import com.inno.coffee.utilities.DISPLAY_COLOR_PURPLE
 import com.inno.coffee.utilities.DISPLAY_COLOR_RED
+import com.inno.coffee.utilities.DISPLAY_COLOR_WHITE
+import com.inno.coffee.utilities.DISPLAY_COLOR_YELLOW
 import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_12
 import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_15
 import com.inno.coffee.utilities.INDEX_AUTO_BACK_TO_FIRST_PAGE
@@ -36,12 +41,32 @@ fun DisplayGroupTwoLayout(
     val green = stringResource(R.string.display_color_green)
     val blue = stringResource(R.string.display_color_blue)
     val mix = stringResource(R.string.display_color_mix)
+    val white = stringResource(R.string.display_color_white)
+    val yellow = stringResource(R.string.display_color_yellow)
+    val orange = stringResource(R.string.display_color_orange)
+    val purple = stringResource(R.string.display_color_purple)
+    val colorOff = stringResource(R.string.display_color_off)
     val backToFirstString = stringResource(R.string.display_auto_back_to_first_page)
     val numberOfProductString = stringResource(R.string.display_number_of_product_per_page)
     val frontColorString = stringResource(R.string.display_front_light_color)
 
     val backToFirstPageValue = if (backToFirstPage) yes else no
     val lightColorValue = when (frontLightColor) {
+        DISPLAY_COLOR_OFF -> {
+            colorOff
+        }
+        DISPLAY_COLOR_WHITE -> {
+            white
+        }
+        DISPLAY_COLOR_YELLOW -> {
+            yellow
+        }
+        DISPLAY_COLOR_ORANGE -> {
+            orange
+        }
+        DISPLAY_COLOR_PURPLE -> {
+            purple
+        }
         DISPLAY_COLOR_RED -> {
             red
         }
@@ -87,10 +112,15 @@ fun DisplayGroupTwoLayout(
             ) {
                 onClickListSelect(frontColorString, INDEX_FRONT_LIGHT_COLOR, lightColorValue,
                     mapOf(
-                        Pair(mix, DISPLAY_COLOR_MIX),
-                        Pair(red, DISPLAY_COLOR_RED),
-                        Pair(green, DISPLAY_COLOR_GREEN),
+                        Pair(colorOff, DISPLAY_COLOR_OFF),
+                        Pair(white, DISPLAY_COLOR_WHITE),
+                        Pair(purple, DISPLAY_COLOR_PURPLE),
                         Pair(blue, DISPLAY_COLOR_BLUE),
+                        Pair(green, DISPLAY_COLOR_GREEN),
+                        Pair(yellow, DISPLAY_COLOR_YELLOW),
+                        Pair(orange, DISPLAY_COLOR_ORANGE),
+                        Pair(red, DISPLAY_COLOR_RED),
+                        Pair(mix, DISPLAY_COLOR_MIX),
                     )
                 )
             }

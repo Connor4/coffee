@@ -307,11 +307,12 @@
     <string name="display_value_yes">开启</string>
     <string name="display_value_on">开</string>
     <string name="display_value_off">关</string>
-    <string name="display_color_red">红</string>
-    <string name="display_color_green">绿</string>
-    <string name="display_color_blue">蓝</string>
-    <string name="display_color_mix">混合</string>
+    <string name="display_color_red">红色</string>
+    <string name="display_color_green">绿色</string>
+    <string name="display_color_blue">蓝色</string>
+    <string name="display_color_mix">渐变</string>
 
+    <string name="display_color_off">关闭</string>
     <string name="config_power_configuration">电源设置</string>
     <string name="config_low_power">低功耗模式</string>
     <string name="config_machine_type">机器类型</string>
@@ -596,5 +597,9 @@
     <string name="params_milk_rinse_every_product_five_min">制作产品和出奶5分钟后</string>
     <string name="params_machine_priority">机器优先顺序</string>
     <string name="params_machine_priority_standard">标准</string>
+    <string name="display_color_white">白色</string>
+    <string name="display_color_yellow">黄色</string>
+    <string name="display_color_orange">橙色</string>
+    <string name="display_color_purple">紫色</string>
 
 </resources>

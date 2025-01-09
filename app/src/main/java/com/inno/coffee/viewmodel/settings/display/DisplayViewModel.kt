@@ -10,7 +10,12 @@ import com.inno.coffee.function.CommandControlManager
 import com.inno.coffee.utilities.DISPLAY_COLOR_BLUE
 import com.inno.coffee.utilities.DISPLAY_COLOR_GREEN
 import com.inno.coffee.utilities.DISPLAY_COLOR_MIX
+import com.inno.coffee.utilities.DISPLAY_COLOR_OFF
+import com.inno.coffee.utilities.DISPLAY_COLOR_ORANGE
+import com.inno.coffee.utilities.DISPLAY_COLOR_PURPLE
 import com.inno.coffee.utilities.DISPLAY_COLOR_RED
+import com.inno.coffee.utilities.DISPLAY_COLOR_WHITE
+import com.inno.coffee.utilities.DISPLAY_COLOR_YELLOW
 import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_12
 import com.inno.coffee.utilities.INDEX_AUTO_BACK_TO_FIRST_PAGE
 import com.inno.coffee.utilities.INDEX_FRONT_LIGHT_BRIGHTNESS
@@ -217,29 +222,59 @@ class DisplayViewModel @Inject constructor(
 
     private fun setFrontLightColor(color: Int) {
         when (color) {
-            DISPLAY_COLOR_MIX -> {
-                CommandControlManager.sendFrontColorCommand(FRONT_GRADIENT_COLOR_ID,
-                    FRAME_ADDRESS_3, 0x32, 0, 0XFF, 0X00, 0X00, 0X00, 0XFF, 0X00)
-                CommandControlManager.sendFrontColorCommand(FRONT_GRADIENT_COLOR_ID,
-                    FRAME_ADDRESS_4, 0x32, 0, 0XFF, 0X00, 0X00, 0X00, 0XFF, 0X00)
+            DISPLAY_COLOR_OFF -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
+                    0, 0, 0)
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
+                    0, 0, 0)
+            }
+            DISPLAY_COLOR_WHITE -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
+                    0xFF, 0xFF, 0xFF)
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
+                    0xFF, 0xFF, 0xFF)
+            }
+            DISPLAY_COLOR_PURPLE -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
+                    0, 0x80, 0x80)
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
+                    0, 0x80, 0x80)
+            }
+            DISPLAY_COLOR_YELLOW -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
+                    0xFF, 0xFF, 0)
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
+                    0xFF, 0xFF, 0)
+            }
+            DISPLAY_COLOR_ORANGE -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
+                    0xA5, 0XFF, 0)
+                CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
+                    0xA5, 0XFF, 0)
             }
             DISPLAY_COLOR_RED -> {
                 CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0, 0XFF, 0)
+                    0, 0xFF, 0)
                 CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0, 0XFF, 0)
+                    0, 0xFF, 0)
             }
             DISPLAY_COLOR_GREEN -> {
                 CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0XFF, 0, 0)
+                    0xFF, 0, 0)
                 CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0XFF, 0, 0)
+                    0xFF, 0, 0)
             }
             DISPLAY_COLOR_BLUE -> {
                 CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_3,
-                    0, 0, 0XFF)
+                    0, 0, 0xFF)
                 CommandControlManager.sendFrontColorCommand(FRONT_SINGLE_COLOR_ID, FRAME_ADDRESS_4,
-                    0, 0, 0XFF)
+                    0, 0, 0xFF)
+            }
+            DISPLAY_COLOR_MIX -> {
+                CommandControlManager.sendFrontColorCommand(FRONT_GRADIENT_COLOR_ID,
+                    FRAME_ADDRESS_3, 0x32, 0, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00)
+                CommandControlManager.sendFrontColorCommand(FRONT_GRADIENT_COLOR_ID,
+                    FRAME_ADDRESS_4, 0x32, 0, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00)
             }
         }
     }
