@@ -92,14 +92,16 @@ fun FormulaLayout(
                 viewModel.updateFormula(it)
             }
         }, onProductTest = {
-
+            selectFormula?.let {
+                viewModel.productTest(it, mainScreen)
+            }
         }, onLearn = { index ->
             when (index) {
                 FORMULA_SHOW_LEARN_WATER -> {
-
+                    viewModel.learnWater()
                 }
                 FORMULA_SHOW_POWDER_TEST -> {
-
+                    viewModel.powderTest()
                 }
             }
         })

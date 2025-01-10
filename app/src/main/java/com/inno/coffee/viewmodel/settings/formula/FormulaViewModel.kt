@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
+import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
+import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
 import com.inno.coffee.utilities.SECOND_SCREEN_PRODUCT_ID_LIMIT
@@ -240,6 +242,31 @@ class FormulaViewModel @Inject constructor(
                 repository.updateFormula(it)
             }
         }
+    }
+
+    fun productTest(formula: Formula, main: Boolean) {
+        Logger.d(TAG, "productTest() called with: formula = ${formula.productId}, main = $main")
+        if (ProductType.isOperationType(formula.productType?.type)) {
+            if (main) {
+                MakeLeftDrinksHandler.executeNow(formula)
+            } else {
+                MakeRightDrinksHandler.executeNow(formula)
+            }
+        } else {
+            if (main) {
+                MakeLeftDrinksHandler.enqueueMessage(formula)
+            } else {
+                MakeRightDrinksHandler.enqueueMessage(formula)
+            }
+        }
+    }
+
+    fun learnWater() {
+
+    }
+
+    fun powderTest() {
+
     }
 
     private fun parseReceivedData(data: Any) {

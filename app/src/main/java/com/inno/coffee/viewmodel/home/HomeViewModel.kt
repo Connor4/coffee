@@ -210,28 +210,28 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun startMakeDrink(model: Formula, main: Boolean) {
-        Logger.d(TAG,
-            "startMakeDrink() called with: model = $model, main = $main, selfCheck = $checking")
-        if (ProductType.isOperationType(model.productType?.type)) {
-            if (checking && ProductType.assertType(model.productType?.type, ProductType.RINSE)) {
+    fun startMakeDrink(formula: Formula, main: Boolean) {
+        Logger.d(TAG, "startMakeDrink() called with: formula = ${formula.productId}," +
+                " main = $main, selfCheck = $checking")
+        if (ProductType.isOperationType(formula.productType?.type)) {
+            if (checking && ProductType.assertType(formula.productType?.type, ProductType.RINSE)) {
                 viewModelScope.launch(defaultDispatcher) {
                     SelfCheckManager.operateRinse()
                 }
             }
             if (main) {
-                MakeLeftDrinksHandler.executeNow(model)
+                MakeLeftDrinksHandler.executeNow(formula)
             } else {
-                MakeRightDrinksHandler.executeNow(model)
+                MakeRightDrinksHandler.executeNow(formula)
             }
         } else {
             if (main) {
-                MakeLeftDrinksHandler.enqueueMessage(model)
+                MakeLeftDrinksHandler.enqueueMessage(formula)
             } else {
-                MakeRightDrinksHandler.enqueueMessage(model)
+                MakeRightDrinksHandler.enqueueMessage(formula)
             }
         }
-        StatisticManager.countProductType(model)
+        StatisticManager.countProductType(formula)
     }
 
     fun removeQueueDrink(index: Int, model: Formula, second: Boolean) {
