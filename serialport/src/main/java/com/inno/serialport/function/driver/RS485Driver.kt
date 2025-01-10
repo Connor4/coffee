@@ -22,16 +22,16 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 class RS485Driver(
-    private val devicePath: String = "/dev/ttyS0",
-    private val baudRate: Int = 115200,
-    private val dataBits: Int = DATA_BITS_8,
-    private val stopBits: Int = STOP_BITS_1,
-    private val parity: Int = PARITY_NONE,
-    private val flags: Int = 0x0002 or 0x0100 or 0x0800, // O_RDWR | O_NOCTTY | O_NONBLOC
+    devicePath: String = "/dev/ttyS0",
+    baudRate: Int = 115200,
+    dataBits: Int = DATA_BITS_8,
+    stopBits: Int = STOP_BITS_1,
+    parity: Int = PARITY_NONE,
+    flags: Int = 0x0002 or 0x0100 or 0x0800, // O_RDWR | O_NOCTTY | O_NONBLOC
 ) : IDriver {
 
     companion object {
-        private const val TAG = "RS485Driver2"
+        private const val TAG = "RS485Driver"
         private const val MINIMUM_FRAME_PACK_SIZE = 12
         private const val FRAME_FLAG = 0x7E.toByte()
         private const val FRAME_CONTROL = 0X1.toByte()
