@@ -5,7 +5,7 @@ import com.inno.coffee.utilities.MAKE_DRINK_REPLY_VALUE
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
 import com.inno.common.utils.Logger
-import com.inno.serialport.function.SerialPortDataManager
+import com.inno.serialport.function.CommunicationController
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.MAKE_DRINKS_COMMAND_ID
@@ -80,7 +80,7 @@ object MakeLeftDrinksHandler {
 
                 val byteInfo = ProductProfileManager.convertProductProfile(model, true)
                 // TODO try use class CommandControlManager
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
+                CommunicationController.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
                     byteInfo)
                 waitForOperationReplyConfirm()
             }
@@ -95,7 +95,7 @@ object MakeLeftDrinksHandler {
                         " ${model.productId}")
 
                 val byteInfo = ProductProfileManager.convertProductProfile(model, true)
-                SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID,
+                CommunicationController.instance.sendCommand(MAKE_DRINKS_COMMAND_ID,
                     byteInfo.size, byteInfo)
                 waitForProductReplyConfirm()
             }

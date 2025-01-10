@@ -1,6 +1,6 @@
 package com.inno.serialport.function.data
 
-import com.inno.serialport.function.SerialPortDataManager
+import com.inno.serialport.function.CommunicationController
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +15,7 @@ object DataCenter {
 
     fun init() {
         collectJob = CoroutineScope(Dispatchers.IO).launch {
-            SerialPortDataManager.instance.receivedDataFlow.collect { data ->
+            CommunicationController.instance.receivedDataFlow.collect { data ->
                 data?.let { receivedData ->
                     when (receivedData) {
                         is ReceivedData.SerialErrorData -> {

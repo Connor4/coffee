@@ -1,7 +1,7 @@
 package com.inno.coffee.viewmodel.settings.machinetest.serialport
 
 import com.inno.serialport.core.SerialPortFinder
-import com.inno.serialport.function.SerialPortDataManager
+import com.inno.serialport.function.CommunicationController
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.utilities.MAKE_DRINKS_COMMAND_ID
 import com.inno.serialport.utilities.ReceivedData
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class SerialPortRepository @Inject constructor(
 //    private val dataSource: SerialPortDataSource
 ) {
-    val receivedDataFlow: Flow<ReceivedData?> = SerialPortDataManager.instance.receivedDataFlow
+    val receivedDataFlow: Flow<ReceivedData?> = CommunicationController.instance.receivedDataFlow
         .map {
             // todo 转换数据
             it
@@ -27,13 +27,13 @@ class SerialPortRepository @Inject constructor(
     private val _serialPortDevices = MutableStateFlow<List<String>>(emptyList())
     val serialPortDevices: StateFlow<List<String>> = _serialPortDevices
 
-    suspend fun openSerialPort() {
-        SerialPortDataManager.instance.open()
+    fun openSerialPort() {
+        CommunicationController.instance.openDriver()
         DataCenter.init()
     }
 
     fun closeSerialPort() {
-        SerialPortDataManager.instance.close()
+        CommunicationController.instance.closeDriver()
         DataCenter.destroy()
     }
 
@@ -60,7 +60,7 @@ class SerialPortRepository @Inject constructor(
             val serializeProductInfo = ByteArray(serializeBuffer.limit())
             serializeBuffer.get(serializeProductInfo)
 
-            SerialPortDataManager.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, componentSize,
+            CommunicationController.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, componentSize,
                 serializeProductInfo)
         }
     }

@@ -110,6 +110,7 @@
 -dontwarn com.inno.serialport.core.SerialPortFinder
 -dontwarn com.inno.serialport.function.SerialPortDataManager$Companion
 -dontwarn com.inno.serialport.function.SerialPortDataManager
+-dontwarn com.inno.serialport.function.CommunicationController
 -dontwarn com.inno.serialport.function.data.DataCenter
 -dontwarn com.inno.serialport.function.data.Subscriber
 -dontwarn com.inno.serialport.function.driver.UnitTestKt

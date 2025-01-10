@@ -6,7 +6,6 @@ import com.inno.serialport.annotation.DATA_BITS_8
 import com.inno.serialport.annotation.PARITY_NONE
 import com.inno.serialport.annotation.STOP_BITS_1
 import com.inno.serialport.core.SerialPort
-import com.inno.serialport.core.SerialPortManager
 import com.inno.serialport.utilities.FRAME_CMD_INDEX_HIGH
 import com.inno.serialport.utilities.FRAME_CMD_INDEX_LOW
 import com.inno.serialport.utilities.FRAME_CONTENT_START_INDEX
@@ -18,32 +17,22 @@ import com.inno.serialport.utilities.HEART_BEAT_COMMAND
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.fcstab
 import com.inno.serialport.utilities.statusenum.SerialErrorTypeEnum
+import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
 
-class RS485Driver : IDriver {
+class RS485Driver(
+    private val devicePath: String = "/dev/ttyS0",
+    private val baudRate: Int = 115200,
+    private val dataBits: Int = DATA_BITS_8,
+    private val stopBits: Int = STOP_BITS_1,
+    private val parity: Int = PARITY_NONE,
+    private val flags: Int = 0x0002 or 0x0100 or 0x0800, // O_RDWR | O_NOCTTY | O_NONBLOC
+) : IDriver {
 
     companion object {
-        private const val TAG = "RS485Driver"
-        private const val DEVICE_PATH = "/dev/ttyS0"
-        private const val BAUD_RATE = 115200
-        private const val DATA_BITES = DATA_BITS_8
-        private const val STOP_BITS = STOP_BITS_1
-        private const val PARITY = PARITY_NONE
-        private const val FLAGS = 0x0002 or 0x0100 or 0x0800 // O_RDWR | O_NOCTTY | O_NONBLOC
-        // pull info12(flag1 + addr1 + control1 + len2 + cmd2 + data2 + crc2 + flag1)
+        private const val TAG = "RS485Driver2"
         private const val MINIMUM_FRAME_PACK_SIZE = 12
-        //        private const val MAX_COMPONENT: Short = 3
-//        // ProductProfile = id2 + preFlush2 + postFlush2 + ComponentProfileList: num2 + MAX_COMPONENT * (comid2 + 2*para6)
-//        private const val COMMAND_BUFFER_CAPACITY = 8 + 14 * MAX_COMPONENT
-//        // 6 = addr1 + control1 + len2 + cmd2
-//        private const val CONTENT_BUFFER_CAPACITY = COMMAND_BUFFER_CAPACITY + 6
-//        // 8 = addr1 + control1 + len2 + cmd2 + crc2
-//        private const val TOTAL_BUFFER_SIZE = COMMAND_BUFFER_CAPACITY + 8
-//        // 10 = frame head1 + addr1 + control1 + len2 + cmd2 + crc2 + frame end1
-//        private const val PACK_BUFFER_SIZE = TOTAL_BUFFER_SIZE + 10
         private const val FRAME_FLAG = 0x7E.toByte()
         private const val FRAME_CONTROL = 0X1.toByte()
         private const val FD = 0x5D.toByte()
@@ -53,87 +42,117 @@ class RS485Driver : IDriver {
     }
 
     private val serialPort: SerialPort = SerialPort.Builder()
-        .portName(DEVICE_PATH)
-        .baudRate(BAUD_RATE)
-        .dataBits(DATA_BITES)
-        .stopBits(STOP_BITS)
-        .parity(PARITY)
-        .flag(FLAGS)
+        .portName(devicePath)
+        .baudRate(baudRate)
+        .dataBits(dataBits)
+        .stopBits(stopBits)
+        .parity(parity)
+        .flag(flags)
         .build()
-    private val lock = ReentrantLock()
 
-    override fun send(command: Short, infoSize: Int, address: Byte, commandInfo: ByteArray) {
-        lock.withLock {
-            // 6 = addr1 + control1 + len2 + cmd2
-            val contentSize = infoSize + 6
-            val contentBuffer = ByteBuffer.allocate(contentSize)
-            contentBuffer.order(ByteOrder.LITTLE_ENDIAN)
-            contentBuffer.put(address)
-            contentBuffer.put(FRAME_CONTROL)
-            // length = infoSize + 2length
-            contentBuffer.putShort((infoSize + 2).toShort())
-            // cmd
-            contentBuffer.putShort(command)
-            contentBuffer.put(commandInfo)
-            // crc
-            val crc = calculateCRC(contentBuffer)
+    override fun openSerialPort() {
+        serialPort.openSerialPort()
+    }
 
-            // 2 = crc2
-            val commandSize = contentSize + 2
-            val commandBuffer = ByteBuffer.allocate(commandSize)
-            commandBuffer.order(ByteOrder.LITTLE_ENDIAN)
-            commandBuffer.clear()
-            commandBuffer.put(contentBuffer.array())
-            commandBuffer.putShort(crc)
-            val escapeData = escapeData(commandBuffer.array())
-            val escapeSize = escapeData.size
+    override fun closeSerialPort() {
+        serialPort.closeSerialPort()
+    }
 
-            val packSize = escapeSize + 2
-            val packBuffer = ByteBuffer.allocate(packSize)
-            packBuffer.order(ByteOrder.LITTLE_ENDIAN)
-            packBuffer.clear()
-            packBuffer.put(FRAME_FLAG)
-            packBuffer.put(escapeData)
-            packBuffer.put(FRAME_FLAG)
-            packBuffer.flip()
-            val packFrame = ByteArray(packBuffer.limit())
-            packBuffer.get(packFrame)
-            Logger.lengthy(TAG, "packFrame: ${packFrame.toHexString()}")
-
-            SerialPortManager.writeToSerialPort(serialPort, packFrame)
+    override fun readFromSerialPort(
+        onSuccess: (buffer: ByteArray, size: Int) -> Unit,
+        onFailure: (type: SerialErrorTypeEnum) -> Unit,
+    ) {
+        val buffer = ByteArray(serialPort.portFrameSize)
+        try {
+            val bytesRead = serialPort.mFileInputStream?.read(buffer)
+            when {
+                bytesRead != null && bytesRead > 0 -> {
+                    onSuccess(buffer, bytesRead)
+                }
+                else -> {
+                    onFailure(SerialErrorTypeEnum.READ_FAIL)
+                }
+            }
+        } catch (e: IOException) {
+            Logger.e(TAG, "readFromSerialPort Exception $e")
+            onFailure(SerialErrorTypeEnum.IO_EXCEPTION)
+            closeSerialPort()
+            openSerialPort()
         }
     }
 
-    fun sendHeartBeat() {
-        SerialPortManager.writeToSerialPort(serialPort, HEART_BEAT_COMMAND)
+    override fun writeToSerialPort(frame: ByteArray) {
+        try {
+            serialPort.mFileOutputStream?.write(frame)
+        } catch (e: IOException) {
+            Logger.e(TAG, "writeToSerialPort Exception $e")
+        }
     }
 
-    override suspend fun receive(): List<PullBufInfo> {
-        val receivedData = mutableListOf<PullBufInfo>()
-        SerialPortManager.readFromSerialPort(serialPort, onSuccess = { buffer, _ ->
-            val multiInfo = slicePullInfo(buffer)
-            if (multiInfo.isEmpty()) {
-                receivedData.add(PullBufInfo(command = SerialErrorTypeEnum.FRAME_FORMAT_ILLEGAL
-                    .value))
-            } else {
-                for (info in multiInfo) {
-                    val bufInfo = validPullInfo(info) ?: parsePullBuffInfo(info)
-                    receivedData.add(bufInfo)
-                }
-            }
-        }, onFailure = {
-            receivedData.add(PullBufInfo(command = it.value))
-        })
+    override fun send(command: Short, infoSize: Int, address: Byte, commandInfo: ByteArray) {
+        // 6 = addr1 + control1 + len2 + cmd2
+        val contentSize = infoSize + 6
+        val contentBuffer = ByteBuffer.allocate(contentSize)
+        contentBuffer.order(ByteOrder.LITTLE_ENDIAN)
+        contentBuffer.put(address)
+        contentBuffer.put(FRAME_CONTROL)
+        // length = infoSize + 2length
+        contentBuffer.putShort((infoSize + 2).toShort())
+        // cmd
+        contentBuffer.putShort(command)
+        contentBuffer.put(commandInfo)
+        // crc
+        val crc = calculateCRC(contentBuffer)
 
+        // 2 = crc2
+        val commandSize = contentSize + 2
+        val commandBuffer = ByteBuffer.allocate(commandSize)
+        commandBuffer.order(ByteOrder.LITTLE_ENDIAN)
+        commandBuffer.clear()
+        commandBuffer.put(contentBuffer.array())
+        commandBuffer.putShort(crc)
+        val escapeData = escapeData(commandBuffer.array())
+        val escapeSize = escapeData.size
+
+        val packSize = escapeSize + 2
+        val packBuffer = ByteBuffer.allocate(packSize)
+        packBuffer.order(ByteOrder.LITTLE_ENDIAN)
+        packBuffer.clear()
+        packBuffer.put(FRAME_FLAG)
+        packBuffer.put(escapeData)
+        packBuffer.put(FRAME_FLAG)
+        packBuffer.flip()
+        val packFrame = ByteArray(packBuffer.limit())
+        packBuffer.get(packFrame)
+        Logger.lengthy(TAG, "packFrame: ${packFrame.toHexString()}")
+
+        writeToSerialPort(packFrame)
+    }
+
+    override fun receive(): List<PullBufInfo> {
+        val receivedData = mutableListOf<PullBufInfo>()
+        readFromSerialPort(
+            onSuccess = { buffer, _ ->
+                val multiInfo = slicePullInfo(buffer)
+                if (multiInfo.isEmpty()) {
+                    receivedData.add(PullBufInfo(command = SerialErrorTypeEnum.FRAME_FORMAT_ILLEGAL
+                        .value))
+                } else {
+                    for (info in multiInfo) {
+                        val bufInfo = validPullInfo(info) ?: parsePullBuffInfo(info)
+                        receivedData.add(bufInfo)
+                    }
+                }
+            },
+            onFailure = {
+                receivedData.add(PullBufInfo(command = it.value))
+            },
+        )
         return receivedData
     }
 
-    override fun open() {
-        SerialPortManager.open(serialPort)
-    }
-
-    override fun close() {
-        SerialPortManager.close(serialPort)
+    override fun heartbeat() {
+        writeToSerialPort(HEART_BEAT_COMMAND)
     }
 
     private fun calculateCRC(buffer: ByteBuffer): Short {

@@ -9,7 +9,7 @@ import com.inno.coffee.utilities.DISPLAY_COLOR_PURPLE
 import com.inno.coffee.utilities.DISPLAY_COLOR_RED
 import com.inno.coffee.utilities.DISPLAY_COLOR_WHITE
 import com.inno.coffee.utilities.DISPLAY_COLOR_YELLOW
-import com.inno.serialport.function.SerialPortDataManager
+import com.inno.serialport.function.CommunicationController
 import com.inno.serialport.utilities.FRAME_ADDRESS_3
 import com.inno.serialport.utilities.FRAME_ADDRESS_4
 import com.inno.serialport.utilities.FRONT_GRADIENT_COLOR_ID
@@ -50,7 +50,7 @@ object CommandControlManager {
     fun sendTestCommand(commandId: Short, vararg value: Int) {
         scope.launch {
             val byteArray = intArrayConvertByte(value)
-            SerialPortDataManager.instance.sendCommand(commandId, byteArray.size, byteArray)
+            CommunicationController.instance.sendCommand(commandId, byteArray.size, byteArray)
         }
     }
 
@@ -100,7 +100,7 @@ object CommandControlManager {
     private fun sendFrontColorCommand(commandId: Short, address: Byte, vararg value: Short) {
         scope.launch {
             val byteArray = shortArrayConvertByte(value)
-            SerialPortDataManager.instance.sendFrontColorCommand(commandId, byteArray.size,
+            CommunicationController.instance.sendFrontColorCommand(commandId, byteArray.size,
                 address, byteArray)
         }
     }
