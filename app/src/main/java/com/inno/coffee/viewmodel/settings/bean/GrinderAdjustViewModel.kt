@@ -21,24 +21,24 @@ class GrinderAdjustViewModel @Inject constructor(
         private const val TAG = "GrinderAdjustViewModel"
         private const val LEFT_GRINDER_VALUE = "left_grinder_value"
         private const val RIGHT_GRINDER_VALUE = "right_grinder_value"
-        private const val LEFT_DEFAULT_VALUE = 0
-        private const val RIGHT_DEFAULT_VALUE = 0
-        private const val MIN_VALUE = 1
-        private const val MAX_VALUE = 100
+        private const val LEFT_GRINDER_DEFAULT_VALUE = 0
+        private const val RIGHT_GRINDER_DEFAULT_VALUE = 0
+        private const val MIN_GRINDER_VALUE = 0
+        private const val MAX_GRINDER_VALUE = 100
     }
 
-    private val _leftGrinderValue = MutableStateFlow(LEFT_DEFAULT_VALUE)
+    private val _leftGrinderValue = MutableStateFlow(LEFT_GRINDER_DEFAULT_VALUE)
     val leftGrinderValue = _leftGrinderValue
 
-    private val _rightGrinderValue = MutableStateFlow(RIGHT_DEFAULT_VALUE)
+    private val _rightGrinderValue = MutableStateFlow(RIGHT_GRINDER_DEFAULT_VALUE)
     val rightGrinderValue = _rightGrinderValue
 
     init {
         viewModelScope.launch {
             _leftGrinderValue.value =
-                dataStore.getCoffeePreference(LEFT_GRINDER_VALUE, LEFT_DEFAULT_VALUE)
+                dataStore.getCoffeePreference(LEFT_GRINDER_VALUE, LEFT_GRINDER_DEFAULT_VALUE)
             _rightGrinderValue.value =
-                dataStore.getCoffeePreference(RIGHT_GRINDER_VALUE, RIGHT_DEFAULT_VALUE)
+                dataStore.getCoffeePreference(RIGHT_GRINDER_VALUE, RIGHT_GRINDER_DEFAULT_VALUE)
         }
     }
 
@@ -46,20 +46,20 @@ class GrinderAdjustViewModel @Inject constructor(
         Logger.d(TAG, "saveGrinderValue() called with: left = $left, add = $add")
         viewModelScope.launch {
             if (left) {
-                if (_leftGrinderValue.value <= MAX_VALUE && add) {
+                if (_leftGrinderValue.value <= MAX_GRINDER_VALUE && add) {
                     dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE, leftGrinderValue.value++)
                     CommandControlManager.sendTestCommand(GRINDER_ADJ_COARSER_ID, 0)
                 }
-                if (_leftGrinderValue.value > MIN_VALUE && !add) {
+                if (_leftGrinderValue.value > MIN_GRINDER_VALUE && !add) {
                     dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE, leftGrinderValue.value--)
                     CommandControlManager.sendTestCommand(GRINDER_ADJ_FINER_ID, 0)
                 }
             } else {
-                if (_rightGrinderValue.value <= MAX_VALUE && add) {
+                if (_rightGrinderValue.value <= MAX_GRINDER_VALUE && add) {
                     dataStore.saveCoffeePreference(RIGHT_GRINDER_VALUE, rightGrinderValue.value++)
                     CommandControlManager.sendTestCommand(GRINDER_ADJ_COARSER_ID, 1)
                 }
-                if (_rightGrinderValue.value > MIN_VALUE && !add) {
+                if (_rightGrinderValue.value > MIN_GRINDER_VALUE && !add) {
                     dataStore.saveCoffeePreference(RIGHT_GRINDER_VALUE, rightGrinderValue.value--)
                     CommandControlManager.sendTestCommand(GRINDER_ADJ_FINER_ID, 1)
                 }
@@ -70,11 +70,11 @@ class GrinderAdjustViewModel @Inject constructor(
     fun resetGrinderValue(left: Boolean) {
         viewModelScope.launch {
             if (left) {
-                dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE, LEFT_DEFAULT_VALUE)
-                _leftGrinderValue.value = LEFT_DEFAULT_VALUE
+                dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE, LEFT_GRINDER_DEFAULT_VALUE)
+                _leftGrinderValue.value = LEFT_GRINDER_DEFAULT_VALUE
             } else {
-                dataStore.saveCoffeePreference(RIGHT_GRINDER_VALUE, RIGHT_DEFAULT_VALUE)
-                _rightGrinderValue.value = RIGHT_DEFAULT_VALUE
+                dataStore.saveCoffeePreference(RIGHT_GRINDER_VALUE, RIGHT_GRINDER_DEFAULT_VALUE)
+                _rightGrinderValue.value = RIGHT_GRINDER_DEFAULT_VALUE
             }
         }
     }
