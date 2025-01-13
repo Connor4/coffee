@@ -79,7 +79,15 @@ sealed class FormulaItem {
         var rangeStart: Float,
         var rangeEnd: Float,
         var unit: String,
-    )
+    ) {
+        override fun equals(other: Any?): Boolean {
+            return this === other
+        }
+
+        override fun hashCode(): Int {
+            return System.identityHashCode(this)
+        }
+    }
 
     @Serializable
     data class FormulaProductType(
@@ -145,7 +153,15 @@ sealed class FormulaItem {
         var celsiusRangeStart: Int,
         var celsiusRangeEnd: Int,
         var celsiusUnit: String,
-    )
+    ) {
+        override fun equals(other: Any?): Boolean {
+            return this === other
+        }
+
+        override fun hashCode(): Int {
+            return System.identityHashCode(this)
+        }
+    }
 
     @Serializable
     data class FormulaMilkSequence(
