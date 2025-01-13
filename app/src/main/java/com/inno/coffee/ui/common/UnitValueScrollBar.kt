@@ -67,7 +67,8 @@ fun UnitValueScrollBar(
         Row(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(top = 6.dp, end = 381.dp)
+                .padding(top = 6.dp, end = 381.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             val realShowCurrentValue = when (accuracy) {
                 ACCURACY_1 -> {
@@ -260,5 +261,5 @@ fun UnitValueScrollBar(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewUnitValueScrollBar() {
-    UnitValueScrollBar(value = 20f, rangeStart = 0f, rangeEnd = 100f, unit = "[tick]") {}
+    UnitValueScrollBar(value = 20f, rangeStart = 0f, rangeEnd = 100f, unit = "[月]") {}
 }
