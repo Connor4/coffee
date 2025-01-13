@@ -26,14 +26,14 @@ object StatisticManager {
         repository = entryPoint.statisticProductRepository()
     }
 
-    fun countProductType(model: Formula) {
+    fun countProductType(formula: Formula) {
         scope.launch {
-            repository.incrementProductCount(model)
+            repository.incrementProductCount(formula)
 
             val time = LocalDateTime.now().toString()
-            val type = ProductType.fromValue(model.productType!!.type)
+            val type = ProductType.fromValue(formula.productType!!.type)
             repository.insertProductHistory(
-                ProductHistory(model.productId, time, 0f, true,
+                ProductHistory(formula.productId, time, 0f, true,
                     0f, false, 0, 0f, 0,
                     0, 0, 0, type, 1,
                     false, ""))

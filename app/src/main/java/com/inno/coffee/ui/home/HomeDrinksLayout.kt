@@ -106,7 +106,7 @@ fun HomeDrinksLayout(
                         val select = viewModel.enableSelect(mainScreen, drinkModel)
 
                         DrinkItem(
-                            model = drinkModel, enableMask = enable, selected = select,
+                            formula = drinkModel, enableMask = enable, selected = select,
                             normalSize = normalSize, showProductName = true,
                             showProductPrice = showProductPrice,
                             onDrinkClick = {

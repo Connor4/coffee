@@ -51,7 +51,7 @@ fun ReleaseSteamLayout(
 //        )
         if (releaseSteam == RELEASE_STEAM_READY) {
             DrinkItem(
-                model = Formula(productId = 4, imageRes = "operate_manual_milk_ic",
+                formula = Formula(productId = 4, imageRes = "operate_manual_milk_ic",
                     productName = FormulaItem.FormulaProductName(name = "",
                         nameRes = "home_item_manual_foam")),
                 normalSize = normalSize,

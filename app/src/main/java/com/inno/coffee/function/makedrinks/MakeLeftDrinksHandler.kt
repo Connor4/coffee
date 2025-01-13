@@ -72,13 +72,13 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    fun executeNow(model: Formula) {
+    fun executeNow(formula: Formula) {
         scope.launch {
             mutex.withLock {
-                _operationQueue.value += model
-                Logger.d(TAG, "executeNow() called operationId: ${model.productId}")
+                _operationQueue.value += formula
+                Logger.d(TAG, "executeNow() called operationId: ${formula.productId}")
 
-                val byteInfo = ProductProfileManager.convertProductProfile(model, true)
+                val byteInfo = ProductProfileManager.convertProductProfile(formula, true)
                 // TODO try use class CommandControlManager
                 CommunicationController.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
                     byteInfo)
@@ -87,14 +87,14 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    fun enqueueMessage(model: Formula) {
+    fun enqueueMessage(formula: Formula) {
         scope.launch {
             mutex.withLock {
-                _productQueue.value += model
+                _productQueue.value += formula
                 Logger.d(TAG, "handleMessage() called processingProductId:" +
-                        " ${model.productId}")
+                        " ${formula.productId}")
 
-                val byteInfo = ProductProfileManager.convertProductProfile(model, true)
+                val byteInfo = ProductProfileManager.convertProductProfile(formula, true)
                 CommunicationController.instance.sendCommand(MAKE_DRINKS_COMMAND_ID,
                     byteInfo.size, byteInfo)
                 waitForProductReplyConfirm()

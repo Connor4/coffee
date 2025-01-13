@@ -33,7 +33,7 @@ import com.inno.common.db.entity.Formula
 @Composable
 fun DrinkItem(
     modifier: Modifier = Modifier,
-    model: Formula,
+    formula: Formula,
     enableMask: Boolean = false,
     selected: Boolean = false,
     showProductName: Boolean = true,
@@ -96,8 +96,8 @@ fun DrinkItem(
                 .background(color = Color(0xFF191A1D)),
         ) {
             MaskBoxWithContent(enableMask = enableMask) {
-                val drawableRes = model.imageRes
-                val productPrice = model.productPrice?.price ?: ""
+                val drawableRes = formula.imageRes
+                val productPrice = formula.productPrice?.price ?: ""
                 if (showProductPrice) {
                     Text(
                         text = "$productPrice",
@@ -120,10 +120,10 @@ fun DrinkItem(
                         .offset(y = 41.dp),
                 )
                 if (showProductName) {
-                    val name = if (!model.productName?.nameRes.isNullOrBlank()) {
-                        stringResource(getStringResId(model.productName?.nameRes!!))
-                    } else if (!model.productName?.name.isNullOrBlank()) {
-                        model.productName?.name
+                    val name = if (!formula.productName?.nameRes.isNullOrBlank()) {
+                        stringResource(getStringResId(formula.productName?.nameRes!!))
+                    } else if (!formula.productName?.name.isNullOrBlank()) {
+                        formula.productName?.name
                     } else {
                         stringResource(R.string.common_empty_string)
                     }
@@ -145,5 +145,5 @@ fun DrinkItem(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewDrink() {
-    DrinkItem(model = previewFormula)
+    DrinkItem(formula = previewFormula)
 }

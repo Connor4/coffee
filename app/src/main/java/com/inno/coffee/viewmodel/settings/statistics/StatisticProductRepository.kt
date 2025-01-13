@@ -22,11 +22,11 @@ class StatisticProductRepository @Inject constructor(
         productCountDao.deleteAll()
     }
 
-    suspend fun incrementProductCount(model: Formula) {
-        val redirect = ProductType.redirectToCoffee(model.productType?.type)
+    suspend fun incrementProductCount(formula: Formula) {
+        val redirect = ProductType.redirectToCoffee(formula.productType?.type)
         val type = ProductType.fromValue(redirect ?: "")
         val time = System.currentTimeMillis()
-        val p = ProductCount(productId = model.productId, type = type, count = 1, time = time)
+        val p = ProductCount(productId = formula.productId, type = type, count = 1, time = time)
         productCountDao.insert(p)
     }
 

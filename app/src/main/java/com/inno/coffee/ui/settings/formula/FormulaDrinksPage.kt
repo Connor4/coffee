@@ -43,7 +43,7 @@ fun FormulaDrinkPage(
     totalCount: Int,
     pagerState: PagerState,
     drinksTypeList: List<Formula>,
-    onDrinkItemClick: (model: Formula) -> Unit,
+    onDrinkItemClick: (formula: Formula) -> Unit,
 ) {
     val pageCount = 10
 
@@ -108,7 +108,7 @@ fun FormulaDrinkPage(
                 ) {
                     currentList.forEach {
                         val select = selectedFormula?.productId == it.productId
-                        FormulaDrinkItem(model = it, selected = select) {
+                        FormulaDrinkItem(formula = it, selected = select) {
                             onDrinkItemClick(it)
                         }
                     }
@@ -130,7 +130,7 @@ fun FormulaDrinkPage(
 
 @Composable
 private fun FormulaDrinkItem(
-    model: Formula,
+    formula: Formula,
     selected: Boolean = false,
     onDrinkClick: () -> Unit = {},
 ) {
@@ -155,7 +155,7 @@ private fun FormulaDrinkItem(
                 modifier = Modifier.size(101.dp)
             )
         }
-        val drawableRes = model.imageRes
+        val drawableRes = formula.imageRes
         Image(
             painter = painterResource(id = getImageResId(drawableRes)),
             contentDescription = null,

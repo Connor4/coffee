@@ -167,7 +167,7 @@ fun StatisticDayProductLayout(
                 ) {
                     currentList.forEach {
                         val select = selectFormula?.productId == it.productId
-                        StatisticDrinkItem(model = it, selected = select) {
+                        StatisticDrinkItem(formula = it, selected = select) {
                             viewModel.getDayProductCount(it)
                         }
                     }
@@ -307,7 +307,7 @@ fun StatisticDayProductLayout(
 
 @Composable
 private fun StatisticDrinkItem(
-    model: Formula,
+    formula: Formula,
     selected: Boolean = false,
     onDrinkClick: () -> Unit = {},
 ) {
@@ -332,7 +332,7 @@ private fun StatisticDrinkItem(
                 modifier = Modifier.size(101.dp)
             )
         }
-        val drawableRes = model.imageRes ?: "drink_item_empty_ic"
+        val drawableRes = formula.imageRes ?: "drink_item_empty_ic"
         Image(
             painter = painterResource(id = getImageResId(drawableRes)),
             contentDescription = null,

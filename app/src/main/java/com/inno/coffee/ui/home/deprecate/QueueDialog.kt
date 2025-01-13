@@ -95,7 +95,7 @@ fun QueueDialog(
 }
 
 @Composable
-private fun QueueItem(index: Int, model: Formula, onCancelItemClick: () -> Unit) {
+private fun QueueItem(index: Int, formula: Formula, onCancelItemClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -105,14 +105,14 @@ private fun QueueItem(index: Int, model: Formula, onCancelItemClick: () -> Unit)
     ) {
         Text(text = "${index + 1}", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.width(20.dp))
-        val res = getImageResId(model.imageRes)
+        val res = getImageResId(formula.imageRes)
         AsyncImage(model = res, modifier = Modifier.size(100.dp),
             contentDescription = null)
         Spacer(modifier = Modifier.width(50.dp))
-        val name = if (!model.productName?.name.isNullOrBlank()) {
-            model.productName?.name
-        } else if (!model.productName?.nameRes.isNullOrBlank()) {
-            stringResource(getImageResId(model.productName?.nameRes!!))
+        val name = if (!formula.productName?.name.isNullOrBlank()) {
+            formula.productName?.name
+        } else if (!formula.productName?.nameRes.isNullOrBlank()) {
+            stringResource(getImageResId(formula.productName?.nameRes!!))
         } else {
             stringResource(R.string.common_empty_string)
         }
@@ -128,7 +128,7 @@ private fun QueueItem(index: Int, model: Formula, onCancelItemClick: () -> Unit)
 @Preview(device = Devices.TABLET, showBackground = true)
 @Composable
 private fun PreviewItem() {
-    QueueItem(1, model = previewFormula) {
+    QueueItem(1, formula = previewFormula) {
 
     }
 }

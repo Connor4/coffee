@@ -234,11 +234,11 @@ class HomeViewModel @Inject constructor(
         StatisticManager.countProductType(formula)
     }
 
-    fun removeQueueDrink(index: Int, model: Formula, second: Boolean) {
+    fun removeQueueDrink(index: Int, formula: Formula, second: Boolean) {
         if (second) {
-            MakeRightDrinksHandler.finishAndClear(model.productId)
+            MakeRightDrinksHandler.finishAndClear(formula.productId)
         } else {
-            MakeLeftDrinksHandler.finishAndClear(model.productId)
+            MakeLeftDrinksHandler.finishAndClear(formula.productId)
         }
     }
 
