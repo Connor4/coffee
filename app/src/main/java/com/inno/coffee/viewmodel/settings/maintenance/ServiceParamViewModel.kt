@@ -85,7 +85,9 @@ class ServiceParamViewModel @Inject constructor(
                 }
             }
         }
+    }
 
+    fun resetServiceParam() {
     }
 
 }

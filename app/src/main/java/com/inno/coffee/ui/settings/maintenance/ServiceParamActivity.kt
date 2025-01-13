@@ -195,7 +195,7 @@ fun ServiceParamLayout(
                 stringResource(R.string.formula_product_cups_title),
                 stringResource(R.string.maintenance_confirm_reset_count), {
                     openConfirmDialog.value = false
-//                    viewModel.setFormulaCups(selectedCups.value, selectFormula)
+                    viewModel.resetServiceParam()
                 }, {
                     openConfirmDialog.value = false
                 }
