@@ -79,6 +79,8 @@ fun ServiceParamLayout(
     val rightCount = viewModel.rightCount.collectAsState()
     val nextTime = viewModel.maintenanceDate.collectAsState()
 
+    val month = stringResource(R.string.maintenance_month)
+
     LaunchedEffect(Unit) {
         viewModel.init()
     }
@@ -119,12 +121,12 @@ fun ServiceParamLayout(
                 scrollUnit.value = ""
             }
             DisplayItemLayout(stringResource(R.string.maintenance_count_schedule),
-                "${schedule.value}", Color(0xFF2A2B2D), unit = "[Month]") {
+                "${schedule.value}", Color(0xFF2A2B2D), unit = month) {
                 itemSelectIndex.value = MAINTENANCE_VALUE_SCHEDULE
                 scrollDefaultValue.value = schedule.value.toFloat()
                 scrollRangeStart.value = 3f
                 scrollRangeEnd.value = 24f
-                scrollUnit.value = "[Month]"
+                scrollUnit.value = month
             }
         }
 

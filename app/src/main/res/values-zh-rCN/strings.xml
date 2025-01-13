@@ -470,6 +470,7 @@
     <string name="maintenance_manuals">说明指引</string>
     <string name="maintenance_count_cups">按杯数计算</string>
     <string name="maintenance_count_schedule">按周期计算</string>
+    <string name="maintenance_month">[月]</string>
     <string name="maintenance_countdown_point">维修保养杯数剩余:</string>
     <string name="maintenance_left_brew_unit">左侧杯数:</string>
     <string name="maintenance_right_brew_unit">右侧杯数:</string>

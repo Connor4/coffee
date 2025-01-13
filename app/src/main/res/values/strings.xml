@@ -607,6 +607,7 @@
     <string name="maintenance_manuals">Manuals</string>
     <string name="maintenance_count_cups">Count by Cups</string>
     <string name="maintenance_count_schedule">Count by Schedule</string>
+    <string name="maintenance_month">[Month]</string>
     <string name="maintenance_countdown_point">Countdown to Maintenance Point:</string>
     <string name="maintenance_left_brew_unit">Left Brew Unit:</string>
     <string name="maintenance_right_brew_unit">Right Brew Unit:</string>
