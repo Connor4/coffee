@@ -2565,6 +2565,11 @@
       "rangeEnd": 100,
       "unit": "[%]"
     },
+    "cups": {
+      "single": 1005,
+      "double": 1006,
+      "current": 1
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -2637,6 +2642,11 @@
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[%]"
+    },
+    "cups": {
+      "single": 1005,
+      "double": 1006,
+      "current": 2
     },
     "waterPump": 0,
     "waterInputValue": 0,
@@ -2720,6 +2730,11 @@
       "rangeEnd": 100,
       "unit": "[%]"
     },
+    "cups": {
+      "single": 1007,
+      "double": 1008,
+      "current": 1
+    },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
@@ -2801,6 +2816,11 @@
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[%]"
+    },
+    "cups": {
+      "single": 1007,
+      "double": 1008,
+      "current": 2
     },
     "waterPump": 0,
     "waterInputValue": 0,

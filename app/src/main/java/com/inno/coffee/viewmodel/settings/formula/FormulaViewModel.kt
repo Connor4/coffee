@@ -152,63 +152,90 @@ class FormulaViewModel @Inject constructor(
         }
     }
 
-    fun setFormulaCups(targetCup: Int, formula: Formula?) {
-        if (formula == null) {
+    fun setFormulaCups(targetCup: Int, source: Formula?) {
+        if (source == null) {
             return
         }
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                val targetProductId = if (targetCup == 1) {
-                    formula.cups?.single
-                } else {
-                    formula.cups?.double
+        viewModelScope.launch(defaultDispatcher) {
+            val targetProductId = if (targetCup == 1) {
+                source.cups?.single
+            } else {
+                source.cups?.double
+            }
+            val target = repository.getFormulaByProductId(targetProductId ?: INVALID_INT)
+            target?.let {
+                val new = Formula(
+                    productId = source.productId,
+                    preFlush = target.preFlush,
+                    postFlush = target.postFlush,
+                    productType = target.productType,
+                    productPrice = target.productPrice,
+                    productName = target.productName,
+                    beanHopper = target.beanHopper,
+                    coffeeWater = target.coffeeWater,
+                    powderDosage = target.powderDosage,
+                    pressWeight = target.pressWeight,
+                    preMakeTime = target.preMakeTime,
+                    postPreMakeWaitTime = target.postPreMakeWaitTime,
+                    secPressWeight = target.secPressWeight,
+                    hotWater = target.hotWater,
+                    waterSequence = target.waterSequence,
+                    coffeeCycles = target.coffeeCycles,
+                    bypassWater = target.bypassWater,
+
+                    manualFoamTime = target.manualFoamTime,
+                    autoFoamTemperature = target.autoFoamTemperature,
+                    foamMode = target.foamMode,
+                    stopAirTime = target.stopAirTime,
+                    stopAirTemperature = target.stopAirTemperature,
+                    texture = target.texture,
+                    mixHotWater = target.mixHotWater,
+                    cleanWand = target.cleanWand,
+
+                    appearance = target.appearance,
+                    milkDelayTime = target.milkDelayTime,
+                    milkOutput = target.milkOutput,
+                    milkSequence = target.milkSequence,
+                    cups = target.cups,
+                    imageRes = source.imageRes,
+                    steamBoiler = target.steamBoiler,
+                    waterInputValue = target.waterInputValue,
+                    leftValueLeftBoiler = target.leftValueLeftBoiler,
+                    middleValueLeftBoiler = target.middleValueLeftBoiler,
+                    rightValueLeftBoiler = target.rightValueLeftBoiler,
+                    leftValueRightBoiler = target.leftValueRightBoiler,
+                    middleValueRightBoiler = target.middleValueRightBoiler,
+                    rightValueRightBoiler = target.rightValueRightBoiler,
+
+                    steamPurgeValve = target.steamPurgeValve,
+                    steamPurgeMixValve = target.steamPurgeMixValve,
+                    steamWaterFillValve = target.steamWaterFillValve,
+                    steamHotWaterValve = target.steamHotWaterValve,
+                    steamHotWaterValveMix = target.steamHotWaterValveMix,
+                    steamOutSteamValve1 = target.steamOutSteamValve1,
+                    steamOutSteamValve2 = target.steamOutSteamValve2,
+                    steamEverFoamValve1 = target.steamEverFoamValve1,
+                    steamEverFoamValve2 = target.steamEverFoamValve2,
+                    waterPump = target.waterPump,
+                    airPump = target.airPump,
+                    milkFoamer = target.milkFoamer,
+                    id = source.id
+                ).apply {
+                    cups?.current = targetCup
                 }
-                val targetFormula = repository.getFormulaByProductId(targetProductId ?: INVALID_INT)
-                targetFormula?.let {
-                    val newFormula = Formula(
-                        productId = formula.productId,
-                        productType = it.productType,
-                        productName = formula.productName,
-                        preFlush = it.preFlush,
-                        postFlush = it.postFlush,
-                        beanHopper = it.beanHopper,
-                        coffeeWater = it.coffeeWater,
-                        powderDosage = it.powderDosage,
-                        pressWeight = it.pressWeight,
-                        preMakeTime = it.preMakeTime,
-                        postPreMakeWaitTime = it.postPreMakeWaitTime,
-                        secPressWeight = it.secPressWeight,
-                        hotWater = it.hotWater,
-                        waterSequence = it.waterSequence,
-                        coffeeCycles = it.coffeeCycles,
-                        bypassWater = it.bypassWater,
-                        cups = formula.cups,
-                        waterPump = it.waterPump,
-                        waterInputValue = it.waterInputValue,
-                        leftValueLeftBoiler = it.leftValueLeftBoiler,
-                        middleValueLeftBoiler = it.middleValueLeftBoiler,
-                        rightValueLeftBoiler = it.rightValueLeftBoiler,
-                        leftValueRightBoiler = it.leftValueRightBoiler,
-                        middleValueRightBoiler = it.middleValueRightBoiler,
-                        rightValueRightBoiler = it.rightValueRightBoiler,
-                        id = formula.id
-                    ).apply {
-                        cups?.current = targetCup
-                    }
-                    repository.updateFormula(newFormula)
-                    _formula.value = newFormula
-                    Logger.d(TAG, "setFormulaCups: newFormula = $newFormula")
-                }
+                repository.updateFormula(new)
+                _formula.value = new
+                Logger.d(TAG, "setFormulaCups: newFormula = $new")
             }
         }
     }
 
-    fun assimilationProduct(formula: Formula?) {
-        if (formula == null) {
+    fun assimilationProduct(source: Formula?) {
+        if (source == null) {
             return
         }
         viewModelScope.launch(defaultDispatcher) {
-            val productId = formula.productId
+            val productId = source.productId
             val targetProductId = if (productId < MAIN_SCREEN_PRODUCT_ID_LIMIT) {
                 productId + MAIN_SCREEN_PRODUCT_ID_LIMIT
             } else {
@@ -216,30 +243,43 @@ class FormulaViewModel @Inject constructor(
             }
             val targetFormula = repository.getFormulaByProductId(targetProductId)
             targetFormula?.let {
-                it.productType = formula.productType
-                it.preFlush = formula.preFlush
-                it.postFlush = formula.postFlush
-                it.beanHopper = formula.beanHopper
-                it.coffeeWater = formula.coffeeWater
-                it.powderDosage = formula.powderDosage
-                it.pressWeight = formula.pressWeight
-                it.preMakeTime = formula.preMakeTime
-                it.postPreMakeWaitTime = formula.postPreMakeWaitTime
-                it.secPressWeight = formula.secPressWeight
-                it.hotWater = formula.hotWater
-                it.waterSequence = formula.waterSequence
-                it.coffeeCycles = formula.coffeeCycles
-                it.bypassWater = formula.bypassWater
-                it.cups = formula.cups
-                it.waterPump = formula.waterPump
-                it.waterInputValue = formula.waterInputValue
-                it.leftValueLeftBoiler = formula.leftValueLeftBoiler
-                it.middleValueLeftBoiler = formula.middleValueLeftBoiler
-                it.rightValueLeftBoiler = formula.rightValueLeftBoiler
-                it.leftValueRightBoiler = formula.leftValueRightBoiler
-                it.middleValueRightBoiler = formula.middleValueRightBoiler
-                it.rightValueRightBoiler = formula.rightValueRightBoiler
+                it.preFlush = source.preFlush
+                it.postFlush = source.postFlush
+                it.productType = source.productType
+                it.productPrice = source.productPrice
+                it.productName = source.productName
+                it.beanHopper = source.beanHopper
+                it.coffeeWater = source.coffeeWater
+                it.powderDosage = source.powderDosage
+                it.pressWeight = source.pressWeight
+                it.preMakeTime = source.preMakeTime
+                it.postPreMakeWaitTime = source.postPreMakeWaitTime
+                it.secPressWeight = source.secPressWeight
+                it.hotWater = source.hotWater
+                it.waterSequence = source.waterSequence
+                it.coffeeCycles = source.coffeeCycles
+                it.bypassWater = source.bypassWater
+
+                it.manualFoamTime = source.manualFoamTime
+                it.autoFoamTemperature = source.autoFoamTemperature
+                it.foamMode = source.foamMode
+                it.stopAirTime = source.stopAirTime
+                it.stopAirTemperature = source.stopAirTemperature
+                it.texture = source.texture
+                it.mixHotWater = source.mixHotWater
+                it.cleanWand = source.cleanWand
+
+                it.appearance = source.appearance
+                it.milkDelayTime = source.milkDelayTime
+                it.milkOutput = source.milkOutput
+                it.milkSequence = source.milkSequence
+
+                it.cups = source.cups
+                it.imageRes = source.imageRes
+                // TODO check this
+                // because left and right value is different, we can't copy valve value
                 repository.updateFormula(it)
+                Logger.d(TAG, "assimilationProduct() called $it")
             }
         }
     }

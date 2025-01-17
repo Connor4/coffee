@@ -26,8 +26,8 @@ data class Formula(
     var coffeeCycles: FormulaItem.FormulaUnitValue? = null, // how many cups we need to make
     var bypassWater: FormulaItem.FormulaUnitValue? = null, // Boiler
     //=============================steam=====================================
-    val manualFoamTime: FormulaItem.FormulaUnitValue? = null,
-    val autoFoamTemperature: FormulaItem.FormulaTemperatureValue? = null,
+    var manualFoamTime: FormulaItem.FormulaUnitValue? = null,
+    var autoFoamTemperature: FormulaItem.FormulaTemperatureValue? = null,
     var foamMode: FormulaItem.FormulaFoamMode? = null,
     var stopAirTime: FormulaItem.FormulaUnitValue? = null,
     var stopAirTemperature: FormulaItem.FormulaTemperatureValue? = null,
@@ -43,7 +43,7 @@ data class Formula(
     var cups: FormulaItem.FormulaCups? = null,
     var imageRes: String = "",
     //================to be determined, but i hava to have it==================
-    val steamBoiler: Short = -1, //
+    var steamBoiler: Short = -1, //
     var waterInputValue: Short = -1, // WATER_INPUT_VALVE_ID
     var leftValueLeftBoiler: Short = -1, // LEFT_VALVE_LEFT_BOILER_ID
     var middleValueLeftBoiler: Short = -1, // MIDILE_VALVE_LEFT_BOILER_ID
@@ -68,7 +68,7 @@ data class Formula(
 
     var milkFoamer: Short = -1, // MILK_FOAMER_ID
 
-    @PrimaryKey(autoGenerate = true) val id: Short = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 // 美式没有bypassWater，只有hotWater+americanoSequence。
 
