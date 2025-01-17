@@ -86,7 +86,17 @@ class FormulaViewModel @Inject constructor(
 
     fun loadDrinkTypeList(mainScreen: Boolean) {
         viewModelScope.launch(defaultDispatcher) {
-            refreshDrinkTypeList(mainScreen)
+            if (mainScreen) {
+                _drinksList.value = repository.getAllFormula().filter {
+                    ProductType.isFormulaCanShowType(it.productType?.type)
+                            && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
+                }
+            } else {
+                _drinksList.value = repository.getAllFormula().filter {
+                    ProductType.isFormulaCanShowType(it.productType?.type)
+                            && (it.productId in (MAIN_SCREEN_PRODUCT_ID_LIMIT + 1)..<SECOND_SCREEN_PRODUCT_ID_LIMIT)
+                }
+            }
             val first = _drinksList.value.first()
             _formula.value = repository.getFormulaByProductId(first.productId)
         }
