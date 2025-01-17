@@ -332,7 +332,7 @@ private fun StatisticDrinkItem(
                 modifier = Modifier.size(101.dp)
             )
         }
-        val drawableRes = formula.imageRes ?: "drink_item_empty_ic"
+        val drawableRes = formula.imageRes.ifEmpty { "drink_item_empty_ic" }
         Image(
             painter = painterResource(id = getImageResId(drawableRes)),
             contentDescription = null,

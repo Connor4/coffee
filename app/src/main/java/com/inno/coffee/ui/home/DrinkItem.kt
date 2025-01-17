@@ -96,7 +96,7 @@ fun DrinkItem(
                 .background(color = Color(0xFF191A1D)),
         ) {
             MaskBoxWithContent(enableMask = enableMask) {
-                val drawableRes = formula.imageRes
+                val drawableRes = formula.imageRes.ifEmpty { "drink_item_empty_ic" }
                 val productPrice = formula.productPrice?.price ?: ""
                 if (showProductPrice) {
                     Text(
