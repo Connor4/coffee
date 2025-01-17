@@ -86,6 +86,14 @@ class FormulaViewModel @Inject constructor(
 
     fun loadDrinkTypeList(mainScreen: Boolean) {
         viewModelScope.launch(defaultDispatcher) {
+            refreshDrinkTypeList(mainScreen)
+            val first = _drinksList.value.first()
+            _formula.value = repository.getFormulaByProductId(first.productId)
+        }
+    }
+
+    fun refreshDrinkTypeList(mainScreen: Boolean) {
+        viewModelScope.launch(defaultDispatcher) {
             if (mainScreen) {
                 _drinksList.value = repository.getAllFormula().filter {
                     ProductType.isFormulaCanShowType(it.productType?.type)
@@ -97,8 +105,6 @@ class FormulaViewModel @Inject constructor(
                             && (it.productId in (MAIN_SCREEN_PRODUCT_ID_LIMIT + 1)..<SECOND_SCREEN_PRODUCT_ID_LIMIT)
                 }
             }
-            val first = _drinksList.value.first()
-            _formula.value = repository.getFormulaByProductId(first.productId)
         }
     }
 
@@ -215,8 +221,9 @@ class FormulaViewModel @Inject constructor(
                 ).apply {
                     cups?.current = targetCup
                 }
-                _formula.value = new
+//                _formula.value = new
                 repository.updateFormula(new)
+                repository.updateFormulaFlag()
                 Logger.d(TAG, "setFormulaCups: newFormula = $new")
             }
         }

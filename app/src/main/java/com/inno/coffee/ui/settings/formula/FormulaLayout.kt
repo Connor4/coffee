@@ -41,7 +41,7 @@ fun FormulaLayout(
     val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
     val drinksTypeList by viewModel.drinksList.collectAsState()
     val selectFormula by viewModel.formula.collectAsState()
-    val allFormula by viewModel.formulaList.collectAsState()
+//    val allFormula by viewModel.formulaList.collectAsState()
     val totalCount = (drinksTypeList.size + PAGE_COUNT - 1) / PAGE_COUNT
     val pagerState = rememberPagerState(pageCount = { totalCount })
     val openConfirmDialog = remember { mutableStateOf(false) }
@@ -56,13 +56,14 @@ fun FormulaLayout(
 
     LaunchedEffect(Unit) {
         viewModel.loadDrinkTypeList(mainScreen)
-        if (allFormula.isNotEmpty() && selectFormula != null) {
-            viewModel.getFormula(selectFormula!!.productId)
-        }
+//        if (allFormula.isNotEmpty() && selectFormula != null) {
+//            viewModel.getFormula(selectFormula!!.productId)
+//        }
     }
 
     LaunchedEffect(updateFlag) {
         selectFormula?.let {
+            viewModel.refreshDrinkTypeList(mainScreen)
             viewModel.getFormula(it.productId)
         }
     }
