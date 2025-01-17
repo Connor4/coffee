@@ -75,15 +75,21 @@ fun ConfirmDialogLayout(
                     .height(42.dp)
                     .fastclick { onCloseClick() },
             )
-            Text(
-                text = description,
-                fontSize = 6.nsp(), color = Color.White,
-                textAlign = TextAlign.Center,
-                maxLines = 4, overflow = TextOverflow.Ellipsis,
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .align(Alignment.Center)
-            )
+                    .fillMaxWidth()
+                    .height(300.dp)
+            ) {
+                Text(
+                    text = description,
+                    fontSize = 6.nsp(), color = Color.White,
+                    textAlign = TextAlign.Center,
+                    maxLines = 4, overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .align(Alignment.Center)
+                )
+            }
             Row(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
