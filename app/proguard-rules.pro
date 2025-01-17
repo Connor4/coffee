@@ -78,6 +78,21 @@
     public static *** e(...);
     public static *** w(...);
 }
+### 打开日志
+#-keepclassmembers class android.util.Log {
+#    public static boolean isLoggable(java.lang.String, int);
+#    public static int v(java.lang.String, java.lang.String);
+#    public static int v(java.lang.String, java.lang.String, java.lang.Throwable);
+#    public static int d(java.lang.String, java.lang.String);
+#    public static int d(java.lang.String, java.lang.String, java.lang.Throwable);
+#    public static int i(java.lang.String, java.lang.String);
+#    public static int i(java.lang.String, java.lang.String, java.lang.Throwable);
+#    public static int w(java.lang.String, java.lang.String);
+#    public static int w(java.lang.String, java.lang.String, java.lang.Throwable);
+#    public static int w(java.lang.String, java.lang.Throwable);
+#    public static int e(java.lang.String, java.lang.String);
+#    public static int e(java.lang.String, java.lang.String, java.lang.Throwable);
+#}
 
 #6.避免资源混淆
 -keep class **.R$* {*;}
