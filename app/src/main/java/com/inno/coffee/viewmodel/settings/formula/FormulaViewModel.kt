@@ -189,7 +189,7 @@ class FormulaViewModel @Inject constructor(
                     milkOutput = target.milkOutput,
                     milkSequence = target.milkSequence,
                     cups = target.cups,
-                    imageRes = source.imageRes,
+                    imageRes = target.imageRes,
                     steamBoiler = target.steamBoiler,
                     waterInputValue = target.waterInputValue,
                     leftValueLeftBoiler = target.leftValueLeftBoiler,
@@ -215,8 +215,8 @@ class FormulaViewModel @Inject constructor(
                 ).apply {
                     cups?.current = targetCup
                 }
-                repository.updateFormula(new)
                 _formula.value = new
+                repository.updateFormula(new)
                 Logger.d(TAG, "setFormulaCups: newFormula = $new")
             }
         }
@@ -295,11 +295,11 @@ class FormulaViewModel @Inject constructor(
     }
 
     fun learnWater() {
-
+        //学习水量使用出热水接口，人工点击开始停止，然后界面显示对应出水量。粉量测试功能也未确定，两个都需要后续再开发
     }
 
     fun powderTest() {
-
+        //学习水量使用出热水接口，人工点击开始停止，然后界面显示对应出水量。粉量测试功能也未确定，两个都需要后续再开发
     }
 
     private fun parseReceivedData(data: Any) {
