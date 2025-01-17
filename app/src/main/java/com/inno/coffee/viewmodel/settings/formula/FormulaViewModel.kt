@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.io.File
 import javax.inject.Inject
@@ -104,22 +103,20 @@ class FormulaViewModel @Inject constructor(
     }
 
     fun loadFromSdCard(context: Context) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                val path = context.filesDir.absolutePath + FORMULA_JSON_FILE
-                val file = File(path)
-                if (file.exists()) {
-                    val jsonContent = file.readText()
-                    try {
-                        val list: List<Formula> = Json.decodeFromString(jsonContent)
-                        repository.insertFormulaList(list)
-                    } catch (e: Exception) {
-                        Logger.e("FormulaViewModel", "decodeFromString Exception $e")
-                        loadFileErrorDialogFlag.value = true
-                    }
-                } else {
+        viewModelScope.launch(defaultDispatcher) {
+            val path = context.filesDir.absolutePath + FORMULA_JSON_FILE
+            val file = File(path)
+            if (file.exists()) {
+                val jsonContent = file.readText()
+                try {
+                    val list: List<Formula> = Json.decodeFromString(jsonContent)
+                    repository.insertFormulaList(list)
+                } catch (e: Exception) {
+                    Logger.e("FormulaViewModel", "decodeFromString Exception $e")
                     loadFileErrorDialogFlag.value = true
                 }
+            } else {
+                loadFileErrorDialogFlag.value = true
             }
         }
     }
@@ -129,27 +126,21 @@ class FormulaViewModel @Inject constructor(
     }
 
     fun insertFormula(formula: Formula) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                repository.insertFormula(formula)
-            }
+        viewModelScope.launch(defaultDispatcher) {
+            repository.insertFormula(formula)
         }
     }
 
     fun updateFormula(formula: Formula) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                repository.updateFormula(formula)
-            }
+        viewModelScope.launch(defaultDispatcher) {
+            repository.updateFormula(formula)
         }
     }
 
     fun getFormula(productId: Int = -1) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _formula.value = repository.getFormulaByProductId(productId)
-                Logger.d(TAG, "getFormula() ${_formula.value}")
-            }
+        viewModelScope.launch(defaultDispatcher) {
+            _formula.value = repository.getFormulaByProductId(productId)
+            Logger.d(TAG, "getFormula() ${_formula.value}")
         }
     }
 
