@@ -34,7 +34,7 @@ fun SaveRestoreLayout(
             .background(Color(0xED000000))
     ) {
         Text(
-            text = stringResource(id = R.string.maintenance_service_functions),
+            text = stringResource(id = R.string.maintenance_save_restore),
             fontSize = 7.nsp(),
             fontWeight = FontWeight.Bold,
             color = Color.White,
