@@ -52,11 +52,18 @@ fun FormulaLayout(
     val wandTemp by viewModel.wandTemp.collectAsState()
     val steamTemp by viewModel.steamTemp.collectAsState()
     val tempUnit by viewModel.tempUnit.collectAsState()
+    val updateFlag by viewModel.updateFormulaFlag.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadDrinkTypeList(mainScreen)
         if (allFormula.isNotEmpty() && selectFormula != null) {
             viewModel.getFormula(selectFormula!!.productId)
+        }
+    }
+
+    LaunchedEffect(updateFlag) {
+        selectFormula?.let {
+            viewModel.getFormula(it.productId)
         }
     }
 

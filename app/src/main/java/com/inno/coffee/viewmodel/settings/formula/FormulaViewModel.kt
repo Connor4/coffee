@@ -58,6 +58,7 @@ class FormulaViewModel @Inject constructor(
     val drinksList: StateFlow<List<Formula>> = _drinksList.asStateFlow()
     private val _formula = MutableStateFlow<Formula?>(null)
     val formula = _formula.asStateFlow()
+    val updateFormulaFlag = repository.updateFormula
     private val _tempUnit = MutableStateFlow(false)
     val tempUnit = _tempUnit
     private val _leftTemp = MutableStateFlow(0)
@@ -241,8 +242,8 @@ class FormulaViewModel @Inject constructor(
             } else {
                 productId - MAIN_SCREEN_PRODUCT_ID_LIMIT
             }
-            val targetFormula = repository.getFormulaByProductId(targetProductId)
-            targetFormula?.let {
+            val target = repository.getFormulaByProductId(targetProductId)
+            target?.let {
                 it.preFlush = source.preFlush
                 it.postFlush = source.postFlush
                 it.productType = source.productType
@@ -279,6 +280,7 @@ class FormulaViewModel @Inject constructor(
                 // TODO check this
                 // because left and right value is different, we can't copy valve value
                 repository.updateFormula(it)
+                repository.updateFormulaFlag()
                 Logger.d(TAG, "assimilationProduct() called $it")
             }
         }

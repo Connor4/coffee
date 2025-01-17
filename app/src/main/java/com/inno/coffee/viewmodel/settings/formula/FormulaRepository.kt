@@ -3,11 +3,20 @@ package com.inno.coffee.viewmodel.settings.formula
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.entity.Formula
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FormulaRepository @Inject constructor(
     private val formulaDao: FormulaDao
 ) {
+    private val _updateFormula = MutableStateFlow("")
+    val updateFormula = _updateFormula
+
+    fun updateFormulaFlag() {
+        _updateFormula.value = System.currentTimeMillis().toString()
+    }
 
     fun getAllFormulaFlow(): Flow<List<Formula>> {
         return formulaDao.getAllFormulaFlow()
