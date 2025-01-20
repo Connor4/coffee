@@ -67,13 +67,13 @@ fun SingleNumberInputLayout(
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
-                .width(834.dp)
-                .height(629.dp)
+                .width(838.dp)
+                .height(568.dp)
         )
         Box(
             modifier = Modifier
-                .width(770.dp)
-                .height(575.dp)
+                .width(774.dp)
+                .height(514.dp)
                 .clip(RoundedCornerShape(20.dp))
         ) {
             Text(
@@ -126,7 +126,9 @@ fun SingleNumberInputLayout(
 
 
             Box(
-                modifier = Modifier.padding(top = 226.dp)
+                modifier = Modifier
+                    .padding(top = 226.dp)
+                    .align(Alignment.TopCenter),
             ) {
                 NumberLayout(onKeyClick = {
                     val newValue = input + it
@@ -146,6 +148,8 @@ fun SingleNumberInputLayout(
                         val confirmedValue = input.toFloatOrNull() ?: 0.0f
                         onEnterClick(confirmedValue)
                     }
+                }, onAC = {
+                    input = ""
                 })
             }
         }
@@ -158,33 +162,39 @@ private fun NumberLayout(
     onDot: () -> Unit,
     onDelete: () -> Unit,
     onEnter: () -> Unit,
+    onAC: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .wrapContentSize()
+    Row(
+        modifier = Modifier.wrapContentSize()
     ) {
-        KeyboardRow1(listOf("1", "2", "3")) {
-            onKeyClick(it)
+        Column(
+            modifier = Modifier.wrapContentSize()
+        ) {
+            KeyboardRow1(listOf("7", "8", "9")) {
+                onKeyClick(it)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            KeyboardRow1(listOf("4", "5", "6")) {
+                onKeyClick(it)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            KeyboardRow1(listOf("1", "2", "3")) {
+                onKeyClick(it)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            KeyboardRow3(listOf("0", "dot"), {
+                onKeyClick(it)
+            }, {
+                onDot()
+            })
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        KeyboardRow1(listOf("4", "5", "6")) {
-            onKeyClick(it)
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        KeyboardRow1(listOf("7", "8", "9")) {
-            onKeyClick(it)
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        KeyboardRow3(listOf("0", "o", "delete"), {
-            onKeyClick(it)
-        }, {
-            onDot()
+        Spacer(modifier = Modifier.width(10.dp))
+        KeyboardRow4(listOf("ac", "del", "enter"), {
+            onEnter()
         }, {
             onDelete()
-        })
-        Spacer(modifier = Modifier.height(8.dp))
-        KeyboardRow4(listOf("enter"), {
-            onEnter()
+        }, {
+            onAC()
         })
     }
 }
@@ -192,14 +202,14 @@ private fun NumberLayout(
 @Composable
 private fun KeyboardRow1(keys: List<String>, onKeyClick: (keyName: String) -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.wrapContentSize(),
         horizontalArrangement = Arrangement.Center,
     ) {
         for (key in keys) {
             KeyboardKey(key) {
                 onKeyClick(it)
             }
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(10.dp))
         }
     }
 }
@@ -209,35 +219,40 @@ private fun KeyboardRow3(
     keys: List<String>,
     onKeyClick: (keyName: String) -> Unit,
     onDot: () -> Unit = {},
-    onDelete: () -> Unit = {},
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.wrapContentSize(),
         horizontalArrangement = Arrangement.Center,
     ) {
-        KeyboardKey(keys[0]) {
+        KeyboardKey(keys[0], width = 130) {
             onKeyClick(it)
         }
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(10.dp))
         KeyboardKey(keys[1]) {
             onDot()
         }
-        Spacer(modifier = Modifier.width(8.dp))
-        KeyboardKey(keys[2], width = 95) {
-            onDelete()
-        }
+        Spacer(modifier = Modifier.width(10.dp))
     }
 }
 
 
 @Composable
-private fun KeyboardRow4(keys: List<String>, onEnter: () -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
+private fun KeyboardRow4(
+    keys: List<String>, onEnter: () -> Unit, onDelete: () -> Unit = {},
+    onAC: () -> Unit = {},
+) {
+    Column(
+        modifier = Modifier.wrapContentSize()
     ) {
-        Spacer(modifier = Modifier.width(8.dp))
-        KeyboardKeyPressWithDelay(keys[0], width = 165) {
+        KeyboardKey(keys[0]) {
+            onAC()
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        KeyboardKey(keys[1]) {
+            onDelete()
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        KeyboardKeyPressWithDelay(keys[2], height = 120) {
             onEnter()
         }
     }
@@ -252,8 +267,8 @@ private fun KeyboardKeyPressWithDelay(
         mutableStateOf(false)
     }
     var lastClickTime by mutableStateOf(0L)
-    val imageResId = if (isPressed) "keyboard_${keyName}_press_ic"
-    else "keyboard_${keyName}_normal_ic"
+    val imageResId = if (isPressed) "keyboard_num_${keyName}_press_ic"
+    else "keyboard_num_${keyName}_normal_ic"
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -290,8 +305,8 @@ private fun KeyboardKey(
     var isPressed by remember {
         mutableStateOf(false)
     }
-    val imageResId = if (isPressed) "keyboard_${keyName}_press_ic"
-    else "keyboard_${keyName}_normal_ic"
+    val imageResId = if (isPressed) "keyboard_num_${keyName}_press_ic"
+    else "keyboard_num_${keyName}_normal_ic"
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
