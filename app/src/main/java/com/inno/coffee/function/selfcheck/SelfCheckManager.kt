@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicInteger
 
 // 1. IO自动检测状态，通过pull返回结果，同时根据pull返回IO自检阶段。
 // 2. 自检完成由应用触发冲水等流程。
@@ -33,6 +34,7 @@ object SelfCheckManager {
     var ioCheck = _ioCheck.asStateFlow()
     private val _operateRinse = MutableStateFlow(false)
     var operateRinse = _operateRinse.asStateFlow()
+    private val operateCount = AtomicInteger(0)
     private val _coffeeHeating = MutableStateFlow(false)
     var coffeeHeating = _coffeeHeating.asStateFlow()
     private val _steamHeating = MutableStateFlow(false)
@@ -61,12 +63,22 @@ object SelfCheckManager {
         _step.value = STEP_IO_CHECK
     }
 
-    suspend fun operateRinse() {
-        // TODO 1. 操作出水
-        //  2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
-        _operateRinse.value = true
-        _step.value = STEP_RINSE
-        waitCoffeeBoilerHeating()
+    fun wakeupRinseSuccess() {
+        scope.launch {
+            // 1. 操作左右屏冲洗 2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
+            if (operateCount.incrementAndGet() == 2) {
+                _operateRinse.value = true
+                _step.value = STEP_RINSE
+                waitCoffeeBoilerHeating()
+            }
+        }
+    }
+
+    fun wakeupRinseFail() {
+        scope.launch {
+            delay(1000)
+            wakeupRinseSuccess()
+        }
     }
 
     suspend fun waitCoffeeBoilerHeating() {

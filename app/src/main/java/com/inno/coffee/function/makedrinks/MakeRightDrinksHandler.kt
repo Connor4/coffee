@@ -46,6 +46,7 @@ object MakeRightDrinksHandler {
     private val _extractionTime = MutableStateFlow(0f)
     val extractionTime = _extractionTime
     private var countdownJob: Job? = null
+    private val commandCallbackMap = mutableMapOf<Int, (Boolean) -> Unit>()
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -73,7 +74,7 @@ object MakeRightDrinksHandler {
         }
     }
 
-    fun executeNow(formula: Formula) {
+    fun executeNow(formula: Formula, callback: (Boolean) -> Unit = {}) {
         scope.launch {
             mutex.withLock {
                 _operationQueue.value += formula
@@ -82,12 +83,12 @@ object MakeRightDrinksHandler {
                 val byteInfo = ProductProfileManager.convertProductProfile(formula, false)
                 CommunicationController.instance.sendCommand(MAKE_DRINKS_COMMAND_ID,
                     byteInfo.size, byteInfo)
-                waitForOperationReplyConfirm()
+                waitForOperationReplyConfirm(formula.productId, callback)
             }
         }
     }
 
-    fun enqueueMessage(formula: Formula) {
+    fun enqueueMessage(formula: Formula, callback: (Boolean) -> Unit = {}) {
         scope.launch {
             mutex.withLock {
                 _productQueue.value += formula
@@ -96,31 +97,35 @@ object MakeRightDrinksHandler {
                 val byteInfo = ProductProfileManager.convertProductProfile(formula, true)
                 CommunicationController.instance.sendCommand(MAKE_DRINKS_COMMAND_ID,
                     byteInfo.size, byteInfo)
-                waitForProductReplyConfirm()
+                waitForProductReplyConfirm(formula.productId, callback)
             }
         }
     }
 
-    private fun waitForProductReplyConfirm() {
+    private fun waitForProductReplyConfirm(productId: Int, callback: (Boolean) -> Unit) {
         productReplyConfirmJob?.cancel()
         productReplyConfirmJob = scope.launch {
+            commandCallbackMap[productId] = callback
             val result = withTimeoutOrNull(REPLY_WAIT_TIME) {
                 delay(REPLY_WAIT_TIME + 1)
             }
             if (result == null) {
                 Logger.d(TAG, "waitForProductReplyConfirm() called")
+                callback(false)
                 clearProductQueue()
             }
         }
     }
 
-    private fun waitForOperationReplyConfirm() {
+    private fun waitForOperationReplyConfirm(productId: Int, callback: (Boolean) -> Unit) {
         operationReplyConfirmJob?.cancel()
         operationReplyConfirmJob = scope.launch {
+            commandCallbackMap[productId] = callback
             val result = withTimeoutOrNull(REPLY_WAIT_TIME) {
                 delay(REPLY_WAIT_TIME + 1)
             }
             if (result == null) {
+                callback(false)
                 _operationQueue.update { list ->
                     list.filterNot { ProductType.isOperationType(it.productType?.type) }
                 }
@@ -175,12 +180,16 @@ object MakeRightDrinksHandler {
                     val processingProductId = it.productId
                     if (data.id == processingProductId) {
                         productReplyConfirmJob?.cancel()
+                        commandCallbackMap[processingProductId]?.invoke(true)
+                        commandCallbackMap.remove(processingProductId)
                     }
                 }
                 _operationQueue.value.forEach {
                     val processingProductId = it.productId
                     if (data.id == processingProductId) {
                         operationReplyConfirmJob?.cancel()
+                        commandCallbackMap[processingProductId]?.invoke(true)
+                        commandCallbackMap.remove(processingProductId)
                     }
                 }
             }

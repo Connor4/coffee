@@ -15,6 +15,7 @@ import com.inno.coffee.ui.notice.GlobalDialogRightManager
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
+import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.enums.ProductType
@@ -70,7 +71,7 @@ class HomeViewModel @Inject constructor(
         private const val NTC_RIGHT = "ntc_right"
     }
 
-    val formulaList: StateFlow<List<Formula>> = repository.getAllFormulas()
+    val formulaList: StateFlow<List<Formula>> = repository.getLeftAllFormulas()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     private val temperatureUnit: Flow<Boolean> =
         dataStore.getCoffeePreferenceFlow(TEMPERATURE_UNIT, false)
@@ -216,13 +217,35 @@ class HomeViewModel @Inject constructor(
         if (ProductType.isOperationType(formula.productType?.type)) {
             if (checking && ProductType.assertType(formula.productType?.type, ProductType.RINSE)) {
                 viewModelScope.launch(defaultDispatcher) {
-                    SelfCheckManager.operateRinse()
+                    val (leftRinse, rightRinse) = repository.getAllFormulas().filter {
+                        ProductType.assertType(it.productType?.type, ProductType.RINSE)
+                    }.partition { it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT }
+                    // TODO null need to notify
+                    leftRinse.firstOrNull()?.let {
+                        MakeLeftDrinksHandler.executeNow(it) { success ->
+                            if (success) {
+                                SelfCheckManager.wakeupRinseSuccess()
+                            } else {
+                                SelfCheckManager.wakeupRinseFail()
+                            }
+                        }
+                    }
+                    rightRinse.firstOrNull()?.let {
+                        MakeRightDrinksHandler.executeNow(it) { success ->
+                            if (success) {
+                                SelfCheckManager.wakeupRinseSuccess()
+                            } else {
+                                SelfCheckManager.wakeupRinseFail()
+                            }
+                        }
+                    }
                 }
-            }
-            if (main) {
-                MakeLeftDrinksHandler.executeNow(formula)
             } else {
-                MakeRightDrinksHandler.executeNow(formula)
+                if (main) {
+                    MakeLeftDrinksHandler.executeNow(formula)
+                } else {
+                    MakeRightDrinksHandler.executeNow(formula)
+                }
             }
         } else {
             if (main) {
@@ -338,23 +361,6 @@ class HomeViewModel @Inject constructor(
         _countdown.value = LOCK_AND_CLEAN_TIME
     }
 
-    private fun parseReceivedData(data: Any) {
-        val boiler = data as ReceivedData.HeartBeat
-        boiler.temperature?.let { reply ->
-            when (reply.status) {
-                BoilerStatusEnum.BOILER_TEMPERATURE -> {
-                    _leftBoilerTemp.value = ((reply.value[1].toInt() and 0xFF) shl 8) or
-                            (reply.value[0].toInt() and 0xFF)
-                    _rightBoilerTemp.value = ((reply.value[3].toInt() and 0xFF) shl 8) or
-                            (reply.value[2].toInt() and 0xFF)
-                    _steamBoilerTemp.value = ((reply.value[5].toInt() and 0xFF) shl 8) or
-                            (reply.value[4].toInt() and 0xFF)
-                }
-                else -> {}
-            }
-        }
-    }
-
     private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Int>): StateFlow<String> {
         return temperatureUnit.combine(temperatureFlow) { isFahrenheit, tempCelsius ->
             if (isFahrenheit) {
@@ -404,6 +410,23 @@ class HomeViewModel @Inject constructor(
                 numberOfCyclesRinse, (steamBoilerPressure * 10).toInt(),
                 ntcCorrectionSteamLeft.toInt(), ntcCorrectionSteamRight.toInt(), 0,
                 0, 0)
+        }
+    }
+
+    private fun parseReceivedData(data: Any) {
+        val boiler = data as ReceivedData.HeartBeat
+        boiler.temperature?.let { reply ->
+            when (reply.status) {
+                BoilerStatusEnum.BOILER_TEMPERATURE -> {
+                    _leftBoilerTemp.value = ((reply.value[1].toInt() and 0xFF) shl 8) or
+                            (reply.value[0].toInt() and 0xFF)
+                    _rightBoilerTemp.value = ((reply.value[3].toInt() and 0xFF) shl 8) or
+                            (reply.value[2].toInt() and 0xFF)
+                    _steamBoilerTemp.value = ((reply.value[5].toInt() and 0xFF) shl 8) or
+                            (reply.value[4].toInt() and 0xFF)
+                }
+                else -> {}
+            }
         }
     }
 

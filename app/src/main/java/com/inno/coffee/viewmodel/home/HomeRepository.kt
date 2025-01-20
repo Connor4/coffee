@@ -53,11 +53,15 @@ class HomeRepository @Inject constructor(
         return false
     }
 
-    fun getAllFormulas(): Flow<List<Formula>> {
+    fun getLeftAllFormulas(): Flow<List<Formula>> {
         return formulaDao.getAllFormulaFlow().map { formulas ->
             formulas.filter { formula -> formula.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT }
 //                .sortedBy { formula -> formula.productId }
         }
+    }
+
+    suspend fun getAllFormulas(): List<Formula> {
+        return formulaDao.getAllFormula()
     }
 
 }

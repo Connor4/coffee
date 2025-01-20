@@ -15,7 +15,7 @@ interface FormulaDao {
     fun getAllFormulaFlow(): Flow<List<Formula>>
 
     @Query("SELECT * FROM formula_table ORDER BY id ASC")
-    fun getAllFormula(): List<Formula>
+    suspend fun getAllFormula(): List<Formula>
 
     @Query("SELECT * FROM formula_table WHERE productId =:productId LIMIT 1")
     suspend fun getFormulaByProductId(productId: Int): Formula?
