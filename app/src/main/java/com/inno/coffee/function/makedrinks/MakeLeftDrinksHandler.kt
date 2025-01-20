@@ -79,7 +79,6 @@ object MakeLeftDrinksHandler {
                 Logger.d(TAG, "executeNow() called operationId: ${formula.productId}")
 
                 val byteInfo = ProductProfileManager.convertProductProfile(formula, true)
-                // TODO try use class CommandControlManager
                 CommunicationController.instance.sendCommand(MAKE_DRINKS_COMMAND_ID, byteInfo.size,
                     byteInfo)
                 waitForOperationReplyConfirm()
