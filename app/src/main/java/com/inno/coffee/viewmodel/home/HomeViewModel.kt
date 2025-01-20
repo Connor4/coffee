@@ -16,6 +16,8 @@ import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
+import com.inno.coffee.utilities.MAKE_DRINK_FAIL
+import com.inno.coffee.utilities.MAKE_DRINK_FINISH
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.enums.ProductType
@@ -222,20 +224,18 @@ class HomeViewModel @Inject constructor(
                     }.partition { it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT }
                     // TODO null need to notify
                     leftRinse.firstOrNull()?.let {
-                        MakeLeftDrinksHandler.executeNow(it) { success ->
-                            if (success) {
-                                SelfCheckManager.wakeupRinseSuccess()
-                            } else {
-                                SelfCheckManager.wakeupRinseFail()
+                        MakeLeftDrinksHandler.executeNow(it) { status ->
+                            when (status) {
+                                MAKE_DRINK_FAIL -> SelfCheckManager.wakeupRinseFail()
+                                MAKE_DRINK_FINISH -> SelfCheckManager.wakeupRinseSuccess()
                             }
                         }
                     }
                     rightRinse.firstOrNull()?.let {
-                        MakeRightDrinksHandler.executeNow(it) { success ->
-                            if (success) {
-                                SelfCheckManager.wakeupRinseSuccess()
-                            } else {
-                                SelfCheckManager.wakeupRinseFail()
+                        MakeRightDrinksHandler.executeNow(it) { status ->
+                            when (status) {
+                                MAKE_DRINK_FAIL -> SelfCheckManager.wakeupRinseFail()
+                                MAKE_DRINK_FINISH -> SelfCheckManager.wakeupRinseSuccess()
                             }
                         }
                     }

@@ -20,6 +20,10 @@ const val DATE = "date"
 const val TIME = "time"
 const val ONE_IN_BYTE = 1.toByte()
 const val MAKE_DRINK_REPLY_VALUE = 0
+const val MAKE_DRINK_FAIL = 0
+const val MAKE_DRINK_MAKING = 1
+const val MAKE_DRINK_COMPLETE = 2
+const val MAKE_DRINK_FINISH = 3
 
 const val FIRST_INSTALL_KEY_ENGLISH = "en"
 const val FIRST_INSTALL_KEY_SIMPLIFIED_CHINESE = "zh_CN"

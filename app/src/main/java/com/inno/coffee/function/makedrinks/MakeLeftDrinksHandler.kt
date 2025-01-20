@@ -1,6 +1,10 @@
 package com.inno.coffee.function.makedrinks
 
 import com.inno.coffee.function.formula.ProductProfileManager
+import com.inno.coffee.utilities.MAKE_DRINK_COMPLETE
+import com.inno.coffee.utilities.MAKE_DRINK_FAIL
+import com.inno.coffee.utilities.MAKE_DRINK_FINISH
+import com.inno.coffee.utilities.MAKE_DRINK_MAKING
 import com.inno.coffee.utilities.MAKE_DRINK_REPLY_VALUE
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
@@ -45,7 +49,7 @@ object MakeLeftDrinksHandler {
     private val _extractionTime = MutableStateFlow(0f)
     val extractionTime = _extractionTime
     private var countdownJob: Job? = null
-    private val commandCallbackMap = mutableMapOf<Int, (Boolean) -> Unit>()
+    private val commandCallbackMap = mutableMapOf<Int, (Int) -> Unit>()
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -73,7 +77,7 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    fun executeNow(formula: Formula, callback: (Boolean) -> Unit = {}) {
+    fun executeNow(formula: Formula, callback: (Int) -> Unit = {}) {
         scope.launch {
             mutex.withLock {
                 _operationQueue.value += formula
@@ -87,7 +91,7 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    fun enqueueMessage(formula: Formula, callback: (Boolean) -> Unit = {}) {
+    fun enqueueMessage(formula: Formula, callback: (Int) -> Unit = {}) {
         scope.launch {
             mutex.withLock {
                 _productQueue.value += formula
@@ -102,7 +106,7 @@ object MakeLeftDrinksHandler {
         }
     }
 
-    private fun waitForProductReplyConfirm(productId: Int, callback: (Boolean) -> Unit) {
+    private fun waitForProductReplyConfirm(productId: Int, callback: (Int) -> Unit) {
         productReplyConfirmJob?.cancel()
         productReplyConfirmJob = scope.launch {
             commandCallbackMap[productId] = callback
@@ -111,13 +115,13 @@ object MakeLeftDrinksHandler {
             }
             if (result == null) {
                 Logger.d(TAG, "waitForProductReplyConfirm() called")
-                callback(false)
+                callback(MAKE_DRINK_FAIL)
                 clearProductQueue()
             }
         }
     }
 
-    private fun waitForOperationReplyConfirm(productId: Int, callback: (Boolean) -> Unit) {
+    private fun waitForOperationReplyConfirm(productId: Int, callback: (Int) -> Unit) {
         operationReplyConfirmJob?.cancel()
         operationReplyConfirmJob = scope.launch {
             commandCallbackMap[productId] = callback
@@ -125,7 +129,7 @@ object MakeLeftDrinksHandler {
                 delay(REPLY_WAIT_TIME + 1)
             }
             if (result == null) {
-                callback(false)
+                callback(MAKE_DRINK_FAIL)
                 _operationQueue.update { list ->
                     list.filterNot { ProductType.isOperationType(it.productType?.type) }
                 }
@@ -184,7 +188,7 @@ object MakeLeftDrinksHandler {
                     val processingProductId = it.productId
                     if (data.id == processingProductId) {
                         productReplyConfirmJob?.cancel()
-                        commandCallbackMap[processingProductId]?.invoke(true)
+                        commandCallbackMap[processingProductId]?.invoke(MAKE_DRINK_MAKING)
                         commandCallbackMap.remove(processingProductId)
                     }
                 }
@@ -192,7 +196,7 @@ object MakeLeftDrinksHandler {
                     val processingProductId = it.productId
                     if (data.id == processingProductId) {
                         operationReplyConfirmJob?.cancel()
-                        commandCallbackMap[processingProductId]?.invoke(true)
+                        commandCallbackMap[processingProductId]?.invoke(MAKE_DRINK_MAKING)
                         commandCallbackMap.remove(processingProductId)
                     }
                 }
@@ -207,10 +211,13 @@ object MakeLeftDrinksHandler {
 
                     }
                     MakeDrinkStatusEnum.LEFT_BREW_COMPLETED -> {
-
+                        commandCallbackMap[productId]?.invoke(MAKE_DRINK_COMPLETE)
+                        commandCallbackMap.remove(productId)
                     }
                     MakeDrinkStatusEnum.LEFT_FINISHED -> {
                         finishAndClear(productId)
+                        commandCallbackMap[productId]?.invoke(MAKE_DRINK_FINISH)
+                        commandCallbackMap.remove(productId)
                         processBrewParams(params)
                     }
                     else -> {}

@@ -15,7 +15,11 @@ const val FRAME_ADDRESS_4 = 0x4.toByte()
 
 const val ERROR_ID = 0
 const val HEARTBEAT_COMMAND_ID: Short = 1
-const val GET_FW_VERSION: Short = 2
+const val GET_FW_VERSION_ID: Short = 2
+const val CLEAN_MACHINE_ID: Short = 16
+const val CONTINUE_CLEAN_MACHINE_ID: Short = 17
+const val CLEAN_COFFEE_MODULE_ID: Short = 18
+const val CLEAN_FOAM_MODULE_ID: Short = 19
 const val MAKE_DRINKS_COMMAND_ID: Short = 100
 const val MACHINE_PARAM_COMMAND_ID: Short = 200
 const val COFFEE_INPUT_COMMAND_ID: Short = 201
