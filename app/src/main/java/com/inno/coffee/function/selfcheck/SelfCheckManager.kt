@@ -43,6 +43,8 @@ object SelfCheckManager {
     private val _operateRinse = MutableStateFlow(false)
     var operateRinse = _operateRinse.asStateFlow()
     private val operateCount = AtomicInteger(0)
+    private val _waitRinse = MutableStateFlow(false)
+    var waitRinse = _waitRinse.asStateFlow()
     private val _coffeeHeating = MutableStateFlow(false)
     var coffeeHeating = _coffeeHeating.asStateFlow()
     private val _steamHeating = MutableStateFlow(false)
@@ -82,12 +84,14 @@ object SelfCheckManager {
 
     fun startRinse() {
         _operateRinse.value = true
+        _waitRinse.value = true
     }
 
     fun wakeupRinseSuccess() {
         // 1. 操作左右屏冲洗 2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
         if (operateCount.incrementAndGet() == 2) {
             _step.value = STEP_RINSE
+            _waitRinse.value = false
             scope.launch {
                 waitCoffeeBoilerHeating()
             }

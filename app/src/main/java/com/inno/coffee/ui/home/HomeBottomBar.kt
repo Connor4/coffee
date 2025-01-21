@@ -51,6 +51,7 @@ fun HomeBottomBar(
     onClickGrinder: () -> Unit = {},
 ) {
     val operateRinse by SelfCheckManager.operateRinse.collectAsState()
+    val waitRinse by SelfCheckManager.waitRinse.collectAsState()
     val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
     val steamHeating by SelfCheckManager.steamHeating.collectAsState()
     val warningList by GlobalDialogLeftManager.getInstance().warningExist.collectAsState()
@@ -90,7 +91,7 @@ fun HomeBottomBar(
                         modifier = Modifier.size(44.dp)
                     )
                 }
-                if (operateRinse && !coffeeHeating && !steamHeating) {
+                if (operateRinse && !waitRinse && !coffeeHeating && !steamHeating) {
                     Spacer(modifier = Modifier.width(20.dp))
                     Button(
                         modifier = Modifier
@@ -127,7 +128,8 @@ fun HomeBottomBar(
             }
 
             Row {
-                if (showGrinderButton && operateRinse && !coffeeHeating && !steamHeating) {
+                if (showGrinderButton && operateRinse && !coffeeHeating &&
+                        !steamHeating) {
                     Box(
                         modifier = Modifier
                             .wrapContentWidth(Alignment.End)
@@ -220,6 +222,14 @@ fun HomeBottomBar(
                         append(" " + stringResource(id = R.string.home_self_check_rinse_third_text))
                     }
                 },
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+        if (waitRinse) {
+            Text(
+                text = stringResource(id = R.string.home_self_check_wait_rinse),
+                fontSize = 6.nsp(),
+                color = Color.White,
                 modifier = Modifier.align(Alignment.Center)
             )
         }
