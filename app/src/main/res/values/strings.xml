@@ -211,6 +211,8 @@
     <string name="home_confirm_rinse_description">Confirm to Rinse</string>
     <string name="home_wash_machine_title">Wash Machine</string>
     <string name="home_wash_machine_content">Confirm to Wash Machine</string>
+    <string name="home_lack_wash_pill_title">Put Wash Pill</string>
+    <string name="home_lack_wash_pill_content">Put Wash Pill and Confirm to Continue</string>
 
     <string name="settings_title">Machine Settings</string>
 

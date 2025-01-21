@@ -1,6 +1,7 @@
 package com.inno.serialport.utilities
 
 import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
+import com.inno.serialport.utilities.statusenum.CleanMachineEnum
 import com.inno.serialport.utilities.statusenum.ErrorStatusEnum
 import com.inno.serialport.utilities.statusenum.GrinderStatusEnum
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
@@ -22,5 +23,9 @@ sealed class HeartBeatReply {
     data class GrinderPowderDosage(
         var status: GrinderStatusEnum,
         val value: Int,
+    ) : HeartBeatReply()
+
+    data class CleanMachineStatus(
+        var status: CleanMachineEnum,
     ) : HeartBeatReply()
 }

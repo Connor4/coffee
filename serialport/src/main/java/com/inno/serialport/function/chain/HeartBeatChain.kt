@@ -5,6 +5,7 @@ import com.inno.serialport.utilities.HeartBeatReply
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
+import com.inno.serialport.utilities.statusenum.CleanMachineEnum
 import com.inno.serialport.utilities.statusenum.ErrorStatusEnum
 import com.inno.serialport.utilities.statusenum.GrinderStatusEnum
 import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
@@ -51,6 +52,10 @@ class HeartBeatChain : Chain() {
                 val grinderStatus = GrinderStatusEnum.getStatus(id)
                 info.grinder = HeartBeatReply.GrinderPowderDosage(grinderStatus, value)
 
+            } else if ((id == CleanMachineEnum.CLEAN_COFFEE_FINISH.value) and
+                    (id <= CleanMachineEnum.CLEAN_FOAM_FINISH.value)) {
+                val status = CleanMachineEnum.getStatus(id)
+                info.cleanMachine = HeartBeatReply.CleanMachineStatus(status)
             } else if ((id >= ErrorStatusEnum.FRONT_VAT_EMPTY.value) and
                     (id <= ErrorStatusEnum.NO_WATER_ERROR.value)) { // 2000 - 4000
                 val error = ErrorStatusEnum.getStatus(id)

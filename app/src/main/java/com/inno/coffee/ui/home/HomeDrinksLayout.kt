@@ -68,6 +68,7 @@ fun HomeDrinksLayout(
         initial = DISPLAY_PER_PAGE_COUNT_12)
     val drinksList by viewModel.formulaList.collectAsState()
     val cleanMachine by SelfCheckManager.washMachine.collectAsState()
+    val putWashPill by SelfCheckManager.lackWashPill.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
     val totalPage = (drinksList.size + numberOfPage - 1) / numberOfPage
     val rowCount = if (numberOfPage == DISPLAY_PER_PAGE_COUNT_12) 4 else 5
@@ -83,13 +84,24 @@ fun HomeDrinksLayout(
         }
     }
 
-    if (cleanMachine) {
-        ConfirmDialogLayout(title = stringResource(id = R.string.home_wash_machine_title),
-            description = stringResource(id = R.string.home_wash_machine_content), {
+    if (cleanMachine || putWashPill) {
+        val title = if (cleanMachine) {
+            stringResource(id = R.string.home_wash_machine_title)
+        } else {
+            stringResource(id = R.string.home_lack_wash_pill_title)
+        }
+        val description = if (cleanMachine) {
+            stringResource(id = R.string.home_wash_machine_content)
+        } else {
+            stringResource(id = R.string.home_lack_wash_pill_content)
+        }
+        ConfirmDialogLayout(title = title, description = description, {
+            if (cleanMachine) {
                 viewModel.selfCheckWashMachine()
-            }, {
-
-            }, showCancelButton = false)
+            } else {
+                viewModel.selfCheckPutWashPill()
+            }
+        }, {}, showCancelButton = false)
     } else if (releaseSteam == RELEASE_STEAM_READY || releaseSteam == RELEASE_STEAM_START) {
         ReleaseSteamLayout(normalSize = normalSize) {
             viewModel.selfCheckReleaseSteam()

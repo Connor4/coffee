@@ -4,6 +4,7 @@ import com.inno.coffee.function.CommandControlManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.CLEAN_MACHINE_ID
+import com.inno.serialport.utilities.CONTINUE_CLEAN_MACHINE_ID
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.START_HEAT_COFFEE_BOILER_ID
@@ -11,6 +12,8 @@ import com.inno.serialport.utilities.START_HEAT_STEAM_BOILER_ID
 import com.inno.serialport.utilities.STOP_HEAT_COFFEE_BOILER_ID
 import com.inno.serialport.utilities.STOP_HEAT_STEAM_BOILER_ID
 import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
+import com.inno.serialport.utilities.statusenum.CleanMachineEnum
+import com.inno.serialport.utilities.statusenum.ErrorStatusEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -48,12 +51,15 @@ object SelfCheckManager {
     var steamHeating = _steamHeating.asStateFlow()
     private val _washMachine = MutableStateFlow(false)
     var washMachine = _washMachine.asStateFlow()
+    private val _lackWashPill = MutableStateFlow(false)
+    var lackWashPill = _lackWashPill.asStateFlow()
     private val _releaseSteam = MutableStateFlow(0)
     var releaseSteam = _releaseSteam.asStateFlow()
     private val _checking = MutableStateFlow(true)
     val checking = _checking.asStateFlow()
     private val _step = MutableStateFlow(0)
     val step = _step.asStateFlow()
+    private var washFinishFlag = 0
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -125,10 +131,14 @@ object SelfCheckManager {
 
     suspend fun waitWashMachine() {
         CommandControlManager.sendTestCommand(CLEAN_MACHINE_ID)
-        delay(2000)
+        delay(5000)
         _step.value = STEP_WASH_MACHINE
         _washMachine.value = false
         _releaseSteam.value = RELEASE_STEAM_READY
+    }
+
+    fun putWashPill() {
+        CommandControlManager.sendTestCommand(CONTINUE_CLEAN_MACHINE_ID)
     }
 
     suspend fun updateReleaseSteam() {
@@ -218,7 +228,26 @@ object SelfCheckManager {
                 }
             }
             STEP_WASH_MACHINE -> {
-
+                val washStatus = data as ReceivedData.HeartBeat
+                washStatus.error?.let { reply ->
+                    if (reply.status == ErrorStatusEnum.NO_PILL_LEFT || reply.status ==
+                            ErrorStatusEnum.NO_PILL_RIGHT) {
+                        _lackWashPill.value = false
+                    }
+                }
+                washStatus.cleanMachine?.let { reply ->
+                    when (reply.status) {
+                        CleanMachineEnum.CLEAN_COFFEE_FINISH,
+                        CleanMachineEnum.CLEAN_FOAM_FINISH,
+                            -> {
+                            washFinishFlag++
+                        }
+                        else -> {}
+                    }
+                    if (washFinishFlag == 2) {
+                        _washMachine.value = false
+                    }
+                }
             }
             STEP_RELEASE_STEAM -> {
                 if (tryTimes < TRY_MAX_TIME) {

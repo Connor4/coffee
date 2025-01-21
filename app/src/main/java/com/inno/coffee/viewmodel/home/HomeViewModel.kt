@@ -148,6 +148,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun selfCheckPutWashPill() {
+        viewModelScope.launch {
+            SelfCheckManager.putWashPill()
+        }
+    }
+
     fun selfCheckReleaseSteam() {
         viewModelScope.launch {
             formulaList.value.firstOrNull {

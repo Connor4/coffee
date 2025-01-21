@@ -8,6 +8,7 @@ sealed class ReceivedData {
         var makeDrinkStatus: HeartBeatReply.MakeDrinkStatus? = null,
         var temperature: HeartBeatReply.BoilerTemperature? = null,
         var error: HeartBeatReply.Error? = null,
+        var cleanMachine: HeartBeatReply.CleanMachineStatus? = null,
     ) : ReceivedData()
 
     data class HeatBeatList(var list: MutableList<HeartBeat> = mutableListOf()) : ReceivedData()
