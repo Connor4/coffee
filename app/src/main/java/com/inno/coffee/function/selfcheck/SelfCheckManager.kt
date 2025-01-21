@@ -1,9 +1,14 @@
 package com.inno.coffee.function.selfcheck
 
+import com.inno.coffee.function.CommandControlManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
+import com.inno.serialport.utilities.START_HEAT_COFFEE_BOILER_ID
+import com.inno.serialport.utilities.START_HEAT_STEAM_BOILER_ID
+import com.inno.serialport.utilities.STOP_HEAT_COFFEE_BOILER_ID
+import com.inno.serialport.utilities.STOP_HEAT_STEAM_BOILER_ID
 import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,13 +69,11 @@ object SelfCheckManager {
     }
 
     fun wakeupRinseSuccess() {
-        scope.launch {
-            // 1. 操作左右屏冲洗 2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
-            if (operateCount.incrementAndGet() == 2) {
-                _operateRinse.value = true
-                _step.value = STEP_RINSE
-                waitCoffeeBoilerHeating()
-            }
+        // 1. 操作左右屏冲洗 2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
+        if (operateCount.incrementAndGet() == 2) {
+            _operateRinse.value = true
+            _step.value = STEP_RINSE
+            waitCoffeeBoilerHeating()
         }
     }
 
@@ -81,33 +84,35 @@ object SelfCheckManager {
         }
     }
 
-    suspend fun waitCoffeeBoilerHeating() {
+    fun waitCoffeeBoilerHeating() {
         _coffeeHeating.value = true
         // TODO 1. 下发开始锅炉加热命令
+        CommandControlManager.sendTestCommand(START_HEAT_COFFEE_BOILER_ID)
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
-        delay(1000)
+//        delay(1000)
         _step.value = STEP_BOILER_HEATING
         _coffeeHeating.value = false
         waitSteamBoilerHeating()
     }
 
-    suspend fun waitSteamBoilerHeating() {
+    fun waitSteamBoilerHeating() {
         _steamHeating.value = true
         // TODO 1. 下发开始锅炉加热命令
+        CommandControlManager.sendTestCommand(START_HEAT_STEAM_BOILER_ID)
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
-        delay(1000)
+//        delay(1000)
         _step.value = STEP_STEAM_HEATING
         _steamHeating.value = false
         _releaseSteam.value = RELEASE_STEAM_READY
     }
 
-    suspend fun updateReleaseSteam() {
+    fun updateReleaseSteam() {
         _releaseSteam.value = RELEASE_STEAM_START
         // TODO 1. 下发释放蒸汽命令
         //  2.抓取释放结果
-        delay(1000)
+//        delay(1000)
         _step.value = STEP_RELEASE_STEAM
         _releaseSteam.value = RELEASE_STEAM_FINISHED
         _checking.value = false
@@ -161,9 +166,8 @@ object SelfCheckManager {
                                     (reply.value[3].toInt() and 0xFF)
                             if (leftBoiler >= 92 && rightBoiler >= 92) {
                                 _coffeeHeating.value = false
-                                scope.launch {
-                                    waitSteamBoilerHeating()
-                                }
+                                CommandControlManager.sendTestCommand(STOP_HEAT_COFFEE_BOILER_ID)
+                                waitSteamBoilerHeating()
                             }
                         }
                         else -> {}
@@ -171,7 +175,20 @@ object SelfCheckManager {
                 }
             }
             STEP_STEAM_HEATING -> {
-                // TODO 待定
+                val boiler = data as ReceivedData.HeartBeat
+                boiler.temperature?.let { reply ->
+                    when (reply.status) {
+                        BoilerStatusEnum.BOILER_TEMPERATURE -> {
+                            val steamBoiler = ((reply.value[4].toInt() and 0xFF) shl 8) or
+                                    (reply.value[5].toInt() and 0xFF)
+                            if (steamBoiler >= 92) {
+                                _steamHeating.value = false
+                                CommandControlManager.sendTestCommand(STOP_HEAT_STEAM_BOILER_ID)
+                            }
+                        }
+                        else -> {}
+                    }
+                }
             }
             STEP_RELEASE_STEAM -> {
                 if (tryTimes < TRY_MAX_TIME) {
