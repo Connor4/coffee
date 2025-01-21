@@ -37,9 +37,7 @@ object SelfCheckManager {
     const val STEP_STEAM_HEATING = 4
     const val STEP_WASH_MACHINE = 5
     const val STEP_RELEASE_STEAM = 6
-    private const val TRY_MAX_TIME = 3
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    private var tryTimes = 0
     private val _ioCheck = MutableStateFlow(false)
     var ioCheck = _ioCheck.asStateFlow()
     private val _operateRinse = MutableStateFlow(false)
@@ -156,35 +154,27 @@ object SelfCheckManager {
         // TODO 全部请求三次心跳，保证不存在错过或者获取旧心跳
         when (_step.value) {
             STEP_IO_CHECK -> {
-                if (tryTimes < TRY_MAX_TIME) {
-                    tryTimes++
-                    val heartBeat = data as ReceivedData.HeartBeat
-                    if (heartBeat.error != null) {
-                        // TODO
-                        //  1 存在异常，正常弹窗提示异常即可，无需干预。
-                        //  2 人工恢复后，需要手动触发再次io自检。所以需要有一个异常的提示，以及触发按钮
-                        _step.value = STEP_IO_CHECK
-                    } else {
-                        _step.value = STEP_RINSE
-                        _ioCheck.value = true
-                        tryTimes = 0
-                    }
+                val heartBeat = data as ReceivedData.HeartBeat
+                if (heartBeat.error != null) {
+                    // TODO
+                    //  1 存在异常，正常弹窗提示异常即可，无需干预。
+                    //  2 人工恢复后，需要手动触发再次io自检。所以需要有一个异常的提示，以及触发按钮
+                    _step.value = STEP_IO_CHECK
+                } else {
+                    _step.value = STEP_RINSE
+                    _ioCheck.value = true
                 }
             }
             STEP_RINSE -> {
-                if (tryTimes < TRY_MAX_TIME) {
-                    tryTimes++
-                    val heartBeat = data as ReceivedData.HeartBeat
-                    if (heartBeat.error != null) {
-                        // TODO 1 冲水异常，已进入主页，有异常弹窗，不需要额外操作
-                        _step.value = STEP_RINSE
-                    } else {
-                        _step.value = STEP_BOILER_HEATING
-                        _operateRinse.value = true
-                        tryTimes = 0
-                        scope.launch {
-                            waitCoffeeBoilerHeating()
-                        }
+                val heartBeat = data as ReceivedData.HeartBeat
+                if (heartBeat.error != null) {
+                    // TODO 1 冲水异常，已进入主页，有异常弹窗，不需要额外操作
+                    _step.value = STEP_RINSE
+                } else {
+                    _step.value = STEP_BOILER_HEATING
+                    _operateRinse.value = true
+                    scope.launch {
+                        waitCoffeeBoilerHeating()
                     }
                 }
             }
@@ -250,14 +240,12 @@ object SelfCheckManager {
                 }
             }
             STEP_RELEASE_STEAM -> {
-                if (tryTimes < TRY_MAX_TIME) {
-                    val heartBeat = data as ReceivedData.HeartBeat
-                    if (heartBeat.error != null) {
-                        // TODO 1 释放蒸汽异常，已进入主页，有异常弹窗，不需要额外操作
-                        _step.value = STEP_RELEASE_STEAM
-                    } else {
-                        _releaseSteam.value = RELEASE_STEAM_FINISHED
-                    }
+                val heartBeat = data as ReceivedData.HeartBeat
+                if (heartBeat.error != null) {
+                    // TODO 1 释放蒸汽异常，已进入主页，有异常弹窗，不需要额外操作
+                    _step.value = STEP_RELEASE_STEAM
+                } else {
+                    _releaseSteam.value = RELEASE_STEAM_FINISHED
                 }
             }
         }

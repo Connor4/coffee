@@ -202,6 +202,7 @@
     <string name="home_self_check_rinse_first_text">Please press the</string>
     <string name="home_self_check_rinse_second_text">Rinse</string>
     <string name="home_self_check_rinse_third_text">button</string>
+    <string name="home_self_check_wait_rinse">Please Wait...</string>
     <string name="home_self_check_boiler_heating">Coffee boiler heating…</string>
     <string name="home_self_check_steam_heating">Steam boiler heating…</string>
     <string name="home_release_steam_description">Air in steam boiler has to be released.</string>
@@ -211,7 +212,7 @@
     <string name="home_confirm_rinse_description">Confirm to Rinse</string>
     <string name="home_wash_machine_title">Wash Machine</string>
     <string name="home_wash_machine_content">Confirm to Wash Machine</string>
-    <string name="home_lack_wash_pill_title">Put Wash Pill</string>
+    <string name="home_lack_wash_pill_title">Info</string>
     <string name="home_lack_wash_pill_content">Put Wash Pill and Confirm to Continue</string>
 
     <string name="settings_title">Machine Settings</string>

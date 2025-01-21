@@ -194,6 +194,7 @@
     <string name="home_self_check_rinse_first_text">请点击</string>
     <string name="home_self_check_rinse_second_text">冲水</string>
     <string name="home_self_check_rinse_third_text">按钮</string>
+    <string name="home_self_check_wait_rinse">请稍等...</string>
     <string name="home_self_check_boiler_heating">咖啡锅炉加热中…</string>
     <string name="home_self_check_steam_heating">蒸汽锅炉加热中…</string>
     <string name="home_release_steam_description">蒸汽锅炉蒸汽需要释放。</string>
@@ -203,6 +204,8 @@
 
     <string name="home_confirm_rinse_description">点击确认开始洗机</string>
     <string name="home_wash_machine_content">点击确认开始洗机</string>
+    <string name="home_lack_wash_pill_title">信息</string>
+    <string name="home_lack_wash_pill_content">请投入洗机丸后点击确认继续</string>
     <string name="settings_title">机器设置</string>
 
     <string name="permission_input_layout_title">登录</string>
