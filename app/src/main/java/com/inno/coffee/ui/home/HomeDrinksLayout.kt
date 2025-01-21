@@ -19,15 +19,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.inno.coffee.R
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.selfcheck.SelfCheckManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_READY
 import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_START
+import com.inno.coffee.ui.common.ConfirmDialogLayout
 import com.inno.coffee.ui.common.PageIndicator
 import com.inno.coffee.ui.home.selfcheck.ReleaseSteamLayout
 import com.inno.coffee.utilities.DISPLAY_PER_PAGE_COUNT_12
@@ -64,6 +67,7 @@ fun HomeDrinksLayout(
     val numberOfPage by viewModel.numberOfProductPerPage.collectAsState(
         initial = DISPLAY_PER_PAGE_COUNT_12)
     val drinksList by viewModel.formulaList.collectAsState()
+    val cleanMachine by SelfCheckManager.washMachine.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
     val totalPage = (drinksList.size + numberOfPage - 1) / numberOfPage
     val rowCount = if (numberOfPage == DISPLAY_PER_PAGE_COUNT_12) 4 else 5
@@ -79,17 +83,22 @@ fun HomeDrinksLayout(
         }
     }
 
-    if (releaseSteam == RELEASE_STEAM_READY || releaseSteam == RELEASE_STEAM_START) {
+    if (cleanMachine) {
+        ConfirmDialogLayout(title = stringResource(id = R.string.home_wash_machine_title),
+            description = stringResource(id = R.string.home_wash_machine_content), {
+                viewModel.selfCheckWashMachine()
+            }, {
+
+            }, showCancelButton = false)
+    } else if (releaseSteam == RELEASE_STEAM_READY || releaseSteam == RELEASE_STEAM_START) {
         ReleaseSteamLayout(normalSize = normalSize) {
             viewModel.selfCheckReleaseSteam()
         }
-        return
     } else {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(670.dp)
-                .background(color = Color(0xFF2C2C2C))
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .height(670.dp)
+            .background(color = Color(0xFF2C2C2C))
         ) {
             HorizontalPager(state = pagerState) { page ->
                 val fromIndex = page * numberOfPage
@@ -113,8 +122,9 @@ fun HomeDrinksLayout(
                                 viewModel.startMakeDrink(drinkModel, mainScreen)
                             },
                             onDrinkLongClick = {
-                                val showRinse = ProductType.assertType(drinkModel.productType?.type,
-                                    ProductType.RINSE)
+                                val showRinse =
+                                    ProductType.assertType(drinkModel.productType?.type,
+                                        ProductType.RINSE)
                                 if (showRinse) {
                                     onShowRinseDialog()
                                 }

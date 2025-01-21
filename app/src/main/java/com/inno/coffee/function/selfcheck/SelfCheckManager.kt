@@ -3,6 +3,7 @@ package com.inno.coffee.function.selfcheck
 import com.inno.coffee.function.CommandControlManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.CLEAN_MACHINE_ID
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.START_HEAT_COFFEE_BOILER_ID
@@ -27,11 +28,12 @@ object SelfCheckManager {
     const val RELEASE_STEAM_READY = 1
     const val RELEASE_STEAM_START = 2
     const val RELEASE_STEAM_FINISHED = 3
-    private const val STEP_IO_CHECK = 1
-    private const val STEP_RINSE = 2
-    private const val STEP_BOILER_HEATING = 3
-    private const val STEP_STEAM_HEATING = 4
-    private const val STEP_RELEASE_STEAM = 5
+    const val STEP_IO_CHECK = 1
+    const val STEP_RINSE = 2
+    const val STEP_BOILER_HEATING = 3
+    const val STEP_STEAM_HEATING = 4
+    const val STEP_WASH_MACHINE = 5
+    const val STEP_RELEASE_STEAM = 6
     private const val TRY_MAX_TIME = 3
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var tryTimes = 0
@@ -44,6 +46,8 @@ object SelfCheckManager {
     var coffeeHeating = _coffeeHeating.asStateFlow()
     private val _steamHeating = MutableStateFlow(false)
     var steamHeating = _steamHeating.asStateFlow()
+    private val _washMachine = MutableStateFlow(false)
+    var washMachine = _washMachine.asStateFlow()
     private val _releaseSteam = MutableStateFlow(0)
     var releaseSteam = _releaseSteam.asStateFlow()
     private val _checking = MutableStateFlow(true)
@@ -61,6 +65,10 @@ object SelfCheckManager {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
+    private fun selfCheckFinished() {
+        DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
+    }
+
     suspend fun ioStatusCheck() {
         // TODO 使用pullinfo检查是否有异常
         delay(3000)
@@ -68,12 +76,17 @@ object SelfCheckManager {
         _step.value = STEP_IO_CHECK
     }
 
+    fun startRinse() {
+        _operateRinse.value = true
+    }
+
     fun wakeupRinseSuccess() {
         // 1. 操作左右屏冲洗 2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
         if (operateCount.incrementAndGet() == 2) {
-            _operateRinse.value = true
             _step.value = STEP_RINSE
-            waitCoffeeBoilerHeating()
+            scope.launch {
+                waitCoffeeBoilerHeating()
+            }
         }
     }
 
@@ -84,38 +97,49 @@ object SelfCheckManager {
         }
     }
 
-    fun waitCoffeeBoilerHeating() {
+    suspend fun waitCoffeeBoilerHeating() {
         _coffeeHeating.value = true
         // TODO 1. 下发开始锅炉加热命令
         CommandControlManager.sendTestCommand(START_HEAT_COFFEE_BOILER_ID)
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
-//        delay(1000)
+        delay(2000)
+        CommandControlManager.sendTestCommand(STOP_HEAT_COFFEE_BOILER_ID)
         _step.value = STEP_BOILER_HEATING
         _coffeeHeating.value = false
         waitSteamBoilerHeating()
     }
 
-    fun waitSteamBoilerHeating() {
+    suspend fun waitSteamBoilerHeating() {
         _steamHeating.value = true
         // TODO 1. 下发开始锅炉加热命令
         CommandControlManager.sendTestCommand(START_HEAT_STEAM_BOILER_ID)
         //  2. 抓取pullinfo锅炉温度
         //  3. 下发停止锅炉加热命令
-//        delay(1000)
+        delay(2000)
+        CommandControlManager.sendTestCommand(STOP_HEAT_STEAM_BOILER_ID)
         _step.value = STEP_STEAM_HEATING
         _steamHeating.value = false
+        _washMachine.value = true
+    }
+
+    suspend fun waitWashMachine() {
+        CommandControlManager.sendTestCommand(CLEAN_MACHINE_ID)
+        delay(2000)
+        _step.value = STEP_WASH_MACHINE
+        _washMachine.value = false
         _releaseSteam.value = RELEASE_STEAM_READY
     }
 
-    fun updateReleaseSteam() {
+    suspend fun updateReleaseSteam() {
         _releaseSteam.value = RELEASE_STEAM_START
         // TODO 1. 下发释放蒸汽命令
         //  2.抓取释放结果
-//        delay(1000)
+        delay(2000)
         _step.value = STEP_RELEASE_STEAM
         _releaseSteam.value = RELEASE_STEAM_FINISHED
         _checking.value = false
+        selfCheckFinished()
     }
 
     private fun parseReceivedData(data: Any) {
@@ -168,7 +192,9 @@ object SelfCheckManager {
                             if (leftBoiler >= 92 && rightBoiler >= 92) {
                                 _coffeeHeating.value = false
                                 CommandControlManager.sendTestCommand(STOP_HEAT_COFFEE_BOILER_ID)
-                                waitSteamBoilerHeating()
+                                scope.launch {
+                                    waitSteamBoilerHeating()
+                                }
                             }
                         }
                         else -> {}
@@ -190,6 +216,9 @@ object SelfCheckManager {
                         else -> {}
                     }
                 }
+            }
+            STEP_WASH_MACHINE -> {
+
             }
             STEP_RELEASE_STEAM -> {
                 if (tryTimes < TRY_MAX_TIME) {

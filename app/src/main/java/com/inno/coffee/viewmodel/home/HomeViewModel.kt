@@ -142,6 +142,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun selfCheckWashMachine() {
+        viewModelScope.launch {
+            SelfCheckManager.waitWashMachine()
+        }
+    }
+
     fun selfCheckReleaseSteam() {
         viewModelScope.launch {
             formulaList.value.firstOrNull {
@@ -222,6 +228,7 @@ class HomeViewModel @Inject constructor(
                     val (leftRinse, rightRinse) = repository.getAllFormulas().filter {
                         ProductType.assertType(it.productType?.type, ProductType.RINSE)
                     }.partition { it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT }
+                    SelfCheckManager.startRinse()
                     // TODO null need to notify
                     leftRinse.firstOrNull()?.let {
                         MakeLeftDrinksHandler.executeNow(it) { status ->

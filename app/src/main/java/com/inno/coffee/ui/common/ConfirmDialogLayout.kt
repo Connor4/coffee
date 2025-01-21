@@ -37,6 +37,8 @@ fun ConfirmDialogLayout(
     description: String = "",
     onConfirmClick: () -> Unit,
     onCloseClick: () -> Unit,
+    showConfirmButton: Boolean = true,
+    showCancelButton: Boolean = true,
 ) {
     Box(
         modifier = Modifier
@@ -95,30 +97,34 @@ fun ConfirmDialogLayout(
                     .align(Alignment.TopCenter)
                     .padding(top = 250.dp)
             ) {
-                Button(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(50.dp),
-                    colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
-                        Color.Magenta),
-                    shape = RoundedCornerShape(10.dp),
-                    onClick = composeClick { onConfirmClick() },
-                ) {
-                    Text(text = stringResource(id = R.string.common_button_confirm),
-                        fontSize = 5.nsp(), color = Color.White)
+                if (showConfirmButton) {
+                    Button(
+                        modifier = Modifier
+                            .width(180.dp)
+                            .height(50.dp),
+                        colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
+                            Color.Magenta),
+                        shape = RoundedCornerShape(10.dp),
+                        onClick = composeClick { onConfirmClick() },
+                    ) {
+                        Text(text = stringResource(id = R.string.common_button_confirm),
+                            fontSize = 5.nsp(), color = Color.White)
+                    }
+                    Spacer(modifier = Modifier.width(20.dp))
                 }
-                Spacer(modifier = Modifier.width(20.dp))
-                Button(
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(50.dp),
-                    colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
-                        Color.Magenta),
-                    shape = RoundedCornerShape(10.dp),
-                    onClick = composeClick { onCloseClick() },
-                ) {
-                    Text(text = stringResource(id = R.string.common_button_cancel),
-                        fontSize = 5.nsp(), color = Color.White)
+                if (showCancelButton) {
+                    Button(
+                        modifier = Modifier
+                            .width(180.dp)
+                            .height(50.dp),
+                        colors = ButtonColors(Color(0xFF2C2C2C), Color(0xFF2C2C2C), Color.Green,
+                            Color.Magenta),
+                        shape = RoundedCornerShape(10.dp),
+                        onClick = composeClick { onCloseClick() },
+                    ) {
+                        Text(text = stringResource(id = R.string.common_button_cancel),
+                            fontSize = 5.nsp(), color = Color.White)
+                    }
                 }
             }
         }
