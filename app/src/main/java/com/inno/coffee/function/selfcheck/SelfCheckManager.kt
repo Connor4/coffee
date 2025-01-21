@@ -164,6 +164,7 @@ object SelfCheckManager {
                                     (reply.value[1].toInt() and 0xFF)
                             val rightBoiler = ((reply.value[2].toInt() and 0xFF) shl 8) or
                                     (reply.value[3].toInt() and 0xFF)
+                            // TODO 存在咖啡锅炉温度设置，需要获取
                             if (leftBoiler >= 92 && rightBoiler >= 92) {
                                 _coffeeHeating.value = false
                                 CommandControlManager.sendTestCommand(STOP_HEAT_COFFEE_BOILER_ID)
