@@ -29,9 +29,6 @@ import java.util.concurrent.atomic.AtomicInteger
 // 3. 制作异常，需要取消并执行清除操作。清除操作可细分各个阶段，磨粉阶段丢弃粉即可，萃取阶段需要完成萃取。
 // TODO 4. 下发磨刀模块数据
 object SelfCheckManager {
-    const val RELEASE_STEAM_READY = 1
-    const val RELEASE_STEAM_START = 2
-    const val RELEASE_STEAM_FINISHED = 3
     const val STEP_IO_CHECK_START = 1
     const val STEP_IO_CHECK_END = 2
     const val STEP_RINSE_START = 3
@@ -48,24 +45,10 @@ object SelfCheckManager {
     const val STEP_RELEASE_STEAM_END = 14
     const val STEP_CHECK_FINISH = 15
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    private val _ioCheck = MutableStateFlow(false)
-    var ioCheck = _ioCheck.asStateFlow()
-    private val _operateRinse = MutableStateFlow(false)
-    var operateRinse = _operateRinse.asStateFlow()
-    private val _waitRinse = MutableStateFlow(false)
-    var waitRinse = _waitRinse.asStateFlow()
-    private val _coffeeHeating = MutableStateFlow(false)
-    var coffeeHeating = _coffeeHeating.asStateFlow()
-    private val _steamHeating = MutableStateFlow(false)
-    var steamHeating = _steamHeating.asStateFlow()
-    private val _washMachine = MutableStateFlow(false)
-    var washMachine = _washMachine.asStateFlow()
     private val _leftLackPill = MutableStateFlow(false)
     var leftLackPill = _leftLackPill.asStateFlow()
     private val _rightLackPill = MutableStateFlow(false)
     var rightLackPill = _rightLackPill.asStateFlow()
-    private val _releaseSteam = MutableStateFlow(0)
-    var releaseSteam = _releaseSteam.asStateFlow()
     private val _checking = MutableStateFlow(true)
     val checking = _checking.asStateFlow()
     private val _step = MutableStateFlow(0)
@@ -94,22 +77,19 @@ object SelfCheckManager {
     suspend fun ioStatusCheck() {
         // TODO 使用pullinfo检查是否有异常
         _step.value = STEP_IO_CHECK_START
-        delay(3000)
+
+        delay(5000)
         _step.value = STEP_IO_CHECK_END
-        _ioCheck.value = true
     }
 
     fun startRinse() {
         _step.value = STEP_RINSE_START
-        _operateRinse.value = true
-        _waitRinse.value = true
     }
 
     fun wakeupRinseSuccess() {
         // 1. 操作左右屏冲洗 2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
         if (operateCount.incrementAndGet() == 2) {
             _step.value = STEP_RINSE_END
-            _waitRinse.value = false
             scope.launch {
                 waitCoffeeBoilerHeating()
             }
@@ -125,7 +105,6 @@ object SelfCheckManager {
 
     suspend fun waitCoffeeBoilerHeating() {
         _step.value = STEP_BOILER_HEATING_START
-        _coffeeHeating.value = true
         // TODO 1. 下发开始锅炉加热命令
         CommandControlManager.sendTestCommand(START_HEAT_COFFEE_BOILER_ID)
         //  2. 抓取pullinfo锅炉温度
@@ -133,14 +112,12 @@ object SelfCheckManager {
         delay(2000)
         CommandControlManager.sendTestCommand(STOP_HEAT_COFFEE_BOILER_ID)
         _step.value = STEP_BOILER_HEATING_END
-        _coffeeHeating.value = false
         waitSteamBoilerHeating()
     }
 
     suspend fun waitSteamBoilerHeating() {
         delay(2000)
         _step.value = STEP_STEAM_HEATING_START
-        _steamHeating.value = true
         // TODO 1. 下发开始锅炉加热命令
         CommandControlManager.sendTestCommand(START_HEAT_STEAM_BOILER_ID)
         //  2. 抓取pullinfo锅炉温度
@@ -148,8 +125,6 @@ object SelfCheckManager {
         delay(2000)
         CommandControlManager.sendTestCommand(STOP_HEAT_STEAM_BOILER_ID)
         _step.value = STEP_STEAM_HEATING_END
-        _steamHeating.value = false
-        _washMachine.value = true
     }
 
     suspend fun waitWashMachine() {
@@ -157,9 +132,7 @@ object SelfCheckManager {
         CommandControlManager.sendTestCommand(CLEAN_MACHINE_ID)
         delay(5000)
         _step.value = STEP_WASH_MACHINE_END
-        _washMachine.value = false
         _step.value = STEP_RELEASE_STEAM_READY
-        _releaseSteam.value = RELEASE_STEAM_READY
     }
 
     fun putWashPill() {
@@ -169,13 +142,12 @@ object SelfCheckManager {
 
     suspend fun updateReleaseSteam() {
         _step.value = STEP_RELEASE_STEAM_START
-        _releaseSteam.value = RELEASE_STEAM_START
         // TODO 1. 下发释放蒸汽命令
         //  2.抓取释放结果
         delay(2000)
         _step.value = STEP_RELEASE_STEAM_END
-        _releaseSteam.value = RELEASE_STEAM_FINISHED
         _checking.value = false
+        delay(1000)
         selfCheckFinished()
     }
 
@@ -209,7 +181,6 @@ object SelfCheckManager {
                         }
                         if (leftRinseFlag && rightRinseFlag) {
                             _step.value = STEP_RINSE_END
-                            _waitRinse.value = false
                             scope.launch {
                                 waitCoffeeBoilerHeating()
                             }
@@ -230,7 +201,6 @@ object SelfCheckManager {
                             // TODO 存在咖啡锅炉温度设置，需要获取
                             if (leftBoiler >= 92 && rightBoiler >= 92) {
                                 _step.value = STEP_BOILER_HEATING_END
-                                _coffeeHeating.value = false
                                 CommandControlManager.sendTestCommand(STOP_HEAT_COFFEE_BOILER_ID)
                                 scope.launch {
                                     waitSteamBoilerHeating()
@@ -250,7 +220,6 @@ object SelfCheckManager {
                                     (reply.value[5].toInt() and 0xFF)
                             if (steamBoiler >= 92) {
                                 _step.value = STEP_STEAM_HEATING_END
-                                _steamHeating.value = false
                                 CommandControlManager.sendTestCommand(STOP_HEAT_STEAM_BOILER_ID)
                             }
                         }
@@ -283,7 +252,6 @@ object SelfCheckManager {
                     }
                     if (cleanCoffeeFlag && cleanFoamFlag) {
                         _step.value = STEP_WASH_MACHINE_END
-                        _washMachine.value = false
                     }
                 }
             }
@@ -294,7 +262,6 @@ object SelfCheckManager {
                 } else {
                     // TODO 也是按照产品处理?
                     _step.value = STEP_RELEASE_STEAM_END
-                    _releaseSteam.value = RELEASE_STEAM_FINISHED
                     _checking.value = false
                     selfCheckFinished()
                 }

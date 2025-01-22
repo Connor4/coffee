@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,9 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.function.selfcheck.SelfCheckManager
-import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_READY
-import com.inno.coffee.function.selfcheck.SelfCheckManager.RELEASE_STEAM_START
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_RELEASE_STEAM_READY
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_RELEASE_STEAM_START
 import com.inno.coffee.ui.home.DrinkItem
 import com.inno.coffee.utilities.nsp
 import com.inno.common.db.entity.Formula
@@ -27,13 +24,13 @@ import com.inno.common.db.entity.FormulaItem
 
 @Composable
 fun ReleaseSteamLayout(
+    checkStep: Int,
     normalSize: Boolean = true,
     onReleaseSteamClick: () -> Unit,
 ) {
-    val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
-
     Box(
         modifier = Modifier
+            .padding(top = 60.dp)
             .fillMaxWidth()
             .height(670.dp)
             .background(Color(0xE6000000))
@@ -49,7 +46,7 @@ fun ReleaseSteamLayout(
 //                .height(42.dp)
 //                .fastclick { onCloseClick() },
 //        )
-        if (releaseSteam == RELEASE_STEAM_READY) {
+        if (checkStep == STEP_RELEASE_STEAM_READY) {
             DrinkItem(
                 formula = Formula(productId = 4, imageRes = "operate_manual_milk_ic",
                     productName = FormulaItem.FormulaProductName(name = "",
@@ -85,7 +82,7 @@ fun ReleaseSteamLayout(
                 fontSize = 5.nsp(),
                 color = Color.White,
             )
-        } else if (releaseSteam == RELEASE_STEAM_START) {
+        } else if (checkStep == STEP_RELEASE_STEAM_START) {
             Text(
                 modifier = Modifier
                     .align(Alignment.Center),
@@ -108,5 +105,5 @@ fun ReleaseSteamLayout(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewReleaseSteam() {
-    ReleaseSteamLayout {}
+    ReleaseSteamLayout(STEP_RELEASE_STEAM_READY) {}
 }

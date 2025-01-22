@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,28 +23,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.utilities.nsp
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 
 @Composable
 fun CleanCountdownLayout() {
     var time by remember { mutableStateOf(0) }
-    var timerJob by remember { mutableStateOf<Job?>(null) }
-
-    LaunchedEffect(Unit) {
-        timerJob = launch {
-            while (isActive) {
-                delay(1000)
-                time++
-            }
-        }
+    val formattedTime = remember(time) {
+        String.format("%02d:%02d", time / 60, time % 60)
     }
 
-    DisposableEffect(key1 = timerJob) {
-        onDispose {
-            timerJob?.cancel()
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(1000)
+            time++
         }
     }
 
@@ -62,7 +52,7 @@ fun CleanCountdownLayout() {
             contentDescription = null, modifier = Modifier
                 .align(Alignment.Center)
                 .size(180.dp))
-        Text(text = String.format("%02d:%02d", time / 60, time % 60), color = Color.White,
+        Text(text = formattedTime, color = Color.White,
             fontSize = 14.nsp(), fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .align(Alignment.TopCenter)

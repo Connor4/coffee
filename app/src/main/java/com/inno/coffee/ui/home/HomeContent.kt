@@ -26,8 +26,16 @@ import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_IO_CHECK_START
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_LACK_PILL_START
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_RELEASE_STEAM_READY
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_RELEASE_STEAM_START
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_STEAM_HEATING_END
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_WASH_MACHINE_START
 import com.inno.coffee.ui.common.ConfirmDialogLayout
 import com.inno.coffee.ui.common.SingleInputPasswordLayout
+import com.inno.coffee.ui.home.selfcheck.CleanCountdownLayout
+import com.inno.coffee.ui.home.selfcheck.ReleaseSteamLayout
 import com.inno.coffee.ui.home.selfcheck.SelfCheckLayout
 import com.inno.coffee.ui.home.setting.CleanLockLayout
 import com.inno.coffee.ui.home.setting.HomeSettingEntrance
@@ -61,7 +69,7 @@ fun HomeContent(
     var showStandByModeDialog by remember { mutableStateOf(false) }
     var showRinseDialog by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
-    val ioCheck by SelfCheckManager.ioCheck.collectAsState()
+//    val ioCheck by SelfCheckManager.ioCheck.collectAsState()
     val loginState by viewModel.loginState.collectAsState()
     val leftTemperature by viewModel.leftBoilerTemp.collectAsState()
     val rightTemperature by viewModel.rightBoilerTemp.collectAsState()
@@ -73,6 +81,9 @@ fun HomeContent(
     } else {
         viewModel.rightExtractionTime.collectAsState()
     }
+    val checkStep by SelfCheckManager.step.collectAsState()
+    val rightLack by SelfCheckManager.rightLackPill.collectAsState()
+    val leftLack by SelfCheckManager.leftLackPill.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.selfCheckIoStatus()
@@ -104,138 +115,166 @@ fun HomeContent(
         viewModel.resetLoginState()
     }
 
-    if (!ioCheck) {
-        SelfCheckLayout()
-    } else {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Column {
-                HomeTopBar(open = overlayVisible, viewModel = viewModel) {
-                    overlayVisible = it
-                }
-                HomeDrinksLayout(viewModel = viewModel, onShowRinseDialog = {
-                    showRinseDialog = true
-                })
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column {
+            HomeTopBar(open = overlayVisible, viewModel = viewModel) {
+                overlayVisible = it
             }
-            Box(
-                modifier = Modifier.align(Alignment.BottomCenter)
-            ) {
-                HomeBottomBar(extractionTime = extractionTime, leftTemp = leftTemperature,
-                    rightTemp = rightTemperature, showExtractionTime = showExtractionTime,
-                    showGrinderButton = showGrinderButton != DISPLAY_NO_GRINDER,
-                    onReleaseSteam = {
-                        viewModel.cleanWandSteam(mainScreen)
-                    }, onClickWarning = {
-                        viewModel.showWarningDialog(mainScreen)
-                    }, onClickStop = {
-                        viewModel.stopMaking(mainScreen)
-                    }, onClickGrinder = {
-                        if (showGrinderButton == DISPLAY_YSE_GRINDER) {
+            HomeDrinksLayout(viewModel = viewModel, onShowRinseDialog = {
+                showRinseDialog = true
+            })
+        }
+        Box(
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
+            HomeBottomBar(extractionTime = extractionTime, leftTemp = leftTemperature,
+                rightTemp = rightTemperature, showExtractionTime = showExtractionTime,
+                showGrinderButton = showGrinderButton != DISPLAY_NO_GRINDER,
+                onReleaseSteam = {
+                    viewModel.cleanWandSteam(mainScreen)
+                }, onClickWarning = {
+                    viewModel.showWarningDialog(mainScreen)
+                }, onClickStop = {
+                    viewModel.stopMaking(mainScreen)
+                }, onClickGrinder = {
+                    if (showGrinderButton == DISPLAY_YSE_GRINDER) {
+                        ScreenDisplayManager.autoRoute(context,
+                            GrinderAdjustmentActivity::class.java)
+                    } else {
+                        if (UserSessionManager.isLoggedIn()) {
                             ScreenDisplayManager.autoRoute(context,
                                 GrinderAdjustmentActivity::class.java)
                         } else {
-                            if (UserSessionManager.isLoggedIn()) {
-                                ScreenDisplayManager.autoRoute(context,
-                                    GrinderAdjustmentActivity::class.java)
-                            } else {
-                                showLoginDialog = HOME_GRINDER_FLAG
-                            }
+                            showLoginDialog = HOME_GRINDER_FLAG
                         }
                     }
-                )
-            }
-
-            AnimatedVisibility(
-                visible = overlayVisible,
-                enter = slideInVertically(initialOffsetY = { -it },
-                    animationSpec = tween(durationMillis = 600, easing = LinearEasing)),
-                exit = slideOutVertically(targetOffsetY = { -it },
-                    animationSpec = tween(durationMillis = 800, easing = LinearEasing)),
-            ) {
-                HomeSettingEntrance(
-                    show = overlayVisible,
-                    showStandByMode = showStandByMode,
-                    onMenuClick = {
-                        when (it) {
-                            HOME_LOGIN -> {
-                                if (UserSessionManager.isLoggedIn()) {
-                                    UserSessionManager.increaseLoginCount()
-                                    ScreenDisplayManager.autoRoute(context,
-                                        SettingActivity::class.java
-                                    )
-                                    overlayVisible = false
-                                } else {
-                                    showLoginDialog = HOME_SETTING_FLAG
-                                }
-                            }
-                            HOME_CLEAN -> {
-                                showCleanDialog = true
-                            }
-                            HOME_STANDBY -> {
-                                showStandByModeDialog = true
-                            }
-                            HOME_INFO -> {
-                                showInfoDialog = true
-                            }
-                        }
-                    },
-                    onCloseFinished = {
-                        overlayVisible = false
-                    }
-                )
-            }
-        }
-        if (showLoginDialog != INVALID_INT) {
-            SingleInputPasswordLayout(
-                title = stringResource(R.string.home_login_title),
-                tips = stringResource(R.string.permission_enter_password), { password ->
-                    if (showLoginDialog == HOME_SETTING_FLAG) {
-                        viewModel.authenticateUser(password)
-                    } else if (showLoginDialog == HOME_GRINDER_FLAG) {
-                        viewModel.authenticateGrinder(password)
-                    }
-                }, {
-                    showLoginDialog = INVALID_INT
                 }
             )
         }
-        if (showCleanDialog) {
-            val state = viewModel.countdown.collectAsState()
-            LaunchedEffect(Unit) {
-                if (showCleanDialog) {
-                    viewModel.startCountDown()
-                    showCleanDialog = false
-                }
-            }
-            CleanLockLayout(state.value)
-        }
-        if (showInfoDialog) {
-            MachineInfoLayout() {
-                showInfoDialog = false
-            }
-        }
-        if (showStandByModeDialog) {
-            ConfirmDialogLayout(title = stringResource(id = R.string.home_standby_mode),
-                description = stringResource(id = R.string.home_entrance_enter_standby),
-                onConfirmClick = {
-                    showStandByModeDialog = false
-                }, onCloseClick = {
-                    showStandByModeDialog = false
-                })
-        }
-        if (showRinseDialog) {
-            ConfirmDialogLayout(
-                title = stringResource(R.string.home_item_rinse),
-                description = stringResource(R.string.home_confirm_rinse_description),
-                onConfirmClick = {
-                    // TODO rinse
-                    showRinseDialog = false
+
+        AnimatedVisibility(
+            visible = overlayVisible,
+            enter = slideInVertically(initialOffsetY = { -it },
+                animationSpec = tween(durationMillis = 600, easing = LinearEasing)),
+            exit = slideOutVertically(targetOffsetY = { -it },
+                animationSpec = tween(durationMillis = 800, easing = LinearEasing)),
+        ) {
+            HomeSettingEntrance(
+                show = overlayVisible,
+                showStandByMode = showStandByMode,
+                onMenuClick = {
+                    when (it) {
+                        HOME_LOGIN -> {
+                            if (UserSessionManager.isLoggedIn()) {
+                                UserSessionManager.increaseLoginCount()
+                                ScreenDisplayManager.autoRoute(context,
+                                    SettingActivity::class.java
+                                )
+                                overlayVisible = false
+                            } else {
+                                showLoginDialog = HOME_SETTING_FLAG
+                            }
+                        }
+                        HOME_CLEAN -> {
+                            showCleanDialog = true
+                        }
+                        HOME_STANDBY -> {
+                            showStandByModeDialog = true
+                        }
+                        HOME_INFO -> {
+                            showInfoDialog = true
+                        }
+                    }
                 },
-                onCloseClick = {
-                    showRinseDialog = false
+                onCloseFinished = {
+                    overlayVisible = false
                 }
             )
         }
     }
+
+    when (checkStep) {
+        STEP_IO_CHECK_START -> {
+            SelfCheckLayout()
+        }
+        STEP_STEAM_HEATING_END -> {
+            ConfirmDialogLayout(
+                title = stringResource(id = R.string.home_wash_machine_title),
+                description = stringResource(id = R.string.home_wash_machine_content), {
+                    viewModel.selfCheckWashMachine()
+                }, {}, showCancelButton = false
+            )
+        }
+        STEP_WASH_MACHINE_START -> {
+            CleanCountdownLayout()
+        }
+        STEP_LACK_PILL_START -> {
+            ConfirmDialogLayout(
+                title = stringResource(id = R.string.home_lack_wash_pill_title),
+                description = stringResource(id = R.string.home_lack_wash_pill_content), {
+                    viewModel.selfCheckPutWashPill()
+                }, {}, showCancelButton = false
+            )
+        }
+        in STEP_RELEASE_STEAM_READY..STEP_RELEASE_STEAM_START -> {
+            ReleaseSteamLayout(checkStep = checkStep) {
+                viewModel.selfCheckReleaseSteam()
+            }
+        }
+    }
+
+    if (showLoginDialog != INVALID_INT) {
+        SingleInputPasswordLayout(
+            title = stringResource(R.string.home_login_title),
+            tips = stringResource(R.string.permission_enter_password), { password ->
+                if (showLoginDialog == HOME_SETTING_FLAG) {
+                    viewModel.authenticateUser(password)
+                } else if (showLoginDialog == HOME_GRINDER_FLAG) {
+                    viewModel.authenticateGrinder(password)
+                }
+            }, {
+                showLoginDialog = INVALID_INT
+            }
+        )
+    }
+    if (showCleanDialog) {
+        val state = viewModel.countdown.collectAsState()
+        LaunchedEffect(Unit) {
+            if (showCleanDialog) {
+                viewModel.startCountDown()
+                showCleanDialog = false
+            }
+        }
+        CleanLockLayout(state.value)
+    }
+    if (showInfoDialog) {
+        MachineInfoLayout() {
+            showInfoDialog = false
+        }
+    }
+    if (showStandByModeDialog) {
+        ConfirmDialogLayout(title = stringResource(id = R.string.home_standby_mode),
+            description = stringResource(id = R.string.home_entrance_enter_standby),
+            onConfirmClick = {
+                showStandByModeDialog = false
+            }, onCloseClick = {
+                showStandByModeDialog = false
+            })
+    }
+    if (showRinseDialog) {
+        ConfirmDialogLayout(
+            title = stringResource(R.string.home_item_rinse),
+            description = stringResource(R.string.home_confirm_rinse_description),
+            onConfirmClick = {
+                // TODO rinse
+                showRinseDialog = false
+            },
+            onCloseClick = {
+                showRinseDialog = false
+            }
+        )
+    }
+
 }
