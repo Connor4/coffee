@@ -215,6 +215,8 @@
     <string name="home_wash_machine_content">Confirm to Wash Machine</string>
     <string name="home_lack_wash_pill_title">Info</string>
     <string name="home_lack_wash_pill_content">Put Wash Pill and Confirm to Continue</string>
+    <string name="home_lack_left_wash_pill_content">Put Left Pill and Confirm to Continue</string>
+    <string name="home_lack_right_wash_pill_content">Put Right Pill and Confirm to Continue</string>
 
     <string name="settings_title">Machine Settings</string>
 

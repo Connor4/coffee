@@ -69,7 +69,6 @@ fun HomeContent(
     var showStandByModeDialog by remember { mutableStateOf(false) }
     var showRinseDialog by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
-//    val ioCheck by SelfCheckManager.ioCheck.collectAsState()
     val loginState by viewModel.loginState.collectAsState()
     val leftTemperature by viewModel.leftBoilerTemp.collectAsState()
     val rightTemperature by viewModel.rightBoilerTemp.collectAsState()
@@ -211,9 +210,15 @@ fun HomeContent(
             CleanCountdownLayout()
         }
         STEP_LACK_PILL_START -> {
+            val displayText = when {
+                leftLack && rightLack -> stringResource(id = R.string.home_lack_wash_pill_content)
+                leftLack -> stringResource(id = R.string.home_lack_left_wash_pill_content)
+                rightLack -> stringResource(id = R.string.home_lack_right_wash_pill_content)
+                else -> stringResource(id = R.string.home_lack_wash_pill_content)
+            }
             ConfirmDialogLayout(
                 title = stringResource(id = R.string.home_lack_wash_pill_title),
-                description = stringResource(id = R.string.home_lack_wash_pill_content), {
+                description = displayText, {
                     viewModel.selfCheckPutWashPill()
                 }, {}, showCancelButton = false
             )

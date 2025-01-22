@@ -207,6 +207,7 @@
     <string name="home_wash_machine_content">点击确认开始洗机</string>
     <string name="home_lack_wash_pill_title">信息</string>
     <string name="home_lack_wash_pill_content">请投入洗机丸后点击确认继续</string>
+    <string name="home_lack_right_wash_pill_content">请投入右边洗机丸后点击确认继续</string>
     <string name="settings_title">机器设置</string>
 
     <string name="permission_input_layout_title">登录</string>
@@ -608,5 +609,6 @@
     <string name="display_color_orange">橙色</string>
     <string name="display_color_purple">紫色</string>
     <string name="home_wash_machine_title">洗机</string>
+    <string name="home_lack_left_wash_pill_content">请投入左边洗机丸后点击确认继续</string>
 
 </resources>

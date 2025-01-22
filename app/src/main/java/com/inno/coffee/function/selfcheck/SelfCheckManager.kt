@@ -233,11 +233,11 @@ object SelfCheckManager {
                 val washStatus = data as ReceivedData.HeartBeat
                 washStatus.error?.let { reply ->
                     if (!_leftLackPill.value && reply.status == ErrorStatusEnum.NO_PILL_LEFT) {
-                        _step.value = STEP_LACK_PILL_START
                         _leftLackPill.value = true
-                    } else if (!_rightLackPill.value && reply.status == ErrorStatusEnum.NO_PILL_RIGHT) {
                         _step.value = STEP_LACK_PILL_START
+                    } else if (!_rightLackPill.value && reply.status == ErrorStatusEnum.NO_PILL_RIGHT) {
                         _rightLackPill.value = true
+                        _step.value = STEP_LACK_PILL_START
                     }
                 }
                 washStatus.cleanMachine?.let { reply ->
