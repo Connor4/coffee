@@ -142,7 +142,7 @@ fun HomeBottomBar(
                             modifier = Modifier.size(40.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.width(80.dp))
+                    Spacer(modifier = Modifier.width(40.dp))
                 }
                 Column(
                     modifier = Modifier.align(Alignment.CenterVertically)
