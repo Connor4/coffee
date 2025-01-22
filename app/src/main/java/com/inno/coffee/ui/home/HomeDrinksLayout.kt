@@ -67,8 +67,8 @@ fun HomeDrinksLayout(
     val numberOfPage by viewModel.numberOfProductPerPage.collectAsState(
         initial = DISPLAY_PER_PAGE_COUNT_12)
     val drinksList by viewModel.formulaList.collectAsState()
-    val cleanMachine by SelfCheckManager.washMachine.collectAsState()
-    val putWashPill by SelfCheckManager.lackWashPill.collectAsState()
+    val washMachine by SelfCheckManager.washMachine.collectAsState()
+    val putWashPill by SelfCheckManager.leftLackPill.collectAsState()
     val releaseSteam by SelfCheckManager.releaseSteam.collectAsState()
     val totalPage = (drinksList.size + numberOfPage - 1) / numberOfPage
     val rowCount = if (numberOfPage == DISPLAY_PER_PAGE_COUNT_12) 4 else 5
@@ -84,19 +84,19 @@ fun HomeDrinksLayout(
         }
     }
 
-    if (cleanMachine || putWashPill) {
-        val title = if (cleanMachine) {
+    if (washMachine || putWashPill) {
+        val title = if (washMachine) {
             stringResource(id = R.string.home_wash_machine_title)
         } else {
             stringResource(id = R.string.home_lack_wash_pill_title)
         }
-        val description = if (cleanMachine) {
+        val description = if (washMachine) {
             stringResource(id = R.string.home_wash_machine_content)
         } else {
             stringResource(id = R.string.home_lack_wash_pill_content)
         }
         ConfirmDialogLayout(title = title, description = description, {
-            if (cleanMachine) {
+            if (washMachine) {
                 viewModel.selfCheckWashMachine()
             } else {
                 viewModel.selfCheckPutWashPill()

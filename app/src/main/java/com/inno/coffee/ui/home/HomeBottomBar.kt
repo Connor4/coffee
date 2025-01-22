@@ -33,6 +33,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.function.selfcheck.SelfCheckManager
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_BOILER_HEATING_END
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_BOILER_HEATING_START
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_IO_CHECK_END
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_RINSE_END
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_RINSE_START
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_STEAM_HEATING_END
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_STEAM_HEATING_START
 import com.inno.coffee.ui.common.composeClick
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.notice.GlobalDialogLeftManager
@@ -50,15 +57,8 @@ fun HomeBottomBar(
     onClickStop: () -> Unit = {},
     onClickGrinder: () -> Unit = {},
 ) {
-    val operateRinse by SelfCheckManager.operateRinse.collectAsState()
-    val waitRinse by SelfCheckManager.waitRinse.collectAsState()
-    val coffeeHeating by SelfCheckManager.coffeeHeating.collectAsState()
-    val steamHeating by SelfCheckManager.steamHeating.collectAsState()
+    val checkStep by SelfCheckManager.step.collectAsState()
     val warningList by GlobalDialogLeftManager.getInstance().warningExist.collectAsState()
-//    val operateRinse = true
-//    val coffeeHeating = false
-//    val steamHeating = false
-//    val warningList = false
 
     Box(
         modifier = Modifier
@@ -91,7 +91,7 @@ fun HomeBottomBar(
                         modifier = Modifier.size(44.dp)
                     )
                 }
-                if (operateRinse && !waitRinse && !coffeeHeating && !steamHeating) {
+                if (checkStep > STEP_STEAM_HEATING_START) {
                     Spacer(modifier = Modifier.width(20.dp))
                     Button(
                         modifier = Modifier
@@ -128,8 +128,7 @@ fun HomeBottomBar(
             }
 
             Row {
-                if (showGrinderButton && operateRinse && !coffeeHeating &&
-                        !steamHeating) {
+                if (showGrinderButton && checkStep > STEP_STEAM_HEATING_END) {
                     Box(
                         modifier = Modifier
                             .wrapContentWidth(Alignment.End)
@@ -209,7 +208,7 @@ fun HomeBottomBar(
             }
         }
 
-        if (!operateRinse) {
+        if (checkStep == STEP_IO_CHECK_END) {
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(color = Color.White, fontSize = 6.nsp())) {
@@ -225,7 +224,7 @@ fun HomeBottomBar(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-        if (waitRinse) {
+        if (checkStep in STEP_RINSE_START..STEP_RINSE_END) {
             Text(
                 text = stringResource(id = R.string.home_self_check_wait_rinse),
                 fontSize = 6.nsp(),
@@ -233,7 +232,7 @@ fun HomeBottomBar(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-        if (coffeeHeating) {
+        if (checkStep in STEP_BOILER_HEATING_START..STEP_BOILER_HEATING_END) {
             Text(
                 text = stringResource(id = R.string.home_self_check_boiler_heating),
                 fontSize = 6.nsp(),
@@ -241,7 +240,7 @@ fun HomeBottomBar(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-        if (steamHeating) {
+        if (checkStep == STEP_STEAM_HEATING_START) {
             Text(
                 text = stringResource(id = R.string.home_self_check_steam_heating),
                 fontSize = 6.nsp(),
