@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.ListSelectLayout
+import com.inno.coffee.ui.common.StateImage
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.debouncedClickable
 import com.inno.coffee.ui.common.fastclick
@@ -115,56 +116,58 @@ fun FormulaMilkSequenceLayout(
                         .align(Alignment.CenterStart)
                         .padding(start = 19.dp))
                 if (itemCount != 2) {
-                    Image(painter = painterResource(R.drawable.temp_add_ic),
-                        contentDescription = null,
+                    StateImage(
+                        normalImage = painterResource(R.drawable.formula_milk_add_normal_ic),
+                        pressedImage = painterResource(R.drawable.formula_milk_add_press_ic),
                         modifier = Modifier
                             .align(Alignment.CenterEnd)
-                            .padding(end = 60.dp)
-                            .size(40.dp)
-                            .fastclick {
-                                if (itemCount == 0) {
-                                    copyValue.milkQuantity1 = copyValue.defaultMilkQuantity
-                                    copyValue.milkTemperature1 =
-                                        copyValue.defaultMilkTemperature
-                                    copyValue.foamTexture1 = copyValue.defaultFoamTexture
-                                    milkQuantity1 = copyValue.defaultMilkQuantity
-                                    milkTemperature1 = copyValue.defaultMilkTemperature
-                                    foamTexture1 = copyValue.defaultFoamTexture
-                                } else {
-                                    copyValue.milkQuantity2 = copyValue.defaultMilkQuantity
-                                    copyValue.milkTemperature2 =
-                                        copyValue.defaultMilkTemperature
-                                    copyValue.foamTexture2 = copyValue.defaultFoamTexture
-                                    milkQuantity2 = copyValue.defaultMilkQuantity
-                                    milkTemperature2 = copyValue.defaultMilkTemperature
-                                    foamTexture2 = copyValue.defaultFoamTexture
-                                }
-                                itemCount++
-                                selectedIndex = INVALID_INT
-                                onValueChange(copyValue)
-                            })
+                            .padding(end = 80.dp)
+                            .size(36.dp)
+                    ) {
+                        if (itemCount == 0) {
+                            copyValue.milkQuantity1 = copyValue.defaultMilkQuantity
+                            copyValue.milkTemperature1 =
+                                copyValue.defaultMilkTemperature
+                            copyValue.foamTexture1 = copyValue.defaultFoamTexture
+                            milkQuantity1 = copyValue.defaultMilkQuantity
+                            milkTemperature1 = copyValue.defaultMilkTemperature
+                            foamTexture1 = copyValue.defaultFoamTexture
+                        } else {
+                            copyValue.milkQuantity2 = copyValue.defaultMilkQuantity
+                            copyValue.milkTemperature2 =
+                                copyValue.defaultMilkTemperature
+                            copyValue.foamTexture2 = copyValue.defaultFoamTexture
+                            milkQuantity2 = copyValue.defaultMilkQuantity
+                            milkTemperature2 = copyValue.defaultMilkTemperature
+                            foamTexture2 = copyValue.defaultFoamTexture
+                        }
+                        itemCount++
+                        selectedIndex = INVALID_INT
+                        onValueChange(copyValue)
+                    }
                 }
                 if (itemCount == 1) {
-                    Image(painter = painterResource(R.drawable.temp_minus_ic),
-                        contentDescription = null,
+                    StateImage(
+                        normalImage = painterResource(R.drawable.formula_milk_minus_normal_ic),
+                        pressedImage = painterResource(R.drawable.formula_milk_minus_press_ic),
                         modifier = Modifier
                             .align(Alignment.CenterEnd)
                             .padding(end = 10.dp)
-                            .size(40.dp)
-                            .fastclick {
-                                if (itemCount == 2) {
-                                    copyValue.milkQuantity2 = -1
-                                    copyValue.milkTemperature2 = -1
-                                    copyValue.foamTexture2 = -1
-                                } else {
-                                    copyValue.milkQuantity1 = -1
-                                    copyValue.milkTemperature1 = -1
-                                    copyValue.foamTexture1 = -1
-                                }
-                                itemCount--
-                                selectedIndex = INVALID_INT
-                                onValueChange(copyValue)
-                            })
+                            .size(36.dp)
+                    ) {
+                        if (itemCount == 2) {
+                            copyValue.milkQuantity2 = -1
+                            copyValue.milkTemperature2 = -1
+                            copyValue.foamTexture2 = -1
+                        } else {
+                            copyValue.milkQuantity1 = -1
+                            copyValue.milkTemperature1 = -1
+                            copyValue.foamTexture1 = -1
+                        }
+                        itemCount--
+                        selectedIndex = INVALID_INT
+                        onValueChange(copyValue)
+                    }
                 }
             }
             if (itemCount != 0) {
@@ -207,20 +210,19 @@ fun FormulaMilkSequenceLayout(
                         modifier = Modifier
                             .align(Alignment.CenterStart)
                             .padding(start = 19.dp))
-                    Image(painter = painterResource(R.drawable.temp_minus_ic),
-                        contentDescription = null,
+                    StateImage(
+                        normalImage = painterResource(R.drawable.formula_milk_minus_normal_ic),
+                        pressedImage = painterResource(R.drawable.formula_milk_minus_press_ic),
                         modifier = Modifier
                             .align(Alignment.CenterEnd)
                             .padding(end = 10.dp)
-                            .size(40.dp)
-                            .fastclick {
-                                copyValue.milkQuantity2 = -1
-                                copyValue.milkTemperature2 = -1
-                                copyValue.foamTexture2 = -1
-                                itemCount--
-                                selectedIndex = INVALID_INT
-                                onValueChange(copyValue)
-                            })
+                            .size(36.dp)
+                    ) {
+                        copyValue.foamTexture2 = -1
+                        itemCount--
+                        selectedIndex = INVALID_INT
+                        onValueChange(copyValue)
+                    }
                 }
                 Column {
                     Item(selectedIndex == 3, bgColor1, quantity, milkQuantity2.toString(), "[s]") {
