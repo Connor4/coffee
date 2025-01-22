@@ -9,6 +9,7 @@ import com.inno.coffee.function.CommandControlManager
 import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.function.selfcheck.SelfCheckManager
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_CHECK_FINISH
 import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogLeftManager
 import com.inno.coffee.ui.notice.GlobalDialogRightManager
@@ -16,8 +17,6 @@ import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
-import com.inno.coffee.utilities.MAKE_DRINK_FAIL
-import com.inno.coffee.utilities.MAKE_DRINK_FINISH
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.enums.ProductType
@@ -107,11 +106,9 @@ class HomeViewModel @Inject constructor(
     val time: StateFlow<String> = _time.asStateFlow()
     private val _date = MutableStateFlow("")
     val date: StateFlow<String> = _date.asStateFlow()
-    //    private val _selfCheck = MutableStateFlow(false)
-//    val selfCheck = _selfCheck.asStateFlow()
 
     private val checking: Boolean
-        get() = SelfCheckManager.checking.value
+        get() = SelfCheckManager.step.value != STEP_CHECK_FINISH
     val leftExtractionTime = MakeLeftDrinksHandler.extractionTime
     val rightExtractionTime = MakeRightDrinksHandler.extractionTime
 
@@ -156,15 +153,17 @@ class HomeViewModel @Inject constructor(
 
     fun selfCheckReleaseSteam() {
         viewModelScope.launch {
-            formulaList.value.firstOrNull {
+            repository.getAllFormulas().filter {
                 ProductType.assertType(it.productType?.type, ProductType.STEAM)
-            }?.let {
-                startMakeDrink(it, true)
-                startMakeDrink(it, false)
-            } ?: run {
-                // TODO notice can not release steam
+            }.forEach {
+                if (it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT) {
+                    startMakeDrink(it, true)
+                } else {
+                    startMakeDrink(it, false)
+                }
+            }.apply {
+                SelfCheckManager.updateReleaseSteam()
             }
-            SelfCheckManager.updateReleaseSteam()
         }
     }
 
@@ -230,35 +229,12 @@ class HomeViewModel @Inject constructor(
                 " main = $main, selfCheck = $checking")
         if (ProductType.isOperationType(formula.productType?.type)) {
             if (checking && ProductType.assertType(formula.productType?.type, ProductType.RINSE)) {
-                viewModelScope.launch(defaultDispatcher) {
-                    val (leftRinse, rightRinse) = repository.getAllFormulas().filter {
-                        ProductType.assertType(it.productType?.type, ProductType.RINSE)
-                    }.partition { it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT }
-                    SelfCheckManager.startRinse()
-                    // TODO null need to notify
-                    leftRinse.firstOrNull()?.let {
-                        MakeLeftDrinksHandler.executeNow(it) { status ->
-                            when (status) {
-                                MAKE_DRINK_FAIL -> SelfCheckManager.wakeupRinseFail()
-                                MAKE_DRINK_FINISH -> SelfCheckManager.wakeupRinseSuccess()
-                            }
-                        }
-                    }
-                    rightRinse.firstOrNull()?.let {
-                        MakeRightDrinksHandler.executeNow(it) { status ->
-                            when (status) {
-                                MAKE_DRINK_FAIL -> SelfCheckManager.wakeupRinseFail()
-                                MAKE_DRINK_FINISH -> SelfCheckManager.wakeupRinseSuccess()
-                            }
-                        }
-                    }
-                }
+                SelfCheckManager.simulateRinse()
+            }
+            if (main) {
+                MakeLeftDrinksHandler.executeNow(formula)
             } else {
-                if (main) {
-                    MakeLeftDrinksHandler.executeNow(formula)
-                } else {
-                    MakeRightDrinksHandler.executeNow(formula)
-                }
+                MakeRightDrinksHandler.executeNow(formula)
             }
         } else {
             if (main) {

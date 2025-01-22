@@ -22,7 +22,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicInteger
 
 // 1. IO自动检测状态，通过pull返回结果，同时根据pull返回IO自检阶段。
 // 2. 自检完成由应用触发冲水等流程。
@@ -49,11 +48,8 @@ object SelfCheckManager {
     var leftLackPill = _leftLackPill.asStateFlow()
     private val _rightLackPill = MutableStateFlow(false)
     var rightLackPill = _rightLackPill.asStateFlow()
-    private val _checking = MutableStateFlow(true)
-    val checking = _checking.asStateFlow()
-    private val _step = MutableStateFlow(0)
+    private val _step = MutableStateFlow(STEP_IO_CHECK_START)
     val step = _step.asStateFlow()
-    private val operateCount = AtomicInteger(0)
     private var rightRinseFlag = false
     private var leftRinseFlag = false
     private var cleanCoffeeFlag = false
@@ -70,8 +66,8 @@ object SelfCheckManager {
     }
 
     private fun selfCheckFinished() {
-        DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
         _step.value = STEP_CHECK_FINISH
+        DataCenter.unsubscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
     suspend fun ioStatusCheck() {
@@ -82,28 +78,16 @@ object SelfCheckManager {
         _step.value = STEP_IO_CHECK_END
     }
 
-    fun startRinse() {
+    fun simulateRinse() {
         _step.value = STEP_RINSE_START
-    }
-
-    fun wakeupRinseSuccess() {
-        // 1. 操作左右屏冲洗 2. 并且需要获取出水结果是否正常，正常则进入锅炉加热阶段
-        if (operateCount.incrementAndGet() == 2) {
-            _step.value = STEP_RINSE_END
-            scope.launch {
-                waitCoffeeBoilerHeating()
-            }
-        }
-    }
-
-    fun wakeupRinseFail() {
         scope.launch {
-            delay(1000)
-            wakeupRinseSuccess()
+            delay(2000)
+            _step.value = STEP_RINSE_END
+            waitCoffeeBoilerHeating()
         }
     }
 
-    suspend fun waitCoffeeBoilerHeating() {
+    private suspend fun waitCoffeeBoilerHeating() {
         _step.value = STEP_BOILER_HEATING_START
         // TODO 1. 下发开始锅炉加热命令
         CommandControlManager.sendTestCommand(START_HEAT_COFFEE_BOILER_ID)
@@ -115,7 +99,7 @@ object SelfCheckManager {
         waitSteamBoilerHeating()
     }
 
-    suspend fun waitSteamBoilerHeating() {
+    private suspend fun waitSteamBoilerHeating() {
         delay(2000)
         _step.value = STEP_STEAM_HEATING_START
         // TODO 1. 下发开始锅炉加热命令
@@ -146,7 +130,6 @@ object SelfCheckManager {
         //  2.抓取释放结果
         delay(2000)
         _step.value = STEP_RELEASE_STEAM_END
-        _checking.value = false
         delay(1000)
         selfCheckFinished()
     }
@@ -262,7 +245,6 @@ object SelfCheckManager {
                 } else {
                     // TODO 也是按照产品处理?
                     _step.value = STEP_RELEASE_STEAM_END
-                    _checking.value = false
                     selfCheckFinished()
                 }
             }
