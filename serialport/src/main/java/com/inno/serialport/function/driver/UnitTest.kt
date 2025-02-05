@@ -24,7 +24,13 @@ private const val FRAME_CONTROL = 0X1.toByte()
 private val lock = ReentrantLock()
 
 fun main() {
-    testProductCommand()
+//    testProductCommand()
+    val command =
+        byteArrayOf(0x02.toByte(), 0x02.toByte(), 0x04.toByte(), 0x00.toByte(), 0x64.toByte(),
+            0x03.toByte(), 0xe8.toByte(), 0x00.toByte())
+    val buffer = ByteBuffer.wrap(command)
+    val calculateCRC = calculateCRC(buffer)
+    println("calculateCRC ${calculateCRC.toHexString()}")
 }
 
 fun testProductCommand() {
