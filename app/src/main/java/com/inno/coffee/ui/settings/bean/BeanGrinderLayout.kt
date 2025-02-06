@@ -157,7 +157,7 @@ fun BeanGrinderLayout(
                 text = stringResource(id = R.string.bean_etc_configuration)
             ) {
                 itemSelectIndex.value = INVALID_INT
-//                ScreenDisplayManager.autoRoute(context, GrinderAdjustmentActivity::class.java)
+                ScreenDisplayManager.autoRoute(context, ETCSettingsActivity::class.java)
             }
         }
 
