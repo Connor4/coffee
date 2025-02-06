@@ -13,7 +13,9 @@ class ETCSettingsActivity : CoffeeActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeTheme {
-                ETCSettingsLayout()
+                ETCSettingsLayout {
+                    finish()
+                }
             }
         }
     }

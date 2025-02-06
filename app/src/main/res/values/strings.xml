@@ -434,6 +434,8 @@
     <string name="bean_grinder_front_test">Front GrinderTest</string>
     <string name="bean_grinder_finer">Finer</string>
     <string name="bean_grinder_coarser">Coarser</string>
+    <string name="bean_etc_settings_next">Next</string>
+    <string name="bean_etc_settings_previous">Previous</string>
 
     <string name="machine_test_coffee_inputs">Coffee Inputs Test</string>
     <string name="machine_test_coffee_output">Coffee Outputs Test</string>
