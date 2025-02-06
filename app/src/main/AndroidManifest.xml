@@ -61,7 +61,7 @@
         <activity android:name=".ui.settings.params.MachineParamsActivity" />
         <activity android:name=".ui.settings.bean.BeanGrinderActivity" />
         <activity android:name=".ui.settings.bean.GrinderAdjustmentActivity" />
-        <activity android:name=".ui.settings.bean.ETCSettingsActivity" />
+        <activity android:name=".ui.settings.bean.etc.ETCSettingsActivity" />
         <activity android:name=".ui.settings.machinetest.MachineTestActivity" />
         <activity android:name=".ui.settings.machinetest.MachineTestInputsActivity" />
         <activity android:name=".ui.settings.machinetest.MachineTestOutputsActivity" />

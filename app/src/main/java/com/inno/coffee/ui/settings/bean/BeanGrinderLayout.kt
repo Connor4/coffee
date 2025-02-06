@@ -38,6 +38,7 @@ import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.SingleInputLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.fastclick
+import com.inno.coffee.ui.settings.bean.etc.ETCSettingsActivity
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_ETC_FRONT
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_ETC_REAR

@@ -1,15 +1,15 @@
-package com.inno.coffee.ui.settings.bean
+package com.inno.coffee.ui.settings.bean.etc
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ETCSettingOne() {
+fun ETCSettingsPage1() {
 
 }
 
 @Preview
 @Composable
 private fun ETCSettingOnePreview() {
-    ETCSettingOne()
+    ETCSettingsPage1()
 }

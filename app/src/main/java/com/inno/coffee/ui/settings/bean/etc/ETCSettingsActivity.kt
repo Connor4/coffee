@@ -1,4 +1,4 @@
-package com.inno.coffee.ui.settings.bean
+package com.inno.coffee.ui.settings.bean.etc
 
 import android.os.Bundle
 import androidx.activity.compose.setContent

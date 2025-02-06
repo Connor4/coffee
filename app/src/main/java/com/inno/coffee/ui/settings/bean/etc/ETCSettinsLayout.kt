@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.inno.coffee.ui.settings.bean
+package com.inno.coffee.ui.settings.bean.etc
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -14,10 +14,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +27,7 @@ import com.inno.coffee.R
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
+import kotlinx.coroutines.launch
 
 @Composable
 fun ETCSettingsLayout(
@@ -37,7 +35,7 @@ fun ETCSettingsLayout(
 ) {
     val pageCount = 5
     val pagerState = rememberPagerState { pageCount }
-    var bgColor by remember { mutableStateOf(Color.White) }
+    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -66,12 +64,13 @@ fun ETCSettingsLayout(
             modifier = Modifier
                 .padding(top = 162.dp, bottom = 80.dp)
                 .fillMaxSize()
-                .background(bgColor)
         ) { page ->
-            if (page == 1) {
-                bgColor = Color.Green
-            } else if (page == 2) {
-                bgColor = Color.Cyan
+            when (page) {
+                0 -> ETCSettingsPage1()
+                1 -> ETCSettingsPage2()
+                2 -> ETCSettingsPage3()
+                3 -> ETCSettingsPage4()
+                4 -> ETCSettingsPage5()
             }
         }
 
@@ -84,7 +83,9 @@ fun ETCSettingsLayout(
                     .height(50.dp),
                 text = stringResource(id = R.string.bean_etc_settings_previous)
             ) {
-
+                scope.launch {
+                    pagerState.scrollToPage(pagerState.currentPage - 1)
+                }
             }
         }
         ChangeColorButton(
@@ -95,7 +96,13 @@ fun ETCSettingsLayout(
                 .height(50.dp),
             text = stringResource(id = R.string.bean_etc_settings_next)
         ) {
-
+            if (pagerState.currentPage < pageCount - 1) {
+                scope.launch {
+                    pagerState.scrollToPage(pagerState.currentPage + 1)
+                }
+            } else {
+                // FINISH
+            }
         }
     }
 }
