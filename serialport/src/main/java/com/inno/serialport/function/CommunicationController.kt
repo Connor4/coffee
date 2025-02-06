@@ -1,5 +1,6 @@
 package com.inno.serialport.function
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
@@ -33,7 +34,7 @@ class CommunicationController private constructor() {
         val instance: CommunicationController by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             CommunicationController()
         }
-        private const val TAG = "SerialPortDataManager"
+        private const val TAG = "CommunicationController"
         private const val PULL_INTERVAL_MILLIS = 500L
         private const val RECEIVE_INTERVAL_MILLIS = 100L
     }
@@ -47,7 +48,7 @@ class CommunicationController private constructor() {
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var heartbeatJob: Job? = null
     private val commandDriver = RS485Driver()
-    private val frontColorDriver = RS485Driver(devicePath = "/dev/ttyS4")
+    private val frontColorDriver = RS485Driver(devicePath = "/dev/ttyS8")
     private val chain = RealChainHandler()
     private val commandQueueA = LinkedBlockingQueue<Command>()
     private val commandQueueB = LinkedBlockingQueue<Command>()
@@ -56,7 +57,7 @@ class CommunicationController private constructor() {
     private val receivedDataChannel = Channel<List<PullBufInfo>>(Channel.UNLIMITED)
 
     init {
-        processDriverQueue(commandQueueA, commandDriver, mutexA, ::handleDriverAHeartbeat)
+        processDriverQueue(commandQueueA, commandDriver, mutexA, ::startHeartBeat)
         processDriverQueue(commandQueueB, frontColorDriver, mutexB, null)
         processReceivedInfo()
         startHeartBeat()
@@ -93,16 +94,9 @@ class CommunicationController private constructor() {
         heartbeatJob = scope.launch {
             while (isActive) {
                 delay(PULL_INTERVAL_MILLIS)
+                Log.d(TAG, "startHeartBeat() called")
                 commandDriver.heartbeat()
             }
-        }
-    }
-
-    private fun handleDriverAHeartbeat() {
-        heartbeatJob?.cancel()
-        scope.launch {
-            sendAndReceive(commandDriver, commandQueueA.take())
-            startHeartBeat()
         }
     }
 
@@ -114,8 +108,8 @@ class CommunicationController private constructor() {
             while (isActive) {
                 val command = commandQueue.take()
                 mutex.withLock {
-                    handleHeartbeat?.invoke()
                     sendAndReceive(driver, command)
+                    handleHeartbeat?.invoke()
                 }
             }
         }

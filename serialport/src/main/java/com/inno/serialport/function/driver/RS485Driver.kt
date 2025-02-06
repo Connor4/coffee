@@ -22,7 +22,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 class RS485Driver(
-    devicePath: String = "/dev/ttyS0",
+    devicePath: String = "/dev/ttyS4",
     baudRate: Int = 115200,
     dataBits: Int = DATA_BITS_8,
     stopBits: Int = STOP_BITS_1,
