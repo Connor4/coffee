@@ -1,6 +1,5 @@
 package com.inno.serialport.function
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import com.inno.common.utils.Logger
 import com.inno.common.utils.toHexString
@@ -9,6 +8,7 @@ import com.inno.serialport.function.driver.Command
 import com.inno.serialport.function.driver.IDriver
 import com.inno.serialport.function.driver.RS485Driver
 import com.inno.serialport.utilities.FRAME_ADDRESS_2
+import com.inno.serialport.utilities.HEARTBEAT_COMMAND_ID
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +47,7 @@ class CommunicationController private constructor() {
     val receivedDataFlow: SharedFlow<ReceivedData?> = _receivedDataFlow
     private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var heartbeatJob: Job? = null
+    private val heartbeatArray = byteArrayOf()
     private val commandDriver = RS485Driver()
     private val frontColorDriver = RS485Driver(devicePath = "/dev/ttyS8")
     private val chain = RealChainHandler()
@@ -62,7 +63,6 @@ class CommunicationController private constructor() {
         processReceivedInfo()
         startHeartBeat()
     }
-
 
     fun openDriver() {
         Logger.d(TAG, "openDriver() called")
@@ -94,8 +94,7 @@ class CommunicationController private constructor() {
         heartbeatJob = scope.launch {
             while (isActive) {
                 delay(PULL_INTERVAL_MILLIS)
-                Log.d(TAG, "startHeartBeat() called")
-                commandDriver.heartbeat()
+                sendCommand(HEARTBEAT_COMMAND_ID, 0, heartbeatArray)
             }
         }
     }
@@ -108,20 +107,16 @@ class CommunicationController private constructor() {
             while (isActive) {
                 val command = commandQueue.take()
                 mutex.withLock {
-                    sendAndReceive(driver, command)
+                    driver.send(command.id, command.size, command.address, command.data)
+                    val response = withTimeoutOrNull(RECEIVE_INTERVAL_MILLIS) {
+                        driver.receive()
+                    }
+                    response?.let {
+                        receivedDataChannel.send(it)
+                    }
                     handleHeartbeat?.invoke()
                 }
             }
-        }
-    }
-
-    private suspend fun sendAndReceive(driver: IDriver, command: Command) {
-        driver.send(command.id, command.size, command.address, command.data)
-        val response = withTimeoutOrNull(RECEIVE_INTERVAL_MILLIS) {
-            driver.receive()
-        }
-        response?.let {
-            receivedDataChannel.send(it)
         }
     }
 
