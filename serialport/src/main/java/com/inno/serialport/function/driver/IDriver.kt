@@ -15,6 +15,5 @@ interface IDriver {
     fun writeToSerialPort(frame: ByteArray)
     fun send(command: Short, infoSize: Int, address: Byte, commandInfo: ByteArray)
     fun receive(): List<PullBufInfo>
-    fun heartbeat()
 
 }
