@@ -86,50 +86,65 @@ fun FormulaDrinkPage(
             )
         }
 
-        Box(
+        DrinkPager(selectedFormula, totalCount, pagerState, drinksTypeList) {
+            onDrinkItemClick(it)
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
+@Composable
+fun DrinkPager(
+    selectedFormula: Formula?,
+    totalCount: Int,
+    pagerState: PagerState,
+    drinksTypeList: List<Formula>,
+    paddingTop: Int = 450,
+    onDrinkItemClick: (formula: Formula) -> Unit,
+) {
+    val pageCount = 10
+    Box(
+        modifier = Modifier
+            .padding(top = paddingTop.dp, start = 90.dp)
+            .wrapContentSize(),
+    ) {
+        HorizontalPager(
             modifier = Modifier
-                .wrapContentSize()
-                .align(Alignment.TopStart)
-                .padding(top = 450.dp, start = 90.dp)
-        ) {
-            HorizontalPager(
+                .width(620.dp)
+                .height(260.dp),
+            state = pagerState
+        ) { page ->
+            val fromIndex = page * pageCount
+            val toIndex = minOf(fromIndex + pageCount, drinksTypeList.size)
+            val currentList = drinksTypeList.subList(fromIndex, toIndex)
+            FlowRow(
                 modifier = Modifier
-                    .width(620.dp)
-                    .height(260.dp),
-                state = pagerState
-            ) { page ->
-                val fromIndex = page * pageCount
-                val toIndex = minOf(fromIndex + pageCount, drinksTypeList.size)
-                val currentList = drinksTypeList.subList(fromIndex, toIndex)
-                FlowRow(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    maxItemsInEachRow = 5,
-                ) {
-                    currentList.forEach {
-                        val select = selectedFormula?.productId == it.productId
-                        FormulaDrinkItem(formula = it, selected = select) {
-                            onDrinkItemClick(it)
-                        }
+                    .fillMaxSize(),
+                maxItemsInEachRow = 5,
+            ) {
+                currentList.forEach {
+                    val select = selectedFormula?.productId == it.productId
+                    FormulaDrinkItem(formula = it, selected = select) {
+                        onDrinkItemClick(it)
                     }
                 }
             }
+        }
 
-            if (totalCount > 1) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(top = 230.dp),
-                ) {
-                    PageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
-                }
+        if (totalCount > 1) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(top = 230.dp),
+            ) {
+                PageIndicator(totalPage = totalCount, selectedPage = pagerState.currentPage)
             }
         }
     }
 }
 
 @Composable
-private fun FormulaDrinkItem(
+fun FormulaDrinkItem(
     formula: Formula,
     selected: Boolean = false,
     onDrinkClick: () -> Unit = {},

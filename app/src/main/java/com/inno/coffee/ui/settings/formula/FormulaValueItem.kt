@@ -106,6 +106,7 @@ private val formulaPropertyStringMapping = mapOf(
 fun FormulaValueItem(
     isFahrenheit: Boolean,
     selectFormula: Formula?,
+    fromETCSetting: Boolean = false,
     onValueChange: () -> Unit,
     onProductTest: () -> Unit,
     onLearn: (Int) -> Unit,
@@ -132,7 +133,8 @@ fun FormulaValueItem(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        FormulaFunctionButton(selectedName, { index ->
+        val extraPaddingTop = if (fromETCSetting) 10 else 160
+        FormulaFunctionButton(selectedName, extraPaddingTop, { index ->
             onLearn(index)
         }, {
             onProductTest()
@@ -140,7 +142,7 @@ fun FormulaValueItem(
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(top = 331.dp, end = 38.dp)
+                .padding(top = (171 + extraPaddingTop).dp, end = 38.dp)
                 .width(543.dp)
                 .height(293.dp),
         ) {

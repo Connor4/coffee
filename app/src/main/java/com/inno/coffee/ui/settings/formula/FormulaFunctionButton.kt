@@ -29,6 +29,7 @@ import com.inno.coffee.utilities.FORMULA_SHOW_POWDER_TEST
 @Composable
 fun FormulaFunctionButton(
     selectedName: String,
+    extraPaddingTop: Int = 160,
     onLearn: (Int) -> Unit,
     onProductTest: () -> Unit,
 ) {
@@ -56,7 +57,7 @@ fun FormulaFunctionButton(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(top = 172.dp, end = 90.dp)
+            .padding(top = (12 + extraPaddingTop).dp, end = 90.dp)
             .background(Color.Transparent),
         contentAlignment = Alignment.BottomEnd
     ) {
@@ -87,5 +88,5 @@ fun FormulaFunctionButton(
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable
 private fun PreviewFunctionButton() {
-    FormulaFunctionButton("coffeeWater", {}, {})
+    FormulaFunctionButton("coffeeWater", 160, {}, {})
 }
