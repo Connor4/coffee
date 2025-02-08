@@ -57,11 +57,12 @@ class CommunicationController private constructor() {
     private val mutexB = Mutex()
     private val receivedDataChannel = Channel<List<PullBufInfo>>(Channel.UNLIMITED)
 
-    init {
+    fun init() {
         processDriverQueue(commandQueueA, commandDriver, mutexA, ::startHeartBeat)
         processDriverQueue(commandQueueB, frontColorDriver, mutexB, null)
         processReceivedInfo()
         startHeartBeat()
+        openDriver()
     }
 
     fun openDriver() {

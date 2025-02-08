@@ -39,7 +39,7 @@ class CoffeeApplication : Application() {
 
         applicationScope.launch {
             Logger.d(TAG, "CoffeeApplication init() launch call")
-//            CommunicationController.instance.openDriver()
+//            CommunicationController.instance.init()
 //            DataCenter.init()
             GlobalDialogLeftManager.init(this@CoffeeApplication)
             GlobalDialogRightManager.init(this@CoffeeApplication)
