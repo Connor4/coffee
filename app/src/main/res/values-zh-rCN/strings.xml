@@ -392,6 +392,7 @@
     <string name="bean_grinder_coarser">调粗</string>
 
     <string name="bean_etc_settings_previous">上一步</string>
+    <string name="bean_etc_settings_1_flow">系统流量</string>
     <string name="machine_test_coffee_inputs">咖啡输入测试</string>
     <string name="machine_test_coffee_output">咖啡输出测试</string>
     <string name="machine_test_steam_inputs">蒸汽输入状态</string>
@@ -612,5 +613,7 @@
     <string name="home_wash_machine_title">洗机</string>
     <string name="home_lack_left_wash_pill_content">请投入左边洗机丸后点击确认继续</string>
     <string name="bean_etc_settings_next">下一步</string>
+    <string name="bean_etc_settings_1_rinse_rate">冲水流量</string>
+    <string name="bean_etc_settings_1_notice">如果您更换了部件或维护了机器，建议后动润湿流速以测量系统和限流孔的流速。</string>
 
 </resources>

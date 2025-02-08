@@ -436,6 +436,9 @@
     <string name="bean_grinder_coarser">Coarser</string>
     <string name="bean_etc_settings_next">Next</string>
     <string name="bean_etc_settings_previous">Previous</string>
+    <string name="bean_etc_settings_1_rinse_rate">Rinse Rate</string>
+    <string name="bean_etc_settings_1_notice">If you replace parts or perform maintenance on the machine, it is recommended to dynamically measure the flow rate of the system and the orifice.</string>
+    <string name="bean_etc_settings_1_flow">System Flow</string>
 
     <string name="machine_test_coffee_inputs">Coffee Inputs Test</string>
     <string name="machine_test_coffee_output">Coffee Outputs Test</string>
