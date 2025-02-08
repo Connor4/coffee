@@ -51,7 +51,6 @@ private val formulaProperties = Formula::class.memberProperties
 private val formulaPropertyNames = listOf(
     FORMULA_PROPERTY_PRODUCT_TYPE,
     "productName",
-    FORMULA_PROPERTY_PRODUCT_PRICE,
     FORMULA_PROPERTY_BEAN_HOPPER,
     FORMULA_PROPERTY_COFFEE_WATER,
     FORMULA_PROPERTY_POWDER_DOSAGE,
@@ -73,12 +72,12 @@ private val formulaPropertyNames = listOf(
     FORMULA_PROPERTY_MILK_DELAY_TIME,
     FORMULA_PROPERTY_MILK_OUTPUT,
     FORMULA_PROPERTY_MILK_SEQUENCE,
+    FORMULA_PROPERTY_PRODUCT_PRICE,
 )
 
 private val formulaPropertyStringMapping = mapOf(
     FORMULA_PROPERTY_PRODUCT_TYPE to R.string.formula_product_type,
     "productName" to R.string.formula_product_name,
-    FORMULA_PROPERTY_PRODUCT_PRICE to R.string.formula_product_price,
     FORMULA_PROPERTY_BEAN_HOPPER to R.string.formula_bean_hopper_position,
     FORMULA_PROPERTY_COFFEE_WATER to R.string.formula_water_dosage,
     FORMULA_PROPERTY_POWDER_DOSAGE to R.string.formula_powder_dosage,
@@ -100,6 +99,7 @@ private val formulaPropertyStringMapping = mapOf(
     FORMULA_PROPERTY_MILK_DELAY_TIME to R.string.formula_milk_delay_time,
     FORMULA_PROPERTY_MILK_OUTPUT to R.string.formula_milk_output,
     FORMULA_PROPERTY_MILK_SEQUENCE to R.string.formula_milk_sequence,
+    FORMULA_PROPERTY_PRODUCT_PRICE to R.string.formula_product_price,
 )
 
 @Composable
