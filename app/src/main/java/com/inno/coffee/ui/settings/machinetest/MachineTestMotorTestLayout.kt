@@ -146,7 +146,8 @@ fun MachineTestMotorLayout(
                     rangeEnd = scrollRangeEnd.value,
                     unit = scrollUnit.value,
                 ) { changeValue ->
-                    viewModel.saveMotorTestValue(itemSelectIndex.value, changeValue)
+                    viewModel.saveMotorTestValue(selectMotor.value, itemSelectIndex.value,
+                        changeValue)
                 }
             }
         }
@@ -158,6 +159,7 @@ fun MachineTestMotorLayout(
         ) {
             selectMotor.value = MACHINE_TEST_MOTOR_LEFT_TOP
             itemSelectIndex.value = INVALID_INT
+            viewModel.selectMotor(MACHINE_TEST_MOTOR_LEFT_TOP)
         }
 
         MotorItem(
@@ -167,6 +169,7 @@ fun MachineTestMotorLayout(
         ) {
             selectMotor.value = MACHINE_TEST_MOTOR_LEFT_BOTTOM
             itemSelectIndex.value = INVALID_INT
+            viewModel.selectMotor(MACHINE_TEST_MOTOR_LEFT_BOTTOM)
         }
 
         MotorItem(
@@ -176,6 +179,7 @@ fun MachineTestMotorLayout(
         ) {
             selectMotor.value = MACHINE_TEST_MOTOR_RIGHT_TOP
             itemSelectIndex.value = INVALID_INT
+            viewModel.selectMotor(MACHINE_TEST_MOTOR_RIGHT_TOP)
         }
 
         MotorItem(
@@ -185,6 +189,7 @@ fun MachineTestMotorLayout(
         ) {
             selectMotor.value = MACHINE_TEST_MOTOR_RIGHT_BOTTOM
             itemSelectIndex.value = INVALID_INT
+            viewModel.selectMotor(MACHINE_TEST_MOTOR_RIGHT_BOTTOM)
         }
 
         AdjustButton(
@@ -197,8 +202,7 @@ fun MachineTestMotorLayout(
                     modifier = Modifier.size(40.dp)
                 )
             }, {
-                viewModel.sendMotorTest(selectMotor.value, true, step.value, speed.value,
-                    current.value)
+                viewModel.sendMotorTest(selectMotor.value, true)
             }
         )
         AdjustButton(
@@ -211,8 +215,7 @@ fun MachineTestMotorLayout(
                     modifier = Modifier.size(40.dp)
                 )
             }, {
-                viewModel.sendMotorTest(selectMotor.value, false, step.value, speed.value,
-                    current.value)
+                viewModel.sendMotorTest(selectMotor.value, false)
             }
         )
     }

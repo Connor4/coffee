@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.function.CommandControlManager
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_CURRENT
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_LEFT_BOTTOM
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_LEFT_TOP
+import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_RIGHT_BOTTOM
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_RIGHT_TOP
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_SPEED
 import com.inno.coffee.utilities.MACHINE_TEST_MOTOR_STEP
@@ -32,6 +34,22 @@ class MachineTestOutputViewModel @Inject constructor(
         private const val MACHINE_TEST_STEP = "machine_test_step"
         private const val MACHINE_TEST_SPEED = "machine_test_speed"
         private const val MACHINE_TEST_CURRENT = "machine_test_current"
+        private const val MACHINE_TEST_STEP_LEFT_TOP = "machine_test_step_left_top"
+        private const val MACHINE_TEST_STEP_RIGHT_TOP = "machine_test_step_right_top"
+        private const val MACHINE_TEST_STEP_LEFT_BOTTOM = "machine_test_step_left_bottom"
+        private const val MACHINE_TEST_STEP_RIGHT_BOTTOM = "machine_test_step_right_bottom"
+        private const val MACHINE_TEST_SPEED_LEFT_TOP = "machine_test_speed_left_top"
+        private const val MACHINE_TEST_SPEED_RIGHT_TOP = "machine_test_speed_right_top"
+        private const val MACHINE_TEST_SPEED_LEFT_BOTTOM = "machine_test_speed_left_bottom"
+        private const val MACHINE_TEST_SPEED_RIGHT_BOTTOM = "machine_test_speed_right_bottom"
+        private const val MACHINE_TEST_CURRENT_LEFT_TOP = "machine_test_current_left_top"
+        private const val MACHINE_TEST_CURRENT_RIGHT_TOP = "machine_test_current_right_top"
+        private const val MACHINE_TEST_CURRENT_LEFT_BOTTOM = "machine_test_current_left_bottom"
+        private const val MACHINE_TEST_CURRENT_RIGHT_BOTTOM = "machine_test_current_right_bottom"
+        private const val MACHINE_DEFAULT_STEP = 1000
+        private const val MACHINE_DEFAULT_CURRENT = 10
+        private const val MACHINE_DEFAULT_TOP_SPEED = 1000
+        private const val MACHINE_DEFAULT_BOTTOM_SPEED = 800
     }
 
     private val _step = MutableStateFlow(0)
@@ -43,9 +61,14 @@ class MachineTestOutputViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _step.value = dataStore.getCoffeePreference(MACHINE_TEST_STEP, 1000)
-            _speed.value = dataStore.getCoffeePreference(MACHINE_TEST_SPEED, 1000)
-            _current.value = dataStore.getCoffeePreference(MACHINE_TEST_CURRENT, 10)
+            _step.value =
+                dataStore.getCoffeePreference(MACHINE_TEST_STEP_LEFT_TOP, MACHINE_DEFAULT_STEP)
+            _speed.value =
+                dataStore.getCoffeePreference(MACHINE_TEST_SPEED_LEFT_TOP,
+                    MACHINE_DEFAULT_TOP_SPEED)
+            _current.value =
+                dataStore.getCoffeePreference(MACHINE_TEST_CURRENT_LEFT_TOP,
+                    MACHINE_DEFAULT_CURRENT)
         }
     }
 
@@ -73,33 +96,126 @@ class MachineTestOutputViewModel @Inject constructor(
         CommandControlManager.sendTestCommand(MACHINE_TEST_MOTOR_INIT_ID)
     }
 
-    fun sendMotorTest(index: Int, add: Boolean, step: Int, speed: Int, current: Int) {
+    fun sendMotorTest(index: Int, add: Boolean) {
         val direction = if (index == MACHINE_TEST_MOTOR_LEFT_TOP ||
                 index == MACHINE_TEST_MOTOR_RIGHT_TOP) {
             if (add) 0 else 1
         } else {
             if (add) 1 else 0
         }
-        CommandControlManager.sendTestCommand(MACHINE_TEST_MOTOR_TEST_ID, index, direction, step,
-            speed, current, 0, 0, 0)
+        CommandControlManager.sendTestCommand(MACHINE_TEST_MOTOR_TEST_ID, index, direction,
+            step.value, speed.value, current.value, 0, 0, 0)
     }
 
-    fun saveMotorTestValue(key: Int, value: Float) {
-        Logger.d(TAG, "saveMotorTestValue() called with: key = $key, value = $value")
+    fun saveMotorTestValue(index: Int, key: Int, value: Float) {
+        Logger.d(TAG, "saveMotorTestValue() called with: index = $index, key = $key, value " +
+                "=$value")
         viewModelScope.launch(defaultDispatcher) {
             when (key) {
                 MACHINE_TEST_MOTOR_STEP -> {
-                    dataStore.saveCoffeePreference(MACHINE_TEST_STEP, value.toInt())
+                    val stepKey = when (index) {
+                        MACHINE_TEST_MOTOR_LEFT_TOP -> {
+                            MACHINE_TEST_STEP_LEFT_TOP
+                        }
+                        MACHINE_TEST_MOTOR_RIGHT_TOP -> {
+                            MACHINE_TEST_STEP_RIGHT_TOP
+                        }
+                        MACHINE_TEST_MOTOR_LEFT_BOTTOM -> {
+                            MACHINE_TEST_STEP_LEFT_BOTTOM
+                        }
+                        MACHINE_TEST_MOTOR_RIGHT_BOTTOM -> {
+                            MACHINE_TEST_STEP_RIGHT_BOTTOM
+                        }
+                        else -> {
+                            MACHINE_TEST_STEP_LEFT_TOP
+                        }
+                    }
+                    dataStore.saveCoffeePreference(stepKey, value.toInt())
                     _step.value = value.toInt()
                 }
                 MACHINE_TEST_MOTOR_SPEED -> {
-                    dataStore.saveCoffeePreference(MACHINE_TEST_SPEED, value.toInt())
+                    val speedKey = when (index) {
+                        MACHINE_TEST_MOTOR_LEFT_TOP -> {
+                            MACHINE_TEST_SPEED_LEFT_TOP
+                        }
+                        MACHINE_TEST_MOTOR_RIGHT_TOP -> {
+                            MACHINE_TEST_SPEED_RIGHT_TOP
+                        }
+                        MACHINE_TEST_MOTOR_LEFT_BOTTOM -> {
+                            MACHINE_TEST_SPEED_LEFT_BOTTOM
+                        }
+                        MACHINE_TEST_MOTOR_RIGHT_BOTTOM -> {
+                            MACHINE_TEST_SPEED_RIGHT_BOTTOM
+                        }
+                        else -> {
+                            MACHINE_TEST_SPEED_LEFT_TOP
+                        }
+                    }
+                    dataStore.saveCoffeePreference(speedKey, value.toInt())
                     _speed.value = value.toInt()
                 }
                 MACHINE_TEST_MOTOR_CURRENT -> {
-                    dataStore.saveCoffeePreference(MACHINE_TEST_CURRENT, value.toInt())
+                    val currentKey = when (index) {
+                        MACHINE_TEST_MOTOR_LEFT_TOP -> {
+                            MACHINE_TEST_CURRENT_LEFT_TOP
+                        }
+                        MACHINE_TEST_MOTOR_RIGHT_TOP -> {
+                            MACHINE_TEST_CURRENT_RIGHT_TOP
+                        }
+                        MACHINE_TEST_MOTOR_LEFT_BOTTOM -> {
+                            MACHINE_TEST_CURRENT_LEFT_BOTTOM
+                        }
+                        MACHINE_TEST_MOTOR_RIGHT_BOTTOM -> {
+                            MACHINE_TEST_CURRENT_RIGHT_BOTTOM
+                        }
+                        else -> {
+                            MACHINE_TEST_CURRENT_LEFT_TOP
+                        }
+                    }
+                    dataStore.saveCoffeePreference(currentKey, value.toInt())
                     _current.value = value.toInt()
                 }
+            }
+        }
+    }
+
+    fun selectMotor(index: Int) {
+        viewModelScope.launch {
+            when (index) {
+                MACHINE_TEST_MOTOR_LEFT_TOP -> {
+                    _step.value = dataStore.getCoffeePreference(MACHINE_TEST_STEP_LEFT_TOP,
+                        MACHINE_DEFAULT_STEP)
+                    _speed.value = dataStore.getCoffeePreference(MACHINE_TEST_SPEED_LEFT_TOP,
+                        MACHINE_DEFAULT_TOP_SPEED)
+                    _current.value = dataStore.getCoffeePreference(MACHINE_TEST_CURRENT_LEFT_TOP,
+                        MACHINE_DEFAULT_CURRENT)
+                }
+                MACHINE_TEST_MOTOR_RIGHT_TOP -> {
+                    _step.value = dataStore.getCoffeePreference(MACHINE_TEST_STEP_RIGHT_TOP,
+                        MACHINE_DEFAULT_STEP)
+                    _speed.value = dataStore.getCoffeePreference(MACHINE_TEST_SPEED_RIGHT_TOP,
+                        MACHINE_DEFAULT_TOP_SPEED)
+                    _current.value = dataStore.getCoffeePreference(MACHINE_TEST_CURRENT_RIGHT_TOP,
+                        MACHINE_DEFAULT_CURRENT)
+                }
+                MACHINE_TEST_MOTOR_LEFT_BOTTOM -> {
+                    _step.value = dataStore.getCoffeePreference(MACHINE_TEST_STEP_LEFT_BOTTOM,
+                        MACHINE_DEFAULT_STEP)
+                    _speed.value = dataStore.getCoffeePreference(MACHINE_TEST_SPEED_LEFT_BOTTOM,
+                        MACHINE_DEFAULT_BOTTOM_SPEED)
+                    _current.value = dataStore.getCoffeePreference(MACHINE_TEST_CURRENT_LEFT_BOTTOM,
+                        MACHINE_DEFAULT_CURRENT)
+                }
+                MACHINE_TEST_MOTOR_RIGHT_BOTTOM -> {
+                    _step.value = dataStore.getCoffeePreference(MACHINE_TEST_STEP_RIGHT_BOTTOM,
+                        MACHINE_DEFAULT_STEP)
+                    _speed.value = dataStore.getCoffeePreference(MACHINE_TEST_SPEED_RIGHT_BOTTOM,
+                        MACHINE_DEFAULT_BOTTOM_SPEED)
+                    _current.value =
+                        dataStore.getCoffeePreference(MACHINE_TEST_CURRENT_RIGHT_BOTTOM,
+                            MACHINE_DEFAULT_CURRENT)
+                }
+
             }
         }
     }
