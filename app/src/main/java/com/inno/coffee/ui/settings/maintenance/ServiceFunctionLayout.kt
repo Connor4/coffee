@@ -95,45 +95,27 @@ fun ServiceFunctionLayout(
             modifier = Modifier.padding(start = 50.dp, top = 474.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            ChangeColorButton(
-                modifier = Modifier
-                    .width(280.dp)
-                    .height(73.dp),
-                text = stringResource(R.string.maintenance_empty_coffee_boiler)
-            ) {
-                viewModel.sendTestCommand(MAINTENANCE_EMPTY_COFFEE_BOILER_ID)
+            ServiceFunctionStatusButton(R.string.maintenance_empty_coffee_boiler) {
+                viewModel.sendTestCommand(MAINTENANCE_EMPTY_COFFEE_BOILER_ID, if (it) 1 else 0)
             }
             ServiceFunctionStatusButton(R.string.maintenance_water_pump_pressure_check) {
                 viewModel.sendTestCommand(MAINTENANCE_WATER_PUMP_PRESSURE_ID, if (it) 1 else 0)
             }
-            ChangeColorButton(
-                modifier = Modifier
-                    .width(280.dp)
-                    .height(73.dp),
-                text = stringResource(R.string.maintenance_reduce_steam_boiler_pressure)
-            ) {
-                viewModel.sendTestCommand(MAINTENANCE_DEPRESSURIZE_STEAM_BOILER_ID)
+            ServiceFunctionStatusButton(R.string.maintenance_reduce_steam_boiler_pressure) {
+                viewModel.sendTestCommand(MAINTENANCE_DEPRESSURIZE_STEAM_BOILER_ID,
+                    if (it) 1 else 0)
             }
-            ChangeColorButton(
-                modifier = Modifier
-                    .width(280.dp)
-                    .height(73.dp),
-                text = stringResource(R.string.maintenance_empty_steam_boiler)
-            ) {
-                viewModel.sendTestCommand(MAINTENANCE_EMPTY_STEAM_BOILER_ID)
+            ServiceFunctionStatusButton(R.string.maintenance_empty_steam_boiler) {
+                viewModel.sendTestCommand(MAINTENANCE_EMPTY_STEAM_BOILER_ID, if (it) 1 else 0)
             }
         }
         Row(
             modifier = Modifier.padding(start = 50.dp, top = 564.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            ChangeColorButton(
-                modifier = Modifier
-                    .width(280.dp)
-                    .height(73.dp),
-                text = stringResource(R.string.maintenance_steam_boiler_pressure_test)
-            ) {
-                viewModel.sendTestCommand(MAINTENANCE_STEAM_BOILER_OVER_PRESSURE_TEST_ID)
+            ServiceFunctionStatusButton(R.string.maintenance_steam_boiler_pressure_test) {
+                viewModel.sendTestCommand(MAINTENANCE_STEAM_BOILER_OVER_PRESSURE_TEST_ID,
+                    if (it) 1 else 0)
             }
             ChangeColorButton(
                 modifier = Modifier
