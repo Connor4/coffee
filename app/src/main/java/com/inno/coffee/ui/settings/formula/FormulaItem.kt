@@ -30,6 +30,7 @@ fun FormulaItem(
     selected: Boolean,
     description: String,
     value: Any?,
+    enable: Boolean = true,
     onClick: () -> Unit = {},
 ) {
     val bgColor: Color?
@@ -39,7 +40,7 @@ fun FormulaItem(
         textColor = Color.Black
     } else {
         bgColor = backgroundColor
-        textColor = Color.White
+        textColor = if (enable) Color.White else Color(0x4DFFFFFF)
     }
 
     if (value is FormulaItem.FormulaMilkSequence) {
@@ -62,7 +63,7 @@ fun FormulaItem(
                     .background(color = bgColor)
                     .debouncedClickable({
                         onClick()
-                    }),
+                    }, enabled = enable),
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(
@@ -129,7 +130,7 @@ fun FormulaItem(
                 .background(color = bgColor)
                 .debouncedClickable({
                     onClick()
-                }),
+                }, enabled = enable),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(

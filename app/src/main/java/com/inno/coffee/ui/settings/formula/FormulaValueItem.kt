@@ -102,6 +102,12 @@ private val formulaPropertyStringMapping = mapOf(
     FORMULA_PROPERTY_PRODUCT_PRICE to R.string.formula_product_price,
 )
 
+private val etcSettingsDisableProperties = listOf(
+    FORMULA_PROPERTY_PRODUCT_TYPE,
+    "productName",
+    FORMULA_PROPERTY_BEAN_HOPPER,
+)
+
 @Composable
 fun FormulaValueItem(
     isFahrenheit: Boolean,
@@ -168,11 +174,12 @@ fun FormulaValueItem(
                 val name = formulaItemNames[index]
                 val labelResId = formulaPropertyStringMapping[name]
                 val label = stringResource(labelResId!!)
+                val enable = if (fromETCSetting) name !in etcSettingsDisableProperties else true
 
                 FormulaItem(
                     isFahrenheit = isFahrenheit, backgroundColor = color,
                     selected = selectedValue == item,
-                    description = label, value = item,
+                    description = label, value = item, enable = enable,
                     onClick = {
                         selectedValue = item
                         selectedName = name
@@ -189,7 +196,7 @@ fun FormulaValueItem(
                             modifier = Modifier
                                 .wrapContentSize()
                                 .align(Alignment.TopEnd)
-                                .padding(top = 250.dp, end = 90.dp),
+                                .padding(top = (90 + extraPaddingTop).dp, end = 90.dp),
                             value = value.value.toFloat(),
                             rangeStart = value.rangeStart,
                             rangeEnd = value.rangeEnd,
@@ -207,7 +214,7 @@ fun FormulaValueItem(
                             modifier = Modifier
                                 .wrapContentSize()
                                 .align(Alignment.TopEnd)
-                                .padding(top = 250.dp, end = 90.dp),
+                                .padding(top = (90 + extraPaddingTop).dp, end = 90.dp),
                             value = temperatureConvertFloat(isFahrenheit,
                                 value.celsiusValue.toInt()),
                             rangeStart = temperatureConvertFloat(isFahrenheit,
@@ -363,7 +370,7 @@ fun FormulaValueItem(
                     FormulaMilkSequenceLayout(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
-                            .padding(top = 250.dp, end = 38.dp)
+                            .padding(top = (90 + extraPaddingTop).dp, end = 38.dp)
                             .width(543.dp)
                             .height(374.dp),
                         value = value,
