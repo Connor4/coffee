@@ -70,6 +70,9 @@ class HomeViewModel @Inject constructor(
         private const val STEAM_BOILER_PRESSURE = "steam_boiler_pressure"
         private const val NTC_LEFT = "ntc_left"
         private const val NTC_RIGHT = "ntc_right"
+        private const val SINK_RINSE = "sink_rinse"
+        private const val MILK_RINSE = "milk_rinse"
+        private const val MACHINE_PRIORITY = "machine_priority"
     }
 
     val formulaList: StateFlow<List<Formula>> = repository.getLeftAllFormulas()
@@ -379,7 +382,14 @@ class HomeViewModel @Inject constructor(
             val steamBoilerPressure = dataStore.getCoffeePreference(STEAM_BOILER_PRESSURE, 1f)
             val ntcCorrectionSteamLeft = dataStore.getCoffeePreference(NTC_LEFT, 0f)
             val ntcCorrectionSteamRight = dataStore.getCoffeePreference(NTC_RIGHT, 0f)
+            val sinkRinse = dataStore.getCoffeePreference(SINK_RINSE, false)
+            val milkRinse = dataStore.getCoffeePreference(MILK_RINSE, false)
+            val priority = dataStore.getCoffeePreference(MACHINE_PRIORITY, false)
+
             val balance = if (brewGroupLoadBalancing) 1 else 0
+            val sinkRinseValue = if (sinkRinse) 1 else 0
+            val milkRinseValue = if (milkRinse) 1 else 0
+            val priorityValue = if (priority) 1 else 0
             Logger.d(TAG, "initMachineParams() called with: boilerTemp = $boilerTemp, " +
                     "coldRinseQuantity = $coldRinseQuantity, " +
                     "warmRinseQuantity = $warmRinseQuantity, " +
@@ -390,15 +400,17 @@ class HomeViewModel @Inject constructor(
                     "numberOfCyclesRinse = $numberOfCyclesRinse, " +
                     "steamBoilerPressure = $steamBoilerPressure, " +
                     "ntcCorrectionSteamLeft = $ntcCorrectionSteamLeft, " +
-                    "ntcCorrectionSteamRight = $ntcCorrectionSteamRight")
+                    "ntcCorrectionSteamRight = $ntcCorrectionSteamRight, " +
+                    "skinRinse = $sinkRinse, milkRinse = $milkRinse, priority = $priority"
+            )
 
             CommandControlManager.sendTestCommand(MACHINE_PARAM_COMMAND_ID,
                 boilerTemp.toInt(), boilerTemp.toInt(),
                 coldRinseQuantity, warmRinseQuantity, groundsDrawerQuantity,
                 balance, brewGroupPreHeating, grinderPurgeFunction, 0,
                 numberOfCyclesRinse, (steamBoilerPressure * 10).toInt(),
-                ntcCorrectionSteamLeft.toInt(), ntcCorrectionSteamRight.toInt(), 0,
-                0, 0)
+                ntcCorrectionSteamLeft.toInt(), ntcCorrectionSteamRight.toInt(), sinkRinseValue,
+                milkRinseValue, priorityValue)
         }
     }
 

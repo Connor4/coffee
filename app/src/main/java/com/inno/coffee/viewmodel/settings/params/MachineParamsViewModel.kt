@@ -177,13 +177,16 @@ class MachineParamsViewModel @Inject constructor(
             }
 
             val balance = if (_brewGroupLoadBalancing.value) 1 else 0
+            val sinkRinse = if (_sinkRinse.value) 1 else 0
+            val milkRinse = if (_milkRinse.value) 1 else 0
+            val priority = if (_machinePriority.value) 1 else 0
             CommandControlManager.sendTestCommand(MACHINE_PARAM_COMMAND_ID,
                 _boilerTemp.value.toInt(), _boilerTemp.value.toInt(),
                 _coldRinseQuantity.value, _warmRinseQuantity.value, _groundsDrawerQuantity.value,
                 balance, _brewGroupPreHeating.value, _grinderPurgeFunction.value, 0,
                 _numberOfCyclesRinse.value, (_steamBoilerPressure.value * 10).toInt(),
-                _ntcCorrectionSteamLeft.value.toInt(), _ntcCorrectionSteamRight.value.toInt(), 0,
-                0, 0)
+                _ntcCorrectionSteamLeft.value.toInt(), _ntcCorrectionSteamRight.value.toInt(),
+                sinkRinse, milkRinse, priority)
 
         }
     }
