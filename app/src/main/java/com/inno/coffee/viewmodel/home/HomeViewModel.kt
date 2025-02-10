@@ -13,10 +13,24 @@ import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_CHECK_FINISH
 import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.notice.GlobalDialogLeftManager
 import com.inno.coffee.ui.notice.GlobalDialogRightManager
+import com.inno.coffee.utilities.BREW_BALANCE
+import com.inno.coffee.utilities.BREW_PRE_HEATING
+import com.inno.coffee.utilities.COFFEE_BOILER_TEMP
+import com.inno.coffee.utilities.COLD_RINSE
+import com.inno.coffee.utilities.GRINDER_PURGE_FUNCTION
+import com.inno.coffee.utilities.GROUNDS_QUANTITY
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
+import com.inno.coffee.utilities.MACHINE_PRIORITY
 import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
+import com.inno.coffee.utilities.MILK_RINSE
+import com.inno.coffee.utilities.NTC_LEFT
+import com.inno.coffee.utilities.NTC_RIGHT
+import com.inno.coffee.utilities.NUMBER_OF_CYCLES_RINSE
+import com.inno.coffee.utilities.SINK_RINSE
+import com.inno.coffee.utilities.STEAM_BOILER_PRESSURE
+import com.inno.coffee.utilities.WARM_RINSE
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 import com.inno.common.enums.ProductType
@@ -58,21 +72,6 @@ class HomeViewModel @Inject constructor(
         private const val STANDBY_BUTTON = "clean_standby_button"
 
         private const val FRONT_LIGHT_COLOR = "front_light_color"
-
-        private const val COFFEE_BOILER_TEMP = "coffee_boiler_temp"
-        private const val COLD_RINSE = "code_rinse"
-        private const val WARM_RINSE = "warm_rinse"
-        private const val GROUNDS_QUANTITY = "grounds_quantity"
-        private const val BREW_BALANCE = "brew_balance"
-        private const val BREW_PRE_HEATING = "brew_pre_heating"
-        private const val GRINDER_PURGE_FUNCTION = "grinder_purge_function"
-        private const val NUMBER_OF_CYCLES_RINSE = "number_of_cycles_rinse"
-        private const val STEAM_BOILER_PRESSURE = "steam_boiler_pressure"
-        private const val NTC_LEFT = "ntc_left"
-        private const val NTC_RIGHT = "ntc_right"
-        private const val SINK_RINSE = "sink_rinse"
-        private const val MILK_RINSE = "milk_rinse"
-        private const val MACHINE_PRIORITY = "machine_priority"
     }
 
     val formulaList: StateFlow<List<Formula>> = repository.getLeftAllFormulas()

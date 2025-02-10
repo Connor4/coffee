@@ -266,3 +266,20 @@ const val CLEAN_JOB_FLAG_SLEEP = 2
 
 const val REMOTE_TELEMETRY_SWITCH = 0
 const val REMOTE_MACHINE_ID = 1
+
+// 共用sp名
+// 机器运行设置
+const val COFFEE_BOILER_TEMP = "coffee_boiler_temp"
+const val COLD_RINSE = "code_rinse"
+const val WARM_RINSE = "warm_rinse"
+const val GROUNDS_QUANTITY = "grounds_quantity"
+const val BREW_BALANCE = "brew_balance"
+const val BREW_PRE_HEATING = "brew_pre_heating"
+const val GRINDER_PURGE_FUNCTION = "grinder_purge_function"
+const val NUMBER_OF_CYCLES_RINSE = "number_of_cycles_rinse"
+const val STEAM_BOILER_PRESSURE = "steam_boiler_pressure"
+const val NTC_LEFT = "ntc_left"
+const val NTC_RIGHT = "ntc_right"
+const val SINK_RINSE = "sink_rinse"
+const val MILK_RINSE = "milk_rinse"
+const val MACHINE_PRIORITY = "machine_priority"
