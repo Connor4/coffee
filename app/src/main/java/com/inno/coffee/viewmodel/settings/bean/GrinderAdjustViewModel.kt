@@ -43,7 +43,7 @@ class GrinderAdjustViewModel @Inject constructor(
     }
 
     fun saveGrinderValue(front: Boolean, add: Boolean) {
-        Logger.d(TAG, "saveGrinderValue() called with: left = $front, add = $add")
+        Logger.d(TAG, "saveGrinderValue() called with: front = $front, add = $add")
         viewModelScope.launch {
             if (front) {
                 if (_leftGrinderValue.value <= MAX_GRINDER_VALUE && add) {
