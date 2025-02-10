@@ -78,7 +78,7 @@ class TestFunctionViewModel @Inject constructor(
                 }
                 MAINTENANCE_MILK_SENSOR_LEFT_TEST_ID -> {
                     val params = data.params
-                    _status.value = data.params[1] == ONE_IN_BYTE
+                    _status.value = data.params[0] == ONE_IN_BYTE
                     _min.value =
                         ((params[3].toInt() and 0xFF) shl 8) or (params[2].toInt() and 0xFF)
                     _max.value =
@@ -90,7 +90,7 @@ class TestFunctionViewModel @Inject constructor(
                 }
                 MAINTENANCE_MILK_SENSOR_RIGHT_TEST_ID -> {
                     val params = data.params
-                    _status.value = data.params[1] == ONE_IN_BYTE
+                    _status.value = data.params[0] == ONE_IN_BYTE
                     _min.value =
                         ((params[3].toInt() and 0xFF) shl 8) or (params[2].toInt() and 0xFF)
                     _max.value =

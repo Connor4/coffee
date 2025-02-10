@@ -142,41 +142,38 @@ class SteamStatusViewModel @Inject constructor(
     private fun parseReceivedData(data: Any) {
         if (data is ReceivedData.CommonReply) {
             if (data.commandId == INFO_STEAM_STATUS_ID) {
-                _valveWaterInBoiler.value = data.params[1] == ONE_IN_BYTE
-                _valveHotWater.value = data.params[3] == ONE_IN_BYTE
-                _valveMixHotWater.value = data.params[5] == ONE_IN_BYTE
-                _valveSteam1.value = data.params[7] == ONE_IN_BYTE
-                _valveSteam2.value = data.params[9] == ONE_IN_BYTE
-                _valveFoam1.value = data.params[11] == ONE_IN_BYTE
-                _valveFoam2.value = data.params[13] == ONE_IN_BYTE
-                _valvePurgeMix.value = data.params[15] == ONE_IN_BYTE
-                _valvePurge.value = data.params[17] == ONE_IN_BYTE
-                _valveWaterInlet.value = data.params[19] == ONE_IN_BYTE
-                _waterPump.value = data.params[21] == ONE_IN_BYTE
-                _steamHeating1.value = data.params[23] == ONE_IN_BYTE
-                _steamHeating2.value = data.params[25] == ONE_IN_BYTE
-                _steamAirPump.value = data.params[27] == ONE_IN_BYTE
+                _valveWaterInBoiler.value = data.params[0] == ONE_IN_BYTE
+                _valveHotWater.value = data.params[1] == ONE_IN_BYTE
+                _valveMixHotWater.value = data.params[2] == ONE_IN_BYTE
+                _valveSteam1.value = data.params[3] == ONE_IN_BYTE
+                _valveSteam2.value = data.params[4] == ONE_IN_BYTE
+                _valveFoam1.value = data.params[5] == ONE_IN_BYTE
+                _valveFoam2.value = data.params[6] == ONE_IN_BYTE
+                _valvePurgeMix.value = data.params[7] == ONE_IN_BYTE
+                _valvePurge.value = data.params[8] == ONE_IN_BYTE
+                _valveWaterInlet.value = data.params[9] == ONE_IN_BYTE
+                _waterPump.value = data.params[10] == ONE_IN_BYTE
+                _steamHeating1.value = data.params[11] == ONE_IN_BYTE
+                _steamHeating2.value = data.params[12] == ONE_IN_BYTE
+                _steamAirPump.value = data.params[13] == ONE_IN_BYTE
 
-                _milkSteamLeft.value = data.params[29] == ONE_IN_BYTE
-                _milkDrainLeft.value = data.params[31] == ONE_IN_BYTE
-                _milkAirLeft.value = data.params[33] == ONE_IN_BYTE
-                _milkRinseLeft.value = data.params[35] == ONE_IN_BYTE
-                _milkTankLeft.value = data.params[37] == ONE_IN_BYTE
-                _milkSortLeft.value = data.params[39] == ONE_IN_BYTE
-                _milkPumpLeft.value = data.params[41] == ONE_IN_BYTE
-                _milkSteamRight.value = data.params[43] == ONE_IN_BYTE
-                _milkDrainRight.value = data.params[45] == ONE_IN_BYTE
-                _milkAirRight.value = data.params[47] == ONE_IN_BYTE
-                _milkRinseRight.value = data.params[49] == ONE_IN_BYTE
-                _milkTankRight.value = data.params[51] == ONE_IN_BYTE
-                _milkSortRight.value = data.params[53] == ONE_IN_BYTE
-                _milkPumpRight.value = data.params[55] == ONE_IN_BYTE
-                _steamPressure.value =
-                    ((data.params[59].toInt() and 0xFF) shl 8) or (data.params[58].toInt() and 0xFF)
-                _warmFoamLeft.value =
-                    ((data.params[61].toInt() and 0xFF) shl 8) or (data.params[60].toInt() and 0xFF)
-                _warmFoamRight.value =
-                    ((data.params[63].toInt() and 0xFF) shl 8) or (data.params[62].toInt() and 0xFF)
+                _milkSteamLeft.value = data.params[14] == ONE_IN_BYTE
+                _milkDrainLeft.value = data.params[15] == ONE_IN_BYTE
+                _milkAirLeft.value = data.params[16] == ONE_IN_BYTE
+                _milkRinseLeft.value = data.params[17] == ONE_IN_BYTE
+                _milkTankLeft.value = data.params[18] == ONE_IN_BYTE
+                _milkSortLeft.value = data.params[19] == ONE_IN_BYTE
+                _milkPumpLeft.value = data.params[20] == ONE_IN_BYTE
+                _milkSteamRight.value = data.params[21] == ONE_IN_BYTE
+                _milkDrainRight.value = data.params[22] == ONE_IN_BYTE
+                _milkAirRight.value = data.params[23] == ONE_IN_BYTE
+                _milkRinseRight.value = data.params[24] == ONE_IN_BYTE
+                _milkTankRight.value = data.params[25] == ONE_IN_BYTE
+                _milkSortRight.value = data.params[26] == ONE_IN_BYTE
+                _milkPumpRight.value = data.params[27] == ONE_IN_BYTE
+                _steamPressure.value = data.params[29].toInt() and 0xFF
+                _warmFoamLeft.value = data.params[30].toInt() and 0xFF
+                _warmFoamRight.value = data.params[31].toInt() and 0xFF
             }
         }
     }

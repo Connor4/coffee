@@ -111,23 +111,23 @@ class CoffeeStatusViewModel @Inject constructor(
     private fun parseReceivedData(data: Any) {
         if (data is ReceivedData.CommonReply) {
             if (data.commandId == INFO_COFFEE_STATUS_ID) {
-                _valveBypassLeft.value = data.params[1] == ONE_IN_BYTE
-                _valveBrewLeft.value = data.params[3] == ONE_IN_BYTE
-                _valveOutLeft.value = data.params[5] == ONE_IN_BYTE
-                _valveBypassRight.value = data.params[7] == ONE_IN_BYTE
-                _valveBrewRight.value = data.params[9] == ONE_IN_BYTE
-                _valveOutRight.value = data.params[11] == ONE_IN_BYTE
-                _valveWaterInlet.value = data.params[13] == ONE_IN_BYTE
-                _valveCleanTab.value = data.params[15] == ONE_IN_BYTE
-                _waterPump.value = data.params[17] == ONE_IN_BYTE
-                _grinderRight.value = data.params[19] == ONE_IN_BYTE
-                _grinderLeft.value = data.params[21] == ONE_IN_BYTE
-                _boilerLeft.value = data.params[23] == ONE_IN_BYTE
-                _boilerRight.value = data.params[25] == ONE_IN_BYTE
-                _relayStandby.value = data.params[27] == ONE_IN_BYTE
-                _fanFront.value = data.params[29] == ONE_IN_BYTE
-                _fanLeft.value = data.params[31] == ONE_IN_BYTE
-                _fanRight.value = data.params[33] == ONE_IN_BYTE
+                _valveBypassLeft.value = data.params[0] == ONE_IN_BYTE
+                _valveBrewLeft.value = data.params[1] == ONE_IN_BYTE
+                _valveOutLeft.value = data.params[2] == ONE_IN_BYTE
+                _valveBypassRight.value = data.params[3] == ONE_IN_BYTE
+                _valveBrewRight.value = data.params[4] == ONE_IN_BYTE
+                _valveOutRight.value = data.params[5] == ONE_IN_BYTE
+                _valveWaterInlet.value = data.params[6] == ONE_IN_BYTE
+                _valveCleanTab.value = data.params[7] == ONE_IN_BYTE
+                _waterPump.value = data.params[8] == ONE_IN_BYTE
+                _grinderRight.value = data.params[9] == ONE_IN_BYTE
+                _grinderLeft.value = data.params[10] == ONE_IN_BYTE
+                _boilerLeft.value = data.params[11] == ONE_IN_BYTE
+                _boilerRight.value = data.params[12] == ONE_IN_BYTE
+                _relayStandby.value = data.params[13] == ONE_IN_BYTE
+                _fanFront.value = data.params[14] == ONE_IN_BYTE
+                _fanLeft.value = data.params[15] == ONE_IN_BYTE
+                _fanRight.value = data.params[16] == ONE_IN_BYTE
             }
         }
     }

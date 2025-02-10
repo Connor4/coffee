@@ -130,12 +130,12 @@ class MachineTestInputViewModel @Inject constructor(
             val commandId = data.commandId
             when (commandId) {
                 COFFEE_INPUT_COMMAND_ID -> {
-                    _microSwitchLeft.value = params[1] == ONE_IN_BYTE
-                    _microSwitchRight.value = params[3] == ONE_IN_BYTE
-                    _rear.value = params[5] == ONE_IN_BYTE
-                    _front.value = params[7] == ONE_IN_BYTE
-                    _drawer.value = params[9] == ONE_IN_BYTE
-                    _switch.value = params[11] == ONE_IN_BYTE
+                    _microSwitchLeft.value = params[0] == ONE_IN_BYTE
+                    _microSwitchRight.value = params[2] == ONE_IN_BYTE
+                    _rear.value = params[4] == ONE_IN_BYTE
+                    _front.value = params[6] == ONE_IN_BYTE
+                    _drawer.value = params[8] == ONE_IN_BYTE
+                    _switch.value = params[10] == ONE_IN_BYTE
                     val pressure =
                         ((params[13].toInt() and 0xFF) shl 8) or (params[12].toInt() and 0xFF)
                     _pressure.value = pressure / 10f
@@ -156,8 +156,8 @@ class MachineTestInputViewModel @Inject constructor(
                     val steamPressure =
                         ((params[1].toInt() and 0xFF) shl 8) or (params[0].toInt() and 0xFF)
                     _steamPressure.value = steamPressure / 10f
-                    _securityLevel.value = params[3] == ONE_IN_BYTE
-                    _workLevel.value = params[5] == ONE_IN_BYTE
+                    _securityLevel.value = params[2] == ONE_IN_BYTE
+                    _workLevel.value = params[4] == ONE_IN_BYTE
                     val leftWandTemp =
                         ((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)
                     _leftWandTemp.value = leftWandTemp
@@ -178,8 +178,8 @@ class MachineTestInputViewModel @Inject constructor(
                     val rightTankTemp =
                         ((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)
                     _milkTankTempRight.value = rightTankTemp
-                    _milkSensorLeft.value = params[9] == ONE_IN_BYTE
-                    _milkSensorRight.value = params[11] == ONE_IN_BYTE
+                    _milkSensorLeft.value = params[8] == ONE_IN_BYTE
+                    _milkSensorRight.value = params[10] == ONE_IN_BYTE
 
                 }
             }
