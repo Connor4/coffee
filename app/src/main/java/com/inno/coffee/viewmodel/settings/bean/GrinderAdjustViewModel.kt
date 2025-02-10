@@ -42,10 +42,10 @@ class GrinderAdjustViewModel @Inject constructor(
         }
     }
 
-    fun saveGrinderValue(left: Boolean, add: Boolean) {
-        Logger.d(TAG, "saveGrinderValue() called with: left = $left, add = $add")
+    fun saveGrinderValue(front: Boolean, add: Boolean) {
+        Logger.d(TAG, "saveGrinderValue() called with: left = $front, add = $add")
         viewModelScope.launch {
-            if (left) {
+            if (front) {
                 if (_leftGrinderValue.value <= MAX_GRINDER_VALUE && add) {
                     dataStore.saveCoffeePreference(LEFT_GRINDER_VALUE, leftGrinderValue.value++)
                     CommandControlManager.sendTestCommand(GRINDER_ADJ_COARSER_ID, 0)

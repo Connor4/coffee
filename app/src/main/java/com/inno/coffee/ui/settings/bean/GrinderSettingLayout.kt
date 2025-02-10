@@ -110,7 +110,7 @@ fun GrinderSettingLayout(
                     )
                 }
             }, {
-                viewModel.saveGrinderValue(left = true, add = false)
+                viewModel.saveGrinderValue(front = false, add = false)
             },
             pressedColor = Color(0xFF6DD400),
         )
@@ -133,7 +133,7 @@ fun GrinderSettingLayout(
                     )
                 }
             }, {
-                viewModel.saveGrinderValue(left = true, add = true)
+                viewModel.saveGrinderValue(front = false, add = true)
             },
             pressedColor = Color(0xFF6DD400),
         )
@@ -147,19 +147,19 @@ fun GrinderSettingLayout(
             pressedTextColor = Color(0xFF6DD400),
             pressedBoarderColor = Color(0xFF6DD400),
         ) {
-            viewModel.resetGrinderValue(true)
+            viewModel.resetGrinderValue(false)
         }
         ChangeColorButton(
             modifier = Modifier
                 .padding(top = 672.dp, start = 380.dp)
                 .width(210.dp)
                 .height(50.dp),
-            text = stringResource(R.string.bean_grinder_rear_test),
+            text = stringResource(R.string.bean_grinder_front_test),
             normalTextColor = Color(0xFF6DD400),
             pressedTextColor = Color(0xFF6DD400),
             pressedBoarderColor = Color(0xFF6DD400),
         ) {
-            viewModel.grinderTest(true)
+            viewModel.grinderTest(false)
         }
 // =============================right end================================
 //===============================left start================================
@@ -199,7 +199,7 @@ fun GrinderSettingLayout(
                     )
                 }
             }, {
-                viewModel.saveGrinderValue(left = false, add = false)
+                viewModel.saveGrinderValue(front = true, add = false)
             },
             pressedColor = Color(0xFF0FB9A4),
         )
@@ -222,7 +222,7 @@ fun GrinderSettingLayout(
                     )
                 }
             }, {
-                viewModel.saveGrinderValue(left = false, add = true)
+                viewModel.saveGrinderValue(front = true, add = true)
             },
             pressedColor = Color(0xFF0FB9A4),
         )
@@ -236,19 +236,19 @@ fun GrinderSettingLayout(
             pressedTextColor = Color(0xFF0FB9A4),
             pressedBoarderColor = Color(0xFF0FB9A4),
         ) {
-            viewModel.resetGrinderValue(false)
+            viewModel.resetGrinderValue(true)
         }
         ChangeColorButton(
             modifier = Modifier
                 .padding(top = 672.dp, start = 680.dp)
                 .width(210.dp)
                 .height(50.dp),
-            text = stringResource(R.string.bean_grinder_front_test),
+            text = stringResource(R.string.bean_grinder_rear_test),
             normalTextColor = Color(0xFF0FB9A4),
             pressedTextColor = Color(0xFF0FB9A4),
             pressedBoarderColor = Color(0xFF0FB9A4),
         ) {
-            viewModel.grinderTest(false)
+            viewModel.grinderTest(true)
         }
 //===============================left end================================
     }
