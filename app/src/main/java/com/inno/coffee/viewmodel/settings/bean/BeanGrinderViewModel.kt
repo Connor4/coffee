@@ -14,6 +14,18 @@ import com.inno.coffee.utilities.BEAN_KEY_INDEX_GRINDING_CAPACITY_REAR
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_LEVELLING
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_PQC
 import com.inno.coffee.utilities.BEAN_KEY_INDEX_REAR_HOPPER
+import com.inno.coffee.utilities.ETC_FRONT
+import com.inno.coffee.utilities.ETC_FRONT_REFERENCE
+import com.inno.coffee.utilities.ETC_REAR
+import com.inno.coffee.utilities.ETC_REAR_REFERENCE
+import com.inno.coffee.utilities.FRONT_HOPPER_NAME
+import com.inno.coffee.utilities.GRINDER_LIMIT_CAPACITY_FRONT
+import com.inno.coffee.utilities.GRINDER_LIMIT_CAPACITY_REAR
+import com.inno.coffee.utilities.GRINDING_CAPACITY_FRONT
+import com.inno.coffee.utilities.GRINDING_CAPACITY_REAR
+import com.inno.coffee.utilities.LEVELLING
+import com.inno.coffee.utilities.PQC
+import com.inno.coffee.utilities.REAR_HOPPER_NAME
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.serialport.utilities.BEAN_GRINDER_SETTING
@@ -31,18 +43,6 @@ class BeanGrinderViewModel @Inject constructor(
 ) : ViewModel() {
     companion object {
         private const val TAG = "BeanGrinderViewModel"
-        private const val REAR_HOPPER_NAME = "rear_hopper_name"
-        private const val FRONT_HOPPER_NAME = "front_hopper_name"
-        private const val LEVELLING = "levelling"
-        private const val PQC = "pqc"
-        private const val GRINDING_CAPACITY_FRONT = "grinding_capacity_front"
-        private const val GRINDING_CAPACITY_REAR = "grinding_capacity_rear"
-        private const val ETC_FRONT = "etc_front"
-        private const val ETC_REAR = "etc_rear"
-        private const val GRINDER_LIMIT_CAPACITY_REAR = "grinder_limit_capacity_rear"
-        private const val GRINDER_LIMIT_CAPACITY_FRONT = "grinder_limit_capacity_front"
-        private const val ETC_FRONT_REFERENCE = "etc_front_reference"
-        private const val ETC_REAR_REFERENCE = "etc_rear_reference"
     }
 
     private val _rearHopperName = MutableStateFlow("")

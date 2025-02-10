@@ -17,10 +17,19 @@ import com.inno.coffee.utilities.BREW_BALANCE
 import com.inno.coffee.utilities.BREW_PRE_HEATING
 import com.inno.coffee.utilities.COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.COLD_RINSE
+import com.inno.coffee.utilities.ETC_FRONT
+import com.inno.coffee.utilities.ETC_FRONT_REFERENCE
+import com.inno.coffee.utilities.ETC_REAR
+import com.inno.coffee.utilities.ETC_REAR_REFERENCE
+import com.inno.coffee.utilities.GRINDER_LIMIT_CAPACITY_FRONT
+import com.inno.coffee.utilities.GRINDER_LIMIT_CAPACITY_REAR
 import com.inno.coffee.utilities.GRINDER_PURGE_FUNCTION
+import com.inno.coffee.utilities.GRINDING_CAPACITY_FRONT
+import com.inno.coffee.utilities.GRINDING_CAPACITY_REAR
 import com.inno.coffee.utilities.GROUNDS_QUANTITY
 import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
+import com.inno.coffee.utilities.LEVELLING
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.coffee.utilities.MACHINE_PRIORITY
 import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
@@ -28,6 +37,7 @@ import com.inno.coffee.utilities.MILK_RINSE
 import com.inno.coffee.utilities.NTC_LEFT
 import com.inno.coffee.utilities.NTC_RIGHT
 import com.inno.coffee.utilities.NUMBER_OF_CYCLES_RINSE
+import com.inno.coffee.utilities.PQC
 import com.inno.coffee.utilities.SINK_RINSE
 import com.inno.coffee.utilities.STEAM_BOILER_PRESSURE
 import com.inno.coffee.utilities.WARM_RINSE
@@ -40,6 +50,7 @@ import com.inno.common.utils.TimeUtils
 import com.inno.common.utils.UserSessionManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
+import com.inno.serialport.utilities.BEAN_GRINDER_SETTING
 import com.inno.serialport.utilities.MACHINE_PARAM_COMMAND_ID
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
@@ -366,10 +377,9 @@ class HomeViewModel @Inject constructor(
 
     private fun initMachineParams() {
         viewModelScope.launch(defaultDispatcher) {
-            val frontColor = dataStore.getCoffeePreference(FRONT_LIGHT_COLOR, 0)
-            CommandControlManager.sendFrontColor(frontColor)
-
             delay(2000)
+            val frontColor = dataStore.getCoffeePreference(FRONT_LIGHT_COLOR, 0)
+
             val boilerTemp = dataStore.getCoffeePreference(COFFEE_BOILER_TEMP, 90f)
             val coldRinseQuantity = dataStore.getCoffeePreference(COLD_RINSE, 500)
             val warmRinseQuantity = dataStore.getCoffeePreference(WARM_RINSE, 100)
@@ -384,6 +394,23 @@ class HomeViewModel @Inject constructor(
             val sinkRinse = dataStore.getCoffeePreference(SINK_RINSE, false)
             val milkRinse = dataStore.getCoffeePreference(MILK_RINSE, false)
             val priority = dataStore.getCoffeePreference(MACHINE_PRIORITY, false)
+
+            val levelling = dataStore.getCoffeePreference(LEVELLING, false)
+            val pqc = dataStore.getCoffeePreference(PQC, false)
+            val grindingCapacityFront =
+                dataStore.getCoffeePreference(GRINDING_CAPACITY_FRONT, 1.00f)
+            val grindingCapacityRear =
+                dataStore.getCoffeePreference(GRINDING_CAPACITY_REAR, 1.00f)
+            val etcFront = dataStore.getCoffeePreference(ETC_FRONT, false)
+            val etcRear = dataStore.getCoffeePreference(ETC_REAR, false)
+            val rearGrinderLimitCapacity =
+                dataStore.getCoffeePreference(GRINDER_LIMIT_CAPACITY_REAR, 1.00f)
+            val frontGrinderLimitCapacity =
+                dataStore.getCoffeePreference(GRINDER_LIMIT_CAPACITY_FRONT, 1.00f)
+            val etcFrontReference =
+                dataStore.getCoffeePreference(ETC_FRONT_REFERENCE, 0.00f)
+            val etcRearReference =
+                dataStore.getCoffeePreference(ETC_REAR_REFERENCE, 0.00f)
 
             val balance = if (brewGroupLoadBalancing) 1 else 0
             val sinkRinseValue = if (sinkRinse) 1 else 0
@@ -403,6 +430,18 @@ class HomeViewModel @Inject constructor(
                     "skinRinse = $sinkRinse, milkRinse = $milkRinse, priority = $priority"
             )
 
+            val pqcConOffValue = if (pqc) 1 else 0
+            val rearCapacityValue = grindingCapacityRear * 100
+            val frontCapacityValue = grindingCapacityFront * 100
+            val levellingValue = if (levelling) 1 else 0
+            val etcFrontValue = if (etcFront) 1 else 0
+            val etcRearValue = if (etcRear) 1 else 0
+            val rearLimitCapacityValue = rearGrinderLimitCapacity * 100
+            val frontLimitCapacityValue = frontGrinderLimitCapacity * 100
+            delay(2000)
+
+            CommandControlManager.sendFrontColor(frontColor)
+
             CommandControlManager.sendTestCommand(MACHINE_PARAM_COMMAND_ID,
                 boilerTemp.toInt(), boilerTemp.toInt(),
                 coldRinseQuantity, warmRinseQuantity, groundsDrawerQuantity,
@@ -410,6 +449,12 @@ class HomeViewModel @Inject constructor(
                 numberOfCyclesRinse, (steamBoilerPressure * 10).toInt(),
                 ntcCorrectionSteamLeft.toInt(), ntcCorrectionSteamRight.toInt(), sinkRinseValue,
                 milkRinseValue, priorityValue)
+
+            CommandControlManager.sendTestCommand(BEAN_GRINDER_SETTING, pqcConOffValue,
+                rearCapacityValue.toInt(), frontCapacityValue.toInt(), levellingValue,
+                etcFrontValue,
+                etcFrontReference.toInt(), etcRearValue, etcRearReference.toInt(),
+                rearLimitCapacityValue.toInt(), frontLimitCapacityValue.toInt(), 0, 0, 0, 0)
         }
     }
 
