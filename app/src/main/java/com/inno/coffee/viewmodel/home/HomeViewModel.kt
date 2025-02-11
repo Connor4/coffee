@@ -133,8 +133,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
-        // TODO this function will be call twice, because two screen. find a better place
-        initMachineParams()
     }
 
     override fun onCleared() {
@@ -376,7 +374,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    private fun initMachineParams() {
+    fun initPresetParams() {
         viewModelScope.launch(defaultDispatcher) {
             delay(2000)
             val frontColor = dataStore.getCoffeePreference(FRONT_LIGHT_COLOR, 0)
