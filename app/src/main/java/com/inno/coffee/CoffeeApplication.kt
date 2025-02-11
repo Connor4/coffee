@@ -11,6 +11,7 @@ import com.inno.coffee.ui.notice.GlobalDialogRightManager
 import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.CoffeeSharedPreferences
 import com.inno.common.utils.Logger
+import com.inno.serialport.function.CommunicationController
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,8 +40,8 @@ class CoffeeApplication : Application() {
 
         applicationScope.launch {
             Logger.d(TAG, "CoffeeApplication init() launch call")
-//            CommunicationController.instance.init()
-//            DataCenter.init()
+            CommunicationController.instance.init()
+
             GlobalDialogLeftManager.init(this@CoffeeApplication)
             GlobalDialogRightManager.init(this@CoffeeApplication)
 

@@ -71,7 +71,6 @@ object SelfCheckManager {
     }
 
     suspend fun ioStatusCheck() {
-        // TODO 使用pullinfo检查是否有异常
         _step.value = STEP_IO_CHECK_START
 
         delay(5000)
@@ -92,7 +91,7 @@ object SelfCheckManager {
         // TODO 1. 下发开始锅炉加热命令
         CommandControlManager.sendTestCommand(START_HEAT_COFFEE_BOILER_ID)
         //  2. 抓取pullinfo锅炉温度
-        //  3. 下发停止锅炉加热命令
+        // TODO 3. 下发停止锅炉加热命令, 出现异常需要兜底，先发送停止命令
         delay(2000)
         CommandControlManager.sendTestCommand(STOP_HEAT_COFFEE_BOILER_ID)
         _step.value = STEP_BOILER_HEATING_END

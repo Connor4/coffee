@@ -182,6 +182,7 @@ class HomeViewModel @Inject constructor(
 
     fun selfCheckIoStatus() {
         viewModelScope.launch {
+            DataCenter.init()
             SelfCheckManager.ioStatusCheck()
         }
     }
