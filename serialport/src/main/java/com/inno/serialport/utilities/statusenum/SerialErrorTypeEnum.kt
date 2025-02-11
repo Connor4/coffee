@@ -11,7 +11,8 @@ enum class SerialErrorTypeEnum(val value: Short, val errorMsg: String) {
     HEART_BEAT_MISS(-8, "heart beat miss, need reboot"),
     FRAME_SIZE_ERROR(-9, "frame size error"),
     IO_NO_REPLY(-10, "IO no reply"),
-    WAITING_COMMAND(-11, "waiting command");
+    WAITING_COMMAND(-11, "waiting command"),
+    WAIT_COMMAND_TIMEOUT(-12, "wait command timeout");
 
     companion object {
         fun getErrorMsgByValue(value: Short): String {

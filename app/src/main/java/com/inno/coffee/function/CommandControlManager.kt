@@ -47,6 +47,14 @@ object CommandControlManager {
         return byteArray
     }
 
+    fun sendCommandWithTimeout(commandId: Short, timeoutMillis: Long, vararg value: Int) {
+        scope.launch {
+            val byteArray = intArrayConvertByte(value)
+            CommunicationController.instance.sendCommand(commandId, byteArray.size, byteArray,
+                timeoutMillis)
+        }
+    }
+
     fun sendTestCommand(commandId: Short, vararg value: Int) {
         scope.launch {
             val byteArray = intArrayConvertByte(value)

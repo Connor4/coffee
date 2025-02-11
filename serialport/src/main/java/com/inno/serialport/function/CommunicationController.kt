@@ -11,6 +11,7 @@ import com.inno.serialport.utilities.FRAME_ADDRESS_2
 import com.inno.serialport.utilities.HEARTBEAT_COMMAND_ID
 import com.inno.serialport.utilities.PullBufInfo
 import com.inno.serialport.utilities.ReceivedData
+import com.inno.serialport.utilities.statusenum.SerialErrorTypeEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,7 +26,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeoutOrNull
-import java.util.concurrent.LinkedBlockingQueue
 
 @WorkerThread
 class CommunicationController private constructor() {
@@ -51,11 +51,12 @@ class CommunicationController private constructor() {
     private val commandDriver = RS485Driver()
     private val frontColorDriver = RS485Driver(devicePath = "/dev/ttyS8")
     private val chain = RealChainHandler()
-    private val commandQueueA = LinkedBlockingQueue<Command>()
-    private val commandQueueB = LinkedBlockingQueue<Command>()
+    private val commandQueueA = Channel<Command>(capacity = Channel.UNLIMITED)
+    private val commandQueueB = Channel<Command>(capacity = Channel.UNLIMITED)
     private val mutexA = Mutex()
     private val mutexB = Mutex()
     private val receivedDataChannel = Channel<List<PullBufInfo>>(Channel.UNLIMITED)
+    private var isReceiving = false
 
     fun init() {
         processDriverQueue(commandQueueA, commandDriver, mutexA, ::startHeartBeat)
@@ -78,16 +79,30 @@ class CommunicationController private constructor() {
         heartbeatJob?.cancel()
     }
 
-    fun sendCommand(commandId: Short, infoSize: Int, commandInfo: ByteArray) {
+    fun sendCommand(
+        commandId: Short, infoSize: Int, commandInfo: ByteArray,
+        timeoutMillis: Long = PULL_INTERVAL_MILLIS,
+    ) {
         Logger.d(TAG, "sendCommand() called with: commandId = $commandId, infoSize = $infoSize," +
-                " commandInfo = ${commandInfo.toHexString()}")
-        commandQueueA.offer(Command(commandId, infoSize, FRAME_ADDRESS_2, commandInfo))
+                " commandInfo = ${commandInfo.toHexString()}, timeoutMillis = $timeoutMillis")
+        scope.launch {
+            while (isReceiving) {
+                delay(RECEIVE_INTERVAL_MILLIS)
+            }
+            commandQueueA.send(
+                Command(commandId, infoSize, FRAME_ADDRESS_2, commandInfo, timeoutMillis))
+        }
     }
 
     fun sendFrontColorCommand(
         commandId: Short, infoSize: Int, address: Byte, commandInfo: ByteArray,
     ) {
-        commandQueueB.offer(Command(commandId, infoSize, address, commandInfo))
+        scope.launch {
+//            while (isReceiving) {
+//                delay(10)
+//            }
+            commandQueueB.send(Command(commandId, infoSize, address, commandInfo))
+        }
     }
 
     private fun startHeartBeat() {
@@ -101,19 +116,33 @@ class CommunicationController private constructor() {
     }
 
     private fun processDriverQueue(
-        commandQueue: LinkedBlockingQueue<Command>, driver: IDriver, mutex: Mutex,
+        commandQueue: Channel<Command>, driver: IDriver, mutex: Mutex,
         handleHeartbeat: (() -> Unit)?,
     ) {
         scope.launch {
-            while (isActive) {
-                val command = commandQueue.take()
+            for (command in commandQueue) {
                 mutex.withLock {
                     driver.send(command.id, command.size, command.address, command.data)
-                    val response = withTimeoutOrNull(RECEIVE_INTERVAL_MILLIS) {
-                        driver.receive()
+                    isReceiving = true
+                    // 重试
+                    var response: List<PullBufInfo>? = null
+                    var retryCount = 0
+                    val maxRetryCount = 3
+                    while (response == null && retryCount < maxRetryCount) {
+                        response = withTimeoutOrNull(command.timeoutMillis) {
+                            driver.receive()
+                        }
+                        if (response == null) {
+                            retryCount++
+                            delay(RECEIVE_INTERVAL_MILLIS)
+                        }
                     }
+
                     response?.let {
                         receivedDataChannel.send(it)
+                    } ?: run {
+                        receivedDataChannel.send(listOf(PullBufInfo(command = SerialErrorTypeEnum
+                            .WAIT_COMMAND_TIMEOUT.value)))
                     }
                     handleHeartbeat?.invoke()
                 }

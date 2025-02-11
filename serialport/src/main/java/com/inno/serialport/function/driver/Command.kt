@@ -5,5 +5,6 @@ data class Command(
     val size: Int,
     val address: Byte,
     val data: ByteArray,
+    val timeoutMillis: Long = 1000L,
 )
 
