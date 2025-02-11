@@ -1,7 +1,7 @@
 package com.inno.serialport.utilities
 
 sealed class ReceivedData {
-    data class SerialErrorData(var code: Int, var info: String) : ReceivedData()
+    data class SerialErrorData(var code: Int) : ReceivedData()
 
     data class HeartBeat(
         var grinder: HeartBeatReply.GrinderPowderDosage? = null,
