@@ -24,7 +24,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -60,7 +59,7 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     private var selfCleanJob: Job? = null
     private val selfCleanWaitTime = 5_000L
     private val _warningExist = MutableStateFlow(false)
-    val warningExist = _warningExist.asStateFlow()
+    private var userDismissed = false // 标记用户是否主动关闭弹窗
     private var windowContext: Context? = null
 
     init {
@@ -76,51 +75,56 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     }
 
     private fun parseReceivedData(data: Any) {
-        // SerialErrorData发生，一定不会有HeatBeatList；出现HeatBeatList，一定已经解决SerialErrorData
         when (val receivedData = data as ReceivedData) {
-            is ReceivedData.SerialErrorData -> {
-                if (validDialogData(receivedData.code)) {
+            is ReceivedData.SerialErrorData -> handleSerialError(receivedData)
+            is ReceivedData.HeatBeatList -> handleHeartBeatList(receivedData)
+            else -> {}
+        }
+    }
+
+    private fun handleSerialError(receivedData: ReceivedData.SerialErrorData) {
+        if (validDialogData(receivedData.code)) {
+            val dialogData = DialogData().apply {
+                errorCode = receivedData.code
+                val detail = application.resources.getString(
+                    serialErrorMap[errorCode] ?: R.string.error_no_resource)
+                message = "E $errorCode: $detail"
+            }
+            dialogDataList.clear()
+            dialogDataList.add(dialogData)
+            updateStateAndDialog()
+        } else {
+            activeSelfClean()
+        }
+    }
+
+    private fun handleHeartBeatList(receivedData: ReceivedData.HeatBeatList) {
+        val tempList = mutableListOf<DialogData>()
+        receivedData.list.forEach { heartbeat ->
+            heartbeat.error?.let { error ->
+                if (validDialogData(error.status.value)) {
                     val dialogData = DialogData().apply {
-                        errorCode = receivedData.code
+                        errorCode = error.status.value
                         val detail = application.resources.getString(
-                            serialErrorMap[errorCode] ?: R.string.error_no_resource)
+                            machineErrorMap[errorCode] ?: R.string.error_no_resource)
                         message = "E $errorCode: $detail"
                     }
-                    dialogDataList.clear()
-                    dialogDataList.add(dialogData)
-                    updateDialog()
-                } else {
-                    activeSelfClean()
+                    tempList.add(dialogData)
                 }
             }
-            is ReceivedData.HeatBeatList -> {
-                receivedData.list.let { list ->
-                    val tempList = mutableListOf<DialogData>()
-                    list.forEach { heartbeat ->
-                        heartbeat.error?.let { error ->
-                            if (validDialogData(error.status.value)) {
-                                val dialogData = DialogData().apply {
-                                    errorCode = error.status.value
-                                    val detail = application.resources.getString(
-                                        machineErrorMap[errorCode] ?: R.string.error_no_resource)
-                                    message = "E $errorCode: $detail"
-                                }
-                                tempList.add(dialogData)
-                            }
-                        }
-                    }
-                    dialogDataList.clear()
-                    dialogDataList.addAll(tempList)
-                    if (tempList.isNotEmpty()) {
-                        updateDialog()
-                    } else {
-                        dismissDialog()
-                        dialogDataList.clear()
-                        _warningExist.value = false
-                    }
-                }
-            }
-            else -> {}
+        }
+        dialogDataList.clear()
+        dialogDataList.addAll(tempList)
+        updateStateAndDialog()
+    }
+
+    private fun updateStateAndDialog() {
+        _warningExist.value = dialogDataList.isNotEmpty() // 更新状态
+        if (dialogDataList.isNotEmpty()) {
+            if (!userDismissed) updateDialog() // 仅当用户未关闭时更新弹窗
+        } else {
+            dismissDialog()
+            userDismissed = false // 重置用户关闭标记
         }
     }
 
@@ -133,13 +137,11 @@ class GlobalDialogRightManager private constructor(private val application: Appl
         selfCleanJob?.cancel()
         selfCleanJob = scope.launch {
             val result = withTimeoutOrNull(selfCleanWaitTime) {
-                delay(selfCleanWaitTime + 1)
+                delay(selfCleanWaitTime)
             }
             if (result == null) {
                 Logger.d(TAG, "activeSelfClean")
                 dismissDialog()
-                dialogDataList.clear()
-                _warningExist.value = false
             }
         }
     }
@@ -147,7 +149,6 @@ class GlobalDialogRightManager private constructor(private val application: Appl
     private fun updateDialog() {
         Logger.d(TAG, "updateDialog() called")
         scope.launch {
-            _warningExist.value = true
             if (dialogShowing) {
                 updateDialogContent()
             } else {
