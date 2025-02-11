@@ -42,7 +42,7 @@ import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_STEAM_HEATING_EN
 import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_STEAM_HEATING_START
 import com.inno.coffee.ui.common.composeClick
 import com.inno.coffee.ui.common.debouncedClickable
-import com.inno.coffee.ui.notice.GlobalDialogLeftManager
+import com.inno.coffee.ui.notice.ErrorDataManager
 import com.inno.coffee.utilities.nsp
 
 @Composable
@@ -58,7 +58,7 @@ fun HomeBottomBar(
     onClickGrinder: () -> Unit = {},
 ) {
     val checkStep by SelfCheckManager.step.collectAsState()
-    val warningList by GlobalDialogLeftManager.getInstance().warningExist.collectAsState()
+    val warningList by ErrorDataManager.warningExist.collectAsState()
 
     Box(
         modifier = Modifier

@@ -6,6 +6,7 @@ import com.inno.coffee.function.defaultsetting.DefaultSettingManager
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.function.statistic.StatisticManager
+import com.inno.coffee.ui.notice.ErrorDataManager
 import com.inno.coffee.ui.notice.GlobalDialogLeftManager
 import com.inno.coffee.ui.notice.GlobalDialogRightManager
 import com.inno.common.utils.CoffeeDataStore
@@ -42,6 +43,7 @@ class CoffeeApplication : Application() {
             Logger.d(TAG, "CoffeeApplication init() launch call")
             CommunicationController.instance.init()
 
+            ErrorDataManager.init()
             GlobalDialogLeftManager.init(this@CoffeeApplication)
             GlobalDialogRightManager.init(this@CoffeeApplication)
 

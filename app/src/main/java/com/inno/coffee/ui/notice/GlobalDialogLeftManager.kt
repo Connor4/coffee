@@ -12,22 +12,12 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.inno.coffee.R
 import com.inno.coffee.data.DialogData
-import com.inno.coffee.function.statistic.StatisticManager
 import com.inno.coffee.ui.common.IndicatorView
 import com.inno.common.utils.Logger
-import com.inno.serialport.function.data.DataCenter
-import com.inno.serialport.function.data.Subscriber
-import com.inno.serialport.utilities.ReceivedData
-import com.inno.serialport.utilities.ReceivedDataType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeoutOrNull
 
 class GlobalDialogLeftManager private constructor(private val application: Application) {
 
@@ -36,7 +26,7 @@ class GlobalDialogLeftManager private constructor(private val application: Appli
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var dialogView: View? = null
     private var dialogShowing = false
-    private val dialogDataList = mutableListOf<DialogData>()
+    private val dialogDataList: MutableList<DialogData> = emptyList<DialogData>().toMutableList()
     private val errorAdapter = ErrorViewPagerAdapter(dialogDataList)
     private var viewPager2: ViewPager2? = null
     private var indicatorView: IndicatorView? = null
@@ -47,99 +37,33 @@ class GlobalDialogLeftManager private constructor(private val application: Appli
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams
             .FLAG_NOT_TOUCH_MODAL, PixelFormat.TRANSLUCENT
     )
-    private val subscriber = object : Subscriber {
-        override fun onDataReceived(data: Any) {
-            parseReceivedData(data)
-        }
-    }
     private val pageChangeCallback = object : OnPageChangeCallback() {
-        override fun onPageScrolled(position: Int, positionOffset: Float,
-            positionOffsetPixels: Int) {
+        override fun onPageScrolled(
+            position: Int, positionOffset: Float,
+            positionOffsetPixels: Int,
+        ) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             indicatorView?.setIndicatorMove(position, positionOffset)
         }
     }
-    private var selfCleanJob: Job? = null
-    private val selfCleanWaitTime = 5_000L
-    private val _warningExist = MutableStateFlow(false)
-    val warningExist = _warningExist.asStateFlow()
-    private var userDismissed = false // 标记用户是否主动关闭弹窗
 
     init {
-        DataCenter.subscribe(ReceivedDataType.SERIAL_PORT_ERROR, subscriber)
-        DataCenter.subscribe(ReceivedDataType.HEARTBEAT_LIST, subscriber)
-    }
-
-    private fun parseReceivedData(data: Any) {
-        when (val receivedData = data as ReceivedData) {
-            is ReceivedData.SerialErrorData -> handleSerialError(receivedData)
-            is ReceivedData.HeatBeatList -> handleHeartBeatList(receivedData)
-            else -> {}
-        }
-    }
-
-    private fun handleSerialError(receivedData: ReceivedData.SerialErrorData) {
-        if (validDialogData(receivedData.code)) {
-            val dialogData = DialogData().apply {
-                errorCode = receivedData.code
-                val detail = application.resources.getString(
-                    serialErrorMap[errorCode] ?: R.string.error_no_resource)
-                message = "E $errorCode: $detail"
-                StatisticManager.countErrorHistory("E $errorCode", detail)
-            }
-            dialogDataList.clear()
-            dialogDataList.add(dialogData)
-            updateStateAndDialog()
-        } else {
-            activeSelfClean()
-        }
-    }
-
-    private fun handleHeartBeatList(receivedData: ReceivedData.HeatBeatList) {
-        val tempList = mutableListOf<DialogData>()
-        receivedData.list.forEach { heartbeat ->
-            heartbeat.error?.let { error ->
-                if (validDialogData(error.status.value)) {
-                    val dialogData = DialogData().apply {
-                        errorCode = error.status.value
-                        val detail = application.resources.getString(
-                            machineErrorMap[errorCode] ?: R.string.error_no_resource)
-                        message = "E $errorCode: $detail"
-                        StatisticManager.countErrorHistory("E $errorCode", detail)
-                    }
-                    tempList.add(dialogData)
+        scope.launch {
+            ErrorDataManager.dialogDataList.collect { dataList ->
+                if (dataList.isNotEmpty()) {
+                    dialogDataList.clear()
+                    dialogDataList.addAll(dataList)
+                    updateDialog()
+                } else {
+                    dismissDialog()
                 }
             }
         }
-        dialogDataList.clear()
-        dialogDataList.addAll(tempList)
-        updateStateAndDialog()
-    }
-
-    private fun updateStateAndDialog() {
-        _warningExist.value = dialogDataList.isNotEmpty() // 更新状态
-        if (dialogDataList.isNotEmpty()) {
-            if (!userDismissed) updateDialog() // 仅当用户未关闭时更新弹窗
-        } else {
-            dismissDialog()
-            userDismissed = false // 重置用户关闭标记
-        }
-    }
-
-    private fun validDialogData(code: Int): Boolean {
-        return dialogDataList.none { it.errorCode == code }
-    }
-
-    private fun activeSelfClean() {
-        Logger.d(TAG, "activeSelfClean() called")
-        selfCleanJob?.cancel()
-        selfCleanJob = scope.launch {
-            val result = withTimeoutOrNull(selfCleanWaitTime) {
-                delay(selfCleanWaitTime)
-            }
-            if (result == null) {
-                Logger.d(TAG, "activeSelfClean")
-                dismissDialog()
+        scope.launch {
+            ErrorDataManager.userDismissed.collect { dismissed ->
+                if (dismissed) {
+                    dismissDialog()
+                }
             }
         }
     }
@@ -194,8 +118,8 @@ class GlobalDialogLeftManager private constructor(private val application: Appli
                 }
                 indicatorView = it.findViewById(R.id.dialog_indicator)
                 it.findViewById<ImageView>(R.id.global_warning_close_iv).setOnClickListener {
-                    dismissDialog()
-                    userDismissed = true // 标记用户主动关闭弹窗
+//                    dismissDialog()
+                    ErrorDataManager.setUserDismissed(true)
                 }
             }
         }
