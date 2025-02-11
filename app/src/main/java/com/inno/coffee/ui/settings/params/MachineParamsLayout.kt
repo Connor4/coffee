@@ -244,7 +244,7 @@ fun MachineParamsLayout(
     }
     val unitValue = if (unit.value) "°F" else "°C"
     val sinkRinseValue = if (sinkRinse) on else off
-    val milkRinseValue = if (machinePriority) rinseEveryAndFive else rinseFive
+    val milkRinseValue = if (milkRinse) rinseEveryAndFive else rinseFive
     val machinePriorityValue = if (machinePriority) priorityStable else priorityStandard
 
     LaunchedEffect(Unit) {
