@@ -172,8 +172,10 @@ class SteamStatusViewModel @Inject constructor(
                 _milkSortRight.value = data.params[26] == ONE_IN_BYTE
                 _milkPumpRight.value = data.params[27] == ONE_IN_BYTE
                 _steamPressure.value = data.params[29].toInt() and 0xFF
-                _warmFoamLeft.value = data.params[30].toInt() and 0xFF
-                _warmFoamRight.value = data.params[31].toInt() and 0xFF
+                _warmFoamLeft.value =
+                    ((data.params[31].toInt() and 0xFF) shl 8) or (data.params[30].toInt() and 0xFF)
+                _warmFoamRight.value =
+                    ((data.params[33].toInt() and 0xFF) shl 8) or (data.params[32].toInt() and 0xFF)
             }
         }
     }
