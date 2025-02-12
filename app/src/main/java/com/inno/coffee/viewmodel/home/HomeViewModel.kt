@@ -32,12 +32,13 @@ import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LEVELLING
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.coffee.utilities.MACHINE_PRIORITY
-import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
 import com.inno.coffee.utilities.MILK_RINSE
 import com.inno.coffee.utilities.NTC_LEFT
 import com.inno.coffee.utilities.NTC_RIGHT
 import com.inno.coffee.utilities.NUMBER_OF_CYCLES_RINSE
 import com.inno.coffee.utilities.PQC
+import com.inno.coffee.utilities.SHOW_TYPE_LEFT
+import com.inno.coffee.utilities.SHOW_TYPE_RIGHT
 import com.inno.coffee.utilities.SINK_RINSE
 import com.inno.coffee.utilities.STEAM_BOILER_PRESSURE
 import com.inno.coffee.utilities.WARM_RINSE
@@ -167,9 +168,9 @@ class HomeViewModel @Inject constructor(
             repository.getAllFormulas().filter {
                 ProductType.assertType(it.productType?.type, ProductType.STEAM)
             }.forEach {
-                if (it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT) {
+                if (it.showType == SHOW_TYPE_LEFT) {
                     startMakeDrink(it, true)
-                } else {
+                } else if (it.showType == SHOW_TYPE_RIGHT) {
                     startMakeDrink(it, false)
                 }
             }.apply {

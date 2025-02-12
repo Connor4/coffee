@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity(tableName = "formula_table")
 data class Formula(
+    var showType: Int = 1, // 1 left 2 right 3 backup
     var productId: Int,
     //=================================coffee================================
     var preFlush: Boolean = false,

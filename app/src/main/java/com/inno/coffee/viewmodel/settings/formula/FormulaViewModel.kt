@@ -9,7 +9,8 @@ import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
-import com.inno.coffee.utilities.SECOND_SCREEN_PRODUCT_ID_LIMIT
+import com.inno.coffee.utilities.SHOW_TYPE_LEFT
+import com.inno.coffee.utilities.SHOW_TYPE_RIGHT
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
 import com.inno.common.utils.CoffeeDataStore
@@ -89,12 +90,12 @@ class FormulaViewModel @Inject constructor(
             if (mainScreen) {
                 _drinksList.value = repository.getAllFormula().filter {
                     ProductType.isFormulaCanShowType(it.productType?.type)
-                            && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
+                            && it.showType == SHOW_TYPE_LEFT
                 }
             } else {
                 _drinksList.value = repository.getAllFormula().filter {
-                    ProductType.isFormulaCanShowType(it.productType?.type)
-                            && (it.productId in (MAIN_SCREEN_PRODUCT_ID_LIMIT + 1)..<SECOND_SCREEN_PRODUCT_ID_LIMIT)
+                    ProductType.isFormulaCanShowType(
+                        it.productType?.type) && (it.showType == SHOW_TYPE_RIGHT)
                 }
             }
             val first = _drinksList.value.first()
@@ -107,12 +108,12 @@ class FormulaViewModel @Inject constructor(
             if (mainScreen) {
                 _drinksList.value = repository.getAllFormula().filter {
                     ProductType.isFormulaCanShowType(it.productType?.type)
-                            && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
+                            && it.showType == SHOW_TYPE_LEFT
                 }
             } else {
                 _drinksList.value = repository.getAllFormula().filter {
-                    ProductType.isFormulaCanShowType(it.productType?.type)
-                            && (it.productId in (MAIN_SCREEN_PRODUCT_ID_LIMIT + 1)..<SECOND_SCREEN_PRODUCT_ID_LIMIT)
+                    ProductType.isFormulaCanShowType(
+                        it.productType?.type) && (it.showType == SHOW_TYPE_RIGHT)
                 }
             }
         }
@@ -245,7 +246,7 @@ class FormulaViewModel @Inject constructor(
         }
         viewModelScope.launch(defaultDispatcher) {
             val productId = source.productId
-            val targetProductId = if (productId < MAIN_SCREEN_PRODUCT_ID_LIMIT) {
+            val targetProductId = if (source.showType == SHOW_TYPE_LEFT) {
                 productId + MAIN_SCREEN_PRODUCT_ID_LIMIT
             } else {
                 productId - MAIN_SCREEN_PRODUCT_ID_LIMIT

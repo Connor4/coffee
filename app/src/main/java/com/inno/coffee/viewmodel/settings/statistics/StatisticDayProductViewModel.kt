@@ -3,7 +3,7 @@ package com.inno.coffee.viewmodel.settings.statistics
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
-import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
+import com.inno.coffee.utilities.SHOW_TYPE_LEFT
 import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.ProductTypeCount
 import com.inno.common.enums.ProductType
@@ -41,8 +41,7 @@ class StatisticDayProductViewModel @Inject constructor(
     fun loadDrinkTypeList() {
         viewModelScope.launch(defaultDispatcher) {
             _drinksList.value = repository.getAllFormula().filter {
-                !ProductType.isOperationType(it.productType?.type)
-                        && it.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT
+                !ProductType.isOperationType(it.productType?.type) && it.showType == SHOW_TYPE_LEFT
             }
             initQueryTime(_drinksList.value.first())
         }

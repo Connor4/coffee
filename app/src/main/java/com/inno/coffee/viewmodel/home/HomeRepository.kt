@@ -1,6 +1,6 @@
 package com.inno.coffee.viewmodel.home
 
-import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
+import com.inno.coffee.utilities.SHOW_TYPE_LEFT
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.dao.UserDao
 import com.inno.common.db.entity.Formula
@@ -55,7 +55,7 @@ class HomeRepository @Inject constructor(
 
     fun getLeftAllFormulas(): Flow<List<Formula>> {
         return formulaDao.getAllFormulaFlow().map { formulas ->
-            formulas.filter { formula -> formula.productId < MAIN_SCREEN_PRODUCT_ID_LIMIT }
+            formulas.filter { formula -> formula.showType == SHOW_TYPE_LEFT }
 //                .sortedBy { formula -> formula.productId }
         }
     }
