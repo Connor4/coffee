@@ -14,6 +14,7 @@ val errorMap = mapOf(
     -9 to R.string.error_frame_size_error,
     -10 to R.string.error_serial_no_reply,
     -11 to R.string.error_command_no_reply,
+    -12 to R.string.error_wait_command_timeout,
     2000 to R.string.error_front_bean_hopper_empty,
     2001 to R.string.error_rear_bean_hopper_empty,
     2002 to R.string.error_bean_hopper_empty,

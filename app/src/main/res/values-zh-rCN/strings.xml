@@ -34,6 +34,7 @@
     <string name="error_serial_no_reply">串口无响应</string>
     <string name="error_command_no_reply">命令无响应</string>
 
+    <string name="error_wait_command_timeout">响应超时</string>
     <string name="error_front_bean_hopper_empty">前豆仓空</string>
     <string name="error_rear_bean_hopper_empty">后豆仓空</string>
     <string name="error_bean_hopper_empty">豆仓空</string>

@@ -33,6 +33,7 @@
     <string name="error_frame_size_error">Data Size Error</string>
     <string name="error_serial_no_reply">Serial Port No Reply</string>
     <string name="error_command_no_reply">Common No Reply</string>
+    <string name="error_wait_command_timeout">Wait Command Timeout</string>
 
     <string name="error_front_bean_hopper_empty">Front Bean Hopper Empty</string>
     <string name="error_rear_bean_hopper_empty">Rear Bean Hopper Empty</string>
