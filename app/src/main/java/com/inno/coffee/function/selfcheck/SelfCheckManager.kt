@@ -1,5 +1,6 @@
 package com.inno.coffee.function.selfcheck
 
+import android.util.Log
 import com.inno.coffee.function.CommandControlManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
@@ -9,7 +10,6 @@ import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.START_HEAT_COFFEE_BOILER_ID
 import com.inno.serialport.utilities.START_HEAT_STEAM_BOILER_ID
-import com.inno.serialport.utilities.STOP_HEAT_COFFEE_BOILER_ID
 import com.inno.serialport.utilities.STOP_HEAT_STEAM_BOILER_ID
 import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import com.inno.serialport.utilities.statusenum.CleanMachineEnum
@@ -23,11 +23,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-// 1. IO自动检测状态，通过pull返回结果，同时根据pull返回IO自检阶段。
-// 2. 自检完成由应用触发冲水等流程。
-// 3. 制作异常，需要取消并执行清除操作。清除操作可细分各个阶段，磨粉阶段丢弃粉即可，萃取阶段需要完成萃取。
-// TODO 4. 下发磨刀模块数据
 object SelfCheckManager {
+    private const val TAG = "SelfCheckManager"
     const val STEP_IO_CHECK_START = 1
     const val STEP_IO_CHECK_END = 2
     const val STEP_RINSE_START = 3
@@ -54,6 +51,10 @@ object SelfCheckManager {
     private var leftRinseFlag = false
     private var cleanCoffeeFlag = false
     private var cleanFoamFlag = false
+    private var rightSteamFlag = false
+    private var leftSteamFlag = false
+
+    private val testEnvironment = true
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -79,62 +80,67 @@ object SelfCheckManager {
 
     fun simulateRinse() {
         _step.value = STEP_RINSE_START
-        scope.launch {
-            delay(2000)
-            _step.value = STEP_RINSE_END
-            waitCoffeeBoilerHeating()
+
+        if (testEnvironment) {
+            scope.launch {
+                delay(2000)
+                _step.value = STEP_RINSE_END
+                waitCoffeeBoilerHeating()
+            }
         }
     }
 
     private suspend fun waitCoffeeBoilerHeating() {
         _step.value = STEP_BOILER_HEATING_START
-        // TODO 1. 下发开始锅炉加热命令
         CommandControlManager.sendTestCommand(START_HEAT_COFFEE_BOILER_ID)
-        //  2. 抓取pullinfo锅炉温度
-        // TODO 3. 下发停止锅炉加热命令, 出现异常需要兜底，先发送停止命令
-        delay(2000)
-        CommandControlManager.sendTestCommand(STOP_HEAT_COFFEE_BOILER_ID)
-        _step.value = STEP_BOILER_HEATING_END
-        waitSteamBoilerHeating()
+
+        if (testEnvironment) {
+            delay(2000)
+            _step.value = STEP_BOILER_HEATING_END
+            waitSteamBoilerHeating()
+        }
     }
 
     private suspend fun waitSteamBoilerHeating() {
         delay(2000)
         _step.value = STEP_STEAM_HEATING_START
-        // TODO 1. 下发开始锅炉加热命令
         CommandControlManager.sendTestCommand(START_HEAT_STEAM_BOILER_ID)
-        //  2. 抓取pullinfo锅炉温度
-        //  3. 下发停止锅炉加热命令
-        delay(2000)
-        CommandControlManager.sendTestCommand(STOP_HEAT_STEAM_BOILER_ID)
-        _step.value = STEP_STEAM_HEATING_END
+
+        if (testEnvironment) {
+            delay(2000)
+            CommandControlManager.sendTestCommand(STOP_HEAT_STEAM_BOILER_ID)
+            _step.value = STEP_STEAM_HEATING_END
+        }
     }
 
     suspend fun waitWashMachine() {
         _step.value = STEP_WASH_MACHINE_START
-        CommandControlManager.sendTestCommand(CLEAN_MACHINE_ID)
-        delay(5000)
-        _step.value = STEP_WASH_MACHINE_END
-        _step.value = STEP_RELEASE_STEAM_READY
+        CommandControlManager.sendCommandWithTimeout(CLEAN_MACHINE_ID, 900000)
+
+        if (testEnvironment) {
+            delay(5000)
+            _step.value = STEP_WASH_MACHINE_END
+            _step.value = STEP_RELEASE_STEAM_READY
+        }
     }
 
     fun putWashPill() {
-        CommandControlManager.sendTestCommand(CONTINUE_CLEAN_MACHINE_ID)
+        CommandControlManager.sendCommandWithTimeout(CONTINUE_CLEAN_MACHINE_ID, 60000)
         _step.value = STEP_WASH_MACHINE_START
     }
 
     suspend fun updateReleaseSteam() {
         _step.value = STEP_RELEASE_STEAM_START
-        // TODO 1. 下发释放蒸汽命令
-        //  2.抓取释放结果
-        delay(2000)
-        _step.value = STEP_RELEASE_STEAM_END
-        delay(1000)
-        selfCheckFinished()
+
+        if (testEnvironment) {
+            delay(2000)
+            _step.value = STEP_RELEASE_STEAM_END
+            delay(1000)
+            selfCheckFinished()
+        }
     }
 
     private fun parseReceivedData(data: Any) {
-        // TODO 全部请求三次心跳，保证不存在错过或者获取旧心跳
         when (_step.value) {
             STEP_IO_CHECK_START -> {
                 val heartBeat = data as ReceivedData.HeartBeat
@@ -183,7 +189,6 @@ object SelfCheckManager {
                             // TODO 存在咖啡锅炉温度设置，需要获取
                             if (leftBoiler >= 92 && rightBoiler >= 92) {
                                 _step.value = STEP_BOILER_HEATING_END
-                                CommandControlManager.sendTestCommand(STOP_HEAT_COFFEE_BOILER_ID)
                                 scope.launch {
                                     waitSteamBoilerHeating()
                                 }
@@ -202,7 +207,6 @@ object SelfCheckManager {
                                     (reply.value[5].toInt() and 0xFF)
                             if (steamBoiler >= 92) {
                                 _step.value = STEP_STEAM_HEATING_END
-                                CommandControlManager.sendTestCommand(STOP_HEAT_STEAM_BOILER_ID)
                             }
                         }
                         else -> {}
@@ -223,6 +227,7 @@ object SelfCheckManager {
                     }
                 }
                 washStatus.cleanMachine?.let { reply ->
+                    Log.d(TAG, "parseReceivedData() called with: reply = $reply")
                     when (reply.status) {
                         CleanMachineEnum.CLEAN_COFFEE_FINISH -> {
                             cleanCoffeeFlag = true
@@ -234,6 +239,7 @@ object SelfCheckManager {
                     }
                     if (cleanCoffeeFlag && cleanFoamFlag) {
                         _step.value = STEP_WASH_MACHINE_END
+                        _step.value = STEP_RELEASE_STEAM_READY
                     }
                 }
             }
@@ -242,9 +248,22 @@ object SelfCheckManager {
                 if (heartBeat.error != null) {
                     // TODO 1 释放蒸汽异常，已进入主页，有异常弹窗，不需要额外操作
                 } else {
-                    // TODO 也是按照产品处理?
-                    _step.value = STEP_RELEASE_STEAM_END
-                    selfCheckFinished()
+                    data.makeDrinkStatus?.let { reply ->
+                        val status = reply.status
+                        when (status) {
+                            MakeDrinkStatusEnum.RIGHT_FINISHED -> {
+                                rightSteamFlag = true
+                            }
+                            MakeDrinkStatusEnum.LEFT_FINISHED -> {
+                                leftSteamFlag = true
+                            }
+                            else -> {}
+                        }
+                        if (leftSteamFlag && rightSteamFlag) {
+                            _step.value = STEP_RELEASE_STEAM_END
+                            selfCheckFinished()
+                        }
+                    }
                 }
             }
         }
