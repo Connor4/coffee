@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.concurrent.CopyOnWriteArrayList
 
 object DataCenter {
     private const val TAG = "DataCenter"
@@ -51,7 +52,7 @@ object DataCenter {
     }
 
     fun subscribe(type: ReceivedDataType, subscriber: Subscriber) {
-        subscribers.computeIfAbsent(type) { mutableListOf() }.add(subscriber)
+        subscribers.computeIfAbsent(type) { CopyOnWriteArrayList() }.add(subscriber)
     }
 
     fun unsubscribe(type: ReceivedDataType, subscriber: Subscriber) {
@@ -63,5 +64,4 @@ object DataCenter {
             it.onDataReceived(data)
         }
     }
-
 }
