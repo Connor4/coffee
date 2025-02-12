@@ -85,8 +85,10 @@ fun HomeContent(
     val leftLack by SelfCheckManager.leftLackPill.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.selfCheckIoStatus()
-        viewModel.initPresetParams()
+        if (mainScreen) {
+            viewModel.selfCheckIoStatus()
+            viewModel.initPresetParams()
+        }
     }
     LaunchedEffect(loginState) {
         when (loginState) {
