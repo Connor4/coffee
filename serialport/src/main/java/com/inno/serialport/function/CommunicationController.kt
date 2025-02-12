@@ -86,9 +86,9 @@ class CommunicationController private constructor() {
         Logger.d(TAG, "sendCommand() called with: commandId = $commandId, infoSize = $infoSize," +
                 " commandInfo = ${commandInfo.toHexString()}, timeoutMillis = $timeoutMillis")
         scope.launch {
-            while (isReceiving) {
-                delay(RECEIVE_INTERVAL_MILLIS)
-            }
+//            while (isReceiving) {
+//                delay(RECEIVE_INTERVAL_MILLIS)
+//            }
             commandQueueA.send(
                 Command(commandId, infoSize, FRAME_ADDRESS_2, commandInfo, timeoutMillis))
         }
@@ -120,36 +120,39 @@ class CommunicationController private constructor() {
         handleHeartbeat: (() -> Unit)?,
     ) {
         scope.launch {
-            for (command in commandQueue) {
-                mutex.withLock {
-                    driver.send(command.id, command.size, command.address, command.data)
-                    isReceiving = true
-                    // 重试
-                    var response: List<PullBufInfo>? = null
-                    var retryCount = 0
-                    val maxRetryCount = 3
-                    while (response == null && retryCount < maxRetryCount) {
-                        response = withTimeoutOrNull(command.timeoutMillis) {
-                            driver.receive()
+            while (isActive) {
+                for (command in commandQueue) {
+                    mutex.withLock {
+                        driver.send(command.id, command.size, command.address, command.data)
+                        isReceiving = true
+                        // 重试
+                        var response: List<PullBufInfo>? = null
+                        var retryCount = 0
+                        val maxRetryCount = 3
+                        while (response == null && retryCount < maxRetryCount) {
+                            response = withTimeoutOrNull(command.timeoutMillis) {
+                                driver.receive()
+                            }
+                            if (response == null) {
+                                retryCount++
+                                delay(RECEIVE_INTERVAL_MILLIS)
+                            }
                         }
-                        if (response == null) {
-                            retryCount++
-                            delay(RECEIVE_INTERVAL_MILLIS)
-                        }
-                    }
 
-                    response?.let {
-                        receivedDataChannel.send(it)
-                    } ?: run {
-                        receivedDataChannel.send(listOf(PullBufInfo(command = SerialErrorTypeEnum
-                            .WAIT_COMMAND_TIMEOUT.value)))
+                        response?.let {
+                            receivedDataChannel.send(it)
+                        } ?: run {
+                            receivedDataChannel.send(
+                                listOf(PullBufInfo(command = SerialErrorTypeEnum
+                                    .WAIT_COMMAND_TIMEOUT.value)))
+                        }
+                        handleHeartbeat?.invoke()
                     }
-                    handleHeartbeat?.invoke()
                 }
             }
         }
     }
-
+    // TODO 饮品页洗机要冷水，不是热水；不下发加热停止命令
     private fun processReceivedInfo() {
         scope.launch {
             for (pullInfoList in receivedDataChannel) {
