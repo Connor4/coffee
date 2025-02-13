@@ -37,8 +37,8 @@ import com.inno.coffee.utilities.NTC_LEFT
 import com.inno.coffee.utilities.NTC_RIGHT
 import com.inno.coffee.utilities.NUMBER_OF_CYCLES_RINSE
 import com.inno.coffee.utilities.PQC
-import com.inno.coffee.utilities.SHOW_TYPE_LEFT
-import com.inno.coffee.utilities.SHOW_TYPE_RIGHT
+import com.inno.coffee.utilities.SHOW_LEFT_SCREEN
+import com.inno.coffee.utilities.SHOW_RIGHT_SCREEN
 import com.inno.coffee.utilities.SINK_RINSE
 import com.inno.coffee.utilities.STEAM_BOILER_PRESSURE
 import com.inno.coffee.utilities.WARM_RINSE
@@ -86,8 +86,8 @@ class HomeViewModel @Inject constructor(
         private const val FRONT_LIGHT_COLOR = "front_light_color"
     }
 
-    val formulaList: StateFlow<List<Formula>> = repository.getLeftAllFormulas()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    private val _drinkItemList = MutableStateFlow<List<Formula>>(emptyList())
+    val drinkItemList: StateFlow<List<Formula>> = _drinkItemList.asStateFlow()
     private val temperatureUnit: Flow<Boolean> =
         dataStore.getCoffeePreferenceFlow(TEMPERATURE_UNIT, false)
     val autoReturnEnabled: Flow<Boolean> =
@@ -168,13 +168,23 @@ class HomeViewModel @Inject constructor(
             repository.getAllFormulas().filter {
                 ProductType.assertType(it.productType?.type, ProductType.STEAM)
             }.forEach {
-                if (it.showType == SHOW_TYPE_LEFT) {
+                if (it.showType == SHOW_LEFT_SCREEN) {
                     startMakeDrink(it, true)
-                } else if (it.showType == SHOW_TYPE_RIGHT) {
+                } else if (it.showType == SHOW_RIGHT_SCREEN) {
                     startMakeDrink(it, false)
                 }
             }.apply {
                 SelfCheckManager.updateReleaseSteam()
+            }
+        }
+    }
+
+    fun setScreenDisplay(left: Boolean) {
+        Logger.d(TAG, "setScreenDisplay() called with: left = $left")
+        val displayScreen = if (left) SHOW_LEFT_SCREEN else SHOW_RIGHT_SCREEN
+        viewModelScope.launch {
+            repository.getSideFormulas(displayScreen).collect {
+                _drinkItemList.value = it
             }
         }
     }
@@ -346,13 +356,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun stopMaking(main: Boolean) {
-        if (!checking) {
-            formulaList.value.firstOrNull {
-                ProductType.assertType(it.productType?.type, ProductType.STOP)
-            }?.let {
-                startMakeDrink(it, main)
-            }
-        }
+//        if (!checking) {
+//            formulaList.value.firstOrNull {
+//                ProductType.assertType(it.productType?.type, ProductType.STOP)
+//            }?.let {
+//                startMakeDrink(it, main)
+//            }
+//        }
     }
 
     suspend fun startCountDown() {

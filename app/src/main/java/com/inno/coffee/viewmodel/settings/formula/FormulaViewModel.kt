@@ -9,8 +9,8 @@ import com.inno.coffee.function.makedrinks.MakeLeftDrinksHandler
 import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MAIN_SCREEN_PRODUCT_ID_LIMIT
-import com.inno.coffee.utilities.SHOW_TYPE_LEFT
-import com.inno.coffee.utilities.SHOW_TYPE_RIGHT
+import com.inno.coffee.utilities.SHOW_LEFT_SCREEN
+import com.inno.coffee.utilities.SHOW_RIGHT_SCREEN
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
 import com.inno.common.utils.CoffeeDataStore
@@ -90,12 +90,12 @@ class FormulaViewModel @Inject constructor(
             if (mainScreen) {
                 _drinksList.value = repository.getAllFormula().filter {
                     ProductType.isFormulaCanShowType(it.productType?.type)
-                            && it.showType == SHOW_TYPE_LEFT
+                            && it.showType == SHOW_LEFT_SCREEN
                 }
             } else {
                 _drinksList.value = repository.getAllFormula().filter {
                     ProductType.isFormulaCanShowType(
-                        it.productType?.type) && (it.showType == SHOW_TYPE_RIGHT)
+                        it.productType?.type) && (it.showType == SHOW_RIGHT_SCREEN)
                 }
             }
             val first = _drinksList.value.first()
@@ -108,12 +108,12 @@ class FormulaViewModel @Inject constructor(
             if (mainScreen) {
                 _drinksList.value = repository.getAllFormula().filter {
                     ProductType.isFormulaCanShowType(it.productType?.type)
-                            && it.showType == SHOW_TYPE_LEFT
+                            && it.showType == SHOW_LEFT_SCREEN
                 }
             } else {
                 _drinksList.value = repository.getAllFormula().filter {
                     ProductType.isFormulaCanShowType(
-                        it.productType?.type) && (it.showType == SHOW_TYPE_RIGHT)
+                        it.productType?.type) && (it.showType == SHOW_RIGHT_SCREEN)
                 }
             }
         }
@@ -246,7 +246,7 @@ class FormulaViewModel @Inject constructor(
         }
         viewModelScope.launch(defaultDispatcher) {
             val productId = source.productId
-            val targetProductId = if (source.showType == SHOW_TYPE_LEFT) {
+            val targetProductId = if (source.showType == SHOW_LEFT_SCREEN) {
                 productId + MAIN_SCREEN_PRODUCT_ID_LIMIT
             } else {
                 productId - MAIN_SCREEN_PRODUCT_ID_LIMIT

@@ -11,6 +11,12 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FormulaDao {
 
+    @Query("SELECT * FROM formula_table WHERE showType = 1 ORDER BY id ASC")
+    fun getLeftFormulaFlow(): Flow<List<Formula>>
+
+    @Query("SELECT * FROM formula_table WHERE showType = 2 ORDER BY id ASC")
+    fun getRightFormulaFlow(): Flow<List<Formula>>
+
     @Query("SELECT * FROM formula_table ORDER BY id ASC")
     fun getAllFormulaFlow(): Flow<List<Formula>>
 

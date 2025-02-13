@@ -1,6 +1,7 @@
 package com.inno.coffee.viewmodel.home
 
-import com.inno.coffee.utilities.SHOW_TYPE_LEFT
+import com.inno.coffee.utilities.SHOW_LEFT_SCREEN
+import com.inno.coffee.utilities.SHOW_RIGHT_SCREEN
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.dao.UserDao
 import com.inno.common.db.entity.Formula
@@ -8,7 +9,6 @@ import com.inno.common.utils.BcryptUtils
 import com.inno.common.utils.Logger
 import com.inno.common.utils.UserSessionManager
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(
@@ -53,10 +53,11 @@ class HomeRepository @Inject constructor(
         return false
     }
 
-    fun getLeftAllFormulas(): Flow<List<Formula>> {
-        return formulaDao.getAllFormulaFlow().map { formulas ->
-            formulas.filter { formula -> formula.showType == SHOW_TYPE_LEFT }
-//                .sortedBy { formula -> formula.productId }
+    fun getSideFormulas(displayScreen: Int): Flow<List<Formula>> {
+        return when (displayScreen) {
+            SHOW_LEFT_SCREEN -> formulaDao.getLeftFormulaFlow()
+            SHOW_RIGHT_SCREEN -> formulaDao.getRightFormulaFlow()
+            else -> formulaDao.getLeftFormulaFlow()
         }
     }
 

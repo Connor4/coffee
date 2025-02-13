@@ -59,11 +59,15 @@ fun HomeDrinksLayout(
 //    val showProductName by viewModel.showProductName.collectAsState(initial = false)
     val numberOfPage by viewModel.numberOfProductPerPage.collectAsState(
         initial = DISPLAY_PER_PAGE_COUNT_12)
-    val drinksList by viewModel.formulaList.collectAsState()
+    val drinksList by viewModel.drinkItemList.collectAsState(initial = emptyList())
     val totalPage = (drinksList.size + numberOfPage - 1) / numberOfPage
     val rowCount = if (numberOfPage == DISPLAY_PER_PAGE_COUNT_12) 4 else 5
     val normalSize = numberOfPage == DISPLAY_PER_PAGE_COUNT_12
     val pagerState = rememberPagerState(pageCount = { totalPage })
+
+    LaunchedEffect(Unit) {
+        viewModel.setScreenDisplay(mainScreen)
+    }
 
     // auto back to first page
     LaunchedEffect(pagerState.currentPage, autoBack.value) {

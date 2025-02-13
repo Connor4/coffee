@@ -534,7 +534,7 @@
   },
   {
     "showType": 1,
-    "productId": 11,
+    "productId": 202,
     "imageRes": "operate_auto_milk_ic",
     "productType": {
       "type": "Steam"
@@ -546,7 +546,7 @@
     "preFlush": false,
     "postFlush": false,
     "autoFoamTemperature": {
-      "celsiusValue": 50,
+      "celsiusValue": 88,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
@@ -558,7 +558,7 @@
   },
   {
     "showType": 1,
-    "productId": 12,
+    "productId": 201,
     "imageRes": "operate_manual_milk_ic",
     "productType": {
       "type": "Steam"
@@ -570,7 +570,7 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 90,
+      "value": 270,
       "rangeStart": 1,
       "rangeEnd": 300,
       "unit": "[s]"
@@ -1803,7 +1803,7 @@
   },
   {
     "showType": 2,
-    "productId": 111,
+    "productId": 302,
     "imageRes": "operate_auto_milk_ic",
     "productType": {
       "type": "Steam"
@@ -1815,7 +1815,7 @@
     "preFlush": false,
     "postFlush": false,
     "autoFoamTemperature": {
-      "celsiusValue": 50,
+      "celsiusValue": 88,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
@@ -1827,7 +1827,7 @@
   },
   {
     "showType": 2,
-    "productId": 112,
+    "productId": 301,
     "imageRes": "operate_manual_milk_ic",
     "productType": {
       "type": "Steam"
@@ -1839,7 +1839,7 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 90,
+      "value": 270,
       "rangeStart": 1,
       "rangeEnd": 300,
       "unit": "[s]"

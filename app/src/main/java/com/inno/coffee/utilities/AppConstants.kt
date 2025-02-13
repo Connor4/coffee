@@ -82,8 +82,8 @@ const val FORMULA_PROPERTY_MILK_OUTPUT = "milkOutput"
 const val FORMULA_PROPERTY_MILK_SEQUENCE = "milkSequence"
 const val MAIN_SCREEN_PRODUCT_ID_LIMIT = 100
 const val SECOND_SCREEN_PRODUCT_ID_LIMIT = 1000
-const val SHOW_TYPE_LEFT = 1
-const val SHOW_TYPE_RIGHT = 2
+const val SHOW_LEFT_SCREEN = 1
+const val SHOW_RIGHT_SCREEN = 2
 
 const val DISPLAY_SETTING_KEY = "display_setting_key"
 const val DISPLAY_SETTING_LANGUAGE = "display_setting_language"
