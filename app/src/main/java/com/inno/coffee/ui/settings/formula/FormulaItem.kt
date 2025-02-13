@@ -223,8 +223,8 @@ fun FormulaItem(
 private fun temperatureConvert(isFahrenheit: Boolean, celsius: Int): String {
     return if (isFahrenheit) {
         val tmp = (celsius * 9 / 5) + 32
-        String.format("%d°F", tmp)
+        String.format("%d", tmp)
     } else {
-        String.format("%d°C", celsius)
+        String.format("%d", celsius)
     }
 }
