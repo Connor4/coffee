@@ -63,7 +63,7 @@ class CoffeeTimePickerView @JvmOverloads constructor(
     }
 
     fun initialize(hour: Int, minute: Int) {
-        Logger.d("initialize() called with: hour = $hour, minute = $minute")
+        Logger.d(tag, "initialize() called with: hour = $hour, minute = $minute")
         try {
             val method =
                 holdingInstance!!::class.java.getDeclaredMethod("initialize", Int::class.java,
