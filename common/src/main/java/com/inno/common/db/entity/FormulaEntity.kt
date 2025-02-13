@@ -76,7 +76,7 @@ data class Formula(
 sealed class FormulaItem {
     @Serializable
     data class FormulaUnitValue(
-        var value: Short,
+        var value: Float,
         var rangeStart: Float,
         var rangeEnd: Float,
         var unit: String,

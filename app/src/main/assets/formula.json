@@ -58,9 +58,9 @@
       "mode": false
     },
     "stopAirTime": {
-      "value": 50,
-      "rangeStart": 1,
-      "rangeEnd": 100,
+      "value": 50.0,
+      "rangeStart": 1.0,
+      "rangeEnd": 100.0,
       "unit": "[s]"
     },
     "stopAirTemperature": {
@@ -132,13 +132,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -211,13 +211,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -290,13 +290,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -378,13 +378,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 320,
+      "value": 320.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -489,13 +489,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -570,9 +570,9 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 270,
-      "rangeStart": 1,
-      "rangeEnd": 300,
+      "value": 270.0,
+      "rangeStart": 1.0,
+      "rangeEnd": 300.0,
       "unit": "[s]"
     },
     "steamBoiler": 1,
@@ -620,13 +620,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -703,13 +703,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -821,9 +821,9 @@
       "appearance": true
     },
     "milkDelayTime": {
-      "value": 20,
-      "rangeStart": 0,
-      "rangeEnd": 30,
+      "value": 20.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 30.0,
       "unit": "[s]"
     },
     "milkOutput": {
@@ -916,9 +916,9 @@
       "appearance": true
     },
     "milkDelayTime": {
-      "value": 20,
-      "rangeStart": 0,
-      "rangeEnd": 30,
+      "value": 20.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 30.0,
       "unit": "[s]"
     },
     "milkOutput": {
@@ -976,13 +976,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1059,13 +1059,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1142,13 +1142,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1225,13 +1225,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1327,9 +1327,9 @@
       "mode": false
     },
     "stopAirTime": {
-      "value": 50,
-      "rangeStart": 1,
-      "rangeEnd": 100,
+      "value": 50.0,
+      "rangeStart": 1.0,
+      "rangeEnd": 100.0,
       "unit": "[s]"
     },
     "stopAirTemperature": {
@@ -1401,13 +1401,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1480,13 +1480,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1559,13 +1559,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1647,13 +1647,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1758,13 +1758,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1839,9 +1839,9 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 270,
-      "rangeStart": 1,
-      "rangeEnd": 300,
+      "value": 270.0,
+      "rangeStart": 1.0,
+      "rangeEnd": 300.0,
       "unit": "[s]"
     },
     "steamBoiler": 1,
@@ -1889,13 +1889,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -1972,13 +1972,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -2090,9 +2090,9 @@
       "appearance": true
     },
     "milkDelayTime": {
-      "value": 20,
-      "rangeStart": 0,
-      "rangeEnd": 30,
+      "value": 20.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 30.0,
       "unit": "[s]"
     },
     "milkOutput": {
@@ -2185,9 +2185,9 @@
       "appearance": true
     },
     "milkDelayTime": {
-      "value": 20,
-      "rangeStart": 0,
-      "rangeEnd": 30,
+      "value": 20.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 30.0,
       "unit": "[s]"
     },
     "milkOutput": {
@@ -2245,13 +2245,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -2328,13 +2328,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -2411,13 +2411,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -2494,13 +2494,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -2577,13 +2577,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -2656,13 +2656,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -2735,13 +2735,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800,
+      "value": 800.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000,
+      "value": 2000.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
@@ -2823,13 +2823,13 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 2000.0,
       "unit": "[s]"

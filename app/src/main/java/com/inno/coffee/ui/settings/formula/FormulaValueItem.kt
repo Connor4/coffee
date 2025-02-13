@@ -20,6 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
+import com.inno.coffee.ui.common.ACCURACY_1
+import com.inno.coffee.ui.common.ACCURACY_2
 import com.inno.coffee.ui.common.ListSelectLayout
 import com.inno.coffee.ui.common.ListSelectLayout2
 import com.inno.coffee.ui.common.SingleNumberInputLayout
@@ -108,6 +110,14 @@ private val etcSettingsDisableProperties = listOf(
     FORMULA_PROPERTY_BEAN_HOPPER,
 )
 
+private val accuracyProperties = listOf(
+    "preMakeTime",
+    "postPreMakeWaitTime",
+    "manualFoamTime",
+    FORMULA_PROPERTY_STOP_TIME,
+    FORMULA_PROPERTY_MILK_DELAY_TIME,
+)
+
 @Composable
 fun FormulaValueItem(
     isFahrenheit: Boolean,
@@ -192,17 +202,20 @@ fun FormulaValueItem(
             when (val value = selectedValue) {
                 is FormulaItem.FormulaUnitValue -> {
                     key(value) {
+                        val accuracy =
+                            if (selectedName in accuracyProperties) ACCURACY_2 else ACCURACY_1
                         UnitValueScrollBar(
                             modifier = Modifier
                                 .wrapContentSize()
                                 .align(Alignment.TopEnd)
                                 .padding(top = (90 + extraPaddingTop).dp, end = 90.dp),
-                            value = value.value.toFloat(),
+                            value = value.value,
                             rangeStart = value.rangeStart,
                             rangeEnd = value.rangeEnd,
-                            unit = value.unit
+                            unit = value.unit,
+                            accuracy = accuracy
                         ) { changeValue ->
-                            value.value = changeValue.toInt().toShort()
+                            value.value = changeValue
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                             onValueChange()
                         }

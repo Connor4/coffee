@@ -93,7 +93,7 @@ object ProductProfileManager {
         formula.beanHopper?.let {
             val grinderId = if (it.position) FRONT_GRINDER_ID else BACK_GRINDER_ID
             val grinderProfile = ComponentProfile(grinderId,
-                shortArrayOf(formula.powderDosage?.value ?: 0, 0, 0, 0, 0, 0))
+                shortArrayOf(formula.powderDosage?.value?.toInt()?.toShort() ?: 0, 0, 0, 0, 0, 0))
             componentList.add(grinderProfile)
         }
 
@@ -111,8 +111,9 @@ object ProductProfileManager {
                 formula.postPreMakeWaitTime != null || formula.secPressWeight != null) {
             val brewerProfile =
                 ComponentProfile(brewerId, shortArrayOf(formula.pressWeight?.weight ?: 0,
-                    formula.preMakeTime?.value ?: 0, formula.postPreMakeWaitTime?.value ?: 0,
-                    formula.secPressWeight?.value ?: 0, 0, 0))
+                    formula.preMakeTime?.value?.times(10)?.toInt()?.toShort() ?: 0,
+                    formula.postPreMakeWaitTime?.value?.times(10)?.toInt()?.toShort() ?: 0,
+                    formula.secPressWeight?.value?.toInt()?.toShort() ?: 0, 0, 0))
             componentList.add(brewerProfile)
         }
 
@@ -124,8 +125,10 @@ object ProductProfileManager {
                 1
             }
             val boilerProfile =
-                ComponentProfile(boilerId, shortArrayOf(formula.coffeeWater?.value ?: 0,
-                    formula.hotWater?.value ?: 0, formula.bypassWater?.value ?: 0, sequence, 0, 0))
+                ComponentProfile(boilerId,
+                    shortArrayOf(formula.coffeeWater?.value?.toInt()?.toShort() ?: 0,
+                        formula.hotWater?.value?.toInt()?.toShort() ?: 0,
+                        formula.bypassWater?.value?.toInt()?.toShort() ?: 0, sequence, 0, 0))
             componentList.add(boilerProfile)
         }
 
@@ -138,11 +141,12 @@ object ProductProfileManager {
                 formula.foamMode?.let {
                     val mode = if (it.mode) 1.toShort() else 0
                     val foamData = if (it.mode) formula.stopAirTemperature?.celsiusValue
-                    else formula.stopAirTime?.value
+                    else formula.stopAirTime?.value?.times(10)
 
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                        formula.autoFoamTemperature?.celsiusValue ?: 0, mode, foamData ?: 0,
-                        formula.texture?.value ?: 0, mixValue.toShort(), 0)
+                        formula.autoFoamTemperature?.celsiusValue ?: 0, mode,
+                        foamData?.toInt()?.toShort() ?: 0,
+                        formula.texture?.value?.toInt()?.toShort() ?: 0, mixValue.toShort(), 0)
                     )
                 } ?: run {
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
@@ -152,7 +156,8 @@ object ProductProfileManager {
                 }
             } ?: run {
                 steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                    formula.manualFoamTime?.value ?: 0, 0, 0, 0, mixValue.toShort(), 0)
+                    formula.manualFoamTime?.value?.times(10)?.toInt()?.toShort() ?: 0, 0, 0, 0,
+                    mixValue.toShort(), 0)
                 )
             }
             componentList.add(steamBoilerProfile)
