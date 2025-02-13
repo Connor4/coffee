@@ -356,13 +356,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun stopMaking(main: Boolean) {
-//        if (!checking) {
-//            formulaList.value.firstOrNull {
-//                ProductType.assertType(it.productType?.type, ProductType.STOP)
-//            }?.let {
-//                startMakeDrink(it, main)
-//            }
-//        }
+        if (!checking) {
+            _drinkItemList.value.firstOrNull {
+                ProductType.assertType(it.productType?.type, ProductType.STOP)
+            }?.let {
+                startMakeDrink(it, main)
+            }
+        }
     }
 
     suspend fun startCountDown() {
