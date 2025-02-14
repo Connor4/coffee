@@ -11,16 +11,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FormulaDao {
 
-    @Query("SELECT * FROM formula_table WHERE showType = 1 ORDER BY id ASC")
+    @Query("SELECT * FROM formula_table WHERE showType = 1 ORDER BY `index` ASC")
     fun getLeftFormulaFlow(): Flow<List<Formula>>
 
-    @Query("SELECT * FROM formula_table WHERE showType = 2 ORDER BY id ASC")
+    @Query("SELECT * FROM formula_table WHERE showType = 2 ORDER BY `index` ASC")
     fun getRightFormulaFlow(): Flow<List<Formula>>
 
-    @Query("SELECT * FROM formula_table ORDER BY id ASC")
+    @Query("SELECT * FROM formula_table ORDER BY `index` ASC")
     fun getAllFormulaFlow(): Flow<List<Formula>>
 
-    @Query("SELECT * FROM formula_table ORDER BY id ASC")
+    @Query("SELECT * FROM formula_table ORDER BY `index` ASC")
     suspend fun getAllFormula(): List<Formula>
 
     @Query("SELECT * FROM formula_table WHERE productId =:productId LIMIT 1")

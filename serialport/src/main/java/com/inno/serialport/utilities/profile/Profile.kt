@@ -62,3 +62,66 @@ sealed class Profile {
     ) : Profile()
 
 }
+
+//typedef struct{
+//    int16_t coffeeWater; //eversys unit: 1 tick = 1 ml
+//    int16_t hotWater;  //eversys unit: 1 tick = 1 ml
+//    int16_t bypassWater; //
+//    int16_t waterSequence;	//0:one flow; //1:two flow, water first, coffee second; 2:two flow, coffee first, water second
+//    int16_t reserve0;
+//    int16_t reserve1;
+//}coffeeBoilerProfile_t;
+//
+//typedef struct{
+//    int16_t pressWeight;
+//    int16_t preMakeTime;
+//    int16_t postPreMakeWaitTime;
+//    int16_t secPressWeight;
+//    int16_t brewerAdjParam;//酿造调整参数//brewer adj param
+//    int16_t reserve0;
+//}brewerProfile_t;
+//
+//typedef struct{
+//    int16_t powderDosage;
+//    int16_t reserve0;
+//    int16_t reserve1;
+//    int16_t reserve2;
+//    int16_t reserve3;
+//    int16_t reserve4;
+//}grinderProfile_t;
+//
+//
+//int16_t temperature;
+//int16_t time;
+//}foamData_u;
+//
+//typedef union{
+//    int16_t temperature;
+//    int16_t time;
+//}steamData_u;
+//
+//typedef struct{
+//    steamData_u steamData; //steam manual or auto value
+//    int16_t foamMode; //0:temperature mode; 1:time mode
+//    foamData_u foamData; //everfoam value
+//    int16_t texture;//foam texture
+//    int8_t mixHotWater; //if mix hot water product
+//    int8_t cleanWand;	 //if clean wand product
+//    int16_t reserve0;
+//}steamBoilerProfile_t;
+//
+//
+//typedef struct{
+//    uint8_t appearance; //0:white on top, 1:brown on top
+//    uint8_t milkOutput; //0:coffee outlet, 1:milk arm
+//    uint16_t milkDelayTime;  // ms
+//
+//    uint16_t milkQuantity1;//0.0 ~ 100.0
+//    uint8_t milkTemperature1;//0:cold, 1:warm
+//    uint8_t foamTexture1;// 0~100
+//
+//    uint16_t milkQuantity2;//0.0 ~ 100.0
+//    uint8_t milkTemperature2;//0:cold, 1:warm
+//    uint8_t foamTexture2;// 0~100
+//
+//}milkFoamProfile_t;

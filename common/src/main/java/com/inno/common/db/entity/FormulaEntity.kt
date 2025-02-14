@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 @Entity(tableName = "formula_table")
 data class Formula(
     var showType: Int = 1, // 1 left 2 right 3 backup
+    var index: Int = 0, // item show index
     var productId: Int,
     //=================================coffee================================
     var preFlush: Boolean = false,
@@ -170,10 +171,10 @@ sealed class FormulaItem {
         val defaultMilkTemperature: Int,
         val defaultFoamTexture: Int,
         var milkQuantity1: Int = -1, // 0-100
-        var milkTemperature1: Int, // 0:cold 1:warm
-        var foamTexture1: Int, // 0-100
+        var milkTemperature1: Int = -1, // 0:cold 1:warm
+        var foamTexture1: Int = -1, // 0-100
         var milkQuantity2: Int = -1, // 0-100
-        var milkTemperature2: Int, // 0:cold 1:warm
-        var foamTexture2: Int, // 0-100
+        var milkTemperature2: Int = -1, // 0:cold 1:warm
+        var foamTexture2: Int = -1, // 0-100
     )
 }
