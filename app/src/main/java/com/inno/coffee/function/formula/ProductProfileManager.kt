@@ -257,9 +257,9 @@ object ProductProfileManager {
             componentList.add(
                 ComponentProfile(MILK_FOAMER_ID, shortArrayOf(mixAppearanceOutput.toShort(),
                     formula.milkDelayTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
-                    formula.milkSequence?.milkQuantity1?.toShort() ?: 0,
+                    formula.milkSequence?.milkQuantity1?.times(1000)?.toShort() ?: 0,
                     mixQuantityAndTemp1.toShort(),
-                    formula.milkSequence?.milkQuantity2?.toShort() ?: 0,
+                    formula.milkSequence?.milkQuantity2?.times(1000)?.toShort() ?: 0,
                     mixQuantityAndTemp2.toShort())))
         }
 
