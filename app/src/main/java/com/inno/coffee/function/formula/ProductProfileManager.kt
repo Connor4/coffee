@@ -246,8 +246,21 @@ object ProductProfileManager {
         }
 
         if (formula.milkFoamer.toInt() != -1) {
+            val appearance = if (formula.appearance?.appearance == true) 1 else 0
+            val milkOutput = if (formula.milkOutput?.output == true) 1 else 0
+            val mixAppearanceOutput = (appearance and 0xFF shl 8) or (milkOutput and 0xFF)
+            val mixQuantityAndTemp1 = ((formula.milkSequence?.milkTemperature1?.and(0xFF) ?: 0) shl
+                    8) or ((formula.milkSequence?.foamTexture1?.and(0xFF) ?: 0) shl 8)
+            val mixQuantityAndTemp2 = ((formula.milkSequence?.milkTemperature2?.and(0xFF) ?: 0) shl
+                    8) or ((formula.milkSequence?.foamTexture2?.and(0xFF) ?: 0) shl 8)
+
             componentList.add(
-                ComponentProfile(MILK_FOAMER_ID, shortArrayOf(0, 0, 0, 0, 0, 0)))
+                ComponentProfile(MILK_FOAMER_ID, shortArrayOf(mixAppearanceOutput.toShort(),
+                    formula.milkDelayTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
+                    formula.milkSequence?.milkQuantity1?.toShort() ?: 0,
+                    mixQuantityAndTemp1.toShort(),
+                    formula.milkSequence?.milkQuantity2?.toShort() ?: 0,
+                    mixQuantityAndTemp2.toShort())))
         }
 
         val componentProfileList =
