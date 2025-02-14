@@ -166,7 +166,7 @@ class HomeViewModel @Inject constructor(
     fun selfCheckReleaseSteam() {
         viewModelScope.launch {
             SelfCheckManager.updateReleaseSteam()
-            // TODO 找不到配方需要提示
+            // TODO 1.找不到配方需要提示 2. 不应该使用值
             repository.getFormulaByProductId(202)?.let {
                 startMakeDrink(it, true)
             }
