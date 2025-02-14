@@ -1411,6 +1411,27 @@
       "rangeEnd": 300.0,
       "unit": "[s]"
     },
+    "foamMode": {
+      "mode": false
+    },
+    "stopAirTime": {
+      "value": 50,
+      "rangeStart": 1,
+      "rangeEnd": 100,
+      "unit": "[s]"
+    },
+    "stopAirTemperature": {
+      "celsiusValue": 50,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
+    },
+    "texture": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": ""
+    },
     "autoFoamTemperature": {
       "celsiusValue": 88,
       "celsiusRangeStart": 1,
@@ -1441,6 +1462,27 @@
       "rangeStart": 1.0,
       "rangeEnd": 300.0,
       "unit": "[s]"
+    },
+    "foamMode": {
+      "mode": false
+    },
+    "stopAirTime": {
+      "value": 50,
+      "rangeStart": 1,
+      "rangeEnd": 100,
+      "unit": "[s]"
+    },
+    "stopAirTemperature": {
+      "celsiusValue": 50,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
+    },
+    "texture": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": ""
     },
     "autoFoamTemperature": {
       "celsiusValue": 88,
