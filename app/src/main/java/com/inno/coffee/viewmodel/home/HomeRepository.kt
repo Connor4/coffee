@@ -65,4 +65,8 @@ class HomeRepository @Inject constructor(
         return formulaDao.getAllFormula()
     }
 
+    suspend fun getFormulaByProductId(productId: Int): Formula? {
+        return formulaDao.getFormulaByProductId(productId)
+    }
+
 }

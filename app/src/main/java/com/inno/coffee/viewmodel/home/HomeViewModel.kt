@@ -165,16 +165,13 @@ class HomeViewModel @Inject constructor(
 
     fun selfCheckReleaseSteam() {
         viewModelScope.launch {
-            repository.getAllFormulas().filter {
-                ProductType.assertType(it.productType?.type, ProductType.STEAM)
-            }.forEach {
-                if (it.showType == SHOW_LEFT_SCREEN) {
-                    startMakeDrink(it, true)
-                } else if (it.showType == SHOW_RIGHT_SCREEN) {
-                    startMakeDrink(it, false)
-                }
-            }.apply {
-                SelfCheckManager.updateReleaseSteam()
+            SelfCheckManager.updateReleaseSteam()
+            // TODO 找不到配方需要提示
+            repository.getFormulaByProductId(202)?.let {
+                startMakeDrink(it, true)
+            }
+            repository.getFormulaByProductId(302)?.let {
+                startMakeDrink(it, false)
             }
         }
     }
@@ -252,12 +249,21 @@ class HomeViewModel @Inject constructor(
                 " main = $main, selfCheck = $checking")
         if (ProductType.isOperationType(formula.productType?.type)) {
             if (checking && ProductType.assertType(formula.productType?.type, ProductType.RINSE)) {
-                SelfCheckManager.simulateRinse()
-            }
-            if (main) {
-                MakeLeftDrinksHandler.executeNow(formula)
+                SelfCheckManager.checkColdRinse()
+                viewModelScope.launch {
+                    repository.getFormulaByProductId(98)?.let {
+                        MakeLeftDrinksHandler.executeNow(it)
+                    }
+                    repository.getFormulaByProductId(198)?.let {
+                        MakeRightDrinksHandler.executeNow(it)
+                    }
+                }
             } else {
-                MakeRightDrinksHandler.executeNow(formula)
+                if (main) {
+                    MakeLeftDrinksHandler.executeNow(formula)
+                } else {
+                    MakeRightDrinksHandler.executeNow(formula)
+                }
             }
         } else {
             if (main) {

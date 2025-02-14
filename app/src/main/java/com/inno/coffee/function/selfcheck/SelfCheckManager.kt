@@ -78,7 +78,7 @@ object SelfCheckManager {
         _step.value = STEP_IO_CHECK_END
     }
 
-    fun simulateRinse() {
+    fun checkColdRinse() {
         _step.value = STEP_RINSE_START
 
         if (testEnvironment) {
