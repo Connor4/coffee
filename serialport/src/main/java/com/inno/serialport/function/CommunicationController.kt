@@ -14,6 +14,7 @@ import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.statusenum.SerialErrorTypeEnum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.BufferOverflow
@@ -27,6 +28,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeoutOrNull
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @WorkerThread
 class CommunicationController private constructor() {
 
@@ -35,7 +37,7 @@ class CommunicationController private constructor() {
             CommunicationController()
         }
         private const val TAG = "CommunicationController"
-        private const val PULL_INTERVAL_MILLIS = 500L
+        private const val PULL_INTERVAL_MILLIS = 5000L
         private const val RECEIVE_INTERVAL_MILLIS = 100L
     }
 
@@ -45,7 +47,7 @@ class CommunicationController private constructor() {
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val receivedDataFlow: SharedFlow<ReceivedData?> = _receivedDataFlow
-    private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val scope = CoroutineScope(Dispatchers.IO.limitedParallelism(1) + SupervisorJob())
     private var heartbeatJob: Job? = null
     private val heartbeatArray = byteArrayOf()
     private val commandDriver = RS485Driver()
@@ -56,7 +58,6 @@ class CommunicationController private constructor() {
     private val mutexA = Mutex()
     private val mutexB = Mutex()
     private val receivedDataChannel = Channel<List<PullBufInfo>>(Channel.UNLIMITED)
-    private var isReceiving = false
 
     fun init() {
         processDriverQueue(commandQueueA, commandDriver, mutexA, ::startHeartBeat)
@@ -86,9 +87,6 @@ class CommunicationController private constructor() {
         Logger.d(TAG, "sendCommand() called with: commandId = $commandId, infoSize = $infoSize," +
                 " commandInfo = ${commandInfo.toHexString()}, timeoutMillis = $timeoutMillis")
         scope.launch {
-//            while (isReceiving) {
-//                delay(RECEIVE_INTERVAL_MILLIS)
-//            }
             commandQueueA.send(
                 Command(commandId, infoSize, FRAME_ADDRESS_2, commandInfo, timeoutMillis))
         }
@@ -98,9 +96,6 @@ class CommunicationController private constructor() {
         commandId: Short, infoSize: Int, address: Byte, commandInfo: ByteArray,
     ) {
         scope.launch {
-//            while (isReceiving) {
-//                delay(10)
-//            }
             commandQueueB.send(Command(commandId, infoSize, address, commandInfo))
         }
     }
@@ -124,7 +119,6 @@ class CommunicationController private constructor() {
                 for (command in commandQueue) {
                     mutex.withLock {
                         driver.send(command.id, command.size, command.address, command.data)
-                        isReceiving = true
                         // 重试
                         var response: List<PullBufInfo>? = null
                         var retryCount = 0
@@ -138,7 +132,6 @@ class CommunicationController private constructor() {
                                 delay(RECEIVE_INTERVAL_MILLIS)
                             }
                         }
-
                         response?.let {
                             receivedDataChannel.send(it)
                         } ?: run {
