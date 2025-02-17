@@ -98,8 +98,24 @@ class FormulaViewModel @Inject constructor(
                         it.productType?.type) && (it.showType == SHOW_RIGHT_SCREEN)
                 }
             }
-            val first = _drinksList.value.first()
-            _formula.value = repository.getFormulaByProductId(first.productId)
+            _formula.value = _drinksList.value.first()
+        }
+    }
+
+    fun loadETCDrinkList(mainScreen: Boolean, front: Boolean) {
+        viewModelScope.launch(defaultDispatcher) {
+            if (mainScreen) {
+                _drinksList.value = repository.getAllFormula().filter {
+                    it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
+                        it.productType?.type) && it.showType == SHOW_LEFT_SCREEN
+                }
+            } else {
+                _drinksList.value = repository.getAllFormula().filter {
+                    it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
+                        it.productType?.type) && (it.showType == SHOW_RIGHT_SCREEN)
+                }
+            }
+            _formula.value = _drinksList.value.first()
         }
     }
 

@@ -47,7 +47,7 @@ fun ETCSettingsPage2(
     val tempUnit by viewModel.tempUnit.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.loadDrinkTypeList(mainScreen)
+        viewModel.loadETCDrinkList(mainScreen, true)
     }
 
     Box(
