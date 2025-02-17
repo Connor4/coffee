@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.inno.coffee.ui.settings.bean.etc
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -29,6 +27,7 @@ import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ETCSettingsLayout(
     onCloseClick: () -> Unit = {},
