@@ -204,9 +204,13 @@ fun HomeContent(
         STEP_STEAM_HEATING_END -> {
             ConfirmDialogLayout(
                 title = stringResource(id = R.string.home_wash_machine_title),
-                description = stringResource(id = R.string.home_wash_machine_content), {
+                description = stringResource(id = R.string.home_wash_machine_content),
+                onConfirmClick = {
                     viewModel.selfCheckWashMachine()
-                }, {}, showCancelButton = false
+                },
+                onCloseClick = {
+                    viewModel.selfCheckSkipWash()
+                },
             )
         }
         STEP_WASH_MACHINE_START -> {

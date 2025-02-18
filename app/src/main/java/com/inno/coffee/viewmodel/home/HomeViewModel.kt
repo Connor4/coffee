@@ -163,6 +163,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun selfCheckSkipWash() {
+        viewModelScope.launch {
+            SelfCheckManager.skipWashMachine()
+        }
+    }
+
     fun selfCheckReleaseSteam() {
         viewModelScope.launch {
             SelfCheckManager.updateReleaseSteam()
