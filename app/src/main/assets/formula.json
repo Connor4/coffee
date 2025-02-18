@@ -1294,7 +1294,7 @@
   {
     "showType": 1,
     "index": 11,
-    "productId": 201,
+    "productId": 80,
     "imageRes": "operate_manual_milk_ic",
     "productType": {
       "type": "Steam"
@@ -1319,7 +1319,7 @@
   {
     "showType": 2,
     "index": 11,
-    "productId": 301,
+    "productId": 180,
     "imageRes": "operate_manual_milk_ic",
     "productType": {
       "type": "Steam"
@@ -1344,7 +1344,7 @@
   {
     "showType": 1,
     "index": 12,
-    "productId": 202,
+    "productId": 81,
     "imageRes": "operate_auto_milk_ic",
     "productType": {
       "type": "Steam"
@@ -1369,7 +1369,7 @@
   {
     "showType": 2,
     "index": 12,
-    "productId": 302,
+    "productId": 181,
     "imageRes": "operate_auto_milk_ic",
     "productType": {
       "type": "Steam"
@@ -1394,7 +1394,7 @@
   {
     "showType": 1,
     "index": 3,
-    "productId": 203,
+    "productId": 82,
     "imageRes": "operate_milk_foam_ic",
     "productType": {
       "type": "Foam"
@@ -1446,7 +1446,7 @@
   {
     "showType": 2,
     "index": 3,
-    "productId": 303,
+    "productId": 182,
     "imageRes": "operate_milk_foam_ic",
     "productType": {
       "type": "Foam"
