@@ -10,7 +10,6 @@ import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.START_HEAT_COFFEE_BOILER_ID
 import com.inno.serialport.utilities.START_HEAT_STEAM_BOILER_ID
-import com.inno.serialport.utilities.STOP_HEAT_STEAM_BOILER_ID
 import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import com.inno.serialport.utilities.statusenum.CleanMachineEnum
 import com.inno.serialport.utilities.statusenum.ErrorStatusEnum
@@ -108,7 +107,6 @@ object SelfCheckManager {
 
         if (testEnvironment) {
             delay(2000)
-            CommandControlManager.sendTestCommand(STOP_HEAT_STEAM_BOILER_ID)
             _step.value = STEP_STEAM_HEATING_END
         }
     }
@@ -127,6 +125,11 @@ object SelfCheckManager {
     fun putWashPill() {
         CommandControlManager.sendCommandWithTimeout(CONTINUE_CLEAN_MACHINE_ID, 60000)
         _step.value = STEP_WASH_MACHINE_START
+    }
+
+    fun skipWashMachine() {
+        _step.value = STEP_WASH_MACHINE_END
+        _step.value = STEP_RELEASE_STEAM_READY
     }
 
     suspend fun updateReleaseSteam() {
