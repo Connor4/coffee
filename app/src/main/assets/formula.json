@@ -115,7 +115,6 @@
     "preFlush": false,
     "postFlush": false
   },
-
   {
     "showType": 1,
     "index": 7,
@@ -157,15 +156,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -246,15 +245,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -337,13 +336,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -426,13 +425,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -472,7 +471,6 @@
     "middleValueRightBoiler": 0,
     "rightValueRightBoiler": 0
   },
-
   {
     "showType": 1,
     "index": 5,
@@ -514,15 +512,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -600,15 +598,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -688,13 +686,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -774,13 +772,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -817,7 +815,6 @@
     "middleValueRightBoiler": 0,
     "rightValueRightBoiler": 0
   },
-
   {
     "showType": 1,
     "index": 10,
@@ -861,13 +858,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -942,13 +939,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -980,7 +977,6 @@
     "middleValueRightBoiler": 0,
     "rightValueRightBoiler": 0
   },
-
   {
     "showType": 3,
     "index": 4,
@@ -1019,13 +1015,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -1095,13 +1091,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -1176,13 +1172,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -1252,13 +1248,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -1290,7 +1286,6 @@
     "middleValueRightBoiler": 0,
     "rightValueRightBoiler": 0
   },
-
   {
     "showType": 1,
     "index": 11,
@@ -1728,15 +1723,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -1836,15 +1831,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -1902,7 +1897,6 @@
       "foamTexture2": 20
     }
   },
-
   {
     "showType": 3,
     "index": 0,
@@ -2120,15 +2114,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -2209,15 +2203,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -2300,13 +2294,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -2389,13 +2383,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -2476,15 +2470,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -2562,15 +2556,15 @@
       "unit": "[kg]"
     },
     "preMakeTime": {
-      "value": 800.0,
+      "value": 0.8,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2000.0,
+      "value": 2.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -2650,13 +2644,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
@@ -2736,13 +2730,13 @@
     "preMakeTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
       "value": 0.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2000.0,
+      "rangeEnd": 2.0,
       "unit": "[s]"
     },
     "secPressWeight": {
