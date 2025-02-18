@@ -103,7 +103,6 @@ sealed class Profile {
 //typedef struct{
 //    int16_t foamMode; //0:temperature/auto mode; 1:time/manual mode; 2: everform mode
 //    steamData_u steamData; //
-//    steamData_u steamData1; //
 //    int16_t everFoamMode; //everfoam mode//0:temperature mode; 1:time mode;
 //    foamData_u foamData;
 //    int16_t texture;//foam texture
