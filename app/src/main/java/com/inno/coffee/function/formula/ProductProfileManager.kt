@@ -146,19 +146,19 @@ object ProductProfileManager {
                 else formula.stopAirTemperature?.celsiusValue ?: 0
                 steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
                     2, steamData, mode, foamData, formula.texture?.value?.toInt()?.toShort() ?: 0,
-                    mixValue.toShort(), 0)
+                    mixValue.toShort())
                 )
             } ?: run {
                 formula.autoFoamTemperature?.let {
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
                         0, formula.autoFoamTemperature?.celsiusValue ?: 0, 0, 0, 0,
-                        mixValue.toShort(), 0)
+                        mixValue.toShort())
                     )
                 }
                 formula.manualFoamTime?.let {
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
                         1, formula.manualFoamTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
-                        0, 0, 0, mixValue.toShort(), 0)
+                        0, 0, 0, mixValue.toShort())
                     )
                 }
             }
