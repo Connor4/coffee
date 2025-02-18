@@ -1,5 +1,6 @@
 package com.inno.coffee.function.makedrinks
 
+import android.util.Log
 import com.inno.coffee.function.formula.ProductProfileManager
 import com.inno.coffee.utilities.MAKE_DRINK_COMPLETE
 import com.inno.coffee.utilities.MAKE_DRINK_FAIL
@@ -144,6 +145,9 @@ object MakeLeftDrinksHandler {
                 _productQueue.update { list ->
                     list.filterNot { it.productId == productId }
                 }
+                _operationQueue.update { list ->
+                    list.filterNot { it.productId == productId }
+                }
             }
         }
     }
@@ -184,6 +188,7 @@ object MakeLeftDrinksHandler {
         // MakeDrinkReply是对制作命令的响应回调，HeartBeat是心跳的回调。
         if (data is ReceivedData.MakeDrinkReply) {
             if (data.value == MAKE_DRINK_REPLY_VALUE) {
+                Log.d(TAG, "parseReceivedData() called with: data = ${data.id}")
                 _productQueue.value.forEach {
                     val processingProductId = it.productId
                     if (data.id == processingProductId) {
@@ -203,6 +208,7 @@ object MakeLeftDrinksHandler {
             }
         } else if (data is ReceivedData.HeartBeat) {
             data.makeDrinkStatus?.let { reply ->
+                Log.d(TAG, "parseReceivedData() HeartBeat: reply = $reply")
                 val status = reply.status
                 val productId = reply.value
                 val params = reply.params

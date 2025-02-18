@@ -144,6 +144,9 @@ object MakeRightDrinksHandler {
                 _productQueue.update { list ->
                     list.filterNot { it.productId == productId }
                 }
+                _operationQueue.update { list ->
+                    list.filterNot { it.productId == productId }
+                }
             }
         }
     }
@@ -203,14 +206,14 @@ object MakeRightDrinksHandler {
                 val productId = reply.value
                 val params = reply.params
                 when (status) {
-                    MakeDrinkStatusEnum.LEFT_BREWING -> {
+                    MakeDrinkStatusEnum.RIGHT_BREWING -> {
 
                     }
-                    MakeDrinkStatusEnum.LEFT_BREW_COMPLETED -> {
+                    MakeDrinkStatusEnum.RIGHT_BREW_COMPLETED -> {
                         commandCallbackMap[productId]?.invoke(MAKE_DRINK_COMPLETE)
                         commandCallbackMap.remove(productId)
                     }
-                    MakeDrinkStatusEnum.LEFT_FINISHED -> {
+                    MakeDrinkStatusEnum.RIGHT_FINISHED -> {
                         finishAndClear(productId)
                         processBrewParams(params)
                         commandCallbackMap[productId]?.invoke(MAKE_DRINK_FINISH)
