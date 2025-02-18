@@ -189,13 +189,13 @@ fun FormulaItem(
                 }
                 is FormulaItem.FormulaAppearance -> {
                     textValue =
-                        if (value.appearance) stringResource(R.string.formula_milk_white_on_top)
-                        else stringResource(R.string.formula_milk_brown_on_top)
+                        if (value.appearance) stringResource(R.string.formula_milk_brown_on_top)
+                        else stringResource(R.string.formula_milk_white_on_top)
                 }
                 is FormulaItem.FormulaMilkOutput -> {
                     textValue =
-                        if (value.output) stringResource(R.string.formula_milk_output_coffee_outlet)
-                        else stringResource(R.string.formula_milk_output_milk_arm)
+                        if (value.output) stringResource(R.string.formula_milk_output_milk_arm)
+                        else stringResource(R.string.formula_milk_output_coffee_outlet)
                 }
                 is FormulaItem.FormulaTemperatureValue -> {
                     textValue = temperatureConvert(isFahrenheit, value.celsiusValue.toInt())

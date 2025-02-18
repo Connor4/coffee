@@ -352,9 +352,9 @@ fun FormulaValueItem(
                     val white = stringResource(R.string.formula_milk_white_on_top)
                     val brown = stringResource(R.string.formula_milk_brown_on_top)
                     val title = formulaPropertyStringMapping[FORMULA_PROPERTY_APPEARANCE]
-                    val default = if (value.appearance) white else brown
-                    ListSelectLayout(stringResource(title!!), default, mapOf(Pair(white, true),
-                        Pair(brown, false)),
+                    val default = if (value.appearance) brown else white
+                    ListSelectLayout(stringResource(title!!), default, mapOf(Pair(brown, true),
+                        Pair(white, false)),
                         { _, changeValue ->
                             value.appearance = changeValue as Boolean
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
@@ -369,9 +369,9 @@ fun FormulaValueItem(
                     val coffee = stringResource(R.string.formula_milk_output_coffee_outlet)
                     val milk = stringResource(R.string.formula_milk_output_milk_arm)
                     val title = formulaPropertyStringMapping[FORMULA_PROPERTY_MILK_OUTPUT]
-                    val default = if (value.output) coffee else milk
-                    ListSelectLayout(stringResource(title!!), default, mapOf(Pair(coffee, true),
-                        Pair(milk, false)),
+                    val default = if (value.output) milk else coffee
+                    ListSelectLayout(stringResource(title!!), default, mapOf(Pair(milk, true),
+                        Pair(coffee, false)),
                         { _, changeValue ->
                             value.output = changeValue as Boolean
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
