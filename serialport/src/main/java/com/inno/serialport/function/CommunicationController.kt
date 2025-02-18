@@ -37,7 +37,7 @@ class CommunicationController private constructor() {
             CommunicationController()
         }
         private const val TAG = "CommunicationController"
-        private const val PULL_INTERVAL_MILLIS = 5000L
+        private const val PULL_INTERVAL_MILLIS = 100L
         private const val HEARTBEAT_INTERVAL_MILLIS = 500L
         private const val RECEIVE_INTERVAL_MILLIS = 100L
     }
@@ -119,7 +119,7 @@ class CommunicationController private constructor() {
             while (isActive) {
                 for (command in commandQueue) {
                     mutex.withLock {
-                        Logger.d(TAG, "processDriverQueue() called with: command = $command")
+//                        Logger.d(TAG, "processDriverQueue() called with: command = $command")
                         driver.send(command.id, command.size, command.address, command.data)
                         // 重试
                         var response: List<PullBufInfo>? = null
