@@ -225,9 +225,13 @@ fun HomeContent(
             }
             ConfirmDialogLayout(
                 title = stringResource(id = R.string.home_lack_wash_pill_title),
-                description = displayText, {
+                description = displayText,
+                onConfirmClick = {
                     viewModel.selfCheckPutWashPill()
-                }, {}, showCancelButton = false
+                },
+                onCloseClick = {
+                    viewModel.selfCheckSkipWash()
+                },
             )
         }
         in STEP_RELEASE_STEAM_READY..STEP_RELEASE_STEAM_START -> {
