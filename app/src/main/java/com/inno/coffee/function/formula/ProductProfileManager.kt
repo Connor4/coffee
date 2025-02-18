@@ -135,30 +135,32 @@ object ProductProfileManager {
         if (formula.steamBoiler.toInt() != -1) {
             var steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(0, 0, 0, 0,
                 0, 0))
-            val mixValue = ((formula.cleanWand.toInt() and 0xFF) shl 8) or
-                    (formula.mixHotWater.toInt() and 0xFF)
-            formula.autoFoamTemperature?.let {
-                formula.foamMode?.let {
-                    val mode = if (it.mode) 1.toShort() else 0
-                    val foamData = if (it.mode) formula.stopAirTemperature?.celsiusValue
-                    else formula.stopAirTime?.value?.times(1000)
+            val mixValue = formula.cleanWand.toInt() shl 8 or (formula.mixHotWater.toInt() and 0xFF)
 
-                    steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                        formula.autoFoamTemperature?.celsiusValue ?: 0, mode,
-                        foamData?.toInt()?.toShort() ?: 0,
-                        formula.texture?.value?.toInt()?.toShort() ?: 0, mixValue.toShort(), 0)
-                    )
-                } ?: run {
-                    steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                        formula.autoFoamTemperature?.celsiusValue ?: 0, 0, 0, 0, mixValue.toShort(),
-                        0)
-                    )
-                }
-            } ?: run {
+            // foamMode为空是手动/自动蒸汽，不为空是特色蒸汽
+            formula.foamMode?.let {
+                val mode = if (it.mode) 1.toShort() else 0
+                val steamData = if (it.mode) formula.manualFoamTime?.value?.toInt()?.toShort() ?: 0
+                else formula.autoFoamTemperature?.celsiusValue ?: 0
+                val foamData = if (it.mode) formula.stopAirTime?.value?.toInt()?.toShort() ?: 0
+                else formula.stopAirTemperature?.celsiusValue ?: 0
                 steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                    formula.manualFoamTime?.value?.times(1000)?.toInt()?.toShort() ?: 0, 0, 0, 0,
+                    2, steamData, mode, foamData, formula.texture?.value?.toInt()?.toShort() ?: 0,
                     mixValue.toShort(), 0)
                 )
+            } ?: run {
+                formula.autoFoamTemperature?.let {
+                    steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
+                        0, formula.autoFoamTemperature?.celsiusValue ?: 0, 0, 0, 0,
+                        mixValue.toShort(), 0)
+                    )
+                }
+                formula.manualFoamTime?.let {
+                    steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
+                        1, formula.manualFoamTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
+                        0, 0, 0, mixValue.toShort(), 0)
+                    )
+                }
             }
             componentList.add(steamBoilerProfile)
         }
@@ -248,11 +250,11 @@ object ProductProfileManager {
         if (formula.milkFoamer.toInt() != -1) {
             val appearance = if (formula.appearance?.appearance == true) 1 else 0
             val milkOutput = if (formula.milkOutput?.output == true) 1 else 0
-            val mixAppearanceOutput = (appearance and 0xFF shl 8) or (milkOutput and 0xFF)
-            val mixQuantityAndTemp1 = ((formula.milkSequence?.milkTemperature1?.and(0xFF) ?: 0) shl
-                    8) or ((formula.milkSequence?.foamTexture1?.and(0xFF) ?: 0) shl 8)
-            val mixQuantityAndTemp2 = ((formula.milkSequence?.milkTemperature2?.and(0xFF) ?: 0) shl
-                    8) or ((formula.milkSequence?.foamTexture2?.and(0xFF) ?: 0) shl 8)
+            val mixAppearanceOutput = appearance shl 8 or (milkOutput and 0xFF)
+            val mixQuantityAndTemp1 = ((formula.milkSequence?.milkTemperature1 ?: 0) shl 8) or
+                    (formula.milkSequence?.foamTexture1?.and(0xFF) ?: 0)
+            val mixQuantityAndTemp2 = ((formula.milkSequence?.milkTemperature2 ?: 0) shl 8) or
+                    (formula.milkSequence?.foamTexture2?.and(0xFF) ?: 0)
 
             componentList.add(
                 ComponentProfile(MILK_FOAMER_ID, shortArrayOf(mixAppearanceOutput.toShort(),
