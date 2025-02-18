@@ -28,9 +28,11 @@ import com.inno.coffee.ui.common.SingleNumberInputLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.utilities.FORMULA_PROPERTY_APPEARANCE
+import com.inno.coffee.utilities.FORMULA_PROPERTY_AUTO_FOAM_TIME
 import com.inno.coffee.utilities.FORMULA_PROPERTY_BEAN_HOPPER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_FOAM_MODE
+import com.inno.coffee.utilities.FORMULA_PROPERTY_MANUAL_FOAM_TIME
 import com.inno.coffee.utilities.FORMULA_PROPERTY_MILK_DELAY_TIME
 import com.inno.coffee.utilities.FORMULA_PROPERTY_MILK_OUTPUT
 import com.inno.coffee.utilities.FORMULA_PROPERTY_MILK_SEQUENCE
@@ -64,8 +66,8 @@ private val formulaPropertyNames = listOf(
     FORMULA_PROPERTY_WATER_SEQUENCE,
     "coffeeCycles",
     "bypassWater",
-    "manualFoamTime",
-    "autoFoamTemperature",
+    FORMULA_PROPERTY_MANUAL_FOAM_TIME,
+    FORMULA_PROPERTY_AUTO_FOAM_TIME,
     FORMULA_PROPERTY_FOAM_MODE,
     FORMULA_PROPERTY_STOP_TIME,
     FORMULA_PROPERTY_STOP_TEMPERATURE,
@@ -91,8 +93,8 @@ private val formulaPropertyStringMapping = mapOf(
     FORMULA_PROPERTY_WATER_SEQUENCE to R.string.formula_americano_seq,
     "coffeeCycles" to R.string.formula_coffee_cycles,
     "bypassWater" to R.string.formula_bypass_dosage,
-    "manualFoamTime" to R.string.formula_steam_manual_time,
-    "autoFoamTemperature" to R.string.formula_steam_stop_temperature,
+    FORMULA_PROPERTY_MANUAL_FOAM_TIME to R.string.formula_steam_manual_time,
+    FORMULA_PROPERTY_AUTO_FOAM_TIME to R.string.formula_steam_stop_temperature,
     FORMULA_PROPERTY_FOAM_MODE to R.string.formula_steam_foam_mode,
     FORMULA_PROPERTY_STOP_TIME to R.string.formula_steam_air_stop,
     FORMULA_PROPERTY_STOP_TEMPERATURE to R.string.formula_steam_air_stop,
@@ -144,6 +146,7 @@ fun FormulaValueItem(
         selectedValue = null
         selectedName = ""
         getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+//        removeFoamProperties(value.mode, formulaItemNames, formulaItemValues)
     }
 
     Box(
@@ -417,10 +420,10 @@ private fun getFormulaValue(
         var foamMode = INVALID_INT
 
         formulaPropertyNames.forEach { propertyName ->
-            if (propertyName == FORMULA_PROPERTY_STOP_TIME && foamMode == 1) {
+            if (propertyName == FORMULA_PROPERTY_STOP_TIME && foamMode == 0) {
                 return@forEach
             }
-            if (propertyName == FORMULA_PROPERTY_STOP_TEMPERATURE && foamMode == 0) {
+            if (propertyName == FORMULA_PROPERTY_STOP_TEMPERATURE && foamMode == 1) {
                 return@forEach
             }
 
@@ -441,6 +444,18 @@ private fun getFormulaValue(
                 valueList.add(propertyValue)
             }
         }
+        removeFoamProperties(foamMode == 0, nameList, valueList)
+    }
+}
+
+private fun removeFoamProperties(
+    foamMode: Boolean, nameList: MutableList<String>, valueList: MutableList<Any>,
+) {
+    val index = if (foamMode) nameList.indexOf(FORMULA_PROPERTY_MANUAL_FOAM_TIME) else
+        nameList.indexOf(FORMULA_PROPERTY_AUTO_FOAM_TIME)
+    if (index > 0) {
+        nameList.removeAt(index)
+        valueList.removeAt(index)
     }
 }
 
