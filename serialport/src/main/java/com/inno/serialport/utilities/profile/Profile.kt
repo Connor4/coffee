@@ -108,7 +108,6 @@ sealed class Profile {
 //    int16_t texture;//foam texture
 //    int8_t mixHotWater; //if mix hot water product
 //    int8_t cleanWand;	 //if clean wand product
-//    int16_t reserve0;
 //}steamBoilerProfile_t;
 //
 //
