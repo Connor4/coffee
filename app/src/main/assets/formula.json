@@ -1301,9 +1301,9 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 270.0,
+      "value": 27.0,
       "rangeStart": 1.0,
-      "rangeEnd": 300.0,
+      "rangeEnd": 30.0,
       "unit": "[s]"
     },
     "steamBoiler": 1,
@@ -1326,9 +1326,9 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 270.0,
+      "value": 27.0,
       "rangeStart": 1.0,
-      "rangeEnd": 300.0,
+      "rangeEnd": 30.0,
       "unit": "[s]"
     },
     "steamBoiler": 1,
@@ -1401,18 +1401,18 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 270.0,
+      "value": 27.0,
       "rangeStart": 1.0,
-      "rangeEnd": 300.0,
+      "rangeEnd": 30.0,
       "unit": "[s]"
     },
     "foamMode": {
       "everFoamMode": false
     },
     "stopAirTime": {
-      "value": 50,
+      "value": 5,
       "rangeStart": 1,
-      "rangeEnd": 100,
+      "rangeEnd": 10,
       "unit": "[s]"
     },
     "stopAirTemperature": {
@@ -1453,18 +1453,18 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 270.0,
+      "value": 27.0,
       "rangeStart": 1.0,
-      "rangeEnd": 300.0,
+      "rangeEnd": 30.0,
       "unit": "[s]"
     },
     "foamMode": {
       "everFoamMode": false
     },
     "stopAirTime": {
-      "value": 50,
+      "value": 5,
       "rangeStart": 1,
-      "rangeEnd": 100,
+      "rangeEnd": 10,
       "unit": "[s]"
     },
     "stopAirTemperature": {
