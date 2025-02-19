@@ -146,7 +146,6 @@ fun FormulaValueItem(
         selectedValue = null
         selectedName = ""
         getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
-//        removeFoamProperties(value.mode, formulaItemNames, formulaItemValues)
     }
 
     Box(
