@@ -104,7 +104,11 @@ fun HomeDrinksLayout(
                         normalSize = normalSize, showProductName = true, processing = processing,
                         showProductPrice = showProductPrice,
                         onDrinkClick = {
-                            viewModel.startMakeDrink(drinkModel, mainScreen)
+                            if (processing) {
+
+                            } else {
+                                viewModel.startMakeDrink(drinkModel, mainScreen)
+                            }
                         },
                         onDrinkLongClick = {
                             val showRinse = ProductType.assertType(drinkModel.productType?.type,
