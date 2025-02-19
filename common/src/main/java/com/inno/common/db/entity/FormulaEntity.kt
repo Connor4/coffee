@@ -136,7 +136,7 @@ sealed class FormulaItem {
 
     @Serializable
     data class FormulaFoamMode(
-        var mode: Boolean,
+        var everFoamMode: Boolean,
     )
 
     @Serializable

@@ -28,7 +28,7 @@ import com.inno.coffee.ui.common.SingleNumberInputLayout
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.common.VerticalScrollList2
 import com.inno.coffee.utilities.FORMULA_PROPERTY_APPEARANCE
-import com.inno.coffee.utilities.FORMULA_PROPERTY_AUTO_FOAM_TIME
+import com.inno.coffee.utilities.FORMULA_PROPERTY_AUTO_FOAM_TEMP
 import com.inno.coffee.utilities.FORMULA_PROPERTY_BEAN_HOPPER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_COFFEE_WATER
 import com.inno.coffee.utilities.FORMULA_PROPERTY_FOAM_MODE
@@ -67,7 +67,7 @@ private val formulaPropertyNames = listOf(
     "coffeeCycles",
     "bypassWater",
     FORMULA_PROPERTY_MANUAL_FOAM_TIME,
-    FORMULA_PROPERTY_AUTO_FOAM_TIME,
+    FORMULA_PROPERTY_AUTO_FOAM_TEMP,
     FORMULA_PROPERTY_FOAM_MODE,
     FORMULA_PROPERTY_STOP_TIME,
     FORMULA_PROPERTY_STOP_TEMPERATURE,
@@ -94,7 +94,7 @@ private val formulaPropertyStringMapping = mapOf(
     "coffeeCycles" to R.string.formula_coffee_cycles,
     "bypassWater" to R.string.formula_bypass_dosage,
     FORMULA_PROPERTY_MANUAL_FOAM_TIME to R.string.formula_steam_manual_time,
-    FORMULA_PROPERTY_AUTO_FOAM_TIME to R.string.formula_steam_stop_temperature,
+    FORMULA_PROPERTY_AUTO_FOAM_TEMP to R.string.formula_steam_stop_temperature,
     FORMULA_PROPERTY_FOAM_MODE to R.string.formula_steam_foam_mode,
     FORMULA_PROPERTY_STOP_TIME to R.string.formula_steam_air_stop,
     FORMULA_PROPERTY_STOP_TEMPERATURE to R.string.formula_steam_air_stop,
@@ -332,13 +332,13 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaFoamMode -> {
                     val temperature = stringResource(R.string.formula_steam_foam_mode_temperature)
                     val time = stringResource(R.string.formula_steam_foam_mode_time)
-                    val default = if (value.mode) temperature else time
+                    val default = if (value.everFoamMode) temperature else time
                     val title = formulaPropertyStringMapping[FORMULA_PROPERTY_FOAM_MODE]
                     ListSelectLayout(
                         stringResource(title!!), default, mapOf(Pair(temperature, true),
                             Pair(time, false)),
                         { _, changeValue ->
-                            value.mode = changeValue as Boolean
+                            value.everFoamMode = changeValue as Boolean
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
                             onValueChange()
                             selectedValue = null
@@ -416,16 +416,8 @@ private fun getFormulaValue(
     formula?.let {
         nameList.clear()
         valueList.clear()
-        var foamMode = INVALID_INT
 
         formulaPropertyNames.forEach { propertyName ->
-            if (propertyName == FORMULA_PROPERTY_STOP_TIME && foamMode == 0) {
-                return@forEach
-            }
-            if (propertyName == FORMULA_PROPERTY_STOP_TEMPERATURE && foamMode == 1) {
-                return@forEach
-            }
-
             val property = formulaProperties.find { property ->
                 property.name == propertyName
             }
@@ -434,27 +426,34 @@ private fun getFormulaValue(
                 Logger.d("FormulaValueItem", "getFormulaValue() called with:" +
                         " propertyName = $propertyName value $propertyValue")
 
-                if (propertyName == FORMULA_PROPERTY_FOAM_MODE) {
-                    val foamValue = propertyValue as FormulaItem.FormulaFoamMode
-                    foamMode = if (foamValue.mode) 0 else 1
-                }
-
                 nameList.add(propertyName)
                 valueList.add(propertyValue)
             }
         }
-        removeFoamProperties(foamMode == 0, nameList, valueList)
+        removeFoamProperties(nameList, valueList)
     }
 }
 
-private fun removeFoamProperties(
-    foamMode: Boolean, nameList: MutableList<String>, valueList: MutableList<Any>,
-) {
-    val index = if (foamMode) nameList.indexOf(FORMULA_PROPERTY_MANUAL_FOAM_TIME) else
-        nameList.indexOf(FORMULA_PROPERTY_AUTO_FOAM_TIME)
-    if (index > 0) {
-        nameList.removeAt(index)
-        valueList.removeAt(index)
+private fun removeFoamProperties(nameList: MutableList<String>, valueList: MutableList<Any>) {
+    // 判断是否特色蒸汽
+    val foamModeIndex = nameList.indexOf(FORMULA_PROPERTY_FOAM_MODE)
+    if (foamModeIndex != -1) {
+        val modeValue = valueList[foamModeIndex] as FormulaItem.FormulaFoamMode
+        if (modeValue.everFoamMode) {
+            val timeIndex = nameList.indexOf(FORMULA_PROPERTY_STOP_TIME)
+            nameList.removeAt(timeIndex)
+            valueList.removeAt(timeIndex)
+            val manualTimeIndex = nameList.indexOf(FORMULA_PROPERTY_MANUAL_FOAM_TIME)
+            nameList.removeAt(manualTimeIndex)
+            valueList.removeAt(manualTimeIndex)
+        } else {
+            val tempIndex = nameList.indexOf(FORMULA_PROPERTY_STOP_TEMPERATURE)
+            nameList.removeAt(tempIndex)
+            valueList.removeAt(tempIndex)
+            val autoTempIndex = nameList.indexOf(FORMULA_PROPERTY_AUTO_FOAM_TEMP)
+            nameList.removeAt(autoTempIndex)
+            valueList.removeAt(autoTempIndex)
+        }
     }
 }
 

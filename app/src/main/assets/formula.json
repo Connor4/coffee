@@ -1407,7 +1407,7 @@
       "unit": "[s]"
     },
     "foamMode": {
-      "mode": false
+      "everFoamMode": false
     },
     "stopAirTime": {
       "value": 50,
@@ -1459,7 +1459,7 @@
       "unit": "[s]"
     },
     "foamMode": {
-      "mode": false
+      "everFoamMode": false
     },
     "stopAirTime": {
       "value": 50,

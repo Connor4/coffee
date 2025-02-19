@@ -140,10 +140,12 @@ object ProductProfileManager {
 
             // foamMode为空是手动/自动蒸汽，不为空是特色蒸汽
             formula.foamMode?.let {
-                val mode = if (it.mode) 1.toShort() else 0
-                val steamData = if (it.mode) formula.manualFoamTime?.value?.toInt()?.toShort() ?: 0
+                val mode = if (it.everFoamMode) 1.toShort() else 0
+                val steamData =
+                    if (it.everFoamMode) formula.manualFoamTime?.value?.toInt()?.toShort() ?: 0
                 else formula.autoFoamTemperature?.celsiusValue ?: 0
-                val foamData = if (it.mode) formula.stopAirTime?.value?.toInt()?.toShort() ?: 0
+                val foamData =
+                    if (it.everFoamMode) formula.stopAirTime?.value?.toInt()?.toShort() ?: 0
                 else formula.stopAirTemperature?.celsiusValue ?: 0
                 steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
                     2, steamData, mode, foamData, formula.texture?.value?.toInt()?.toShort() ?: 0,
