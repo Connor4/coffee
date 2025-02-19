@@ -99,15 +99,14 @@ fun HomeDrinksLayout(
 
                     DrinkItem(
                         formula = drinkModel, enableMask = enable, selected = select,
-                        normalSize = normalSize, showProductName = true,
+                        normalSize = normalSize, showProductName = true, processing = select,
                         showProductPrice = showProductPrice,
                         onDrinkClick = {
                             viewModel.startMakeDrink(drinkModel, mainScreen)
                         },
                         onDrinkLongClick = {
-                            val showRinse =
-                                ProductType.assertType(drinkModel.productType?.type,
-                                    ProductType.RINSE)
+                            val showRinse = ProductType.assertType(drinkModel.productType?.type,
+                                ProductType.RINSE)
                             if (showRinse) {
                                 onShowRinseDialog()
                             }

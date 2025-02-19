@@ -39,6 +39,7 @@ fun DrinkItem(
     showProductName: Boolean = true,
     showProductPrice: Boolean = false,
     normalSize: Boolean = true,
+    processing: Boolean = false,
     onDrinkClick: () -> Unit = {},
     onDrinkLongClick: () -> Unit = {},
 ) {
@@ -119,6 +120,18 @@ fun DrinkItem(
                         .align(Alignment.TopCenter)
                         .offset(y = 41.dp),
                 )
+                if (processing) {
+                    Image(
+                        painter = painterResource(R.drawable.drink_item_cancel_ic),
+                        contentDescription = null,
+                        contentScale = ContentScale.Inside,
+                        modifier = Modifier
+                            .width(imageWidth.dp)
+                            .height(imageHeight.dp)
+                            .align(Alignment.TopCenter)
+                            .offset(y = 41.dp),
+                    )
+                }
                 if (showProductName) {
                     val name = if (!formula.productName?.nameRes.isNullOrBlank()) {
                         stringResource(getStringResId(formula.productName?.nameRes!!))
