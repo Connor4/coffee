@@ -396,6 +396,8 @@
     <string name="bean_etc_settings_previous">上一步</string>
     <string name="bean_etc_settings_1_flow">系统流量</string>
     <string name="bean_etc_settings_2_front_bean_notice">请选择用来校对的产品</string>
+    <string name="bean_etc_settings_3_extraction_time">萃取时间</string>
+    <string name="bean_etc_settings_3_extraction_notice">请设置萃取时间</string>
     <string name="machine_test_coffee_inputs">咖啡输入测试</string>
     <string name="machine_test_coffee_output">咖啡输出测试</string>
     <string name="machine_test_steam_inputs">蒸汽输入状态</string>
