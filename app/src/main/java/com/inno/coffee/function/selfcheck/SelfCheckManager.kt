@@ -22,23 +22,26 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+//TODO 1. 冷水冲水， 2. 锅炉加热 3. 热水洗机
 object SelfCheckManager {
     private const val TAG = "SelfCheckManager"
     const val STEP_IO_CHECK_START = 1
     const val STEP_IO_CHECK_END = 2
     const val STEP_RINSE_START = 3
     const val STEP_RINSE_END = 4
-    const val STEP_BOILER_HEATING_START = 5
-    const val STEP_BOILER_HEATING_END = 6
-    const val STEP_STEAM_HEATING_START = 7
-    const val STEP_STEAM_HEATING_END = 8
-    const val STEP_WASH_MACHINE_START = 9
-    const val STEP_LACK_PILL_START = 10
-    const val STEP_WASH_MACHINE_END = 11
-    const val STEP_RELEASE_STEAM_READY = 12
-    const val STEP_RELEASE_STEAM_START = 13
-    const val STEP_RELEASE_STEAM_END = 14
-    const val STEP_CHECK_FINISH = 15
+    const val STEP_CHECK_CONTAINER_START = 5
+    const val STEP_CHECK_CONTAINER_END = 6
+    const val STEP_BOILER_HEATING_START = 7
+    const val STEP_BOILER_HEATING_END = 8
+    const val STEP_STEAM_HEATING_START = 9
+    const val STEP_STEAM_HEATING_END = 10
+    const val STEP_WASH_MACHINE_START = 11
+    const val STEP_LACK_PILL_START = 12
+    const val STEP_WASH_MACHINE_END = 13
+    const val STEP_RELEASE_STEAM_READY = 14
+    const val STEP_RELEASE_STEAM_START = 15
+    const val STEP_RELEASE_STEAM_END = 16
+    const val STEP_CHECK_FINISH = 17
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val _leftLackPill = MutableStateFlow(false)
     var leftLackPill = _leftLackPill.asStateFlow()
@@ -84,8 +87,18 @@ object SelfCheckManager {
             scope.launch {
                 delay(2000)
                 _step.value = STEP_RINSE_END
-                waitCoffeeBoilerHeating()
+//                waitCoffeeBoilerHeating()
+                checkCleanContainer(false)
             }
+        }
+    }
+
+    suspend fun checkCleanContainer(checked: Boolean) {
+        if (checked) {
+            _step.value = STEP_CHECK_CONTAINER_END
+            waitCoffeeBoilerHeating()
+        } else {
+            _step.value = STEP_CHECK_CONTAINER_START
         }
     }
 
@@ -173,7 +186,8 @@ object SelfCheckManager {
                         if (leftRinseFlag && rightRinseFlag) {
                             _step.value = STEP_RINSE_END
                             scope.launch {
-                                waitCoffeeBoilerHeating()
+//                                waitCoffeeBoilerHeating()
+                                checkCleanContainer(false)
                             }
                         }
                     }

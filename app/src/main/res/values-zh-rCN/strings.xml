@@ -204,6 +204,7 @@
     <string name="home_release_steam_activated">蒸汽将被释放！</string>
     <string name="home_release_steam_wait">蒸汽正在释放，请稍后…</string>
 
+    <string name="home_check_container_content">您已清理废渣盒?</string>
     <string name="home_confirm_rinse_description">点击确认开始洗机</string>
     <string name="home_wash_machine_content">点击确认开始洗机</string>
     <string name="home_lack_wash_pill_title">信息</string>
@@ -617,5 +618,6 @@
     <string name="bean_etc_settings_next">下一步</string>
     <string name="bean_etc_settings_1_rinse_rate">冲水流量</string>
     <string name="bean_etc_settings_1_notice">如果您更换了部件或维护了机器，建议后动润湿流速以测量系统和限流孔的流速。</string>
+    <string name="home_check_container_title">清理废渣盒</string>
 
 </resources>

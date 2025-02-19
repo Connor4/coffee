@@ -163,6 +163,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun selfCheckContainer() {
+        viewModelScope.launch {
+            SelfCheckManager.checkCleanContainer(true)
+        }
+    }
+
     fun selfCheckSkipWash() {
         viewModelScope.launch {
             SelfCheckManager.skipWashMachine()

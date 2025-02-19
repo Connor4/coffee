@@ -26,6 +26,7 @@ import com.inno.coffee.R
 import com.inno.coffee.data.LoginState
 import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.function.selfcheck.SelfCheckManager
+import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_CHECK_CONTAINER_START
 import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_IO_CHECK_START
 import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_LACK_PILL_START
 import com.inno.coffee.function.selfcheck.SelfCheckManager.STEP_RELEASE_STEAM_READY
@@ -211,6 +212,16 @@ fun HomeContent(
                 onCloseClick = {
                     viewModel.selfCheckSkipWash()
                 },
+            )
+        }
+        STEP_CHECK_CONTAINER_START -> {
+            ConfirmDialogLayout(
+                title = stringResource(id = R.string.home_check_container_title),
+                description = stringResource(id = R.string.home_check_container_content),
+                onConfirmClick = {
+                    viewModel.selfCheckContainer()
+                },
+                onCloseClick = {},
             )
         }
         STEP_WASH_MACHINE_START -> {

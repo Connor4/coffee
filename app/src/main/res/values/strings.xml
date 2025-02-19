@@ -211,6 +211,8 @@
     <string name="home_release_steam_attention">ATTENTION</string>
     <string name="home_release_steam_activated">Steam will be activated!</string>
     <string name="home_release_steam_wait">Releasing steam, please wait…</string>
+    <string name="home_check_container_title">Clean Container</string>
+    <string name="home_check_container_content">Have you cleaned the container?</string>
     <string name="home_confirm_rinse_description">Confirm to Rinse</string>
     <string name="home_wash_machine_title">Wash Machine</string>
     <string name="home_wash_machine_content">Confirm to Wash Machine</string>
