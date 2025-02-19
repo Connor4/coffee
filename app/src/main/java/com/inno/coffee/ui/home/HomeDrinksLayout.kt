@@ -105,7 +105,7 @@ fun HomeDrinksLayout(
                         showProductPrice = showProductPrice,
                         onDrinkClick = {
                             if (processing) {
-
+                                viewModel.cancelMakeDrink()
                             } else {
                                 viewModel.startMakeDrink(drinkModel, mainScreen)
                             }

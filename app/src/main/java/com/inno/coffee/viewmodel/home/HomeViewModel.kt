@@ -256,6 +256,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun cancelMakeDrink() {
+
+    }
+
     fun startMakeDrink(formula: Formula, main: Boolean) {
         Logger.d(TAG, "startMakeDrink() called with: formula = ${formula.productId}," +
                 " main = $main, selfCheck = $checking")
