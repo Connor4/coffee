@@ -96,10 +96,12 @@ fun HomeDrinksLayout(
                 currentList.forEach { drinkModel ->
                     val enable = viewModel.enableMask(drinkModel, executingQueue)
                     val select = viewModel.enableSelect(mainScreen, drinkModel)
+                    val processing = select && !ProductType.assertType(drinkModel.productType?.type,
+                        ProductType.STOP)
 
                     DrinkItem(
                         formula = drinkModel, enableMask = enable, selected = select,
-                        normalSize = normalSize, showProductName = true, processing = select,
+                        normalSize = normalSize, showProductName = true, processing = processing,
                         showProductPrice = showProductPrice,
                         onDrinkClick = {
                             viewModel.startMakeDrink(drinkModel, mainScreen)
