@@ -142,26 +142,26 @@ object ProductProfileManager {
             formula.foamMode?.let {
                 val mode = if (it.everFoamMode) 1.toShort() else 0
                 val steamData =
-                    if (it.everFoamMode) formula.manualFoamTime?.value?.toInt()?.toShort() ?: 0
-                else formula.autoFoamTemperature?.celsiusValue ?: 0
+                    if (it.everFoamMode) formula.autoFoamTemperature?.celsiusValue ?: 0
+                    else formula.manualFoamTime?.value?.times(1000)?.toInt()?.toShort() ?: 0
                 val foamData =
-                    if (it.everFoamMode) formula.stopAirTime?.value?.toInt()?.toShort() ?: 0
-                else formula.stopAirTemperature?.celsiusValue ?: 0
+                    if (it.everFoamMode) formula.stopAirTemperature?.celsiusValue ?: 0
+                    else formula.stopAirTime?.value?.times(1000)?.toInt()?.toShort() ?: 0
+                val texture = formula.texture?.value?.toInt()?.toShort() ?: 0
                 steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                    2, steamData, mode, foamData, formula.texture?.value?.toInt()?.toShort() ?: 0,
-                    mixValue.toShort())
+                    2, steamData, mode, foamData, texture, mixValue)
                 )
             } ?: run {
                 formula.autoFoamTemperature?.let {
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                        0, formula.autoFoamTemperature?.celsiusValue ?: 0, 0, 0, 0,
-                        mixValue.toShort())
+                        1, formula.autoFoamTemperature?.celsiusValue ?: 0, 0, 0, 0,
+                        mixValue)
                     )
                 }
                 formula.manualFoamTime?.let {
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
                         1, formula.manualFoamTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
-                        0, 0, 0, mixValue.toShort())
+                        0, 0, 0, mixValue)
                     )
                 }
             }

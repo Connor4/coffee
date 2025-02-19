@@ -332,11 +332,11 @@ fun FormulaValueItem(
                 is FormulaItem.FormulaFoamMode -> {
                     val temperature = stringResource(R.string.formula_steam_foam_mode_temperature)
                     val time = stringResource(R.string.formula_steam_foam_mode_time)
-                    val default = if (value.everFoamMode) temperature else time
+                    val default = if (value.everFoamMode) time else temperature
                     val title = formulaPropertyStringMapping[FORMULA_PROPERTY_FOAM_MODE]
                     ListSelectLayout(
-                        stringResource(title!!), default, mapOf(Pair(temperature, true),
-                            Pair(time, false)),
+                        stringResource(title!!), default, mapOf(Pair(time, true),
+                            Pair(temperature, false)),
                         { _, changeValue ->
                             value.everFoamMode = changeValue as Boolean
                             getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
