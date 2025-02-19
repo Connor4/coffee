@@ -135,7 +135,8 @@ object ProductProfileManager {
         if (formula.steamBoiler.toInt() != -1) {
             var steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(0, 0, 0, 0,
                 0, 0))
-            val mixValue = formula.cleanWand.toInt() shl 8 or (formula.mixHotWater.toInt() and 0xFF)
+            val mixValue = ((formula.cleanWand.toInt() and 0xFF) or ((formula.mixHotWater.toInt()
+                    and 0xFF) shl 8)).toShort()
 
             // foamMode为空是手动/自动蒸汽，不为空是特色蒸汽
             formula.foamMode?.let {
@@ -250,19 +251,23 @@ object ProductProfileManager {
         if (formula.milkFoamer.toInt() != -1) {
             val appearance = if (formula.appearance?.appearance == true) 1 else 0
             val milkOutput = if (formula.milkOutput?.output == true) 1 else 0
-            val mixAppearanceOutput = appearance shl 8 or (milkOutput and 0xFF)
-            val mixQuantityAndTemp1 = ((formula.milkSequence?.milkTemperature1 ?: 0) shl 8) or
-                    (formula.milkSequence?.foamTexture1?.and(0xFF) ?: 0)
-            val mixQuantityAndTemp2 = ((formula.milkSequence?.milkTemperature2 ?: 0) shl 8) or
-                    (formula.milkSequence?.foamTexture2?.and(0xFF) ?: 0)
+            val mixAppearanceOutput = ((appearance and 0xFF) or ((milkOutput and 0xFF) shl 8))
+                .toShort()
+
+            val mt1 = formula.milkSequence?.milkTemperature1 ?: 0
+            val ft1 = formula.milkSequence?.foamTexture1 ?: 0
+            val mixTempAndTexture1 = (mt1 and 0xFF) or ((ft1 and 0xFF) shl 8)
+            val mt2 = formula.milkSequence?.milkTemperature2 ?: 0
+            val ft2 = formula.milkSequence?.foamTexture2 ?: 0
+            val mixTempAndTexture2 = (mt2 and 0xFF) or ((ft2 and 0xFF) shl 8)
 
             componentList.add(
-                ComponentProfile(MILK_FOAMER_ID, shortArrayOf(mixAppearanceOutput.toShort(),
+                ComponentProfile(MILK_FOAMER_ID, shortArrayOf(mixAppearanceOutput,
                     formula.milkDelayTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
                     formula.milkSequence?.milkQuantity1?.times(1000)?.toShort() ?: 0,
-                    mixQuantityAndTemp1.toShort(),
+                    mixTempAndTexture1.toShort(),
                     formula.milkSequence?.milkQuantity2?.times(1000)?.toShort() ?: 0,
-                    mixQuantityAndTemp2.toShort())))
+                    mixTempAndTexture2.toShort())))
         }
 
         val componentProfileList =
