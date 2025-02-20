@@ -82,20 +82,12 @@ fun ETCSettingsPage1() {
 private fun RateValueDisplay(left: Float, right: Float) {
     Row {
         Text(
-            text = stringResource(R.string.statistic_left) + ": ",
-            fontSize = 5.nsp(), color = Color.White,
-        )
-        Text(
-            text = "$left",
+            text = stringResource(R.string.statistic_left) + ": " + "$left",
             fontSize = 5.nsp(), color = Color.White,
         )
         Spacer(modifier = Modifier.width(40.dp))
         Text(
-            text = stringResource(R.string.statistic_right) + ": ",
-            fontSize = 5.nsp(), color = Color.White,
-        )
-        Text(
-            text = "$right",
+            text = stringResource(R.string.statistic_right) + ": " + "$right",
             fontSize = 5.nsp(), color = Color.White,
         )
         Spacer(modifier = Modifier.width(40.dp))
