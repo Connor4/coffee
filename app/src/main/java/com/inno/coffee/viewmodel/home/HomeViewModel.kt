@@ -27,8 +27,6 @@ import com.inno.coffee.utilities.GRINDER_PURGE_FUNCTION
 import com.inno.coffee.utilities.GRINDING_CAPACITY_FRONT
 import com.inno.coffee.utilities.GRINDING_CAPACITY_REAR
 import com.inno.coffee.utilities.GROUNDS_QUANTITY
-import com.inno.coffee.utilities.HOME_LEFT_COFFEE_BOILER_TEMP
-import com.inno.coffee.utilities.HOME_RIGHT_COFFEE_BOILER_TEMP
 import com.inno.coffee.utilities.LEVELLING
 import com.inno.coffee.utilities.LOCK_AND_CLEAN_TIME
 import com.inno.coffee.utilities.MACHINE_PRIORITY
@@ -107,11 +105,11 @@ class HomeViewModel @Inject constructor(
     val loginState: StateFlow<LoginState> = _loginState
     private val _countdown = MutableStateFlow(LOCK_AND_CLEAN_TIME)
     val countdown: StateFlow<Int> = _countdown
-    private val _leftBoilerTemp = MutableStateFlow(HOME_LEFT_COFFEE_BOILER_TEMP)
+    private val _leftBoilerTemp = MutableStateFlow(0f)
     val leftBoilerTemp = temperatureDisplayFlow(_leftBoilerTemp)
-    private val _rightBoilerTemp = MutableStateFlow(HOME_RIGHT_COFFEE_BOILER_TEMP)
+    private val _rightBoilerTemp = MutableStateFlow(0f)
     val rightBoilerTemp = temperatureDisplayFlow(_rightBoilerTemp)
-    private val _steamBoilerTemp = MutableStateFlow(HOME_LEFT_COFFEE_BOILER_TEMP)
+    private val _steamBoilerTemp = MutableStateFlow(0f)
     val steamBoilerTemp = temperatureDisplayFlow(_steamBoilerTemp)
     private val _steamBoilerPressure = MutableStateFlow(0)
     val steamBoilerPressure = _steamBoilerPressure
@@ -397,7 +395,7 @@ class HomeViewModel @Inject constructor(
         _countdown.value = LOCK_AND_CLEAN_TIME
     }
 
-    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Int>): StateFlow<String> {
+    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Float>): StateFlow<String> {
         return temperatureUnit.combine(temperatureFlow) { isFahrenheit, tempCelsius ->
             if (isFahrenheit) {
                 val fahrenheit = tempCelsius * 1.8 + 32
@@ -497,12 +495,12 @@ class HomeViewModel @Inject constructor(
         boiler.temperature?.let { reply ->
             when (reply.status) {
                 BoilerStatusEnum.BOILER_TEMPERATURE -> {
-                    _leftBoilerTemp.value = ((reply.value[1].toInt() and 0xFF) shl 8) or
-                            (reply.value[0].toInt() and 0xFF)
-                    _rightBoilerTemp.value = ((reply.value[3].toInt() and 0xFF) shl 8) or
-                            (reply.value[2].toInt() and 0xFF)
-                    _steamBoilerTemp.value = ((reply.value[5].toInt() and 0xFF) shl 8) or
-                            (reply.value[4].toInt() and 0xFF)
+                    _leftBoilerTemp.value = (((reply.value[1].toInt() and 0xFF) shl 8) or
+                            (reply.value[0].toInt() and 0xFF)) / 10f
+                    _rightBoilerTemp.value = (((reply.value[3].toInt() and 0xFF) shl 8) or
+                            (reply.value[2].toInt() and 0xFF)) / 10f
+                    _steamBoilerTemp.value = (((reply.value[5].toInt() and 0xFF) shl 8) or
+                            (reply.value[4].toInt() and 0xFF)) / 10f
                 }
                 else -> {}
             }
