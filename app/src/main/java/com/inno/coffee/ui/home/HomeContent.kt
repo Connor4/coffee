@@ -220,8 +220,7 @@ fun HomeContent(
                 description = stringResource(id = R.string.home_check_container_content),
                 onConfirmClick = {
                     viewModel.selfCheckContainer()
-                },
-                onCloseClick = {},
+                }, {}, showCancelButton = false
             )
         }
         STEP_WASH_MACHINE_START -> {
