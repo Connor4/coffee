@@ -2760,5 +2760,55 @@
     "waterInputValue": 0,
     "middleValueRightBoiler": 0,
     "rightValueRightBoiler": 0
+  },
+  {
+    "showType": 3,
+    "index": 11,
+    "productId": 1080,
+    "imageRes": "operate_manual_milk_ic",
+    "productType": {
+      "type": "Steam"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_manual_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "manualFoamTime": {
+      "value": 1.0,
+      "rangeStart": 1.0,
+      "rangeEnd": 30.0,
+      "unit": "[s]"
+    },
+    "steamBoiler": 1,
+    "waterPump": 1,
+    "waterInputValue": 1,
+    "steamOutSteamValve1": 1
+  },
+  {
+    "showType": 3,
+    "index": 11,
+    "productId": 1180,
+    "imageRes": "operate_manual_milk_ic",
+    "productType": {
+      "type": "Steam"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_manual_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "manualFoamTime": {
+      "value": 1.0,
+      "rangeStart": 1.0,
+      "rangeEnd": 30.0,
+      "unit": "[s]"
+    },
+    "steamBoiler": 1,
+    "waterPump": 1,
+    "waterInputValue": 1,
+    "steamOutSteamValve2": 1
   }
 ]

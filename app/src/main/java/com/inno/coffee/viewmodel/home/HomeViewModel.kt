@@ -177,12 +177,12 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             SelfCheckManager.updateReleaseSteam()
             // TODO 1.找不到配方需要提示 2. 不应该使用值
-            repository.getFormulaByProductId(81)?.let {
+            repository.getFormulaByProductId(1080)?.let {
                 startMakeDrink(it, true)
             }
             // 下发命令
             delay(200)
-            repository.getFormulaByProductId(181)?.let {
+            repository.getFormulaByProductId(1180)?.let {
                 startMakeDrink(it, false)
             }
         }
