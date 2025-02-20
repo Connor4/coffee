@@ -187,8 +187,8 @@ fun BeanGrinderLayout(
                 dataMap.clear()
                 dataMap.putAll(
                     mapOf(
-                        Pair(yes, true),
-                        Pair(no, false)
+                        Pair(no, false),
+                        Pair(yes, true)
                     )
                 )
             }
@@ -201,8 +201,8 @@ fun BeanGrinderLayout(
                 dataMap.clear()
                 dataMap.putAll(
                     mapOf(
-                        Pair(on, true),
-                        Pair(off, false)
+                        Pair(off, false),
+                        Pair(on, true)
                     )
                 )
             }
@@ -240,8 +240,8 @@ fun BeanGrinderLayout(
                     dataMap.clear()
                     dataMap.putAll(
                         mapOf(
-                            Pair(on, true),
-                            Pair(off, false)
+                            Pair(off, false),
+                            Pair(on, true)
                         )
                     )
                 }
@@ -254,8 +254,8 @@ fun BeanGrinderLayout(
                     dataMap.clear()
                     dataMap.putAll(
                         mapOf(
-                            Pair(on, true),
-                            Pair(off, false)
+                            Pair(off, false),
+                            Pair(on, true)
                         )
                     )
                 }
