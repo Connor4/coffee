@@ -440,19 +440,13 @@ private fun removeFoamProperties(nameList: MutableList<String>, valueList: Mutab
     if (foamModeIndex != -1) {
         val modeValue = valueList[foamModeIndex] as FormulaItem.FormulaFoamMode
         if (modeValue.everFoamMode) {
-            val timeIndex = nameList.indexOf(FORMULA_PROPERTY_STOP_TIME)
-            nameList.removeAt(timeIndex)
-            valueList.removeAt(timeIndex)
-            val manualTimeIndex = nameList.indexOf(FORMULA_PROPERTY_MANUAL_FOAM_TIME)
-            nameList.removeAt(manualTimeIndex)
-            valueList.removeAt(manualTimeIndex)
-        } else {
             val tempIndex = nameList.indexOf(FORMULA_PROPERTY_STOP_TEMPERATURE)
             nameList.removeAt(tempIndex)
             valueList.removeAt(tempIndex)
-            val autoTempIndex = nameList.indexOf(FORMULA_PROPERTY_AUTO_FOAM_TEMP)
-            nameList.removeAt(autoTempIndex)
-            valueList.removeAt(autoTempIndex)
+        } else {
+            val timeIndex = nameList.indexOf(FORMULA_PROPERTY_STOP_TIME)
+            nameList.removeAt(timeIndex)
+            valueList.removeAt(timeIndex)
         }
     }
 }
