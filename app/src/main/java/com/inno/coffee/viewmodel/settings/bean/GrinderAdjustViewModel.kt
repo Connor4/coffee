@@ -23,8 +23,8 @@ class GrinderAdjustViewModel @Inject constructor(
         private const val RIGHT_GRINDER_VALUE = "right_grinder_value"
         private const val LEFT_GRINDER_DEFAULT_VALUE = 0
         private const val RIGHT_GRINDER_DEFAULT_VALUE = 0
-        private const val MIN_GRINDER_VALUE = 0
-        private const val MAX_GRINDER_VALUE = 100
+        private const val MIN_GRINDER_VALUE = -5000
+        private const val MAX_GRINDER_VALUE = 5000
     }
 
     private val _leftGrinderValue = MutableStateFlow(LEFT_GRINDER_DEFAULT_VALUE)

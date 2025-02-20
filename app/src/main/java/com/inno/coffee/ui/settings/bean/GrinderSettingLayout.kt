@@ -73,7 +73,7 @@ fun GrinderSettingLayout(
                 .align(Alignment.TopCenter),
             contentDescription = null
         )
-// =============================right start================================
+// =============================left start================================
         Column(
             modifier = Modifier
                 .padding(top = 200.dp, start = 160.dp)
@@ -110,7 +110,7 @@ fun GrinderSettingLayout(
                     )
                 }
             }, {
-                viewModel.saveGrinderValue(front = false, add = false)
+                viewModel.saveGrinderValue(front = true, add = false)
             },
             pressedColor = Color(0xFF6DD400),
         )
@@ -133,7 +133,7 @@ fun GrinderSettingLayout(
                     )
                 }
             }, {
-                viewModel.saveGrinderValue(front = false, add = true)
+                viewModel.saveGrinderValue(front = true, add = true)
             },
             pressedColor = Color(0xFF6DD400),
         )
@@ -161,8 +161,8 @@ fun GrinderSettingLayout(
         ) {
             viewModel.grinderTest(false)
         }
-// =============================right end================================
-//===============================left start================================
+// =============================left end================================
+//===============================right start================================
         Column(
             modifier = Modifier
                 .padding(top = 200.dp, start = 950.dp)
@@ -199,7 +199,7 @@ fun GrinderSettingLayout(
                     )
                 }
             }, {
-                viewModel.saveGrinderValue(front = true, add = false)
+                viewModel.saveGrinderValue(front = false, add = false)
             },
             pressedColor = Color(0xFF0FB9A4),
         )
@@ -222,7 +222,7 @@ fun GrinderSettingLayout(
                     )
                 }
             }, {
-                viewModel.saveGrinderValue(front = true, add = true)
+                viewModel.saveGrinderValue(front = false, add = true)
             },
             pressedColor = Color(0xFF0FB9A4),
         )
@@ -250,7 +250,7 @@ fun GrinderSettingLayout(
         ) {
             viewModel.grinderTest(true)
         }
-//===============================left end================================
+//===============================right end================================
     }
 }
 @Composable
