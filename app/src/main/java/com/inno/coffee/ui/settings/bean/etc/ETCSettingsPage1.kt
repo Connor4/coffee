@@ -26,11 +26,13 @@ import com.inno.common.db.entity.Formula
 import com.inno.common.db.entity.FormulaItem
 
 @Composable
-fun ETCSettingsPage1() {
-    val left1Flow = 6.4f
-    val left2Flow = 6.2f
-    val right1Flow = 5.5f
-    val right2Flow = 5.6f
+fun ETCSettingsPage1(
+    left1Flow: Float = 0f,
+    left2Flow: Float = 0f,
+    right1Flow: Float = 0f,
+    right2Flow: Float = 0f,
+    onClickRinse: () -> Unit = {},
+) {
 
     Box(
         modifier = Modifier
@@ -73,7 +75,7 @@ fun ETCSettingsPage1() {
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 307.dp),
-            onDrinkClick = { }
+            onDrinkClick = { onClickRinse() }
         )
     }
 }
@@ -82,12 +84,12 @@ fun ETCSettingsPage1() {
 private fun RateValueDisplay(left: Float, right: Float) {
     Row {
         Text(
-            text = stringResource(R.string.statistic_left) + ": " + "$left",
+            text = stringResource(R.string.statistic_left) + ": $left",
             fontSize = 5.nsp(), color = Color.White,
         )
         Spacer(modifier = Modifier.width(40.dp))
         Text(
-            text = stringResource(R.string.statistic_right) + ": " + "$right",
+            text = stringResource(R.string.statistic_right) + ": $right",
             fontSize = 5.nsp(), color = Color.White,
         )
         Spacer(modifier = Modifier.width(40.dp))

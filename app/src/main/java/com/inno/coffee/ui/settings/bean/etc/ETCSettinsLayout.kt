@@ -36,6 +36,11 @@ fun ETCSettingsLayout(
     val pagerState = rememberPagerState { pageCount }
     val scope = rememberCoroutineScope()
 
+    val left1Flow = 6.4f
+    val left2Flow = 6.2f
+    val right1Flow = 5.5f
+    val right2Flow = 5.6f
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +70,9 @@ fun ETCSettingsLayout(
                 .fillMaxSize()
         ) { page ->
             when (page) {
-                0 -> ETCSettingsPage1()
+                0 -> ETCSettingsPage1(left1Flow, left2Flow, right1Flow, right2Flow) {
+                    // TODO 冲水
+                }
                 1 -> ETCSettingsPage2()
                 2 -> ETCSettingsPage3()
                 3 -> ETCSettingsPage4()
