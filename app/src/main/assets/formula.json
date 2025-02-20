@@ -2,7 +2,7 @@
   {
     "showType": 1,
     "index": 1,
-    "productId": 10001,
+    "productId": 998,
     "imageRes": "home_stop_normal_ic",
     "productType": {
       "type": "Stop"
@@ -15,7 +15,7 @@
   {
     "showType": 2,
     "index": 1,
-    "productId": 10101,
+    "productId": 999,
     "imageRes": "home_stop_normal_ic",
     "productType": {
       "type": "Stop"
