@@ -270,6 +270,8 @@ class HomeViewModel @Inject constructor(
                     repository.getFormulaByProductId(98)?.let {
                         MakeLeftDrinksHandler.executeNow(it)
                     }
+                    // 下发命令
+                    delay(200)
                     repository.getFormulaByProductId(198)?.let {
                         MakeRightDrinksHandler.executeNow(it)
                     }
