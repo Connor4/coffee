@@ -1067,7 +1067,7 @@
       "unit": "[mm]"
     },
     "hotWater": {
-      "value": 500,
+      "value": 200,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -1224,7 +1224,7 @@
       "unit": "[mm]"
     },
     "hotWater": {
-      "value": 500,
+      "value": 200,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -1337,7 +1337,7 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 27.0,
+      "value": 5.0,
       "rangeStart": 1.0,
       "rangeEnd": 30.0,
       "unit": "[s]"
@@ -1362,7 +1362,7 @@
     "preFlush": false,
     "postFlush": false,
     "manualFoamTime": {
-      "value": 27.0,
+      "value": 5.0,
       "rangeStart": 1.0,
       "rangeEnd": 30.0,
       "unit": "[s]"
@@ -1436,12 +1436,6 @@
     },
     "preFlush": false,
     "postFlush": false,
-    "manualFoamTime": {
-      "value": 27.0,
-      "rangeStart": 1.0,
-      "rangeEnd": 30.0,
-      "unit": "[s]"
-    },
     "foamMode": {
       "everFoamMode": false
     },
@@ -1464,7 +1458,7 @@
       "unit": ""
     },
     "autoFoamTemperature": {
-      "celsiusValue": 88,
+      "celsiusValue": 60,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
@@ -1488,12 +1482,6 @@
     },
     "preFlush": false,
     "postFlush": false,
-    "manualFoamTime": {
-      "value": 27.0,
-      "rangeStart": 1.0,
-      "rangeEnd": 30.0,
-      "unit": "[s]"
-    },
     "foamMode": {
       "everFoamMode": false
     },
@@ -1516,7 +1504,7 @@
       "unit": ""
     },
     "autoFoamTemperature": {
-      "celsiusValue": 88,
+      "celsiusValue": 60,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
