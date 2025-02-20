@@ -440,12 +440,18 @@
     <string name="bean_etc_settings_next">Next</string>
     <string name="bean_etc_settings_previous">Previous</string>
     <string name="bean_etc_settings_1_rinse_rate">Rinse Rate</string>
-    <string name="bean_etc_settings_1_notice">If you replace parts or perform maintenance on the machine, it is recommended to dynamically measure the flow rate of the system and the orifice.</string>
+    <string name="bean_etc_settings_1_notice">If you replace parts or perform maintenance on the machine,
+        it is recommended to dynamically measure the flow rate of the system and the orifice.</string>
     <string name="bean_etc_settings_1_flow">System Flow</string>
     <string name="bean_etc_settings_2_front_bean_notice">Please select the product for
         proofreading(front bean hopper)</string>
     <string name="bean_etc_settings_3_extraction_time">Extraction time</string>
     <string name="bean_etc_settings_3_extraction_notice">Please set extraction time</string>
+    <string name="bean_etc_settings_4_check_notice">Check</string>
+    <string name="bean_etc_settings_4_press_notice">Please press the product button</string>
+    <string name="bean_etc_settings_4_auto_adjust">Auto adjustment mode</string>
+    <string name="bean_etc_settings_4_blade_grinder_capacity">Blade grinder capacity: </string>
+    <string name="bean_etc_settings_4_adjust_thickness">Adjust thickness: </string>
 
     <string name="machine_test_coffee_inputs">Coffee Inputs Test</string>
     <string name="machine_test_coffee_output">Coffee Outputs Test</string>
