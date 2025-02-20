@@ -78,7 +78,7 @@
   {
     "showType": 1,
     "index": 9,
-    "productId": 10003,
+    "productId": 40,
     "productPrice": {
       "price": 9.99,
       "rangeStart": 0,
@@ -93,12 +93,30 @@
       "nameRes": "home_item_milk"
     },
     "preFlush": false,
-    "postFlush": false
+    "postFlush": false,
+    "milkFoamer": 0,
+    "milkDelayTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 30.0,
+      "unit": "[s]"
+    },
+    "milkOutput": {
+      "output": true
+    },
+    "milkSequence": {
+      "defaultMilkQuantity": 20,
+      "defaultMilkTemperature": 1,
+      "defaultFoamTexture": 60,
+      "milkQuantity1": 20,
+      "milkTemperature1": 1,
+      "foamTexture1": 60
+    }
   },
   {
     "showType": 2,
     "index": 9,
-    "productId": 10103,
+    "productId": 140,
     "productPrice": {
       "price": 9.99,
       "rangeStart": 0,
@@ -113,7 +131,25 @@
       "nameRes": "home_item_milk"
     },
     "preFlush": false,
-    "postFlush": false
+    "postFlush": false,
+    "milkFoamer": 0,
+    "milkDelayTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 30.0,
+      "unit": "[s]"
+    },
+    "milkOutput": {
+      "output": true
+    },
+    "milkSequence": {
+      "defaultMilkQuantity": 20,
+      "defaultMilkTemperature": 0,
+      "defaultFoamTexture": 60,
+      "milkQuantity1": 20,
+      "milkTemperature1": 0,
+      "foamTexture1": 60
+    }
   },
   {
     "showType": 1,
@@ -1883,182 +1919,6 @@
       "milkQuantity2": 20,
       "milkTemperature2": 1,
       "foamTexture2": 20
-    }
-  },
-  {
-    "showType": 3,
-    "index": 0,
-    "productId": 40,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
-    },
-    "imageRes": "",
-    "productType": {
-      "type": "Milk"
-    },
-    "productName": {
-      "name": "热奶沫",
-      "nameRes": ""
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": true
-    },
-    "milkFoamer": 0,
-    "appearance": {
-      "appearance": true
-    },
-    "milkDelayTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 30.0,
-      "unit": "[s]"
-    },
-    "milkOutput": {
-      "output": true
-    },
-    "milkSequence": {
-      "defaultMilkQuantity": 20,
-      "defaultMilkTemperature": 1,
-      "defaultFoamTexture": 60,
-      "milkQuantity1": 20,
-      "milkTemperature1": 1,
-      "foamTexture1": 60
-    }
-  },
-  {
-    "showType": 3,
-    "index": 0,
-    "productId": 40,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
-    },
-    "imageRes": "",
-    "productType": {
-      "type": "Milk"
-    },
-    "productName": {
-      "name": "冷奶沫",
-      "nameRes": ""
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": true
-    },
-    "milkFoamer": 0,
-    "appearance": {
-      "appearance": true
-    },
-    "milkDelayTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 30.0,
-      "unit": "[s]"
-    },
-    "milkOutput": {
-      "output": true
-    },
-    "milkSequence": {
-      "defaultMilkQuantity": 20,
-      "defaultMilkTemperature": 0,
-      "defaultFoamTexture": 60,
-      "milkQuantity1": 20,
-      "milkTemperature1": 0,
-      "foamTexture1": 60
-    }
-  },
-  {
-    "showType": 3,
-    "index": 0,
-    "productId": 140,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
-    },
-    "imageRes": "",
-    "productType": {
-      "type": "Milk"
-    },
-    "productName": {
-      "name": "热奶沫",
-      "nameRes": ""
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": true
-    },
-    "milkFoamer": 0,
-    "appearance": {
-      "appearance": true
-    },
-    "milkDelayTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 30.0,
-      "unit": "[s]"
-    },
-    "milkOutput": {
-      "output": true
-    },
-    "milkSequence": {
-      "defaultMilkQuantity": 20,
-      "defaultMilkTemperature": 1,
-      "defaultFoamTexture": 60,
-      "milkQuantity1": 20,
-      "milkTemperature1": 1,
-      "foamTexture1": 60
-    }
-  },
-  {
-    "showType": 3,
-    "index": 0,
-    "productId": 140,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
-    },
-    "imageRes": "",
-    "productType": {
-      "type": "Milk"
-    },
-    "productName": {
-      "name": "冷奶沫",
-      "nameRes": ""
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": true
-    },
-    "milkFoamer": 0,
-    "appearance": {
-      "appearance": true
-    },
-    "milkDelayTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 30.0,
-      "unit": "[s]"
-    },
-    "milkOutput": {
-      "output": true
-    },
-    "milkSequence": {
-      "defaultMilkQuantity": 20,
-      "defaultMilkTemperature": 0,
-      "defaultFoamTexture": 60,
-      "milkQuantity1": 20,
-      "milkTemperature1": 0,
-      "foamTexture1": 60
     }
   },
   {
