@@ -180,6 +180,8 @@ class HomeViewModel @Inject constructor(
             repository.getFormulaByProductId(81)?.let {
                 startMakeDrink(it, true)
             }
+            // 下发命令
+            delay(200)
             repository.getFormulaByProductId(181)?.let {
                 startMakeDrink(it, false)
             }
