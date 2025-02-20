@@ -154,7 +154,7 @@ object ProductProfileManager {
             } ?: run {
                 formula.autoFoamTemperature?.let {
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                        1, formula.autoFoamTemperature?.celsiusValue ?: 0, 0, 0, 0,
+                        0, formula.autoFoamTemperature?.celsiusValue ?: 0, 0, 0, 0,
                         mixValue)
                     )
                 }
