@@ -56,7 +56,7 @@ object SelfCheckManager {
     private var rightSteamFlag = false
     private var leftSteamFlag = false
 
-    private val testEnvironment = false
+    private val testEnvironment = true
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
