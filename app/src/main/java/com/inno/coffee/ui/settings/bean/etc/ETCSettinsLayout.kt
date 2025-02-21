@@ -12,34 +12,53 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
+import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ETCSettingsLayout(
+    viewModel: FormulaViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
-    val pageCount = 5
-    val pagerState = rememberPagerState { pageCount }
+    val viewpagerCount = 5
+    val viewpagerState = rememberPagerState { viewpagerCount }
     val scope = rememberCoroutineScope()
 
     val left1Flow = 6.4f
     val left2Flow = 6.2f
     val right1Flow = 5.5f
     val right2Flow = 5.6f
+
+    val PAGE_COUNT = 10
+    val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
+    val drinksList by viewModel.drinksList.collectAsState()
+    val selectFormula by viewModel.formula.collectAsState()
+    val tempUnit by viewModel.tempUnit.collectAsState()
+    val pageCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
+
+    LaunchedEffect(Unit) {
+        viewModel.loadETCDrinkList(mainScreen, true)
+    }
 
     Box(
         modifier = Modifier
@@ -64,7 +83,7 @@ fun ETCSettingsLayout(
 
         HorizontalPager(
             userScrollEnabled = false,
-            state = pagerState,
+            state = viewpagerState,
             modifier = Modifier
                 .padding(top = 162.dp, bottom = 80.dp)
                 .fillMaxSize()
@@ -73,14 +92,25 @@ fun ETCSettingsLayout(
                 0 -> ETCSettingsPage1(left1Flow, left2Flow, right1Flow, right2Flow) {
                     // TODO 冲水
                 }
-                1 -> ETCSettingsPage2()
+                1 -> ETCSettingsPage2(drinksList = drinksList, selectFormula = selectFormula,
+                    isFahrenheit = tempUnit, pageCount = pageCount, onSelectFormula = {
+                        viewModel.getFormula(it)
+                    }, onProductTest = {
+                        viewModel.productTest(it, mainScreen)
+                    }, onUpdateFormula = {
+                        viewModel.updateFormula(it)
+                    }, onLearnWater = {
+                        viewModel.learnWater()
+                    }, onPowderTest = {
+                        viewModel.powderTest()
+                    })
                 2 -> ETCSettingsPage3()
                 3 -> ETCSettingsPage4()
                 4 -> ETCSettingsPage5()
             }
         }
 
-        if (pagerState.currentPage != 0) {
+        if (viewpagerState.currentPage != 0) {
             ChangeColorButton(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -90,7 +120,7 @@ fun ETCSettingsLayout(
                 text = stringResource(id = R.string.bean_etc_settings_previous)
             ) {
                 scope.launch {
-                    pagerState.scrollToPage(pagerState.currentPage - 1)
+                    viewpagerState.scrollToPage(viewpagerState.currentPage - 1)
                 }
             }
         }
@@ -102,9 +132,9 @@ fun ETCSettingsLayout(
                 .height(50.dp),
             text = stringResource(id = R.string.bean_etc_settings_next)
         ) {
-            if (pagerState.currentPage < pageCount - 1) {
+            if (viewpagerState.currentPage < viewpagerCount - 1) {
                 scope.launch {
-                    pagerState.scrollToPage(pagerState.currentPage + 1)
+                    viewpagerState.scrollToPage(viewpagerState.currentPage + 1)
                 }
             } else {
                 // FINISH
