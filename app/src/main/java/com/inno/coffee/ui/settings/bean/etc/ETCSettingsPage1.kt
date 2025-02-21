@@ -89,12 +89,7 @@ private fun RateValueDisplay(left: Float, right: Float) {
         )
         Spacer(modifier = Modifier.width(40.dp))
         Text(
-            text = stringResource(R.string.statistic_right) + ": $right",
-            fontSize = 5.nsp(), color = Color.White,
-        )
-        Spacer(modifier = Modifier.width(40.dp))
-        Text(
-            text = "[tick/s]",
+            text = stringResource(R.string.statistic_right) + ": $right         [tick/s]",
             fontSize = 5.nsp(), color = Color.White,
         )
     }
