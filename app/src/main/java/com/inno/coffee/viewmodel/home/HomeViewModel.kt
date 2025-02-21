@@ -50,6 +50,8 @@ import com.inno.common.utils.UserSessionManager
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
 import com.inno.serialport.utilities.BEAN_GRINDER_SETTING
+import com.inno.serialport.utilities.CMD_STOP_MAKE_PRODUCT_LEFT
+import com.inno.serialport.utilities.CMD_STOP_MAKE_PRODUCT_RIGHT
 import com.inno.serialport.utilities.MACHINE_PARAM_COMMAND_ID
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
@@ -181,7 +183,6 @@ class HomeViewModel @Inject constructor(
                 it.productId = 80
                 startMakeDrink(it, true)
             }
-            // 下发命令
             delay(200)
             repository.getFormulaByProductId(1180)?.let {
                 it.productId = 180
@@ -266,13 +267,19 @@ class HomeViewModel @Inject constructor(
         Logger.d(TAG, "startMakeDrink() called with: formula = ${formula.productId}," +
                 " main = $main, selfCheck = $checking")
         if (ProductType.isOperationType(formula.productType?.type)) {
-            if (checking && ProductType.assertType(formula.productType?.type, ProductType.RINSE)) {
+            if (ProductType.assertType(formula.productType?.type, ProductType.STOP)) {
+                if (main) {
+                    CommandControlManager.sendTestCommand(CMD_STOP_MAKE_PRODUCT_LEFT)
+                } else {
+                    CommandControlManager.sendTestCommand(CMD_STOP_MAKE_PRODUCT_RIGHT)
+                }
+            } else if (checking && ProductType.assertType(formula.productType?.type,
+                        ProductType.RINSE)) {
                 SelfCheckManager.checkColdRinse()
                 viewModelScope.launch {
                     repository.getFormulaByProductId(98)?.let {
                         MakeLeftDrinksHandler.executeNow(it)
                     }
-                    // 下发命令
                     delay(200)
                     repository.getFormulaByProductId(198)?.let {
                         MakeRightDrinksHandler.executeNow(it)

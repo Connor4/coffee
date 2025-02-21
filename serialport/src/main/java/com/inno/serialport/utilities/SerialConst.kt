@@ -96,6 +96,8 @@ const val BEAN_GRINDER_SETTING: Short = 700
 const val GRINDER_ADJ_FINER_ID: Short = 710
 const val GRINDER_ADJ_COARSER_ID: Short = 711
 const val GRINDER_ADJ_GRIND_ID: Short = 712
+const val CMD_STOP_MAKE_PRODUCT_LEFT: Short = 998
+const val CMD_STOP_MAKE_PRODUCT_RIGHT: Short = 999
 
 const val FRONT_SINGLE_COLOR_ID: Short = 3001
 const val FRONT_GRADIENT_COLOR_ID: Short = 3002
