@@ -131,11 +131,11 @@ fun MachineTestCoffeeOutLayout(
             modifier = Modifier.padding(start = 54.dp, top = 506.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestButton(R.string.machine_test_co_coffee_boiler_left) {
-                viewModel.sendTestCommand(MACHINE_TEST_BOILER_LEFT)
+            MachineTestStatusButton(R.string.machine_test_co_coffee_boiler_left) {
+                viewModel.sendTestCommand(MACHINE_TEST_BOILER_LEFT, if (it) 1 else 0)
             }
-            MachineTestButton(R.string.machine_test_co_coffee_boiler_right) {
-                viewModel.sendTestCommand(MACHINE_TEST_BOILER_RIGHT)
+            MachineTestStatusButton(R.string.machine_test_co_coffee_boiler_right) {
+                viewModel.sendTestCommand(MACHINE_TEST_BOILER_RIGHT, if (it) 1 else 0)
             }
             MachineTestButton(R.string.machine_test_co_grinder_left) {
                 viewModel.sendTestCommand(MACHINE_TEST_GRINDER_LEFT)
@@ -150,14 +150,14 @@ fun MachineTestCoffeeOutLayout(
                 .padding(top = 601.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            MachineTestButton(R.string.machine_test_co_fan_front) {
-                viewModel.sendTestCommand(MACHINE_TEST_FAN_FRONT)
+            MachineTestStatusButton(R.string.machine_test_co_fan_front) {
+                viewModel.sendTestCommand(MACHINE_TEST_FAN_FRONT, if (it) 1 else 0)
             }
-            MachineTestButton(R.string.machine_test_co_fan_left) {
-                viewModel.sendTestCommand(MACHINE_TEST_FAN_LEFT)
+            MachineTestStatusButton(R.string.machine_test_co_fan_left) {
+                viewModel.sendTestCommand(MACHINE_TEST_FAN_LEFT, if (it) 1 else 0)
             }
-            MachineTestButton(R.string.machine_test_co_fan_right) {
-                viewModel.sendTestCommand(MACHINE_TEST_FAN_RIGHT)
+            MachineTestStatusButton(R.string.machine_test_co_fan_right) {
+                viewModel.sendTestCommand(MACHINE_TEST_FAN_RIGHT, if (it) 1 else 0)
             }
         }
 

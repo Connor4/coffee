@@ -46,9 +46,9 @@ class MachineTestInputViewModel @Inject constructor(
     val switch = _switch
     private val _pressure = MutableStateFlow(0f)
     val pressure = _pressure
-    private val _leftTemp = MutableStateFlow(0)
+    private val _leftTemp = MutableStateFlow(0f)
     val leftTemp = temperatureDisplayFlow(_leftTemp)
-    private val _rightTemp = MutableStateFlow(0)
+    private val _rightTemp = MutableStateFlow(0f)
     val rightTemp = temperatureDisplayFlow(_rightTemp)
     private val _leftFlow = MutableStateFlow(0f)
     val leftFlow = _leftFlow
@@ -61,18 +61,18 @@ class MachineTestInputViewModel @Inject constructor(
     val securityLevel = _securityLevel
     private val _workLevel = MutableStateFlow(true)
     val workLevel = _workLevel
-    private val _leftWandTemp = MutableStateFlow(0)
+    private val _leftWandTemp = MutableStateFlow(0f)
     val leftWandTemp = temperatureDisplayFlow(_leftWandTemp)
-    private val _rightWandTemp = MutableStateFlow(0)
+    private val _rightWandTemp = MutableStateFlow(0f)
     val rightWandTemp = temperatureDisplayFlow(_rightWandTemp)
 
-    private val _milkTempLeft = MutableStateFlow(0)
+    private val _milkTempLeft = MutableStateFlow(0f)
     val milkTempLeft = temperatureDisplayFlow(_milkTempLeft)
-    private val _milkTempRight = MutableStateFlow(0)
+    private val _milkTempRight = MutableStateFlow(0f)
     val milkTempRight = temperatureDisplayFlow(_milkTempRight)
-    private val _milkTankTempLeft = MutableStateFlow(0)
+    private val _milkTankTempLeft = MutableStateFlow(0f)
     val milkTankTempLeft = temperatureDisplayFlow(_milkTankTempLeft)
-    private val _milkTankTempRight = MutableStateFlow(0)
+    private val _milkTankTempRight = MutableStateFlow(0f)
     val milkTankTempRight = temperatureDisplayFlow(_milkTankTempRight)
     private val _milkSensorLeft = MutableStateFlow(true)
     val milkSensorLeft = _milkSensorLeft
@@ -140,10 +140,10 @@ class MachineTestInputViewModel @Inject constructor(
                         ((params[13].toInt() and 0xFF) shl 8) or (params[12].toInt() and 0xFF)
                     _pressure.value = pressure / 10f
                     val leftTemp =
-                        ((params[15].toInt() and 0xFF) shl 8) or (params[14].toInt() and 0xFF)
+                        (((params[15].toInt() and 0xFF) shl 8) or (params[14].toInt() and 0xFF)) / 10f
                     _leftTemp.value = leftTemp
                     val rightTemp =
-                        ((params[17].toInt() and 0xFF) shl 8) or (params[16].toInt() and 0xFF)
+                        (((params[17].toInt() and 0xFF) shl 8) or (params[16].toInt() and 0xFF)) / 10f
                     _rightTemp.value = rightTemp
                     val leftFlow =
                         ((params[19].toInt() and 0xFF) shl 8) or (params[18].toInt() and 0xFF)
@@ -159,24 +159,24 @@ class MachineTestInputViewModel @Inject constructor(
                     _securityLevel.value = params[2] == ONE_IN_BYTE
                     _workLevel.value = params[4] == ONE_IN_BYTE
                     val leftWandTemp =
-                        ((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)
+                        (((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)) / 10f
                     _leftWandTemp.value = leftWandTemp
                     val rightWandTemp =
-                        ((params[9].toInt() and 0xFF) shl 8) or (params[8].toInt() and 0xFF)
+                        (((params[9].toInt() and 0xFF) shl 8) or (params[8].toInt() and 0xFF)) / 10f
                     _rightWandTemp.value = rightWandTemp
                 }
                 MILK_INPUT_COMMAND_ID -> {
                     val leftMilkTemp =
-                        ((params[1].toInt() and 0xFF) shl 8) or (params[0].toInt() and 0xFF)
+                        (((params[1].toInt() and 0xFF) shl 8) or (params[0].toInt() and 0xFF)) / 10f
                     _milkTempLeft.value = leftMilkTemp
                     val rightMilkTemp =
-                        ((params[3].toInt() and 0xFF) shl 8) or (params[2].toInt() and 0xFF)
+                        (((params[3].toInt() and 0xFF) shl 8) or (params[2].toInt() and 0xFF)) / 10f
                     _milkTempRight.value = rightMilkTemp
                     val leftTankTemp =
-                        ((params[5].toInt() and 0xFF) shl 8) or (params[4].toInt() and 0xFF)
+                        (((params[5].toInt() and 0xFF) shl 8) or (params[4].toInt() and 0xFF)) / 10f
                     _milkTankTempLeft.value = leftTankTemp
                     val rightTankTemp =
-                        ((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)
+                        (((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)) / 10f
                     _milkTankTempRight.value = rightTankTemp
                     _milkSensorLeft.value = params[8] == ONE_IN_BYTE
                     _milkSensorRight.value = params[10] == ONE_IN_BYTE
@@ -186,7 +186,7 @@ class MachineTestInputViewModel @Inject constructor(
         }
     }
 
-    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Int>): StateFlow<String> {
+    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Float>): StateFlow<String> {
         return _tempUnit.combine(temperatureFlow) { isFahrenheit, tempCelsius ->
             if (isFahrenheit) {
                 val fahrenheit = tempCelsius * 1.8 + 32
