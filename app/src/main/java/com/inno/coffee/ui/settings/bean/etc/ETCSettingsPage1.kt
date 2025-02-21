@@ -52,7 +52,7 @@ fun ETCSettingsPage1(
             modifier = Modifier
                 .padding(top = 155.dp)
                 .fillMaxWidth()
-                .height(100.dp)
+                .height(110.dp)
                 .background(Color(0xFF191A1D))
         ) {
             Text(text = stringResource(R.string.bean_etc_settings_1_flow), fontSize = 5.nsp(),

@@ -31,6 +31,7 @@ import com.inno.coffee.function.display.ScreenDisplayManager
 import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
+import com.inno.coffee.viewmodel.settings.bean.ETCSettingViewModel
 import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 import kotlinx.coroutines.launch
 
@@ -38,6 +39,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ETCSettingsLayout(
     viewModel: FormulaViewModel = hiltViewModel(),
+    viewModel2: ETCSettingViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
     val viewpagerCount = 5
@@ -55,6 +57,10 @@ fun ETCSettingsLayout(
     val selectFormula by viewModel.formula.collectAsState()
     val tempUnit by viewModel.tempUnit.collectAsState()
     val pageCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
+
+    val extractTime by viewModel2.etcFrontExtractTime.collectAsState()
+    val rangeStart = 12f
+    val rangeEnd = 25f
 
     LaunchedEffect(Unit) {
         viewModel.loadETCDrinkList(mainScreen, true)
@@ -104,7 +110,10 @@ fun ETCSettingsLayout(
                     }, onPowderTest = {
                         viewModel.powderTest()
                     })
-                2 -> ETCSettingsPage3()
+                2 -> ETCSettingsPage3(currentValue = extractTime, rangeStart = rangeStart,
+                    rangeEnd = rangeEnd, onValueChange = {
+                        viewModel2.setEtcFrontExtractTime(it)
+                    })
                 3 -> ETCSettingsPage4()
                 4 -> ETCSettingsPage5()
             }
