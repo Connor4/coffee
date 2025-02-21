@@ -62,6 +62,9 @@ fun ETCSettingsLayout(
     val rangeStart = 12f
     val rangeEnd = 25f
 
+    val blade = 3.32f
+    val adjust = 2f
+
     LaunchedEffect(Unit) {
         viewModel.loadETCDrinkList(mainScreen, true)
     }
@@ -114,7 +117,8 @@ fun ETCSettingsLayout(
                     rangeEnd = rangeEnd, onValueChange = {
                         viewModel2.setEtcFrontExtractTime(it)
                     })
-                3 -> ETCSettingsPage4()
+                3 -> ETCSettingsPage4(blade = blade, adjust = adjust, isFahrenheit = tempUnit,
+                    formula = selectFormula)
                 4 -> ETCSettingsPage5()
             }
         }
