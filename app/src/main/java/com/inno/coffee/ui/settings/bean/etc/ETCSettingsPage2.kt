@@ -46,7 +46,7 @@ fun ETCSettingsPage2(
     ) {
         Text(text = stringResource(R.string.bean_etc_settings_2_front_bean_notice),
             fontSize = 5.nsp(), color = Color.White, modifier = Modifier
-                .padding(start = 90.dp, top = 120.dp)
+                .padding(start = 70.dp, top = 120.dp)
                 .width(269.dp)
                 .wrapContentHeight()
         )
@@ -57,7 +57,7 @@ fun ETCSettingsPage2(
                 .height(226.dp),
             contentDescription = null
         )
-        DrinkPager(selectFormula, pageCount, pagerState, drinksList, 300) {
+        DrinkPager(selectFormula, pageCount, pagerState, drinksList, 300, 70) {
 //            viewModel.getFormula(it.productId)
             onSelectFormula(it.productId)
         }

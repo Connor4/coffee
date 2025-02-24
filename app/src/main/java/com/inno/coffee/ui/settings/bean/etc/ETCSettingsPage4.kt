@@ -34,14 +34,14 @@ fun ETCSettingsPage4(
     ) {
         Text(text = stringResource(R.string.bean_etc_settings_4_check_notice),
             fontSize = 5.nsp(), color = Color.White, modifier = Modifier
-                .padding(start = 90.dp, top = 10.dp)
+                .padding(start = 70.dp, top = 10.dp)
                 .width(269.dp)
                 .wrapContentHeight()
         )
 
         Text(text = stringResource(R.string.bean_etc_settings_4_press_notice),
             fontSize = 5.nsp(), color = Color.White, modifier = Modifier
-                .padding(start = 90.dp, top = 70.dp)
+                .padding(start = 70.dp, top = 70.dp)
                 .width(200.dp)
                 .height(190.dp)
         )
@@ -53,7 +53,7 @@ fun ETCSettingsPage4(
             normalSize = false,
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(start = 90.dp, top = 130.dp),
+                .padding(start = 70.dp, top = 130.dp),
             onDrinkClick = { }
         )
 
@@ -64,7 +64,7 @@ fun ETCSettingsPage4(
             normalSize = false,
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(start = 90.dp, top = 330.dp),
+                .padding(start = 70.dp, top = 330.dp),
             onDrinkClick = { }
         )
 

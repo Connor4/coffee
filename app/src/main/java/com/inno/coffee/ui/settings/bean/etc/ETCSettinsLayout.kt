@@ -32,19 +32,17 @@ import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.fastclick
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.bean.ETCSettingViewModel
-import com.inno.coffee.viewmodel.settings.formula.FormulaViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ETCSettingsLayout(
-    viewModel: FormulaViewModel = hiltViewModel(),
-    viewModel2: ETCSettingViewModel = hiltViewModel(),
+    viewModel: ETCSettingViewModel = hiltViewModel(),
     onCloseClick: () -> Unit = {},
 ) {
+    val scope = rememberCoroutineScope()
     val viewpagerCount = 5
     val viewpagerState = rememberPagerState { viewpagerCount }
-    val scope = rememberCoroutineScope()
 
     val left1Flow = 6.4f
     val left2Flow = 6.2f
@@ -58,7 +56,8 @@ fun ETCSettingsLayout(
     val tempUnit by viewModel.tempUnit.collectAsState()
     val pageCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
 
-    val extractTime by viewModel2.etcFrontExtractTime.collectAsState()
+    val frontExtractTime by viewModel.etcFrontExtractTime.collectAsState()
+    val rearExtractTime by viewModel.etcBackExtractTime.collectAsState()
     val rangeStart = 12f
     val rangeEnd = 25f
 
@@ -101,7 +100,7 @@ fun ETCSettingsLayout(
                 0 -> ETCSettingsPage1(left1Flow, left2Flow, right1Flow, right2Flow) {
                     // TODO 冲水
                 }
-                1 -> ETCSettingsPage2(drinksList = drinksList, selectFormula = selectFormula,
+                1, 4 -> ETCSettingsPage2(drinksList = drinksList, selectFormula = selectFormula,
                     isFahrenheit = tempUnit, pageCount = pageCount, onSelectFormula = {
                         viewModel.getFormula(it)
                     }, onProductTest = {
@@ -109,17 +108,16 @@ fun ETCSettingsLayout(
                     }, onUpdateFormula = {
                         viewModel.updateFormula(it)
                     }, onLearnWater = {
-                        viewModel.learnWater()
+//                        viewModel.learnWater()
                     }, onPowderTest = {
-                        viewModel.powderTest()
+//                        viewModel.powderTest()
                     })
-                2 -> ETCSettingsPage3(currentValue = extractTime, rangeStart = rangeStart,
+                2, 5 -> ETCSettingsPage3(currentValue = frontExtractTime, rangeStart = rangeStart,
                     rangeEnd = rangeEnd, onValueChange = {
-                        viewModel2.setEtcFrontExtractTime(it)
+                        viewModel.setEtcFrontExtractTime(it)
                     })
-                3 -> ETCSettingsPage4(blade = blade, adjust = adjust, isFahrenheit = tempUnit,
+                3, 6 -> ETCSettingsPage4(blade = blade, adjust = adjust, isFahrenheit = tempUnit,
                     formula = selectFormula)
-                4 -> ETCSettingsPage5()
             }
         }
 

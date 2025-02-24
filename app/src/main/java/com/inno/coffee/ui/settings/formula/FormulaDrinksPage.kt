@@ -100,12 +100,13 @@ fun DrinkPager(
     pagerState: PagerState,
     drinksTypeList: List<Formula>,
     paddingTop: Int = 450,
+    paddingStart: Int = 90,
     onDrinkItemClick: (formula: Formula) -> Unit,
 ) {
     val pageCount = 10
     Box(
         modifier = Modifier
-            .padding(top = paddingTop.dp, start = 90.dp)
+            .padding(top = paddingTop.dp, start = paddingStart.dp)
             .wrapContentSize(),
     ) {
         HorizontalPager(

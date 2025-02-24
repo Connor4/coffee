@@ -34,7 +34,7 @@ fun ETCSettingsPage3(
     ) {
         Text(text = stringResource(R.string.bean_etc_settings_3_extraction_notice),
             fontSize = 5.nsp(), color = Color.White, modifier = Modifier
-                .padding(start = 90.dp, top = 120.dp)
+                .padding(start = 70.dp, top = 120.dp)
                 .width(269.dp)
                 .wrapContentHeight()
         )
