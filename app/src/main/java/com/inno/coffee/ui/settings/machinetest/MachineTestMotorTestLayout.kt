@@ -20,7 +20,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -69,9 +68,9 @@ fun MachineTestMotorLayout(
     val speed = viewModel.speed.collectAsState()
     val current = viewModel.current.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.motorInit()
-    }
+//    LaunchedEffect(Unit) {
+//        viewModel.motorInit()
+//    }
     DisposableEffect(Unit) {
         onDispose {
             viewModel.motorInit()
