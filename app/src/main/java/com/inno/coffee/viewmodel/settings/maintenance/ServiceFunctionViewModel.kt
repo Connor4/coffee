@@ -1,6 +1,7 @@
 package com.inno.coffee.viewmodel.settings.maintenance
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.inno.coffee.function.CommandControlManager
 import com.inno.coffee.utilities.ONE_IN_BYTE
 import com.inno.serialport.function.data.DataCenter
@@ -9,7 +10,9 @@ import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
 import com.inno.serialport.utilities.STEAM_INPUT_COMMAND_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +40,15 @@ class ServiceFunctionViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         DataCenter.unsubscribe(ReceivedDataType.COMMON_REPLY, subscriber)
+    }
+
+    fun getSteamInputs() {
+        viewModelScope.launch {
+            while (true) {
+                CommandControlManager.sendTestCommand(STEAM_INPUT_COMMAND_ID)
+                delay(1000)
+            }
+        }
     }
 
     fun sendTestCommand(id: Short) {
