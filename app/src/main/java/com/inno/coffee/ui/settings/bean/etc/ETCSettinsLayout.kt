@@ -12,6 +12,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,10 +41,9 @@ fun ETCSettingsLayout(
     onCloseClick: () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
-    val viewpagerCount = 5
-    val viewpagerState = rememberPagerState { viewpagerCount }
     val page by viewModel.page.collectAsState()
     val totalPageCount by viewModel.totalPageCount.collectAsState()
+    val viewpagerState = rememberPagerState { totalPageCount }
 
     val left1Flow = 6.4f
     val left2Flow = 6.2f
@@ -64,9 +64,9 @@ fun ETCSettingsLayout(
     val blade by viewModel.blade.collectAsState()
     val adjust by viewModel.adjust.collectAsState()
 
-//    LaunchedEffect(Unit) {
-//        viewModel.loadETCDrinkList(true)
-//    }
+    LaunchedEffect(totalPageCount) {
+        viewpagerState.scrollToPage(0)
+    }
 
     Box(
         modifier = Modifier
