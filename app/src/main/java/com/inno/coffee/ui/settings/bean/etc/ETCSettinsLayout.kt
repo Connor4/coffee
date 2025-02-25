@@ -45,10 +45,10 @@ fun ETCSettingsLayout(
     val totalPageCount by viewModel.totalPageCount.collectAsState()
     val viewpagerState = rememberPagerState { totalPageCount }
 
-    val left1Flow = 6.4f
-    val left2Flow = 6.2f
-    val right1Flow = 5.5f
-    val right2Flow = 5.6f
+    val left1Flow = 0f
+    val left2Flow = 0f
+    val right1Flow = 0f
+    val right2Flow = 0f
 
     val PAGE_COUNT = 10
     val mainScreen = ScreenDisplayManager.isMainDisplay(LocalContext.current)
