@@ -8,7 +8,6 @@ import com.inno.coffee.function.makedrinks.MakeRightDrinksHandler
 import com.inno.coffee.utilities.ETC_FRONT
 import com.inno.coffee.utilities.ETC_REAR
 import com.inno.coffee.utilities.SHOW_LEFT_SCREEN
-import com.inno.coffee.utilities.SHOW_RIGHT_SCREEN
 import com.inno.coffee.viewmodel.settings.formula.FormulaRepository
 import com.inno.common.db.entity.Formula
 import com.inno.common.enums.ProductType
@@ -32,13 +31,23 @@ class ETCSettingViewModel @Inject constructor(
         private const val TAG = "ETCSettingViewModel"
         private const val ETC_FRONT_EXTRACT_TIME = "etc_front_extract_time"
         private const val ETC_BACK_EXTRACT_TIME = "etc_back_extract_time"
+        private const val ETC_FRONT_EXTRACT_RANGE_START = "etc_front_extract_range_start"
+        private const val ETC_FRONT_EXTRACT_RANGE_END = "etc_front_extract_range_end"
+        private const val ETC_REAR_EXTRACT_RANGE_START = "etc_rear_extract_range_start"
+        private const val ETC_REAR_EXTRACT_RANGE_END = "etc_rear_extract_range_end"
+        private const val ETC_BLADE_FRONT = "etc_blade_front"
+        private const val ETC_BLADE_BACK = "etc_blade_back"
+        private const val ETC_ADJUST_FRONT = "etc_adjust_front"
+        private const val ETC_ADJUST_BACK = "etc_adjust_back"
         private const val TEMPERATURE_UNIT = "temperature_unit"
     }
 
-    private val _etcFrontExtractTime = MutableStateFlow(0f)
-    val etcFrontExtractTime = _etcFrontExtractTime
-    private val _etcBackExtractTime = MutableStateFlow(0f)
-    val etcBackExtractTime = _etcBackExtractTime
+    private val _etcExtractTime = MutableStateFlow(0f)
+    val etcExtractTime = _etcExtractTime.asStateFlow()
+    private val _etcRangeStart = MutableStateFlow(0f)
+    val etcRangeStart = _etcRangeStart
+    private val _etcRangeEnd = MutableStateFlow(0f)
+    val etcRangeEnd = _etcRangeEnd
 
     private val _drinksList = MutableStateFlow<List<Formula>>(emptyList())
     val drinksList: StateFlow<List<Formula>> = _drinksList.asStateFlow()
@@ -46,62 +55,114 @@ class ETCSettingViewModel @Inject constructor(
     val formula = _formula.asStateFlow()
     private val _tempUnit = MutableStateFlow(false)
     val tempUnit = _tempUnit
+    private val _page = MutableStateFlow(0)
+    val page = _page.asStateFlow()
+    private val _totalPageCount = MutableStateFlow(0)
+    val totalPageCount = _totalPageCount.asStateFlow()
+
+    private val _blade = MutableStateFlow(0f)
+    val blade = _blade.asStateFlow()
+    private val _adjust = MutableStateFlow(0f)
+    val adjust = _adjust.asStateFlow()
 
     var index = 0
-    var totalViewpagerCount = 0
     var range = 0..0
 
     init {
         viewModelScope.launch {
-            _etcBackExtractTime.value = dataStore.getCoffeePreference(ETC_BACK_EXTRACT_TIME, 18f)
-            _etcFrontExtractTime.value = dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_TIME, 18f)
             _tempUnit.value = dataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
             val etcFrontSwitch = dataStore.getCoffeePreference(ETC_FRONT, false)
             val etcRearSwitch = dataStore.getCoffeePreference(ETC_REAR, false)
             if (etcFrontSwitch && etcRearSwitch) {
                 index = 1
                 range = 1..6
-                totalViewpagerCount = 7
+                _totalPageCount.value = 6
+                _etcExtractTime.value = dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_TIME, 18f)
             } else if (etcFrontSwitch) {
                 index = 1
                 range = 1..3
-                totalViewpagerCount = 4
+                _totalPageCount.value = 3
+                _etcExtractTime.value = dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_TIME, 18f)
             } else if (etcRearSwitch) {
                 index = 4
                 range = 4..6
-                totalViewpagerCount = 4
+                _etcExtractTime.value = dataStore.getCoffeePreference(ETC_BACK_EXTRACT_TIME, 25f)
+                _totalPageCount.value = 3
             }
         }
     }
 
-    fun loadETCDrinkList(mainScreen: Boolean, front: Boolean) {
+    fun loadETCDrinkList(front: Boolean) {
         viewModelScope.launch(defaultDispatcher) {
-            if (mainScreen) {
-                _drinksList.value = repository.getAllFormula().filter {
-                    it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
-                        it.productType?.type) && it.showType == SHOW_LEFT_SCREEN
-                }
-            } else {
-                _drinksList.value = repository.getAllFormula().filter {
-                    it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
-                        it.productType?.type) && (it.showType == SHOW_RIGHT_SCREEN)
+            _drinksList.value = repository.getAllFormula().filter {
+                it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
+                    it.productType?.type) && it.showType == SHOW_LEFT_SCREEN
+            }
+            _formula.value = _drinksList.value.firstOrNull()
+        }
+    }
+
+    fun loadPageContent(previous: Boolean) {
+        if (previous && _page.value > 0) {
+            _page.value--
+        } else {
+            if (_page.value < _totalPageCount.value) {
+                _page.value++
+            }
+        }
+
+        when (_page.value) {
+            1 -> {
+                loadETCDrinkList(true)
+            }
+            2 -> {
+                viewModelScope.launch {
+                    _etcExtractTime.value = dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_TIME,
+                        18f)
+                    _etcRangeStart.value =
+                        dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_RANGE_START, 12f)
+                    _etcRangeEnd.value =
+                        dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_RANGE_END, 25f)
                 }
             }
-            _formula.value = _drinksList.value.first()
+            3 -> {
+                viewModelScope.launch {
+                    _blade.value = dataStore.getCoffeePreference(ETC_BLADE_FRONT, 0f)
+                    _adjust.value = dataStore.getCoffeePreference(ETC_ADJUST_FRONT, 0f)
+                }
+            }
+            4 -> {
+                loadETCDrinkList(false)
+            }
+            5 -> {
+                viewModelScope.launch {
+                    _etcExtractTime.value = dataStore.getCoffeePreference(ETC_BACK_EXTRACT_TIME,
+                        25f)
+                    _etcRangeStart.value =
+                        dataStore.getCoffeePreference(ETC_REAR_EXTRACT_RANGE_START, 25f)
+                    _etcRangeEnd.value =
+                        dataStore.getCoffeePreference(ETC_REAR_EXTRACT_RANGE_END, 40f)
+                }
+            }
+            6 -> {
+                viewModelScope.launch {
+                    _blade.value = dataStore.getCoffeePreference(ETC_BLADE_BACK, 0f)
+                    _adjust.value = dataStore.getCoffeePreference(ETC_ADJUST_BACK, 0f)
+                }
+            }
         }
+
     }
 
-    fun setEtcFrontExtractTime(value: Float) {
+    fun setEtcExtractTime(page: Int, value: Float) {
         viewModelScope.launch {
-            dataStore.saveCoffeePreference(ETC_FRONT_EXTRACT_TIME, value)
-            _etcFrontExtractTime.value = value
-        }
-    }
-
-    fun setEtcBackExtractTime(value: Float) {
-        viewModelScope.launch {
-            dataStore.saveCoffeePreference(ETC_BACK_EXTRACT_TIME, value)
-            _etcBackExtractTime.value = value
+            val key = if (page == 2) {
+                ETC_FRONT_EXTRACT_TIME
+            } else {
+                ETC_BACK_EXTRACT_TIME
+            }
+            dataStore.saveCoffeePreference(key, value)
+            _etcExtractTime.value = value
         }
     }
 

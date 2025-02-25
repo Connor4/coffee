@@ -48,7 +48,6 @@ fun ETCSettingsPage3(
             rangeEnd = rangeEnd,
             unit = unit,
         ) { changeValue ->
-//            viewModel.setEtcFrontExtractTime(changeValue)
             onValueChange(changeValue)
         }
         Box(

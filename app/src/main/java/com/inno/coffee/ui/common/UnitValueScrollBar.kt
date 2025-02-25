@@ -52,12 +52,26 @@ fun UnitValueScrollBar(
 ) {
     val progressBarWidth = 230.dp
     val progressBarHeight = 30.dp
-    val defaultProgress = (value - rangeStart) / (rangeEnd - rangeStart)
-    var progress by remember {
-        mutableFloatStateOf(defaultProgress)
+    // 校验 value、rangeStart 和 rangeEnd 的合法性
+    val safeValue = if (value.isNaN() || value.isInfinite()) 0f else value
+    val safeRangeStart = if (rangeStart.isNaN() || rangeStart.isInfinite()) 0f else rangeStart
+    val safeRangeEnd = if (rangeEnd.isNaN() || rangeEnd.isInfinite()) 0f else rangeEnd
+
+    // 确保 rangeStart < rangeEnd
+    val validRangeStart = minOf(safeRangeStart, safeRangeEnd)
+    val validRangeEnd = maxOf(safeRangeStart, safeRangeEnd)
+
+    // 计算 progress
+    val defaultProgress = if (validRangeEnd == validRangeStart) {
+        0f // 避免除以零
+    } else {
+        ((safeValue - validRangeStart) / (validRangeEnd - validRangeStart)).coerceIn(0f, 1f)
     }
     var currentValue by remember {
-        mutableFloatStateOf(value)
+        mutableFloatStateOf(safeValue.coerceIn(validRangeStart, validRangeEnd))
+    }
+    var progress by remember {
+        mutableFloatStateOf(defaultProgress)
     }
     var offset by remember {
         mutableStateOf(Offset.Zero)

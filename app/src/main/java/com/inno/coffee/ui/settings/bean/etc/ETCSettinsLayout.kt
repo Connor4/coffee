@@ -12,7 +12,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -43,6 +42,8 @@ fun ETCSettingsLayout(
     val scope = rememberCoroutineScope()
     val viewpagerCount = 5
     val viewpagerState = rememberPagerState { viewpagerCount }
+    val page by viewModel.page.collectAsState()
+    val totalPageCount by viewModel.totalPageCount.collectAsState()
 
     val left1Flow = 6.4f
     val left2Flow = 6.2f
@@ -56,17 +57,16 @@ fun ETCSettingsLayout(
     val tempUnit by viewModel.tempUnit.collectAsState()
     val pageCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
 
-    val frontExtractTime by viewModel.etcFrontExtractTime.collectAsState()
-    val rearExtractTime by viewModel.etcBackExtractTime.collectAsState()
-    val rangeStart = 12f
-    val rangeEnd = 25f
+    val extractTime by viewModel.etcExtractTime.collectAsState()
+    val rangeStart by viewModel.etcRangeStart.collectAsState()
+    val rangeEnd by viewModel.etcRangeEnd.collectAsState()
 
-    val blade = 3.32f
-    val adjust = 2f
+    val blade by viewModel.blade.collectAsState()
+    val adjust by viewModel.adjust.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.loadETCDrinkList(mainScreen, true)
-    }
+//    LaunchedEffect(Unit) {
+//        viewModel.loadETCDrinkList(true)
+//    }
 
     Box(
         modifier = Modifier
@@ -95,7 +95,7 @@ fun ETCSettingsLayout(
             modifier = Modifier
                 .padding(top = 162.dp, bottom = 80.dp)
                 .fillMaxSize()
-        ) { page ->
+        ) { _ ->
             when (page) {
                 0 -> ETCSettingsPage1(left1Flow, left2Flow, right1Flow, right2Flow) {
                     // TODO 冲水
@@ -112,16 +112,21 @@ fun ETCSettingsLayout(
                     }, onPowderTest = {
 //                        viewModel.powderTest()
                     })
-                2, 5 -> ETCSettingsPage3(currentValue = frontExtractTime, rangeStart = rangeStart,
+                2, 5 -> ETCSettingsPage3(currentValue = extractTime, rangeStart = rangeStart,
                     rangeEnd = rangeEnd, onValueChange = {
-                        viewModel.setEtcFrontExtractTime(it)
+                        viewModel.setEtcExtractTime(page, it)
                     })
                 3, 6 -> ETCSettingsPage4(blade = blade, adjust = adjust, isFahrenheit = tempUnit,
                     formula = selectFormula)
             }
         }
 
-        if (viewpagerState.currentPage != 0) {
+        Text(text = "${page + 1} / ${totalPageCount + 1}", fontSize = 7.nsp(), color = Color.White,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 30.dp))
+
+        if (page != 0) {
             ChangeColorButton(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -131,7 +136,7 @@ fun ETCSettingsLayout(
                 text = stringResource(id = R.string.bean_etc_settings_previous)
             ) {
                 scope.launch {
-                    viewpagerState.scrollToPage(viewpagerState.currentPage - 1)
+                    viewModel.loadPageContent(true)
                 }
             }
         }
@@ -145,11 +150,11 @@ fun ETCSettingsLayout(
         ) {
             if (viewpagerState.currentPage < viewpagerCount - 1) {
                 scope.launch {
-                    viewpagerState.scrollToPage(viewpagerState.currentPage + 1)
                 }
             } else {
                 // FINISH
             }
+            viewModel.loadPageContent(false)
         }
     }
 }
