@@ -1,5 +1,6 @@
 package com.inno.coffee.viewmodel.settings.bean
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
@@ -65,8 +66,8 @@ class ETCSettingViewModel @Inject constructor(
     private val _adjust = MutableStateFlow(0f)
     val adjust = _adjust.asStateFlow()
 
-    var index = 0
-    var range = 0..0
+    private var frontSwitch = false
+    private var rearSwitch = false
 
     init {
         viewModelScope.launch {
@@ -74,20 +75,18 @@ class ETCSettingViewModel @Inject constructor(
             val etcFrontSwitch = dataStore.getCoffeePreference(ETC_FRONT, false)
             val etcRearSwitch = dataStore.getCoffeePreference(ETC_REAR, false)
             if (etcFrontSwitch && etcRearSwitch) {
-                index = 1
-                range = 1..6
-                _totalPageCount.value = 6
+                frontSwitch = true
+                rearSwitch = true
+                _totalPageCount.value = 7
                 _etcExtractTime.value = dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_TIME, 18f)
             } else if (etcFrontSwitch) {
-                index = 1
-                range = 1..3
-                _totalPageCount.value = 3
+                frontSwitch = true
+                _totalPageCount.value = 4
                 _etcExtractTime.value = dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_TIME, 18f)
             } else if (etcRearSwitch) {
-                index = 4
-                range = 4..6
+                rearSwitch = true
+                _totalPageCount.value = 4
                 _etcExtractTime.value = dataStore.getCoffeePreference(ETC_BACK_EXTRACT_TIME, 25f)
-                _totalPageCount.value = 3
             }
         }
     }
@@ -102,20 +101,37 @@ class ETCSettingViewModel @Inject constructor(
         }
     }
 
-    fun loadPageContent(previous: Boolean) {
-        if (previous && _page.value > 0) {
-            _page.value--
-        } else {
-            if (_page.value < _totalPageCount.value) {
-                _page.value++
-            }
-        }
+    fun prevPage() {
+        _page.value = (_page.value - 1 + _totalPageCount.value) % _totalPageCount.value
+        Log.d(TAG, "prevPage() called ${_page.value}")
+        loadPageContent()
+    }
 
-        when (_page.value) {
-            1 -> {
+    fun nextPage() {
+        _page.value = (_page.value + 1) % _totalPageCount.value
+        Log.d(TAG, "nextPage() called ${_page.value}")
+        loadPageContent()
+    }
+
+    fun getMappedPageIndex(pageIndex: Int): Int {
+        return when {
+            !frontSwitch && pageIndex == 1 -> 5  // 当frontSwitch关闭，第二页映射到第5页
+            !frontSwitch && pageIndex == 2 -> 6  // 当frontSwitch关闭，第三页映射到第6页
+            !frontSwitch && pageIndex == 3 -> 7  // 当frontSwitch关闭，第四页映射到第7页
+            frontSwitch && pageIndex == 1 -> 2  // 当frontSwitch打开，第二页映射到第2页
+            frontSwitch && pageIndex == 2 -> 3  // 当frontSwitch打开，第三页映射到第3页
+            frontSwitch && pageIndex == 3 -> 4  // 当frontSwitch打开，第四页映射到第4页
+            else -> pageIndex + 1
+        }
+    }
+
+    fun loadPageContent() {
+        val actualPageIndex = getMappedPageIndex(_page.value)
+        when (actualPageIndex) {
+            2 -> {
                 loadETCDrinkList(true)
             }
-            2 -> {
+            3 -> {
                 viewModelScope.launch {
                     _etcExtractTime.value = dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_TIME,
                         18f)
@@ -125,16 +141,16 @@ class ETCSettingViewModel @Inject constructor(
                         dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_RANGE_END, 25f)
                 }
             }
-            3 -> {
+            4 -> {
                 viewModelScope.launch {
                     _blade.value = dataStore.getCoffeePreference(ETC_BLADE_FRONT, 0f)
                     _adjust.value = dataStore.getCoffeePreference(ETC_ADJUST_FRONT, 0f)
                 }
             }
-            4 -> {
+            5 -> {
                 loadETCDrinkList(false)
             }
-            5 -> {
+            6 -> {
                 viewModelScope.launch {
                     _etcExtractTime.value = dataStore.getCoffeePreference(ETC_BACK_EXTRACT_TIME,
                         25f)
@@ -144,7 +160,7 @@ class ETCSettingViewModel @Inject constructor(
                         dataStore.getCoffeePreference(ETC_REAR_EXTRACT_RANGE_END, 40f)
                 }
             }
-            6 -> {
+            7 -> {
                 viewModelScope.launch {
                     _blade.value = dataStore.getCoffeePreference(ETC_BLADE_BACK, 0f)
                     _adjust.value = dataStore.getCoffeePreference(ETC_ADJUST_BACK, 0f)

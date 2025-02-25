@@ -121,7 +121,7 @@ fun ETCSettingsLayout(
             }
         }
 
-        Text(text = "${page + 1} / ${totalPageCount + 1}", fontSize = 7.nsp(), color = Color.White,
+        Text(text = "${page + 1} / $totalPageCount", fontSize = 7.nsp(), color = Color.White,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 30.dp))
@@ -136,7 +136,8 @@ fun ETCSettingsLayout(
                 text = stringResource(id = R.string.bean_etc_settings_previous)
             ) {
                 scope.launch {
-                    viewModel.loadPageContent(true)
+//                    viewModel.loadPageContent(true)
+                    viewModel.prevPage()
                 }
             }
         }
@@ -148,13 +149,13 @@ fun ETCSettingsLayout(
                 .height(50.dp),
             text = stringResource(id = R.string.bean_etc_settings_next)
         ) {
-            if (viewpagerState.currentPage < viewpagerCount - 1) {
-                scope.launch {
-                }
+            if ((page + 1) != totalPageCount) {
+                viewModel.nextPage()
             } else {
                 // FINISH
+                onCloseClick()
             }
-            viewModel.loadPageContent(false)
+
         }
     }
 }
