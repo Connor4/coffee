@@ -71,6 +71,7 @@ fun MilkSettingLayout(
         ) { _ ->
             when (page) {
                 0 -> MilkSettingPage1(viewModel)
+                1 -> MilkSettingPage2(viewModel)
             }
         }
 

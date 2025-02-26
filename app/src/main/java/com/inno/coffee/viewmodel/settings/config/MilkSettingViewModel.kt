@@ -7,6 +7,11 @@ import com.inno.coffee.utilities.MILK_DETECT_METHOD
 import com.inno.coffee.utilities.MILK_FOAM_WARNING
 import com.inno.coffee.utilities.MILK_OUTLET
 import com.inno.coffee.utilities.MILK_SETTING_MODE
+import com.inno.coffee.utilities.MILK_SOURCE_FOAM_CALIBRATION
+import com.inno.coffee.utilities.MILK_SOURCE_MILK_CALIBRATION
+import com.inno.coffee.utilities.MILK_SOURCE_NAME_LEFT
+import com.inno.coffee.utilities.MILK_SOURCE_NAME_RIGHT
+import com.inno.coffee.utilities.MILK_SOURCE_TEMP
 import com.inno.coffee.utilities.MILK_STEAM_PRESSURE
 import com.inno.coffee.utilities.MILK_TANK_DETECT
 import com.inno.coffee.utilities.MILK_TEMP_DETECT
@@ -48,6 +53,13 @@ class MilkSettingViewModel @Inject constructor(
     private val _steamPressure = MutableStateFlow(1f)
     val steamPressure: StateFlow<Float> = _steamPressure
 
+    private val _sourceTemp = MutableStateFlow(6f)
+    val sourceTemp: StateFlow<Float> = _sourceTemp
+    private val _sourceMilkCalibration = MutableStateFlow(10f)
+    val sourceMilkCalibration: StateFlow<Float> = _sourceMilkCalibration
+    private val _sourceFoamCalibration = MutableStateFlow(30f)
+    val sourceFoamCalibration: StateFlow<Float> = _sourceFoamCalibration
+
     private val _page = MutableStateFlow(0)
     val page = _page.asStateFlow()
 
@@ -71,6 +83,19 @@ class MilkSettingViewModel @Inject constructor(
                 MILK_TEMP_DETECT -> _tempDetect.value = value as Int
                 MILK_SETTING_MODE -> _settingMode.value = value as Int
                 MILK_STEAM_PRESSURE -> _steamPressure.value = value as Float
+            }
+        }
+    }
+
+    fun savePageTwoValue(key: Int, value: Any) {
+        Logger.d(TAG, "savePageTwoValue() called with: key = $key, value = $value")
+        viewModelScope.launch(defaultDispatcher) {
+            when (key) {
+                MILK_SOURCE_NAME_LEFT -> {}
+                MILK_SOURCE_NAME_RIGHT -> {}
+                MILK_SOURCE_TEMP -> _sourceTemp.value = value as Float
+                MILK_SOURCE_MILK_CALIBRATION -> _sourceMilkCalibration.value = value as Float
+                MILK_SOURCE_FOAM_CALIBRATION -> _sourceFoamCalibration.value = value as Float
             }
         }
     }

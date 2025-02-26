@@ -348,6 +348,10 @@
 
     <string name="config_milk_setting_mode_extend">拓展</string>
     <string name="config_milk_setting_steam_pressure">蒸汽锅炉压力</string>
+    <string name="config_milk_source_name_right">牛奶种类名称(右边)</string>
+    <string name="config_milk_source_milk_calibration">校准牛奶量</string>
+    <string name="config_milk_source_foam_calibration">校准泡沫质地</string>
+    <string name="config_milk_source_1_title">1号奶源</string>
     <string name="params_coffee_boiler_temp">咖啡锅炉温度</string>
     <string name="params_cold_rinse_quantity">冷水冲水量</string>
     <string name="params_warm_rinse_quantity">热水冲水量</string>
@@ -648,5 +652,6 @@
     <string name="config_milk_temp_detect">牛奶温度监测</string>
     <string name="config_milk_setting_mode">牛奶设置模式</string>
     <string name="config_milk_setting_mode_standard">标准</string>
+    <string name="config_milk_source_name_left">牛奶种类名称(左边)</string>
 
 </resources>

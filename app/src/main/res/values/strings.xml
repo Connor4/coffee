@@ -399,6 +399,11 @@
     <string name="config_milk_setting_mode_standard">Standard</string>
     <string name="config_milk_setting_mode_extend">Extend</string>
     <string name="config_milk_setting_steam_pressure">Steam Boiler Pressure</string>
+    <string name="config_milk_source_name_left">Milk Source Name(Left)</string>
+    <string name="config_milk_source_name_right">Milk Source Name(Right)</string>
+    <string name="config_milk_source_milk_calibration">Milk Calibration</string>
+    <string name="config_milk_source_foam_calibration">Foam Calibration</string>
+    <string name="config_milk_source_1_title">Milk Source 1</string>
 
     <string name="params_coffee_boiler_temp">Coffee Boiler Temperature</string>
     <string name="params_cold_rinse_quantity">Cold Rinse Quantity</string>

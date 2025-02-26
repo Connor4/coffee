@@ -209,7 +209,7 @@ fun MilkSettingPage1(
                 scrollDefaultValue.value = steamPressureValue
                 scrollRangeStart.value = 1.0f
                 scrollRangeEnd.value = 2.0f
-                scrollUnit.value = "[mm/s]"
+                scrollUnit.value = "[bar]"
                 scrollAccuracy.value = ACCURACY_2
             }
         }
