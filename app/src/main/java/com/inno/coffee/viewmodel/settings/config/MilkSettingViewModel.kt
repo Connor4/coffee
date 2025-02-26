@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,4 +32,15 @@ class MilkSettingViewModel @Inject constructor(
     val settingMode: StateFlow<Int> = _settingMode
     private val _steamPressure = MutableStateFlow(1f)
     val steamPressure: StateFlow<Float> = _steamPressure
+
+    private val _page = MutableStateFlow(0)
+    val page = _page.asStateFlow()
+
+    fun prevPage() {
+        _page.value--.coerceIn(0, 9)
+    }
+
+    fun nextPage() {
+        _page.value++.coerceIn(0, 9)
+    }
 }
