@@ -59,6 +59,7 @@
         <activity android:name=".ui.settings.display.groupone.DisplaySettingActivity" />
         <activity android:name=".ui.settings.config.MachineConfigActivity" />
         <activity android:name=".ui.settings.params.MachineParamsActivity" />
+        <activity android:name=".ui.settings.config.MilkSettingActivity" />
         <activity android:name=".ui.settings.bean.BeanGrinderActivity" />
         <activity android:name=".ui.settings.bean.GrinderAdjustmentActivity" />
         <activity android:name=".ui.settings.bean.etc.ETCSettingsActivity" />
