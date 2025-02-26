@@ -6,6 +6,8 @@ import com.inno.coffee.di.DefaultDispatcher
 import com.inno.coffee.utilities.MILK_DETECT_METHOD
 import com.inno.coffee.utilities.MILK_FOAM_WARNING
 import com.inno.coffee.utilities.MILK_OUTLET
+import com.inno.coffee.utilities.MILK_REVERSE_FLUSHING_LEFT
+import com.inno.coffee.utilities.MILK_REVERSE_FLUSHING_RIGHT
 import com.inno.coffee.utilities.MILK_SETTING_MODE
 import com.inno.coffee.utilities.MILK_SOURCE_FOAM_CALIBRATION
 import com.inno.coffee.utilities.MILK_SOURCE_MILK_CALIBRATION
@@ -60,6 +62,11 @@ class MilkSettingViewModel @Inject constructor(
     private val _sourceFoamCalibration = MutableStateFlow(30f)
     val sourceFoamCalibration: StateFlow<Float> = _sourceFoamCalibration
 
+    private val _reverseFlushingLeft = MutableStateFlow(0f)
+    val reverseFlushingLeft: StateFlow<Float> = _reverseFlushingLeft
+    private val _reverseFlushingRight = MutableStateFlow(0f)
+    val reverseFlushingRight: StateFlow<Float> = _reverseFlushingRight
+
     private val _page = MutableStateFlow(0)
     val page = _page.asStateFlow()
 
@@ -96,6 +103,16 @@ class MilkSettingViewModel @Inject constructor(
                 MILK_SOURCE_TEMP -> _sourceTemp.value = value as Float
                 MILK_SOURCE_MILK_CALIBRATION -> _sourceMilkCalibration.value = value as Float
                 MILK_SOURCE_FOAM_CALIBRATION -> _sourceFoamCalibration.value = value as Float
+            }
+        }
+    }
+
+    fun savePageThreeValue(key: Int, value: Any) {
+        Logger.d(TAG, "savePageThreeValue() called with: key = $key, value = $value")
+        viewModelScope.launch(defaultDispatcher) {
+            when (key) {
+                MILK_REVERSE_FLUSHING_LEFT -> _reverseFlushingLeft.value = value as Float
+                MILK_REVERSE_FLUSHING_RIGHT -> _reverseFlushingRight.value = value as Float
             }
         }
     }

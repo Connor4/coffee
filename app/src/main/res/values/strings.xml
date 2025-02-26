@@ -404,6 +404,11 @@
     <string name="config_milk_source_milk_calibration">Milk Calibration</string>
     <string name="config_milk_source_foam_calibration">Foam Calibration</string>
     <string name="config_milk_source_1_title">Milk Source 1</string>
+    <string name="config_milk_flush_left">Milk tube reverse flushing left</string>
+    <string name="config_milk_flush_right">Milk tube reverse flushing right</string>
+    <string name="config_milk_check_flush_volume">Check Milk Flush Volume</string>
+    <string name="config_milk_flush_warning">The back rinse volume must be adjusted the milk is
+        almost completely pushed out of the milk tube during "Check Back Rinse Volume"!</string>
 
     <string name="params_coffee_boiler_temp">Coffee Boiler Temperature</string>
     <string name="params_cold_rinse_quantity">Cold Rinse Quantity</string>

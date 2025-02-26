@@ -352,6 +352,8 @@
     <string name="config_milk_source_milk_calibration">校准牛奶量</string>
     <string name="config_milk_source_foam_calibration">校准泡沫质地</string>
     <string name="config_milk_source_1_title">1号奶源</string>
+    <string name="config_milk_flush_right">奶管反推冲洗量 右边</string>
+    <string name="config_milk_flush_warning">必须调整反冲洗量，以便在 “检查反冲洗量” 操作期间，牛奶几乎能完全从奶管中被推挤出来！</string>
     <string name="params_coffee_boiler_temp">咖啡锅炉温度</string>
     <string name="params_cold_rinse_quantity">冷水冲水量</string>
     <string name="params_warm_rinse_quantity">热水冲水量</string>
@@ -653,5 +655,7 @@
     <string name="config_milk_setting_mode">牛奶设置模式</string>
     <string name="config_milk_setting_mode_standard">标准</string>
     <string name="config_milk_source_name_left">牛奶种类名称(左边)</string>
+    <string name="config_milk_flush_left">奶管反推冲洗量 左边</string>
+    <string name="config_milk_check_flush_volume">检查反推冲洗量</string>
 
 </resources>

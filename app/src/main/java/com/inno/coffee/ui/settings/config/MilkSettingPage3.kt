@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -20,23 +21,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
-import com.inno.coffee.ui.common.ACCURACY_1
+import com.inno.coffee.ui.common.ChangeColorButton
 import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.utilities.INVALID_INT
-import com.inno.coffee.utilities.MILK_SOURCE_FOAM_CALIBRATION
-import com.inno.coffee.utilities.MILK_SOURCE_MILK_CALIBRATION
-import com.inno.coffee.utilities.MILK_SOURCE_NAME_LEFT
-import com.inno.coffee.utilities.MILK_SOURCE_NAME_RIGHT
-import com.inno.coffee.utilities.MILK_SOURCE_TEMP
+import com.inno.coffee.utilities.MILK_REVERSE_FLUSHING_LEFT
+import com.inno.coffee.utilities.MILK_REVERSE_FLUSHING_RIGHT
 import com.inno.coffee.utilities.nsp
 import com.inno.coffee.viewmodel.settings.config.MilkSettingViewModel
 
 @Composable
-fun MilkSettingPage2(
+fun MilkSettingPage3(
     viewModel: MilkSettingViewModel = hiltViewModel(),
 ) {
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
@@ -46,15 +45,8 @@ fun MilkSettingPage2(
     val scrollUnit = remember { mutableStateOf("") }
     val scrollAccuracy = remember { mutableStateOf(1) }
 
-    val nameLeft = stringResource(R.string.config_milk_source_name_left)
-    val nameRight = stringResource(R.string.config_milk_source_name_right)
-    val temp = stringResource(R.string.config_milk_tank_temperature)
-    val milkCalibration = stringResource(R.string.config_milk_source_milk_calibration)
-    val foamCalibration = stringResource(R.string.config_milk_source_foam_calibration)
-
-    val tempValue by viewModel.sourceTemp.collectAsState()
-    val milkCalibrationValue by viewModel.sourceMilkCalibration.collectAsState()
-    val foamCalibrationValue by viewModel.sourceFoamCalibration.collectAsState()
+    val flushLeft by viewModel.reverseFlushingLeft.collectAsState()
+    val flushRight by viewModel.reverseFlushingRight.collectAsState()
 
     Box(
         modifier = Modifier
@@ -64,44 +56,40 @@ fun MilkSettingPage2(
             fontSize = 6.nsp(), fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 54.dp, top = 20.dp))
 
+        ChangeColorButton(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 10.dp, end = 90.dp)
+                .width(300.dp)
+                .height(50.dp),
+            text = stringResource(id = R.string.config_milk_check_flush_volume)
+        ) {
+
+        }
+
+        Text(text = stringResource(R.string.config_milk_flush_warning), color = Color(0xFFE02020),
+            fontSize = 6.nsp(), textAlign = TextAlign.Center, modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 300.dp)
+                .width(660.dp)
+                .wrapContentHeight())
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(start = 54.dp, top = 160.dp, end = 95.dp)
         ) {
-            DisplayItemLayout(nameLeft, "Semi", Color(0xFF191A1D), enable = false) {
-                itemSelectIndex.value = MILK_SOURCE_NAME_LEFT
-            }
-            DisplayItemLayout(nameRight, "Semi", Color(0xFF2A2B2D), enable = false) {
-                itemSelectIndex.value = MILK_SOURCE_NAME_RIGHT
-            }
-            DisplayItemLayout(temp, tempValue.toString(),
+            DisplayItemLayout(stringResource(R.string.config_milk_flush_left), flushLeft.toString(),
                 Color(0xFF191A1D)) {
-                itemSelectIndex.value = MILK_SOURCE_TEMP
-                scrollDefaultValue.value = tempValue
-                scrollRangeStart.value = 60f
-                scrollRangeEnd.value = 70f
-                scrollUnit.value = "[°C]"
-                scrollAccuracy.value = ACCURACY_1
+                itemSelectIndex.value = MILK_REVERSE_FLUSHING_LEFT
+                scrollDefaultValue.value = flushLeft
             }
-            DisplayItemLayout(milkCalibration, milkCalibrationValue.toString(),
+            DisplayItemLayout(stringResource(R.string.config_milk_flush_right),
+                flushRight.toString(),
                 Color(0xFF2A2B2D)) {
-                itemSelectIndex.value = MILK_SOURCE_MILK_CALIBRATION
-                scrollDefaultValue.value = milkCalibrationValue
-                scrollRangeStart.value = 10.0f
-                scrollRangeEnd.value = 30.0f
-                scrollUnit.value = "[s]"
-                scrollAccuracy.value = ACCURACY_1
-            }
-            DisplayItemLayout(foamCalibration, foamCalibrationValue.toString(),
-                Color(0xFF191A1D)) {
-                itemSelectIndex.value = MILK_SOURCE_FOAM_CALIBRATION
-                scrollDefaultValue.value = foamCalibrationValue
-                scrollRangeStart.value = 1.0f
-                scrollRangeEnd.value = 100.0f
-                scrollUnit.value = ""
-                scrollAccuracy.value = ACCURACY_1
+                itemSelectIndex.value = MILK_REVERSE_FLUSHING_RIGHT
+                scrollDefaultValue.value = flushRight
             }
         }
         if (itemSelectIndex.value != INVALID_INT) {
@@ -109,16 +97,16 @@ fun MilkSettingPage2(
                 UnitValueScrollBar(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(top = 40.dp, end = 90.dp)
+                        .padding(top = 80.dp, end = 90.dp)
                         .width(550.dp)
                         .wrapContentHeight(),
                     value = scrollDefaultValue.value,
-                    rangeStart = scrollRangeStart.value,
-                    rangeEnd = scrollRangeEnd.value,
-                    unit = scrollUnit.value,
+                    rangeStart = 0f,
+                    rangeEnd = 5000f,
+                    unit = "[ms]",
                     accuracy = scrollAccuracy.value
                 ) { changeValue ->
-                    viewModel.savePageTwoValue(itemSelectIndex.value, changeValue)
+                    viewModel.savePageThreeValue(itemSelectIndex.value, changeValue)
                 }
             }
         }
