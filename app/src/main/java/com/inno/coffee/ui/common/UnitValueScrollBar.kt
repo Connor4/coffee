@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -75,6 +76,12 @@ fun UnitValueScrollBar(
     }
     var offset by remember {
         mutableStateOf(Offset.Zero)
+    }
+
+    LaunchedEffect(value, rangeStart, rangeEnd) {
+        currentValue = safeValue.coerceIn(validRangeStart, validRangeEnd)
+        progress =
+            if (rangeEnd == rangeStart) 0f else (currentValue - rangeStart) / (rangeEnd - rangeStart)
     }
 
     Box(modifier = modifier) {
