@@ -1,17 +1,22 @@
 package com.inno.coffee.ui.settings.config
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -19,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.inno.coffee.R
 import com.inno.coffee.ui.common.ACCURACY_2
+import com.inno.coffee.ui.common.ListSelectLayout
+import com.inno.coffee.ui.common.UnitValueScrollBar
 import com.inno.coffee.ui.settings.display.DisplayItemLayout
 import com.inno.coffee.utilities.INVALID_INT
 import com.inno.coffee.utilities.MILK_DETECT_METHOD
@@ -97,110 +104,147 @@ fun MilkSettingPage1(
     val mode = if (settingModeValue == 0) modeStandard else modeExtend
     val tempDetect = if (tempDetectValue == 0) on else off
 
-
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(start = 50.dp, end = 95.dp)
+            .fillMaxSize()
     ) {
-        DisplayItemLayout(detectMethod, methodValue, Color(0xFF191A1D)) {
-            itemSelectIndex.value = MILK_DETECT_METHOD
-            defaultValue.value = methodValue
-            titleValue.value = detectMethod
-            dataMap.clear()
-            dataMap.putAll(
-                mapOf(
-                    Pair(methodMilkFlow, 0),
-                    Pair(methodMilkSensor, 1),
-                    Pair(methodMilkTemp, 2)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 50.dp, top = 160.dp, end = 95.dp)
+        ) {
+            DisplayItemLayout(detectMethod, methodValue, Color(0xFF191A1D)) {
+                itemSelectIndex.value = MILK_DETECT_METHOD
+                defaultValue.value = methodValue
+                titleValue.value = detectMethod
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(methodMilkFlow, 0),
+                        Pair(methodMilkSensor, 1),
+                        Pair(methodMilkTemp, 2)
+                    )
                 )
-            )
-        }
-        DisplayItemLayout(tankDetect, tank, Color(0xFF2A2B2D)) {
-            itemSelectIndex.value = MILK_TANK_DETECT
-            defaultValue.value = tank
-            titleValue.value = tankDetect
-            dataMap.clear()
-            dataMap.putAll(
-                mapOf(
-                    Pair(tankDetectClose, 0),
-                    Pair(tankDetectTemp, 1),
-                    Pair(tankDetectRefrigerator, 2),
-                    Pair(tankDetectBoth, 3)
+            }
+            DisplayItemLayout(tankDetect, tank, Color(0xFF2A2B2D)) {
+                itemSelectIndex.value = MILK_TANK_DETECT
+                defaultValue.value = tank
+                titleValue.value = tankDetect
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(tankDetectClose, 0),
+                        Pair(tankDetectTemp, 1),
+                        Pair(tankDetectRefrigerator, 2),
+                        Pair(tankDetectBoth, 3)
+                    )
                 )
-            )
-        }
-        Spacer(modifier = Modifier.height(40.dp))
-        DisplayItemLayout(milkValve, valve, Color(0xFF191A1D)) {
-            itemSelectIndex.value = MILK_VALVE
-            titleValue.value = milkValve
-            defaultValue.value = valve
-            dataMap.clear()
-            dataMap.putAll(
-                mapOf(
-                    Pair(valveExist, 0),
-                    Pair(valveNotExist, 1)
+            }
+            Spacer(modifier = Modifier.height(40.dp))
+            DisplayItemLayout(milkValve, valve, Color(0xFF191A1D)) {
+                itemSelectIndex.value = MILK_VALVE
+                titleValue.value = milkValve
+                defaultValue.value = valve
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(valveExist, 0),
+                        Pair(valveNotExist, 1)
+                    )
                 )
-            )
-        }
-        DisplayItemLayout(milkOutlet, outlet, Color(0xFF2A2B2D)) {
-            itemSelectIndex.value = MILK_OUTLET
-            titleValue.value = milkOutlet
-            defaultValue.value = outlet
-            dataMap.clear()
-            dataMap.putAll(
-                mapOf(
-                    Pair(outletCoffee, 0),
-                    Pair(outletMilkStick, 1)
+            }
+            DisplayItemLayout(milkOutlet, outlet, Color(0xFF2A2B2D)) {
+                itemSelectIndex.value = MILK_OUTLET
+                titleValue.value = milkOutlet
+                defaultValue.value = outlet
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(outletCoffee, 0),
+                        Pair(outletMilkStick, 1)
+                    )
                 )
-            )
+            }
+
+            DisplayItemLayout(foamWarning, warning, Color(0xFF191A1D)) {
+                itemSelectIndex.value = MILK_FOAM_WARNING
+                titleValue.value = foamWarning
+                defaultValue.value = warning
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(on, 0),
+                        Pair(off, 1)
+                    )
+                )
+            }
+            DisplayItemLayout(milkTempDetect, tempDetect, Color(0xFF2A2B2D), enable = false) {
+                itemSelectIndex.value = MILK_TEMP_DETECT
+                titleValue.value = milkTempDetect
+                defaultValue.value = tempDetect
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(on, 0),
+                        Pair(off, 1)
+                    )
+                )
+            }
+            DisplayItemLayout(milkSettingMode, mode, Color(0xFF191A1D)) {
+                itemSelectIndex.value = MILK_SETTING_MODE
+                titleValue.value = milkSettingMode
+                defaultValue.value = mode
+                dataMap.clear()
+                dataMap.putAll(
+                    mapOf(
+                        Pair(modeStandard, 0),
+                        Pair(modeExtend, 1)
+                    )
+                )
+            }
+            DisplayItemLayout(steamBoilerPressure, steamPressureValue.toString(),
+                Color(0xFF2A2B2D)) {
+                itemSelectIndex.value = MILK_STEAM_PRESSURE
+                scrollDefaultValue.value = steamPressureValue
+                scrollRangeStart.value = 1.0f
+                scrollRangeEnd.value = 2.0f
+                scrollUnit.value = "[mm/s]"
+                scrollAccuracy.value = ACCURACY_2
+            }
         }
 
-        DisplayItemLayout(foamWarning, warning, Color(0xFF191A1D)) {
-            itemSelectIndex.value = MILK_FOAM_WARNING
-            titleValue.value = foamWarning
-            defaultValue.value = warning
-            dataMap.clear()
-            dataMap.putAll(
-                mapOf(
-                    Pair(on, 0),
-                    Pair(off, 1)
-                )
-            )
-        }
-        DisplayItemLayout(milkTempDetect, tempDetect, Color(0xFF2A2B2D), enable = false) {
-            itemSelectIndex.value = MILK_TEMP_DETECT
-            titleValue.value = milkTempDetect
-            defaultValue.value = tempDetect
-            dataMap.clear()
-            dataMap.putAll(
-                mapOf(
-                    Pair(on, 0),
-                    Pair(off, 1)
-                )
-            )
-        }
-        DisplayItemLayout(milkSettingMode, mode, Color(0xFF191A1D)) {
-            itemSelectIndex.value = MILK_SETTING_MODE
-            titleValue.value = milkSettingMode
-            defaultValue.value = mode
-            dataMap.clear()
-            dataMap.putAll(
-                mapOf(
-                    Pair(modeStandard, 0),
-                    Pair(modeExtend, 1)
-                )
-            )
-        }
-        DisplayItemLayout(steamBoilerPressure, steamPressureValue.toString(),
-            Color(0xFF2A2B2D)) {
-            itemSelectIndex.value = MILK_STEAM_PRESSURE
-            scrollDefaultValue.value = steamPressureValue
-            scrollRangeStart.value = 1.0f
-            scrollRangeEnd.value = 2.0f
-            scrollUnit.value = "[mm/s]"
-            scrollAccuracy.value = ACCURACY_2
+        if (itemSelectIndex.value != INVALID_INT) {
+            when (itemSelectIndex.value) {
+                MILK_STEAM_PRESSURE -> {
+                    key(scrollDefaultValue.value) {
+                        UnitValueScrollBar(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(top = 40.dp, end = 90.dp)
+                                .width(550.dp)
+                                .wrapContentHeight(),
+                            value = scrollDefaultValue.value,
+                            rangeStart = scrollRangeStart.value,
+                            rangeEnd = scrollRangeEnd.value,
+                            unit = scrollUnit.value,
+                            accuracy = scrollAccuracy.value
+                        ) { changeValue ->
+                            viewModel.savePageOneValue(itemSelectIndex.value, changeValue)
+                        }
+                    }
+                }
+                else -> {
+                    ListSelectLayout(titleValue.value, defaultValue.value, dataMap.toMap(),
+                        { _, value ->
+                            viewModel.savePageOneValue(itemSelectIndex.value, value)
+                            itemSelectIndex.value = INVALID_INT
+                        }, {
+                            itemSelectIndex.value = INVALID_INT
+                        }
+                    )
+                }
+            }
         }
     }
 }
