@@ -33,6 +33,7 @@ fun ETCSettingsPage2(
     selectFormula: Formula?,
     isFahrenheit: Boolean = false,
     pageCount: Int = 0,
+    isFront: Boolean = false,
     onSelectFormula: (Int) -> Unit = {},
     onUpdateFormula: (Formula) -> Unit = {},
     onLearnWater: () -> Unit = {},
@@ -50,7 +51,12 @@ fun ETCSettingsPage2(
                 .width(269.dp)
                 .wrapContentHeight()
         )
-        Image(painter = painterResource(id = R.drawable.etc_setting_front_grinder_ic),
+        val grinderDrawable = if (isFront) {
+            R.drawable.etc_setting_front_grinder_ic
+        } else {
+            R.drawable.etc_setting_rear_grinder_ic
+        }
+        Image(painter = painterResource(id = grinderDrawable),
             modifier = Modifier
                 .padding(start = 440.dp, top = 40.dp)
                 .width(216.dp)

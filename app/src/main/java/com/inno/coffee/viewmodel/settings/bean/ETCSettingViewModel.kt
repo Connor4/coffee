@@ -59,6 +59,8 @@ class ETCSettingViewModel @Inject constructor(
     val page = _page.asStateFlow()
     private val _totalPageCount = MutableStateFlow(0)
     val totalPageCount = _totalPageCount.asStateFlow()
+    private val _isFront = MutableStateFlow(false)
+    val isFront = _isFront.asStateFlow()
 
     private val _blade = MutableStateFlow(0f)
     val blade = _blade.asStateFlow()
@@ -144,6 +146,7 @@ class ETCSettingViewModel @Inject constructor(
 
     private fun loadETCDrinkList(front: Boolean) {
         viewModelScope.launch(defaultDispatcher) {
+            _isFront.value = front
             _drinksList.value = repository.getAllFormula().filter {
                 it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
                     it.productType?.type) && it.showType == SHOW_LEFT_SCREEN

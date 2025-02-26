@@ -56,6 +56,7 @@ fun ETCSettingsLayout(
     val selectFormula by viewModel.formula.collectAsState()
     val tempUnit by viewModel.tempUnit.collectAsState()
     val pageCount = (drinksList.size + PAGE_COUNT - 1) / PAGE_COUNT
+    val isFront by viewModel.isFront.collectAsState()
 
     val extractTime by viewModel.etcExtractTime.collectAsState()
     val rangeStart by viewModel.etcRangeStart.collectAsState()
@@ -101,7 +102,8 @@ fun ETCSettingsLayout(
                     // TODO 冲水
                 }
                 1, 4 -> ETCSettingsPage2(drinksList = drinksList, selectFormula = selectFormula,
-                    isFahrenheit = tempUnit, pageCount = pageCount, onSelectFormula = {
+                    isFahrenheit = tempUnit, pageCount = pageCount, isFront = isFront,
+                    onSelectFormula = {
                         viewModel.getFormula(it)
                     }, onProductTest = {
                         viewModel.productTest(it, mainScreen)
