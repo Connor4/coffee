@@ -114,7 +114,7 @@ fun ETCSettingsLayout(
                     })
                 2, 5 -> ETCSettingsPage3(currentValue = extractTime, rangeStart = rangeStart,
                     rangeEnd = rangeEnd, onValueChange = {
-                        viewModel.setEtcExtractTime(page, it)
+                        viewModel.setEtcExtractTime(it)
                     })
                 3, 6 -> ETCSettingsPage4(blade = blade, adjust = adjust, isFahrenheit = tempUnit,
                     formula = selectFormula)

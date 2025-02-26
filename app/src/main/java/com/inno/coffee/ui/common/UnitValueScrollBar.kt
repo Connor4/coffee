@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -78,12 +77,6 @@ fun UnitValueScrollBar(
         mutableStateOf(Offset.Zero)
     }
 
-    LaunchedEffect(value, rangeStart, rangeEnd) {
-        currentValue = safeValue.coerceIn(validRangeStart, validRangeEnd)
-        progress =
-            if (rangeEnd == rangeStart) 0f else (currentValue - rangeStart) / (rangeEnd - rangeStart)
-    }
-
     Box(modifier = modifier) {
         Row(
             modifier = Modifier
@@ -120,21 +113,22 @@ fun UnitValueScrollBar(
             ) {
                 currentValue = when (accuracy) {
                     ACCURACY_1 -> {
-                        currentValue.minus(1).coerceIn(rangeStart, rangeEnd)
+                        currentValue.minus(1).coerceIn(validRangeStart, validRangeEnd)
                     }
                     ACCURACY_2 -> {
-                        (((currentValue - 0.1f) * 10).roundToInt() / 10f).coerceIn(rangeStart,
-                            rangeEnd)
+                        (((currentValue - 0.1f) * 10).roundToInt() / 10f).coerceIn(validRangeStart,
+                            validRangeEnd)
                     }
                     ACCURACY_3 -> {
-                        (((currentValue - 0.01f) * 100).roundToInt() / 100f).coerceIn(rangeStart,
-                            rangeEnd)
+                        (((currentValue - 0.01f) * 100).roundToInt() / 100f).coerceIn(
+                            validRangeStart,
+                            validRangeEnd)
                     }
                     else -> {
-                        currentValue.minus(1).coerceIn(rangeStart, rangeEnd)
+                        currentValue.minus(1).coerceIn(validRangeStart, validRangeEnd)
                     }
                 }
-                progress = (currentValue - rangeStart) / (rangeEnd - rangeStart)
+                progress = (currentValue - validRangeStart) / (validRangeEnd - validRangeStart)
                 onValueChange(currentValue)
             }
             Spacer(modifier = Modifier.width(20.dp))
@@ -155,20 +149,20 @@ fun UnitValueScrollBar(
                                 progress = (offset.x / progressBarWidth.toPx()).coerceIn(0f, 1f)
                                 currentValue = when (accuracy) {
                                     ACCURACY_1 -> {
-                                        (rangeStart + (rangeEnd - rangeStart) * progress)
+                                        (validRangeStart + (validRangeEnd - validRangeStart) * progress)
                                             .roundToInt()
                                             .toFloat()
                                     }
                                     ACCURACY_2 -> {
-                                        ((rangeStart + (rangeEnd - rangeStart) * progress) *
+                                        ((validRangeStart + (validRangeEnd - validRangeStart) * progress) *
                                                 10).roundToInt() / 10f
                                     }
                                     ACCURACY_3 -> {
-                                        ((rangeStart + (rangeEnd - rangeStart) * progress) *
+                                        ((validRangeStart + (validRangeEnd - validRangeStart) * progress) *
                                                 100).roundToInt() / 100f
                                     }
                                     else -> {
-                                        (rangeStart + (rangeEnd - rangeStart) * progress)
+                                        (validRangeStart + (validRangeEnd - validRangeStart) * progress)
                                             .roundToInt()
                                             .toFloat()
                                     }
@@ -179,20 +173,20 @@ fun UnitValueScrollBar(
                                     progress = (offset.x / progressBarWidth.toPx()).coerceIn(0f, 1f)
                                     currentValue = when (accuracy) {
                                         ACCURACY_1 -> {
-                                            (rangeStart + (rangeEnd - rangeStart) * progress)
+                                            (validRangeStart + (validRangeEnd - validRangeStart) * progress)
                                                 .roundToInt()
                                                 .toFloat()
                                         }
                                         ACCURACY_2 -> {
-                                            ((rangeStart + (rangeEnd - rangeStart) * progress) *
+                                            ((validRangeStart + (validRangeEnd - validRangeStart) * progress) *
                                                     10).roundToInt() / 10f
                                         }
                                         ACCURACY_3 -> {
-                                            ((rangeStart + (rangeEnd - rangeStart) * progress) *
+                                            ((validRangeStart + (validRangeEnd - validRangeStart) * progress) *
                                                     100).roundToInt() / 100f
                                         }
                                         else -> {
-                                            (rangeStart + (rangeEnd - rangeStart) * progress)
+                                            (validRangeStart + (validRangeEnd - validRangeStart) * progress)
                                                 .roundToInt()
                                                 .toFloat()
                                         }
@@ -220,30 +214,30 @@ fun UnitValueScrollBar(
                 ) {
                     val realShowRangeStart = when (accuracy) {
                         ACCURACY_1 -> {
-                            "${rangeStart.toInt()}"
+                            "${validRangeStart.toInt()}"
                         }
                         ACCURACY_2 -> {
-                            "${(rangeStart * 10).roundToInt() / 10f}"
+                            "${(validRangeStart * 10).roundToInt() / 10f}"
                         }
                         ACCURACY_3 -> {
-                            "${(rangeStart * 100).roundToInt() / 100f}"
+                            "${(validRangeStart * 100).roundToInt() / 100f}"
                         }
                         else -> {
-                            "${rangeStart.toInt()}"
+                            "${validRangeStart.toInt()}"
                         }
                     }
                     val realShowRangeEnd = when (accuracy) {
                         ACCURACY_1 -> {
-                            "${rangeEnd.toInt()}"
+                            "${validRangeEnd.toInt()}"
                         }
                         ACCURACY_2 -> {
-                            "${(rangeEnd * 10).roundToInt() / 10f}"
+                            "${(validRangeEnd * 10).roundToInt() / 10f}"
                         }
                         ACCURACY_3 -> {
-                            "${(rangeEnd * 100).roundToInt() / 100f}"
+                            "${(validRangeEnd * 100).roundToInt() / 100f}"
                         }
                         else -> {
-                            "${rangeEnd.toInt()}"
+                            "${validRangeEnd.toInt()}"
                         }
                     }
                     Text(text = realShowRangeStart, fontSize = 5.nsp(), color = Color.White)
@@ -258,21 +252,21 @@ fun UnitValueScrollBar(
             ) {
                 currentValue = when (accuracy) {
                     ACCURACY_1 -> {
-                        currentValue.plus(1).coerceIn(rangeStart, rangeEnd)
+                        currentValue.plus(1).coerceIn(validRangeStart, validRangeEnd)
                     }
                     ACCURACY_2 -> {
-                        (((currentValue + 0.1f) * 10).roundToInt() / 10f).coerceIn(rangeStart,
-                            rangeEnd)
+                        (((currentValue + 0.1f) * 10).roundToInt() / 10f).coerceIn(validRangeStart,
+                            validRangeEnd)
                     }
                     ACCURACY_3 -> {
-                        (((currentValue + 0.01f) * 100).roundToInt() / 100f).coerceIn(rangeStart,
-                            rangeEnd)
+                        (((currentValue + 0.01f) * 100).roundToInt() / 100f).coerceIn(
+                            validRangeStart, validRangeEnd)
                     }
                     else -> {
-                        currentValue.plus(1).coerceIn(rangeStart, rangeEnd)
+                        currentValue.plus(1).coerceIn(validRangeStart, validRangeEnd)
                     }
                 }
-                progress = (currentValue - rangeStart) / (rangeEnd - rangeStart)
+                progress = (currentValue - validRangeStart) / (validRangeEnd - validRangeStart)
                 onValueChange(currentValue)
             }
         }

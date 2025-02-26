@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,17 +39,19 @@ fun ETCSettingsPage3(
                 .width(269.dp)
                 .wrapContentHeight()
         )
-        UnitValueScrollBar(
-            modifier = Modifier
-                .wrapContentSize()
-                .align(Alignment.TopEnd)
-                .padding(top = 140.dp, end = 90.dp),
-            value = currentValue,
-            rangeStart = rangeStart,
-            rangeEnd = rangeEnd,
-            unit = unit,
-        ) { changeValue ->
-            onValueChange(changeValue)
+        key(currentValue, rangeStart, rangeEnd) {
+            UnitValueScrollBar(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .align(Alignment.TopEnd)
+                    .padding(top = 140.dp, end = 90.dp),
+                value = currentValue,
+                rangeStart = rangeStart,
+                rangeEnd = rangeEnd,
+                unit = unit,
+            ) { changeValue ->
+                onValueChange(changeValue)
+            }
         }
         Box(
             modifier = Modifier

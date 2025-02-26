@@ -1,6 +1,5 @@
 package com.inno.coffee.viewmodel.settings.bean
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inno.coffee.di.DefaultDispatcher
@@ -78,51 +77,24 @@ class ETCSettingViewModel @Inject constructor(
                 frontSwitch = true
                 rearSwitch = true
                 _totalPageCount.value = 7
-                _etcExtractTime.value = dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_TIME, 18f)
             } else if (etcFrontSwitch) {
                 frontSwitch = true
                 _totalPageCount.value = 4
-                _etcExtractTime.value = dataStore.getCoffeePreference(ETC_FRONT_EXTRACT_TIME, 18f)
             } else if (etcRearSwitch) {
                 rearSwitch = true
                 _totalPageCount.value = 4
-                _etcExtractTime.value = dataStore.getCoffeePreference(ETC_BACK_EXTRACT_TIME, 25f)
             }
-        }
-    }
-
-    fun loadETCDrinkList(front: Boolean) {
-        viewModelScope.launch(defaultDispatcher) {
-            _drinksList.value = repository.getAllFormula().filter {
-                it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
-                    it.productType?.type) && it.showType == SHOW_LEFT_SCREEN
-            }
-            _formula.value = _drinksList.value.firstOrNull()
         }
     }
 
     fun prevPage() {
         _page.value = (_page.value - 1 + _totalPageCount.value) % _totalPageCount.value
-        Log.d(TAG, "prevPage() called ${_page.value}")
         loadPageContent()
     }
 
     fun nextPage() {
         _page.value = (_page.value + 1) % _totalPageCount.value
-        Log.d(TAG, "nextPage() called ${_page.value}")
         loadPageContent()
-    }
-
-    fun getMappedPageIndex(pageIndex: Int): Int {
-        return when {
-            !frontSwitch && pageIndex == 1 -> 5  // 当frontSwitch关闭，第二页映射到第5页
-            !frontSwitch && pageIndex == 2 -> 6  // 当frontSwitch关闭，第三页映射到第6页
-            !frontSwitch && pageIndex == 3 -> 7  // 当frontSwitch关闭，第四页映射到第7页
-            frontSwitch && pageIndex == 1 -> 2  // 当frontSwitch打开，第二页映射到第2页
-            frontSwitch && pageIndex == 2 -> 3  // 当frontSwitch打开，第三页映射到第3页
-            frontSwitch && pageIndex == 3 -> 4  // 当frontSwitch打开，第四页映射到第4页
-            else -> pageIndex + 1
-        }
     }
 
     fun loadPageContent() {
@@ -170,15 +142,40 @@ class ETCSettingViewModel @Inject constructor(
 
     }
 
-    fun setEtcExtractTime(page: Int, value: Float) {
-        viewModelScope.launch {
-            val key = if (page == 2) {
-                ETC_FRONT_EXTRACT_TIME
-            } else {
-                ETC_BACK_EXTRACT_TIME
+    private fun loadETCDrinkList(front: Boolean) {
+        viewModelScope.launch(defaultDispatcher) {
+            _drinksList.value = repository.getAllFormula().filter {
+                it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
+                    it.productType?.type) && it.showType == SHOW_LEFT_SCREEN
             }
-            dataStore.saveCoffeePreference(key, value)
-            _etcExtractTime.value = value
+            _formula.value = _drinksList.value.firstOrNull()
+        }
+    }
+
+    private fun getMappedPageIndex(pageIndex: Int): Int {
+        return when {
+            !frontSwitch && pageIndex == 1 -> 5  // 当frontSwitch关闭，第二页映射到第5页
+            !frontSwitch && pageIndex == 2 -> 6  // 当frontSwitch关闭，第三页映射到第6页
+            !frontSwitch && pageIndex == 3 -> 7  // 当frontSwitch关闭，第四页映射到第7页
+            frontSwitch && pageIndex == 1 -> 2  // 当frontSwitch打开，第二页映射到第2页
+            frontSwitch && pageIndex == 2 -> 3  // 当frontSwitch打开，第三页映射到第3页
+            frontSwitch && pageIndex == 3 -> 4  // 当frontSwitch打开，第四页映射到第4页
+            else -> pageIndex + 1
+        }
+    }
+
+    fun setEtcExtractTime(value: Float) {
+        viewModelScope.launch {
+            val actualPageIndex = getMappedPageIndex(_page.value)
+            Logger.d(TAG,
+                "setEtcExtractTime() called with: actualPageIndex = $actualPageIndex, value = $value")
+            if (actualPageIndex == 3) {
+                dataStore.saveCoffeePreference(ETC_FRONT_EXTRACT_TIME, value)
+                _etcExtractTime.value = value
+            } else if (actualPageIndex == 6) {
+                dataStore.saveCoffeePreference(ETC_BACK_EXTRACT_TIME, value)
+                _etcExtractTime.value = value
+            }
         }
     }
 
