@@ -50,7 +50,7 @@ fun ETCSettingsPage2(
                 .width(269.dp)
                 .wrapContentHeight()
         )
-        Image(painter = painterResource(id = R.drawable.etc_setting_grinder_ic),
+        Image(painter = painterResource(id = R.drawable.etc_setting_front_grinder_ic),
             modifier = Modifier
                 .padding(start = 440.dp, top = 40.dp)
                 .width(216.dp)
