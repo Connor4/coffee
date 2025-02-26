@@ -346,6 +346,8 @@
     <string name="config_steam_wand_left">左</string>
     <string name="config_steam_wand_right">右</string>
 
+    <string name="config_milk_setting_mode_extend">拓展</string>
+    <string name="config_milk_setting_steam_pressure">蒸汽锅炉压力</string>
     <string name="params_coffee_boiler_temp">咖啡锅炉温度</string>
     <string name="params_cold_rinse_quantity">冷水冲水量</string>
     <string name="params_warm_rinse_quantity">热水冲水量</string>
@@ -626,5 +628,25 @@
     <string name="bean_etc_settings_1_notice">如果您更换了部件或维护了机器，建议后动润湿流速以测量系统和限流孔的流速。</string>
     <string name="home_check_container_title">清理废渣盒</string>
     <string name="bean_etc_settings_4_blade_grinder_capacity">刀盘研磨容量: </string>
+    <string name="config_milk_setting">牛奶系统设置</string>
+    <string name="config_milk_tank_detect_method">奶缸奶量监测方式</string>
+    <string name="config_milk_tank_detect_milk_flow">奶流量监测(推荐)</string>
+    <string name="config_milk_tank_detect_milk_flow_sensor">牛奶流量传感器</string>
+    <string name="config_milk_tank_detect_temp_detect">温度监测(仅紧急情况适用)</string>
+    <string name="config_milk_tank_detect">奶缸监测</string>
+    <string name="config_milk_tank_detect_close">关闭</string>
+    <string name="config_milk_tank_temperature">温度</string>
+    <string name="config_milk_tank_refrigerator">冰箱</string>
+    <string name="config_milk_tank_both">温度及冰箱</string>
+    <string name="config_milk_valve">牛奶分类阀</string>
+    <string name="config_milk_valve_exist">存在</string>
+    <string name="config_milk_valve_not_exist">不存在</string>
+    <string name="config_milk_outlet">出奶口</string>
+    <string name="config_milk_outlet_coffee">咖啡出口</string>
+    <string name="config_milk_outlet_milk_stick">奶棒</string>
+    <string name="config_milk_foam_temp_warning">泡沫温度警告</string>
+    <string name="config_milk_temp_detect">牛奶温度监测</string>
+    <string name="config_milk_setting_mode">牛奶设置模式</string>
+    <string name="config_milk_setting_mode_standard">标准</string>
 
 </resources>

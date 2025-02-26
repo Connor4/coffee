@@ -138,6 +138,15 @@ const val STEAM_WAND_BOTH = 0
 const val STEAM_WAND_LEFT = 1
 const val STEAM_WAND_RIGHT = 2
 
+const val MILK_DETECT_METHOD = 1
+const val MILK_TANK_DETECT = 2
+const val MILK_VALVE = 3
+const val MILK_OUTLET = 4
+const val MILK_FOAM_WARNING = 5
+const val MILK_TEMP_DETECT = 6
+const val MILK_SETTING_MODE = 7
+const val MILK_STEAM_PRESSURE = 8
+
 const val PARAMS_KEY_BOILER_TEMP = 0
 const val PARAMS_KEY_COLD_RINSE = 1
 const val PARAMS_KEY_WARM_RINSE = 2
