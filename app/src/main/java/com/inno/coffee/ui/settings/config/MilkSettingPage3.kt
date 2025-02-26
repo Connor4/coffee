@@ -40,9 +40,6 @@ fun MilkSettingPage3(
 ) {
     val itemSelectIndex = remember { mutableIntStateOf(INVALID_INT) }
     val scrollDefaultValue = remember { mutableStateOf(0f) }
-    val scrollRangeStart = remember { mutableStateOf(0f) }
-    val scrollRangeEnd = remember { mutableStateOf(0f) }
-    val scrollUnit = remember { mutableStateOf("") }
     val scrollAccuracy = remember { mutableStateOf(1) }
 
     val flushLeft by viewModel.reverseFlushingLeft.collectAsState()
