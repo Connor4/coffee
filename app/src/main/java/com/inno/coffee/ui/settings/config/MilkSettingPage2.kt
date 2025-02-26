@@ -62,8 +62,7 @@ fun MilkSettingPage2(
     ) {
         Text(text = stringResource(R.string.config_milk_source_1_title), color = Color(0xFF32C5FF),
             fontSize = 6.nsp(), fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 50.dp, top = 20
-                .dp))
+            modifier = Modifier.padding(start = 50.dp, top = 20.dp))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
