@@ -6,8 +6,8 @@ enum class ProductType(val value: String) {
     COFFEE("Coffee"),
     AMERICANO("Americano"),
     DRIP_COFFEE("DripCoffee"),
-    POD_COFFEE("PodCoffee"),
-    DRIP_POD_COFFEE("DripPodCoffee"),
+    //    POD_COFFEE("PodCoffee"),
+//    DRIP_POD_COFFEE("DripPodCoffee"),
     HOT_WATER("HotWater"),
     MILK("Milk"),
     FOAM("Foam"),
@@ -26,9 +26,9 @@ enum class ProductType(val value: String) {
         }
 
         fun redirectToCoffee(type: String?): String? {
+//            POD_COFFEE.value == type || DRIP_POD_COFFEE.value == type ||
             if (type == ESPRESSO.value || type == AMERICANO.value || type == DRIP_COFFEE.value
-                    || POD_COFFEE.value == type || DRIP_POD_COFFEE.value == type || type == COFFEE
-                        .value) {
+                    || type == COFFEE.value) {
                 return COFFEE.value
             }
             return type
@@ -53,8 +53,9 @@ enum class ProductType(val value: String) {
         }
 
         fun isCoffeeType(type: String?): Boolean {
-            return type == ESPRESSO.value || type == AMERICANO.value || type == DRIP_POD_COFFEE.value
-                    || type == DRIP_COFFEE.value || type == POD_COFFEE.value || type == COFFEE.value
+//            || type == POD_COFFEE.value  || type == DRIP_POD_COFFEE.value
+            return type == ESPRESSO.value || type == AMERICANO.value || type == COFFEE.value ||
+                    type == DRIP_COFFEE.value
         }
 
     }
