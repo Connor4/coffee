@@ -2,6 +2,7 @@ package com.inno.coffee.viewmodel.settings.formula
 
 import com.inno.common.db.dao.FormulaDao
 import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.FormulaItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -48,6 +49,11 @@ class FormulaRepository @Inject constructor(
 
     suspend fun getDefaultFormulaByProductId(productId: Int): Formula? {
         return formulaDao.getDefaultFormulaByProductId(productId)
+    }
+
+    suspend fun getDefaultProductTypeFormula(type: String): Formula? {
+        val beanType = FormulaItem.FormulaProductType(type)
+        return formulaDao.getDefaultProductTypeFormula(beanType)
     }
 
 }

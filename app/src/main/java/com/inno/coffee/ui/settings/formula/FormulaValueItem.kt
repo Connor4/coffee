@@ -128,6 +128,7 @@ fun FormulaValueItem(
     onValueChange: () -> Unit,
     onProductTest: () -> Unit,
     onLearn: (Int) -> Unit,
+    onChangeType: (type: String) -> Unit = {},
 ) {
     var selectedValue by remember {
         mutableStateOf<Any?>(null)
@@ -247,9 +248,10 @@ fun FormulaValueItem(
                     val title = formulaPropertyStringMapping[FORMULA_PROPERTY_PRODUCT_TYPE]
                     ListSelectLayout2(stringResource(title!!), value.type,
                         formulaProductTypeMultilingual, { key, _ ->
-                            value.type = key
-                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
-                            onValueChange()
+                            onChangeType(key)
+//                            value.type = key
+//                            getFormulaValue(selectFormula, formulaItemNames, formulaItemValues)
+//                            onValueChange()
                             selectedValue = null
                         }, {
                             selectedValue = null

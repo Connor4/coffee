@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.inno.common.db.entity.Formula
+import com.inno.common.db.entity.FormulaItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -40,5 +41,8 @@ interface FormulaDao {
 
     @Query("SELECT * FROM formula_table WHERE productId =:productId and showType == 3 LIMIT 1")
     suspend fun getDefaultFormulaByProductId(productId: Int): Formula?
+
+    @Query("SELECT * FROM formula_table WHERE productType =:type and showType == 3 LIMIT 1")
+    suspend fun getDefaultProductTypeFormula(type: FormulaItem.FormulaProductType): Formula?
 
 }

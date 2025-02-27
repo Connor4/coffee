@@ -108,6 +108,8 @@ fun FormulaLayout(
                     viewModel.powderTest()
                 }
             }
+        }, onChangeType = { type ->
+            viewModel.updateNewProductType(type, selectFormula)
         })
         if (openConfirmDialog.value) {
             ConfirmDialogLayout(

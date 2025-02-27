@@ -311,6 +311,79 @@ class FormulaViewModel @Inject constructor(
         }
     }
 
+    fun updateNewProductType(type: String, source: Formula?) {
+        if (source == null) {
+            return
+        }
+        viewModelScope.launch(defaultDispatcher) {
+            val target = repository.getDefaultProductTypeFormula(type)
+            target?.let {
+                val new = Formula(
+                    showType = source.showType,
+                    index = source.index,
+                    productId = source.productId,
+                    preFlush = target.preFlush,
+                    postFlush = target.postFlush,
+                    productType = target.productType,
+                    productPrice = target.productPrice,
+                    productName = target.productName,
+                    beanHopper = target.beanHopper,
+                    coffeeWater = target.coffeeWater,
+                    powderDosage = target.powderDosage,
+                    pressWeight = target.pressWeight,
+                    preMakeTime = target.preMakeTime,
+                    postPreMakeWaitTime = target.postPreMakeWaitTime,
+                    secPressWeight = target.secPressWeight,
+                    hotWater = target.hotWater,
+                    waterSequence = target.waterSequence,
+                    coffeeCycles = target.coffeeCycles,
+                    bypassWater = target.bypassWater,
+
+                    manualFoamTime = target.manualFoamTime,
+                    autoFoamTemperature = target.autoFoamTemperature,
+                    foamMode = target.foamMode,
+                    stopAirTime = target.stopAirTime,
+                    stopAirTemperature = target.stopAirTemperature,
+                    texture = target.texture,
+                    mixHotWater = target.mixHotWater,
+                    cleanWand = target.cleanWand,
+
+                    appearance = target.appearance,
+                    milkDelayTime = target.milkDelayTime,
+                    milkOutput = target.milkOutput,
+                    milkSequence = target.milkSequence,
+                    cups = target.cups,
+                    imageRes = target.imageRes,
+                    steamBoiler = target.steamBoiler,
+                    waterInputValue = target.waterInputValue,
+                    leftValueLeftBoiler = target.leftValueLeftBoiler,
+                    middleValueLeftBoiler = target.middleValueLeftBoiler,
+                    rightValueLeftBoiler = target.rightValueLeftBoiler,
+                    leftValueRightBoiler = target.leftValueRightBoiler,
+                    middleValueRightBoiler = target.middleValueRightBoiler,
+                    rightValueRightBoiler = target.rightValueRightBoiler,
+
+                    steamPurgeValve = target.steamPurgeValve,
+                    steamPurgeMixValve = target.steamPurgeMixValve,
+                    steamWaterFillValve = target.steamWaterFillValve,
+                    steamHotWaterValve = target.steamHotWaterValve,
+                    steamHotWaterValveMix = target.steamHotWaterValveMix,
+                    steamOutSteamValve1 = target.steamOutSteamValve1,
+                    steamOutSteamValve2 = target.steamOutSteamValve2,
+                    steamEverFoamValve1 = target.steamEverFoamValve1,
+                    steamEverFoamValve2 = target.steamEverFoamValve2,
+                    waterPump = target.waterPump,
+                    airPump = target.airPump,
+                    milkFoamer = target.milkFoamer,
+                    id = source.id
+                )
+                repository.updateFormula(new)
+                repository.updateFormulaFlag()
+            }
+        }
+
+    }
+
     fun productTest(formula: Formula, main: Boolean) {
         Logger.d(TAG, "productTest() called with: formula = ${formula.productId}, main = $main")
         if (ProductType.isOperationType(formula.productType?.type)) {
