@@ -1387,7 +1387,7 @@
     "preFlush": false,
     "postFlush": false,
     "autoFoamTemperature": {
-      "celsiusValue": 88,
+      "celsiusValue": 60,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
@@ -1412,7 +1412,7 @@
     "preFlush": false,
     "postFlush": false,
     "autoFoamTemperature": {
-      "celsiusValue": 88,
+      "celsiusValue": 60,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
