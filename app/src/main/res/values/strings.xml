@@ -411,6 +411,8 @@
         almost completely pushed out of the milk tube during "Check Back Rinse Volume"!</string>
     <string name="config_milk_start_wash">Start the washing machine(recommended)</string>
     <string name="config_milk_confirm_cleaned">The milk system has been cleaned</string>
+    <string name="config_milk_add_milk">Please add milk</string>
+    <string name="config_milk_add_milk_notice">The milk temperature in the milk tank needs to be the same as in actual operation.</string>
 
     <string name="params_coffee_boiler_temp">Coffee Boiler Temperature</string>
     <string name="params_cold_rinse_quantity">Cold Rinse Quantity</string>

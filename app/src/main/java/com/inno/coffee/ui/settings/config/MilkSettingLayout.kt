@@ -74,6 +74,7 @@ fun MilkSettingLayout(
                 1 -> MilkSettingPage2(viewModel)
                 2 -> MilkSettingPage3(viewModel)
                 3 -> MilkSettingPage4(viewModel)
+                4 -> MilkSettingPage5()
             }
         }
 

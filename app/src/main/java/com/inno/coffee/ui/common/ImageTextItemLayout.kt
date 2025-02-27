@@ -93,7 +93,7 @@ fun ItemWithImageLayout(
                 fontSize = 5.nsp(),
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .padding(top = 100.dp),
+                    .padding(top = 110.dp),
             )
         }
     }
