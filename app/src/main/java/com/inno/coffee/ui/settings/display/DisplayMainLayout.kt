@@ -113,7 +113,7 @@ fun DisplayMainLayout(
             contentDescription = null
         )
 
-        FunctionButton({}, {})
+//        FunctionButton({}, {})
 
         Column(
             modifier = Modifier
