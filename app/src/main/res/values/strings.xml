@@ -409,6 +409,8 @@
     <string name="config_milk_check_flush_volume">Check Milk Flush Volume</string>
     <string name="config_milk_flush_warning">The back rinse volume must be adjusted the milk is
         almost completely pushed out of the milk tube during "Check Back Rinse Volume"!</string>
+    <string name="config_milk_start_wash">Start the washing machine(recommended)</string>
+    <string name="config_milk_confirm_cleaned">The milk system has been cleaned</string>
 
     <string name="params_coffee_boiler_temp">Coffee Boiler Temperature</string>
     <string name="params_cold_rinse_quantity">Cold Rinse Quantity</string>
