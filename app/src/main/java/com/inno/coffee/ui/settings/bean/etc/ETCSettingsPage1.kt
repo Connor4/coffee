@@ -20,10 +20,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inno.coffee.R
-import com.inno.coffee.ui.home.DrinkItem
+import com.inno.coffee.ui.common.ItemWithImageLayout
+import com.inno.coffee.utilities.getImageResId
+import com.inno.coffee.utilities.getStringResId
 import com.inno.coffee.utilities.nsp
-import com.inno.common.db.entity.Formula
-import com.inno.common.db.entity.FormulaItem
 
 @Composable
 fun ETCSettingsPage1(
@@ -68,15 +68,17 @@ fun ETCSettingsPage1(
             }
         }
 
-        DrinkItem(
-            formula = Formula(productId = 4, imageRes = "operate_rinse_ic",
-                productName = FormulaItem.FormulaProductName(name = "",
-                    nameRes = "home_item_rinse")),
+        ItemWithImageLayout(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 307.dp),
-            onDrinkClick = { onClickRinse() }
-        )
+            drawableRes = getImageResId("operate_rinse_ic"),
+            stringRes = getStringResId("home_item_rinse"),
+            width = 280, height = 180, imageSize = 60
+        ) {
+            onClickRinse()
+        }
+
     }
 }
 

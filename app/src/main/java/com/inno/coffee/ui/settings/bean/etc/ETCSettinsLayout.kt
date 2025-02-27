@@ -119,7 +119,7 @@ fun ETCSettingsLayout(
                         viewModel.setEtcExtractTime(it)
                     })
                 3, 6 -> ETCSettingsPage4(blade = blade, adjust = adjust, isFahrenheit = tempUnit,
-                    formula = selectFormula)
+                    isFront = isFront, formula = selectFormula)
             }
         }
 
