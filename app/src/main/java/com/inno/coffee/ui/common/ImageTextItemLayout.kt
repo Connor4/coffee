@@ -77,7 +77,7 @@ fun ItemWithImageLayout(
                 .height(height.dp)
                 .border(
                     2.dp,
-                    if (isPressed) Color(0xFF00FF00) else Color(0xFF484848), // 根据按压状态设置边框颜色
+                    if (isPressed) Color(0xFF00DE93) else Color(0xFF484848), // 根据按压状态设置边框颜色
                     RoundedCornerShape(17.dp)
                 )
                 .clip(RoundedCornerShape(18.dp))

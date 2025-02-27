@@ -71,11 +71,11 @@ class MilkSettingViewModel @Inject constructor(
     val page = _page.asStateFlow()
 
     fun prevPage() {
-        _page.value--.coerceIn(0, 9)
+        _page.value--.coerceIn(0, 7)
     }
 
     fun nextPage() {
-        _page.value++.coerceIn(0, 9)
+        _page.value++.coerceIn(0, 7)
     }
 
     fun savePageOneValue(key: Int, value: Any) {

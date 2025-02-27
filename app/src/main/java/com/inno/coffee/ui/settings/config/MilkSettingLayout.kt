@@ -39,7 +39,7 @@ fun MilkSettingLayout(
 ) {
     val scope = rememberCoroutineScope()
     val page by viewModel.page.collectAsState()
-    val viewpagerState = rememberPagerState { 9 }
+    val viewpagerState = rememberPagerState { 7 }
 
     Box(
         modifier = Modifier
@@ -76,10 +76,11 @@ fun MilkSettingLayout(
                 3 -> MilkSettingPage4(viewModel)
                 4 -> MilkSettingPage5()
                 5 -> MilkSettingPage6(viewModel)
+                6 -> MilkSettingPage7(viewModel)
             }
         }
 
-        Text(text = "${page + 1} / 9", fontSize = 7.nsp(), color = Color.White,
+        Text(text = "${page + 1} / 7", fontSize = 7.nsp(), color = Color.White,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 30.dp))
@@ -106,7 +107,7 @@ fun MilkSettingLayout(
                 .height(50.dp),
             text = stringResource(id = R.string.bean_etc_settings_next)
         ) {
-            if ((page + 1) != 9) {
+            if ((page + 1) != 7) {
                 viewModel.nextPage()
             } else {
                 // FINISH
