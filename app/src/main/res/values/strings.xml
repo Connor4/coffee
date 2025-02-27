@@ -413,6 +413,16 @@
     <string name="config_milk_confirm_cleaned">The milk system has been cleaned</string>
     <string name="config_milk_add_milk">Please add milk</string>
     <string name="config_milk_add_milk_notice">The milk temperature in the milk tank needs to be the same as in actual operation.</string>
+    <string name="config_milk_temp_adjust_left">Temperature Adjustment Left</string>
+    <string name="config_milk_source_left">Milk source 1</string>
+    <string name="config_milk_left_outlet">Left milk outlet</string>
+    <string name="config_milk_temp_adjust_right">Temperature Adjustment Right</string>
+    <string name="config_milk_right_outlet">Right milk outlet</string>
+    <string name="config_milk_temp_adjust_press_button">Please press the product button</string>
+    <string name="config_milk_steam_boiler_temp">Steam boiler pressure:</string>
+    <string name="config_milk_normal_steam_boiler_temp">Normal steam pressure:</string>
+    <string name="config_milk_source1_motor_left">Milk source 1 left motor:</string>
+    <string name="config_milk_source1_motor_right">Milk source 1 right motor:</string>
 
     <string name="params_coffee_boiler_temp">Coffee Boiler Temperature</string>
     <string name="params_cold_rinse_quantity">Cold Rinse Quantity</string>

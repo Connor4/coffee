@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -33,8 +34,12 @@ import com.inno.coffee.utilities.nsp
 
 @Composable
 fun ItemWithImageLayout(
+    modifier: Modifier = Modifier,
     @DrawableRes drawableRes: Int,
     @StringRes stringRes: Int,
+    width: Int = 320,
+    height: Int = 180,
+    imageSize: Int = 50,
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {},
 ) {
@@ -42,9 +47,9 @@ fun ItemWithImageLayout(
     var isPressed by remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier
-            .width(320.dp)
-            .height(180.dp)
+        modifier = modifier
+            .width(width.dp)
+            .height(height.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onPress = { press ->
@@ -68,8 +73,8 @@ fun ItemWithImageLayout(
     ) {
         Box(
             modifier = Modifier
-                .width(320.dp)
-                .height(180.dp)
+                .width(width.dp)
+                .height(height.dp)
                 .border(
                     2.dp,
                     if (isPressed) Color(0xFF00FF00) else Color(0xFF484848), // 根据按压状态设置边框颜色
@@ -83,8 +88,7 @@ fun ItemWithImageLayout(
                 contentDescription = null,
                 contentScale = ContentScale.Inside,
                 modifier = Modifier
-                    .width(50.dp)
-                    .height(50.dp)
+                    .size(imageSize.dp)
                     .align(Alignment.TopCenter)
                     .offset(y = 41.dp),
             )
@@ -93,7 +97,7 @@ fun ItemWithImageLayout(
                 fontSize = 5.nsp(),
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .padding(top = 110.dp),
+                    .padding(top = (60 + imageSize).dp),
             )
         }
     }
