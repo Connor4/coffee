@@ -12,7 +12,7 @@ import com.inno.serialport.utilities.statusenum.MakeDrinkStatusEnum
 
 class HeartBeatChain : Chain() {
     companion object {
-        private const val VALUE_STEP = 18 // id(16bit)2 + content (8bit*16)16
+        private const val VALUE_STEP = 34 // id(16bit)2 + content (8bit*32)32
     }
 
     override fun canHandle(pullBufInfo: PullBufInfo): Boolean {
