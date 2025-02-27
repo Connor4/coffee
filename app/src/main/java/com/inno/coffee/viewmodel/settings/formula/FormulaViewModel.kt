@@ -65,12 +65,10 @@ class FormulaViewModel @Inject constructor(
     val leftTemp = temperatureDisplayFlow(_leftTemp)
     private val _rightTemp = MutableStateFlow(0)
     val rightTemp = temperatureDisplayFlow(_rightTemp)
-    private val _milkTemp = MutableStateFlow(0)
-    val milkTemp = temperatureDisplayFlow(_milkTemp)
     private val _wandTemp = MutableStateFlow(0)
     val wandTemp = temperatureDisplayFlow(_wandTemp)
-    private val _steamTemp = MutableStateFlow(0)
-    val steamTemp = temperatureDisplayFlow(_steamTemp)
+    private val _steamPressure = MutableStateFlow(0f)
+    val steamPressure = _steamPressure
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {

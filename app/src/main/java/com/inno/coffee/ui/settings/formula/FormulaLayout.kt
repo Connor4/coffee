@@ -48,9 +48,8 @@ fun FormulaLayout(
     val selectedCups = remember { mutableStateOf(1) }
     val leftTemp by viewModel.leftTemp.collectAsState()
     val rightTemp by viewModel.rightTemp.collectAsState()
-    val milkTemp by viewModel.milkTemp.collectAsState()
     val wandTemp by viewModel.wandTemp.collectAsState()
-    val steamTemp by viewModel.steamTemp.collectAsState()
+    val steamPressure by viewModel.steamPressure.collectAsState()
     val tempUnit by viewModel.tempUnit.collectAsState()
     val updateFlag by viewModel.updateFormulaFlag.collectAsState()
 
@@ -90,8 +89,8 @@ fun FormulaLayout(
         FormulaDrinkPage(selectFormula, totalCount, pagerState, drinksTypeList) {
             viewModel.getFormula(it.productId)
         }
-        FormulaValuesDisplay(main = mainScreen, leftCoffee = leftTemp, rightCoffee = rightTemp,
-            milk = milkTemp, wand = wandTemp, steam = steamTemp)
+        FormulaValuesDisplay(leftCoffee = leftTemp, rightCoffee = rightTemp, wand = wandTemp,
+            steam = steamPressure)
         FormulaValueItem(isFahrenheit = tempUnit, selectFormula = selectFormula, onValueChange = {
             selectFormula?.let {
                 viewModel.updateFormula(it)

@@ -22,15 +22,13 @@ import com.inno.coffee.utilities.nsp
 
 @Composable
 fun FormulaValuesDisplay(
-    main: Boolean = true,
     leftCoffee: String = "0",
     rightCoffee: String = "0",
-    milk: String = "0",
     wand: String = "0",
-    steam: String = "0",
+    steam: Float = 0f,
     flow: Int = 0,
-    extract: Float = 0.0f,
-    bar: Float = 0.0f,
+    extract: Float = 0f,
+    bar: Float = 0f,
     press: Int = 0,
 ) {
     Box(
@@ -42,16 +40,14 @@ fun FormulaValuesDisplay(
             Column(
                 modifier = Modifier.align(Alignment.CenterVertically)
             ) {
-                val text = if (main) R.string.home_left_boiler_temperature
-                else R.string.home_right_boiler_temperature
                 Text(
-                    text = stringResource(id = text),
+                    text = stringResource(id = R.string.home_left_boiler_temperature),
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = stringResource(id = R.string.home_milk_temperature),
+                    text = stringResource(id = R.string.home_right_boiler_temperature),
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
@@ -59,16 +55,15 @@ fun FormulaValuesDisplay(
             Column(
                 modifier = Modifier.align(Alignment.CenterVertically)
             ) {
-                val temp = if (main) leftCoffee else rightCoffee
                 Text(
-                    text = " $temp",
+                    text = " $leftCoffee",
                     fontSize = 4.nsp(),
                     color = Color.White,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = " $milk",
+                    text = " $rightCoffee",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
