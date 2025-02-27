@@ -46,4 +46,8 @@ class FormulaRepository @Inject constructor(
         formulaDao.updateFormula(formula)
     }
 
+    suspend fun getDefaultFormulaByProductId(productId: Int): Formula? {
+        return formulaDao.getDefaultFormulaByProductId(productId)
+    }
+
 }

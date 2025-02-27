@@ -185,9 +185,11 @@ class FormulaViewModel @Inject constructor(
             } else {
                 source.cups?.double
             }
-            val target = repository.getFormulaByProductId(targetProductId ?: INVALID_INT)
+            val target = repository.getDefaultFormulaByProductId(targetProductId ?: INVALID_INT)
             target?.let {
                 val new = Formula(
+                    showType = source.showType,
+                    index = source.index,
                     productId = source.productId,
                     preFlush = target.preFlush,
                     postFlush = target.postFlush,

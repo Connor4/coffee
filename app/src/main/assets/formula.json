@@ -231,8 +231,8 @@
       "unit": "[%]"
     },
     "cups": {
-      "single": 1001,
-      "double": 1002,
+      "single": 1,
+      "double": 2,
       "current": 1
     },
     "waterPump": 0,
@@ -320,8 +320,8 @@
       "unit": "[%]"
     },
     "cups": {
-      "single": 1101,
-      "double": 1102,
+      "single": 1,
+      "double": 2,
       "current": 1
     },
     "waterPump": 0,
@@ -409,8 +409,8 @@
       "unit": "[%]"
     },
     "cups": {
-      "single": 1001,
-      "double": 1002,
+      "single": 1,
+      "double": 2,
       "current": 2
     },
     "waterPump": 0,
@@ -498,8 +498,8 @@
       "unit": "[%]"
     },
     "cups": {
-      "single": 1101,
-      "double": 1102,
+      "single": 1,
+      "double": 2,
       "current": 2
     },
     "waterPump": 0,
@@ -584,8 +584,8 @@
       "unit": "[%]"
     },
     "cups": {
-      "single": 1003,
-      "double": 1004,
+      "single": 3,
+      "double": 4,
       "current": 1
     },
     "waterPump": 0,
@@ -670,8 +670,8 @@
       "unit": "[%]"
     },
     "cups": {
-      "single": 1003,
-      "double": 1004,
+      "single": 3,
+      "double": 4,
       "current": 1
     },
     "waterPump": 0,
@@ -756,8 +756,8 @@
       "unit": "[%]"
     },
     "cups": {
-      "single": 1003,
-      "double": 1004,
+      "single": 3,
+      "double": 4,
       "current": 2
     },
     "waterPump": 0,
@@ -842,8 +842,8 @@
       "unit": "[%]"
     },
     "cups": {
-      "single": 1103,
-      "double": 1104,
+      "single": 3,
+      "double": 4,
       "current": 2
     },
     "waterPump": 0,
@@ -1911,8 +1911,84 @@
   },
   {
     "showType": 3,
+    "index": 1,
+    "productId": 998,
+    "imageRes": "home_stop_normal_ic",
+    "productType": {
+      "type": "Stop"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_stop"
+    }
+  },
+  {
+    "showType": 3,
+    "index": 2,
+    "productId": 10002,
+    "imageRes": "drink_hot_water_ic",
+    "productType": {
+      "type": "HotWater"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_hot_water"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "showType": 3,
+    "index": 9,
+    "productId": 40,
+    "productPrice": {
+      "price": 9.99,
+      "rangeStart": 0,
+      "rangeEnd": 100
+    },
+    "imageRes": "drink_milk_ic",
+    "productType": {
+      "type": "Milk"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_milk"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "milkFoamer": 0,
+    "milkDelayTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 30.0,
+      "unit": "[s]"
+    },
+    "milkOutput": {
+      "output": true
+    },
+    "milkSequence": {
+      "defaultMilkQuantity": 20,
+      "defaultMilkTemperature": 1,
+      "defaultFoamTexture": 60,
+      "milkQuantity1": 20,
+      "milkTemperature1": 1,
+      "foamTexture1": 60
+    }
+  },
+  {
+    "showType": 3,
     "index": 7,
-    "productId": 1001,
+    "productId": 1,
     "productPrice": {
       "price": 9.99,
       "rangeStart": 0,
@@ -1989,8 +2065,8 @@
       "unit": "[%]"
     },
     "cups": {
-      "single": 1001,
-      "double": 1002,
+      "single": 1,
+      "double": 2,
       "current": 1
     },
     "waterPump": 0,
@@ -2000,20 +2076,281 @@
   },
   {
     "showType": 3,
-    "index": 7,
-    "productId": 1101,
+    "index": 8,
+    "productId": 2,
     "productPrice": {
       "price": 9.99,
       "rangeStart": 0,
       "rangeEnd": 100
     },
-    "imageRes": "drink_americano_ic",
+    "imageRes": "drink_double_americano_ic",
     "productType": {
       "type": "Americano"
     },
     "productName": {
       "name": "",
-      "nameRes": "home_item_americano"
+      "nameRes": "home_item_double_americano"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "beanHopper": {
+      "position": true
+    },
+    "powderDosage": {
+      "value": 210,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 80,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 320,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "waterSequence": {
+      "sequence": true
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "cups": {
+      "single": 1,
+      "double": 2,
+      "current": 2
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "showType": 3,
+    "index": 5,
+    "productId": 3,
+    "productPrice": {
+      "price": 9.99,
+      "rangeStart": 0,
+      "rangeEnd": 100
+    },
+    "imageRes": "drink_espresso_ic",
+    "productType": {
+      "type": "Espresso"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_espresso"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "beanHopper": {
+      "position": true
+    },
+    "powderDosage": {
+      "value": 140,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 50,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 0.8,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "cups": {
+      "single": 3,
+      "double": 4,
+      "current": 1
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "showType": 3,
+    "index": 6,
+    "productId": 4,
+    "productPrice": {
+      "price": 9.99,
+      "rangeStart": 0,
+      "rangeEnd": 100
+    },
+    "imageRes": "drink_double_espresso_ic",
+    "productType": {
+      "type": "Espresso"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_double_espresso"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "beanHopper": {
+      "position": true
+    },
+    "powderDosage": {
+      "value": 210,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 80,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "cups": {
+      "single": 3,
+      "double": 4,
+      "current": 2
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "showType": 3,
+    "index": 10,
+    "productId": 5,
+    "productPrice": {
+      "price": 19.99,
+      "rangeStart": 0,
+      "rangeEnd": 100
+    },
+    "imageRes": "drink_pot_coffee_ic",
+    "productType": {
+      "type": "DripCoffee"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_pod_coffee"
     },
     "preFlush": false,
     "postFlush": false,
@@ -2027,7 +2364,353 @@
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 50,
+      "value": 135,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "showType": 3,
+    "index": 4,
+    "productId": 99,
+    "imageRes": "operate_rinse_ic",
+    "productType": {
+      "type": "Rinse"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_rinse"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "beanHopper": {
+      "position": false
+    },
+    "powderDosage": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "preMakeTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 0.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "secPressWeight": {
+      "value": 0,
+      "rangeStart": -5.0,
+      "rangeEnd": 5.0,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 100,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0
+  },
+  {
+    "showType": 3,
+    "index": 11,
+    "productId": 80,
+    "imageRes": "operate_manual_milk_ic",
+    "productType": {
+      "type": "Steam"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_manual_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "manualFoamTime": {
+      "value": 5.0,
+      "rangeStart": 1.0,
+      "rangeEnd": 30.0,
+      "unit": "[s]"
+    },
+    "steamBoiler": 1,
+    "waterPump": 1,
+    "waterInputValue": 1,
+    "steamOutSteamValve1": 1
+  },
+  {
+    "showType": 3,
+    "index": 12,
+    "productId": 81,
+    "imageRes": "operate_auto_milk_ic",
+    "productType": {
+      "type": "Steam"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_auto_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "autoFoamTemperature": {
+      "celsiusValue": 60,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
+    },
+    "steamBoiler": 1,
+    "waterPump": 1,
+    "waterInputValue": 1,
+    "steamOutSteamValve1": 1
+  },
+  {
+    "showType": 3,
+    "index": 3,
+    "productId": 82,
+    "imageRes": "operate_milk_foam_ic",
+    "productType": {
+      "type": "Foam"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_foam"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "foamMode": {
+      "everFoamMode": false
+    },
+    "stopAirTime": {
+      "value": 5,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[s]"
+    },
+    "stopAirTemperature": {
+      "celsiusValue": 50,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
+    },
+    "texture": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": ""
+    },
+    "autoFoamTemperature": {
+      "celsiusValue": 60,
+      "celsiusRangeStart": 1,
+      "celsiusRangeEnd": 100,
+      "celsiusUnit": "[°C]"
+    },
+    "steamBoiler": 1,
+    "waterPump": 1,
+    "waterInputValue": 1,
+    "steamOutSteamValve1": 1
+  },
+  {
+    "showType": 3,
+    "index": 13,
+    "productId": 45,
+    "productPrice": {
+      "price": 9.99,
+      "rangeStart": 0,
+      "rangeEnd": 100
+    },
+    "imageRes": "drink_cappuccino_ic",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_cappuccino"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "beanHopper": {
+      "position": false
+    },
+    "powderDosage": {
+      "value": 190,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 75,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "pressWeight": {
+      "weight": 20,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[kg]"
+    },
+    "secPressWeight": {
+      "value": -2,
+      "rangeStart": -5,
+      "rangeEnd": 5,
+      "unit": "[mm]"
+    },
+    "hotWater": {
+      "value": 150,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[tick]"
+    },
+    "coffeeCycles": {
+      "value": 1,
+      "rangeStart": 1,
+      "rangeEnd": 10,
+      "unit": "[-]"
+    },
+    "bypassWater": {
+      "value": 0,
+      "rangeStart": 0,
+      "rangeEnd": 100,
+      "unit": "[%]"
+    },
+    "waterPump": 0,
+    "waterInputValue": 0,
+    "middleValueLeftBoiler": 0,
+    "rightValueLeftBoiler": 0,
+    "milkFoamer": 0,
+    "appearance": {
+      "appearance": false
+    },
+    "milkDelayTime": {
+      "value": 10.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 30.0,
+      "unit": "[s]"
+    },
+    "milkOutput": {
+      "output": true
+    },
+    "milkSequence": {
+      "defaultMilkQuantity": 18,
+      "defaultMilkTemperature": 1,
+      "defaultFoamTexture": 50,
+      "milkQuantity1": 18,
+      "milkTemperature1": 1,
+      "foamTexture1": 50,
+      "milkQuantity2": 20,
+      "milkTemperature2": 1,
+      "foamTexture2": 20
+    }
+  },
+  {
+    "showType": 3,
+    "index": 14,
+    "productId": 46,
+    "productPrice": {
+      "price": 9.99,
+      "rangeStart": 0,
+      "rangeEnd": 100
+    },
+    "imageRes": "drink_latte_ic",
+    "productType": {
+      "type": "Coffee"
+    },
+    "productName": {
+      "name": "",
+      "nameRes": "home_item_latte"
+    },
+    "preFlush": false,
+    "postFlush": false,
+    "beanHopper": {
+      "position": true
+    },
+    "powderDosage": {
+      "value": 190,
+      "rangeStart": 0,
+      "rangeEnd": 1000,
+      "unit": "[mm]"
+    },
+    "coffeeWater": {
+      "value": 75,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -2062,9 +2745,6 @@
       "rangeEnd": 1000,
       "unit": "[tick]"
     },
-    "waterSequence": {
-      "sequence": true
-    },
     "coffeeCycles": {
       "value": 1,
       "rangeStart": 1,
@@ -2076,538 +2756,35 @@
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[%]"
-    },
-    "cups": {
-      "single": 1101,
-      "double": 1102,
-      "current": 1
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueRightBoiler": 0,
-    "rightValueRightBoiler": 0
-  },
-  {
-    "showType": 3,
-    "index": 8,
-    "productId": 1002,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
-    },
-    "imageRes": "drink_double_americano_ic",
-    "productType": {
-      "type": "Americano"
-    },
-    "productName": {
-      "name": "",
-      "nameRes": "home_item_double_americano"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": true
-    },
-    "powderDosage": {
-      "value": 210,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 80,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 20,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": -5.0,
-      "rangeEnd": 5.0,
-      "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 320,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "waterSequence": {
-      "sequence": true
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "cups": {
-      "single": 1001,
-      "double": 1002,
-      "current": 2
     },
     "waterPump": 0,
     "waterInputValue": 0,
     "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
-  },
-  {
-    "showType": 3,
-    "index": 8,
-    "productId": 1102,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
+    "rightValueLeftBoiler": 0,
+    "milkFoamer": 0,
+    "appearance": {
+      "appearance": false
     },
-    "imageRes": "drink_double_americano_ic",
-    "productType": {
-      "type": "Americano"
-    },
-    "productName": {
-      "name": "",
-      "nameRes": "home_item_double_americano"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": false
-    },
-    "powderDosage": {
-      "value": 210,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 80,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 20,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 0.0,
+    "milkDelayTime": {
+      "value": 20.0,
       "rangeStart": 0.0,
-      "rangeEnd": 2.0,
+      "rangeEnd": 30.0,
       "unit": "[s]"
     },
-    "postPreMakeWaitTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
+    "milkOutput": {
+      "output": true
     },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": -5.0,
-      "rangeEnd": 5.0,
-      "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 320,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "waterSequence": {
-      "sequence": true
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "cups": {
-      "single": 1101,
-      "double": 1102,
-      "current": 2
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueRightBoiler": 0,
-    "rightValueRightBoiler": 0
-  },
-  {
-    "showType": 3,
-    "index": 5,
-    "productId": 1003,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
-    },
-    "imageRes": "drink_espresso_ic",
-    "productType": {
-      "type": "Espresso"
-    },
-    "productName": {
-      "name": "",
-      "nameRes": "home_item_espresso"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": true
-    },
-    "powderDosage": {
-      "value": 140,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 50,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 20,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 0.8,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 2.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": -5.0,
-      "rangeEnd": 5.0,
-      "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "cups": {
-      "single": 1002,
-      "double": 1003,
-      "current": 1
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
-  },
-  {
-    "showType": 3,
-    "index": 5,
-    "productId": 1103,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
-    },
-    "imageRes": "drink_espresso_ic",
-    "productType": {
-      "type": "Espresso"
-    },
-    "productName": {
-      "name": "",
-      "nameRes": "home_item_espresso"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": false
-    },
-    "powderDosage": {
-      "value": 140,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 50,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 20,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 0.8,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 2.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": -5.0,
-      "rangeEnd": 5.0,
-      "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "cups": {
-      "single": 1103,
-      "double": 1104,
-      "current": 1
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueRightBoiler": 0,
-    "rightValueRightBoiler": 0
-  },
-  {
-    "showType": 3,
-    "index": 6,
-    "productId": 1004,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
-    },
-    "imageRes": "drink_double_espresso_ic",
-    "productType": {
-      "type": "Coffee"
-    },
-    "productName": {
-      "name": "",
-      "nameRes": "home_item_double_espresso"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": true
-    },
-    "powderDosage": {
-      "value": 210,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 80,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": -5.0,
-      "rangeEnd": 5.0,
-      "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "cups": {
-      "single": 1003,
-      "double": 1004,
-      "current": 2
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueLeftBoiler": 0,
-    "rightValueLeftBoiler": 0
-  },
-  {
-    "showType": 3,
-    "index": 6,
-    "productId": 1104,
-    "productPrice": {
-      "price": 9.99,
-      "rangeStart": 0,
-      "rangeEnd": 100
-    },
-    "imageRes": "drink_double_espresso_ic",
-    "productType": {
-      "type": "Coffee"
-    },
-    "productName": {
-      "name": "",
-      "nameRes": "home_item_double_espresso"
-    },
-    "preFlush": false,
-    "postFlush": false,
-    "beanHopper": {
-      "position": false
-    },
-    "powderDosage": {
-      "value": 210,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[mm]"
-    },
-    "coffeeWater": {
-      "value": 80,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "pressWeight": {
-      "weight": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[kg]"
-    },
-    "preMakeTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "postPreMakeWaitTime": {
-      "value": 0.0,
-      "rangeStart": 0.0,
-      "rangeEnd": 2.0,
-      "unit": "[s]"
-    },
-    "secPressWeight": {
-      "value": 0,
-      "rangeStart": -5.0,
-      "rangeEnd": 5.0,
-      "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
-    "coffeeCycles": {
-      "value": 1,
-      "rangeStart": 1,
-      "rangeEnd": 10,
-      "unit": "[-]"
-    },
-    "bypassWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 100,
-      "unit": "[%]"
-    },
-    "cups": {
-      "single": 1103,
-      "double": 1104,
-      "current": 2
-    },
-    "waterPump": 0,
-    "waterInputValue": 0,
-    "middleValueRightBoiler": 0,
-    "rightValueRightBoiler": 0
+    "milkSequence": {
+      "defaultMilkQuantity": 20,
+      "defaultMilkTemperature": 1,
+      "defaultFoamTexture": 30,
+      "milkQuantity1": 20,
+      "milkTemperature1": 1,
+      "foamTexture1": 30,
+      "milkQuantity2": 20,
+      "milkTemperature2": 1,
+      "foamTexture2": 20
+    }
   },
   {
     "showType": 3,

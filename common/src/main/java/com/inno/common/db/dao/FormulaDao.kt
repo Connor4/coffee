@@ -38,4 +38,7 @@ interface FormulaDao {
     @Update
     suspend fun updateFormula(formula: Formula)
 
+    @Query("SELECT * FROM formula_table WHERE productId =:productId and showType == 3 LIMIT 1")
+    suspend fun getDefaultFormulaByProductId(productId: Int): Formula?
+
 }
