@@ -26,15 +26,15 @@ fun FormulaValuesDisplay(
     rightCoffee: String = "0",
     wand: String = "0",
     steam: Float = 0f,
-    flow: Int = 0,
-    extract: Float = 0f,
-    bar: Float = 0f,
-    press: Int = 0,
+    flow: Float = 0f,
+    extractTime: Float = 0f,
+    coffeePressure: Float = 0f,
+    thickness: Float = 0f,
 ) {
     Box(
         modifier = Modifier
             .wrapContentSize()
-            .padding(top = 657.dp, start = 719.dp)
+            .padding(top = 657.dp, start = 700.dp)
     ) {
         Row {
             Column(
@@ -94,7 +94,7 @@ fun FormulaValuesDisplay(
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = " $steam",
+                    text = " $steam bar",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
@@ -110,7 +110,7 @@ fun FormulaValuesDisplay(
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "$extract s",
+                    text = "$extractTime s",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
@@ -120,13 +120,13 @@ fun FormulaValuesDisplay(
                 modifier = Modifier.align(Alignment.CenterVertically)
             ) {
                 Text(
-                    text = "$bar bar",
+                    text = "$coffeePressure bar",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "$press mm",
+                    text = "$thickness mm",
                     fontSize = 4.nsp(),
                     color = Color.White,
                 )

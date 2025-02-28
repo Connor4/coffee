@@ -17,10 +17,9 @@ import com.inno.common.utils.CoffeeDataStore
 import com.inno.common.utils.Logger
 import com.inno.serialport.function.data.DataCenter
 import com.inno.serialport.function.data.Subscriber
-import com.inno.serialport.utilities.COFFEE_INPUT_COMMAND_ID
 import com.inno.serialport.utilities.ReceivedData
 import com.inno.serialport.utilities.ReceivedDataType
-import com.inno.serialport.utilities.STEAM_INPUT_COMMAND_ID
+import com.inno.serialport.utilities.statusenum.BoilerStatusEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,14 +60,25 @@ class FormulaViewModel @Inject constructor(
     val updateFormulaFlag = repository.updateFormula
     private val _tempUnit = MutableStateFlow(false)
     val tempUnit = _tempUnit
-    private val _leftTemp = MutableStateFlow(0)
+    private val _leftTemp = MutableStateFlow(0f)
     val leftTemp = temperatureDisplayFlow(_leftTemp)
-    private val _rightTemp = MutableStateFlow(0)
+    private val _rightTemp = MutableStateFlow(0f)
     val rightTemp = temperatureDisplayFlow(_rightTemp)
-    private val _wandTemp = MutableStateFlow(0)
+    private val _wandTemp = MutableStateFlow(0f)
     val wandTemp = temperatureDisplayFlow(_wandTemp)
     private val _steamPressure = MutableStateFlow(0f)
     val steamPressure = _steamPressure
+    private val _flow = MutableStateFlow(0f)
+    val flow = _flow
+    private val _extractTime = MutableStateFlow(0f)
+    val extractTime = _extractTime
+    private val _coffeePressure = MutableStateFlow(0f)
+    val coffeePressure = _coffeePressure
+    private val _thickness = MutableStateFlow(0f)
+    val thickness = _thickness
+
+    // TODO 之后替换其他需要传递mainScreen调用
+    private var mainScreenFlag = false
 
     private val subscriber = object : Subscriber {
         override fun onDataReceived(data: Any) {
@@ -80,11 +90,12 @@ class FormulaViewModel @Inject constructor(
         viewModelScope.launch {
             _tempUnit.value = dataStore.getCoffeePreference(TEMPERATURE_UNIT, false)
         }
-        DataCenter.subscribe(ReceivedDataType.COMMON_REPLY, subscriber)
+        DataCenter.subscribe(ReceivedDataType.HEARTBEAT, subscriber)
     }
 
     fun loadDrinkTypeList(mainScreen: Boolean) {
         viewModelScope.launch(defaultDispatcher) {
+            mainScreenFlag = mainScreen
             if (mainScreen) {
                 _drinksList.value = repository.getAllFormula().filter {
                     ProductType.isFormulaCanShowType(it.productType?.type)
@@ -93,23 +104,6 @@ class FormulaViewModel @Inject constructor(
             } else {
                 _drinksList.value = repository.getAllFormula().filter {
                     ProductType.isFormulaCanShowType(
-                        it.productType?.type) && (it.showType == SHOW_RIGHT_SCREEN)
-                }
-            }
-            _formula.value = _drinksList.value.first()
-        }
-    }
-
-    fun loadETCDrinkList(mainScreen: Boolean, front: Boolean) {
-        viewModelScope.launch(defaultDispatcher) {
-            if (mainScreen) {
-                _drinksList.value = repository.getAllFormula().filter {
-                    it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
-                        it.productType?.type) && it.showType == SHOW_LEFT_SCREEN
-                }
-            } else {
-                _drinksList.value = repository.getAllFormula().filter {
-                    it.beanHopper?.position == front && ProductType.isFormulaCanShowType(
                         it.productType?.type) && (it.showType == SHOW_RIGHT_SCREEN)
                 }
             }
@@ -410,36 +404,44 @@ class FormulaViewModel @Inject constructor(
     }
 
     private fun parseReceivedData(data: Any) {
-        if (data is ReceivedData.CommonReply) {
-            val params = data.params
-            val commandId = data.commandId
-            if (commandId == COFFEE_INPUT_COMMAND_ID) {
-                val leftTemp =
-                    ((params[15].toInt() and 0xFF) shl 8) or (params[14].toInt() and 0xFF)
-                _leftTemp.value = leftTemp
-                val rightTemp =
-                    ((params[17].toInt() and 0xFF) shl 8) or (params[16].toInt() and 0xFF)
-                _rightTemp.value = rightTemp
-                val leftFlow =
-                    ((params[19].toInt() and 0xFF) shl 8) or (params[18].toInt() and 0xFF)
-            } else if (commandId == STEAM_INPUT_COMMAND_ID) {
-                // TODO 需要区分左右屏的蒸汽棒温度
-//                val steamPressure =
-//                    ((params[1].toInt() and 0xFF) shl 8) or (params[0].toInt() and 0xFF)
-//                _steamPressure.value = steamPressure / 10f
-//                _securityLevel.value = params[3] == ONE_IN_BYTE
-//                _workLevel.value = params[5] == ONE_IN_BYTE
-//                val leftWandTemp =
-//                    ((params[7].toInt() and 0xFF) shl 8) or (params[6].toInt() and 0xFF)
-//                _leftWandTemp.value = leftWandTemp / 10f
-//                val rightWandTemp =
-//                    ((params[9].toInt() and 0xFF) shl 8) or (params[8].toInt() and 0xFF)
-//                _rightWandTemp.value = rightWandTemp / 10f
+        val boiler = data as ReceivedData.HeartBeat
+        boiler.temperature?.let { reply ->
+            when (reply.status) {
+                BoilerStatusEnum.BOILER_TEMPERATURE -> {
+                    _leftTemp.value = (((reply.value[1].toInt() and 0xFF) shl 8) or
+                            (reply.value[0].toInt() and 0xFF)) / 10f
+                    _rightTemp.value = (((reply.value[3].toInt() and 0xFF) shl 8) or
+                            (reply.value[2].toInt() and 0xFF)) / 10f
+                    _steamPressure.value = (((reply.value[5].toInt() and 0xFF) shl 8) or
+                            (reply.value[4].toInt() and 0xFF)) / 100f
+                    _coffeePressure.value = (((reply.value[7].toInt() and 0xFF) shl 8) or
+                            (reply.value[6].toInt() and 0xFF)).toFloat()
+                    if (mainScreenFlag) {
+                        _flow.value = (((reply.value[9].toInt() and 0xFF) shl 8) or
+                                (reply.value[8].toInt() and 0xFF)).toFloat()
+                        _wandTemp.value = (((reply.value[13].toInt() and 0xFF) shl 8) or
+                                (reply.value[12].toInt() and 0xFF)) / 10f
+                        _thickness.value = (((reply.value[17].toInt() and 0xFF) shl 8) or
+                                (reply.value[16].toInt() and 0xFF)).toFloat()
+                        _extractTime.value = (((reply.value[21].toInt() and 0xFF) shl 8) or
+                                (reply.value[20].toInt() and 0xFF)).toFloat()
+                    } else {
+                        _flow.value = (((reply.value[11].toInt() and 0xFF) shl 8) or
+                                (reply.value[10].toInt() and 0xFF)).toFloat()
+                        _wandTemp.value = (((reply.value[15].toInt() and 0xFF) shl 8) or
+                                (reply.value[14].toInt() and 0xFF)) / 10f
+                        _thickness.value = (((reply.value[19].toInt() and 0xFF) shl 8) or
+                                (reply.value[18].toInt() and 0xFF)).toFloat()
+                        _extractTime.value = (((reply.value[23].toInt() and 0xFF) shl 8) or
+                                (reply.value[22].toInt() and 0xFF)).toFloat()
+                    }
+                }
+                else -> {}
             }
         }
     }
 
-    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Int>): StateFlow<String> {
+    private fun temperatureDisplayFlow(temperatureFlow: StateFlow<Float>): StateFlow<String> {
         return _tempUnit.combine(temperatureFlow) { isFahrenheit, tempCelsius ->
             if (isFahrenheit) {
                 val fahrenheit = tempCelsius * 1.8 + 32

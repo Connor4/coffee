@@ -50,6 +50,10 @@ fun FormulaLayout(
     val rightTemp by viewModel.rightTemp.collectAsState()
     val wandTemp by viewModel.wandTemp.collectAsState()
     val steamPressure by viewModel.steamPressure.collectAsState()
+    val flow by viewModel.flow.collectAsState()
+    val extractTime by viewModel.extractTime.collectAsState()
+    val coffeePressure by viewModel.coffeePressure.collectAsState()
+    val thickness by viewModel.thickness.collectAsState()
     val tempUnit by viewModel.tempUnit.collectAsState()
     val updateFlag by viewModel.updateFormulaFlag.collectAsState()
 
@@ -90,7 +94,8 @@ fun FormulaLayout(
             viewModel.getFormula(it.productId)
         }
         FormulaValuesDisplay(leftCoffee = leftTemp, rightCoffee = rightTemp, wand = wandTemp,
-            steam = steamPressure)
+            steam = steamPressure, flow = flow, extractTime = extractTime,
+            coffeePressure = coffeePressure, thickness = thickness)
         FormulaValueItem(isFahrenheit = tempUnit, selectFormula = selectFormula, onValueChange = {
             selectFormula?.let {
                 viewModel.updateFormula(it)
