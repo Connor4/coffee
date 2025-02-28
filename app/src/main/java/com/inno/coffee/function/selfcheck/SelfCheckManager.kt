@@ -197,12 +197,12 @@ object SelfCheckManager {
                 boiler.temperature?.let { reply ->
                     when (reply.status) {
                         BoilerStatusEnum.BOILER_TEMPERATURE -> {
-                            val leftBoiler = ((reply.value[0].toInt() and 0xFF) shl 8) or
-                                    (reply.value[1].toInt() and 0xFF)
-                            val rightBoiler = ((reply.value[2].toInt() and 0xFF) shl 8) or
-                                    (reply.value[3].toInt() and 0xFF)
+                            val leftBoiler = (((reply.value[0].toInt() and 0xFF) shl 8) or
+                                    (reply.value[1].toInt() and 0xFF)) / 10f
+                            val rightBoiler = (((reply.value[2].toInt() and 0xFF) shl 8) or
+                                    (reply.value[3].toInt() and 0xFF)) / 10f
                             // TODO 存在咖啡锅炉温度设置，需要获取
-                            if (leftBoiler >= 92 && rightBoiler >= 92) {
+                            if (leftBoiler >= 90 && rightBoiler >= 90) {
                                 _step.value = STEP_BOILER_HEATING_END
                                 scope.launch {
                                     waitSteamBoilerHeating()
@@ -218,9 +218,9 @@ object SelfCheckManager {
                 boiler.temperature?.let { reply ->
                     when (reply.status) {
                         BoilerStatusEnum.BOILER_TEMPERATURE -> {
-                            val steamBoiler = ((reply.value[4].toInt() and 0xFF) shl 8) or
-                                    (reply.value[5].toInt() and 0xFF)
-                            if (steamBoiler >= 92) {
+                            val steamBoiler = (((reply.value[4].toInt() and 0xFF) shl 8) or
+                                    (reply.value[5].toInt() and 0xFF)) / 10f
+                            if (steamBoiler >= 90) {
                                 _step.value = STEP_STEAM_HEATING_END
                             }
                         }
