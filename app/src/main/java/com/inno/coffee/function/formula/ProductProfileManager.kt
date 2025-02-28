@@ -111,8 +111,8 @@ object ProductProfileManager {
                 formula.postPreMakeWaitTime != null || formula.secPressWeight != null) {
             val brewerProfile =
                 ComponentProfile(brewerId, shortArrayOf(formula.pressWeight?.weight ?: 0,
-                    formula.preMakeTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
-                    formula.postPreMakeWaitTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
+                    formula.preMakeTime?.value?.times(100)?.toInt()?.toShort() ?: 0,
+                    formula.postPreMakeWaitTime?.value?.times(100)?.toInt()?.toShort() ?: 0,
                     formula.secPressWeight?.value?.toInt()?.toShort() ?: 0, 0, 0))
             componentList.add(brewerProfile)
         }
@@ -143,10 +143,10 @@ object ProductProfileManager {
                 val mode = if (it.everFoamMode) 1.toShort() else 0
                 val steamData =
                     if (it.everFoamMode) formula.autoFoamTemperature?.celsiusValue ?: 0
-                    else formula.manualFoamTime?.value?.times(1000)?.toInt()?.toShort() ?: 0
+                    else formula.manualFoamTime?.value?.times(100)?.toInt()?.toShort() ?: 0
                 val foamData =
                     if (it.everFoamMode) formula.stopAirTemperature?.celsiusValue ?: 0
-                    else formula.stopAirTime?.value?.times(1000)?.toInt()?.toShort() ?: 0
+                    else formula.stopAirTime?.value?.times(100)?.toInt()?.toShort() ?: 0
                 val texture = formula.texture?.value?.toInt()?.toShort() ?: 0
                 steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
                     2, steamData, mode, foamData, texture, mixValue)
@@ -160,7 +160,7 @@ object ProductProfileManager {
                 }
                 formula.manualFoamTime?.let {
                     steamBoilerProfile = ComponentProfile(STEAM_BOILER_ID, shortArrayOf(
-                        1, formula.manualFoamTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
+                        1, formula.manualFoamTime?.value?.times(100)?.toInt()?.toShort() ?: 0,
                         0, 0, 0, mixValue)
                     )
                 }
@@ -265,10 +265,10 @@ object ProductProfileManager {
 
             componentList.add(
                 ComponentProfile(MILK_FOAMER_ID, shortArrayOf(mixAppearanceOutput,
-                    formula.milkDelayTime?.value?.times(1000)?.toInt()?.toShort() ?: 0,
-                    formula.milkSequence?.milkQuantity1?.times(1000)?.toShort() ?: 0,
+                    formula.milkDelayTime?.value?.times(100)?.toInt()?.toShort() ?: 0,
+                    formula.milkSequence?.milkQuantity1?.times(100)?.toShort() ?: 0,
                     mixTempAndTexture1.toShort(),
-                    formula.milkSequence?.milkQuantity2?.times(1000)?.toShort() ?: 0,
+                    formula.milkSequence?.milkQuantity2?.times(100)?.toShort() ?: 0,
                     mixTempAndTexture2.toShort())))
         }
 
