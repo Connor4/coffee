@@ -1885,6 +1885,7 @@
     "waterInputValue": 0,
     "middleValueRightBoiler": 0,
     "rightValueRightBoiler": 0,
+    "milkFoamer": 0,
     "appearance": {
       "appearance": false
     },
