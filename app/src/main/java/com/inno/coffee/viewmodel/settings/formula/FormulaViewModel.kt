@@ -424,7 +424,7 @@ class FormulaViewModel @Inject constructor(
                         _thickness.value = (((reply.value[17].toInt() and 0xFF) shl 8) or
                                 (reply.value[16].toInt() and 0xFF)).toFloat()
                         _extractTime.value = (((reply.value[21].toInt() and 0xFF) shl 8) or
-                                (reply.value[20].toInt() and 0xFF)).toFloat()
+                                (reply.value[20].toInt() and 0xFF)) / 100f
                     } else {
                         _flow.value = (((reply.value[11].toInt() and 0xFF) shl 8) or
                                 (reply.value[10].toInt() and 0xFF)).toFloat()
@@ -433,7 +433,7 @@ class FormulaViewModel @Inject constructor(
                         _thickness.value = (((reply.value[19].toInt() and 0xFF) shl 8) or
                                 (reply.value[18].toInt() and 0xFF)).toFloat()
                         _extractTime.value = (((reply.value[23].toInt() and 0xFF) shl 8) or
-                                (reply.value[22].toInt() and 0xFF)).toFloat()
+                                (reply.value[22].toInt() and 0xFF)) / 100f
                     }
                 }
                 else -> {}
