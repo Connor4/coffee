@@ -1446,7 +1446,7 @@
       "unit": "[s]"
     },
     "stopAirTemperature": {
-      "celsiusValue": 50,
+      "celsiusValue": 45,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
@@ -1458,7 +1458,7 @@
       "unit": ""
     },
     "autoFoamTemperature": {
-      "celsiusValue": 60,
+      "celsiusValue": 65,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
@@ -1492,7 +1492,7 @@
       "unit": "[s]"
     },
     "stopAirTemperature": {
-      "celsiusValue": 50,
+      "celsiusValue": 65,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
@@ -1504,7 +1504,7 @@
       "unit": ""
     },
     "autoFoamTemperature": {
-      "celsiusValue": 60,
+      "celsiusValue": 45,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
@@ -2567,7 +2567,7 @@
       "unit": "[s]"
     },
     "stopAirTemperature": {
-      "celsiusValue": 50,
+      "celsiusValue": 65,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
@@ -2579,7 +2579,7 @@
       "unit": ""
     },
     "autoFoamTemperature": {
-      "celsiusValue": 60,
+      "celsiusValue": 45,
       "celsiusRangeStart": 1,
       "celsiusRangeEnd": 100,
       "celsiusUnit": "[°C]"
