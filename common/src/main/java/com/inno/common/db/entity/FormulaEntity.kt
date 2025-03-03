@@ -136,6 +136,7 @@ sealed class FormulaItem {
 
     @Serializable
     data class FormulaFoamMode(
+//        foamMode为空是手动/自动蒸汽。不为空是特色蒸汽,不需要true也行。看ProductProfileManager调用代码
         var everFoamMode: Boolean,
     )
 
