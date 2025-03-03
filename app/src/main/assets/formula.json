@@ -530,7 +530,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -560,7 +560,7 @@
       "unit": "[s]"
     },
     "secPressWeight": {
-      "value": 0,
+      "value": 2.0,
       "rangeStart": -5.0,
       "rangeEnd": 5.0,
       "unit": "[mm]"
@@ -610,7 +610,7 @@
       "position": false
     },
     "powderDosage": {
-      "value": 140,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -640,7 +640,7 @@
       "unit": "[s]"
     },
     "secPressWeight": {
-      "value": 0,
+      "value": 2.0,
       "rangeStart": -5.0,
       "rangeEnd": 5.0,
       "unit": "[mm]"
@@ -690,7 +690,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 210,
+      "value": 21,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -702,7 +702,7 @@
       "unit": "[tick]"
     },
     "pressWeight": {
-      "weight": 0,
+      "weight": 20,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[kg]"
@@ -770,7 +770,7 @@
       "position": false
     },
     "powderDosage": {
-      "value": 210,
+      "value": 21,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -782,7 +782,7 @@
       "unit": "[tick]"
     },
     "pressWeight": {
-      "weight": 0,
+      "weight": 20,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[kg]"
@@ -1693,13 +1693,13 @@
       "position": true
     },
     "powderDosage": {
-      "value": 190,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 75,
+      "value": 50,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -1723,7 +1723,7 @@
       "unit": "[s]"
     },
     "secPressWeight": {
-      "value": 0,
+      "value": 2.0,
       "rangeStart": -5.0,
       "rangeEnd": 5.0,
       "unit": "[mm]"
@@ -1749,7 +1749,7 @@
       "appearance": false
     },
     "milkDelayTime": {
-      "value": 20.0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 30.0,
       "unit": "[s]"
@@ -1758,15 +1758,12 @@
       "output": true
     },
     "milkSequence": {
-      "defaultMilkQuantity": 20,
+      "defaultMilkQuantity": 15,
       "defaultMilkTemperature": 1,
-      "defaultFoamTexture": 30,
-      "milkQuantity1": 20,
+      "defaultFoamTexture": 60,
+      "milkQuantity1": 15,
       "milkTemperature1": 1,
-      "foamTexture1": 30,
-      "milkQuantity2": 20,
-      "milkTemperature2": 1,
-      "foamTexture2": 20
+      "foamTexture1": 60
     }
   },
   {
@@ -1792,13 +1789,13 @@
       "position": true
     },
     "powderDosage": {
-      "value": 190,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 75,
+      "value": 50,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -1822,7 +1819,7 @@
       "unit": "[s]"
     },
     "secPressWeight": {
-      "value": 0,
+      "value": 2.0,
       "rangeStart": -5.0,
       "rangeEnd": 5.0,
       "unit": "[mm]"
@@ -1848,7 +1845,7 @@
       "appearance": false
     },
     "milkDelayTime": {
-      "value": 20.0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 30.0,
       "unit": "[s]"
@@ -1857,15 +1854,12 @@
       "output": true
     },
     "milkSequence": {
-      "defaultMilkQuantity": 20,
+      "defaultMilkQuantity": 15,
       "defaultMilkTemperature": 1,
-      "defaultFoamTexture": 30,
-      "milkQuantity1": 20,
+      "defaultFoamTexture": 60,
+      "milkQuantity1": 15,
       "milkTemperature1": 1,
-      "foamTexture1": 30,
-      "milkQuantity2": 20,
-      "milkTemperature2": 1,
-      "foamTexture2": 20
+      "foamTexture1": 60
     }
   },
   {
@@ -2145,7 +2139,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -2175,7 +2169,7 @@
       "unit": "[s]"
     },
     "secPressWeight": {
-      "value": 0,
+      "value": 2.0,
       "rangeStart": -5.0,
       "rangeEnd": 5.0,
       "unit": "[mm]"
@@ -2225,7 +2219,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 210,
+      "value": 21,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -2237,7 +2231,7 @@
       "unit": "[tick]"
     },
     "pressWeight": {
-      "weight": 0,
+      "weight": 20,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[kg]"
@@ -2648,13 +2642,13 @@
       "position": true
     },
     "powderDosage": {
-      "value": 190,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 75,
+      "value": 50,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -2678,7 +2672,7 @@
       "unit": "[s]"
     },
     "secPressWeight": {
-      "value": 0,
+      "value": 2.0,
       "rangeStart": -5.0,
       "rangeEnd": 5.0,
       "unit": "[mm]"
@@ -2704,7 +2698,7 @@
       "appearance": false
     },
     "milkDelayTime": {
-      "value": 20.0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 30.0,
       "unit": "[s]"
@@ -2713,15 +2707,12 @@
       "output": true
     },
     "milkSequence": {
-      "defaultMilkQuantity": 20,
+      "defaultMilkQuantity": 15,
       "defaultMilkTemperature": 1,
-      "defaultFoamTexture": 30,
-      "milkQuantity1": 20,
+      "defaultFoamTexture": 60,
+      "milkQuantity1": 15,
       "milkTemperature1": 1,
-      "foamTexture1": 30,
-      "milkQuantity2": 20,
-      "milkTemperature2": 1,
-      "foamTexture2": 20
+      "foamTexture1": 60
     }
   },
   {
