@@ -850,13 +850,13 @@
       "position": false
     },
     "powderDosage": {
-      "value": 140,
+      "value": 21,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 135,
+      "value": 350,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -885,12 +885,6 @@
       "rangeEnd": 5.0,
       "unit": "[mm]"
     },
-    "hotWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
     "coffeeCycles": {
       "value": 1,
       "rangeStart": 1,
@@ -898,7 +892,7 @@
       "unit": "[-]"
     },
     "bypassWater": {
-      "value": 0,
+      "value": 70,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[%]"
@@ -931,13 +925,13 @@
       "position": false
     },
     "powderDosage": {
-      "value": 140,
+      "value": 21,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 135,
+      "value": 350,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -966,12 +960,6 @@
       "rangeEnd": 5.0,
       "unit": "[mm]"
     },
-    "hotWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
     "coffeeCycles": {
       "value": 1,
       "rangeStart": 1,
@@ -979,7 +967,7 @@
       "unit": "[-]"
     },
     "bypassWater": {
-      "value": 0,
+      "value": 70,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[%]"
@@ -2299,13 +2287,13 @@
       "position": false
     },
     "powderDosage": {
-      "value": 140,
+      "value": 21,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 135,
+      "value": 350,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -2334,12 +2322,6 @@
       "rangeEnd": 5.0,
       "unit": "[mm]"
     },
-    "hotWater": {
-      "value": 0,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
     "coffeeCycles": {
       "value": 1,
       "rangeStart": 1,
@@ -2347,7 +2329,7 @@
       "unit": "[-]"
     },
     "bypassWater": {
-      "value": 0,
+      "value": 70,
       "rangeStart": 0,
       "rangeEnd": 100,
       "unit": "[%]"
