@@ -174,7 +174,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -198,7 +198,7 @@
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2.0,
+      "value": 0.8,
       "rangeStart": 0.0,
       "rangeEnd": 2.0,
       "unit": "[s]"
@@ -263,7 +263,7 @@
       "position": false
     },
     "powderDosage": {
-      "value": 140,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -287,7 +287,7 @@
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2.0,
+      "value": 0.8,
       "rangeStart": 0.0,
       "rangeEnd": 2.0,
       "unit": "[s]"
@@ -352,7 +352,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 210,
+      "value": 21,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -441,7 +441,7 @@
       "position": false
     },
     "powderDosage": {
-      "value": 210,
+      "value": 21,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -1961,7 +1961,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 140,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
@@ -1985,7 +1985,7 @@
       "unit": "[s]"
     },
     "postPreMakeWaitTime": {
-      "value": 2.0,
+      "value": 0.8,
       "rangeStart": 0.0,
       "rangeEnd": 2.0,
       "unit": "[s]"
@@ -2050,7 +2050,7 @@
       "position": true
     },
     "powderDosage": {
-      "value": 210,
+      "value": 21,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
