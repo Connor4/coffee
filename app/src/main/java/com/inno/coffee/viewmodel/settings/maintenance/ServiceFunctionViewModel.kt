@@ -66,8 +66,8 @@ class ServiceFunctionViewModel @Inject constructor(
                 val steamPressure =
                     ((params[1].toInt() and 0xFF) shl 8) or (params[0].toInt() and 0xFF)
                 _steamPressure.value = steamPressure / 10f
-                _securityLevel.value = params[3] == ONE_IN_BYTE
-                _workLevel.value = params[5] == ONE_IN_BYTE
+                _securityLevel.value = params[2] == ONE_IN_BYTE
+                _workLevel.value = params[4] == ONE_IN_BYTE
             }
         }
     }
