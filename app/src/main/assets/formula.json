@@ -1722,12 +1722,6 @@
       "rangeEnd": 5.0,
       "unit": "[mm]"
     },
-    "hotWater": {
-      "value": 150,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
-    },
     "coffeeCycles": {
       "value": 1,
       "rangeStart": 1,
@@ -1826,12 +1820,6 @@
       "rangeStart": -5.0,
       "rangeEnd": 5.0,
       "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 150,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
     },
     "coffeeCycles": {
       "value": 1,
@@ -2685,12 +2673,6 @@
       "rangeStart": -5.0,
       "rangeEnd": 5.0,
       "unit": "[mm]"
-    },
-    "hotWater": {
-      "value": 150,
-      "rangeStart": 0,
-      "rangeEnd": 1000,
-      "unit": "[tick]"
     },
     "coffeeCycles": {
       "value": 1,
