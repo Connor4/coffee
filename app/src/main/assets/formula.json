@@ -1501,13 +1501,13 @@
       "position": false
     },
     "powderDosage": {
-      "value": 190,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 75,
+      "value": 50,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -1518,8 +1518,20 @@
       "rangeEnd": 100,
       "unit": "[kg]"
     },
+    "preMakeTime": {
+      "value": 0.8,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
     "secPressWeight": {
-      "value": -2,
+      "value": 2,
       "rangeStart": -5,
       "rangeEnd": 5,
       "unit": "[mm]"
@@ -1545,7 +1557,7 @@
       "appearance": false
     },
     "milkDelayTime": {
-      "value": 10.0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 30.0,
       "unit": "[s]"
@@ -1554,15 +1566,12 @@
       "output": true
     },
     "milkSequence": {
-      "defaultMilkQuantity": 18,
+      "defaultMilkQuantity": 9,
       "defaultMilkTemperature": 1,
-      "defaultFoamTexture": 50,
-      "milkQuantity1": 18,
+      "defaultFoamTexture": 80,
+      "milkQuantity1": 9,
       "milkTemperature1": 1,
-      "foamTexture1": 50,
-      "milkQuantity2": 20,
-      "milkTemperature2": 1,
-      "foamTexture2": 20
+      "foamTexture1": 80
     }
   },
   {
@@ -1588,13 +1597,13 @@
       "position": true
     },
     "powderDosage": {
-      "value": 195,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 61,
+      "value": 50,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -1605,8 +1614,20 @@
       "rangeEnd": 100,
       "unit": "[kg]"
     },
+    "preMakeTime": {
+      "value": 0.8,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
     "secPressWeight": {
-      "value": -2,
+      "value": 2,
       "rangeStart": -5,
       "rangeEnd": 5,
       "unit": "[mm]"
@@ -1632,7 +1653,7 @@
       "appearance": false
     },
     "milkDelayTime": {
-      "value": 18.0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 30.0,
       "unit": "[s]"
@@ -1641,15 +1662,12 @@
       "output": true
     },
     "milkSequence": {
-      "defaultMilkQuantity": 18,
+      "defaultMilkQuantity": 9,
       "defaultMilkTemperature": 1,
-      "defaultFoamTexture": 50,
-      "milkQuantity1": 18,
+      "defaultFoamTexture": 80,
+      "milkQuantity1": 9,
       "milkTemperature1": 1,
-      "foamTexture1": 50,
-      "milkQuantity2": 20,
-      "milkTemperature2": 1,
-      "foamTexture2": 20
+      "foamTexture1": 80
     }
   },
   {
@@ -2534,13 +2552,13 @@
       "position": false
     },
     "powderDosage": {
-      "value": 190,
+      "value": 14,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[mm]"
     },
     "coffeeWater": {
-      "value": 75,
+      "value": 50,
       "rangeStart": 0,
       "rangeEnd": 1000,
       "unit": "[tick]"
@@ -2551,8 +2569,20 @@
       "rangeEnd": 100,
       "unit": "[kg]"
     },
+    "preMakeTime": {
+      "value": 0.8,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
+    "postPreMakeWaitTime": {
+      "value": 2.0,
+      "rangeStart": 0.0,
+      "rangeEnd": 2.0,
+      "unit": "[s]"
+    },
     "secPressWeight": {
-      "value": -2,
+      "value": 2,
       "rangeStart": -5,
       "rangeEnd": 5,
       "unit": "[mm]"
@@ -2578,7 +2608,7 @@
       "appearance": false
     },
     "milkDelayTime": {
-      "value": 10.0,
+      "value": 0.0,
       "rangeStart": 0.0,
       "rangeEnd": 30.0,
       "unit": "[s]"
@@ -2587,15 +2617,12 @@
       "output": true
     },
     "milkSequence": {
-      "defaultMilkQuantity": 18,
+      "defaultMilkQuantity": 9,
       "defaultMilkTemperature": 1,
-      "defaultFoamTexture": 50,
-      "milkQuantity1": 18,
+      "defaultFoamTexture": 80,
+      "milkQuantity1": 9,
       "milkTemperature1": 1,
-      "foamTexture1": 50,
-      "milkQuantity2": 20,
-      "milkTemperature2": 1,
-      "foamTexture2": 20
+      "foamTexture1": 80
     }
   },
   {
